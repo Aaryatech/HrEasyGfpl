@@ -1,8 +1,10 @@
 package com.ats.hreasy;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMethod; 
 
 /**
  * Handles requests for the application home page.
@@ -46,6 +47,47 @@ public class HomeController {
 		String mav = "login";
 
 		return mav;
+	}
+
+	@RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
+	public String loginProcess(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		try {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/dashboard";
+	}
+
+	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	public String dashboard(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = "welcome";
+
+		try {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		  
+		session.invalidate();
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/sessionTimeOut", method = RequestMethod.GET)
+	public String sessionTimeOut(HttpSession session) {
+		System.out.println("User Logout");
+
+		session.invalidate();
+		return "redirect:/";
 	}
 
 }
