@@ -1,5 +1,7 @@
 package com.ats.hreasy;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +69,14 @@ public class HomeController {
 		String mav = "welcome";
 
 		try {
+			
+			String testString=request.getParameter("pass");
+	        MessageDigest md = MessageDigest.getInstance("MD5");
+	        byte[] messageDigest = md.digest(testString.getBytes());
+	        BigInteger number = new BigInteger(1, messageDigest);
+	        String hashtext = number.toString(16);
 
+	        System.out.println(hashtext);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
