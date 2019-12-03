@@ -26,8 +26,7 @@
 					<c:choose>
 						<c:when test="${not empty sessionScope.profilePic}">
 
-							<a
-								href="${sessionScope.logoUrl}${sessionScope.profilePic}"
+							<a href="${sessionScope.logoUrl}${sessionScope.profilePic}"
 								target="_blank"> <img
 								src="${sessionScope.logoUrl}${sessionScope.profilePic}"
 								class="img-fluid rounded-circle shadow-1 mb-3" width="80"
@@ -60,10 +59,23 @@
 
 				<!-- Main -->
 				<!-- <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i></li> -->
-				<li class="nav-item"><a href="${pageContext.request.contextPath}/dashboard"
+				<li class="nav-item"><a
+					href="${pageContext.request.contextPath}/dashboard"
 					class="nav-link active"> <i class="icon-home4"></i> <span>
 							Dashboard </span>
 				</a></li>
+
+				<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-list-unordered"></i><span>Master</span></a>
+
+					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
+
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showAccessRoleList"
+							class="nav-link">Access Role List</a></li>
+
+					</ul></li>
+
 				<%-- <li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Master</span></a>
 
