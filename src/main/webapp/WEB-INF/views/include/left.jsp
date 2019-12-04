@@ -65,7 +65,7 @@
 							Dashboard </span>
 				</a></li>
 
-				<li class="nav-item nav-item-submenu"><a href="#"
+				<%-- <li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Master</span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
@@ -74,37 +74,30 @@
 							href="${pageContext.request.contextPath}/showAccessRoleList"
 							class="nav-link">Access Role List</a></li>
 
-					</ul></li>
+					</ul></li> --%>
 
-				<%-- <li class="nav-item nav-item-submenu"><a href="#"
+				<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Master</span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
-
 						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/showCompanyList"
-							class="nav-link">Company List</a></li>
+							href="${pageContext.request.contextPath}/showAccessRoleList"
+							class="nav-link">Access Role List</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showLocationList"
 							class="nav-link">Location List</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showLeaveTypeList"
+							class="nav-link">Leave Type List</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showLeaveStructureList"
+							class="nav-link">Leave Structure List</a></li>
 
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/showEmpList"
-							class="nav-link">Employee List</a></li>
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/showEmpTypeList"
-							class="nav-link">Employee Type List</a></li>
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/showEmpCatList"
-							class="nav-link">Employee Category List</a></li>
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/showEmpDeptList"
-							class="nav-link">Employee Department List</a></li>
 
 					</ul></li>
 
 
-				<li class="nav-item nav-item-submenu"><a href="#"
+				<%--<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Leave</span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
