@@ -92,6 +92,12 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showLeaveStructureList"
 							class="nav-link">Leave Structure List</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showHolidayList"
+							class="nav-link">Holiday List</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showWeeklyOffList"
+							class="nav-link">Weekly Off List</a></li>
 
 
 					</ul></li>
