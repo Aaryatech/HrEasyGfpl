@@ -98,7 +98,9 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showWeeklyOffList"
 							class="nav-link">Weekly Off List</a></li>
-
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/addLeaveAuthority"
+							class="nav-link">Assign Leave Authority</a></li>
 
 					</ul></li>
 

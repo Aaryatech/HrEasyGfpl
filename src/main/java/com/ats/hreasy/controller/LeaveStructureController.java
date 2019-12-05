@@ -25,13 +25,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
+import com.ats.hreasy.model.CalenderYear;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetLeaveAuthority;
+import com.ats.hreasy.model.GetStructureAllotment;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.LeaveAuthority;
 import com.ats.hreasy.model.LeaveStructureDetails;
 import com.ats.hreasy.model.LeaveStructureHeader;
 import com.ats.hreasy.model.LeaveType;
+import com.ats.hreasy.model.LeavesAllotment;
 
 @Controller
 @Scope("session")
@@ -685,6 +688,114 @@ public class LeaveStructureController {
 		}
 
 		return "redirect:/leaveAuthorityList";
+	}
+	
+	@RequestMapping(value = "/leaveStructureAllotment", method = RequestMethod.GET)
+	public ModelAndView leaveStructureAllotment(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("leave/leave_structure_allot_list");
+
+		try {
+
+			HttpSession session = request.getSession();
+			/*LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("leaveStructureAllotment",
+					"leaveStructureAllotment", 1, 0, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId",1);
+				LeaveStructureHeader[] lvStrSummery = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getStructureList", map, LeaveStructureHeader[].class);
+
+				List<LeaveStructureHeader> lSummarylist = new ArrayList<>(Arrays.asList(lvStrSummery));
+				model.addObject("lStrList", lSummarylist);
+
+				 
+				GetStructureAllotment[] summary = Constants.getRestTemplate().getForObject(
+						Constants.url + "/getStructureAllotmentList",   GetStructureAllotment[].class);
+
+				List<GetStructureAllotment> leaveSummarylist = new ArrayList<>(Arrays.asList(summary));
+				model.addObject("lvStructureList", leaveSummarylist);
+ 
+				LeavesAllotment[] leavesAllotmentArray = Constants.getRestTemplate().getForObject(
+						Constants.url + "/getLeaveAllotmentByCurrentCalender", LeavesAllotment[].class);
+
+				List<LeavesAllotment> calAllotList = new ArrayList<>(Arrays.asList(leavesAllotmentArray));
+				model.addObject("calAllotList", calAllotList);
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitStructureList", method = RequestMethod.POST)
+	public String submitStructureList(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			HttpSession session = request.getSession();
+			CalenderYear calculateYear = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
+			//LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			int lvsId = Integer.parseInt(request.getParameter("lvsId"));
+
+			String[] empIds = request.getParameterValues("empIds");
+
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < empIds.length; i++) {
+				sb = sb.append(empIds[i] + ",");
+
+			}
+			String items = sb.toString();
+			items = items.substring(0, items.length() - 1);
+
+			String[] arrOfStr = items.split(",");
+
+			Boolean ret = false;
+
+			if (ret == false) {
+
+				LeavesAllotment leavesAllotment = new LeavesAllotment();
+				for (int i = 0; i < arrOfStr.length; i++) {
+
+					leavesAllotment.setCalYrId(calculateYear.getCalYrId());
+
+					leavesAllotment.setDelStatus(1);
+					leavesAllotment.setEmpId(Integer.parseInt(arrOfStr[i]));
+					leavesAllotment.setExVar1("NA");
+					leavesAllotment.setExVar2("NA");
+					leavesAllotment.setExVar3("NA");
+					leavesAllotment.setIsActive(1);
+					leavesAllotment.setMakerUserId(1);
+					leavesAllotment.setMakerEnterDatetime(dateTime);
+					leavesAllotment.setLvsId(lvsId);
+
+					LeavesAllotment res = Constants.getRestTemplate().postForObject(
+							Constants.url + "/saveLeaveAllotment", leavesAllotment, LeavesAllotment.class);
+
+					if (res != null) {
+						session.setAttribute("successMsg", "Record Inserted Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Insert Record");
+					}
+				}
+			} else {
+				session.setAttribute("errorMsg", "Failed to Insert Record");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/leaveStructureAllotment";
 	}
 	 
 
