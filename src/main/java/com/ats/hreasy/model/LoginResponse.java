@@ -11,6 +11,7 @@ public class LoginResponse {
 	private String surname; 
 	private String motherName; 
 	private String emailId;  
+	private int userId; 
 	private boolean isError;
 
 	public int getEmpId() {
@@ -77,11 +78,23 @@ public class LoginResponse {
 		this.isError = isError;
 	}
 
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public void setError(boolean isError) {
+		this.isError = isError;
+	}
+
 	@Override
 	public String toString() {
 		return "LoginResponse [empId=" + empId + ", empCode=" + empCode + ", firstName=" + firstName + ", middleName="
 				+ middleName + ", surname=" + surname + ", motherName=" + motherName + ", emailId=" + emailId
-				+ ", isError=" + isError + "]";
+				+ ", userId=" + userId + ", isError=" + isError + "]";
 	}
 	
 	
