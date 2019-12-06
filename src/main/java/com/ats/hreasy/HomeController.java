@@ -2,6 +2,9 @@ package com.ats.hreasy;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +16,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod; 
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
+
+import com.ats.hreasy.common.Constants;
+import com.ats.hreasy.model.LoginResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Handles requests for the application home page.
@@ -54,13 +64,46 @@ public class HomeController {
 	@RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
 	public String loginProcess(HttpServletRequest request, HttpServletResponse response, Model model) {
 
+		String mav = new String();
+		HttpSession session = request.getSession();
 		try {
+			
+			String name = request.getParameter("username");
+			String password = request.getParameter("password");
+
+			if (name.equalsIgnoreCase("") || password.equalsIgnoreCase("") || name == null || password == null) {
+
+				mav = "redirect:/";
+				session.setAttribute("errorMsg", "Login Failed");
+			} else {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("username", name);
+				map.add("password", password);
+
+				LoginResponse userObj = Constants.getRestTemplate().postForObject(Constants.url + "loginProcess", map,
+						LoginResponse.class);
+
+				if (userObj.getIsError() == false) {
+
+					mav = "redirect:/dashboard";
+					session.setAttribute("userInfo", userObj);
+
+				} else {
+					mav = "redirect:/";
+					session.setAttribute("errorMsg", "Login Failed");
+				}
+
+			}
 
 		} catch (Exception e) {
+			mav = "redirect:/";
+			session.setAttribute("errorMsg", "Login Failed");
 			e.printStackTrace();
 		}
 
-		return "redirect:/dashboard";
+		return mav;
 	}
 
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
@@ -69,24 +112,24 @@ public class HomeController {
 		String mav = "welcome";
 
 		try {
-			
-			String testString=request.getParameter("pass");
-	        MessageDigest md = MessageDigest.getInstance("MD5");
-	        byte[] messageDigest = md.digest(testString.getBytes());
-	        BigInteger number = new BigInteger(1, messageDigest);
-	        String hashtext = number.toString(16);
 
-	        System.out.println(hashtext);
+			/*String testString = request.getParameter("pass");
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] messageDigest = md.digest(testString.getBytes());
+			BigInteger number = new BigInteger(1, messageDigest);
+			String hashtext = number.toString(16);
+
+			System.out.println(hashtext);*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
-		  
+
 		session.invalidate();
 		return "redirect:/";
 	}

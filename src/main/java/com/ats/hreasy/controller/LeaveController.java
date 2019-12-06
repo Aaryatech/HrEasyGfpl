@@ -454,7 +454,7 @@ public class LeaveController {
 	// ******************************Apply for
 	// leave***********************************************
 
-	/*@RequestMapping(value = "/showApplyForLeave", method = RequestMethod.GET)
+/*	@RequestMapping(value = "/showApplyForLeave", method = RequestMethod.GET)
 	public ModelAndView showEmpList(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("leave/appplyForLeave");
@@ -554,7 +554,8 @@ public class LeaveController {
 			e.printStackTrace();
 		}
 		return model;
-	}
+	}*/
+	/*
 
 	List<LeaveHistory> leaveHistoryList = new ArrayList<LeaveHistory>();
 
