@@ -35,7 +35,7 @@ public class EmployeeMaster {
 	private int noticePayAmount;  
 	private int salDedAtFullandfinal;  
 	private int addedFrom;  
-	private String raw_data;  
+	private String rawData;  
 	private int addedBySupervisorId;  
 	private String loginName;  
 	private String loginTime; 
@@ -226,11 +226,12 @@ public class EmployeeMaster {
 	public void setAddedFrom(int addedFrom) {
 		this.addedFrom = addedFrom;
 	}
-	public String getRaw_data() {
-		return raw_data;
+	 
+	public String getRawData() {
+		return rawData;
 	}
-	public void setRaw_data(String raw_data) {
-		this.raw_data = raw_data;
+	public void setRawData(String rawData) {
+		this.rawData = rawData;
 	}
 	public int getAddedBySupervisorId() {
 		return addedBySupervisorId;
@@ -303,11 +304,11 @@ public class EmployeeMaster {
 				+ aadharNo + ", uan=" + uan + ", leavingReason=" + leavingReason + ", isEmp=" + isEmp
 				+ ", currentShiftid=" + currentShiftid + ", nextShiftid=" + nextShiftid + ", grossSalaryEst="
 				+ grossSalaryEst + ", emailId=" + emailId + ", noticePayAmount=" + noticePayAmount
-				+ ", salDedAtFullandfinal=" + salDedAtFullandfinal + ", addedFrom=" + addedFrom + ", raw_data="
-				+ raw_data + ", addedBySupervisorId=" + addedBySupervisorId + ", loginName=" + loginName
-				+ ", loginTime=" + loginTime + ", plCalcBase=" + plCalcBase + ", earnLeaveOpeningBalance="
-				+ earnLeaveOpeningBalance + ", empCategory=" + empCategory + ", exgratiaPerc=" + exgratiaPerc
-				+ ", newBasicRate=" + newBasicRate + ", newHraRate=" + newHraRate + ", newDaRate=" + newDaRate + "]";
+				+ ", salDedAtFullandfinal=" + salDedAtFullandfinal + ", addedFrom=" + addedFrom + ", rawData=" + rawData
+				+ ", addedBySupervisorId=" + addedBySupervisorId + ", loginName=" + loginName + ", loginTime="
+				+ loginTime + ", plCalcBase=" + plCalcBase + ", earnLeaveOpeningBalance=" + earnLeaveOpeningBalance
+				+ ", empCategory=" + empCategory + ", exgratiaPerc=" + exgratiaPerc + ", newBasicRate=" + newBasicRate
+				+ ", newHraRate=" + newHraRate + ", newDaRate=" + newDaRate + "]";
 	}
 	
 	

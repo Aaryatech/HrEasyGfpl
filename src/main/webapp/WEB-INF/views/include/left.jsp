@@ -101,6 +101,9 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/addLeaveAuthority"
 							class="nav-link">Assign Leave Authority</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/leaveStructureAllotment"
+							class="nav-link">Leave Structure Allotment</a></li>
 
 					</ul></li>
 
