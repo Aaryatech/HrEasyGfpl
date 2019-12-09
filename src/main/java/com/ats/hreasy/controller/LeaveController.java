@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.text.DateFormat;
- 
+
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
@@ -620,12 +620,12 @@ public class LeaveController {
 			HttpSession session = request.getSession();
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 			model.addObject("editEmp", userObj);
-			
+
 			String base64encodedString = request.getParameter("empId");
 			String empId = FormValidation.DecodeKey(base64encodedString);
 
 			System.out.println(empId);
-			
+
 			CalenderYear calculateYear = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
 
@@ -681,17 +681,16 @@ public class LeaveController {
 		}
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/chkNumber", method = RequestMethod.GET)
 	public @ResponseBody String chkNumber(HttpServletRequest request, HttpServletResponse response) {
-		  
+
 		String balance = new String();
 
 		try {
-			 
 
 			int leaveTypeId = Integer.parseInt(request.getParameter("inputValue"));
-			 
+
 			for (int i = 0; i < leaveHistoryList.size(); i++) {
 				if (leaveTypeId == leaveHistoryList.get(i).getLvTypeId()) {
 					balance = String.valueOf(leaveHistoryList.get(i).getBalLeave()
@@ -700,7 +699,6 @@ public class LeaveController {
 				}
 			}
 
-			 
 		} catch (Exception e) {
 			e.printStackTrace();
 			balance = "0";
@@ -708,7 +706,7 @@ public class LeaveController {
 
 		return balance;
 	}
-	
+
 	@RequestMapping(value = "/calholidayWebservice", method = RequestMethod.GET)
 	public @ResponseBody LeaveCount calholidayWebservice(HttpServletRequest request, HttpServletResponse response) {
 
@@ -723,7 +721,7 @@ public class LeaveController {
 			map.add("empId", empId);
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
-			 
+
 			leaveCount = Constants.getRestTemplate().postForObject(Constants.url + "/calculateHolidayBetweenDate", map,
 					LeaveCount.class);
 
@@ -732,27 +730,27 @@ public class LeaveController {
 		}
 		return leaveCount;
 	}
-	
+
 	@RequestMapping(value = "/insertLeave", method = RequestMethod.POST)
 	public String insertLeave(HttpServletRequest request, HttpServletResponse response) {
 		String empId1 = request.getParameter("empId");
 		try {
-			
+
 			CalenderYear calculateYear = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
-			
+
 			HttpSession session = request.getSession();
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-			LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 			// String compName = request.getParameter("1");
 			String leaveDateRange = request.getParameter("leaveDateRange");
 			String dayTypeName = request.getParameter("dayTypeName");
 			float noOfDays = Float.parseFloat(request.getParameter("noOfDays"));
 			int leaveTypeId = Integer.parseInt(request.getParameter("leaveTypeId"));
- 
+
 			int noOfDaysExclude = Integer.parseInt(request.getParameter("noOfDaysExclude"));
 			int empId = Integer.parseInt(request.getParameter("empId"));
 
@@ -773,7 +771,6 @@ public class LeaveController {
 				stat = 1;
 			}
 
-		 
 			String remark = null;
 
 			String[] arrOfStr = leaveDateRange.split("to", 2);
@@ -868,16 +865,16 @@ public class LeaveController {
 						Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateTrailId", map,
 								Info.class);
 						if (info.isError() == false) {
-							session.setAttribute("successMsg", "Record Inserted Successfully");
+							session.setAttribute("successMsg", "Leave Apply Successfully");
 						} else {
-							session.setAttribute("errorMsg", "Failed to Insert Record");
+							session.setAttribute("errorMsg", "Failed to Apply Leave");
 						}
 
 					}
 				}
 
 			} else {
-				session.setAttribute("errorMsg", "Failed to Insert Record");
+				session.setAttribute("errorMsg", "Failed to Apply Leave");
 			}
 
 		} catch (Exception e) {
@@ -887,6 +884,112 @@ public class LeaveController {
 		// return "redirect:/showApplyForLeave";
 		return "redirect:/showLeaveHistList?empId=" + FormValidation.Encrypt(empId1);
 
+	}
+
+	@RequestMapping(value = "/showLeaveApprovalByAuthority", method = RequestMethod.GET)
+	public ModelAndView showLeaveApprovalByInitialAuthority(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("leave/leaveApproveByInitial");
+
+		// for pending
+		try {
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("showLeaveApprovalByAuthority",
+			 * "showLeaveApprovalByAuthority", 1, 0, 0, 0, newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+
+			CalenderYear calculateYear = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", userObj.getEmpId());
+			map.add("currYrId", calculateYear.getCalYrId());
+
+			GetLeaveApplyAuthwise[] employeeDoc = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getLeaveApplyListForPending", map, GetLeaveApplyAuthwise[].class);
+
+			List<GetLeaveApplyAuthwise> leaveList = new ArrayList<GetLeaveApplyAuthwise>(Arrays.asList(employeeDoc));
+
+			for (int i = 0; i < leaveList.size(); i++) {
+
+				leaveList.get(i).setCirculatedTo(FormValidation.Encrypt(String.valueOf(leaveList.get(i).getLeaveId())));
+				leaveList.get(i).setLeaveTypeName(FormValidation.Encrypt(String.valueOf(leaveList.get(i).getEmpId())));
+				leaveList.get(i).setLeaveFromdt(DateConvertor.convertToDMY(leaveList.get(i).getLeaveFromdt()));
+				leaveList.get(i).setLeaveTodt(DateConvertor.convertToDMY(leaveList.get(i).getLeaveTodt()));
+			}
+			model.addObject("leaveListForApproval", leaveList);
+			model.addObject("list1Count", leaveList.size());
+
+			// for Info
+
+			model.addObject("empIdOrig", userObj.getEmpId());
+
+			map = new LinkedMultiValueMap<>();
+			map.add("empId", userObj.getEmpId());
+			map.add("currYrId", calculateYear.getCalYrId());
+			GetLeaveApplyAuthwise[] employeeDoc1 = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getLeaveApplyListForInformation", map, GetLeaveApplyAuthwise[].class);
+
+			List<GetLeaveApplyAuthwise> leaveList1 = new ArrayList<GetLeaveApplyAuthwise>(Arrays.asList(employeeDoc1));
+
+			for (int i = 0; i < leaveList1.size(); i++) {
+
+				leaveList1.get(i)
+						.setCirculatedTo(FormValidation.Encrypt(String.valueOf(leaveList1.get(i).getLeaveId())));
+				leaveList1.get(i)
+						.setLeaveTypeName(FormValidation.Encrypt(String.valueOf(leaveList1.get(i).getEmpId())));
+				leaveList1.get(i).setLeaveFromdt(DateConvertor.convertToDMY(leaveList1.get(i).getLeaveFromdt()));
+				leaveList1.get(i).setLeaveTodt(DateConvertor.convertToDMY(leaveList1.get(i).getLeaveTodt()));
+			}
+
+			model.addObject("list2Count", leaveList1.size());
+			model.addObject("leaveListForApproval1", leaveList1);
+			// }
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/empDetailHistory", method = RequestMethod.GET)
+	public ModelAndView empDetailHistory(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("leave/empDetailHistory");
+
+		try {
+
+			String base64encodedString = request.getParameter("leaveId");
+			String leaveId = FormValidation.DecodeKey(base64encodedString);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("leaveId", leaveId);
+			GetLeaveStatus[] employeeDoc = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpInfoListByTrailEmpId", map, GetLeaveStatus[].class);
+
+			List<GetLeaveStatus> employeeList = new ArrayList<GetLeaveStatus>(Arrays.asList(employeeDoc));
+			model.addObject("employeeList", employeeList);
+
+			MultiValueMap<String, Object> map1 = new LinkedMultiValueMap<>();
+			map1.add("leaveId", leaveId);
+
+			GetLeaveApplyAuthwise lvEmp = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getLeaveApplyDetailsByLeaveId", map1, GetLeaveApplyAuthwise.class);
+			model.addObject("lvEmp", lvEmp);
+			System.out.println("emp leave details" + lvEmp.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
 	}
 
 }

@@ -104,9 +104,11 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/leaveStructureAllotment"
 							class="nav-link">Leave Structure Allotment</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showApplyForLeave"
+							class="nav-link">Apply Leave</a></li>
 
 					</ul></li>
-
 
 				<%--<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Leave</span></a>
