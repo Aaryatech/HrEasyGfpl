@@ -31,10 +31,13 @@ import com.ats.hreasy.model.GetLeaveAuthority;
 import com.ats.hreasy.model.GetStructureAllotment;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.LeaveAuthority;
+import com.ats.hreasy.model.LeaveBalanceCal;
+import com.ats.hreasy.model.LeaveHistory;
 import com.ats.hreasy.model.LeaveStructureDetails;
 import com.ats.hreasy.model.LeaveStructureHeader;
 import com.ats.hreasy.model.LeaveType;
 import com.ats.hreasy.model.LeavesAllotment;
+import com.ats.hreasy.model.LoginResponse;
 
 @Controller
 @Scope("session")
@@ -796,6 +799,144 @@ public class LeaveStructureController {
 		}
 
 		return "redirect:/leaveStructureAllotment";
+	}
+	
+	@RequestMapping(value = "/leaveYearEnd", method = RequestMethod.GET)
+	public ModelAndView leaveYearEnd(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("leave/leaveYearEnd");
+
+		try {
+
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("leaveYearEnd", "leaveYearEnd", 1, 0, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				  
+				EmployeeMaster[] employeeInfo = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getemplistwhichisnotyearend",  EmployeeMaster[].class);
+
+				List<EmployeeMaster> employeeInfoList = new ArrayList<EmployeeMaster>(Arrays.asList(employeeInfo));
+				model.addObject("employeeInfoList", employeeInfoList);
+
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				LeaveStructureHeader[] lvStrSummery = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getStructureList", map, LeaveStructureHeader[].class);
+				List<LeaveStructureHeader> lSummarylist = new ArrayList<>(Arrays.asList(lvStrSummery));
+				model.addObject("lStrList", lSummarylist);
+			//}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	List<LeaveHistory> previousleavehistorylist = new ArrayList<>();
+	int empId = 0;
+	
+	@RequestMapping(value = "/getPreviousYearHistory", method = RequestMethod.GET)
+	@ResponseBody
+	public List<LeaveHistory> getPreviousYearHistory(HttpServletRequest request, HttpServletResponse response) {
+
+		// ModelAndView model = new ModelAndView("leave/leaveYearEnd");
+		previousleavehistorylist = new ArrayList<>();
+
+		try {
+			empId = Integer.parseInt(request.getParameter("empId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+
+			LeaveHistory[] employeeInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getPreviousleaveHistory", map, LeaveHistory[].class);
+			previousleavehistorylist = new ArrayList<>(Arrays.asList(employeeInfo));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return previousleavehistorylist;
+	}
+	
+	@RequestMapping(value = "/submitYearEndAndAssignNewStructure", method = RequestMethod.POST)
+	public String submitYearEndAndAssignNewStructure(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("UserInfo");
+
+			CalenderYear calculateYear = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
+			
+			empId = Integer.parseInt(request.getParameter("empId"));
+			int structId = Integer.parseInt(request.getParameter("structId"));
+
+			if (previousleavehistorylist.size() > 0) {
+
+				LeavesAllotment leavesAllotment = new LeavesAllotment();
+				leavesAllotment.setCalYrId(calculateYear.getCalYrId());
+				leavesAllotment.setDelStatus(1);
+				leavesAllotment.setEmpId(empId);
+				leavesAllotment.setExVar1("NA");
+				leavesAllotment.setExVar2("NA");
+				leavesAllotment.setExVar3("NA");
+				leavesAllotment.setIsActive(1);
+				leavesAllotment.setMakerUserId(userObj.getUserId());
+				leavesAllotment.setMakerEnterDatetime(dateTime);
+				leavesAllotment.setLvsId(structId);
+
+				List<LeaveBalanceCal> leavBalList = new ArrayList<>();
+
+				for (int i = 0; i < previousleavehistorylist.size(); i++) {
+					LeaveBalanceCal leaveBalanceCal = new LeaveBalanceCal();
+					leaveBalanceCal.setCalYrId(leavesAllotment.getCalYrId());
+					leaveBalanceCal.setDelStatus(1);
+					leaveBalanceCal.setEmpId(empId);
+					leaveBalanceCal.setIsActive(1);
+					leaveBalanceCal.setLvAlloted(0);
+					leaveBalanceCal.setLvbalId(0);
+					leaveBalanceCal.setLvCarryFwd(Float.parseFloat(
+							request.getParameter("carryfrwd" + previousleavehistorylist.get(i).getLvTypeId())));
+					leaveBalanceCal.setLvCarryFwdRemarks("Null");
+					leaveBalanceCal.setLvEncash(Float.parseFloat(
+							request.getParameter("inchashLv" + previousleavehistorylist.get(i).getLvTypeId())));
+					leaveBalanceCal.setOpBal(Float.parseFloat(
+							request.getParameter("carryfrwd" + previousleavehistorylist.get(i).getLvTypeId())));
+					leaveBalanceCal.setMakerUserId(1);
+					leaveBalanceCal.setMakerEnterDatetime(dateTime);
+					leaveBalanceCal.setLvEncashRemarks("Null");
+					leaveBalanceCal.setLvTypeId(previousleavehistorylist.get(i).getLvTypeId());
+					leavBalList.add(leaveBalanceCal);
+				}
+
+				LeavesAllotment res = Constants.getRestTemplate().postForObject(
+						Constants.url + "/saveNewLeaveAllotment", leavesAllotment, LeavesAllotment.class);
+				LeaveBalanceCal[] leaveBalanceCalres = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/saveNewBalRecord", leavBalList, LeaveBalanceCal[].class);
+				if (res != null) {
+					session.setAttribute("successMsg", "Stucture Allocate Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Allocate Stucture");
+				}
+			} else {
+
+				session.setAttribute("errorMsg", "Failed to Assign");
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/leaveYearEnd";
 	}
 	 
 

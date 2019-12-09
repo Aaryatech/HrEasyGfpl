@@ -107,7 +107,12 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showApplyForLeave"
 							class="nav-link">Apply Leave</a></li>
-
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showLeaveApprovalByAuthority"
+							class="nav-link">Leave Approval by Authorities</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/empInfoHistoryReport"
+							class="nav-link">Leave Pending Report</a></li>
 					</ul></li>
 
 				<%--<li class="nav-item nav-item-submenu"><a href="#"
