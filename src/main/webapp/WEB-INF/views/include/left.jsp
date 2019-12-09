@@ -113,6 +113,9 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/empInfoHistoryReport"
 							class="nav-link">Leave Pending Report</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/leaveYearEnd"
+							class="nav-link ">Carry Forward previous Leave </a></li>
 					</ul></li>
 
 				<%--<li class="nav-item nav-item-submenu"><a href="#"
