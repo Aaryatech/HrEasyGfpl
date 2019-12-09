@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.text.DateFormat;
- 
+
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.ExceUtil;
@@ -674,6 +674,14 @@ public class LeaveController {
 					Setting.class);
 			model.addObject("setlimit", setlimit);
 
+			map = new LinkedMultiValueMap<>();
+			map.add("limitKey", "CONTILEAVE");
+			Setting isContinueLeave = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey", map,
+					Setting.class);
+			model.addObject("CONTILEAVE", isContinueLeave);
+
+			System.out.println(isContinueLeave);
+
 			/*
 			 * CalenderYear currYr = Constants.getRestTemplate().getForObject(Constants.url
 			 * + "getcurrentyear", CalenderYear.class);
@@ -711,6 +719,35 @@ public class LeaveController {
 		}
 
 		return balance;
+	}
+
+	@RequestMapping(value = "/checkDatesRange", method = RequestMethod.GET)
+	public @ResponseBody Info checkDatesRange(HttpServletRequest request, HttpServletResponse response) {
+
+		Info leaveResponse = new Info();
+
+		try {
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			String empId = request.getParameter("empId");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("empId", empId);
+			leaveResponse = Constants.getRestTemplate().postForObject(Constants.url + "/checkDateForRepetedLeaveValidation", map,
+					Info.class);
+
+			System.out.println(leaveResponse);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+
+		return leaveResponse;
 	}
 
 	@RequestMapping(value = "/calholidayWebservice", method = RequestMethod.GET)
@@ -997,7 +1034,7 @@ public class LeaveController {
 		}
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/empInfoHistoryReport", method = RequestMethod.GET)
 	public ModelAndView empInfoHistory(HttpServletRequest request, HttpServletResponse response) {
 
@@ -1007,34 +1044,37 @@ public class LeaveController {
 			HttpSession session = request.getSession();
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
-			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-			Info view = AcessController.checkAccess("empInfoHistoryReport",
-					"empInfoHistoryReport", 1, 0, 0, 0, newModuleList);
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("empInfoHistoryReport", "empInfoHistoryReport",
+			 * 1, 0, 0, 0, newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
 
-			if (view.isError() == true) {
+			CalenderYear[] calenderYear = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getCalculateYearList", CalenderYear[].class);
+			List<CalenderYear> calYearList = new ArrayList<CalenderYear>(Arrays.asList(calenderYear));
 
-				model = new ModelAndView("accessDenied");
+			EmployeeMaster[] employeeInfo = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getEmplistForAssignAuthority", EmployeeMaster[].class);
 
-			} else {*/
-				 
-				CalenderYear[] calenderYear = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getCalculateYearList", CalenderYear[].class);
-				List<CalenderYear> calYearList = new ArrayList<CalenderYear>(Arrays.asList(calenderYear));
-	
-				EmployeeMaster[] employeeInfo = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getEmplistForAssignAuthority", EmployeeMaster[].class);
-	
-				List<EmployeeMaster> employeeInfoList = new ArrayList<EmployeeMaster>(Arrays.asList(employeeInfo));
-				model.addObject("calYearList", calYearList);
-				model.addObject("employeeInfoList", employeeInfoList);
-			//}
+			List<EmployeeMaster> employeeInfoList = new ArrayList<EmployeeMaster>(Arrays.asList(employeeInfo));
+			model.addObject("calYearList", calYearList);
+			model.addObject("employeeInfoList", employeeInfoList);
+			// }
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/showEmpLeaveHistoryRep", method = RequestMethod.POST)
 	public void showEmpLeaveHistoryRep(HttpServletRequest request, HttpServletResponse response) {
 		List<EmpLeaveHistoryRep> progList = new ArrayList<EmpLeaveHistoryRep>();
@@ -1059,9 +1099,9 @@ public class LeaveController {
 			// System.out.println("employeeInfoList" + employeeInfoList.toString());
 
 			map = new LinkedMultiValueMap<>();
-			 
-			EmployeeMaster[] emp = Constants.getRestTemplate().getForObject(Constants.url + "/getEmplistForAssignAuthority", 
-					EmployeeMaster[].class);
+
+			EmployeeMaster[] emp = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getEmplistForAssignAuthority", EmployeeMaster[].class);
 
 			List<EmployeeMaster> empList1 = new ArrayList<EmployeeMaster>(Arrays.asList(emp));
 

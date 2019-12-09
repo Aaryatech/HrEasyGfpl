@@ -16,6 +16,7 @@
 <c:url var="getHolidayAndWeeklyOffList"
 	value="/getHolidayAndWeeklyOffList" />
 <c:url var="calholidayWebservice" value="/calholidayWebservice" />
+<c:url var="checkDatesRange" value="/checkDatesRange" />
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
@@ -289,7 +290,10 @@
 												placeholder="Remark" onchange="trim(this)" id="leaveRemark"
 												name="leaveRemark"> </textarea>
 											<span class="validation-invalid-label" id="error_leaveRemark"
-												style="display: none;">This field is required.</span>
+												style="display: none;">This field is required.</span><span
+												class="validation-invalid-label"
+												id="error_leaveRepeatValidation" style="display: none;">You
+												Have Already Apply Leave on this Date.</span>
 										</div>
 									</div>
 									<input type="hidden" class="form-control numbersOnly"
@@ -301,9 +305,9 @@
 										class="form-control numbersOnly" id="auth" value="${authId}"
 										name="auth"> <input type="hidden" id="leaveLimit"
 										value="${setlimit.value}"> <input type="hidden"
-										id="yearFinalDate" value="${currYr.calYrToDate}">
-
-
+										id="yearFinalDate" value="${currYr.calYrToDate}"> <input
+										type="hidden" class="form-control" id="leaveCanApply"
+										value="0" name="leaveCanApply">
 
 									<div class="col-md-12" style="text-align: center;">
 
@@ -373,6 +377,28 @@
 				//alert(data.balLeave);
 				document.getElementById("tempNoDays").value = parseFloat(data);
 
+			});
+		}
+		function checkDatesRange() {
+			var daterange = document.getElementById("leaveDateRange").value;
+			var empId = document.getElementById("empId").value;
+			var res = daterange.split(" to ");
+			$.getJSON('${checkDatesRange}', {
+
+				fromDate : res[0],
+				toDate : res[1],
+				empId : empId,
+				ajax : 'true',
+
+			}, function(data) {
+				//alert(data.balLeave);
+
+				if (data.error == true) {
+					document.getElementById("leaveCanApply").value = 1;
+				} else {
+					document.getElementById("leaveCanApply").value = 0;
+				}
+				document.getElementById("submtbtn").disabled = false;
 			});
 		}
 	</script>
@@ -1053,9 +1079,9 @@
 								} else {
 									document.getElementById("noOfDays").value = data.leavecount / 2;
 								}
-								document.getElementById("submtbtn").disabled = false;
-								//checkDays(data.leavecount);
 
+								//checkDays(data.leavecount);
+								checkDatesRange();
 							});
 
 		}
@@ -1160,26 +1186,17 @@
 															.hide()
 												}
 
-												/* var daterange = document.getElementById("leaveDateRange").value;
-												var res = daterange.split(" to ");
-												var date2 = new Date(date2res[2],date2res[1] - 1, date2res[0])
-												var daterange = document.getElementById("yearFinalDate").value;
-												
-												if ($("#yearFinalDate").val()) {
-													 
-													if (checkDays(parseFloat($(
-															"#noOfDays").val())) == true) {
+												if ($("#leaveCanApply").val() == 1) {
 
-														isError = true;
-
-														$("#error_insuf")
-																.show()
-
-													} else {
-														$("#error_insuf")
-																.hide()
-													}
-												} */
+													isError = true;
+													$(
+															"#error_leaveRepeatValidation")
+															.show();
+												} else {
+													$(
+															"#error_leaveRepeatValidation")
+															.hide();
+												}
 
 												if (!isError) {
 													var option = $(
