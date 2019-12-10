@@ -625,7 +625,7 @@ public class LeaveController {
 		try {
 			HttpSession session = request.getSession();
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
-			model.addObject("editEmp", userObj);
+			
 
 			String base64encodedString = request.getParameter("empId");
 			String empId = FormValidation.DecodeKey(base64encodedString);
@@ -638,6 +638,14 @@ public class LeaveController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			model.addObject("empId", empId);
 
+			map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			
+			EmployeeMaster editEmp = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpInfoByEmpId", map, EmployeeMaster.class);
+			
+			model.addObject("editEmp", editEmp);
+			
 			map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
 			map.add("currYrId", calculateYear.getCalYrId());
