@@ -49,7 +49,7 @@
 
 						<div class="card">
 							 
-	<div class="card-header header-elements-inline">
+					<div class="card-header header-elements-inline">
  						<table width="100%">
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Add Designation</h5></td>
@@ -151,7 +151,7 @@
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a href="${pageContext.request.contextPath}/showLocationList"><button
+											<a href="${pageContext.request.contextPath}/showDesignationList"><button
 										type="button" class="btn btn-primary"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Cancel</button></a>
 										</div>
 									</div>

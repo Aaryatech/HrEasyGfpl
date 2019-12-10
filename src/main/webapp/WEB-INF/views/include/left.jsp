@@ -87,6 +87,9 @@
 							href="${pageContext.request.contextPath}/showDesignationList"
 							class="nav-link">Designation List</a></li>
 						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showContractorsList"
+							class="nav-link">Contractor List</a></li>
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showLocationList"
 							class="nav-link">Location List</a></li>
 						<li class="nav-item"><a

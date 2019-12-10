@@ -20,7 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.model.Contractor;
 import com.ats.hreasy.model.Designation;
+import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.Info;
 
 @Controller
@@ -55,9 +57,8 @@ public class HrEasyController {
 			 * } else {
 			 */
 			model = new ModelAndView("master/designationList");
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
-			Designation[] designation = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDesignations",map,
+			
+			Designation[] designation = Constants.getRestTemplate().getForObject(Constants.url + "/getAllDesignations",
 					Designation[].class);
 
 			List<Designation> designationList = new ArrayList<Designation>(Arrays.asList(designation));
@@ -196,7 +197,6 @@ public class HrEasyController {
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("desigId", desigId);
-			map.add("companyId", 1);
 				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteDesignationById", map,
 						Info.class);
 				
@@ -216,11 +216,212 @@ public class HrEasyController {
 		return "redirect:/showDesignationList";
 	}
 
-	/******************************Designation********************************/
 	
 	
 	/******************************Contractor********************************/
+	@RequestMapping(value = "/showContractorsList", method = RequestMethod.GET)
+	public ModelAndView showContractorsList(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+		ModelAndView model = null;
+
+		try {
+
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("showContractorsList", "showContractorsList", 1,
+			 * 0, 0, 0, newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+			model = new ModelAndView("master/contractorList");
+			
+			Contractor[] contractor = Constants.getRestTemplate().getForObject(Constants.url + "/getAllContractors",
+					Contractor[].class);
+
+			List<Contractor> contractorsList = new ArrayList<Contractor>(Arrays.asList(contractor));
+
+			for (int i = 0; i < contractorsList.size(); i++) {
+
+				contractorsList.get(i)
+						.setExVar1(FormValidation.Encrypt(String.valueOf(contractorsList.get(i).getContractorId())));
+			}
+
+			model.addObject("addAccess", 0);
+			model.addObject("editAccess", 0);
+			model.addObject("deleteAccess", 0);
+			model.addObject("contractorsList", contractorsList);
+
+			/*
+			 * Info add = AcessController.checkAccess("showContractorsList",
+			 * "showContractorsList", 0, 1, 0, 0, newModuleList); Info edit =
+			 * AcessController.checkAccess("showContractorsList", "showContractorsList", 0,
+			 * 0, 1, 0, newModuleList); Info delete =
+			 * AcessController.checkAccess("showContractorsList", "showContractorsList", 0,
+			 * 0, 0, 1, newModuleList);
+			 * 
+			 * if (add.isError() == false) { System.out.println(" add   Accessable ");
+			 * model.addObject("addAccess", 0);
+			 * 
+			 * } if (edit.isError() == false) { System.out.println(" edit   Accessable ");
+			 * model.addObject("editAccess", 0); } if (delete.isError() == false) {
+			 * System.out.println(" delete   Accessable "); model.addObject("deleteAccess",
+			 * 0);
+			 * 
+			 * }
+			 */
+			// }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
 	
+	
+	@RequestMapping(value = "/contractorAdd", method = RequestMethod.GET)
+	public ModelAndView contractorAdd(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+
+		try {
+			Contractor contract = new Contractor();
+			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("dsesignationAdd", "showDesignationList", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				model = new ModelAndView("master/addContractor");
+				model.addObject("contract", contract);
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/insertContractor", method=RequestMethod.POST)
+	public String insertContractor(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+		try {
+
+			Contractor contract = new Contractor();
+
+			contract.setContractorId(Integer.parseInt(request.getParameter("contractorId")));
+			contract.setAddress(request.getParameter("address"));
+			contract.setCompanyId(1);
+			contract.setDelStatus(1);
+			contract.setDuration(request.getParameter("duration"));
+			contract.setEmail(request.getParameter("email"));
+			contract.setEsicNo(request.getParameter("esic"));
+			contract.setIsActive(1);
+			contract.setLicenceNo(request.getParameter("licenceNo"));
+			contract.setMakerEnterDatetime(currDate);
+			contract.setMobileNo(request.getParameter("mobileNo"));
+			contract.setOfficeNo(request.getParameter("officeNo"));
+			contract.setOrgName(request.getParameter("organisation"));
+			contract.setOwner(request.getParameter("owner"));
+			contract.setPanNo(request.getParameter("panNo"));
+			contract.setPfNo(request.getParameter("pf"));
+			contract.setRemark(request.getParameter("remark"));
+			contract.setService(request.getParameter("service"));
+			contract.setVatNo(request.getParameter("vat"));
+			contract.setExInt1(0);
+			contract.setExInt2(0);
+			contract.setExVar1("NA");
+			contract.setExVar2("NA");
+			
+			Contractor saveDesig = Constants.getRestTemplate().postForObject(Constants.url + "/saveContractor", contract,
+					Contractor.class);
+			
+			if (saveDesig != null) {
+				session.setAttribute("successMsg", "Contractor Updated Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed to Update Record");
+			}
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Update Record");
+		}
+	
+		return "redirect:/showContractorsList";
+		
+	}
+	
+	
+	@RequestMapping(value = "/editContractor", method = RequestMethod.GET)
+	public ModelAndView editContractor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		Contractor contract = new Contractor();
+		ModelAndView model = null;
+		try {
+			model = new ModelAndView("master/addContractor");
+			
+			String base64encodedString = request.getParameter("contractor");
+			String contractorId = FormValidation.DecodeKey(base64encodedString);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("contractorId", contractorId);
+		
+			contract = Constants.getRestTemplate().postForObject(Constants.url + "/getContractorById", map,
+					Contractor.class);
+			model.addObject("contract", contract);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return model;
+		
+	}
+	
+	
+	@RequestMapping(value = "/deleteContractor", method = RequestMethod.GET)
+	public String deleteContractor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		try {
+			String base64encodedString = request.getParameter("contractor");
+			String contractorId = FormValidation.DecodeKey(base64encodedString);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("contractorId", contractorId);
+			
+			EmployeeMaster emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpByContractorId", map,
+					EmployeeMaster.class);
+			
+			System.out.println("Emp-------------------"+emp);
+			if(emp==null) {
+			
+			
+				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteContractor", map,
+						Info.class);
+				
+				if (res.isError()) {
+					session.setAttribute("errorMsg", "Failed to Delete");
+				} else {
+					session.setAttribute("successMsg", "Deleted Successfully");
+					
+				}
+			}else {
+				session.setAttribute("errorMsg", "Failed to Contractor. Contractor have Employee");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+		
+		
+		return "redirect:/showContractorsList";
+	}
+
 	
 	/******************************Contractor********************************/
 }

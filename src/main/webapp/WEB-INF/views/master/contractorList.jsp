@@ -42,12 +42,12 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Designation List</h5></td>
+								<td width="60%"><h5 class="card-title">Contractor List</h5></td>
 								<td width="40%" align="right"><c:if test="${addAccess==0}">
-										<a href="${pageContext.request.contextPath}/dsesignationAdd"
+										<a href="${pageContext.request.contextPath}/contractorAdd"
 											class="breadcrumb-elements-item">
 											<button type="button" class="btn btn-primary">Add
-												Designation</button>
+												Contractor</button>
 										</a>
 									</c:if></td>
 							</tr>
@@ -98,31 +98,39 @@
 								<tr class="bg-blue">
 
 									<th width="10%">Sr. No.</th>
-									<th>Designation </th>
-									<th>Designation Short Name</th>									
-									<th>Remark</th>
+									<th>Service </th>
+									<th>Organisation</th>									
+									<th>Licence No.</th>									
+									<th>Office No.</th>
+									<th>Owner</th>
+									<th>Mobile No.</th>
+									<th>Duration</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
 
 
-								<c:forEach items="${designationList}" var="designationList"
+								<c:forEach items="${contractorsList}" var="contractorsList"
 									varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
-										<td>${designationList.name}</td>
-										<td>${designationList.nameSd}</td>
-										<td>${designationList.remarks}</td>
+										<td>${contractorsList.service}</td>
+										<td>${contractorsList.orgName}</td>
+										<td>${contractorsList.licenceNo}</td>
+										<td>${contractorsList.officeNo}</td>
+										<td>${contractorsList.owner}</td>
+										<td>${contractorsList.mobileNo}</td>
+										<td>${contractorsList.duration}</td>
 										
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a
-													href="${pageContext.request.contextPath}/editDesignation?desigId=${designationList.exVar1}"
+													href="${pageContext.request.contextPath}/editContractor?contractor=${contractorsList.exVar1}"
 													title="Edit"><i class="icon-pencil7"
 													style="color: black;"></i></a>
 											</c:if> <c:if test="${deleteAccess == 0}">
 												<a
-													href="${pageContext.request.contextPath}/deleteDesignation?desigId=${designationList.exVar1}"
+													href="${pageContext.request.contextPath}/deleteContractor?contractor=${contractorsList.exVar1}"
 													onClick="return confirm('Are you sure want to delete this record');"
 													title="Delete"><i class="icon-trash"
 													style="color: black;"></i> </a>
