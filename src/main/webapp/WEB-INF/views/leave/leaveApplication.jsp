@@ -196,7 +196,8 @@
 											<select name="leaveTypeId"
 												data-placeholder="Select Leave Type" id="leaveTypeId"
 												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true" onchange="checkUnique()">
+												data-fouc="" aria-hidden="true"
+												onchange="checkUnique();checkDatesRange()">
 												<option></option>
 												<c:forEach items="${leaveHistoryList}"
 													var="leaveHistoryList">
@@ -383,23 +384,32 @@
 			var daterange = document.getElementById("leaveDateRange").value;
 			var empId = document.getElementById("empId").value;
 			var res = daterange.split(" to ");
-			$.getJSON('${checkDatesRange}', {
+			var inputValue = document.getElementById("leaveTypeId").value;
+			$
+					.getJSON(
+							'${checkDatesRange}',
+							{
 
-				fromDate : res[0],
-				toDate : res[1],
-				empId : empId,
-				ajax : 'true',
+								fromDate : res[0],
+								toDate : res[1],
+								empId : empId,
+								typeId : inputValue,
+								ajax : 'true',
 
-			}, function(data) {
-				//alert(data.balLeave);
+							},
+							function(data) {
+								//alert(data.balLeave);
 
-				if (data.error == true) {
-					document.getElementById("leaveCanApply").value = 1;
-				} else {
-					document.getElementById("leaveCanApply").value = 0;
-				}
-				document.getElementById("submtbtn").disabled = false;
-			});
+								if (data.error == true) {
+									document.getElementById("leaveCanApply").value = 1;
+								} else {
+									document.getElementById("leaveCanApply").value = 0;
+									$("#error_leaveRepeatValidation").hide();
+								}
+								document
+										.getElementById("error_leaveRepeatValidation").innerHTML = data.msg;
+								document.getElementById("submtbtn").disabled = false;
+							});
 		}
 	</script>
 

@@ -731,12 +731,16 @@ public class LeaveController {
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
 			String empId = request.getParameter("empId");
-
+			String typeId = request.getParameter("typeId");
+			
+			
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map = new LinkedMultiValueMap<>();
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 			map.add("empId", empId);
+			map.add("leaveTypeId", typeId);
 			leaveResponse = Constants.getRestTemplate().postForObject(Constants.url + "/checkDateForRepetedLeaveValidation", map,
 					Info.class);
 
