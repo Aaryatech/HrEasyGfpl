@@ -162,7 +162,7 @@ public class LeaveController {
 	public String submitInsertLeaveType(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			HttpSession session = request.getSession();
-			// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -222,7 +222,7 @@ public class LeaveController {
 				leaveSummary.setExVar3("NA");
 				leaveSummary.setIsActive(1);
 				leaveSummary.setDelStatus(1);
-				leaveSummary.setMakerUserId(1);
+				leaveSummary.setMakerUserId(userObj.getUserId());
 				leaveSummary.setMakerEnterDatetime(sf.format(date));
 
 				LeaveType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLeaveType",
@@ -401,7 +401,7 @@ public class LeaveController {
 
 		try {
 			HttpSession session = request.getSession();
-			// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -451,7 +451,7 @@ public class LeaveController {
 				editLeaveType.setLvWorkingHrs(0);
 				editLeaveType.setLvSumupId(summId);
 				editLeaveType.setLvRmarks(remark);
-				editLeaveType.setMakerUserId(1);
+				editLeaveType.setMakerUserId(userObj.getUserId());
 				editLeaveType.setMakerEnterDatetime(sf.format(date));
 
 				LeaveType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLeaveType",

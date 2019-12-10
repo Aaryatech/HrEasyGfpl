@@ -28,6 +28,7 @@ import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.GetWeeklyOff;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
+import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.WeeklyOff;
 
 @Controller
@@ -61,7 +62,7 @@ public class WeeklyOffController {
 			 */
 			model = new ModelAndView("master/weekly_off_add");
 
-			// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("companyId", 1);
@@ -75,9 +76,10 @@ public class WeeklyOffController {
 				locationList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getLocId())));
 			}
 
+			//System.out.println(userObj);
 			model.addObject("locationList", locationList);
-			//model.addObject("locationAccess", userObj.getLocationIds().split(","));
-			model.addObject("locationAccess", "2,3".split(","));
+			model.addObject("locationAccess", userObj.getLocationIds().split(","));
+			//model.addObject("locationAccess", "2,3".split(","));
 
 			// }
 		} catch (Exception e) {
@@ -92,7 +94,7 @@ public class WeeklyOffController {
 		try {
 			System.out.println("inside submitInsertWeeklyOff");
 			HttpSession session = request.getSession();
-			// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 			String woDay = request.getParameter("woDay");
 			String woPresently = request.getParameter("woPresently");
@@ -136,7 +138,7 @@ public class WeeklyOffController {
 				save.setWoDay(woDay);
 				save.setWoPresently(woPresently);
 				save.setMakerEnterDatetime(dateTime);
-				save.setMakerUserId(1);
+				save.setMakerUserId(userObj.getUserId());
 
 				WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff", save,
 						WeeklyOff.class);
@@ -161,7 +163,7 @@ public class WeeklyOffController {
 	public ModelAndView showWeeklyOffList(HttpServletRequest request, HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
-		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 		ModelAndView model = null;
 
@@ -183,8 +185,8 @@ public class WeeklyOffController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("companyId", 1);
-			//map.add("locIdList", userObj.getLocationIds());
-			map.add("locIdList", "2,3");
+			map.add("locIdList", userObj.getLocationIds());
+			//map.add("locIdList", "2,3");
 			GetWeeklyOff[] holListArray = Constants.getRestTemplate().postForObject(Constants.url + "/getWeeklyOffList",
 					map, GetWeeklyOff[].class);
 
@@ -272,15 +274,15 @@ public class WeeklyOffController {
 		// model.addObject("weighImageUrl", Constants.imageSaveUrl);
 		
 		try {
-			/*LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
-			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 			Info view = AcessController.checkAccess("editWeeklyOff", "showWeeklyOffList", 0, 0, 1, 0, newModuleList);
 
 			if (view.isError() == true) {
 
 				model = new ModelAndView("accessDenied");
 
-			} else {*/
+			} else { */
 				model = new ModelAndView("master/weekly_off_edit");
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -312,8 +314,8 @@ public class WeeklyOffController {
 						.collect(Collectors.toList());
 
 				model.addObject("locIdList", locIdList);
-				//model.addObject("locationAccess", userObj.getLocationIds().split(","));
-				model.addObject("locationAccess", "2,3".split(","));
+				model.addObject("locationAccess", userObj.getLocationIds().split(","));
+				//model.addObject("locationAccess", "2,3".split(","));
 			//}
 		} catch (Exception e) {
 			e.printStackTrace();

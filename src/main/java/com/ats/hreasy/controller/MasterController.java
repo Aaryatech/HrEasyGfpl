@@ -23,6 +23,7 @@ import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
+import com.ats.hreasy.model.LoginResponse;
 
 @Controller
 @Scope("session")
@@ -58,7 +59,7 @@ public class MasterController {
 	public String submitInsertLocation(HttpServletRequest request, HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
-		//LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 		try {
 
@@ -119,7 +120,7 @@ public class MasterController {
 				location.setLocRemarks(remark);
 				location.setIsActive(1);
 				location.setDelStatus(1);
-				location.setMakerUserId(1);
+				location.setMakerUserId(userObj.getUserId());
 				location.setCompId(1);
 				location.setMakerEnterDatetime(sf.format(date));
 

@@ -105,7 +105,7 @@ public class LeaveStructureController {
 		try {
 
 			HttpSession session = request.getSession();
-			// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 			String lvsName = request.getParameter("lvsName");
 
@@ -152,7 +152,7 @@ public class LeaveStructureController {
 							Integer.parseInt(request.getParameter("noOfLeaves" + leaveTypeList.get(i).getLvTypeId())));
 
 					detail.setLvTypeId(leaveTypeList.get(i).getLvTypeId());
-					detail.setMakerUserId(1);
+					detail.setMakerUserId(userObj.getUserId());
 					detail.setMakerDatetime(dateTime);
 					detailList.add(detail);
 					/* } */
@@ -341,7 +341,7 @@ public class LeaveStructureController {
 		try {
 			System.err.println("Inside insert editInsertLeaveStructure method");
 			HttpSession session = request.getSession();
-			// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 			String lvsName = request.getParameter("lvsName");
 
 			Boolean ret = false;
@@ -390,7 +390,7 @@ public class LeaveStructureController {
 						detail.setLvTypeId(leaveTypeList.get(i).getLvTypeId());
 						detail.setMakerDatetime(dateTime);
 						detail.setLvsId(editStructure.getLvsId());
-						detail.setMakerUserId(1);
+						detail.setMakerUserId(userObj.getUserId());
 
 						// LeaveStructureDetails resDetails = Constants.getRestTemplate().postForObject(
 						// Constants.url + "saveLeaveStructureDetail", detail,
@@ -498,7 +498,7 @@ public class LeaveStructureController {
 
 		try {
 			HttpSession session = request.getSession();
-			// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 			int iniAuthEmpId = Integer.parseInt(request.getParameter("iniAuthEmpId"));
 
 			int finAuthEmpId = Integer.parseInt(request.getParameter("finAuthEmpId"));
@@ -536,7 +536,7 @@ public class LeaveStructureController {
 				leaves.setExVar2("NA");
 				leaves.setExVar3("NA");
 				leaves.setIsActive(1);
-				leaves.setMakerUserId(1);
+				leaves.setMakerUserId(userObj.getUserId());
 				leaves.setMakerEnterDatetime(dateTime);
 				leaves.setIniAuthEmpId(iniAuthEmpId);
 				leaves.setFinAuthEmpId(finAuthEmpId);
@@ -872,7 +872,7 @@ public class LeaveStructureController {
 
 		try {
 			HttpSession session = request.getSession();
-			LoginResponse userObj = (LoginResponse) session.getAttribute("UserInfo");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 			CalenderYear calculateYear = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);

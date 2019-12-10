@@ -33,6 +33,7 @@ import com.ats.hreasy.model.GetHoliday;
 import com.ats.hreasy.model.Holiday;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
+import com.ats.hreasy.model.LoginResponse;
 
 @Controller
 @Scope("session")
@@ -95,7 +96,7 @@ public class LeaveHolidayController {
 
 		try {
 			HttpSession session = request.getSession();
-			// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 			CalenderYear calculateYear = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
@@ -156,7 +157,7 @@ public class LeaveHolidayController {
 				holiday.setIsActive(1);
 				holiday.setLocId(locIdList);
 				holiday.setMakerEnterDatetime(dateTime);
-				holiday.setMakerUserId(1);
+				holiday.setMakerUserId(userObj.getUserId());
 
 				Holiday res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHoliday", holiday,
 						Holiday.class);
@@ -200,7 +201,7 @@ public class LeaveHolidayController {
 			 */
 			model = new ModelAndView("master/holiday_edit");
 
-			// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			 //LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("companyId", 1);

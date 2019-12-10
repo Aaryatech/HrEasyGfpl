@@ -12,6 +12,7 @@ public class LoginResponse {
 	private String motherName; 
 	private String emailId;  
 	private int userId; 
+	private String locationIds; 
 	private boolean isError;
 
 	public int getEmpId() {
@@ -90,11 +91,19 @@ public class LoginResponse {
 		this.isError = isError;
 	}
 
+	public String getLocationIds() {
+		return locationIds;
+	}
+
+	public void setLocationIds(String locationIds) {
+		this.locationIds = locationIds;
+	}
+
 	@Override
 	public String toString() {
 		return "LoginResponse [empId=" + empId + ", empCode=" + empCode + ", firstName=" + firstName + ", middleName="
 				+ middleName + ", surname=" + surname + ", motherName=" + motherName + ", emailId=" + emailId
-				+ ", userId=" + userId + ", isError=" + isError + "]";
+				+ ", userId=" + userId + ", locationIds=" + locationIds + ", isError=" + isError + "]";
 	}
 	
 	
