@@ -119,7 +119,7 @@
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a
 													href="${pageContext.request.contextPath}/editDepartment?deptId=${departmentList.exVar1}"
-													title="Edit"  class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
+													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
 													 ></i></a>
 											</c:if> <c:if test="${deleteAccess == 0}">
 											<%-- 	<a
@@ -128,7 +128,7 @@
 													title="Delete" class="bootbox_custom"><i
 													class="icon-trash" style="color: black;"></i> </a>
  --%>
-												<a href="#"
+												<a href="javascript:void(0)"
 													class="list-icons-item text-danger-600 bootbox_custom"
 													data-uuid="${departmentList.exVar1}" data-popup="tooltip"
 													title="" data-original-title="Delete"><i
@@ -165,7 +165,7 @@
 						'click',
 						function() {
 							var uuid = $(this).data("uuid") // will return the number 123
-bootbox.confirm({
+										bootbox.confirm({
 										title : 'Confirm ',
 										message : 'Are you sure you want to delete selected records ?',
 										buttons : {

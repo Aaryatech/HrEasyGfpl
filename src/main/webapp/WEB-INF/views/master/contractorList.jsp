@@ -126,14 +126,20 @@
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a
 													href="${pageContext.request.contextPath}/editContractor?contractor=${contractorsList.exVar1}"
-													title="Edit"><i class="icon-pencil7"
-													style="color: black;"></i></a>
+													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
+													></i></a>
 											</c:if> <c:if test="${deleteAccess == 0}">
-												<a
+											<%-- 	<a
 													href="${pageContext.request.contextPath}/deleteContractor?contractor=${contractorsList.exVar1}"
 													onClick="return confirm('Are you sure want to delete this record');"
 													title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a>
+													style="color: black;"></i> </a> --%>
+													
+											<a href="javascript:void(0)"
+													class="list-icons-item text-danger-600 bootbox_custom"
+													data-uuid="${contractorsList.exVar1}" data-popup="tooltip"
+													title="" data-original-title="Delete"><i
+													class="icon-trash"></i></a>
 											</c:if></td>
 									</tr>
 								</c:forEach>
@@ -159,6 +165,35 @@
 
 	</div>
 	<!-- /page content -->
+<script>
+		// Custom bootbox dialog
+		$('.bootbox_custom')
+				.on(
+						'click',
+						function() {
+							var uuid = $(this).data("uuid") // will return the number 123
+										bootbox.confirm({
+										title : 'Confirm ',
+										message : 'Are you sure you want to delete selected records ?',
+										buttons : {
+											confirm : {
+												label : 'Yes',
+												className : 'btn-success'
+											},
+											cancel : {
+												label : 'Cancel',
+												className : 'btn-link'
+											}
+										},
+										callback : function(result) {
+											if (result) {
+												location.href = "${pageContext.request.contextPath}/deleteContractor?contractor="
+														+ uuid;
 
+											}
+										}
+									});
+						});
+	</Script>
 </body>
 </html>
