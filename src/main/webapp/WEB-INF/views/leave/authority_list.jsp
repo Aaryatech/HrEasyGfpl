@@ -176,8 +176,8 @@
 												test="${editAccess == 0}">
 												<a
 													href="${pageContext.request.contextPath}/editLeaveAuthority?empId=${leaveAuth.exVar1}"
-													title="Edit"><i class="icon-pencil7"
-													style="color: black;"></i></a>
+													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
+													 ></i></a>
 											</c:if> <!-- </div>
 												</div>
 											</div> -->

@@ -247,9 +247,9 @@
 									style="align-content: center; width: 113px; margin-left: 40px;">
 
 								<a href="${pageContext.request.contextPath}/leaveAuthorityList"><button
-										type="button" class="btn btn-primary">
+										type="button" class="btn btn-light">
 										<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-										Cancel
+										Back
 									</button></a>
 
 							</div>

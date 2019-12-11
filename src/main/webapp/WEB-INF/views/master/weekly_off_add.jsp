@@ -220,8 +220,8 @@
 											</button>
 											<a
 												href="${pageContext.request.contextPath}/showWeeklyOffList"><button
-													type="button" class="btn btn-primary"> 
-													Cancel
+													type="button" class="btn btn-light"> 
+													Back
 												</button></a>
 										</div>
 									</div>
