@@ -159,7 +159,7 @@
 											 <span style="color:red">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.panNo}"
-												placeholder="Enter PAN No." id="panNo"
+												placeholder="Enter PAN No." id="panNo" maxlength="10" style="text-transform: uppercase;"
 												name="panNo" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_pan"
 												style="display: none;">This field is required.</span>
@@ -207,7 +207,7 @@
 											 <span style="color:red">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.officeNo}"
-												placeholder="Enter Office No," id="officeNo"
+												placeholder="Enter Office No." id="officeNo"
 												name="officeNo" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_officeNo"
 												style="display: none;">This field is required.</span>
@@ -251,11 +251,11 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="desination">Dration
+										<label class="col-form-label col-lg-2" for="desination">Duration
 											 <span style="color:red">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.duration}"
-												placeholder="Enter duration" id="duration"
+												placeholder="Enter Duration" id="duration"
 												name="duration" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_duration"
 												style="display: none;">This field is required.</span>
@@ -359,7 +359,14 @@
 			return true;
 
 		}
-		/* $(document)
+		function validatePAN(pan) {
+			 var regex1=/^[A-Z]{5}\d{4}[A-Z]{1}$/;
+			if (regex1.test($.trim(pan)) == false) {
+				return false;
+			}
+			return true;
+		}
+	 $(document)
 				.ready(
 						function($) {
 
@@ -369,27 +376,160 @@
 												var isError = false;
 												var errMsg = "";
 
-												if (!$("#desigName").val()) {
+												if (!$("#service").val()) {
 
 													isError = true;
 
-													$("#error_designation").show()
+													$("#error_service").show()
 													//return false;
 												} else {
-													$("#error_designation").hide()
+													$("#error_service").hide()  
 												}
 
-												if (!$("#desigShortName").val()) {
+												 if (!$("#organisation").val()) { 
 
 													isError = true;
 
-													$("#error_desigShortName")
+													$("#error_organisation")
 															.show()
 
 												} else {
-													$("#error_desigShortName")
+													$("#error_organisation")
 															.hide()
 												}
+												
+												 if (!$("#licenceNo").val()) { 
+
+													isError = true;
+
+													$("#error_licenceNo")
+															.show()
+
+												} else {
+													$("#error_licenceNo")
+															.hide()
+												}
+												
+												if (!$("#vat").val()) { 
+
+													isError = true;
+
+													$("#error_vat")
+															.show()
+
+												} else {
+													$("#error_vat")
+															.hide()
+												}
+												
+												/* if (!$("#panNo").val()) { 
+													isError = true;
+
+													$("#error_pan")
+															.show()
+
+												} else {
+													$("#error_pan")
+															.hide()
+												} */
+												if (!$("#panNo").val()	|| !validatePAN($(
+												"#panNo")
+												.val())) {
+													
+													isError = true;													
+													$("#error_pan").show()
+												} else {
+													$("#error_pan").hide()
+												}
+												
+												if (!$("#pf").val()) { 
+													isError = true;
+
+													$("#error_pf")
+															.show()
+												} else {
+													$("#error_pf")
+															.hide()
+												}
+												
+												if (!$("#esic").val()) { 
+													isError = true;
+
+													$("#error_esic")
+															.show()
+
+												} else {
+													$("#error_esic")
+															.hide()
+												}
+												if (!$("#address").val()) { 
+													isError = true;
+
+													$("#error_address")
+															.show()
+
+												} else {
+													$("#error_address")
+															.hide()
+												}
+												if (!$("#officeNo").val()) { 
+													isError = true;
+
+													$("#error_officeNo")
+															.show()
+
+												} else {
+													$("#error_officeNo")
+															.hide()
+												}
+												
+												if (!$("#mobileNo").val()
+														|| !validateMobile($(
+																"#mobileNo")
+																.val())) {
+
+													isError = true;
+													$("#error_mobileNo")
+															.show()
+
+												} else {
+													$("#error_mobileNo")
+															.hide()
+												}
+												
+												if (!$("#email").val()
+														|| !validateEmail($(
+																"#email").val())) {
+
+													isError = true;
+
+
+													$("#error_email").show()
+
+												} else {
+													$("#error_email").hide()
+												}
+											if (!$("#owner").val()) { 
+													isError = true;
+
+													$("#error_owner")
+															.show()
+
+												} else {
+													$("#error_owner")
+															.hide()
+												}
+											if (!$("#duration").val()) { 
+													isError = true;
+
+													$("#error_duration")
+															.show()
+
+												} else {
+													$("#error_duration")
+															.hide()
+												} 
+												
 
 												if (!isError) {
 
@@ -405,7 +545,7 @@
 												return false;
 											});
 						});
-		// */
+		//
 	</script>
 	
 	<!-- <script type="text/javascript">

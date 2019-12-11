@@ -21,8 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.Contractor;
+import com.ats.hreasy.model.Department;
 import com.ats.hreasy.model.Designation;
-import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.Info;
 
 @Controller
@@ -197,6 +197,13 @@ public class HrEasyController {
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("desigId", desigId);
+			
+			Integer emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpByDesignationId", map,
+					Integer.class);
+			
+			System.out.println("Emp-------------------"+emp);
+			if(emp==0) {
+			
 				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteDesignationById", map,
 						Info.class);
 				
@@ -206,6 +213,9 @@ public class HrEasyController {
 					session.setAttribute("successMsg", "Deleted Successfully");
 					
 				}
+			}else {
+				session.setAttribute("errorMsg", "Failed to Delete "+ emp +" employees");
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -394,11 +404,11 @@ public class HrEasyController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("contractorId", contractorId);
 			
-			EmployeeMaster emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpByContractorId", map,
-					EmployeeMaster.class);
+			Integer emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpByContractorId", map,
+					Integer.class);
 			
 			System.out.println("Emp-------------------"+emp);
-			if(emp==null) {
+			if(emp==0) {
 			
 			
 				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteContractor", map,
@@ -411,7 +421,7 @@ public class HrEasyController {
 					
 				}
 			}else {
-				session.setAttribute("errorMsg", "Failed to Contractor. Contractor have Employee");
+				session.setAttribute("errorMsg", "Failed to Delete - Contractor contain "+ emp +" employees");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -423,5 +433,192 @@ public class HrEasyController {
 	}
 
 	
-	/******************************Contractor********************************/
+	/******************************Department********************************/
+	@RequestMapping(value = "/showDepartmentList", method = RequestMethod.GET)
+	public ModelAndView showDepartmentList(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+		ModelAndView model = null;
+
+		try {
+
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("showDepartmentList", "showDepartmentList", 1,
+			 * 0, 0, 0, newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+			model = new ModelAndView("master/departmentList");
+			
+			Department[] department = Constants.getRestTemplate().getForObject(Constants.url + "/getAllDepartments",
+					Department[].class);
+
+			List<Department> departmentList = new ArrayList<Department>(Arrays.asList(department));
+
+			for (int i = 0; i < departmentList.size(); i++) {
+
+				departmentList.get(i)
+						.setExVar1(FormValidation.Encrypt(String.valueOf(departmentList.get(i).getDepartId())));
+			}
+
+			model.addObject("addAccess", 0);
+			model.addObject("editAccess", 0);
+			model.addObject("deleteAccess", 0);
+			model.addObject("departmentList", departmentList);
+
+			/*
+			 * Info add = AcessController.checkAccess("showDepartmentList",
+			 * "showDepartmentList", 0, 1, 0, 0, newModuleList); Info edit =
+			 * AcessController.checkAccess("showDepartmentList", "showDepartmentList", 0,
+			 * 0, 1, 0, newModuleList); Info delete =
+			 * AcessController.checkAccess("showDepartmentList", "showDepartmentList", 0,
+			 * 0, 0, 1, newModuleList);
+			 * 
+			 * if (add.isError() == false) { System.out.println(" add   Accessable ");
+			 * model.addObject("addAccess", 0);
+			 * 
+			 * } if (edit.isError() == false) { System.out.println(" edit   Accessable ");
+			 * model.addObject("editAccess", 0); } if (delete.isError() == false) {
+			 * System.out.println(" delete   Accessable "); model.addObject("deleteAccess",
+			 * 0);
+			 * 
+			 * }
+			 */
+			// }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/departmentAdd", method = RequestMethod.GET)
+	public ModelAndView departmentAdd(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+
+		try {
+			Department dept = new Department();
+			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("departmentAdd", "showDepartmentList", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				model = new ModelAndView("master/addDepartment");
+				model.addObject("dept", dept);
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/submitInsertDepartment", method=RequestMethod.POST)
+	public String submitInsertDpartment(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+		try {
+
+			Department dept = new Department();
+
+			dept.setCompanyId(1);
+			dept.setDelStatus(1);
+			dept.setDepartId(Integer.parseInt(request.getParameter("deptId")));
+			dept.setExInt1(0);
+			dept.setExInt2(0);
+			dept.setExVar1("NA");
+			dept.setExVar2("NA");
+			dept.setIsActive(1);
+			dept.setMakerEnterDatetime(currDate);
+			dept.setName(request.getParameter("deptName"));
+			dept.setNameSd(request.getParameter("deptShortName"));
+			dept.setRemarks(request.getParameter("remark"));
+
+			Department saveDepart = Constants.getRestTemplate().postForObject(Constants.url + "/saveDepartment", dept,
+					Department.class);
+			if (saveDepart != null) {
+				session.setAttribute("successMsg", "Department Updated Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed to Update Record");
+			}
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Update Record");
+		}
+	
+		return "redirect:/showDepartmentList";
+		
+	}
+	
+	@RequestMapping(value = "/editDepartment", method = RequestMethod.GET)
+	public ModelAndView editDepartment(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		Department dept = new Department();
+		ModelAndView model = null;
+		try {
+			model = new ModelAndView("master/addDepartment");
+			
+			String base64encodedString = request.getParameter("deptId");
+			String deptId = FormValidation.DecodeKey(base64encodedString);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("deptId", deptId);
+		
+			dept = Constants.getRestTemplate().postForObject(Constants.url + "/getDepartmentById", map,
+					Department.class);
+			model.addObject("dept", dept);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return model;
+		
+	}
+	
+	@RequestMapping(value = "/deleteDepartment", method = RequestMethod.GET)
+	public String deleteDepartment(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		try {
+			String base64encodedString = request.getParameter("deptId");
+			String deptId = FormValidation.DecodeKey(base64encodedString);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("deptId", deptId);
+			
+			Integer emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpByDeptId", map,
+					Integer.class);
+			
+			System.out.println("Emp-------------------"+emp);
+			if(emp==0) {
+			
+			
+				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteDepartment", map,
+						Info.class);
+				
+				if (res.isError()) {
+					session.setAttribute("errorMsg", "Failed to Delete");
+				} else {
+					session.setAttribute("successMsg", "Deleted Successfully");
+					
+				}
+			}else {
+				session.setAttribute("errorMsg", "Failed to Delete - Department contain "+ emp +" employees");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+		
+		
+		return "redirect:/showDepartmentList";
+	}
 }
