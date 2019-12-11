@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.model.Bank;
 import com.ats.hreasy.model.Contractor;
 import com.ats.hreasy.model.Department;
 import com.ats.hreasy.model.Designation;
@@ -620,5 +621,300 @@ public class HrEasyController {
 		
 		
 		return "redirect:/showDepartmentList";
+	}
+	
+	/******************************Bank*********************************/
+	@RequestMapping(value = "/showBankList", method = RequestMethod.GET)
+	public ModelAndView showBankList(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+		ModelAndView model = null;
+
+		try {
+
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("bankList", "bankList", 1,
+			 * 0, 0, 0, newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+			model = new ModelAndView("master/bankList");
+			
+			Bank[] bank = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBanks",
+					Bank[].class);
+
+			List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
+
+			for (int i = 0; i < bankList.size(); i++) {
+
+				bankList.get(i)
+						.setExVar1(FormValidation.Encrypt(String.valueOf(bankList.get(i).getBankId())));
+			}
+
+			model.addObject("addAccess", 0);
+			model.addObject("editAccess", 0);
+			model.addObject("deleteAccess", 0);
+			model.addObject("bankList", bankList);
+
+			/*
+			 * Info add = AcessController.checkAccess("bankList",
+			 * "bankList", 0, 1, 0, 0, newModuleList); Info edit =
+			 * AcessController.checkAccess("bankList", "bankList", 0,
+			 * 0, 1, 0, newModuleList); Info delete =
+			 * AcessController.checkAccess("bankList", "bankList", 0,
+			 * 0, 0, 1, newModuleList);
+			 * 
+			 * if (add.isError() == false) { System.out.println(" add   Accessable ");
+			 * model.addObject("addAccess", 0);
+			 * 
+			 * } if (edit.isError() == false) { System.out.println(" edit   Accessable ");
+			 * model.addObject("editAccess", 0); } if (delete.isError() == false) {
+			 * System.out.println(" delete   Accessable "); model.addObject("deleteAccess",
+			 * 0);
+			 * 
+			 * }
+			 */
+			// }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/bankAdd", method = RequestMethod.GET)
+	public ModelAndView bankAdd(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+
+		try {
+			Bank bank = new Bank();
+			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("departmentAdd", "showDepartmentList", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				model = new ModelAndView("master/addBank");
+				model.addObject("bank", bank);
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/submitInsertBank", method=RequestMethod.POST)
+	public String submitInsertBank(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+		try {
+
+			Bank bank = new Bank();
+
+			bank.setBankId(Integer.parseInt(request.getParameter("bankId")));
+			bank.setAddress(request.getParameter("address"));			
+			bank.setBranchName(request.getParameter("branchName"));
+			bank.setCompanyId(1);
+			bank.setIfscCode(request.getParameter("ifscCode"));
+			bank.setMicrCode(request.getParameter("micrCode"));
+			bank.setName(request.getParameter("bankName"));
+			bank.setDelStatus(1);
+			bank.setExInt1(0);
+			bank.setExInt2(0);
+			bank.setExVar1("NA");
+			bank.setExVar2("NA");
+
+			Bank saveDepart = Constants.getRestTemplate().postForObject(Constants.url + "/saveBank", bank,
+					Bank.class);
+			if (saveDepart != null) {
+				session.setAttribute("successMsg", "Bank Saved Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed to Save Record");
+			}
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Update Record");
+		}
+	
+		return "redirect:/showBankList";
+		
+	}
+	
+	@RequestMapping(value = "/editBank", method = RequestMethod.GET)
+	public ModelAndView editBank(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		Bank bank = new Bank();
+		ModelAndView model = null;
+		try {
+			model = new ModelAndView("master/addBank");
+			
+			String base64encodedString = request.getParameter("bankId");
+			String bankId = FormValidation.DecodeKey(base64encodedString);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("bankId", bankId);
+		
+			bank = Constants.getRestTemplate().postForObject(Constants.url + "/getBankById", map,
+					Bank.class);
+			model.addObject("bank", bank);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return model;
+		
+	}
+	
+	@RequestMapping(value = "/deleteBank", method = RequestMethod.GET)
+	public String deleteBank(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		try {
+			String base64encodedString = request.getParameter("bankId");
+			String bankId = FormValidation.DecodeKey(base64encodedString);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("bankId", bankId);
+			
+				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteBank", map,
+						Info.class);
+				
+				if (res.isError()) {
+					session.setAttribute("errorMsg", "Failed to Delete");
+				} else {
+					session.setAttribute("successMsg", "Deleted Successfully");
+					
+				}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+		
+		
+		return "redirect:/showBankList";
+	}
+	
+	/******************************Bank*********************************/
+	@RequestMapping(value = "/showEmployeeList", method = RequestMethod.GET)
+	public ModelAndView showEmployeeList(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+		ModelAndView model = null;
+
+		try {
+
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("showEmployeeList", "showEmployeeList", 1,
+			 * 0, 0, 0, newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+			model = new ModelAndView("master/employeeList");
+			
+			Bank[] bank = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBanks",
+					Bank[].class);
+
+			List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
+
+			for (int i = 0; i < bankList.size(); i++) {
+
+				bankList.get(i)
+						.setExVar1(FormValidation.Encrypt(String.valueOf(bankList.get(i).getBankId())));
+			}
+
+			model.addObject("addAccess", 0);
+			model.addObject("editAccess", 0);
+			model.addObject("deleteAccess", 0);
+			model.addObject("bankList", bankList);
+
+			/*
+			 * Info add = AcessController.checkAccess("showEmployeeList",
+			 * "showEmployeeList", 0, 1, 0, 0, newModuleList); Info edit =
+			 * AcessController.checkAccess("showEmployeeList", "showEmployeeList", 0,
+			 * 0, 1, 0, newModuleList); Info delete =
+			 * AcessController.checkAccess("showEmployeeList", "showEmployeeList", 0,
+			 * 0, 0, 1, newModuleList);
+			 * 
+			 * if (add.isError() == false) { System.out.println(" add   Accessable ");
+			 * model.addObject("addAccess", 0);
+			 * 
+			 * } if (edit.isError() == false) { System.out.println(" edit   Accessable ");
+			 * model.addObject("editAccess", 0); } if (delete.isError() == false) {
+			 * System.out.println(" delete   Accessable "); model.addObject("deleteAccess",
+			 * 0);
+			 * 
+			 * }
+			 */
+			// }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/employeeAdd", method = RequestMethod.GET)
+	public ModelAndView employeeAdd(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+
+		try {
+			Bank bank = new Bank();
+			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("departmentAdd", "showDepartmentList", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				model = new ModelAndView("master/addEmployee");
+				model.addObject("bank", bank);
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	@RequestMapping(value = "/employeeEdit", method = RequestMethod.GET)
+	public ModelAndView employeeEdit(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+
+		try {
+			Bank bank = new Bank();
+			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("departmentAdd", "showDepartmentList", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				model = new ModelAndView("master/editEmployee");
+				model.addObject("bank", bank);
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
 	}
 }

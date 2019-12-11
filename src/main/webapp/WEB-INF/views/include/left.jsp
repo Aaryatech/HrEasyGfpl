@@ -84,6 +84,9 @@
 							href="${pageContext.request.contextPath}/showAccessRoleList"
 							class="nav-link">Access Role List</a></li>
 						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showEmployeeList"
+							class="nav-link">Employee List</a></li>
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showDepartmentList"
 							class="nav-link">Department List</a></li>
 						<li class="nav-item"><a
@@ -92,6 +95,9 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showContractorsList"
 							class="nav-link">Contractor List</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showBankList"
+							class="nav-link">Bank List</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showLocationList"
 							class="nav-link">Location List</a></li>
