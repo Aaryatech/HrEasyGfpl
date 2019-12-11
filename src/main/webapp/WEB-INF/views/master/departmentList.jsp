@@ -42,7 +42,8 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Designation List</h5></td>
+								<td width="60%"><h5 class="card-title">Designation
+										List</h5></td>
 								<td width="40%" align="right"><c:if test="${addAccess==0}">
 										<a href="${pageContext.request.contextPath}/departmentAdd"
 											class="breadcrumb-elements-item">
@@ -99,7 +100,7 @@
 
 									<th width="10%">Sr. No.</th>
 									<th>Department</th>
-									<th>Department Short Name</th>									
+									<th>Department Short Name</th>
 									<th>Remark</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
@@ -114,18 +115,24 @@
 										<td>${departmentList.name}</td>
 										<td>${departmentList.nameSd}</td>
 										<td>${departmentList.remarks}</td>
-										
+
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a
 													href="${pageContext.request.contextPath}/editDepartment?deptId=${departmentList.exVar1}"
-													title="Edit"><i class="icon-pencil7"
-													style="color: black;"></i></a>
+													title="Edit"  class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
+													 ></i></a>
 											</c:if> <c:if test="${deleteAccess == 0}">
-												<a
+											<%-- 	<a
 													href="${pageContext.request.contextPath}/deleteDepartment?deptId=${departmentList.exVar1}"
 													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a>
+													title="Delete" class="bootbox_custom"><i
+													class="icon-trash" style="color: black;"></i> </a>
+ --%>
+												<a href="#"
+													class="list-icons-item text-danger-600 bootbox_custom"
+													data-uuid="${departmentList.exVar1}" data-popup="tooltip"
+													title="" data-original-title="Delete"><i
+													class="icon-trash"></i></a>
 											</c:if></td>
 									</tr>
 								</c:forEach>
@@ -151,6 +158,35 @@
 
 	</div>
 	<!-- /page content -->
+	<script>
+		// Custom bootbox dialog
+		$('.bootbox_custom')
+				.on(
+						'click',
+						function() {
+							var uuid = $(this).data("uuid") // will return the number 123
+bootbox.confirm({
+										title : 'Confirm ',
+										message : 'Are you sure you want to delete selected records ?',
+										buttons : {
+											confirm : {
+												label : 'Yes',
+												className : 'btn-success'
+											},
+											cancel : {
+												label : 'Cancel',
+												className : 'btn-link'
+											}
+										},
+										callback : function(result) {
+											if (result) {
+												location.href = "${pageContext.request.contextPath}/deleteDepartment?deptId="
+														+ uuid;
 
+											}
+										}
+									});
+						});
+	</Script>
 </body>
 </html>

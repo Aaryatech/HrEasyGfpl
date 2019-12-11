@@ -91,6 +91,7 @@
 <script src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/datatables_basic.js"></script>
 <script src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/form_dual_listboxes.js"></script>
 	<!-- /theme JS files -->
+		<script src="${pageContext.request.contextPath}/resources/global_assets/js/plugins/notifications/bootbox.min.js"></script>
 	
 	<script>
 	 // Export options - column selector

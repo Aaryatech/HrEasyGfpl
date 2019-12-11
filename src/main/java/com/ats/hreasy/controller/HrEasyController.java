@@ -214,7 +214,7 @@ public class HrEasyController {
 					
 				}
 			}else {
-				session.setAttribute("errorMsg", "Failed to Delete "+ emp +" employees");
+				session.setAttribute("errorMsg", "Failed to Delete - Designation assigned to "+ emp +" employees ");
 			}
 			
 		} catch (Exception e) {
@@ -611,7 +611,7 @@ public class HrEasyController {
 					
 				}
 			}else {
-				session.setAttribute("errorMsg", "Failed to Delete - Department contain "+ emp +" employees");
+				session.setAttribute("errorMsg", "Failed to Delete - Department assigned to "+ emp +" employees");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

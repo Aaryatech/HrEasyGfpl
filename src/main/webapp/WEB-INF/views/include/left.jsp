@@ -85,7 +85,7 @@
 							class="nav-link">Access Role List</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showDepartmentList"
-							class="nav-link">Department</a></li>
+							class="nav-link">Department List</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showDesignationList"
 							class="nav-link">Designation List</a></li>						
