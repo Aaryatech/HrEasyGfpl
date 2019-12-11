@@ -234,7 +234,7 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 												<a href="${pageContext.request.contextPath}/showLeaveTypeList"><button
-										type="button" class="btn btn-primary"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Cancel</button></a>
+										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Back</button></a>
 										</div>
 									</div>
 								</form>
