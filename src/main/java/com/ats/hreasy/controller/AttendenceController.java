@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -105,7 +106,7 @@ public class AttendenceController {
 		}
 		return "redirect:/attendenceImportExel";
 	}
-	
+
 	@RequestMapping(value = "/attendanceSelectMonth", method = RequestMethod.GET)
 	public String attendanceSelectMonth(HttpServletRequest request, HttpServletResponse response, Model model) {
 
@@ -113,6 +114,13 @@ public class AttendenceController {
 
 		try {
 
+			Date dt = new Date();
+			Calendar temp = Calendar.getInstance();
+			temp.setTime(dt);
+			int year = temp.get(Calendar.YEAR);
+			int month = temp.get(Calendar.MONTH) + 1;
+
+			System.out.println(year + " " + month);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
