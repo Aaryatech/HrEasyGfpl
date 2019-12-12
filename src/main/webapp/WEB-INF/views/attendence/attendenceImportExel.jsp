@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%><%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -141,8 +142,8 @@
 									class="nav nav-tabs nav-tabs-solid nav-justified rounded border-0">
 									<li class="nav-item mr-1"><a
 										href="#solid-rounded-justified-tab1"
-										class="nav-link rounded-left bg-success active" id="tabstep1"
-										data-toggle="tab">Step 1</a></li>
+										class="nav-link active show" id="tabstep1" data-toggle="tab">Step
+											1</a></li>
 									<li class="nav-item mr-1"><a
 										href="#solid-rounded-justified-tab2" class="nav-link "
 										data-toggle="tab">Step 2 Upload Attendance File (csv)</a></li>
@@ -156,20 +157,32 @@
 									<div class="tab-pane fade show active"
 										id="solid-rounded-justified-tab1">
 
-										<div class=" text-muted">
+										<!-- <div class=" text-muted">
 											Records 1207 (16 %) Uploaded by file<br> If Total
 											attendance expected is equal to Total added by step1 than you
 											can go to next step
-										</div>
+										</div> -->
 										<form name="attendanceStep1" id="attendanceStep1"
 											action="http://gfplphp.aaryatechindia.in/index.php/attendance/attendanceprocess"
 											class="form-inline justify-content-center">
 
 											<input type="hidden" name="mode" id="mode" value="submitform">
 											<input type="hidden" name="month" id="month"
-												class="form-control " value="11"> <input
+												class="form-control " value="${month}"> <input
 												type="hidden" name="year" id="year" class="form-control "
-												value="2019">
+												value="${year}">
+
+											<c:if
+												test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)!=infoForUploadAttendance.updatedByStep1}">
+
+												<button type="button"
+													class="mr-3 btn btn-primary   btnActStep1 "
+													id="btnActStep1" data-toggle1="modal"
+													data-target1="#modal_step1">
+													Start <i class="icon-paperplane ml-2"></i>
+												</button>
+
+											</c:if>
 
 											<button type="button"
 												class=" btn btn-info next   btn_go_next_tab "
@@ -196,7 +209,7 @@
 
 
 															<div class="form-group row ">
-																<label class="col-md-2 col-form-label">Attach
+																<label class="col-md-2 col-form-label" for="doc">Attach
 																	File:</label>
 																<div class="col-md-6">
 																	<input type="file" class="form-control"
@@ -285,23 +298,19 @@
 										<ul class="nav nav-sidebar my-2">
 											<li class="nav-item"><i class="icon-users"></i> Total
 												Employee <span class="badge bg-info badge-pill ml-auto"
-												id="total_emp">254</span></li>
+												id="total_emp">${infoForUploadAttendance.totalEmp}</span></li>
 											<li class="nav-item"><i class="icon-grid4"></i> Total
 												attendance expected <span
 												class="badge bg-info badge-pill ml-auto"
-												id="total_attendce_expected">7620</span></li>
+												id="total_attendce_expected">${(infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp}</span></li>
 											<li class="nav-item"><i class="icon-grid52"></i> Total
 												added by step1 <span
 												class="badge bg-success badge-pill ml-auto"
-												id="total_att_present">7620</span></li>
+												id="total_att_present">${infoForUploadAttendance.updatedByStep1}</span></li>
 											<li class="nav-item"><i class="icon-grid52"></i> Total
 												attendance uploaded <span
 												class="badge bg-danger badge-pill ml-auto"
-												id="by_file_updated">1207</span></li>
-											<li class="nav-item"><i class="icon-grid52"></i> Final
-												Steps <span class="badge bg-danger badge-pill ml-auto"
-												id="final_process_completed">0</span></li>
-
+												id="by_file_updated">${infoForUploadAttendance.updatedByFile}</span></li>
 										</ul>
 									</div>
 
@@ -328,145 +337,130 @@
 		<!-- /main content -->
 
 	</div>
+
+	<!-- Info modal -->
+	<div id="modal_step1" class="modal fade " data-backdrop="false"
+		tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="modal-title">
+						Attendance process for month <strong>${monthName}
+							&nbsp;${year}</strong>
+					</h6>
+					<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+				</div>
+
+				<div class="modal-body">
+					<h6 class="font-weight-semibold text-center">
+						<h6>
+							Please wait. Processing your request..<br /> It will take approx
+							3 to 5 min
+						</h6>
+					</h6>
+
+					<hr>
+					<p class="text-center text-info">If it is taking time please
+						reload the page</p>
+				</div>
+
+				<div class="modal-footer">
+					<!--   <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /info modal -->
 	<!-- /page content -->
 
 	<script>
-		$(document).ready(function() {
-			// month selector
-			$('.datepicker').datepicker({
-				autoclose : true,
-				maxViewMode : 0,
-				minViewMode : 1,
-				format : 'mm',
-
+		/* $('#block-page').on('click', function() {
+			$.blockUI({
+				message : '<i class="icon-spinner4 spinner"></i>',
+				timeout : 2000, //unblock after 2 seconds
+				overlayCSS : {
+					backgroundColor : '#1b2024',
+					opacity : 0.8,
+					cursor : 'wait'
+				},
+				css : {
+					border : 0,
+					color : '#fff',
+					padding : 0,
+					backgroundColor : 'transparent'
+				}
 			});
-		});
-		$(document)
-				.ready(
-						function($) {
+		}); */
 
-							//btn_go_next_tab
-							$(".btn_go_next_tab").click(
-									function(e) {
-										$('.nav-tabs > .nav-item > .active')
-												.parent().next('li').find('a')
-												.trigger('click');
+		$(document).ready(
+				function($) {
 
+					//btn_go_next_tab
+					$(".btn_go_next_tab").click(
+							function(e) {
+								$('.nav-tabs > .nav-item > .active').parent()
+										.next('li').find('a').trigger('click');
+
+							});
+					$(".btn_go_prev_tab").click(
+							function(e) {
+								$('.nav-tabs > .nav-item > .active').parent()
+										.prev('li').find('a').trigger('click');
+
+							});
+
+				});
+
+		$("#btnActStep1")
+				.click(
+						function(e) {
+							// getProgress();
+							console.log('startProgress');
+							var dataString = $("#attendanceStep1").serialize();
+							$
+									.ajax({
+										type : 'POST',
+										dataType : 'json',
+										async : true, //IMPORTANT!
+										data : dataString, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+										// contentType: false,       // The content type used when sending data to the server.
+										// cache: false,             // To unable request pages to be cached
+										//  processData:false,        // To send DOMDocument or non processed data file it is set to false
+										url : '${pageContext.request.contextPath}/addDefaultAttendance',
+
+										beforeSend : function() {
+											/* $.blockUI({
+											    message: '<h6>Please wait. Processing your request..<br /> It Will take approx 3 min</h6>'
+											});   */
+
+											$('#modal_step1').modal('show');
+
+										},
+										oncomplete : function(data, status) {
+											console.log(data.responseText);
+										},
+										success : function(redata) {
+											// $.unblockUI();
+											//alert(redata.error);
+											//$('.modal-body').html(redata);
+											if (redata.error == false) {
+												location.reload(true);
+											} else {
+
+											}
+											// $('#modal_step1').modal('hide');
+										},
+										error : function(xhr, status, error) {
+											// console.log(data);
+											var err = eval("("
+													+ xhr.responseText + ")");
+											console.log(error);
+											console.log(err);
+										}
 									});
-							$(".btn_go_prev_tab").click(
-									function(e) {
-										$('.nav-tabs > .nav-item > .active')
-												.parent().prev('li').find('a')
-												.trigger('click');
-
-									});
-
-							$("#submitInsertLocaion")
-									.submit(
-											function(e) {
-												var isError = false;
-												var errMsg = "";
-
-												if (!$("#locName").val()) {
-
-													isError = true;
-
-													$("#error_locName").show()
-													//return false;
-												} else {
-													$("#error_locName").hide()
-												}
-
-												if (!$("#locShortName").val()) {
-
-													isError = true;
-
-													$("#error_locShortName")
-															.show()
-
-												} else {
-													$("#error_locShortName")
-															.hide()
-												}
-
-												if (!$("#add").val()) {
-
-													isError = true;
-
-													$("#error_locadd").show()
-
-												} else {
-													$("#error_locadd").hide()
-												}
-
-												if (!$("#prsnName").val()) {
-
-													isError = true;
-
-													$("#error_prsnName").show()
-
-												} else {
-													$("#error_prsnName").hide()
-												}
-
-												if (!$("#contactNo").val()
-														|| !validateMobile($(
-																"#contactNo")
-																.val())) {
-
-													isError = true;
-
-													if (!$("#contactNo").val()) {
-														document
-																.getElementById("error_contactNo").innerHTML = "This field is required.";
-													} else {
-														document
-																.getElementById("error_contactNo").innerHTML = "Enter valid Mobile No.";
-													}
-
-													$("#error_contactNo")
-															.show()
-
-												} else {
-													$("#error_contactNo")
-															.hide()
-												}
-
-												if (!$("#email").val()
-														|| !validateEmail($(
-																"#email").val())) {
-
-													isError = true;
-
-													if (!$("#email").val()) {
-														document
-																.getElementById("error_email").innerHTML = "This field is required.";
-													} else {
-														document
-																.getElementById("error_email").innerHTML = "Enter valid email.";
-													}
-
-													$("#error_email").show()
-
-												} else {
-													$("#error_email").hide()
-												}
-
-												if (!isError) {
-
-													var x = true;
-													if (x == true) {
-
-														document
-																.getElementById("submtbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
-												}
-												return false;
-											});
+							return false;
 						});
-		//
 	</script>
 
 

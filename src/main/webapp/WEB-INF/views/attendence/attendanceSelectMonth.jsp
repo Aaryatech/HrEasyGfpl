@@ -5,12 +5,7 @@
 <head>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
-<link rel="stylesheet"
-	href="http://gfplphp.aaryatechindia.in/assets/css/bootstrap-datepicker.css"
-	type="text/css" />
-
-<script type="text/javascript"
-	src="http://gfplphp.aaryatechindia.in/assets/js/bootstrap-datepicker.js"></script>
+ 
 </head>
 
 <body>
@@ -55,7 +50,8 @@
 						<div class="card">
 							<div class="card-header header-elements-inline">
 								<h6 class="card-title">
-									Attendance process for month <strong>Nov 2019</strong>
+									Attendance process for month <strong> ${monthName}
+										&nbsp;${year}</strong>
 								</h6>
 								<div class="header-elements"></div>
 							</div>
@@ -76,50 +72,65 @@
 												<ul class="nav nav-sidebar my-2">
 													<li class="nav-item"><i class="icon-users"></i> Total
 														Employee <span class="badge bg-info badge-pill ml-auto"
-														id="total_emp">254</span></li>
+														id="total_emp">${infoForUploadAttendance.totalEmp}</span></li>
 													<li class="nav-item"><i class="icon-grid4"></i> Total
 														attendance expected <span
 														class="badge bg-info badge-pill ml-auto"
-														id="total_attendce_expected">7620</span></li>
+														id="total_attendce_expected">${(infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp}</span></li>
 													<li class="nav-item"><i class="icon-grid52"></i> Total
 														added by step1 <span
 														class="badge bg-success badge-pill ml-auto"
-														id="total_att_present">7620</span></li>
+														id="total_att_present">${infoForUploadAttendance.updatedByStep1}</span></li>
 													<li class="nav-item"><i class="icon-grid52"></i> Total
 														attendance uploaded <span
 														class="badge bg-danger badge-pill ml-auto"
-														id="by_file_updated">5518</span></li>
+														id="by_file_updated">${infoForUploadAttendance.updatedByFile}</span></li>
 												</ul>
 											</div>
 
 										</div>
 										<form name="attendanceStep1" id="attendanceStep1"
-											action="http://gfplphp.aaryatechindia.in/index.php/attendance/attendance_process"
+											action="${pageContext.request.contextPath}/attendenceImportExel"
 											method="GET" class="form-inline justify-content-center">
 
 											<input type="hidden" name="mode" id="mode" value="submitform">
 											<div class="form-group ">
-												<label for="staticEmail" class="col-md-12 col-form-label">Month</label>
+												<label for="staticEmail" class="col-md-12 col-form-label">Month
+													: </label>
 
 
 											</div>
-											<div class="input-group">
-												<span class="input-group-prepend"> <span
-													class="input-group-text"><i class="icon-calendar22"></i></span>
-												</span> <input type="text" name="month" id="month"
+											<div class="input-group mr-3">
+												<!-- <input type="text" name="month" id="month"
 													class="form-control datepicker" value="11"
 													data-min-view-mode="months" data-start-view="2"
-													data-format="mm">
-											</div>
+													data-format="mm"> -->
+												<select name="selectMonth" data-placeholder="Please Select"
+													id="selectMonth"
+													class="form-control form-control-select21 select2-hidden-accessible1"
+													tabindex="-1" aria-hidden="true" required="required">
+													<option value="">Please Select</option>
+													<option value="1">January</option>
+													<option value="2">February</option>
+													<option value="3">March</option>
+													<option value="4">April</option>
+													<option value="5">May</option>
+													<option value="6">June</option>
+													<option value="7">July</option>
+													<option value="8">August</option>
+													<option value="9">September</option>
+													<option value="10">October</option>
+													<option value="11">November</option>
+													<option value="12">December</option>
 
+												</select>
+											</div>
 
 											<button type="submit" class="btn btn-primary   btnActStep1 "
 												id="btnActStep1" data-toggle1="modal"
 												data-target1="#modal_step1">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-
-
 
 										</form>
 

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,10 +24,19 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.ats.hreasy.common.Constants;
+import com.ats.hreasy.model.Designation;
+import com.ats.hreasy.model.Info;
+import com.ats.hreasy.model.InfoForUploadAttendance;
+import com.ats.hreasy.model.LoginResponse;
 
 @Controller
 @Scope("session")
@@ -38,6 +48,40 @@ public class AttendenceController {
 		String mav = "attendence/attendenceImportExel";
 
 		try {
+
+			int month = Integer.parseInt(request.getParameter("selectMonth"));
+
+			Date dt = new Date();
+			Calendar temp = Calendar.getInstance();
+			temp.setTime(dt);
+			int year = temp.get(Calendar.YEAR);
+
+			Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
+			Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", sf.format(firstDay));
+			map.add("toDate", sf.format(lastDay));
+			InfoForUploadAttendance infoForUploadAttendance = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getInformationOfUploadedAttendance", map, InfoForUploadAttendance.class);
+
+			temp = Calendar.getInstance();
+			temp.setTime(firstDay);
+			year = temp.get(Calendar.YEAR);
+			month = temp.get(Calendar.MONTH);
+
+			String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August",
+					"September", "October", "November", "December" };
+			String monthName = monthNames[month];
+
+			model.addAttribute("monthName", monthName);
+			model.addAttribute("year", year);
+			model.addAttribute("month", month + 1);
+			model.addAttribute("infoForUploadAttendance", infoForUploadAttendance);
+
+			// System.out.println(month);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,9 +162,37 @@ public class AttendenceController {
 			Calendar temp = Calendar.getInstance();
 			temp.setTime(dt);
 			int year = temp.get(Calendar.YEAR);
-			int month = temp.get(Calendar.MONTH) + 1;
+			int month = temp.get(Calendar.MONTH);
 
-			System.out.println(year + " " + month);
+			/*
+			 * Date firstDay = new Date(year, month, 1); Date lastDay = new Date(year, month
+			 * + 1, 0);
+			 */
+
+			Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
+			Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", sf.format(firstDay));
+			map.add("toDate", sf.format(lastDay));
+			InfoForUploadAttendance infoForUploadAttendance = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getInformationOfUploadedAttendance", map, InfoForUploadAttendance.class);
+
+			temp = Calendar.getInstance();
+			temp.setTime(firstDay);
+			year = temp.get(Calendar.YEAR);
+			month = temp.get(Calendar.MONTH);
+
+			String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August",
+					"September", "October", "November", "December" };
+			String monthName = monthNames[month];
+
+			model.addAttribute("monthName", monthName);
+			model.addAttribute("year", year);
+			model.addAttribute("infoForUploadAttendance", infoForUploadAttendance);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -128,4 +200,38 @@ public class AttendenceController {
 
 	}
 
+	@RequestMapping(value = "/addDefaultAttendance", method = RequestMethod.POST)
+	@ResponseBody
+	public Info addDefaultAttendance(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		Info info = new Info();
+
+		try {
+
+			int month = Integer.parseInt(request.getParameter("month"));
+			int year = Integer.parseInt(request.getParameter("year"));
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
+			Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", sf.format(firstDay));
+			map.add("toDate", sf.format(lastDay));
+			map.add("userId", userObj.getUserId());
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/initiallyInsertDailyRecord", map,
+					Info.class);
+			System.out.println(info); 
+		} catch (Exception e) {
+			e.printStackTrace();
+			info = new Info();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+		return info;
+
+	}
+ 
 }
