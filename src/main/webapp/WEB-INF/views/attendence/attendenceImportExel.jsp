@@ -558,9 +558,15 @@
 				//timeoutId = setInterval(getProgressForCSV, 5000);
 				//console.log("timeoutId: " + timeoutId);
 				$('#modal_step2_fileupload').modal('show');
+				var month = $("#month").val();
+				var year = $("#year").val();
+				//alert()
 				var fd = new FormData();
 				var files = $('#doc')[0].files[0];
 				fd.append('file', files);
+				fd.append('month', month);
+				fd.append('year', year);
+				
 				$.ajax({
 					url : '${pageContext.request.contextPath}/attUploadCSV',
 					type : 'post',

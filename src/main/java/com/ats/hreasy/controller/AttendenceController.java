@@ -31,14 +31,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
- 
+
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.VpsImageUpload;
+import com.ats.hreasy.model.DailyAttendance;
 import com.ats.hreasy.model.Designation;
 import com.ats.hreasy.model.FileUploadedData;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.InfoForUploadAttendance;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.VariousList;
 
 @Controller
 @Scope("session")
@@ -225,7 +227,7 @@ public class AttendenceController {
 			map.add("userId", userObj.getUserId());
 			info = Constants.getRestTemplate().postForObject(Constants.url + "/initiallyInsertDailyRecord", map,
 					Info.class);
-			System.out.println(info); 
+			System.out.println(info);
 		} catch (Exception e) {
 			e.printStackTrace();
 			info = new Info();
@@ -235,74 +237,92 @@ public class AttendenceController {
 		return info;
 
 	}
+
 	@RequestMapping(value = "/attUploadCSV", method = RequestMethod.POST)
 	@ResponseBody
-	public String attUploadCSV(@RequestParam("file") List<MultipartFile> file,HttpServletRequest request, HttpServletResponse response) {
-
-	 
+	public String attUploadCSV(@RequestParam("file") List<MultipartFile> file, HttpServletRequest request,
+			HttpServletResponse response) {
 
 		try {
-			
+
 			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 			Date date = new Date();
 			VpsImageUpload upload = new VpsImageUpload();
-			
+
+			int month = Integer.parseInt(request.getParameter("month"));
+			int year = Integer.parseInt(request.getParameter("year"));
+
+			System.out.println("month " + month + "year " + year);
+
 			String imageName = new String();
 			imageName = dateTimeInGMT.format(date) + "_" + file.get(0).getOriginalFilename();
-			System.out.println("imageName " + imageName);
+
 			try {
+
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
+				Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+
 				upload.saveUploadedFiles(file.get(0), Constants.imageSaveUrl, imageName);
-				String fileIn = "/home/lenovo/Documents/attendance/"+imageName;
+				String fileIn = "/home/lenovo/Documents/attendance/" + imageName;
+
+				// String fileIn = "/home/lenovo/Documents/attendance/" + imageName;
+
 				String line = null;
 
 				FileReader fileReader = new FileReader(fileIn);
 				BufferedReader bufferedReader = new BufferedReader(fileReader);
 
 				List<FileUploadedData> fileUploadedDataList = new ArrayList<>();
-				
+
 				FileUploadedData fileUploadedData = new FileUploadedData();
-				
-				
+
 				while ((line = bufferedReader.readLine()) != null) {
 
-					// System.out.println(bufferedReader.readLine());
-					try {
-						fileUploadedData = new FileUploadedData();
-						String[] temp = line.split(",");
-						String empCode = temp[0];
-						String ename = temp[1];
-						String logDate = temp[2];
-						String inTime = temp[3];
-						String outTime = temp[4];
+					// System.out.println(bufferedReader.readLine()); try { fileUploadedData =
+					new FileUploadedData();
+					String[] temp = line.split(",");
+					String empCode = temp[0];
+					String ename = temp[1];
+					String logDate = temp[2];
+					String inTime = temp[3];
+					String outTime = temp[4];
 
-						fileUploadedData.setEmpCode(empCode);
-						fileUploadedData.setEmpName(ename);
-						fileUploadedData.setLogDate(logDate);
-						fileUploadedData.setInTime(inTime);
-						fileUploadedData.setOutTime(outTime);
-						
-						fileUploadedDataList.add(fileUploadedData);
-						
+					fileUploadedData.setEmpCode(empCode);
+					fileUploadedData.setEmpName(ename);
+					fileUploadedData.setLogDate(logDate);
+					fileUploadedData.setInTime(inTime);
+					fileUploadedData.setOutTime(outTime);
 
-					} catch (Exception e) {
-
-					}
+					fileUploadedDataList.add(fileUploadedData);
 
 				}
 				bufferedReader.close();
-				
-				System.out.println(fileUploadedDataList.toString());
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("fromDate", sf.format(firstDay));
+				map.add("toDate", sf.format(lastDay));
+				map.add("month", month);
+				map.add("year", year);
+				VariousList variousList = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getVariousListForUploadAttendace", map, VariousList.class);
+			 System.out.println(variousList);
+
+				// System.out.println(fileUploadedDataList.toString());
+
+				List<DailyAttendance> dailyAttendanceList;
+
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
-			 
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		 
+
 		}
 		return "0";
 
 	}
- 
+
 }
