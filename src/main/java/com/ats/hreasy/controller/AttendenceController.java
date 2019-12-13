@@ -235,12 +235,12 @@ public class AttendenceController {
 	}
 	@RequestMapping(value = "/attUploadCSV", method = RequestMethod.POST)
 	@ResponseBody
-	public String attUploadCSV(HttpServletRequest request, HttpServletResponse response) {
+	public String attUploadCSV(@RequestParam("file") List<MultipartFile> file,HttpServletRequest request, HttpServletResponse response) {
 
 	 
 
 		try {
- 
+System.out.println(file.get(0).getOriginalFilename());
 			 
 			 
 		} catch (Exception e) {
