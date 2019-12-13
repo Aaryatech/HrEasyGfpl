@@ -31,9 +31,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
+ 
 import com.ats.hreasy.common.Constants;
+import com.ats.hreasy.common.VpsImageUpload;
 import com.ats.hreasy.model.Designation;
+import com.ats.hreasy.model.FileUploadedData;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.InfoForUploadAttendance;
 import com.ats.hreasy.model.LoginResponse;
@@ -240,8 +242,60 @@ public class AttendenceController {
 	 
 
 		try {
-System.out.println(file.get(0).getOriginalFilename());
-			 
+			
+			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+			Date date = new Date();
+			VpsImageUpload upload = new VpsImageUpload();
+			
+			String imageName = new String();
+			imageName = dateTimeInGMT.format(date) + "_" + file.get(0).getOriginalFilename();
+			System.out.println("imageName " + imageName);
+			try {
+				upload.saveUploadedFiles(file.get(0), Constants.imageSaveUrl, imageName);
+				String fileIn = "/home/lenovo/Documents/attendance/"+imageName;
+				String line = null;
+
+				FileReader fileReader = new FileReader(fileIn);
+				BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+				List<FileUploadedData> fileUploadedDataList = new ArrayList<>();
+				
+				FileUploadedData fileUploadedData = new FileUploadedData();
+				
+				
+				while ((line = bufferedReader.readLine()) != null) {
+
+					// System.out.println(bufferedReader.readLine());
+					try {
+						fileUploadedData = new FileUploadedData();
+						String[] temp = line.split(",");
+						String empCode = temp[0];
+						String ename = temp[1];
+						String logDate = temp[2];
+						String inTime = temp[3];
+						String outTime = temp[4];
+
+						fileUploadedData.setEmpCode(empCode);
+						fileUploadedData.setEmpName(ename);
+						fileUploadedData.setLogDate(logDate);
+						fileUploadedData.setInTime(inTime);
+						fileUploadedData.setOutTime(outTime);
+						
+						fileUploadedDataList.add(fileUploadedData);
+						
+
+					} catch (Exception e) {
+
+					}
+
+				}
+				bufferedReader.close();
+				
+				System.out.println(fileUploadedDataList.toString());
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 			 
 		} catch (Exception e) {
 			e.printStackTrace();

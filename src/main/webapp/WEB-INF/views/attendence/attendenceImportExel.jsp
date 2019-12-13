@@ -219,7 +219,7 @@
 																<div class="col-md-6">
 																	<input type="file" class="form-control"
 																		placeholder="Enter Location Name" id="doc" name="doc"
-																		autocomplete="off"  > <span
+																		autocomplete="off"> <span
 																		class="form-text text-muted">Accepted formats:
 																		CSV </span>
 																</div>
@@ -532,31 +532,34 @@
 				//timeoutId = setInterval(getProgressForCSV, 5000);
 				//console.log("timeoutId: " + timeoutId);
 				$('#modal_step2_fileupload').modal('show');
-				 var fd = new FormData(); 
-	                var files = $('#doc')[0].files[0]; 
-	                fd.append('file', files); 
-	                $.ajax({ 
-	                    url: '${pageContext.request.contextPath}/attUploadCSV', 
-	                    type: 'post', 
-	                    data: fd, 
-	                    contentType: false, 
-	                    processData: false, 
-	                    success: function(response){ 
-	                        if(response != 0){ 
-	                           alert('file uploaded'); 
-	                        } 
-	                        else{ 
-	                            alert('file not uploaded'); 
-	                        } 
-	                    }, 
-	                });
+				var fd = new FormData();
+				var files = $('#doc')[0].files[0];
+				fd.append('file', files);
+				$.ajax({
+					url : '${pageContext.request.contextPath}/attUploadCSV',
+					type : 'post',
+					dataType : 'json',
+					data : fd,
+					contentType : false,
+					processData : false,
+					success : function(response) {
+
+						//alert(response)
+						$('#modal_step2_fileupload').modal('hide');
+						
+						if (response == 0) {
+							alert('file uploaded');
+						} else {
+							alert('file not uploaded');
+						}
+					},
+				});
 				//  alert(file);
 				// maby check size or type here with upload.getSize() and upload.getType()
 				// execute upload
 				console.log('file upload start');
 
 				//setProgressForCSV();
-				 
 
 			} else {
 				$("#error_step2").html("Please upload csv file");
