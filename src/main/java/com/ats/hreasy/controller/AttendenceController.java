@@ -35,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.VpsImageUpload;
 import com.ats.hreasy.model.DailyAttendance;
+import com.ats.hreasy.model.DataForUpdateAttendance;
 import com.ats.hreasy.model.Designation;
 import com.ats.hreasy.model.FileUploadedData;
 import com.ats.hreasy.model.Info;
@@ -279,38 +280,45 @@ public class AttendenceController {
 
 				while ((line = bufferedReader.readLine()) != null) {
 
-					// System.out.println(bufferedReader.readLine()); try { fileUploadedData =
-					new FileUploadedData();
-					String[] temp = line.split(",");
-					String empCode = temp[0];
-					String ename = temp[1];
-					String logDate = temp[2];
-					String inTime = temp[3];
-					String outTime = temp[4];
+					// System.out.println(bufferedReader.readLine());
+					try {
+						fileUploadedData = new FileUploadedData();
+						String[] temp = line.split(",");
+						String empCode = temp[0];
+						String ename = temp[1];
+						String logDate = temp[2];
+						String inTime = temp[3];
+						String outTime = temp[4];
 
-					fileUploadedData.setEmpCode(empCode);
-					fileUploadedData.setEmpName(ename);
-					fileUploadedData.setLogDate(logDate);
-					fileUploadedData.setInTime(inTime);
-					fileUploadedData.setOutTime(outTime);
+						fileUploadedData.setEmpCode(empCode);
+						fileUploadedData.setEmpName(ename);
+						fileUploadedData.setLogDate(logDate);
+						fileUploadedData.setInTime(inTime);
+						fileUploadedData.setOutTime(outTime);
 
-					fileUploadedDataList.add(fileUploadedData);
+						fileUploadedDataList.add(fileUploadedData);
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
 
 				}
 				bufferedReader.close();
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("fromDate", sf.format(firstDay));
-				map.add("toDate", sf.format(lastDay));
-				map.add("month", month);
-				map.add("year", year);
-				VariousList variousList = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getVariousListForUploadAttendace", map, VariousList.class);
-			 System.out.println(variousList);
+				DataForUpdateAttendance dataForUpdateAttendance = new DataForUpdateAttendance();
+				dataForUpdateAttendance.setFromDate(sf.format(firstDay));
+				dataForUpdateAttendance.setToDate(sf.format(lastDay));
+				dataForUpdateAttendance.setMonth(month);
+				dataForUpdateAttendance.setYear(year);
+				dataForUpdateAttendance.setFileUploadedDataList(fileUploadedDataList);
+				 
+				Info info = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/importAttendanceByFileAndUpdate", dataForUpdateAttendance, Info.class);
+				// System.out.println(variousList);
 
-				// System.out.println(fileUploadedDataList.toString());
+				//
 
-				List<DailyAttendance> dailyAttendanceList;
+				
 
 			} catch (Exception e) {
 				// TODO: handle exception
