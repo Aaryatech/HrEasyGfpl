@@ -28,6 +28,9 @@ import com.ats.hreasy.model.Designation;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
+import com.ats.hreasy.model.TblEmpBankInfo;
+import com.ats.hreasy.model.TblEmpInfo;
+import com.ats.hreasy.model.TblEmpNominees;
 
 @Controller
 @Scope("session")
@@ -293,13 +296,33 @@ public class EmployeeController {
 				 empSave =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployee", emp,
 						EmployeeMaster.class);
 				 System.out.println("res = "+empSave);
+				
 				 
 				String encryptEmpId = FormValidation.Encrypt(String.valueOf(empId));
 				System.out.println("Encrypted Employee = -------------"+encryptEmpId);
 				
 				if(empSave!=null) {
+					TblEmpInfo empInfo = new TblEmpInfo();
+					empInfo.setEmpId(empSave.getEmpId());
+					
+					TblEmpInfo empIdInfo =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo,
+							TblEmpInfo.class);
+					
+					TblEmpBankInfo empBank = new TblEmpBankInfo();
+					empBank.setEmpId(empSave.getEmpId());
+					
+					TblEmpBankInfo empIdBank =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank", empBank,
+							TblEmpBankInfo.class);
+					
+					TblEmpNominees empNominee = new TblEmpNominees();
+					empNominee.setEmpId(empSave.getEmpId());
+					
+					TblEmpNominees empIdNom =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee,
+							TblEmpNominees.class);
+					
 					System.out.println("Success");
-					redirect="redirect:/employeeAdd/empId="+encryptEmpId+"&tabId="+1;
+					redirect="redirect:/employeeAdd";
+					//redirect="redirect:/employeeAdd/empId="+encryptEmpId+"&tabId="+1;
 				}else {
 					System.err.println("Fail");
 					redirect="redirect:/employeeAdd";
