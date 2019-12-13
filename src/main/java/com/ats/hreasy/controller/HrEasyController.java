@@ -25,6 +25,7 @@ import com.ats.hreasy.model.Contractor;
 import com.ats.hreasy.model.Department;
 import com.ats.hreasy.model.Designation;
 import com.ats.hreasy.model.Info;
+import com.ats.hreasy.model.Location;
 
 @Controller
 @Scope("session")
@@ -58,8 +59,9 @@ public class HrEasyController {
 			 * } else {
 			 */
 			model = new ModelAndView("master/designationList");
-			
-			Designation[] designation = Constants.getRestTemplate().getForObject(Constants.url + "/getAllDesignations",
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			Designation[] designation = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDesignations", map, 
 					Designation[].class);
 
 			List<Designation> designationList = new ArrayList<Designation>(Arrays.asList(designation));
@@ -198,7 +200,7 @@ public class HrEasyController {
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("desigId", desigId);
-			
+			map.add("companyId", 1);
 			Integer emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpByDesignationId", map,
 					Integer.class);
 			
@@ -253,8 +255,9 @@ public class HrEasyController {
 			 * } else {
 			 */
 			model = new ModelAndView("master/contractorList");
-			
-			Contractor[] contractor = Constants.getRestTemplate().getForObject(Constants.url + "/getAllContractors",
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			Contractor[] contractor = Constants.getRestTemplate().postForObject(Constants.url + "/getAllContractors", map , 
 					Contractor[].class);
 
 			List<Contractor> contractorsList = new ArrayList<Contractor>(Arrays.asList(contractor));
@@ -404,6 +407,7 @@ public class HrEasyController {
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("contractorId", contractorId);
+			map.add("companyId", 1);
 			
 			Integer emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpByContractorId", map,
 					Integer.class);
@@ -459,7 +463,10 @@ public class HrEasyController {
 			 */
 			model = new ModelAndView("master/departmentList");
 			
-			Department[] department = Constants.getRestTemplate().getForObject(Constants.url + "/getAllDepartments",
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			
+			Department[] department = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDepartments", map,
 					Department[].class);
 
 			List<Department> departmentList = new ArrayList<Department>(Arrays.asList(department));
@@ -594,6 +601,7 @@ public class HrEasyController {
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("deptId", deptId);
+			map.add("companyId", 1);
 			
 			Integer emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpByDeptId", map,
 					Integer.class);
@@ -648,7 +656,10 @@ public class HrEasyController {
 			 */
 			model = new ModelAndView("master/bankList");
 			
-			Bank[] bank = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBanks",
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			
+			Bank[] bank = Constants.getRestTemplate().postForObject(Constants.url + "/getAllBanks", map, 
 					Bank[].class);
 
 			List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
@@ -803,118 +814,4 @@ public class HrEasyController {
 		return "redirect:/showBankList";
 	}
 	
-	/******************************Bank*********************************/
-	@RequestMapping(value = "/showEmployeeList", method = RequestMethod.GET)
-	public ModelAndView showEmployeeList(HttpServletRequest request, HttpServletResponse response) {
-
-		HttpSession session = request.getSession();
-		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
-
-		ModelAndView model = null;
-
-		try {
-
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("showEmployeeList", "showEmployeeList", 1,
-			 * 0, 0, 0, newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
-			model = new ModelAndView("master/employeeList");
-			
-			Bank[] bank = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBanks",
-					Bank[].class);
-
-			List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
-
-			for (int i = 0; i < bankList.size(); i++) {
-
-				bankList.get(i)
-						.setExVar1(FormValidation.Encrypt(String.valueOf(bankList.get(i).getBankId())));
-			}
-
-			model.addObject("addAccess", 0);
-			model.addObject("editAccess", 0);
-			model.addObject("deleteAccess", 0);
-			model.addObject("bankList", bankList);
-
-			/*
-			 * Info add = AcessController.checkAccess("showEmployeeList",
-			 * "showEmployeeList", 0, 1, 0, 0, newModuleList); Info edit =
-			 * AcessController.checkAccess("showEmployeeList", "showEmployeeList", 0,
-			 * 0, 1, 0, newModuleList); Info delete =
-			 * AcessController.checkAccess("showEmployeeList", "showEmployeeList", 0,
-			 * 0, 0, 1, newModuleList);
-			 * 
-			 * if (add.isError() == false) { System.out.println(" add   Accessable ");
-			 * model.addObject("addAccess", 0);
-			 * 
-			 * } if (edit.isError() == false) { System.out.println(" edit   Accessable ");
-			 * model.addObject("editAccess", 0); } if (delete.isError() == false) {
-			 * System.out.println(" delete   Accessable "); model.addObject("deleteAccess",
-			 * 0);
-			 * 
-			 * }
-			 */
-			// }
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return model;
-	}
-	
-	@RequestMapping(value = "/employeeAdd", method = RequestMethod.GET)
-	public ModelAndView employeeAdd(HttpServletRequest request, HttpServletResponse response) {
-
-		HttpSession session = request.getSession();
-		ModelAndView model = null;
-
-		try {
-			Bank bank = new Bank();
-			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-			Info view = AcessController.checkAccess("departmentAdd", "showDepartmentList", 0, 1, 0, 0, newModuleList);
-
-			if (view.isError() == true) {
-
-				model = new ModelAndView("accessDenied");
-
-			} else {*/
-				model = new ModelAndView("master/addEmployee");
-				model.addObject("bank", bank);
-			//}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return model;
-	}
-	@RequestMapping(value = "/employeeEdit", method = RequestMethod.GET)
-	public ModelAndView employeeEdit(HttpServletRequest request, HttpServletResponse response) {
-
-		HttpSession session = request.getSession();
-		ModelAndView model = null;
-
-		try {
-			Bank bank = new Bank();
-			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-			Info view = AcessController.checkAccess("departmentAdd", "showDepartmentList", 0, 1, 0, 0, newModuleList);
-
-			if (view.isError() == true) {
-
-				model = new ModelAndView("accessDenied");
-
-			} else {*/
-				model = new ModelAndView("master/editEmployee");
-				model.addObject("bank", bank);
-			//}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return model;
-	}
 }

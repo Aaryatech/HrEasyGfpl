@@ -190,6 +190,7 @@
 										</div>
 									</div>
 
+									
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="locId">
 											Location <span style="color: red">* </span>:
@@ -263,7 +264,7 @@
 												<option value="">Select Department</option>
 
 												<c:forEach items="${deptList}" var="deptList">
-													<option value="${deptList.empDeptId}">${deptList.empDeptName}</option>
+													<option value="${deptList.departId}">${deptList.name}</option>
 												</c:forEach>
 											</select> <span class="validation-invalid-label" id="error_deptId"
 												style="display: none;">This field is required.</span>

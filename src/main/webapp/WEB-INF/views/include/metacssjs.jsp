@@ -73,6 +73,7 @@
 	<script src="${pageContext.request.contextPath}/resources/global_assets/js/plugins/uploaders/fileinput/plugins/purify.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/global_assets/js/plugins/uploaders/fileinput/plugins/sortable.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/global_assets/js/plugins/notifications/bootbox.min.js"></script>
 	
 	<script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
 	<%-- <script src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/dashboard.js"></script> --%>
@@ -91,8 +92,7 @@
 <script src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/datatables_basic.js"></script>
 <script src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/form_dual_listboxes.js"></script>
 	<!-- /theme JS files -->
-		<script src="${pageContext.request.contextPath}/resources/global_assets/js/plugins/notifications/bootbox.min.js"></script>
-	
+		
 	<script>
 	 // Export options - column selector
     

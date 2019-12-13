@@ -1,5 +1,4 @@
 package com.ats.hreasy.model;
- 
 
 public class EmployeeMaster {
 	
@@ -7,7 +6,7 @@ public class EmployeeMaster {
 	 
 	private int empId ; 
 	private String empCode ; 
-	private String cmpCode; 
+	private int cmpCode; 
 	private int empType; 
 	private String mobileNo1; 
 	private String mobileNo2; 
@@ -46,6 +45,12 @@ public class EmployeeMaster {
 	private float newBasicRate; 
 	private float newHraRate; 
 	private float newDaRate;
+	private int delStatus;
+	private int exInt1;
+	private int exInt2;
+	private String exVar1;
+	private String exVar2;
+	
 	public int getEmpId() {
 		return empId;
 	}
@@ -58,10 +63,10 @@ public class EmployeeMaster {
 	public void setEmpCode(String empCode) {
 		this.empCode = empCode;
 	}
-	public String getCmpCode() {
+	public int getCmpCode() {
 		return cmpCode;
 	}
-	public void setCmpCode(String cmpCode) {
+	public void setCmpCode(int cmpCode) {
 		this.cmpCode = cmpCode;
 	}
 	public int getEmpType() {
@@ -292,6 +297,36 @@ public class EmployeeMaster {
 	}
 	public void setNewDaRate(float newDaRate) {
 		this.newDaRate = newDaRate;
+	}	
+	public int getDelStatus() {
+		return delStatus;
+	}
+	public void setDelStatus(int delStatus) {
+		this.delStatus = delStatus;
+	}
+	public int getExInt1() {
+		return exInt1;
+	}
+	public void setExInt1(int exInt1) {
+		this.exInt1 = exInt1;
+	}
+	public int getExInt2() {
+		return exInt2;
+	}
+	public void setExInt2(int exInt2) {
+		this.exInt2 = exInt2;
+	}
+	public String getExVar1() {
+		return exVar1;
+	}
+	public void setExVar1(String exVar1) {
+		this.exVar1 = exVar1;
+	}
+	public String getExVar2() {
+		return exVar2;
+	}
+	public void setExVar2(String exVar2) {
+		this.exVar2 = exVar2;
 	}
 	@Override
 	public String toString() {
@@ -308,9 +343,8 @@ public class EmployeeMaster {
 				+ ", addedBySupervisorId=" + addedBySupervisorId + ", loginName=" + loginName + ", loginTime="
 				+ loginTime + ", plCalcBase=" + plCalcBase + ", earnLeaveOpeningBalance=" + earnLeaveOpeningBalance
 				+ ", empCategory=" + empCategory + ", exgratiaPerc=" + exgratiaPerc + ", newBasicRate=" + newBasicRate
-				+ ", newHraRate=" + newHraRate + ", newDaRate=" + newDaRate + "]";
+				+ ", newHraRate=" + newHraRate + ", newDaRate=" + newDaRate + ", delStatus=" + delStatus + ", exInt1="
+				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
 	}
-	
-	
 
 }
