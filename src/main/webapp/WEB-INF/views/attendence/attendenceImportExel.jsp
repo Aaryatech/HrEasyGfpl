@@ -144,12 +144,15 @@
 										href="#solid-rounded-justified-tab1"
 										class="nav-link active show" id="tabstep1" data-toggle="tab">Step
 											1</a></li>
-									<li class="nav-item mr-1"><a
-										href="#solid-rounded-justified-tab2" class="nav-link "
-										data-toggle="tab">Step 2 Upload Attendance File (csv)</a></li>
-									<li class="nav-item mr-1"><a
-										href="#solid-rounded-justified-tab3" class="nav-link "
-										data-toggle="tab">Step 3 Finalize Attendance</a></li>
+									<c:if
+										test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1}">
+										<li class="nav-item mr-1"><a
+											href="#solid-rounded-justified-tab2" class="nav-link "
+											data-toggle="tab">Step 2 Upload Attendance File (csv)</a></li>
+										<li class="nav-item mr-1"><a
+											href="#solid-rounded-justified-tab3" class="nav-link "
+											data-toggle="tab">Step 3 Finalize Attendance</a></li>
+									</c:if>
 									<!--  -->
 								</ul>
 
@@ -183,14 +186,14 @@
 												</button>
 
 											</c:if>
-
-											<button type="button"
-												class=" btn btn-info next   btn_go_next_tab "
-												id="btn_go_next_tab">
-												Next Step <i class="icon-arrow-right8 ml-2 "></i>
-											</button>
-
-
+											<c:if
+												test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1}">
+												<button type="button"
+													class=" btn btn-info next   btn_go_next_tab "
+													id="btn_go_next_tab">
+													Next Step <i class="icon-arrow-right8 ml-2 "></i>
+												</button>
+											</c:if>
 										</form>
 
 
@@ -198,13 +201,15 @@
 									</div>
 
 									<div class="tab-pane fade" id="solid-rounded-justified-tab2">
-
+										<div class="hidedefault alert bg-danger text-white"
+											id="error_step2" style="display: none;"></div>
 										<div class="rows">
 											<div class="col-md-12">
 												<div class="row">
 													<div class="col-md-12">
 														<form action="#" method="POST"
-															enctype="multipart/form-data" accept-charset="utf-8"
+															enctype="multipart/form-data" method="post"
+															accept-charset="utf-8"
 															class="form-inline1 justify-content-center">
 
 
@@ -214,7 +219,7 @@
 																<div class="col-md-6">
 																	<input type="file" class="form-control"
 																		placeholder="Enter Location Name" id="doc" name="doc"
-																		autocomplete="off" onchange="trim(this)"> <span
+																		autocomplete="off"  > <span
 																		class="form-text text-muted">Accepted formats:
 																		CSV </span>
 																</div>
@@ -372,6 +377,53 @@
 		</div>
 	</div>
 	<!-- /info modal -->
+
+	<!-- Info modal -->
+	<div id="modal_step2_fileupload" class="modal fade "
+		data-backdrop="false" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="modal-title">
+						Attendance process for month <strong>${monthName}
+							&nbsp;${year}</strong>
+					</h6>
+					<!-- <button type="button" class="close" data-dismiss="modal">&times;</button>  -->
+				</div>
+
+				<div class="modal-body">
+					<h6 class="font-weight-semibold text-center">
+						<h6>
+							Please wait. Processing your request..<br /> It will take few
+							mins approx 25 to 30 min only
+						</h6>
+					</h6>
+
+					<div class="hidedefault" id="msg_progess"></div>
+					<div class="progress" id="progress-wrp" style1="margin-top:20px">
+
+
+						<div
+							class="progress-bar progressbar_importcsv progress-bar-striped bg-dark"
+							id="progressbar_importcsv" role="progressbar"
+							data-transitiongoal-backup="0" data-transitiongoal="0"
+							style="width: 0%;" aria-valuenow="0">
+							<span class="status">0% Complete</span>
+						</div>
+					</div>
+					<hr>
+					<p class="text-center text-info">If it is taking time please
+						reload the page</p>
+				</div>
+
+				<div class="modal-footer">
+					<!--   <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /info modal -->
 	<!-- /page content -->
 
 	<script>
@@ -461,6 +513,57 @@
 									});
 							return false;
 						});
+
+		$("#btnUploadCSVSubmit").click(function(e) {
+			//
+			/* if (timeoutId != -99) {
+				clearTimeout(timeoutId);
+			} */
+			$("#error_step2").html("");
+			$("#error_step2").hide();
+			$("#msg_progess").hide();
+			//var progress_bar_id = "#progress-wrp";
+			// update progressbars classes so it fits your code
+			//$(progress_bar_id + " .progressbar_importcsv").css("width", "0%");
+			//$(progress_bar_id + " .status").text("0%");
+
+			//alert($("#userfile").val());
+			if ($("#doc").val() != "") {
+				//timeoutId = setInterval(getProgressForCSV, 5000);
+				//console.log("timeoutId: " + timeoutId);
+				$('#modal_step2_fileupload').modal('show');
+				 var fd = new FormData(); 
+	                var files = $('#doc')[0].files[0]; 
+	                fd.append('file', files); 
+	                $.ajax({ 
+	                    url: '${pageContext.request.contextPath}/attUploadCSV', 
+	                    type: 'post', 
+	                    data: fd, 
+	                    contentType: false, 
+	                    processData: false, 
+	                    success: function(response){ 
+	                        if(response != 0){ 
+	                           alert('file uploaded'); 
+	                        } 
+	                        else{ 
+	                            alert('file not uploaded'); 
+	                        } 
+	                    }, 
+	                });
+				//  alert(file);
+				// maby check size or type here with upload.getSize() and upload.getType()
+				// execute upload
+				console.log('file upload start');
+
+				//setProgressForCSV();
+				 
+
+			} else {
+				$("#error_step2").html("Please upload csv file");
+				$("#error_step2").show();
+			}
+
+		});
 	</script>
 
 

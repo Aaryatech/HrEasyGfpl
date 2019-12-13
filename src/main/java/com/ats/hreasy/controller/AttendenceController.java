@@ -233,5 +233,22 @@ public class AttendenceController {
 		return info;
 
 	}
+	@RequestMapping(value = "/attUploadCSV", method = RequestMethod.POST)
+	@ResponseBody
+	public String attUploadCSV(HttpServletRequest request, HttpServletResponse response) {
+
+	 
+
+		try {
+ 
+			 
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		 
+		}
+		return "0";
+
+	}
  
 }
