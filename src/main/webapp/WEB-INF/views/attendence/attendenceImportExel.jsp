@@ -140,15 +140,25 @@
 
 								<ul
 									class="nav nav-tabs nav-tabs-solid nav-justified rounded border-0">
-									<li class="nav-item mr-1"><a
-										href="#solid-rounded-justified-tab1"
-										class="nav-link active show" id="tabstep1" data-toggle="tab">Step
-											1</a></li>
+									<li class="nav-item mr-1"><c:choose>
+											<c:when
+												test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1}">
+												<a href="#solid-rounded-justified-tab1"
+													class="nav-link bg-success " id="tabstep1"
+													data-toggle="tab">Step 1</a>
+											</c:when>
+											<c:otherwise>
+												<a href="#solid-rounded-justified-tab1"
+													class="nav-link active show" id="tabstep1"
+													data-toggle="tab">Step 1</a>
+											</c:otherwise>
+										</c:choose></li>
 									<c:if
 										test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1}">
 										<li class="nav-item mr-1"><a
-											href="#solid-rounded-justified-tab2" class="nav-link "
-											data-toggle="tab">Step 2 Upload Attendance File (csv)</a></li>
+											href="#solid-rounded-justified-tab2"
+											class="nav-link active show" data-toggle="tab">Step 2
+												Upload Attendance File (csv)</a></li>
 										<li class="nav-item mr-1"><a
 											href="#solid-rounded-justified-tab3" class="nav-link "
 											data-toggle="tab">Step 3 Finalize Attendance</a></li>
@@ -157,189 +167,205 @@
 								</ul>
 
 								<div class="tab-content">
-									<div class="tab-pane fade show active"
-										id="solid-rounded-justified-tab1">
+									<c:choose>
+										<c:when
+											test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1}">
+											<div class="tab-pane fade " id="solid-rounded-justified-tab1">
+										</c:when>
+										<c:otherwise>
+											<div class="tab-pane fade  show active"
+												id="solid-rounded-justified-tab1">
+										</c:otherwise>
+									</c:choose>
 
-										<!-- <div class=" text-muted">
+
+									<!-- <div class=" text-muted">
 											Records 1207 (16 %) Uploaded by file<br> If Total
 											attendance expected is equal to Total added by step1 than you
 											can go to next step
 										</div> -->
-										<form name="attendanceStep1" id="attendanceStep1"
-											action="http://gfplphp.aaryatechindia.in/index.php/attendance/attendanceprocess"
-											class="form-inline justify-content-center">
+									<form name="attendanceStep1" id="attendanceStep1"
+										action="http://gfplphp.aaryatechindia.in/index.php/attendance/attendanceprocess"
+										class="form-inline justify-content-center">
 
-											<input type="hidden" name="mode" id="mode" value="submitform">
-											<input type="hidden" name="month" id="month"
-												class="form-control " value="${month}"> <input
-												type="hidden" name="year" id="year" class="form-control "
-												value="${year}">
+										<input type="hidden" name="mode" id="mode" value="submitform">
+										<input type="hidden" name="month" id="month"
+											class="form-control " value="${month}"> <input
+											type="hidden" name="year" id="year" class="form-control "
+											value="${year}">
 
-											<c:if
-												test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)!=infoForUploadAttendance.updatedByStep1}">
-
-												<button type="button"
-													class="mr-3 btn btn-primary   btnActStep1 "
-													id="btnActStep1" data-toggle1="modal"
-													data-target1="#modal_step1">
-													Start <i class="icon-paperplane ml-2"></i>
-												</button>
-
-											</c:if>
-											<c:if
-												test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1}">
-												<button type="button"
-													class=" btn btn-info next   btn_go_next_tab "
-													id="btn_go_next_tab">
-													Next Step <i class="icon-arrow-right8 ml-2 "></i>
-												</button>
-											</c:if>
-										</form>
-
-
-
-									</div>
-
-									<div class="tab-pane fade" id="solid-rounded-justified-tab2">
-										<div class="hidedefault alert bg-danger text-white"
-											id="error_step2" style="display: none;"></div>
-										<div class="rows">
-											<div class="col-md-12">
-												<div class="row">
-													<div class="col-md-12">
-														<form action="#" method="POST"
-															enctype="multipart/form-data" method="post"
-															accept-charset="utf-8"
-															class="form-inline1 justify-content-center">
-
-
-															<div class="form-group row ">
-																<label class="col-md-2 col-form-label" for="doc">Attach
-																	File:</label>
-																<div class="col-md-6">
-																	<input type="file" class="form-control"
-																		placeholder="Enter Location Name" id="doc" name="doc"
-																		autocomplete="off"> <span
-																		class="form-text text-muted">Accepted formats:
-																		CSV </span>
-																</div>
-																<div class="col-md-4">
-																	<button type="button" id="btnUploadCSVSubmit"
-																		name="btnUploadCSVSubmit" class="btn btn-primary">
-																		Uplaod File <i class="icon-paperplane ml-2"></i>
-																	</button>
-																</div>
-
-															</div>
-
-
-														</form>
-													</div>
-													<div class="col-md-12 text-center mt-4">
-														<button type="button"
-															class=" btn btn-info prev text-center  btn_go_prev_tab "
-															id="btn_go_prev_tab2">
-															<i class="icon-arrow-left8  mr-2 "></i> Previous Step
-														</button>
-														<button type="button"
-															class=" btn btn-info next text-center  btn_go_next_tab "
-															id="btn_go_next_tab">
-															Next Step <i class="icon-arrow-right8  ml-2 "></i>
-														</button>
-													</div>
-
-												</div>
-
-											</div>
-										</div>
-
-
-
-
-
-
-
-									</div>
-
-									<div class="tab-pane fade" id="solid-rounded-justified-tab3">
-										<form name="attendanceFinal" id="attendanceFinal"
-											action="http://gfplphp.aaryatechindia.in/index.php/attendance/attendanceprocess"
-											class="form-inline justify-content-center">
-
-											<input type="hidden" name="mode" id="mode" value="finalstep">
-											<input type="hidden" name="month" id="month"
-												class="form-control " value="11">
+										<c:if
+											test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)!=infoForUploadAttendance.updatedByStep1}">
 
 											<button type="button"
-												class=" btn btn-primary next   btnActStepFinal "
-												id="btnActStepFinal" data-toggle1="modal"
-												data-target1="#modal_Final">
-												Finalize Attendance<i class="icon-paperplane ml-2"></i>
+												class="mr-3 btn btn-primary   btnActStep1 " id="btnActStep1"
+												data-toggle1="modal" data-target1="#modal_step1">
+												Start <i class="icon-paperplane ml-2"></i>
 											</button>
 
+										</c:if>
+										<c:if
+											test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1}">
+											<button type="button"
+												class=" btn btn-info next   btn_go_next_tab "
+												id="btn_go_next_tab">
+												Next Step <i class="icon-arrow-right8 ml-2 "></i>
+											</button>
+										</c:if>
+									</form>
 
-										</form>
+
+
+								</div>
+								<c:choose>
+									<c:when
+										test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1}">
+										<div class="tab-pane fade show active"
+											id="solid-rounded-justified-tab2">
+									</c:when>
+									<c:otherwise>
+										<div class="tab-pane fade" id="solid-rounded-justified-tab2">
+									</c:otherwise>
+								</c:choose>
+
+								<div class="hidedefault alert bg-danger text-white"
+									id="error_step2" style="display: none;"></div>
+								<div class="rows">
+									<div class="col-md-12">
 										<div class="row">
+											<div class="col-md-12">
+												<form action="#" method="POST" enctype="multipart/form-data"
+													method="post" accept-charset="utf-8"
+													class="form-inline1 justify-content-center">
+
+
+													<div class="form-group row ">
+														<label class="col-md-2 col-form-label" for="doc">Attach
+															File:</label>
+														<div class="col-md-6">
+															<input type="file" class="form-control"
+																placeholder="Enter Location Name" id="doc" name="doc"
+																autocomplete="off"> <span
+																class="form-text text-muted">Accepted formats:
+																CSV </span>
+														</div>
+														<div class="col-md-4">
+															<button type="button" id="btnUploadCSVSubmit"
+																name="btnUploadCSVSubmit" class="btn btn-primary">
+																Uplaod File <i class="icon-paperplane ml-2"></i>
+															</button>
+														</div>
+
+													</div>
+
+
+												</form>
+											</div>
 											<div class="col-md-12 text-center mt-4">
 												<button type="button"
 													class=" btn btn-info prev text-center  btn_go_prev_tab "
 													id="btn_go_prev_tab2">
 													<i class="icon-arrow-left8  mr-2 "></i> Previous Step
 												</button>
-												<!--   <button type="button" class=" btn btn-info next text-center  btn_go_next_tab " id="btn_go_next_tab">Next Step <i class="icon-arrow-right8  ml-2 "></i></button> -->
+												<button type="button"
+													class=" btn btn-info next text-center  btn_go_next_tab "
+													id="btn_go_next_tab">
+													Next Step <i class="icon-arrow-right8  ml-2 "></i>
+												</button>
 											</div>
+
 										</div>
+
 									</div>
 								</div>
 
-								<div
-									class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-right wmin-300 border-0 shadow-0 order-1 order-md-2 sidebar-expand-md card">
-									<div class="card-header bg-transparent header-elements-inline">
-										<span class="card-title font-weight-bold">Stats</span>
 
+
+
+
+
+
+							</div>
+
+							<div class="tab-pane fade" id="solid-rounded-justified-tab3">
+								<form name="attendanceFinal" id="attendanceFinal"
+									action="http://gfplphp.aaryatechindia.in/index.php/attendance/attendanceprocess"
+									class="form-inline justify-content-center">
+
+									<input type="hidden" name="mode" id="mode" value="finalstep">
+									<input type="hidden" name="month" id="month"
+										class="form-control " value="11">
+
+									<button type="button"
+										class=" btn btn-primary next   btnActStepFinal "
+										id="btnActStepFinal" data-toggle1="modal"
+										data-target1="#modal_Final">
+										Finalize Attendance<i class="icon-paperplane ml-2"></i>
+									</button>
+
+
+								</form>
+								<div class="row">
+									<div class="col-md-12 text-center mt-4">
+										<button type="button"
+											class=" btn btn-info prev text-center  btn_go_prev_tab "
+											id="btn_go_prev_tab2">
+											<i class="icon-arrow-left8  mr-2 "></i> Previous Step
+										</button>
+										<!--   <button type="button" class=" btn btn-info next text-center  btn_go_next_tab " id="btn_go_next_tab">Next Step <i class="icon-arrow-right8  ml-2 "></i></button> -->
 									</div>
-
-									<div class="card-body p-0">
-										<ul class="nav nav-sidebar my-2">
-											<li class="nav-item"><i class="icon-users"></i> Total
-												Employee <span class="badge bg-info badge-pill ml-auto"
-												id="total_emp">${infoForUploadAttendance.totalEmp}</span></li>
-											<li class="nav-item"><i class="icon-grid4"></i> Total
-												attendance expected <span
-												class="badge bg-info badge-pill ml-auto"
-												id="total_attendce_expected">${(infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp}</span></li>
-											<li class="nav-item"><i class="icon-grid52"></i> Total
-												added by step1 <span
-												class="badge bg-success badge-pill ml-auto"
-												id="total_att_present">${infoForUploadAttendance.updatedByStep1}</span></li>
-											<li class="nav-item"><i class="icon-grid52"></i> Total
-												attendance uploaded <span
-												class="badge bg-danger badge-pill ml-auto"
-												id="by_file_updated">${infoForUploadAttendance.updatedByFile}</span></li>
-										</ul>
-									</div>
-
 								</div>
-								<span class="text-info"> <a
-									href="http://gfplphp.aaryatechindia.in/uploads/att_template/attendance_sample.csv"
-									target="_blank" id="genTemplate1" title=".csv Format"><i
-										class="icon-file-download"></i> Download Template</a></span>
 							</div>
 						</div>
 
+						<div
+							class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-right wmin-300 border-0 shadow-0 order-1 order-md-2 sidebar-expand-md card">
+							<div class="card-header bg-transparent header-elements-inline">
+								<span class="card-title font-weight-bold">Stats</span>
+
+							</div>
+
+							<div class="card-body p-0">
+								<ul class="nav nav-sidebar my-2">
+									<li class="nav-item"><i class="icon-users"></i> Total
+										Employee <span class="badge bg-info badge-pill ml-auto"
+										id="total_emp">${infoForUploadAttendance.totalEmp}</span></li>
+									<li class="nav-item"><i class="icon-grid4"></i> Total
+										attendance expected <span
+										class="badge bg-info badge-pill ml-auto"
+										id="total_attendce_expected">${(infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp}</span></li>
+									<li class="nav-item"><i class="icon-grid52"></i> Total
+										added by step1 <span
+										class="badge bg-success badge-pill ml-auto"
+										id="total_att_present">${infoForUploadAttendance.updatedByStep1}</span></li>
+									<li class="nav-item"><i class="icon-grid52"></i> Total
+										attendance uploaded <span
+										class="badge bg-danger badge-pill ml-auto"
+										id="by_file_updated">${infoForUploadAttendance.updatedByFile}</span></li>
+								</ul>
+							</div>
+
+						</div>
+						<span class="text-info"> <a
+							href="http://gfplphp.aaryatechindia.in/uploads/att_template/attendance_sample.csv"
+							target="_blank" id="genTemplate1" title=".csv Format"><i
+								class="icon-file-download"></i> Download Template</a></span>
 					</div>
 				</div>
 
 			</div>
-			<!-- /content area -->
-
-
-			<!-- Footer -->
-			<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
-			<!-- /footer -->
-
 		</div>
-		<!-- /main content -->
+
+	</div>
+	<!-- /content area -->
+
+
+	<!-- Footer -->
+	<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+	<!-- /footer -->
+
+	</div>
+	<!-- /main content -->
 
 	</div>
 
@@ -546,7 +572,7 @@
 
 						//alert(response)
 						$('#modal_step2_fileupload').modal('hide');
-						
+
 						if (response == 0) {
 							alert('file uploaded');
 						} else {
