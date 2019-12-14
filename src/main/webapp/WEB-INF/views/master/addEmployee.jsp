@@ -176,7 +176,7 @@
 										</div>
 										
 										<label class="col-form-label col-lg-2" for="locId">Location
-											 <span style="color: red"></span>:
+											 <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="locId" data-placeholder="Select Location"
@@ -227,17 +227,23 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="empStatus">Emp
-											Status <span style="color: red">* </span>:
-										</label>
+									
+										<label class="col-form-label col-lg-2" for="contractor">Contractor 
+										<span style="color: red"> </span>:
+										 </label>
 										<div class="col-lg-4">
-											<select name="empStatus" data-placeholder="Select Employee Status"
-												id="empStatus"
+											<select name="contractor" data-placeholder="Select Contractor"
+												id="contractor"
 												class="form-control form-control-select21 select2-hidden-accessible1">
-												<option value="1">Currently Working</option>
-												<option value="0">Ex Employee</option>																								
-											</select> <span class="hidedefault   validation-invalid-label" id="error_empStatus"
-												>This field is required.</span>
+
+												
+												<c:forEach items="${contractorsList}" var="contractorsList">
+													<option value="${contractorsList.contractorId}">${contractorsList.orgName}</option>
+												</c:forEach>
+												
+											</select> 
+											<span class="hidedefault   validation-invalid-label"
+											 id="error_contractor">This field is required.</span>
 										</div>
 										
 										<label class="col-form-label col-lg-2" for="empType">Emp
@@ -262,7 +268,7 @@
 										<label class="col-form-label col-lg-2" for="mobile1">Contact No.
 											<span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-3">
+										<div class="col-lg-4">
 											<input type="text" class="form-control"
 												placeholder="Mobile No." id="mobile1" name="mobile1"
 												onchange="checkUnique(this.value,1)" autocomplete="off"
@@ -275,9 +281,9 @@
 										</div>
 
 																		
-										<div class="col-lg-3">
+										<div class="col-lg-4">
 											<input type="text" class="form-control"
-												placeholder="Mobile No." id="mobile2"
+												placeholder="Other Mobile No." id="mobile2" 
 												name="mobile2" autocomplete="off" onchange="trim(this)"
 												maxlength="10">
 												<span
@@ -285,7 +291,7 @@
 												>This field is required.</span>
 										</div>
 								
-										
+										<!-- 
 										<div class="col-lg-3">
 											<input type="text" class="form-control"
 												placeholder="Residence LandLine No" id="landline"
@@ -293,31 +299,13 @@
 											<span class="hidedefault validation-invalid-label"
 												id="error_landline">This
 												field is required.</span>
-										</div>
+										</div> -->
 									</div>		
 									
 									<div class="form-group row">
 										
-										<label class="col-form-label col-lg-2" for="contractor">Contractor 
-										<span style="color: red">* </span>:
-										 </label>
-										<div class="col-lg-4">
-											<select name="contractor" data-placeholder="Select Contractor"
-												id="contractor"
-												class="form-control form-control-select21 select2-hidden-accessible1">
-
-												
-												<c:forEach items="${contractorsList}" var="contractorsList">
-													<option value="${contractorsList.contractorId}">${contractorsList.orgName}</option>
-												</c:forEach>
-												
-											</select> 
-											<span class="hidedefault   validation-invalid-label"
-											 id="error_contractor">This field is required.</span>
-										</div>	
-										
 										<label class="col-form-label col-lg-2" for="empCat">Emp Category
-											 <span style="color: red"></span>:
+											 <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="empCat" data-placeholder="Select Emp Category"
@@ -333,13 +321,24 @@
 												
 											</select> 
 											<span class="hidedefault   validation-invalid-label"
-											 id="error_contractor">This field is required.</span>
+											 id="error_empCat">This field is required.</span>
+										</div>
+										
+											<label class="col-form-label col-lg-2" for="uan">UAN No.
+											<span style="color: red"></span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												placeholder="UAN" id="uan" name="uan" autocomplete="off"
+												onchange="trim(this)"><span
+												class="hidedefault   validation-invalid-label" id="error_uan"
+												>This field is required.</span> 
 										</div>
 									</div>	
 									
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="esic">ESIC No.
-											<span style="color: red">* </span>:
+											<span style="color: red"></span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
@@ -351,11 +350,11 @@
 
 											
 										<label class="col-form-label col-lg-2" for="aadhar">Aadhar No.
-											<span style="color: red">* </span>:
+											<span style="color: red"></span>:
 										</label>							
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
-												placeholder="Aadhar Card No." id="aadhar"
+												placeholder="Aadhar Card No." id="aadhar" maxlength="12"
 												name="aadhar" autocomplete="off" onchange="trim(this)">
 												<span
 												class="hidedefault   validation-invalid-label" id="error_aadhar"
@@ -365,18 +364,18 @@
 									
 									<div class="form-group row">
 									<label class="col-form-label col-lg-2" for="pan">PAN No.
-											<span style="color: red">* </span>:
+											<span style="color: red"></span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control" maxlength="10"
-												placeholder="PAN no." id="pan" name="pan" autocomplete="off"
-												onchange="trim(this)"> <span
+												placeholder="PAN No." id="pan" name="pan" autocomplete="off"
+												onchange="trim(this)"><span
 												class="hidedefault  validation-invalid-label" 
-												id="error_pan">This field is required.</span> 
+												id="error_pan">Please enter correct PAN No.</span> 
 										</div>
 									
 										<label class="col-form-label col-lg-2" for="pfNo">PF No.
-											<span style="color: red">* </span>:
+											<span style="color: red"></span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
@@ -387,19 +386,7 @@
 										</div>
 									</div>	
 									
-									<div class="form-group row">						
-									
-										<label class="col-form-label col-lg-2" for="uan">UAN No.
-											<span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<input type="text" class="form-control"
-												placeholder="UAN" id="uan" name="uan" autocomplete="off"
-												onchange="trim(this)"> <span
-												class="hidedefault   validation-invalid-label" id="error_uan"
-												>This field is required.</span> 
-										</div>
-									</div>							
+														
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
@@ -700,6 +687,22 @@
 <script src="${pageContext.request.contextPath}/resources/global_assets/js/footercommonjs.js"></script>
 	 
 	<script>
+	 $(document).ready(function(){
+		$("#pan").change(function(){
+			var pan = $("#pan").val();
+			
+			var regex1=/^[A-Z]{5}\d{4}[A-Z]{1}$/;
+			if (regex1.test($.trim(pan)) == false) {
+				$("#error_pan").show()
+				return false;
+			}
+			$("#error_pan").hide()
+			return true;
+			});
+		});
+	
+	
+
 		
 		/* $('#sbtbtn4').click(function() {
 
@@ -735,7 +738,7 @@
 				}
 
 				if (!$("#fname").val()) {
-
+					
 					isError = true;
 
 					$("#error_fname").show()
@@ -744,7 +747,7 @@
 					$("#error_fname").hide()
 				}
 				if (!$("#mname").val()) {
-
+					
 					isError = true;
 
 					$("#error_mname").show()
@@ -753,7 +756,7 @@
 					$("#error_mname").hide()
 				}
 				if (!$("#sname").val()) {
-
+					
 					isError = true;
 
 					$("#error_sname").show()
@@ -761,8 +764,8 @@
 				} else {
 					$("#error_sname").hide()
 				}
-				/* if (!$("#locId").val()) {
-
+				if (!$("#locId").val()) {
+					
 					isError = true;
 
 					$("#error_locId")
@@ -771,7 +774,7 @@
 				} else {
 					$("#error_locId")
 							.hide()
-				} */
+				} 
 
 				/* 	if (!$("#desigId").val()) {
 
@@ -785,19 +788,19 @@
 								.hide()
 					} */
 
-				/* if (!$("#deptId").val()) {
-
+				if (!$("#empCat").val()) {
+					alert("6")
 					isError = true;
 
-					$("#error_deptId")
+					$("#error_empCat")
 							.show()
 
 				} else {
-					$("#error_deptId")
+					$("#error_empCat")
 							.hide()
-				} */
+				}
 
-				if (!$("#empStatus").val()) {
+				/* if (!$("#empStatus").val()) {
 
 					isError = true;
 
@@ -805,7 +808,7 @@
 
 				} else {
 					$("#error_empStatus").hide()
-				}
+				} */
 
 				if (!$("#empType").val()) {
 
@@ -849,7 +852,7 @@
 							.hide()
 				} */
 
-				if (!$("#esic").val()) {
+				/* if (!$("#esic").val()) {
 
 					isError = true;
 
@@ -877,9 +880,9 @@
 
 				} else {
 					$("#error_uan").hide()
-				}
+				} */
 				
-			if (!$("#pan").val()|| !validatePAN($(
+			/* if (!$("#pan").val()|| !validatePAN($(
 			"#pan").val())) {
 
 					isError = true;
@@ -900,7 +903,7 @@
 				} else {
 					$("#error_pfNo").hide()
 				}
-
+ */
 				if (!isError) {
 
 					var x = true;

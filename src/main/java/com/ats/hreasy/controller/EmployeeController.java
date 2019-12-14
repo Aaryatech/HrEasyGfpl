@@ -25,6 +25,7 @@ import com.ats.hreasy.model.Bank;
 import com.ats.hreasy.model.Contractor;
 import com.ats.hreasy.model.Department;
 import com.ats.hreasy.model.Designation;
+import com.ats.hreasy.model.EmpSalaryInfo;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
@@ -236,11 +237,7 @@ public class EmployeeController {
 					emp.setMobileNo2(mob2);
 				}
 				
-				if(landline=="" || landline==null) {
-					emp.setResidenceLandNo("NA");
-				}else {
-					emp.setResidenceLandNo(landline);
-				}
+			
 				
 				emp.setEmpId(empId);
 				
@@ -249,7 +246,7 @@ public class EmployeeController {
 				emp.setSurname(request.getParameter("sname"));
 				
 				emp.setMobileNo1(request.getParameter("mobile1"));				
-				
+				emp.setResidenceLandNo("NA");
 				emp.setAadharNo(request.getParameter("aadhar"));
 				emp.setAddedBySupervisorId(0);
 				emp.setAddedFrom(1);
@@ -319,6 +316,12 @@ public class EmployeeController {
 					
 					TblEmpNominees empIdNom =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee,
 							TblEmpNominees.class);
+					
+					EmpSalaryInfo empSal = new EmpSalaryInfo();
+					empSal.setEmpId(empSave.getEmpId());
+					
+					EmpSalaryInfo empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
+							EmpSalaryInfo.class);
 					
 					System.out.println("Success");
 					redirect="redirect:/employeeAdd";
