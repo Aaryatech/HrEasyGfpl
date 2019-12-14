@@ -14,12 +14,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.Constants;
+import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.Bank;
 import com.ats.hreasy.model.Contractor;
@@ -32,14 +35,22 @@ import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.TblEmpBankInfo;
 import com.ats.hreasy.model.TblEmpInfo;
 import com.ats.hreasy.model.TblEmpNominees;
+import com.ats.hreasy.model.User;
 
 @Controller
 @Scope("session")
 public class EmployeeController {
 
-	Date date = new Date();
+	Date date = new Date();	
 	SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	String currDate = sf.format(date);
+	String redirect = "";
+	int flag=0;
+	EmployeeMaster empSave=null;
+	TblEmpInfo empIdInfo  = null;
+	TblEmpNominees empIdNom = null;
+	TblEmpBankInfo empIdBank  = null;
+	EmpSalaryInfo empIdSal = null;
 	/******************************Employee*********************************/
 	@RequestMapping(value = "/showEmployeeList", method = RequestMethod.GET)
 	public ModelAndView showEmployeeList(HttpServletRequest request, HttpServletResponse response) {
@@ -111,10 +122,15 @@ public class EmployeeController {
 
 		HttpSession session = request.getSession();
 		ModelAndView model = null;
-
+		EmployeeMaster emp=null;
 		try {
-			EmployeeMaster emp = new EmployeeMaster();
-			
+			if(empSave!=null) {
+				emp = new EmployeeMaster();
+			}
+			else
+			{
+				emp=empSave;
+			}
 			/*
 			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
 			 * session.getAttribute("moduleJsonList"); Info view =
@@ -134,29 +150,37 @@ public class EmployeeController {
 			Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
 			Location[].class);
 			List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
-			System.out.println("Location List-------------"+locationList);
+			//System.out.println("Location List-------------"+locationList);
 			
 			Department[] department = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDepartments", map,
 			Department[].class);
 			List<Department> departmentList = new ArrayList<Department>(Arrays.asList(department));
-			System.out.println("DepartmentList List-------------"+departmentList);
+			//System.out.println("DepartmentList List-------------"+departmentList);
 			
 			Designation[] designation = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDesignations", map, 
 			Designation[].class);
 			List<Designation> designationList = new ArrayList<Designation>(Arrays.asList(designation));
-			System.out.println("DesignationList List-------------"+designationList);
+			//System.out.println("DesignationList List-------------"+designationList);
 			
 			Contractor[] contractor = Constants.getRestTemplate().postForObject(Constants.url + "/getAllContractors", map , 
 			Contractor[].class);
 			List<Contractor> contractorsList = new ArrayList<Contractor>(Arrays.asList(contractor));
-			System.out.println("ContractorsList List-------------"+contractorsList);
+			//System.out.println("ContractorsList List-------------"+contractorsList);
+			
+			
+			Bank[] bank = Constants.getRestTemplate().postForObject(Constants.url + "/getAllBanks", map, 
+					Bank[].class);
+
+			List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
 			
 			model = new ModelAndView("master/addEmployee");
 			model.addObject("locationList", locationList);
 			model.addObject("deptList", departmentList);
 			model.addObject("designationList", designationList);
 			model.addObject("contractorsList", contractorsList);
+			model.addObject("bankList", bankList);
 			model.addObject("emp", emp);
+			model.addObject("flag", flag);
 			
 			//}
 		} catch (Exception e) {
@@ -164,48 +188,14 @@ public class EmployeeController {
 		}
 		return model;
 	}
-	@RequestMapping(value = "/employeeEdit", method = RequestMethod.GET)
-	public ModelAndView employeeEdit(HttpServletRequest request, HttpServletResponse response) {
-
-		HttpSession session = request.getSession();
-		ModelAndView model = null;
-
-		try {
-			Bank bank = new Bank();
-			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-			Info view = AcessController.checkAccess("departmentAdd", "showDepartmentList", 0, 1, 0, 0, newModuleList);
-
-			if (view.isError() == true) {
-
-				model = new ModelAndView("accessDenied");
-
-			} else {*/
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
-					Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
-					Location[].class);
-					List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
-					
-					Department[] department = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDepartments", map,
-							Department[].class);
-							List<Department> departmentList = new ArrayList<Department>(Arrays.asList(department));
-			
-				model = new ModelAndView("master/employeeAdd");
-				model.addObject("locationList", locationList);
-				model.addObject("deptList", departmentList);
-			//}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return model;
-	}
+	
 	
 	
 	
 	@RequestMapping(value= "/insertEmployeeBasicInfo", method = RequestMethod.POST)  
 	public String submitInsertEmployeeUserInfo(HttpServletRequest request, HttpServletResponse response){
-		EmployeeMaster empSave = new EmployeeMaster();
-		String redirect = "";
+		 empSave = new EmployeeMaster();
+		
 		try {
 			
 				EmployeeMaster emp =new EmployeeMaster();
@@ -299,33 +289,42 @@ public class EmployeeController {
 				System.out.println("Encrypted Employee = -------------"+encryptEmpId);
 				
 				if(empSave!=null) {
+					flag=1;
 					TblEmpInfo empInfo = new TblEmpInfo();
 					empInfo.setEmpId(empSave.getEmpId());
 					
-					TblEmpInfo empIdInfo =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo,
+					 empIdInfo =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo,
 							TblEmpInfo.class);
 					
 					TblEmpBankInfo empBank = new TblEmpBankInfo();
 					empBank.setEmpId(empSave.getEmpId());
 					
-					TblEmpBankInfo empIdBank =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank", empBank,
+					empIdBank =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank", empBank,
 							TblEmpBankInfo.class);
 					
 					TblEmpNominees empNominee = new TblEmpNominees();
 					empNominee.setEmpId(empSave.getEmpId());
 					
-					TblEmpNominees empIdNom =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee,
+					empIdNom =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee,
 							TblEmpNominees.class);
 					
 					EmpSalaryInfo empSal = new EmpSalaryInfo();
 					empSal.setEmpId(empSave.getEmpId());
 					
-					EmpSalaryInfo empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
-							EmpSalaryInfo.class);
+					empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
+					EmpSalaryInfo.class);
+					
+					User user = new User();
+					user.setEmpId(empSave.getEmpId());
+					
+					User empIdUser =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdUser", user,
+							User.class);
+					
+					
 					
 					System.out.println("Success");
-					redirect="redirect:/employeeAdd";
-					//redirect="redirect:/employeeAdd/empId="+encryptEmpId+"&tabId="+1;
+					//redirect="redirect:/employeeAdd";
+					redirect="redirect:/employeeEdit";
 				}else {
 					System.err.println("Fail");
 					redirect="redirect:/employeeAdd";
@@ -339,15 +338,253 @@ public class EmployeeController {
 		
 	}
 	
-	
-	@RequestMapping(value= "/employeeAdd/{empId}/{tabId}", method = RequestMethod.POST)  
-	public@ResponseBody Info submitEmpOtherInfo(HttpServletRequest request, HttpServletResponse response){
+	@RequestMapping(value = "/employeeEdit", method = RequestMethod.GET)
+	public ModelAndView employeeEdit(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+
 		try {
 			
-		}catch (Exception e) {
-			// TODO: handle exception
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("departmentAdd", "showDepartmentList", 0, 1, 0,
+			 * 0, newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			
+			Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+			Location[].class);
+			List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+		//	System.out.println("Location List-------------"+locationList);
+			
+			Department[] department = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDepartments", map,
+			Department[].class);
+			List<Department> departmentList = new ArrayList<Department>(Arrays.asList(department));
+			//System.out.println("DepartmentList List-------------"+departmentList);
+			
+			Designation[] designation = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDesignations", map, 
+			Designation[].class);
+			List<Designation> designationList = new ArrayList<Designation>(Arrays.asList(designation));
+			//System.out.println("DesignationList List-------------"+designationList);
+			
+			Contractor[] contractor = Constants.getRestTemplate().postForObject(Constants.url + "/getAllContractors", map , 
+			Contractor[].class);
+			List<Contractor> contractorsList = new ArrayList<Contractor>(Arrays.asList(contractor));
+			//System.out.println("ContractorsList List-------------"+contractorsList);
+			
+
+			Bank[] bank = Constants.getRestTemplate().postForObject(Constants.url + "/getAllBanks", map, 
+					Bank[].class);
+			List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
+			
+			model = new ModelAndView("master/addEmployee");
+			model.addObject("locationList", locationList);
+			model.addObject("deptList", departmentList);
+			model.addObject("designationList", designationList);
+			model.addObject("contractorsList", contractorsList);
+			model.addObject("bankList", bankList);
+			
+			model.addObject("emp", empSave);
+			model.addObject("empPersInfo", empIdInfo);
+			model.addObject("empNom", empIdNom);
+			model.addObject("empBank", empIdBank);
+			flag=1;
+			model.addObject("flag", flag);
+			
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return null;
+		return model;
 	}
+	
+	
+	@RequestMapping(value= "/submitEmpOtherInfo", method = RequestMethod.POST)  
+	public String submitEmpOtherInfo(HttpServletRequest request, HttpServletResponse response){
+		
+		try {
+			TblEmpInfo empInfo = new TblEmpInfo();
+			if(empIdInfo!=null) {
+				empInfo.setEmpInfoId(empIdInfo.getEmpInfoId());
+				empInfo.setEmpId(empIdInfo.getEmpId());
+				empInfo.setMiddleName(request.getParameter("midname"));
+				empInfo.setMiddleNameRelation(request.getParameter("relation"));
+				empInfo.setDob(DateConvertor.convertToYMD(request.getParameter("dob")));
+				empInfo.setGender(request.getParameter("gender"));
+				empInfo.setMaritalStatus(request.getParameter("maritalstatus"));
+				empInfo.setEmail(request.getParameter("email"));
+				empInfo.setAddress(request.getParameter("caddress"));
+				empInfo.setPermanentAddress(request.getParameter("paddress"));
+				empInfo.setEmpQualification(request.getParameter("qualification"));
+				empInfo.setEmerName(request.getParameter("emergencyPerson"));
+				empInfo.setEmerContactAddr(request.getParameter("emergencyPersonAddress"));
+				empInfo.setEmerContactNo1(request.getParameter("contact1"));
+				empInfo.setEmerContactNo2(request.getParameter("contact2"));
+				empInfo.setBloodGroup(request.getParameter("bloodgroup"));
+				empInfo.setUniform_size(request.getParameter("uniformsize"));
+					
+					System.out.println("TblEmpInfo----"+empInfo);
+					 empIdInfo =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo,
+								TblEmpInfo.class);
+					if(empIdInfo!=null) {
+						System.out.println("Sucess---------"+empIdInfo);
+						redirect = "redirect:/employeeEdit";
+					}else {
+						System.err.println("Fail----------"+empIdInfo);
+						redirect = "redirect:/employeeEdit";
+					}
+			
+			}else {
+				redirect = "redirect:/employeeAdd";
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return redirect;
+		
+	}
+	
+	
+	
+	@RequestMapping(value= "/submitEmpRelationInfo", method = RequestMethod.POST)  
+	public String submitEmpRelationInfo(HttpServletRequest request, HttpServletResponse response){
+		
+		try {
+			TblEmpNominees empNominee = new TblEmpNominees();
+			if(empIdNom!=null) {
+				
+				empNominee.setNomineeId(empIdNom.getNomineeId());
+				empNominee.setEmpId(empIdNom.getEmpId());
+				
+				
+				empNominee.setName(request.getParameter("name"));
+				empNominee.setDob(request.getParameter("dob"));
+				empNominee.setRelation(request.getParameter("relation"));
+				empNominee.setOccupation1(request.getParameter("occupation"));
+				
+				empNominee.setName2(request.getParameter("name2"));
+				empNominee.setDob2(request.getParameter("dob2"));
+				empNominee.setRelation2(request.getParameter("relation2"));
+				empNominee.setOccupation2(request.getParameter("occupation2"));
+				
+				
+				empNominee.setName3(request.getParameter("name3"));
+				empNominee.setDob3(request.getParameter("dob3"));
+				empNominee.setRelation3(request.getParameter("relation3"));
+				empNominee.setOccupation3(request.getParameter("occupation3"));
+				
+				empNominee.setName4(request.getParameter("name4"));
+				empNominee.setDob4(request.getParameter("dob4"));
+				empNominee.setRelation4(request.getParameter("relation4"));
+				empNominee.setOccupation4(request.getParameter("occupation4"));
+				
+				empNominee.setName5(request.getParameter("name5"));
+				empNominee.setDob5(request.getParameter("dob5"));
+				empNominee.setRelation5(request.getParameter("relation5"));
+				empNominee.setOccupation5(request.getParameter("occupation5"));
+				
+				empNominee.setName6(request.getParameter("name6"));
+				empNominee.setDob6(request.getParameter("dob6"));
+				empNominee.setRelation6(request.getParameter("relation6"));
+				empNominee.setOccupation6(request.getParameter("occupation6"));
+					
+				
+					System.out.println("TblEmpNominees----"+empNominee);
+					empIdNom =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee,
+							 TblEmpNominees.class);
+					if(empIdInfo!=null) {
+						System.out.println("Sucess---------"+empIdInfo);
+						redirect = "redirect:/employeeEdit";
+					}else {
+						System.err.println("Fail----------"+empIdInfo);
+						redirect = "redirect:/employeeAdd";
+					}
+			
+			}else {
+				redirect = "redirect:/employeeAdd";
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return redirect;
+		
+	}
+	
+	@RequestMapping(value= "/submitEmpBankInfo", method = RequestMethod.POST)  
+	public String submitEmpBankInfo(HttpServletRequest request, HttpServletResponse response){
+		
+		try {
+			TblEmpBankInfo empBank = new TblEmpBankInfo();
+			if(empIdBank!=null) {
+				empBank.setBankId(Integer.parseInt(request.getParameter("bankId")));
+				empBank.setEmpId(empIdBank.getEmpId());
+				empBank.setBankInfoId(empIdBank.getBankInfoId());
+				empBank.setAccNo(Integer.parseInt(request.getParameter("accNo")));
+				
+					System.out.println("TblEmpBankInfo----"+empBank);
+					empIdBank =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank", empBank,
+							TblEmpBankInfo.class);
+					if(empIdInfo!=null) {
+						System.out.println("Sucess---------"+empIdInfo);
+						redirect = "redirect:/employeeEdit";
+					}else {
+						System.err.println("Fail----------"+empIdInfo);
+						redirect = "redirect:/employeeEdit";
+					}
+			
+			}else {
+				redirect = "redirect:/employeeAdd";
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return redirect;
+		
+	}
+	
+	@RequestMapping(value= "/insertEmployeeBasicInfo", method = RequestMethod.POST)  
+	public String insertEmployeeBasicInfo(HttpServletRequest request, HttpServletResponse response){
+		
+		try {
+			EmpSalaryInfo empSal = new EmpSalaryInfo();
+			if(empIdSal!=null) {
+			
+				empSal.setSalaryInfoId(empIdSal.getSalaryInfoId());
+				empSal.setEmpId(empIdSal.getEmpId());
+					System.out.println("TblEmpBankInfo----"+empSal);
+					empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
+							EmpSalaryInfo.class);
+					if(empIdSal!=null) {
+						System.out.println("Sucess---------"+empIdSal);
+						redirect = "redirect:/employeeEdit";
+					}else {
+						System.err.println("Fail----------"+empIdSal);
+						redirect = "redirect:/employeeEdit";
+					}
+			
+			}else {
+				redirect = "redirect:/employeeAdd";
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return redirect;
+		
+	}
+	
 	
 }

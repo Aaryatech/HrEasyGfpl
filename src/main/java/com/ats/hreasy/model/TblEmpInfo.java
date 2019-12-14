@@ -3,7 +3,7 @@ package com.ats.hreasy.model;
 public class TblEmpInfo {
 
 	
-	private int emp_info_id;
+	private int empInfoId;
 	private int empId;
 	private String middleName;
 	private String middlePersonName;
@@ -27,7 +27,7 @@ public class TblEmpInfo {
 	private String photoBankpassbook;
 	private String email;
 	private String emerName;
-	private int emerContactNo2;
+	private String emerContactNo2;
 	private String photoSignature;
 	private String rawData;
 	private int delStatus;
@@ -35,13 +35,13 @@ public class TblEmpInfo {
 	private int exInt2;
 	private String exVar1;
 	private String exVar2;	
-
-	public int getEmp_info_id() {
-		return emp_info_id;
+	
+	public int getEmpInfoId() {
+		return empInfoId;
 	}
 
-	public void setEmp_info_id(int emp_info_id) {
-		this.emp_info_id = emp_info_id;
+	public void setEmpInfoId(int empInfoId) {
+		this.empInfoId = empInfoId;
 	}
 
 	public int getEmpId() {
@@ -228,11 +228,11 @@ public class TblEmpInfo {
 		this.emerName = emerName;
 	}
 
-	public int getEmerContactNo2() {
+	public String getEmerContactNo2() {
 		return emerContactNo2;
 	}
 
-	public void setEmerContactNo2(int emerContactNo2) {
+	public void setEmerContactNo2(String emerContactNo2) {
 		this.emerContactNo2 = emerContactNo2;
 	}
 
@@ -294,7 +294,7 @@ public class TblEmpInfo {
 
 	@Override
 	public String toString() {
-		return "TblEmpInfo [emp_info_id=" + emp_info_id + ", empId=" + empId + ", middleName=" + middleName
+		return "TblEmpInfo [empInfoId=" + empInfoId + ", empId=" + empId + ", middleName=" + middleName
 				+ ", middlePersonName=" + middlePersonName + ", middleNameRelation=" + middleNameRelation + ", dob="
 				+ dob + ", gender=" + gender + ", maritalStatus=" + maritalStatus + ", address=" + address
 				+ ", permanentAddress=" + permanentAddress + ", empQualification=" + empQualification
