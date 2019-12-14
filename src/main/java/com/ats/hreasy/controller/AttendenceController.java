@@ -241,8 +241,10 @@ public class AttendenceController {
 
 	@RequestMapping(value = "/attUploadCSV", method = RequestMethod.POST)
 	@ResponseBody
-	public String attUploadCSV(@RequestParam("file") List<MultipartFile> file, HttpServletRequest request,
+	public Info attUploadCSV(@RequestParam("file") List<MultipartFile> file, HttpServletRequest request,
 			HttpServletResponse response) {
+
+		Info info = new Info();
 
 		try {
 
@@ -311,14 +313,12 @@ public class AttendenceController {
 				dataForUpdateAttendance.setMonth(month);
 				dataForUpdateAttendance.setYear(year);
 				dataForUpdateAttendance.setFileUploadedDataList(fileUploadedDataList);
-				 
-				Info info = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/importAttendanceByFileAndUpdate", dataForUpdateAttendance, Info.class);
+
+				info = Constants.getRestTemplate().postForObject(Constants.url + "/importAttendanceByFileAndUpdate",
+						dataForUpdateAttendance, Info.class);
 				// System.out.println(variousList);
 
 				//
-
-				
 
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -329,7 +329,7 @@ public class AttendenceController {
 			e.printStackTrace();
 
 		}
-		return "0";
+		return info;
 
 	}
 

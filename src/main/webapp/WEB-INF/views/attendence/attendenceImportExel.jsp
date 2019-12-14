@@ -566,7 +566,7 @@
 				fd.append('file', files);
 				fd.append('month', month);
 				fd.append('year', year);
-				
+
 				$.ajax({
 					url : '${pageContext.request.contextPath}/attUploadCSV',
 					type : 'post',
@@ -577,12 +577,12 @@
 					success : function(response) {
 
 						//alert(response)
-						$('#modal_step2_fileupload').modal('hide');
+						//$('#modal_step2_fileupload').modal('hide');
 
-						if (response == 0) {
-							alert('file uploaded');
+						if (response.error == false) {
+							location.reload(true);
 						} else {
-							alert('file not uploaded');
+
 						}
 					},
 				});
