@@ -24,10 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.model.Allowances;
 import com.ats.hreasy.model.Bank;
 import com.ats.hreasy.model.Contractor;
 import com.ats.hreasy.model.Department;
 import com.ats.hreasy.model.Designation;
+import com.ats.hreasy.model.EmpSalAllowance;
 import com.ats.hreasy.model.EmpSalaryInfo;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.Info;
@@ -51,6 +53,8 @@ public class EmployeeController {
 	TblEmpNominees empIdNom = null;
 	TblEmpBankInfo empIdBank  = null;
 	EmpSalaryInfo empIdSal = null;
+	EmpSalAllowance empSalAllowanceId = null;
+	List<Allowances> allowanceList = new ArrayList<Allowances>();
 	/******************************Employee*********************************/
 	@RequestMapping(value = "/showEmployeeList", method = RequestMethod.GET)
 	public ModelAndView showEmployeeList(HttpServletRequest request, HttpServletResponse response) {
@@ -170,8 +174,11 @@ public class EmployeeController {
 			
 			Bank[] bank = Constants.getRestTemplate().postForObject(Constants.url + "/getAllBanks", map, 
 					Bank[].class);
-
 			List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
+			
+			Allowances[] allowanceArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllAllowances", 
+					Allowances[].class);
+			allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
 			
 			model = new ModelAndView("master/addEmployee");
 			model.addObject("locationList", locationList);
@@ -179,6 +186,7 @@ public class EmployeeController {
 			model.addObject("designationList", designationList);
 			model.addObject("contractorsList", contractorsList);
 			model.addObject("bankList", bankList);
+			model.addObject("allowanceList", allowanceList);
 			model.addObject("emp", emp);
 			model.addObject("flag", flag);
 			
@@ -314,13 +322,18 @@ public class EmployeeController {
 					empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
 					EmpSalaryInfo.class);
 					
+					EmpSalAllowance allowance = new EmpSalAllowance();
+					allowance.setEmpId(empSave.getEmpId());
+					
+					empSalAllowanceId =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpSalAllowanceIds", allowance,
+							EmpSalAllowance.class);
+					
 					User user = new User();
 					user.setEmpId(empSave.getEmpId());
 					
 					User empIdUser =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdUser", user,
 							User.class);
-					
-					
+										
 					
 					System.out.println("Success");
 					//redirect="redirect:/employeeAdd";
@@ -387,17 +400,23 @@ public class EmployeeController {
 					Bank[].class);
 			List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
 			
+			Allowances[] allowanceArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllAllowances", 
+					Allowances[].class);
+			allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
+			
 			model = new ModelAndView("master/addEmployee");
 			model.addObject("locationList", locationList);
 			model.addObject("deptList", departmentList);
 			model.addObject("designationList", designationList);
 			model.addObject("contractorsList", contractorsList);
 			model.addObject("bankList", bankList);
+			model.addObject("allowanceList", allowanceList);
 			
 			model.addObject("emp", empSave);
 			model.addObject("empPersInfo", empIdInfo);
 			model.addObject("empNom", empIdNom);
 			model.addObject("empBank", empIdBank);
+			model.addObject("empAllowanceId", empSalAllowanceId);
 			flag=1;
 			model.addObject("flag", flag);
 			
@@ -469,33 +488,33 @@ public class EmployeeController {
 				
 				
 				empNominee.setName(request.getParameter("name"));
-				empNominee.setDob(request.getParameter("dob"));
+				empNominee.setDob(DateConvertor.convertToYMD(request.getParameter("dob")));
 				empNominee.setRelation(request.getParameter("relation"));
 				empNominee.setOccupation1(request.getParameter("occupation"));
 				
 				empNominee.setName2(request.getParameter("name2"));
-				empNominee.setDob2(request.getParameter("dob2"));
+				empNominee.setDob2(DateConvertor.convertToYMD(request.getParameter("dob2")));
 				empNominee.setRelation2(request.getParameter("relation2"));
 				empNominee.setOccupation2(request.getParameter("occupation2"));
 				
 				
 				empNominee.setName3(request.getParameter("name3"));
-				empNominee.setDob3(request.getParameter("dob3"));
+				empNominee.setDob3(DateConvertor.convertToYMD(request.getParameter("dob3")));
 				empNominee.setRelation3(request.getParameter("relation3"));
 				empNominee.setOccupation3(request.getParameter("occupation3"));
 				
 				empNominee.setName4(request.getParameter("name4"));
-				empNominee.setDob4(request.getParameter("dob4"));
+				empNominee.setDob4(DateConvertor.convertToYMD(request.getParameter("dob4")));
 				empNominee.setRelation4(request.getParameter("relation4"));
 				empNominee.setOccupation4(request.getParameter("occupation4"));
 				
 				empNominee.setName5(request.getParameter("name5"));
-				empNominee.setDob5(request.getParameter("dob5"));
+				empNominee.setDob5(DateConvertor.convertToYMD(request.getParameter("dob5")));
 				empNominee.setRelation5(request.getParameter("relation5"));
 				empNominee.setOccupation5(request.getParameter("occupation5"));
 				
 				empNominee.setName6(request.getParameter("name6"));
-				empNominee.setDob6(request.getParameter("dob6"));
+				empNominee.setDob6(DateConvertor.convertToYMD(request.getParameter("dob6")));
 				empNominee.setRelation6(request.getParameter("relation6"));
 				empNominee.setOccupation6(request.getParameter("occupation6"));
 					
@@ -555,20 +574,100 @@ public class EmployeeController {
 		
 	}
 	
-	@RequestMapping(value= "/insertEmployeeBasicInfo", method = RequestMethod.POST)  
+	@RequestMapping(value= "/insertEmployeeAllowancesInfo", method = RequestMethod.POST)  
 	public String insertEmployeeBasicInfo(HttpServletRequest request, HttpServletResponse response){
 		
 		try {
 			EmpSalaryInfo empSal = new EmpSalaryInfo();
+			double basic = 0;
+			double pfEmpPer = 0;
+			double pfEmployerPer = 0;
+			
+			double empEsicPer = 0;
+			double employerEsicPer = 0;
+			
+			try {
+				 basic = Double.parseDouble(request.getParameter("basic"));
+				 pfEmpPer = Double.parseDouble(request.getParameter("pfEmpPer"));
+				 pfEmployerPer = Double.parseDouble(request.getParameter("pfEmployerPer"));				
+				
+				 empEsicPer = Double.parseDouble(request.getParameter("empEsicPer"));
+				 employerEsicPer = Double.parseDouble(request.getParameter("employerEsicPer"));
+				
+			}catch (Exception e) {
+				basic = 0;
+				 pfEmpPer = 0;
+				 pfEmployerPer = 0;
+				
+				 empEsicPer = 0;
+				 employerEsicPer = 0;
+			}
+			
+			
 			if(empIdSal!=null) {
 			
 				empSal.setSalaryInfoId(empIdSal.getSalaryInfoId());
 				empSal.setEmpId(empIdSal.getEmpId());
+				empSal.setBasic(basic);
+				empSal.setSocietyContribution(Double.parseDouble(request.getParameter("societyContri")));
+				empSal.setPfApplicable(request.getParameter("pfApplicable"));
+				empSal.setPfType(request.getParameter("pfType"));
+				empSal.setPfEmpPer(pfEmpPer);
+				empSal.setPfEmplrPer(pfEmployerPer);
+				empSal.setEsicApplicable(request.getParameter("esicApplicable"));
+				empSal.setMlwfApplicable(request.getParameter("mlwfApplicable"));
+				empSal.setEmployeeEsicPercentage(empEsicPer);
+				empSal.setEmployerEsicPercentage(employerEsicPer);
+				empSal.setPtApplicable(request.getParameter("ptApplicable"));
+				empSal.setEpfJoiningDate(request.getParameter("epfJoinDate"));
+				empSal.setSalBasis(request.getParameter("salBasis"));
+				empSal.setCmpJoiningDate(request.getParameter("joinDate"));
+				empSal.setCmpLeavingDate(request.getParameter("leaveDate"));
+				empSal.setLeavingReason(request.getParameter("leaveReason"));
+				empSal.setLeavingReasonEsic(request.getParameter("lrEsic"));
+				empSal.setLeavingReasonPf(request.getParameter("lrForPF"));
+			
+				
 					System.out.println("TblEmpBankInfo----"+empSal);
 					empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
 							EmpSalaryInfo.class);
+				
+					
+					
 					if(empIdSal!=null) {
 						System.out.println("Sucess---------"+empIdSal);
+						
+						List<EmpSalAllowance> allowncList = new ArrayList<EmpSalAllowance>();
+						for (int i = 0; i < allowanceList.size(); i++) {
+							
+							
+							System.out.println("--------------"+request.getParameter("allownces"+allowanceList.get(i).getAllowanceId()));
+							EmpSalAllowance empSellAllwance =  new EmpSalAllowance();
+							
+							double allwncValue= 0;
+							try {
+								allwncValue = Double.parseDouble(request.getParameter("allownces"+allowanceList.get(i).getAllowanceId()));
+							}catch (Exception e) {
+								allwncValue = 0;
+							}
+							
+							empSellAllwance.setEmpSalAllowanceId(empSalAllowanceId.getAllowanceId());
+							
+							empSellAllwance.setEmpId(empSalAllowanceId.getEmpId());
+							if(allwncValue!=0) {
+								empSellAllwance.setAllowanceId(allowanceList.get(i).getAllowanceId());
+								empSellAllwance.setAllowanceValue(allwncValue);						
+							}
+							empSellAllwance.setMakerEnterDatetime(currDate);
+						
+							allowncList.add(empSellAllwance);
+							
+							System.out.println("allowncList------"+allowncList);
+						}
+						
+						
+						List<Allowances> allowance = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpSalAllowanceInfo", allowncList,
+							List.class);
 						redirect = "redirect:/employeeEdit";
 					}else {
 						System.err.println("Fail----------"+empIdSal);
@@ -585,6 +684,8 @@ public class EmployeeController {
 		return redirect;
 		
 	}
+	
+	
 	
 	
 }

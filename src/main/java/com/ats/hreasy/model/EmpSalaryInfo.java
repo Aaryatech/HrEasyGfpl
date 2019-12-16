@@ -9,7 +9,6 @@ public class EmpSalaryInfo {
 	private double da;
 	private double hra;
 	private double spa;
-	private double washing;
 	private String pfApplicable;
 	private String pfType;
 	private double pfEmpPer;
@@ -19,37 +18,14 @@ public class EmpSalaryInfo {
 	private String cmpLeavingDate;
 	private String epfJoiningDate;
 	private String leavingReason;
-	private String sal_basis;	
-	private double addWashing;
-	private double other1;
-	private double other2;
-	private double other3;
-	private double other4;
-	private double allowance1;
-	private double allowance2;
-	private double allowance3;
-	private double allowance4;
-	private double allowance5;
-	private double allowance6;
-	private double allowance7;
-	private double allowance8;
-	private double allowance9;
-	private double allowance10;
-	private double allowance11;	
-	private double allowance12;
-	private double allowance13;
-	private double allowance14;
-	private double allowance15;
-	private double allowance16;
-	private double allowance17;
-	private double allowance18;
+	private String salBasis;
 	private String ceilingLimitEmpApplicable;
 	private String ceilingLimitEmployerApplicable;
 	private String leavingReasonEsic;
 	private String leavingReasonPf;
 	private String mlwfApplicable;
 	private String ptApplicable;
-	private double gross_sallary;
+	private double grossSalary;
 	private double societyContribution;
 	private double basicCompany;
 	private double hraCompany;
@@ -111,14 +87,6 @@ public class EmpSalaryInfo {
 
 	public void setSpa(double spa) {
 		this.spa = spa;
-	}
-
-	public double getWashing() {
-		return washing;
-	}
-
-	public void setWashing(double washing) {
-		this.washing = washing;
 	}
 
 	public String getPfApplicable() {
@@ -193,197 +161,6 @@ public class EmpSalaryInfo {
 		this.leavingReason = leavingReason;
 	}
 
-	public String getSal_basis() {
-		return sal_basis;
-	}
-
-	public void setSal_basis(String sal_basis) {
-		this.sal_basis = sal_basis;
-	}
-
-	public double getAddWashing() {
-		return addWashing;
-	}
-
-	public void setAddWashing(double addWashing) {
-		this.addWashing = addWashing;
-	}
-
-	public double getOther1() {
-		return other1;
-	}
-
-	public void setOther1(double other1) {
-		this.other1 = other1;
-	}
-
-	public double getOther2() {
-		return other2;
-	}
-
-	public void setOther2(double other2) {
-		this.other2 = other2;
-	}
-
-	public double getOther3() {
-		return other3;
-	}
-
-	public void setOther3(double other3) {
-		this.other3 = other3;
-	}
-
-	public double getOther4() {
-		return other4;
-	}
-
-	public void setOther4(double other4) {
-		this.other4 = other4;
-	}
-
-	public double getAllowance1() {
-		return allowance1;
-	}
-
-	public void setAllowance1(double allowance1) {
-		this.allowance1 = allowance1;
-	}
-
-	public double getAllowance2() {
-		return allowance2;
-	}
-
-	public void setAllowance2(double allowance2) {
-		this.allowance2 = allowance2;
-	}
-
-	public double getAllowance3() {
-		return allowance3;
-	}
-
-	public void setAllowance3(double allowance3) {
-		this.allowance3 = allowance3;
-	}
-
-	public double getAllowance4() {
-		return allowance4;
-	}
-
-	public void setAllowance4(double allowance4) {
-		this.allowance4 = allowance4;
-	}
-
-	public double getAllowance5() {
-		return allowance5;
-	}
-
-	public void setAllowance5(double allowance5) {
-		this.allowance5 = allowance5;
-	}
-
-	public double getAllowance6() {
-		return allowance6;
-	}
-
-	public void setAllowance6(double allowance6) {
-		this.allowance6 = allowance6;
-	}
-
-	public double getAllowance7() {
-		return allowance7;
-	}
-
-	public void setAllowance7(double allowance7) {
-		this.allowance7 = allowance7;
-	}
-
-	public double getAllowance8() {
-		return allowance8;
-	}
-
-	public void setAllowance8(double allowance8) {
-		this.allowance8 = allowance8;
-	}
-
-	public double getAllowance9() {
-		return allowance9;
-	}
-
-	public void setAllowance9(double allowance9) {
-		this.allowance9 = allowance9;
-	}
-
-	public double getAllowance10() {
-		return allowance10;
-	}
-
-	public void setAllowance10(double allowance10) {
-		this.allowance10 = allowance10;
-	}
-
-	public double getAllowance11() {
-		return allowance11;
-	}
-
-	public void setAllowance11(double allowance11) {
-		this.allowance11 = allowance11;
-	}
-
-	public double getAllowance12() {
-		return allowance12;
-	}
-
-	public void setAllowance12(double allowance12) {
-		this.allowance12 = allowance12;
-	}
-
-	public double getAllowance13() {
-		return allowance13;
-	}
-
-	public void setAllowance13(double allowance13) {
-		this.allowance13 = allowance13;
-	}
-
-	public double getAllowance14() {
-		return allowance14;
-	}
-
-	public void setAllowance14(double allowance14) {
-		this.allowance14 = allowance14;
-	}
-
-	public double getAllowance15() {
-		return allowance15;
-	}
-
-	public void setAllowance15(double allowance15) {
-		this.allowance15 = allowance15;
-	}
-
-	public double getAllowance16() {
-		return allowance16;
-	}
-
-	public void setAllowance16(double allowance16) {
-		this.allowance16 = allowance16;
-	}
-
-	public double getAllowance17() {
-		return allowance17;
-	}
-
-	public void setAllowance17(double allowance17) {
-		this.allowance17 = allowance17;
-	}
-
-	public double getAllowance18() {
-		return allowance18;
-	}
-
-	public void setAllowance18(double allowance18) {
-		this.allowance18 = allowance18;
-	}
 
 	public String getCeilingLimitEmpApplicable() {
 		return ceilingLimitEmpApplicable;
@@ -431,14 +208,6 @@ public class EmpSalaryInfo {
 
 	public void setPtApplicable(String ptApplicable) {
 		this.ptApplicable = ptApplicable;
-	}
-
-	public double getGross_sallary() {
-		return gross_sallary;
-	}
-
-	public void setGross_sallary(double gross_sallary) {
-		this.gross_sallary = gross_sallary;
 	}
 
 	public double getSocietyContribution() {
@@ -489,29 +258,37 @@ public class EmpSalaryInfo {
 		this.employerEsicPercentage = employerEsicPercentage;
 	}
 
+	public String getSalBasis() {
+		return salBasis;
+	}
+
+	public void setSalBasis(String salBasis) {
+		this.salBasis = salBasis;
+	}
+
+	public double getGrossSalary() {
+		return grossSalary;
+	}
+
+	public void setGrossSalary(double grossSalary) {
+		this.grossSalary = grossSalary;
+	}
+
 	@Override
 	public String toString() {
 		return "EmpSalaryInfo [salaryInfoId=" + salaryInfoId + ", empId=" + empId + ", salaryTypeId=" + salaryTypeId
-				+ ", basic=" + basic + ", da=" + da + ", hra=" + hra + ", spa=" + spa + ", washing=" + washing
-				+ ", pfApplicable=" + pfApplicable + ", pfType=" + pfType + ", pfEmpPer=" + pfEmpPer + ", pfEmplrPer="
-				+ pfEmplrPer + ", esicApplicable=" + esicApplicable + ", cmpJoiningDate=" + cmpJoiningDate
-				+ ", cmpLeavingDate=" + cmpLeavingDate + ", epfJoiningDate=" + epfJoiningDate + ", leavingReason="
-				+ leavingReason + ", sal_basis=" + sal_basis + ", addWashing=" + addWashing + ", other1=" + other1
-				+ ", other2=" + other2 + ", other3=" + other3 + ", other4=" + other4 + ", allowance1=" + allowance1
-				+ ", allowance2=" + allowance2 + ", allowance3=" + allowance3 + ", allowance4=" + allowance4
-				+ ", allowance5=" + allowance5 + ", allowance6=" + allowance6 + ", allowance7=" + allowance7
-				+ ", allowance8=" + allowance8 + ", allowance9=" + allowance9 + ", allowance10=" + allowance10
-				+ ", allowance11=" + allowance11 + ", allowance12=" + allowance12 + ", allowance13=" + allowance13
-				+ ", allowance14=" + allowance14 + ", allowance15=" + allowance15 + ", allowance16=" + allowance16
-				+ ", allowance17=" + allowance17 + ", allowance18=" + allowance18 + ", ceilingLimitEmpApplicable="
-				+ ceilingLimitEmpApplicable + ", ceilingLimitEmployerApplicable=" + ceilingLimitEmployerApplicable
-				+ ", leavingReasonEsic=" + leavingReasonEsic + ", leavingReasonPf=" + leavingReasonPf
-				+ ", mlwfApplicable=" + mlwfApplicable + ", ptApplicable=" + ptApplicable + ", gross_sallary="
-				+ gross_sallary + ", societyContribution=" + societyContribution + ", basicCompany=" + basicCompany
-				+ ", hraCompany=" + hraCompany + ", daCompany=" + daCompany + ", employeeEsicPercentage="
+				+ ", basic=" + basic + ", da=" + da + ", hra=" + hra + ", spa=" + spa + ", pfApplicable=" + pfApplicable
+				+ ", pfType=" + pfType + ", pfEmpPer=" + pfEmpPer + ", pfEmplrPer=" + pfEmplrPer + ", esicApplicable="
+				+ esicApplicable + ", cmpJoiningDate=" + cmpJoiningDate + ", cmpLeavingDate=" + cmpLeavingDate
+				+ ", epfJoiningDate=" + epfJoiningDate + ", leavingReason=" + leavingReason + ", salBasis=" + salBasis
+				+ ", ceilingLimitEmpApplicable=" + ceilingLimitEmpApplicable + ", ceilingLimitEmployerApplicable="
+				+ ceilingLimitEmployerApplicable + ", leavingReasonEsic=" + leavingReasonEsic + ", leavingReasonPf="
+				+ leavingReasonPf + ", mlwfApplicable=" + mlwfApplicable + ", ptApplicable=" + ptApplicable
+				+ ", grossSalary=" + grossSalary + ", societyContribution=" + societyContribution + ", basicCompany="
+				+ basicCompany + ", hraCompany=" + hraCompany + ", daCompany=" + daCompany + ", employeeEsicPercentage="
 				+ employeeEsicPercentage + ", employerEsicPercentage=" + employerEsicPercentage + "]";
 	}
+
 	
-	
-	
+
 }

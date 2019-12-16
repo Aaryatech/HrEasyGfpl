@@ -1067,21 +1067,27 @@
 					<div class="tab-pane fade" id="highlighted-tab5">
 
 										<form
-											action="${pageContext.request.contextPath}/insertEmployeeBasicInfo"
+											action="${pageContext.request.contextPath}/insertEmployeeAllowancesInfo"
 											id="submitInsertEmp" method="post"
 											enctype="multipart/form-data">
 
 											
 											<div class="form-group row">
-												<div class="col-lg-6">
+												<div class="col-lg-4">
 													<input type="text" id="empId" name="empId"
 														value="${emp.empId}">
 												</div>
-												<div class="col-lg-6">
+												<div class="col-lg-4">
 													<input type="text" id="empNomId"
 														name="empNomId" value="${empBank.bankInfoId}">
 												</div>
+												
+												<div class="col-lg-4">
+													<input type="text" id="empAllownaceId"
+														name="empAllownaceId" value="${empAllowanceId.empSalAllowanceId}">
+												</div>
 											</div>
+											
 
 											<div class="form-group row">
 
@@ -1089,98 +1095,10 @@
 													Rs.<span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" name="basic" id="basic" onchange="trim(this)">												
+													<input type="text" class="form-control" placeholder="Basic Rs."
+													 name="basic" id="basic" onchange="trim(this)">												
 												</div>
-
-												<label class="col-form-label col-lg-2" for="da">DA
-													Rs.<span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" name="da" id="da" onchange="trim(this)">
-												</div>
-											</div>
-
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="hra">HRA
-													Rs. <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" name="hra" id="hra">
-												</div>
-
-												<label class="col-form-label col-lg-2" for="conveyance">Conveyance 
-													Rs. <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" name="conveyance" id="conveyance" onchange="trim(this)">													
-												</div>
-											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="performAllownc">Perfomance 
-												Allowance Rs.<span style="color: red"> </span>:
-												</label>
-												<div class="col-lg-4">
-														<input type="text" class="form-control" name="performAllownc" id="performAllownc" onchange="trim(this)">
-												</div>
-
-												<label class="col-form-label col-lg-2" for="teleAllownc">Telephone 
-													Allowance Rs. <span style="color: red">* </span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" name="teleAllownc" id="teleAllownc" onchange="trim(this)">
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="medicAllownc">Medical Allowance Rs.
-													No. <span style="color: red">* </span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" name="medicAllownc" id="medicAllownc" onchange="trim(this)">
-												</div>
-
-												<label class="col-form-label col-lg-2" for="eduAllownc">Education 
-													Allowance Rs. <span style="color: red">* </span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" name="eduAllownc" id="eduAllownc" onchange="trim(this)">
-												</div>
-
-											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for=vechicalAllownc>Vehicle 
-													Allowance Rs. <span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" placeholder="Vehicle Allowance" name="vechicalAllownc" id="vechicalAllownc">
-												</div>
-
-												<label class="col-form-label col-lg-2" for="otherAllownc">Other1 
-												Allowance Rs. <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" placeholder="Other Allowance"
-														id="otherAllownc" name="otherAllownc" autocomplete="off"
-														onchange="trim(this)">
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="otherAllownc2">Other2
-												 Allowance Rs <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														placeholder="Other2 Allowance" id="otherAllownc" name="otherAllownc"
-														autocomplete="off" onchange="trim(this)">
-												</div>
-
-
+				
 												<label class="col-form-label col-lg-2" for="societyContri">Society 
 													Contribution Rs. <span style="color: red"></span>:
 												</label>
@@ -1190,8 +1108,30 @@
 														name="societyContri" autocomplete="off" onchange="trim(this)">
 												
 												</div>
+												 
 											</div>
 
+ 	
+										<div class="row">
+											 <c:forEach items="${allowanceList}" var="allowanceList">
+											 <div class=" col-lg-6">
+													<div class="form-group row">
+														<label class="col-form-label col-lg-2" for="allownces">${allowanceList.shortName}
+														 <span style="color: red"></span>:
+														</label>
+														<div class="col-lg-10">
+															<input type="text" class="form-control"
+																placeholder="${allowanceList.name}" id="allownces${allowanceList.allowanceId}"
+																name="allownces${allowanceList.allowanceId}"
+																autocomplete="off" onchange="trim(this)">
+														</div>
+
+													</div>
+												</div>
+											
+											</c:forEach> 
+										</div>
+											
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="pan">PF Applicable
 													<span style="color: red"></span>:
@@ -1287,7 +1227,8 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" placeholder="EPF Joining Date"
+												
+													 <input type="text" class="form-control datepickerclass" placeholder="EPF Joining Date"
 														id="epfJoinDate" name="epfJoinDate" autocomplete="off"
 														onchange="trim(this)"> 
 												</div>
