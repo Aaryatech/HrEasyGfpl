@@ -267,7 +267,7 @@ public class AttendenceController {
 				Date lastDay = new GregorianCalendar(year, month, 0).getTime();
 
 				upload.saveUploadedFiles(file.get(0), Constants.imageSaveUrl, imageName);
-				String fileIn = "/home/lenovo/Documents/attendance/" + imageName;
+				String fileIn = Constants.imageSaveUrl + imageName;
 
 				// String fileIn = "/home/lenovo/Documents/attendance/" + imageName;
 
