@@ -325,8 +325,8 @@ public class EmployeeController {
 					EmpSalAllowance allowance = new EmpSalAllowance();
 					allowance.setEmpId(empSave.getEmpId());
 					
-					empSalAllowanceId =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpSalAllowanceIds", allowance,
-							EmpSalAllowance.class);
+				//	empSalAllowanceId =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpSalAllowanceIds", allowance,
+					//		EmpSalAllowance.class);
 					
 					User user = new User();
 					user.setEmpId(empSave.getEmpId());
@@ -636,12 +636,12 @@ public class EmployeeController {
 					
 					if(empIdSal!=null) {
 						System.out.println("Sucess---------"+empIdSal);
-						
+						int allwnSalId = 0;
 						List<EmpSalAllowance> allowncList = new ArrayList<EmpSalAllowance>();
 						for (int i = 0; i < allowanceList.size(); i++) {
 							
 							
-							System.out.println("--------------"+request.getParameter("allownces"+allowanceList.get(i).getAllowanceId()));
+							System.out.println("--------------"+allowanceList);
 							EmpSalAllowance empSellAllwance =  new EmpSalAllowance();
 							
 							double allwncValue= 0;
@@ -651,16 +651,22 @@ public class EmployeeController {
 								allwncValue = 0;
 							}
 							
-							empSellAllwance.setEmpSalAllowanceId(empSalAllowanceId.getAllowanceId());
 							
-							empSellAllwance.setEmpId(empSalAllowanceId.getEmpId());
-							if(allwncValue!=0) {
-								empSellAllwance.setAllowanceId(allowanceList.get(i).getAllowanceId());
-								empSellAllwance.setAllowanceValue(allwncValue);						
+						if (allwncValue > 0) {
+							try {
+								allwnSalId = Integer.parseInt(request.getParameter("empSalAllownaceId"));
+							}catch (Exception e) {
+								allwnSalId = 0;
 							}
-							empSellAllwance.setMakerEnterDatetime(currDate);
-						
-							allowncList.add(empSellAllwance);
+								empSellAllwance.setEmpSalAllowanceId(allwnSalId);							
+								empSellAllwance.setEmpId(Integer.parseInt(request.getParameter("empId")));
+								empSellAllwance.setAllowanceId(allowanceList.get(i).getAllowanceId());
+								empSellAllwance.setAllowanceValue(allwncValue);	
+								empSellAllwance.setMakerEnterDatetime(currDate);
+								
+								allowncList.add(empSellAllwance);
+								
+							}
 							
 							System.out.println("allowncList------"+allowncList);
 						}

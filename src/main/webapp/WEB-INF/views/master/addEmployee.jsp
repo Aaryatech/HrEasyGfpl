@@ -131,6 +131,10 @@
 										href="#highlighted-tab5" class="nav-link" data-toggle="tab">Employee Salary Details
 											</br>Step 5
 									</a></li>
+									<li class="nav-item text-center"><a
+										href="#highlighted-tab6" class="nav-link" data-toggle="tab">Employee Documents
+											</br>Step 6
+									</a></li>
 									
 								</ul>
 
@@ -1083,8 +1087,8 @@
 												</div>
 												
 												<div class="col-lg-4">
-													<input type="text" id="empAllownaceId"
-														name="empAllownaceId" value="${empAllowanceId.empSalAllowanceId}">
+													<input type="text" id="empSalAllownaceId"
+														name="empSalAllownaceId" value="${empAllowanceId.empSalAllowanceId}">
 												</div>
 											</div>
 											
@@ -1313,6 +1317,71 @@
 											</div>
 										</form>
 									</div>
+									<!-- *****************************************Tab 6******************************************* -->
+									<div class="tab-pane fade" id="highlighted-tab6">
+
+										<form
+											action="${pageContext.request.contextPath}/submitEmpDocInfo"
+											id="submitInsertRelationEmp" method="post">
+											
+											<div class="form-group row">
+												<div class="col-lg-6">
+													<input type="text" id="empId" name="empId"
+														value="${emp.empId}">
+												</div>
+												<div class="col-lg-6">
+													<input type="text" id="empBankId"
+														name="empBankId" value="${empBank.bankInfoId}">
+												</div>
+											</div>
+								
+											<div class="form-group row">
+												<label class="col-form-label col-lg-2" for="accNo">Account No: *
+													Contact 1 <span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control"
+														placeholder="Account No" id="accNo"
+														name="accNo" autocomplete="off" onchange="trim(this)">
+													<span class="hidedefault   validation-invalid-label"
+														id="error_accNo">This field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="bankId">Bank :
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<select name="bankId" data-placeholder="Select Bank"
+														id="bankId"
+														class="form-control form-control-select21 select2-hidden-accessible1">
+
+
+														<c:forEach items="${bankList}" var="bankList">
+															<option value="${bankList.bankId}">${bankList.name}</option>
+														</c:forEach>
+													</select> 
+												</div>
+											</div>
+											
+											<div class="form-group row mb-0">
+												<div class="col-lg-10 ml-lg-auto">
+													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+													<button type="submit" class="btn bg-blue ml-3 legitRipple"
+														id="submtbtn">
+														Submit <i class="icon-paperplane ml-2"></i>
+													</button>
+													<a href="${pageContext.request.contextPath}/showEmpList"><button
+															type="button" class="btn btn-primary">
+															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+															Cancel
+														</button></a> <input type="hidden" id="mobile1Exist"
+														name="mobile1Exist"><input type="hidden"
+														id="emailExist" name="emailExist">
+												</div>
+											</div>
+										</form>
+									</div>
+									
 
 								</div>
 								<!-- /highlighted tabs -->
