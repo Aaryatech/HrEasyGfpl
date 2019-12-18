@@ -19,18 +19,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.common.VpsImageUpload;
 import com.ats.hreasy.model.Allowances;
 import com.ats.hreasy.model.Bank;
 import com.ats.hreasy.model.Contractor;
 import com.ats.hreasy.model.Department;
 import com.ats.hreasy.model.Designation;
+import com.ats.hreasy.model.EmpDoctype;
 import com.ats.hreasy.model.EmpSalAllowance;
 import com.ats.hreasy.model.EmpSalaryInfo;
+import com.ats.hreasy.model.EmployeDoc;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
@@ -49,12 +53,15 @@ public class EmployeeController {
 	String redirect = "";
 	int flag=0;
 	EmployeeMaster empSave=null;
-	TblEmpInfo empIdInfo  = null;
+	//TblEmpInfo empIdInfo  = null;
 	TblEmpNominees empIdNom = null;
 	TblEmpBankInfo empIdBank  = null;
 	EmpSalaryInfo empIdSal = null;
 	EmpSalAllowance empSalAllowanceId = null;
 	List<Allowances> allowanceList = new ArrayList<Allowances>();
+	List<EmpDoctype> empDocList = new ArrayList<EmpDoctype>();
+	List<EmpSalAllowance> empAllowncList = new ArrayList<EmpSalAllowance>();
+	
 	/******************************Employee*********************************/
 	@RequestMapping(value = "/showEmployeeList", method = RequestMethod.GET)
 	public ModelAndView showEmployeeList(HttpServletRequest request, HttpServletResponse response) {
@@ -80,17 +87,21 @@ public class EmployeeController {
 			 */
 			model = new ModelAndView("master/employeeList");
 			
-			/*Bank[] bank = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBanks",
-					Bank[].class);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			
+			EmployeeMaster[] empArr =  Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmployee", map,
+					EmployeeMaster[].class);			
+			List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>(Arrays.asList(empArr));
+			
+			for (int i = 0; i < empList.size(); i++) {
 
-			List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
-
-			for (int i = 0; i < bankList.size(); i++) {
-
-				bankList.get(i)
-						.setExVar1(FormValidation.Encrypt(String.valueOf(bankList.get(i).getBankId())));
-			}*/
-
+				empList.get(i)
+						.setExVar1(FormValidation.Encrypt(String.valueOf(empList.get(i).getEmpId())));
+			}
+			
+			model.addObject("empList", empList);
+			
 			model.addObject("addAccess", 0);
 			model.addObject("editAccess", 0);
 			model.addObject("deleteAccess", 0);
@@ -126,15 +137,11 @@ public class EmployeeController {
 
 		HttpSession session = request.getSession();
 		ModelAndView model = null;
-		EmployeeMaster emp=null;
+		
 		try {
-			if(empSave!=null) {
-				emp = new EmployeeMaster();
-			}
-			else
-			{
-				emp=empSave;
-			}
+			
+			EmployeeMaster emp = new EmployeeMaster();
+			
 			/*
 			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
 			 * session.getAttribute("moduleJsonList"); Info view =
@@ -154,22 +161,18 @@ public class EmployeeController {
 			Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
 			Location[].class);
 			List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
-			//System.out.println("Location List-------------"+locationList);
 			
 			Department[] department = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDepartments", map,
 			Department[].class);
 			List<Department> departmentList = new ArrayList<Department>(Arrays.asList(department));
-			//System.out.println("DepartmentList List-------------"+departmentList);
 			
 			Designation[] designation = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDesignations", map, 
 			Designation[].class);
 			List<Designation> designationList = new ArrayList<Designation>(Arrays.asList(designation));
-			//System.out.println("DesignationList List-------------"+designationList);
 			
 			Contractor[] contractor = Constants.getRestTemplate().postForObject(Constants.url + "/getAllContractors", map , 
 			Contractor[].class);
 			List<Contractor> contractorsList = new ArrayList<Contractor>(Arrays.asList(contractor));
-			//System.out.println("ContractorsList List-------------"+contractorsList);
 			
 			
 			Bank[] bank = Constants.getRestTemplate().postForObject(Constants.url + "/getAllBanks", map, 
@@ -180,15 +183,21 @@ public class EmployeeController {
 					Allowances[].class);
 			allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
 			
+			EmpDoctype[] empDocArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmpDocTypes", map, 
+					EmpDoctype[].class);
+			empDocList = new ArrayList<EmpDoctype>(Arrays.asList(empDocArr));
+			
 			model = new ModelAndView("master/addEmployee");
+			
 			model.addObject("locationList", locationList);
 			model.addObject("deptList", departmentList);
 			model.addObject("designationList", designationList);
 			model.addObject("contractorsList", contractorsList);
 			model.addObject("bankList", bankList);
 			model.addObject("allowanceList", allowanceList);
+			model.addObject("empDocList", empDocList);
 			model.addObject("emp", emp);
-			model.addObject("flag", flag);
+			
 			
 			//}
 		} catch (Exception e) {
@@ -229,120 +238,200 @@ public class EmployeeController {
 				System.out.println("Mobile-----"+mob2);
 				String landline = request.getParameter("landline");
 				
-				if( mob2 == ""  || mob2==null) {
-					emp.setMobileNo2("NA");
+					if(empId > 0) {
+						System.out.println("In Edit");
+						
+						if( mob2 == ""  || mob2==null) {
+							emp.setMobileNo2("NA");
+						}else {
+							emp.setMobileNo2(mob2);
+						}
+						
+					
+						
+						emp.setEmpId(empId);
+						
+						emp.setFirstName(request.getParameter("fname"));
+						emp.setMiddleName(request.getParameter("mname"));
+						emp.setSurname(request.getParameter("sname"));
+						
+						emp.setMobileNo1(request.getParameter("mobile1"));				
+						emp.setResidenceLandNo("NA");
+						emp.setAadharNo(request.getParameter("aadhar"));
+						emp.setAddedBySupervisorId(0);
+						emp.setAddedFrom(1);
+						emp.setCmpCode(1);
+						emp.setContractorId(contract);
+						emp.setCurrentShiftid(0);
+						emp.setDepartId(deptId);
+						emp.setDesignationId(desigId);
+						emp.setEarnLeaveOpeningBalance(0);
+						emp.setEmailId("NA");
+						emp.setEmpCategory(request.getParameter("empCat"));
+						emp.setEmpCode(request.getParameter("empCode"));				
+						emp.setEmpType(empType);
+						emp.setEsicNo(request.getParameter("esic"));
+						emp.setExgratiaPerc(0);
+						
+						emp.setGrossSalaryEst(0);
+						emp.setIsEmp(1);
+						emp.setLeavingReason("NA");
+						emp.setLocationId(locId);
+						
+						emp.setLoginName("NA");
+						emp.setLoginTime(currDate);				
+						emp.setMotherName("NA");
+						emp.setNewBasicRate(0);
+						emp.setNewDaRate(0);
+						emp.setNewHraRate(0);
+						emp.setNextShiftid(0);
+						emp.setNoticePayAmount(0);
+						emp.setPanCardNo(request.getParameter("pan"));
+						emp.setPfNo(request.getParameter("pfNo"));
+						emp.setPlCalcBase(0);
+						emp.setRawData("NA");
+						emp.setSalDedAtFullandfinal(0);
+						emp.setSocietySerialNo("NA");
+						emp.setUan(request.getParameter("uan"));
+						emp.setExInt1(0);
+						emp.setExInt2(0);
+						emp.setExVar1("NA");
+						emp.setExVar2("NA");
+						emp.setDelStatus(1);
+						
+						
+						 empSave =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployee", emp,
+								EmployeeMaster.class);
+						 System.out.println("Edit Save = "+empSave);
+						empId = empSave.getEmpId();
+						 if(empSave!=null) {
+							// redirect="redirect:/employeeAdd";
+								String empEncryptId = FormValidation.Encrypt(String.valueOf(empSave.getEmpId()));
+								
+								System.out.println("Success");
+								
+								redirect="redirect:/employeeEdit?empId="+empEncryptId;
+						 }else {
+							 redirect="redirect:/employeeAdd";
+						 }
 				}else {
-					emp.setMobileNo2(mob2);
-				}
-				
-			
-				
-				emp.setEmpId(empId);
-				
-				emp.setFirstName(request.getParameter("fname"));
-				emp.setMiddleName(request.getParameter("mname"));
-				emp.setSurname(request.getParameter("sname"));
-				
-				emp.setMobileNo1(request.getParameter("mobile1"));				
-				emp.setResidenceLandNo("NA");
-				emp.setAadharNo(request.getParameter("aadhar"));
-				emp.setAddedBySupervisorId(0);
-				emp.setAddedFrom(1);
-				emp.setCmpCode(1);
-				emp.setContractorId(contract);
-				emp.setCurrentShiftid(0);
-				emp.setDepartId(deptId);
-				emp.setDesignationId(desigId);
-				emp.setEarnLeaveOpeningBalance(0);
-				emp.setEmailId("NA");
-				emp.setEmpCategory(request.getParameter("empCat"));
-				emp.setEmpCode(request.getParameter("empCode"));				
-				emp.setEmpType(empType);
-				emp.setEsicNo(request.getParameter("esic"));
-				emp.setExgratiaPerc(0);
-				
-				emp.setGrossSalaryEst(0);
-				emp.setIsEmp(1);
-				emp.setLeavingReason("NA");
-				emp.setLocationId(locId);
-				
-				emp.setLoginName("NA");
-				emp.setLoginTime(currDate);				
-				emp.setMotherName("NA");
-				emp.setNewBasicRate(0);
-				emp.setNewDaRate(0);
-				emp.setNewHraRate(0);
-				emp.setNextShiftid(0);
-				emp.setNoticePayAmount(0);
-				emp.setPanCardNo(request.getParameter("pan"));
-				emp.setPfNo(request.getParameter("pfNo"));
-				emp.setPlCalcBase(0);
-				emp.setRawData("NA");
-				emp.setSalDedAtFullandfinal(0);
-				emp.setSocietySerialNo("NA");
-				emp.setUan(request.getParameter("uan"));
-				emp.setExInt1(0);
-				emp.setExInt2(0);
-				emp.setExVar1("NA");
-				emp.setExVar2("NA");
-				emp.setDelStatus(1);
-				
-				
-				 empSave =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployee", emp,
-						EmployeeMaster.class);
-				 System.out.println("res = "+empSave);
-				
-				 
-				String encryptEmpId = FormValidation.Encrypt(String.valueOf(empId));
-				System.out.println("Encrypted Employee = -------------"+encryptEmpId);
-				
-				if(empSave!=null) {
-					flag=1;
-					TblEmpInfo empInfo = new TblEmpInfo();
-					empInfo.setEmpId(empSave.getEmpId());
 					
-					 empIdInfo =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo,
-							TblEmpInfo.class);
+						System.out.println("New Enrty");
+						
+						if( mob2 == ""  || mob2==null) {
+							emp.setMobileNo2("NA");
+						}else {
+							emp.setMobileNo2(mob2);
+						}
+						
 					
-					TblEmpBankInfo empBank = new TblEmpBankInfo();
-					empBank.setEmpId(empSave.getEmpId());
-					
-					empIdBank =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank", empBank,
-							TblEmpBankInfo.class);
-					
-					TblEmpNominees empNominee = new TblEmpNominees();
-					empNominee.setEmpId(empSave.getEmpId());
-					
-					empIdNom =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee,
-							TblEmpNominees.class);
-					
-					EmpSalaryInfo empSal = new EmpSalaryInfo();
-					empSal.setEmpId(empSave.getEmpId());
-					
-					empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
-					EmpSalaryInfo.class);
-					
-					EmpSalAllowance allowance = new EmpSalAllowance();
-					allowance.setEmpId(empSave.getEmpId());
-					
-				//	empSalAllowanceId =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpSalAllowanceIds", allowance,
-					//		EmpSalAllowance.class);
-					
-					User user = new User();
-					user.setEmpId(empSave.getEmpId());
-					
-					User empIdUser =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdUser", user,
-							User.class);
-										
-					
-					System.out.println("Success");
-					//redirect="redirect:/employeeAdd";
-					redirect="redirect:/employeeEdit";
-				}else {
-					System.err.println("Fail");
-					redirect="redirect:/employeeAdd";
-				}
-			
+						
+						emp.setEmpId(empId);
+						
+						emp.setFirstName(request.getParameter("fname"));
+						emp.setMiddleName(request.getParameter("mname"));
+						emp.setSurname(request.getParameter("sname"));
+						
+						emp.setMobileNo1(request.getParameter("mobile1"));				
+						emp.setResidenceLandNo("NA");
+						emp.setAadharNo(request.getParameter("aadhar"));
+						emp.setAddedBySupervisorId(0);
+						emp.setAddedFrom(1);
+						emp.setCmpCode(1);
+						emp.setContractorId(contract);
+						emp.setCurrentShiftid(0);
+						emp.setDepartId(deptId);
+						emp.setDesignationId(desigId);
+						emp.setEarnLeaveOpeningBalance(0);
+						emp.setEmailId("NA");
+						emp.setEmpCategory(request.getParameter("empCat"));
+						emp.setEmpCode(request.getParameter("empCode"));				
+						emp.setEmpType(empType);
+						emp.setEsicNo(request.getParameter("esic"));
+						emp.setExgratiaPerc(0);
+						
+						emp.setGrossSalaryEst(0);
+						emp.setIsEmp(1);
+						emp.setLeavingReason("NA");
+						emp.setLocationId(locId);
+						
+						emp.setLoginName("NA");
+						emp.setLoginTime(currDate);				
+						emp.setMotherName("NA");
+						emp.setNewBasicRate(0);
+						emp.setNewDaRate(0);
+						emp.setNewHraRate(0);
+						emp.setNextShiftid(0);
+						emp.setNoticePayAmount(0);
+						emp.setPanCardNo(request.getParameter("pan"));
+						emp.setPfNo(request.getParameter("pfNo"));
+						emp.setPlCalcBase(0);
+						emp.setRawData("NA");
+						emp.setSalDedAtFullandfinal(0);
+						emp.setSocietySerialNo("NA");
+						emp.setUan(request.getParameter("uan"));
+						emp.setExInt1(0);
+						emp.setExInt2(0);
+						emp.setExVar1("NA");
+						emp.setExVar2("NA");
+						emp.setDelStatus(1);
+						
+						
+						 empSave =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployee", emp,
+								EmployeeMaster.class);										
+						 empId = empSave.getEmpId();
+						if(empSave!=null) {
+							
+							TblEmpInfo empInfo = new TblEmpInfo();
+							empInfo.setEmpId(empSave.getEmpId());
+							empInfo.setDelStatus(1);
+														
+							TblEmpInfo empIdInfo =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo,
+									TblEmpInfo.class);
+							
+							TblEmpBankInfo empBank = new TblEmpBankInfo();
+							empBank.setEmpId(empSave.getEmpId());
+							
+							empIdBank =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank", empBank,
+									TblEmpBankInfo.class);
+							
+							TblEmpNominees empNominee = new TblEmpNominees();
+							empNominee.setEmpId(empSave.getEmpId());
+							
+							empIdNom =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee,
+									TblEmpNominees.class);
+							
+							EmpSalaryInfo empSal = new EmpSalaryInfo();
+							empSal.setEmpId(empSave.getEmpId());
+							
+							empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
+							EmpSalaryInfo.class);
+							
+							EmpSalAllowance allowance = new EmpSalAllowance();
+							allowance.setEmpId(empSave.getEmpId());
+							
+							empSalAllowanceId =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpSalAllowanceIds", allowance,
+							EmpSalAllowance.class);
+							
+							
+							User user = new User();
+							user.setEmpId(empSave.getEmpId());
+							
+							User empIdUser =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdUser", user,
+									User.class);
+							
+							String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));	
+							
+							System.out.println("Emp Encrypt Id---"+empEncryptId);
+							
+							System.out.println("Success");
+							
+							redirect="redirect:/employeeEdit?empId="+empEncryptId;
+						}else {
+							System.err.println("Fail");
+							redirect="redirect:/employeeAdd";
+						}
+					}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -356,7 +445,7 @@ public class EmployeeController {
 
 		HttpSession session = request.getSession();
 		ModelAndView model = null;
-
+		MultiValueMap<String, Object> map = null;
 		try {
 			
 			/*
@@ -370,9 +459,9 @@ public class EmployeeController {
 			 * model = new ModelAndView("accessDenied");
 			 * 
 			 * } else {
-			 */
-
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			 */			
+			
+			map = new LinkedMultiValueMap<>();
 			map.add("companyId", 1);
 			
 			Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
@@ -403,24 +492,70 @@ public class EmployeeController {
 			Allowances[] allowanceArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllAllowances", 
 					Allowances[].class);
 			allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
+			System.out.println("allowanceList All-------------"+allowanceList);
 			
-			model = new ModelAndView("master/addEmployee");
+			EmpDoctype[] empDocArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmpDocTypes", map, 
+					EmpDoctype[].class);
+			empDocList = new ArrayList<EmpDoctype>(Arrays.asList(empDocArr));
+			
+			model = new ModelAndView("master/addEmployee");		
+			
+			
 			model.addObject("locationList", locationList);
 			model.addObject("deptList", departmentList);
 			model.addObject("designationList", designationList);
 			model.addObject("contractorsList", contractorsList);
 			model.addObject("bankList", bankList);
 			model.addObject("allowanceList", allowanceList);
+			model.addObject("empDocList", empDocList);
 			
-			model.addObject("emp", empSave);
-			model.addObject("empPersInfo", empIdInfo);
-			model.addObject("empNom", empIdNom);
-			model.addObject("empBank", empIdBank);
-			model.addObject("empAllowanceId", empSalAllowanceId);
-			flag=1;
-			model.addObject("flag", flag);
 			
-			//}
+			/**************************************************Edit********************************************/
+
+			String base64encodedString = request.getParameter("empId");
+			String empId = FormValidation.DecodeKey(base64encodedString);
+			
+			System.out.println("Encrypt-----"+empId);
+			map = new LinkedMultiValueMap<>();
+			map.add("empId", Integer.parseInt(empId));
+			
+			EmployeeMaster emp =  Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map,
+					EmployeeMaster.class);			
+			System.out.println("Edit Emp-------"+ emp);
+					
+			TblEmpInfo empPersInfo = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeePersonalInfo", map,
+					TblEmpInfo.class);			
+			System.out.println("Edit EmpPersonal Info-------"+ empPersInfo);
+			
+			TblEmpNominees empNom = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeNominee", map,
+					TblEmpNominees.class);			
+			System.out.println("Edit Emp Nominee Info-------"+ empNom);
+			
+			
+			TblEmpBankInfo empBank = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeBankInfo", map,
+					TblEmpBankInfo.class);			
+			System.out.println("Edit Emp Bank Info-------"+ empBank);
+			
+			EmpSalaryInfo empSalInfo =  Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeSalInfo", map,
+					EmpSalaryInfo.class);			
+			System.out.println("Edit Emp Salary Info-------"+ empSalInfo);
+			
+			EmpSalAllowance[] empSalAllowance = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeSalAllowances", map,
+					EmpSalAllowance[].class);
+			
+			empAllowncList = new ArrayList<EmpSalAllowance>(Arrays.asList(empSalAllowance));
+			System.out.println("Edit Emp Salary EmpSalAllowance Info-------"+ empAllowncList);
+			
+			model.addObject("emp", emp);
+			model.addObject("empPersInfo", empPersInfo);					//model.addObject("empPersInfo", empIdInfo);
+			model.addObject("empNom", empNom);								//model.addObject("empNom", empIdNom);
+			model.addObject("empBank", empBank);
+			
+			model.addObject("empAllowanceId", empSalInfo);
+			model.addObject("empAllowncList", empAllowncList);
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -432,10 +567,23 @@ public class EmployeeController {
 	public String submitEmpOtherInfo(HttpServletRequest request, HttpServletResponse response){
 		
 		try {
+			
+			int empId = 0;
+			int empInfoId = 0;
+			try {
+				 empInfoId = Integer.parseInt(request.getParameter("empOtherInfoId"));
+				 empId = Integer.parseInt(request.getParameter("empId"));
+			}catch (Exception e) {
+				e.printStackTrace();
+				empInfoId = 0;
+			}
+			
 			TblEmpInfo empInfo = new TblEmpInfo();
-			if(empIdInfo!=null) {
-				empInfo.setEmpInfoId(empIdInfo.getEmpInfoId());
-				empInfo.setEmpId(empIdInfo.getEmpId());
+			//if(empIdInfo!=null) {
+			
+			
+				empInfo.setEmpInfoId(empInfoId);	//empInfo.setEmpInfoId(empIdInfo.getEmpInfoId());
+				empInfo.setEmpId(empId);//empInfo.setEmpId(empIdInfo.getEmpId());
 				empInfo.setMiddleName(request.getParameter("midname"));
 				empInfo.setMiddleNameRelation(request.getParameter("relation"));
 				empInfo.setDob(DateConvertor.convertToYMD(request.getParameter("dob")));
@@ -451,21 +599,27 @@ public class EmployeeController {
 				empInfo.setEmerContactNo2(request.getParameter("contact2"));
 				empInfo.setBloodGroup(request.getParameter("bloodgroup"));
 				empInfo.setUniform_size(request.getParameter("uniformsize"));
+				empInfo.setDelStatus(1);
 					
 					System.out.println("TblEmpInfo----"+empInfo);
-					 empIdInfo =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo,
+					TblEmpInfo empIdInfo =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo,
 								TblEmpInfo.class);
 					if(empIdInfo!=null) {
 						System.out.println("Sucess---------"+empIdInfo);
-						redirect = "redirect:/employeeEdit";
+						
+						String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));						
+						System.out.println("Emp Encrypt Id---"+empEncryptId);
+						
+						redirect="redirect:/employeeEdit?empId="+empEncryptId;
+						
 					}else {
 						System.err.println("Fail----------"+empIdInfo);
-						redirect = "redirect:/employeeEdit";
+						redirect = "redirect:/employeeAdd";
 					}
 			
-			}else {
+			/*}else {
 				redirect = "redirect:/employeeAdd";
-			}
+			}*/
 		}catch (Exception e) {
 			e.printStackTrace();
 			
@@ -480,11 +634,22 @@ public class EmployeeController {
 	public String submitEmpRelationInfo(HttpServletRequest request, HttpServletResponse response){
 		
 		try {
-			TblEmpNominees empNominee = new TblEmpNominees();
-			if(empIdNom!=null) {
+			
+				int empId = 0;
+				int empNomineeId = 0;
+				try {
+						empNomineeId = Integer.parseInt(request.getParameter("empNomId"));
+						empId = Integer.parseInt(request.getParameter("empId"));
+				}catch (Exception e) {
+					e.printStackTrace();
+					empNomineeId = 0;
+				}
 				
-				empNominee.setNomineeId(empIdNom.getNomineeId());
-				empNominee.setEmpId(empIdNom.getEmpId());
+			TblEmpNominees empNominee = new TblEmpNominees();
+		/*	if(empIdNom!=null) {*/
+				
+				empNominee.setNomineeId(empNomineeId);			//empNominee.setNomineeId(empIdNom.getNomineeId());
+				empNominee.setEmpId(empId);					//empNominee.setEmpId(empIdNom.getEmpId());
 				
 				
 				empNominee.setName(request.getParameter("name"));
@@ -522,17 +687,20 @@ public class EmployeeController {
 					System.out.println("TblEmpNominees----"+empNominee);
 					empIdNom =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee,
 							 TblEmpNominees.class);
-					if(empIdInfo!=null) {
-						System.out.println("Sucess---------"+empIdInfo);
-						redirect = "redirect:/employeeEdit";
+					if(empIdNom!=null) {
+						System.out.println("Sucess---------"+empIdNom);
+						String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));						
+						System.out.println("Emp Encrypt Id---"+empEncryptId);
+						
+						redirect="redirect:/employeeEdit?empId="+empEncryptId;
 					}else {
-						System.err.println("Fail----------"+empIdInfo);
+						System.err.println("Fail----------"+empIdNom);
 						redirect = "redirect:/employeeAdd";
 					}
 			
-			}else {
+			/*}else {
 				redirect = "redirect:/employeeAdd";
-			}
+			}*/
 		}catch (Exception e) {
 			e.printStackTrace();
 			
@@ -545,27 +713,44 @@ public class EmployeeController {
 	public String submitEmpBankInfo(HttpServletRequest request, HttpServletResponse response){
 		
 		try {
+			
+			int empId = 0;
+			int empBankId = 0;
+			try {
+				empBankId = Integer.parseInt(request.getParameter("empBankId"));
+					empId = Integer.parseInt(request.getParameter("empId"));
+			}catch (Exception e) {
+				e.printStackTrace();
+				empBankId = 0;
+			}
+			
+			
 			TblEmpBankInfo empBank = new TblEmpBankInfo();
-			if(empIdBank!=null) {
+			/*if(empIdBank!=null) {*/
+				
+				empBank.setEmpId(empId);
+				empBank.setBankInfoId(empBankId);
 				empBank.setBankId(Integer.parseInt(request.getParameter("bankId")));
-				empBank.setEmpId(empIdBank.getEmpId());
-				empBank.setBankInfoId(empIdBank.getBankInfoId());
 				empBank.setAccNo(Integer.parseInt(request.getParameter("accNo")));
 				
 					System.out.println("TblEmpBankInfo----"+empBank);
-					empIdBank =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank", empBank,
+					TblEmpBankInfo empIdBank =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank", empBank,
 							TblEmpBankInfo.class);
-					if(empIdInfo!=null) {
-						System.out.println("Sucess---------"+empIdInfo);
-						redirect = "redirect:/employeeEdit";
+					if(empIdBank!=null) {
+						System.out.println("Sucess---------"+empIdBank);
+						
+						String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));						
+						System.out.println("Emp Encrypt Id---"+empEncryptId);
+						
+						redirect="redirect:/employeeEdit?empId="+empEncryptId;
 					}else {
-						System.err.println("Fail----------"+empIdInfo);
-						redirect = "redirect:/employeeEdit";
+						System.err.println("Fail----------"+empIdBank);
+						redirect = "redirect:/employeeAdd";
 					}
 			
-			}else {
+			/*}else {
 				redirect = "redirect:/employeeAdd";
-			}
+			}*/
 		}catch (Exception e) {
 			e.printStackTrace();
 			
@@ -579,6 +764,10 @@ public class EmployeeController {
 		
 		try {
 			EmpSalaryInfo empSal = new EmpSalaryInfo();
+			
+			int empId = 0;
+			int empSalInfoId = 0;
+			
 			double basic = 0;
 			double pfEmpPer = 0;
 			double pfEmployerPer = 0;
@@ -587,6 +776,9 @@ public class EmployeeController {
 			double employerEsicPer = 0;
 			
 			try {
+				 empId = Integer.parseInt(request.getParameter("empId"));
+				 empSalInfoId = Integer.parseInt(request.getParameter("empSalId"));
+				
 				 basic = Double.parseDouble(request.getParameter("basic"));
 				 pfEmpPer = Double.parseDouble(request.getParameter("pfEmpPer"));
 				 pfEmployerPer = Double.parseDouble(request.getParameter("pfEmployerPer"));				
@@ -604,10 +796,10 @@ public class EmployeeController {
 			}
 			
 			
-			if(empIdSal!=null) {
+			/*if(empIdSal!=null) {*/
 			
-				empSal.setSalaryInfoId(empIdSal.getSalaryInfoId());
-				empSal.setEmpId(empIdSal.getEmpId());
+				empSal.setSalaryInfoId(empSalInfoId);			//empSal.setSalaryInfoId(empIdSal.getSalaryInfoId());
+				empSal.setEmpId(empId);							//empSal.setEmpId(empIdSal.getEmpId());
 				empSal.setBasic(basic);
 				empSal.setSocietyContribution(Double.parseDouble(request.getParameter("societyContri")));
 				empSal.setPfApplicable(request.getParameter("pfApplicable"));
@@ -629,7 +821,7 @@ public class EmployeeController {
 			
 				
 					System.out.println("TblEmpBankInfo----"+empSal);
-					empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
+					EmpSalaryInfo empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
 							EmpSalaryInfo.class);
 				
 					
@@ -654,7 +846,7 @@ public class EmployeeController {
 							
 						if (allwncValue > 0) {
 							try {
-								allwnSalId = Integer.parseInt(request.getParameter("empSalAllownaceId"));
+								allwnSalId = Integer.parseInt(request.getParameter("empSalAllownaceId"+allowanceList.get(i).getAllowanceId()));
 							}catch (Exception e) {
 								allwnSalId = 0;
 							}
@@ -672,17 +864,25 @@ public class EmployeeController {
 						}
 						
 						
-						List<Allowances> allowance = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpSalAllowanceInfo", allowncList,
+						List<EmpSalAllowance> allowance = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpSalAllowanceInfo", allowncList,
 							List.class);
-						redirect = "redirect:/employeeEdit";
+						
+						if(allowance!=null) {
+							String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));						
+							System.out.println("Emp Encrypt Id---"+empEncryptId);
+						
+							redirect="redirect:/employeeEdit?empId="+empEncryptId;
+						}else {
+							redirect = "redirect:/employeeAdd";
+						}
 					}else {
 						System.err.println("Fail----------"+empIdSal);
-						redirect = "redirect:/employeeEdit";
+						redirect = "redirect:/employeeAdd";
 					}
 			
-			}else {
+			/*}else {
 				redirect = "redirect:/employeeAdd";
-			}
+			}*/
 		}catch (Exception e) {
 			e.printStackTrace();
 			
@@ -691,7 +891,97 @@ public class EmployeeController {
 		
 	}
 	
+
 	
+	/***************************************************************************************/
+	@RequestMapping(value = "/submitInsertEmpDoc", method = RequestMethod.POST)
+	public String submitInsertEmpDoc(@RequestParam("doc") List<MultipartFile> doc, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		
+		try {
+			String imageName = new String();
+			String img = new String();
+			VpsImageUpload upload = new VpsImageUpload();
+			
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+
+			// LoginResponse obj = (LoginResponse) session.getAttribute("UserDetail");
+			// List<EmployeDoc> list = new ArrayList<>();
+
+			// String base64encodedString = request.getParameter("empId");
+			// int empId = Integer.parseInt(FormValidation.DecodeKey(base64encodedString));
+			
+			int failed=0;
+				List<EmployeDoc> list = new ArrayList<EmployeDoc>();
+				int docId = 0;
+				int empId = 0;
+				int docTypeId = 0;
+			for (int j = 0; j < empDocList.size(); j++) {
+				
+				 empId = Integer.parseInt(request.getParameter("empId"));
+				 docTypeId = empDocList.get(j).getDoctypeId();
+				 
+				 img = doc.get(j).getOriginalFilename();
+				 imageName = empId+"-"+docTypeId+"-"+doc.get(j).getOriginalFilename()+"-"+sf.format(date);
+				
+				System.out.println(imageName);				
+
+					System.out.println("Image Upload");
+					try {
+						
+						if(img!="" && img!=null) {
+							 try {
+								 docId = Integer.parseInt(request.getParameter("empDocId"));
+								
+							 }catch (Exception e) {
+								// TODO: handle exception
+							}
+								upload.saveUploadedImge(doc.get(j), Constants.imageSaveUrl, imageName, Constants.allextension,
+										0, 0, 0, 0, 0);
+	
+							EmployeDoc employeDoc = new EmployeDoc();	
+							employeDoc.setDocId(docId);
+							employeDoc.setEmpId(empId);
+							employeDoc.setDoctypeId(docTypeId);
+							employeDoc.setIsActive(1);
+							employeDoc.setDelStatus(1);
+							employeDoc.setMakerUserId(100);
+							employeDoc.setMakerEnterDatetime(sf.format(date));						
+							//employeDoc.setDocImage(empDocList.get(j).getDoctypeName());
+							employeDoc.setDocImage(imageName);
+							list.add(employeDoc);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+
+				
+
+			}
+
+			
+			
+			if (failed == 0 ) {
+				
+				EmployeDoc[] res = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpDocList", list,
+						EmployeDoc[].class);
+				session.setAttribute("successMsg", "Record Inserted Successfully");
+			} else {
+				
+				session.setAttribute("errorMsg", "Failed to Insert Record");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Insert Record");
+		}
+		return "redirect:/employeeAdd";
+	}
 	
 	
 }

@@ -98,28 +98,28 @@
 								<tr class="bg-blue">
 
 									<th width="10%">Sr. No.</th>
-									<th>Name </th>
-									<th>Branch Name</th>
-									<th>MICR Code</th>
-									<th>IFSC_Code</th>
+									<th>Emp Code </th>
+									<th>Employee Name</th>
+									<!-- <th>MICR Code</th>
+									<th>IFSC_Code</th> -->
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
 
 
-								<c:forEach items="${bankList}" var="bankList"
+								<c:forEach items="${empList}" var="empList"
 									varStatus="count">
 									<tr>
-										<%-- <td>${count.index+1}</td>
-										<td>${bankList.name}</td>
-										<td>${bankList.branchName}</td>
-										<td>${bankList.micrCode}</td>
-										<td>${bankList.ifscCode}</td> --%>
+										 <td>${count.index+1}</td>
+										<td>${empList.empCode}</td>
+										<td>${empList.firstName} ${empList.middleName} ${empList.surname}</td>
+										<%-- <td>${empList.micrCode}</td>
+										<td>${empList.ifscCode}</td>  --%>
 										
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a
-													href="${pageContext.request.contextPath}/editBank?bankId="
+													href="${pageContext.request.contextPath}/employeeEdit?empId=${empList.exVar1}"
 													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
 													 ></i></a>
 											</c:if> <c:if test="${deleteAccess == 0}">
@@ -130,7 +130,7 @@
 													style="color: black;"></i> </a> --%>
 											<a href="javascript:void(0)"
 													class="list-icons-item text-danger-600 bootbox_custom"
-													data-uuid="Variable" data-popup="tooltip"
+													data-uuid="${empList.exVar1}" data-popup="tooltip"
 													title="" data-original-title="Delete"><i
 													class="icon-trash"></i></a>
 											</c:if></td>
@@ -180,7 +180,7 @@
 										},
 										callback : function(result) {
 											if (result) {
-												location.href = "${pageContext.request.contextPath}/deleteBank?bankId="
+												location.href = "${pageContext.request.contextPath}/deleteEmp?empId="
 														+ uuid;
 
 											}

@@ -140,13 +140,10 @@
 
 								<div class="tab-content">
 									<div class="tab-pane fade show active" id="highlighted-tab1">
-
-
-
+									
 										<form
 											action="${pageContext.request.contextPath}/insertEmployeeBasicInfo"
-											id="submitInsertEmp" method="post"
-											enctype="multipart/form-data">
+											id="submitInsertEmp" method="post">
 
 											<input type="text" id="empId" name="empId"
 												value="${emp.empId}">
@@ -155,10 +152,10 @@
 													Code <span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${emp.empCode}"
 														placeholder="Employee Code." id="empCode" name="empCode"
 														autocomplete="off" onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
+														class="hidedefault   validation-invalid-label" style="display: none;"
 														id="error_empCode">This field is required.</span>
 												</div>
 											</div>
@@ -168,19 +165,19 @@
 													Employee Name <span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-3">
-													<input type="text" class="form-control  "
+													<input type="text" class="form-control" value="${emp.firstName}"
 														placeholder="First Name" id="fname" name="fname"
 														autocomplete="off" onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
+														class="hidedefault   validation-invalid-label" style="display: none;"
 														id="error_fname">This field is required.</span>
 												</div>
 
 
 												<div class="col-lg-3">
-													<input type="text" class="form-control  "
+													<input type="text" class="form-control" value="${emp.middleName}"
 														placeholder="Middle Name" id="mname" name="mname"
 														autocomplete="off" onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
+														class="hidedefault   validation-invalid-label" style="display: none;"
 														id="error_mname">This field is required.</span>
 												</div>
 
@@ -188,10 +185,10 @@
 
 
 												<div class="col-lg-3">
-													<input type="text" class="form-control "
+													<input type="text" class="form-control" value="${emp.surname}"
 														placeholder="Last Name" id="sname" name="sname"
 														autocomplete="off" onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
+														class="hidedefault   validation-invalid-label" style="display: none;"
 														id="error_sname">This field is required.</span>
 												</div>
 											</div>
@@ -215,12 +212,19 @@
 														id="locId"
 														class="form-control form-control-select21 select2-hidden-accessible1">
 
-
+														
 														<c:forEach items="${locationList}" var="locationList">
+														<c:choose>  
+														<c:when test="${locationList.locId==emp.locationId}">
+															<option selected="selected" value="${locationList.locId}">${locationList.locName}</option>														
+														</c:when>
+														<c:otherwise>
 															<option value="${locationList.locId}">${locationList.locName}</option>
+														</c:otherwise>
+															</c:choose>
 														</c:forEach>
 													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_locId">This field is required.</span>
+														style="display: none;" id="error_locId">This field is required.</span>
 												</div>
 											</div>
 
@@ -236,10 +240,19 @@
 
 														<c:forEach items="${designationList}"
 															var="designationList">
-															<option value="${designationList.desigId}">${designationList.name}</option>
+															<c:choose>
+																<c:when
+																	test="${designationList.desigId==emp.designationId}">
+																	<option selected="selected"
+																		value="${designationList.desigId}">${designationList.name}</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="${designationList.desigId}">${designationList.name}</option>
+																</c:otherwise>
+															</c:choose>
 														</c:forEach>
 													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_desigId">This field is required.</span>
+														style="display: none;" id="error_desigId">This field is required.</span>
 												</div>
 
 												<label class="col-form-label col-lg-2" for="deptId">
@@ -249,13 +262,21 @@
 													<select name="deptId" data-placeholder="Select Department"
 														id="deptId"
 														class="form-control form-control-select21 select2-hidden-accessible1">
-
+														
 
 														<c:forEach items="${deptList}" var="deptList">
-															<option value="${deptList.departId}">${deptList.name}</option>
+															<c:choose>
+																<c:when test="${deptList.departId==emp.departId}">
+																	<option selected="selected" value="${deptList.departId}">${deptList.name}</option>
+																</c:when>
+															<c:otherwise>
+																<option value="${deptList.departId}">${deptList.name}</option>
+															</c:otherwise>
+															</c:choose>
+															
 														</c:forEach>
 													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_deptId">This field is required.</span>
+														style="display: none;" id="error_deptId">This field is required.</span>
 												</div>
 											</div>
 
@@ -272,11 +293,19 @@
 
 														<c:forEach items="${contractorsList}"
 															var="contractorsList">
-															<option value="${contractorsList.contractorId}">${contractorsList.orgName}</option>
+															<c:choose>
+																<c:when test="${contractorsList.contractorId==emp.contractorId}">
+																	<option selected="selected" value="${contractorsList.contractorId}">${contractorsList.orgName}</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="${contractorsList.contractorId}">${contractorsList.orgName}</option>
+																</c:otherwise>
+															</c:choose>
+															
 														</c:forEach>
 
 													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_contractor">This field is required.</span>
+														style="display: none;" id="error_contractor">This field is required.</span>
 												</div>
 
 												<label class="col-form-label col-lg-2" for="empType">Emp
@@ -286,11 +315,11 @@
 													<select name="empType"
 														data-placeholder="Select Employee Type" id="empType"
 														class="form-control form-control-select21 select2-hidden-accessible1">
-														<option value="1">Weekly Co Off</option>
-														<option value="2">OT Applicable</option>
-														<option value="3">Other</option>
+														<option value="1" ${emp.empType==1 ? selected : ''}>Weekly Co Off</option>
+														<option value="2" ${emp.empType==2 ? selected : ''}>OT Applicable</option>
+														<option value="3" ${emp.empType==3 ? selected : ''}>Other</option>
 													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_empType">This field is required.</span>
+														style="display: none;" id="error_empType">This field is required.</span>
 												</div>
 											</div>
 
@@ -301,23 +330,23 @@
 													No. <span style="color: red">* </span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														placeholder="Mobile No." id="mobile1" name="mobile1"
+													<input type="text" class="form-control" value="${emp.mobileNo1}"
+														placeholder="Mobile No." id="mobile1" name="mobile1" 
 														onchange="checkUnique(this.value,1)" autocomplete="off"
-														onchange="trim(this)" maxlength="10"> <span
+														onchange="trim(this)" maxlength="10"> <span style="display: none;"
 														class="hidedefault   validation-invalid-label"
 														id="error_mobile1">This field is required.</span> <span
-														class="hidedefault   validation-invalid-label"
+														class="hidedefault   validation-invalid-label" style="display: none;"
 														id="error_mobile1_unique">This Mobile No. is
 														already exist.</span>
 												</div>
 
 
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${emp.mobileNo2}"
 														placeholder="Other Mobile No." id="mobile2" name="mobile2"
 														autocomplete="off" onchange="trim(this)" maxlength="10">
-													<span class="hidedefault   validation-invalid-label"
+													<span class="hidedefault   validation-invalid-label" style="display: none;"
 														id="error_emgContNo2_alt">This field is required.</span>
 												</div>
 
@@ -339,18 +368,18 @@
 												</label>
 												<div class="col-lg-4">
 													<select name="empCat"
-														data-placeholder="Select Emp Category" id="empCat"
+														data-placeholder="Select Emp Category" id="empCat" 
 														class="form-control form-control-select21 select2-hidden-accessible1">
 
 														<option value="">Select Category</option>
-														<option value="Muster">Muster</option>
-														<option value="Voucher" selected="selected">Voucher</option>
-														<option value="Contract">Contract</option>
-														<option value="Trainee">Muster</option>
-														<option value="Job">Job</option>
+														<option value="Muster" ${emp.empCategory==Muster ? selected : ''}>Muster</option>
+														<option value="Voucher" ${emp.empType==Voucher ? selected : ''}>Voucher</option>
+														<option value="Contract" ${emp.empCategory==Contract ? selected : ''}>Contract</option>
+														<option value="Trainee" ${emp.empCategory==Trainee ? selected : ''}>Trainee</option>
+														<option value="Job" ${emp.empCategory==Job ? selected : ''}>Job</option>
 
 													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_empCat">This field is required.</span>
+														id="error_empCat" style="display: none;">This field is required.</span>
 												</div>
 
 												<label class="col-form-label col-lg-2" for="uan">UAN
@@ -358,10 +387,10 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="UAN"
-														id="uan" name="uan" autocomplete="off"
+														id="uan" name="uan" autocomplete="off" value="${emp.uan}"
 														onchange="trim(this)"><span
 														class="hidedefault   validation-invalid-label"
-														id="error_uan">This field is required.</span>
+														id="error_uan" style="display: none;" >This field is required.</span>
 												</div>
 											</div>
 
@@ -370,11 +399,11 @@
 													No. <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${emp.esicNo}"
 														placeholder="ESIC No." id="esic" name="esic"
 														autocomplete="off" onchange="trim(this)"> <span
 														class="hidedefault   validation-invalid-label"
-														id="error_esic">This field is required.</span>
+														id="error_esic" style="display: none;">This field is required.</span>
 												</div>
 
 
@@ -382,11 +411,11 @@
 													No. <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${emp.aadharNo}"
 														placeholder="Aadhar Card No." id="aadhar" maxlength="12"
 														name="aadhar" autocomplete="off" onchange="trim(this)">
 													<span class="hidedefault   validation-invalid-label"
-														id="error_aadhar">This field is required.</span>
+														id="error_aadhar" style="display: none;">This field is required.</span>
 												</div>
 											</div>
 
@@ -396,10 +425,10 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" maxlength="10"
-														placeholder="PAN No." id="pan" name="pan"
+														placeholder="PAN No." id="pan" name="pan" value="${emp.panCardNo}"
 														autocomplete="off" onchange="trim(this)"><span
 														class="hidedefault  validation-invalid-label"
-														id="error_pan">Please enter correct PAN No.</span>
+														id="error_pan" style="display: none;">Please enter correct PAN No.</span>
 												</div>
 
 												<label class="col-form-label col-lg-2" for="pfNo">PF
@@ -407,10 +436,10 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="PF No"
-														id="pfNo" name="pfNo" autocomplete="off"
+														id="pfNo" name="pfNo" autocomplete="off" value="${emp.pfNo}"
 														onchange="trim(this)"> <span
 														class="hidedefault   validation-invalid-label"
-														id="error_pfNo">This field is required.</span>
+														id="error_pfNo" style="display: none;">This field is required.</span>
 												</div>
 											</div>
 
@@ -458,10 +487,10 @@
 													Name <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empPersInfo.middleName}"
 														placeholder="Middle Name" id="midname" name="midname"
 														autocomplete="off" onchange="trim(this)"> <span
-														class="hidedefault  validation-invalid-label"
+														class="hidedefault  validation-invalid-label" style="display: none;"
 														id="error_midname">This field is required.</span>
 
 												</div>
@@ -477,7 +506,7 @@
 														<option value="father">Father</option>
 														<option value="husband">Husband</option>
 													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_relation">This field is required.</span>
+														id="error_relation" style="display: none;">This field is required.</span>
 												</div>
 											</div>
 
@@ -487,10 +516,10 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control datepickerclass"
-														placeholder="Date of Birth" id="dob" name="dob"
+														placeholder="Date of Birth" id="dob" name="dob" value="${empPersInfo.middleName}"
 														autocomplete="off" onchange="trim(this)"> <span
 														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span>
+														id="error_dob" style="display: none;">This field is required.</span>
 												</div>
 
 												<label class="col-form-label col-lg-2" for="gender">Gender
@@ -503,7 +532,7 @@
 														<option value="m">Male</option>
 														<option value="f">Female</option>
 													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_gender">This field is required.</span>
+														id="error_gender" style="display: none;">This field is required.</span>
 												</div>
 											</div>
 
@@ -525,7 +554,7 @@
 														<option value="Separated">Separated</option>
 
 													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_maritalstatus">This field is required.</span>
+														id="error_maritalstatus" style="display: none;">This field is required.</span>
 												</div>
 
 												<label class="col-form-label col-lg-2" for="email">Email
@@ -533,10 +562,10 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="email" class="form-control "
-														placeholder="Email" id="email" name="email"
+														placeholder="Email" id="email" name="email" value="${empPersInfo.middleName}"
 														autocomplete="off" onchange="trim(this)"> <span
 														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span>
+														id="error_dob" style="display: none;">This field is required.</span>
 
 												</div>
 											</div>
@@ -546,11 +575,11 @@
 													Address <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empPersInfo.address}"
 														placeholder="Current Address" id="address" name="caddress"
 														autocomplete="off" onchange="trim(this)"> <span
 														class="hidedefault   validation-invalid-label"
-														id="error_caddress">This field is required.</span>
+														id="error_caddress" style="display: none;">This field is required.</span>
 												</div>
 
 
@@ -559,10 +588,10 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
-														placeholder="Parmanent Address" id="paddress"
+														placeholder="Parmanent Address" id="paddress" value="${empPersInfo.permanentAddress}"
 														name="paddress" autocomplete="off" onchange="trim(this)">
 													<span class="hidedefault   validation-invalid-label"
-														id="error_paddress">This field is required.</span>
+														id="error_paddress" style="display: none;">This field is required.</span>
 												</div>
 											</div>
 
@@ -571,22 +600,22 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empPersInfo.empQualification}"
 														placeholder="Qualification" id="qualification"
 														name="qualification" autocomplete="off"
 														onchange="trim(this)"> <span
 														class="hidedefault  validation-invalid-label"
-														id="error_qualification">This field is required.</span>
+														id="error_qualification" style="display: none;">This field is required.</span>
 												</div>
 
 												<label class="col-form-label col-lg-2" for="emergencyPerson">Name
 													<span style="color: red">* </span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empPersInfo.emerName}"
 														placeholder="Emergency Person Name" id="emergencyPerson"
 														name="emergencyPerson" autocomplete="off"
-														onchange="trim(this)"> <span
+														onchange="trim(this)"> <span style="display: none;"
 														class="hidedefault   validation-invalid-label"
 														id="error_emergencyPerson">This field is required.</span>
 												</div>
@@ -597,11 +626,11 @@
 													Contact 1 <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empPersInfo.emerContactNo1}"
 														placeholder="Emergency Contact No. 1" id="contact1"
 														name="contact1" autocomplete="off" onchange="trim(this)">
 													<span class="hidedefault   validation-invalid-label"
-														id="error_contact1">This field is required.</span>
+														id="error_contact1" style="display: none;">This field is required.</span>
 												</div>
 
 												<label class="col-form-label col-lg-2" for="contact2">Emergency
@@ -609,11 +638,11 @@
 												</label>
 												<div class="col-lg-4">
 
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empPersInfo.emerContactNo2}"
 														placeholder="Emergency Contact No. 2" id="contact2"
 														name="contact2" autocomplete="off" onchange="trim(this)">
 													<span class="hidedefault   validation-invalid-label"
-														id="error_contact2">This field is required.</span>
+														id="error_contact2" style="display: none;">This field is required.</span>
 												</div>
 											</div>
 
@@ -623,10 +652,10 @@
 													Address <span style="color: red"> </span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empPersInfo.emerContactAddr}"
 														placeholder="Emergency Person Address"
 														id="emergencyPersonAddress" name="emergencyPersonAddress"
-														autocomplete="off" onchange="trim(this)"> <span
+														autocomplete="off" onchange="trim(this)"> <span style="display: none;"
 														class="hidedefault   validation-invalid-label">This
 														field is required.</span>
 												</div>
@@ -648,7 +677,7 @@
 														<option value="O+">O+</option>
 														<option value="O-">O-</option>
 
-													</select> <span class="hidedefault   validation-invalid-label"
+													</select> <span class="hidedefault   validation-invalid-label" style="display: none;"
 														id="error_bloodgroup">This field is required.</span>
 												</div>
 											</div>
@@ -737,7 +766,7 @@
 											<div class="form-group row">
 												<div class="col-md-3">
 												
-														<input type="text" name="name" value=""
+														<input type="text" name="name" value="${empNom.name}"
 															class="form-control" style="width: 200px;"
 															placeholder="Enter Person Name" />
 													
@@ -745,7 +774,7 @@
 												<div class="col-md-3">
 													
 														<input type="text" class="form-control datepickerclass"
-														placeholder="Date of Birth" id="dob" name="dob"
+														placeholder="Date of Birth" id="dob" name="dob" value="${empNom.dob}"
 														autocomplete="off" onchange="trim(this)">
 													
 												</div>
@@ -753,21 +782,21 @@
 													
 														<select name="relation" id="relation" data-rel="chosen"
 															style="width: 180px;" class="form-control">
-															<option>Please Select</option>
-															<option value="f">Father</option>
-															<option value="m">Mother</option>
-															<option value="s1">Spouse</option>
-															<option value="b">Brother</option>
-															<option value="s2">Sister</option>
-															<option value="s3">Son</option>
-															<option value="d">Daughter</option>
+														<option>Please Select</option>
+															<option value="f" ${empNom.relation == f ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation == m ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation == s1 ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation == b ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation == s2 ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation == s3 ?'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation == d ? 'selected' : ''}>Daughter</option>
 														</select>
 													
 												</div>
 												<div class="col-md-3">
 													
 														<input type="text" name="occupation" id="occupation"
-															value="" class="form-control"
+															value="${empNom.occupation1}" class="form-control" 
 															placeholder="Enter Occupation" />
 														<div class="col-md-3"></div>
 													
@@ -777,7 +806,7 @@
 											<div class="row">
 												<div class="col-md-3">
 													<div class="form-group">
-														<input type="text" name="name2" value=""
+														<input type="text" name="name2" value="${empNom.name2}"
 															class="form-control" style="width: 200px;"
 															placeholder="Enter Person Name" />
 													</div>
@@ -785,10 +814,10 @@
 												<div class="col-md-3">
 													<div class="form-group">
 														<input type="text" class="form-control datepickerclass"
-														placeholder="Date of Birth" id="dob2" name="dob2"
-														autocomplete="off" onchange="trim(this)"> <span
+														placeholder="Date of Birth" id="dob2" name="dob2" value="${empNom.dob2}"
+														autocomplete="off" onchange="trim(this)"> <!-- <span
 														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span>
+														id="error_dob">This field is required.</span> -->
 													</div>
 												</div>
 												<div class="col-md-3">
@@ -796,20 +825,20 @@
 														<select name="relation2" id="relation2" data-rel="chosen"
 															style="width: 180px;" class="form-control">
 															<option>Please Select</option>
-															<option value="f">Father</option>
-															<option value="m">Mother</option>
-															<option value="s1">Spouse</option>
-															<option value="b">Brother</option>
-															<option value="s2">Sister</option>
-															<option value="s3">Son</option>
-															<option value="d">Daughter</option>
+															<option value="f" ${empNom.relation2 == f ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation2 == m ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation2 == s1 ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation2 == b ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation2 == s2 ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation2 == s3 ?'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation2 == d ? 'selected' : ''}>Daughter</option>
 														</select>
 													</div>
 												</div>
 												<div class="col-md-3">
 													<div class="form-group">
 														<input type="text" name="occupation2" id="occupation2"
-															value="" class="form-control"
+															value="${empNom.occupation2}" class="form-control" 
 															placeholder="Enter Occupation" />
 														<div class="col-md-3"></div>
 													</div>
@@ -819,7 +848,7 @@
 											<div class="row">
 												<div class="col-md-3">
 													<div class="form-group">
-														<input type="text" name="name3" value=""
+														<input type="text" name="name3" value="${empNom.name3}"
 															class="form-control" style="width: 200px;"
 															placeholder="Enter Person Name" />
 													</div>
@@ -827,10 +856,10 @@
 												<div class="col-md-3">
 													<div class="form-group">
 														<input type="text" class="form-control datepickerclass"
-														placeholder="Date of Birth" id="dob3" name="dob3"
-														autocomplete="off" onchange="trim(this)"> <span
+														placeholder="Date of Birth" id="dob3" name="dob3" value="${empNom.dob3}"
+														autocomplete="off" onchange="trim(this)"> <!-- <span
 														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span>
+														id="error_dob">This field is required.</span> -->
 													</div>
 												</div>
 												<div class="col-md-3">
@@ -838,20 +867,20 @@
 														<select name="relation3" id="relation3" data-rel="chosen"
 															style="width: 180px;" class="form-control">
 															<option>Please Select</option>
-															<option value="f">Father</option>
-															<option value="m">Mother</option>
-															<option value="s1">Spouse</option>
-															<option value="b">Brother</option>
-															<option value="s2">Sister</option>
-															<option value="s3">Son</option>
-															<option value="d">Daughter</option>
+															<option value="f" ${empNom.relation3 == f ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation3 == m ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation3 == s1 ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation3 == b ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation3 == s2 ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation3 == s3 ?'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation3 == d ? 'selected' : ''}>Daughter</option>
 														</select>
 													</div>
 												</div>
 												<div class="col-md-3">
 													<div class="form-group">
 														<input type="text" name="occupation3" id="occupation3"
-															value="" class="form-control"
+															value="${empNom.occupation3}" class="form-control"
 															placeholder="Enter Occupation" />
 														<div class="col-md-3"></div>
 													</div>
@@ -861,7 +890,7 @@
 											<div class="row">
 												<div class="col-md-3">
 													<div class="form-group">
-														<input type="text" name="name4" value=""
+														<input type="text" name="name4" value="${empNom.name4}"
 															class="form-control" style="width: 200px;"
 															placeholder="Enter Person Name" />
 													</div>
@@ -869,31 +898,30 @@
 												<div class="col-md-3">
 													<div class="form-group">
 														<input type="text" class="form-control datepickerclass"
-														placeholder="Date of Birth" id="dob4" name="dob4"
-														autocomplete="off" onchange="trim(this)"> <span
+														placeholder="Date of Birth" id="dob4" name="dob4" value="${empNom.dob4}"
+														autocomplete="off" onchange="trim(this)"><!--  <span
 														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span>
+														id="error_dob">This field is required.</span> -->
 													</div>
 												</div>
 												<div class="col-md-3">
 													<div class="form-group">
 														<select name="relation4" id="relation4" data-rel="chosen"
 															style="width: 180px;" class="form-control">
-															<option>Please Select</option>
-															<option value="f">Father</option>
-															<option value="m">Mother</option>
-															<option value="s1">Spouse</option>
-															<option value="b">Brother</option>
-															<option value="s2">Sister</option>
-															<option value="s3">Son</option>
-															<option value="d">Daughter</option>
+															<option value="f" ${empNom.relation4 == f ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation4 == m ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation4 == s1 ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation4 == b ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation4 == s2 ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation4 == s3 ?'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation4 == d ? 'selected' : ''}>Daughter</option>
 														</select>
 													</div>
 												</div>
 												<div class="col-md-3">
 													<div class="form-group">
 														<input type="text" name="occupation4" id="occupation4"
-															value="" class="form-control"
+															value="${empNom.occupation4}" class="form-control"
 															placeholder="Enter Occupation" />
 														<div class="col-md-3"></div>
 													</div>
@@ -903,7 +931,7 @@
 											<div class="row">
 												<div class="col-md-3">
 													<div class="form-group">
-														<input type="text" name="name5" value=""
+														<input type="text" name="name5" value="${empNom.name5}"
 															class="form-control" style="width: 200px;"
 															placeholder="Enter Person Name" />
 													</div>
@@ -911,10 +939,10 @@
 												<div class="col-md-3">
 													<div class="form-group">
 														<input type="text" class="form-control datepickerclass"
-														placeholder="Date of Birth" id="dob5" name="dob5"
-														autocomplete="off" onchange="trim(this)"> <span
+														placeholder="Date of Birth" id="dob5" name="dob5" value="${empNom.dob5}"
+														autocomplete="off" onchange="trim(this)"> <!-- <span
 														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span>
+														id="error_dob">This field is required.</span> -->
 													</div>
 												</div>
 												<div class="col-md-3">
@@ -922,20 +950,20 @@
 														<select name="relation5" id="relation5" data-rel="chosen"
 															style="width: 180px;" class="form-control">
 															<option>Please Select</option>
-															<option value="f">Father</option>
-															<option value="m">Mother</option>
-															<option value="s1">Spouse</option>
-															<option value="b">Brother</option>
-															<option value="s2">Sister</option>
-															<option value="s3">Son</option>
-															<option value="d">Daughter</option>
+															<option value="f" ${empNom.relation5 == f ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation5 == m ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation5 == s1 ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation5 == b ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation5 == s2 ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation5 == s3 ?'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation5 == d ? 'selected' : ''}>Daughter</option>
 														</select>
 													</div>
 												</div>
 												<div class="col-md-3">
 													<div class="form-group">
-														<input type="text" name="occupation" id="occupation5"
-															value="" class="form-control"
+														<input type="text" name="occupation5" id="occupation5"
+															value="${empNom.occupation5}" class="form-control" 
 															placeholder="Enter Occupation" />
 														<div class="col-md-3"></div>
 													</div>
@@ -945,7 +973,7 @@
 											<div class="row">
 												<div class="col-md-3">
 													<div class="form-group">
-														<input type="text" name="name6" value=""
+														<input type="text" name="name6" value="${empNom.name6}"
 															class="form-control" style="width: 200px;"
 															placeholder="Enter Person Name" />
 													</div>
@@ -953,10 +981,10 @@
 												<div class="col-md-3">
 													<div class="form-group">
 														<input type="text" class="form-control datepickerclass"
-														placeholder="Date of Birth" id="dob6" name="dob6"
-														autocomplete="off" onchange="trim(this)"> <span
+														placeholder="Date of Birth" id="dob6" name="dob6" value="${empNom.dob6}"
+														autocomplete="off" onchange="trim(this)"> <!-- <span
 														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span>
+														id="error_dob">This field is required.</span> -->
 													</div>
 												</div>
 												<div class="col-md-3">
@@ -964,20 +992,20 @@
 														<select name="relation6" id="relation6" data-rel="chosen"
 															style="width: 180px;" class="form-control">
 															<option>Please Select</option>
-															<option value="f">Father</option>
-															<option value="m">Mother</option>
-															<option value="s1">Spouse</option>
-															<option value="b">Brother</option>
-															<option value="s2">Sister</option>
-															<option value="s3">Son</option>
-															<option value="d">Daughter</option>
+															<option value="f" ${empNom.relation6 == f ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation6 == m ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation6 == s1 ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation6 == b ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation6 == s2 ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation6 == s3 ?'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation6 == d ? 'selected' : ''}>Daughter</option>
 														</select>
 													</div>
 												</div>
 												<div class="col-md-3">
 													<div class="form-group">
 														<input type="text" name="occupation6" id="occupation6"
-															value="" class="form-control"
+															class="form-control" value="${empNom.occupation6}"
 															placeholder="Enter Occupation" />
 														<div class="col-md-3"></div>
 													</div>
@@ -1021,18 +1049,18 @@
 											</div>
 								
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="accNo">Account No: *
-													Contact 1 <span style="color: red"></span>:
+												<label class="col-form-label col-lg-2" for="accNo">Account No:*
+													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empBank.accNo}"
 														placeholder="Account No" id="accNo"
 														name="accNo" autocomplete="off" onchange="trim(this)">
-													<span class="hidedefault   validation-invalid-label"
-														id="error_accNo">This field is required.</span>
+													 <span class="hidedefault   validation-invalid-label" style="display: none;"
+														id="error_accNo">This field is required.</span> 
 												</div>
 
-												<label class="col-form-label col-lg-2" for="bankId">Bank :
+												<label class="col-form-label col-lg-2" for="bankId">Bank
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
@@ -1042,7 +1070,14 @@
 
 
 														<c:forEach items="${bankList}" var="bankList">
-															<option value="${bankList.bankId}">${bankList.name}</option>
+														<c:choose>
+															<c:when test="${bankList.bankId==empBank.bankId}">
+																<option selected value="${bankList.bankId}">${bankList.name}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${bankList.bankId}">${bankList.name}</option>
+															</c:otherwise>
+														</c:choose>
 														</c:forEach>
 													</select> 
 												</div>
@@ -1081,15 +1116,20 @@
 													<input type="text" id="empId" name="empId"
 														value="${emp.empId}">
 												</div>
-												<div class="col-lg-4">
-													<input type="text" id="empNomId"
-														name="empNomId" value="${empBank.bankInfoId}">
+												
+												 <div class="col-lg-4">
+													<input type="text" id="empSalId"
+														name="empSalId" value="${empAllowanceId.salaryInfoId}">
 												</div>
 												
-												<div class="col-lg-4">
-													<input type="text" id="empSalAllownaceId"
-														name="empSalAllownaceId" value="${empAllowanceId.empSalAllowanceId}">
-												</div>
+												
+												
+													<!-- <div class="col-lg-4">
+														<input type="text" id="empSalAllownaceId"
+															name="empSalAllownaceId">
+													</div> -->
+												
+												
 											</div>
 											
 
@@ -1100,14 +1140,14 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="Basic Rs."
-													 name="basic" id="basic" onchange="trim(this)">												
+													 name="basic" id="basic" onchange="trim(this)" value="${empAllowanceId.basic}">												
 												</div>
 				
 												<label class="col-form-label col-lg-2" for="societyContri">Society 
 													Contribution Rs. <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empAllowanceId.societyContribution}"
 														placeholder="Society Contribution Rs." id="societyContri" 
 														name="societyContri" autocomplete="off" onchange="trim(this)">
 												
@@ -1117,17 +1157,37 @@
 
  	
 										<div class="row">
+										
 											 <c:forEach items="${allowanceList}" var="allowanceList">
+											 		<c:set var="allowanceValue" value="0"></c:set>
+											 		<c:set var="empSalAlwncId" value="0"></c:set>
+											 
+											 <c:forEach items="${empAllowncList}" var="empAllowncList">
+											 
+											 <c:choose>
+											 	<c:when test="${empAllowncList.allowanceId==allowanceList.allowanceId}">
+											 		<c:set var="allowanceValue" value="${empAllowncList.allowanceValue}"></c:set>
+											 		<c:set var="empSalAlwncId" value="${empAllowncList.empSalAllowanceId}"></c:set>
+											 	</c:when>
+											 <%-- 	<c:otherwise>
+											 		<c:set var="allowanceValue" value="0"></c:set>
+											 	</c:otherwise> --%>
+											 
+											 </c:choose>
+											 </c:forEach>
 											 <div class=" col-lg-6">
 													<div class="form-group row">
 														<label class="col-form-label col-lg-2" for="allownces">${allowanceList.shortName}
 														 <span style="color: red"></span>:
 														</label>
 														<div class="col-lg-10">
-															<input type="text" class="form-control"
+															<input type="text" class="form-control" value="${allowanceValue}"
 																placeholder="${allowanceList.name}" id="allownces${allowanceList.allowanceId}"
 																name="allownces${allowanceList.allowanceId}"
 																autocomplete="off" onchange="trim(this)">
+																
+																<input type="hidden" id="empSalAllownaceId${allowanceList.allowanceId}"
+															name="empSalAllownaceId${allowanceList.allowanceId}" value="${empSalAlwncId}">
 														</div>
 
 													</div>
@@ -1141,7 +1201,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empAllowanceId.pfApplicable}"
 														placeholder="PF Applicable" id="pfApplicable" name="pfApplicable"
 														autocomplete="off" onchange="trim(this)">
 												</div>
@@ -1151,7 +1211,7 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="PF Type"
-														id="pfType" name="pfType" autocomplete="off"
+														id="pfType" name="pfType" autocomplete="off" value="${empAllowanceId.pfType}"
 														onchange="trim(this)"> 
 												</div>
 											</div>
@@ -1161,7 +1221,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empAllowanceId.pfEmpPer}"
 														placeholder="PF Employee Per" id="pfEmpPer" name="pfEmpPer"
 														autocomplete="off" onchange="trim(this)">
 												</div>
@@ -1172,7 +1232,7 @@
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="PF Employer Per"
 														id="pfEmployerPer" name="pfEmployerPer" autocomplete="off"
-														onchange="trim(this)"> 
+														onchange="trim(this)" value="${empAllowanceId.pfEmplrPer}"> 
 												</div>
 											</div>
 											
@@ -1181,7 +1241,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empAllowanceId.esicApplicable}"
 														placeholder="ESIC Applicable" id="esicApplicable" name="esicApplicable"
 														autocomplete="off" onchange="trim(this)">
 												</div>
@@ -1192,7 +1252,7 @@
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="MLWF Applicable"
 														id="mlwfApplicable" name="mlwfApplicable" autocomplete="off"
-														onchange="trim(this)"> 
+														onchange="trim(this)" value="${empAllowanceId.mlwfApplicable}"> 
 												</div>
 											</div>
 											
@@ -1201,7 +1261,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empAllowanceId.employeeEsicPercentage}"
 														placeholder="Employee Esic Percentage" id="empEsicPer" name="empEsicPer"
 														autocomplete="off" onchange="trim(this)">
 												</div>
@@ -1212,7 +1272,7 @@
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="Employer Esic Percentage"
 														id="employerEsicPer" name="employerEsicPer" autocomplete="off"
-														onchange="trim(this)"> 
+														onchange="trim(this)" value="${empAllowanceId.employerEsicPercentage}"> 
 												</div>
 											</div>
 											
@@ -1222,7 +1282,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empAllowanceId.ptApplicable}"
 														placeholder="PT Applicable" id="ptApplicable" name="ptApplicable"
 														autocomplete="off" onchange="trim(this)">
 												</div>
@@ -1234,7 +1294,7 @@
 												
 													 <input type="text" class="form-control datepickerclass" placeholder="EPF Joining Date"
 														id="epfJoinDate" name="epfJoinDate" autocomplete="off"
-														onchange="trim(this)"> 
+														onchange="trim(this)" value="${empAllowanceId.epfJoiningDate}"> 
 												</div>
 											</div>
 											
@@ -1244,7 +1304,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empAllowanceId.salBasis}"
 														placeholder="Salary Basis" id="salBasis" name="salBasis"
 														autocomplete="off" onchange="trim(this)">
 												</div>
@@ -1255,7 +1315,7 @@
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="Joining Date"
 														id="joinDate" name="joinDate" autocomplete="off"
-														onchange="trim(this)"> 
+														onchange="trim(this)" value="${empAllowanceId.cmpJoiningDate}"> 
 												</div>
 											</div>
 											
@@ -1264,7 +1324,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empAllowanceId.cmpLeavingDate}"
 														placeholder="Leaving Date" id="leaveDate" name="leaveDate"
 														autocomplete="off" onchange="trim(this)">
 												</div>
@@ -1275,7 +1335,7 @@
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="Leaving Reason"
 														id="leaveReason" name="leaveReason" autocomplete="off"
-														onchange="trim(this)"> 
+														onchange="trim(this)" value="${empAllowanceId.leavingReason}"> 
 												</div>
 											</div>
 											
@@ -1284,7 +1344,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control" value="${empAllowanceId.leavingReasonEsic}"
 														placeholder="LR For ESIC" id="lrEsic" name="lrEsic"
 														autocomplete="off" onchange="trim(this)">
 												</div>
@@ -1295,7 +1355,7 @@
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="LR For PF"
 														id="lrForPF" name="lrForPF" autocomplete="off"
-														onchange="trim(this)"> 
+														onchange="trim(this)" value="${empAllowanceId.leavingReasonPf}"> 
 												</div>
 											</div>
 											
@@ -1321,8 +1381,8 @@
 									<div class="tab-pane fade" id="highlighted-tab6">
 
 										<form
-											action="${pageContext.request.contextPath}/submitEmpDocInfo"
-											id="submitInsertRelationEmp" method="post">
+											action="${pageContext.request.contextPath}/submitInsertEmpDoc"
+											id="submitInsertRelationEmp" method="post" enctype="multipart/form-data">
 											
 											<div class="form-group row">
 												<div class="col-lg-6">
@@ -1330,38 +1390,38 @@
 														value="${emp.empId}">
 												</div>
 												<div class="col-lg-6">
-													<input type="text" id="empBankId"
-														name="empBankId" value="${empBank.bankInfoId}">
+													<input type="text" id="empDocId"
+														name="empDocId">
 												</div>
 											</div>
 								
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="accNo">Account No: *
-													Contact 1 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														placeholder="Account No" id="accNo"
-														name="accNo" autocomplete="off" onchange="trim(this)">
-													<span class="hidedefault   validation-invalid-label"
-														id="error_accNo">This field is required.</span>
+											<c:forEach items="${empDocList}" var="empDocList">
+												<div class="form-body">
+													<h4 align="center">${empDocList.doctypeName}</h4>
+
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label class="control-label col-md-3"><img
+																	id="blah" src="#" alt="Emp Photo" width="300px" /></label>
+																<div class="col-md-4" style="padding-left: 200px">
+																	<input id="doc${empDocList.doctypeId}" type="file" name="doc"
+																		class="nocheck"  
+																		onchange="show(this)">(only jpg,png,gif,pdf)
+																		 <span style="display: none;"
+																			class="hidedefault  validation-invalid-label"
+																			id="error_img">Only these file types are accepted : jpg,png,gif,pdf</span>
+
+
+																</div>
+															</div>
+														</div>
+
+													</div>
+
 												</div>
 
-												<label class="col-form-label col-lg-2" for="bankId">Bank :
-													<span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="bankId" data-placeholder="Select Bank"
-														id="bankId"
-														class="form-control form-control-select21 select2-hidden-accessible1">
-
-
-														<c:forEach items="${bankList}" var="bankList">
-															<option value="${bankList.bankId}">${bankList.name}</option>
-														</c:forEach>
-													</select> 
-												</div>
-											</div>
+											</c:forEach> 
 											
 											<div class="form-group row mb-0">
 												<div class="col-lg-10 ml-lg-auto">
@@ -1747,6 +1807,31 @@
 				separator : ' to '
 			}
 		});
+		
+		function show(input) {
+	        debugger;
+	        var validExtensions = ['jpg','png','jpeg','pdf']; //array of valid extensions
+	        var fileName = input.files[0].name;
+	        var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
+	        if ($.inArray(fileNameExt, validExtensions) == -1) {
+	            input.type = ''
+	            input.type = 'file'
+	            $('#user_img').attr('src',"");
+	            alert("Only these file types are accepted : "+validExtensions.join(', '));
+	            //$('#error_img').show()
+	        }
+	        else
+	        {
+	        	 //$('#error_img').hide()
+	        if (input.files && input.files[0]) {
+	            var filerdr = new FileReader();
+	            filerdr.onload = function (e) {
+	                $('#user_img').attr('src', e.target.result);
+	            }
+	            filerdr.readAsDataURL(input.files[0]);
+	        }
+	        }
+	    }
 	</script>
 </body>
 </html>
