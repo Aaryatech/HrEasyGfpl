@@ -546,6 +546,10 @@ public class EmployeeController {
 			empAllowncList = new ArrayList<EmpSalAllowance>(Arrays.asList(empSalAllowance));
 			System.out.println("Edit Emp Salary EmpSalAllowance Info-------"+ empAllowncList);
 			
+			EmployeDoc[] docArr = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeDocs", map,
+					EmployeDoc[].class);
+			List<EmployeDoc> docList = new ArrayList<EmployeDoc>(Arrays.asList(docArr));
+			
 			model.addObject("emp", emp);
 			model.addObject("empPersInfo", empPersInfo);					//model.addObject("empPersInfo", empIdInfo);
 			model.addObject("empNom", empNom);								//model.addObject("empNom", empIdNom);
@@ -553,6 +557,7 @@ public class EmployeeController {
 			
 			model.addObject("empAllowanceId", empSalInfo);
 			model.addObject("empAllowncList", empAllowncList);
+			model.addObject("docList", docList);
 			
 			
 			
@@ -598,7 +603,7 @@ public class EmployeeController {
 				empInfo.setEmerContactNo1(request.getParameter("contact1"));
 				empInfo.setEmerContactNo2(request.getParameter("contact2"));
 				empInfo.setBloodGroup(request.getParameter("bloodgroup"));
-				empInfo.setUniform_size(request.getParameter("uniformsize"));
+				empInfo.setUniformSize(request.getParameter("uniformsize"));
 				empInfo.setDelStatus(1);
 					
 					System.out.println("TblEmpInfo----"+empInfo);
@@ -915,16 +920,24 @@ public class EmployeeController {
 			// String base64encodedString = request.getParameter("empId");
 			// int empId = Integer.parseInt(FormValidation.DecodeKey(base64encodedString));
 			
-			int failed=0;
+			
 				List<EmployeDoc> list = new ArrayList<EmployeDoc>();
 				int docId = 0;
 				int empId = 0;
 				int docTypeId = 0;
-			for (int j = 0; j < empDocList.size(); j++) {
+			for (int j = 0; j < empDocList.size(); j++) {				
 				
+				 docTypeId = Integer.parseInt(request.getParameter("docType"+empDocList.get(j).getDoctypeId()));
 				 empId = Integer.parseInt(request.getParameter("empId"));
-				 docTypeId = empDocList.get(j).getDoctypeId();
+				try {					
+					 docId = Integer.parseInt(request.getParameter("empDocId"+empDocList.get(j).getDoctypeId()));						 
+					
+				 }catch (Exception e) {
+					 docId = 0;
+					 					
+				}
 				 
+				 System.out.println(docId+" - "+empId+" - "+docTypeId);
 				 img = doc.get(j).getOriginalFilename();
 				 imageName = empId+"-"+docTypeId+"-"+doc.get(j).getOriginalFilename()+"-"+sf.format(date);
 				
@@ -934,12 +947,7 @@ public class EmployeeController {
 					try {
 						
 						if(img!="" && img!=null) {
-							 try {
-								 docId = Integer.parseInt(request.getParameter("empDocId"));
-								
-							 }catch (Exception e) {
-								// TODO: handle exception
-							}
+							 
 								upload.saveUploadedImge(doc.get(j), Constants.imageSaveUrl, imageName, Constants.allextension,
 										0, 0, 0, 0, 0);
 	
@@ -950,27 +958,19 @@ public class EmployeeController {
 							employeDoc.setIsActive(1);
 							employeDoc.setDelStatus(1);
 							employeDoc.setMakerUserId(100);
-							employeDoc.setMakerEnterDatetime(sf.format(date));						
-							//employeDoc.setDocImage(empDocList.get(j).getDoctypeName());
+							employeDoc.setMakerEnterDatetime(sf.format(date));	
 							employeDoc.setDocImage(imageName);
 							list.add(employeDoc);
 						}
 					} catch (Exception e) {
-						// TODO: handle exception
 						e.printStackTrace();
 					}
-
-				
-
 			}
-
-			
-			
-			if (failed == 0 ) {
 				
 				EmployeDoc[] res = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpDocList", list,
 						EmployeDoc[].class);
-				session.setAttribute("successMsg", "Record Inserted Successfully");
+			if (res != null ) {
+					session.setAttribute("successMsg", "Record Inserted Successfully");
 			} else {
 				
 				session.setAttribute("errorMsg", "Failed to Insert Record");

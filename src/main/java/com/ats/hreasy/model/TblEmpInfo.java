@@ -17,7 +17,7 @@ public class TblEmpInfo {
 	private String emerContactNo1;
 	private String emerContactAddr;
 	private String bloodGroup;
-	private String uniform_size;
+	private String uniformSize;
 	private String photo;
 	private String photoPan;
 	private String photoAdhar;
@@ -148,12 +148,13 @@ public class TblEmpInfo {
 		this.bloodGroup = bloodGroup;
 	}
 
-	public String getUniform_size() {
-		return uniform_size;
+
+	public String getUniformSize() {
+		return uniformSize;
 	}
 
-	public void setUniform_size(String uniform_size) {
-		this.uniform_size = uniform_size;
+	public void setUniformSize(String uniformSize) {
+		this.uniformSize = uniformSize;
 	}
 
 	public String getPhoto() {
@@ -299,7 +300,7 @@ public class TblEmpInfo {
 				+ dob + ", gender=" + gender + ", maritalStatus=" + maritalStatus + ", address=" + address
 				+ ", permanentAddress=" + permanentAddress + ", empQualification=" + empQualification
 				+ ", emerContactNo1=" + emerContactNo1 + ", emerContactAddr=" + emerContactAddr + ", bloodGroup="
-				+ bloodGroup + ", uniform_size=" + uniform_size + ", photo=" + photo + ", photoPan=" + photoPan
+				+ bloodGroup + ", uniformSize=" + uniformSize + ", photo=" + photo + ", photoPan=" + photoPan
 				+ ", photoAdhar=" + photoAdhar + ", photoVoterid=" + photoVoterid + ", photoLightbill=" + photoLightbill
 				+ ", photoRationcard=" + photoRationcard + ", photoBankpassbook=" + photoBankpassbook + ", email="
 				+ email + ", emerName=" + emerName + ", emerContactNo2=" + emerContactNo2 + ", photoSignature="

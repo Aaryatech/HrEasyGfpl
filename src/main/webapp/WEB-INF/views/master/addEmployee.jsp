@@ -503,8 +503,8 @@
 														id="relation"
 														class="form-control form-control-select21 select2-hidden-accessible1">
 
-														<option value="father">Father</option>
-														<option value="husband">Husband</option>
+														<option value="father" ${empPersInfo.middleNameRelation=='father' ? 'selected' : ''}>Father</option>
+														<option value="husband" ${empPersInfo.middleNameRelation=='husband' ? 'selected' : ''}>Husband</option>
 													</select> <span class="hidedefault   validation-invalid-label"
 														id="error_relation" style="display: none;">This field is required.</span>
 												</div>
@@ -516,7 +516,7 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control datepickerclass"
-														placeholder="Date of Birth" id="dob" name="dob" value="${empPersInfo.middleName}"
+														placeholder="Date of Birth" id="dob" name="dob" value="${empPersInfo.dob}"
 														autocomplete="off" onchange="trim(this)"> <span
 														class="hidedefault  validation-invalid-label"
 														id="error_dob" style="display: none;">This field is required.</span>
@@ -528,9 +528,9 @@
 												<div class="col-lg-4">
 													<select name="gender" data-placeholder="Gender" id="gender"
 														class="form-control form-control-select21 select2-hidden-accessible1">
-														<option>Select Gender</option>
-														<option value="m">Male</option>
-														<option value="f">Female</option>
+														<!-- <option>Select Gender</option> -->
+														<option value="m" ${empPersInfo.gender=='m' ? 'selected' : ''}>Male</option>
+														<option value="f" ${empPersInfo.gender=='f' ? 'selected' : ''}>Female</option>
 													</select> <span class="hidedefault   validation-invalid-label"
 														id="error_gender" style="display: none;">This field is required.</span>
 												</div>
@@ -547,11 +547,11 @@
 														id="maritalstatus"
 														class="form-control form-control-select21 select2-hidden-accessible1">
 
-														<option value="Single">Single</option>
-														<option value="Married" selected="selected">Married</option>
-														<option value="Widowed">Widowed</option>
-														<option value="Divorced">Divorced</option>
-														<option value="Separated">Separated</option>
+														<option value="Single" ${empPersInfo.maritalStatus=='Single' ? 'selected' : ''}>Single</option>
+														<option value="Married" ${empPersInfo.maritalStatus=='Married' ? 'selected' : ''}>Married</option>
+														<option value="Widowed" ${empPersInfo.maritalStatus=='Widowed' ? 'selected' : ''}>Widowed</option>
+														<option value="Divorced" ${empPersInfo.maritalStatus=='Divorced' ? 'selected' : ''}>Divorced</option>
+														<option value="Separated" ${empPersInfo.maritalStatus=='Separated' ? 'selected' : ''}>Separated</option>
 
 													</select> <span class="hidedefault   validation-invalid-label"
 														id="error_maritalstatus" style="display: none;">This field is required.</span>
@@ -562,7 +562,7 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="email" class="form-control "
-														placeholder="Email" id="email" name="email" value="${empPersInfo.middleName}"
+														placeholder="Email" id="email" name="email" value="${empPersInfo.email}"
 														autocomplete="off" onchange="trim(this)"> <span
 														class="hidedefault  validation-invalid-label"
 														id="error_dob" style="display: none;">This field is required.</span>
@@ -614,7 +614,7 @@
 												<div class="col-lg-4">
 													<input type="text" class="form-control" value="${empPersInfo.emerName}"
 														placeholder="Emergency Person Name" id="emergencyPerson"
-														name="emergencyPerson" autocomplete="off"
+														name="emergencyPerson" autocomplete="off" 
 														onchange="trim(this)"> <span style="display: none;"
 														class="hidedefault   validation-invalid-label"
 														id="error_emergencyPerson">This field is required.</span>
@@ -627,7 +627,7 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" value="${empPersInfo.emerContactNo1}"
-														placeholder="Emergency Contact No. 1" id="contact1"
+														placeholder="Emergency Contact No. 1" id="contact1" maxlength="10"
 														name="contact1" autocomplete="off" onchange="trim(this)">
 													<span class="hidedefault   validation-invalid-label"
 														id="error_contact1" style="display: none;">This field is required.</span>
@@ -639,7 +639,7 @@
 												<div class="col-lg-4">
 
 													<input type="text" class="form-control" value="${empPersInfo.emerContactNo2}"
-														placeholder="Emergency Contact No. 2" id="contact2"
+														placeholder="Emergency Contact No. 2" id="contact2" maxlength="10"
 														name="contact2" autocomplete="off" onchange="trim(this)">
 													<span class="hidedefault   validation-invalid-label"
 														id="error_contact2" style="display: none;">This field is required.</span>
@@ -668,14 +668,14 @@
 														data-placeholder="Select Blood Group" id="bloodgroup"
 														class="form-control form-control-select21 select2-hidden-accessible1">
 
-														<option value="A+">A+</option>
-														<option value="A-">A-</option>
-														<option value="B+">B+</option>
-														<option value="B-">B-</option>
-														<option value="AB+">AB+</option>
-														<option value="AB-">AB-</option>
-														<option value="O+">O+</option>
-														<option value="O-">O-</option>
+														<option value="A+" ${empPersInfo.bloodGroup=='A+' ? 'selected' : ''}>A+</option>
+														<option value="A-" ${empPersInfo.bloodGroup=='A-' ? 'selected' : ''}>A-</option>
+														<option value="B+" ${empPersInfo.bloodGroup=='B+' ? 'selected' : ''}>B+</option>
+														<option value="B-" ${empPersInfo.bloodGroup=='B-' ? 'selected' : ''}>B-</option>
+														<option value="AB+"${empPersInfo.bloodGroup=='AB+' ? 'selected' : ''}>AB+</option>
+														<option value="AB-" ${empPersInfo.bloodGroup=='AB-' ? 'selected' : ''}>AB-</option>
+														<option value="O+" ${empPersInfo.bloodGroup=='O+' ? 'selected' : ''}>O+</option>
+														<option value="O-" ${empPersInfo.bloodGroup=='O-' ? 'selected' : ''}>O-</option>
 
 													</select> <span class="hidedefault   validation-invalid-label" style="display: none;"
 														id="error_bloodgroup">This field is required.</span>
@@ -691,11 +691,11 @@
 														data-placeholder="Select Uniform Size" id="uniformsize"
 														class="form-control form-control-select21 select2-hidden-accessible1">
 
-														<option value="medium">MEDIUM</option>
-														<option value="large">LARGE</option>
-														<option value="xl">XL</option>
-														<option value="xxl">XXL</option>
-														<option value="xxxl">XXXL</option>
+														<option value="medium" ${empPersInfo.uniformSize=='medium' ? 'selected' : ''}>MEDIUM</option>
+														<option value="large" ${empPersInfo.uniformSize=='large' ? 'selected' : ''}>LARGE</option>
+														<option value="xl" ${empPersInfo.uniformSize=='xl' ? 'selected' : ''}>XL</option>
+														<option value="xxl" ${empPersInfo.uniformSize=='xxl' ? 'selected' : ''}>XXL</option>
+														<option value="xxxl" ${empPersInfo.uniformSize=='xxxl' ? 'selected' : ''}>XXXL</option>
 													</select>
 												</div>
 											</div>
@@ -783,13 +783,13 @@
 														<select name="relation" id="relation" data-rel="chosen"
 															style="width: 180px;" class="form-control">
 														<option>Please Select</option>
-															<option value="f" ${empNom.relation == f ? 'selected' : ''}>Father</option>
-															<option value="m" ${empNom.relation == m ? 'selected' : ''}>Mother</option>
-															<option value="s1" ${empNom.relation == s1 ? 'selected' : ''}>Spouse</option>
-															<option value="b" ${empNom.relation == b ? 'selected' : ''}>Brother</option>
-															<option value="s2" ${empNom.relation == s2 ? 'selected' : ''}>Sister</option>
-															<option value="s3" ${empNom.relation == s3 ?'selected' : ''}>Son</option>
-															<option value="d" ${empNom.relation == d ? 'selected' : ''}>Daughter</option>
+															<option value="f" ${empNom.relation == 'f' ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation == 'm' ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation == 's1' ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation == 'b' ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation == 's2' ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation == 's3' ?'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation == 'd' ? 'selected' : ''}>Daughter</option>
 														</select>
 													
 												</div>
@@ -825,13 +825,13 @@
 														<select name="relation2" id="relation2" data-rel="chosen"
 															style="width: 180px;" class="form-control">
 															<option>Please Select</option>
-															<option value="f" ${empNom.relation2 == f ? 'selected' : ''}>Father</option>
-															<option value="m" ${empNom.relation2 == m ? 'selected' : ''}>Mother</option>
-															<option value="s1" ${empNom.relation2 == s1 ? 'selected' : ''}>Spouse</option>
-															<option value="b" ${empNom.relation2 == b ? 'selected' : ''}>Brother</option>
-															<option value="s2" ${empNom.relation2 == s2 ? 'selected' : ''}>Sister</option>
-															<option value="s3" ${empNom.relation2 == s3 ?'selected' : ''}>Son</option>
-															<option value="d" ${empNom.relation2 == d ? 'selected' : ''}>Daughter</option>
+															<option value="f" ${empNom.relation2 == 'f' ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation2 == 'm' ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation2 == 's1' ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation2 == 'b' ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation2 == 's2' ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation2 == 's3' ?'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation2 == 'd' ? 'selected' : ''}>Daughter</option>
 														</select>
 													</div>
 												</div>
@@ -867,13 +867,13 @@
 														<select name="relation3" id="relation3" data-rel="chosen"
 															style="width: 180px;" class="form-control">
 															<option>Please Select</option>
-															<option value="f" ${empNom.relation3 == f ? 'selected' : ''}>Father</option>
-															<option value="m" ${empNom.relation3 == m ? 'selected' : ''}>Mother</option>
-															<option value="s1" ${empNom.relation3 == s1 ? 'selected' : ''}>Spouse</option>
-															<option value="b" ${empNom.relation3 == b ? 'selected' : ''}>Brother</option>
-															<option value="s2" ${empNom.relation3 == s2 ? 'selected' : ''}>Sister</option>
-															<option value="s3" ${empNom.relation3 == s3 ?'selected' : ''}>Son</option>
-															<option value="d" ${empNom.relation3 == d ? 'selected' : ''}>Daughter</option>
+															<option value="f" ${empNom.relation3 == 'f' ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation3 == 'm' ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation3 == 's1' ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation3 == 'b' ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation3 == 's2' ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation3 == 's3' ? 'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation3 == 'd' ? 'selected' : ''}>Daughter</option>
 														</select>
 													</div>
 												</div>
@@ -908,13 +908,13 @@
 													<div class="form-group">
 														<select name="relation4" id="relation4" data-rel="chosen"
 															style="width: 180px;" class="form-control">
-															<option value="f" ${empNom.relation4 == f ? 'selected' : ''}>Father</option>
-															<option value="m" ${empNom.relation4 == m ? 'selected' : ''}>Mother</option>
-															<option value="s1" ${empNom.relation4 == s1 ? 'selected' : ''}>Spouse</option>
-															<option value="b" ${empNom.relation4 == b ? 'selected' : ''}>Brother</option>
-															<option value="s2" ${empNom.relation4 == s2 ? 'selected' : ''}>Sister</option>
-															<option value="s3" ${empNom.relation4 == s3 ?'selected' : ''}>Son</option>
-															<option value="d" ${empNom.relation4 == d ? 'selected' : ''}>Daughter</option>
+															<option value="f" ${empNom.relation4 == 'f' ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation4 == 'm' ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation4 == 's1' ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation4 == 'b' ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation4 == 's2' ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation4 == 's3' ?'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation4 == 'd' ? 'selected' : ''}>Daughter</option>
 														</select>
 													</div>
 												</div>
@@ -950,13 +950,13 @@
 														<select name="relation5" id="relation5" data-rel="chosen"
 															style="width: 180px;" class="form-control">
 															<option>Please Select</option>
-															<option value="f" ${empNom.relation5 == f ? 'selected' : ''}>Father</option>
-															<option value="m" ${empNom.relation5 == m ? 'selected' : ''}>Mother</option>
-															<option value="s1" ${empNom.relation5 == s1 ? 'selected' : ''}>Spouse</option>
-															<option value="b" ${empNom.relation5 == b ? 'selected' : ''}>Brother</option>
-															<option value="s2" ${empNom.relation5 == s2 ? 'selected' : ''}>Sister</option>
-															<option value="s3" ${empNom.relation5 == s3 ?'selected' : ''}>Son</option>
-															<option value="d" ${empNom.relation5 == d ? 'selected' : ''}>Daughter</option>
+															<option value="f" ${empNom.relation5 == 'f' ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation5 == 'm' ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation5 == 's1' ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation5 == 'b' ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation5 == 's2' ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation5 == 's3' ?'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation5 == 'd' ? 'selected' : ''}>Daughter</option>
 														</select>
 													</div>
 												</div>
@@ -992,13 +992,13 @@
 														<select name="relation6" id="relation6" data-rel="chosen"
 															style="width: 180px;" class="form-control">
 															<option>Please Select</option>
-															<option value="f" ${empNom.relation6 == f ? 'selected' : ''}>Father</option>
-															<option value="m" ${empNom.relation6 == m ? 'selected' : ''}>Mother</option>
-															<option value="s1" ${empNom.relation6 == s1 ? 'selected' : ''}>Spouse</option>
-															<option value="b" ${empNom.relation6 == b ? 'selected' : ''}>Brother</option>
-															<option value="s2" ${empNom.relation6 == s2 ? 'selected' : ''}>Sister</option>
-															<option value="s3" ${empNom.relation6 == s3 ?'selected' : ''}>Son</option>
-															<option value="d" ${empNom.relation6 == d ? 'selected' : ''}>Daughter</option>
+															<option value="f" ${empNom.relation6 == 'f' ? 'selected' : ''}>Father</option>
+															<option value="m" ${empNom.relation6 == 'm' ? 'selected' : ''}>Mother</option>
+															<option value="s1" ${empNom.relation6 == 's1' ? 'selected' : ''}>Spouse</option>
+															<option value="b" ${empNom.relation6 == 'b' ? 'selected' : ''}>Brother</option>
+															<option value="s2" ${empNom.relation6 == 's2' ? 'selected' : ''}>Sister</option>
+															<option value="s3" ${empNom.relation6 == 's3' ?'selected' : ''}>Son</option>
+															<option value="d" ${empNom.relation6 == 'd' ? 'selected' : ''}>Daughter</option>
 														</select>
 													</div>
 												</div>
@@ -1389,13 +1389,28 @@
 													<input type="text" id="empId" name="empId"
 														value="${emp.empId}">
 												</div>
-												<div class="col-lg-6">
+												<!-- <div class="col-lg-6">
 													<input type="text" id="empDocId"
 														name="empDocId">
-												</div>
+												</div> -->
 											</div>
 								
 											<c:forEach items="${empDocList}" var="empDocList">
+											
+												<c:set var="docName" value=""></c:set>
+												<c:set var="docId" value="0"></c:set>
+												 
+												 <c:forEach items="${docList}" var="docList">
+												 
+													 <c:choose>
+													 	<c:when test="${empDocList.doctypeId==docList.doctypeId}">
+													 		<c:set var="docName" value="${docList.docImage}"></c:set>
+													 		<c:set var="docId" value="${docList.docId}"></c:set>
+													 											 	
+													 	</c:when>
+													 </c:choose>
+												 </c:forEach>
+											
 												<div class="form-body">
 													<h4 align="center">${empDocList.doctypeName}</h4>
 
@@ -1406,8 +1421,16 @@
 																	id="blah" src="#" alt="Emp Photo" width="300px" /></label>
 																<div class="col-md-4" style="padding-left: 200px">
 																	<input id="doc${empDocList.doctypeId}" type="file" name="doc"
-																		class="nocheck"  
-																		onchange="show(this)">(only jpg,png,gif,pdf)
+																		class="nocheck" onchange="show(this)">
+																		<img alt="no img" src="${docName}">
+																	
+																	<input type="text" name="docType${empDocList.doctypeId}" 
+																		id="docType${empDocList.doctypeId}" value="${empDocList.doctypeId}">
+																	
+																	<input type="text" id="empDocId${empDocList.doctypeId}"
+																			name="empDocId${empDocList.doctypeId}" value="${docId}">
+																		
+																		(only jpg,png,gif,pdf)
 																		 <span style="display: none;"
 																			class="hidedefault  validation-invalid-label"
 																			id="error_img">Only these file types are accepted : jpg,png,gif,pdf</span>
