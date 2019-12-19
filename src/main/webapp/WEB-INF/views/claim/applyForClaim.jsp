@@ -118,10 +118,10 @@
 								<tr class="bg-blue">
 									<th width="5%">Sr.no</th>
 									<th>Name</th>
-									<th>Work Description</th>
+									<th>Department</th>
+									<th>Designation</th>
 
-									<th>Email</th>
-									<th>Mobile</th>
+ 									<th>Mobile</th>
 
 									<!-- <th>Rate Per Hour</th> -->
 
@@ -134,12 +134,12 @@
 								<tr>
 								<td>1</td>
 										<td>${tempList.empSname}&nbsp;${tempList.empFname}</td>
-										<td>${tempList.empCatShortName}-
-											${tempList.empTypeShortName} -
-											${tempList.empDeptShortName}</td>
+									<td>${tempList.empDept}</td>
 
-										<td>${tempList.empEmail}</td>
-										<td>${tempList.empMobile1}</td>
+									<td>${tempList.empCategory}
+											 </td>
+
+ 										<td>${tempList.empMobile1}</td>
 										<%-- <td>${tempList.empRatePerhr}</td> --%>
 										
 										
@@ -162,11 +162,10 @@
 										<c:set var="index" value="${index+1}"></c:set>
 										
 <td>${lvTypeList.empSname}&nbsp;${lvTypeList.empFname}</td>
-										<td>${lvTypeList.empCatShortName}-
-											${lvTypeList.empTypeShortName} -
-											${lvTypeList.empDeptShortName}</td>
+										<td>${tempList.empDept}</td>
 
-										<td>${lvTypeList.empEmail}</td>
+									<td>${tempList.empCategory}
+											 </td>
 										<td>${lvTypeList.empMobile1}</td>
 										<%-- <td>${lvTypeList.empRatePerhr}</td> --%>
 										

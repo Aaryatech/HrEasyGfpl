@@ -225,6 +225,7 @@
 													<td width="10%">${emp.empDept}</td>
 													<%-- <td width="10%">${emp.empCategory}</td> --%>
 												</tr>
+											 
 											</c:forEach>
 
 										</tbody>

@@ -145,16 +145,7 @@
 									</div>
 								</div>
 
-								<div class="form-group row">
-									<label class="col-form-label col-lg-2" for="compName">Project
-										Title : </label>
-									<div class="col-lg-6">
-										<input type="text" class="form-control"
-											Value="${lvEmp.projectTitle}" id="proTitle" name="compName"
-											autocomplete="off" readonly>
-
-									</div>
-								</div>
+								 
  
 								<h6 class="card-title">Claim Detail</h6>
 								<table
@@ -166,7 +157,7 @@
 											<th>Claim Type</th>
 											<th>Amount</th>
 											<th>Remark</th>
-											<th>Limit</th>
+										 
 										</tr>
 									</thead>
 									<tbody>
@@ -182,7 +173,7 @@
 												<c:forEach items="${claimTypeList}" var="claimTypeList">
 													<c:if
 														test="${claimTypeList.clmTypeId==lvTypeList.claimTypeId}">
-														<td>${claimTypeList.clmAmt}</td>
+													 
 													</c:if>
 												</c:forEach>
 											</tr>
@@ -272,7 +263,7 @@
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									<input type="hidden" id="retun" name="retun" value="${retun}">
+								 
 									<input type="hidden" id="empId" name="empId" value="${empId}">
 									<input type="hidden" id="leaveId" name="claimId"
 										value="${claimId}"> <input type="hidden" id="stat"

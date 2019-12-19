@@ -462,6 +462,8 @@ public class ClaimController {
 
 			List<GetEmployeeInfo> employeeDepartmentlist = new ArrayList<GetEmployeeInfo>(
 					Arrays.asList(employeeDepartment));
+			
+			System.err.println("empList**"+employeeDepartmentlist.toString());
 
 			model.addObject("empList", employeeDepartmentlist);
 

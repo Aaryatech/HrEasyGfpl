@@ -156,7 +156,7 @@
 									<div class="col-lg-10">
 										<input type="text" class="form-control"
 											placeholder="Enter Leave Structure Name" id="empName"
-											value="${editEmp.empFname} ${editEmp.empMname} ${editEmp.empSname}   "
+											value="${editEmp.firstName} ${editEmp.middleName} ${editEmp.surname}   "
 											name="lvsName" autocomplete="off" onchange="trim(this)"
 											readonly>
 
