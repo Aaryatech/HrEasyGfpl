@@ -2,6 +2,8 @@ package com.ats.hreasy.model.claim;
  
 
  public class GetClaimStructureAllotment {
+	 
+	 
  
   	private int empId;
 

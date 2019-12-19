@@ -41,7 +41,7 @@ public class ClaimStructureAndAllotController {
 	public ModelAndView addLeaveStructure(HttpServletRequest request, HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
-		LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 		ModelAndView model = null;
 		/*
 		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
@@ -88,7 +88,7 @@ public class ClaimStructureAndAllotController {
 	public String insertClaimStructure(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			HttpSession session = request.getSession();
-			LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date now = new Date();
 			String curDate = dateFormat.format(new Date());
@@ -163,7 +163,7 @@ public class ClaimStructureAndAllotController {
 		ModelAndView model = null;
  		 
 		try {
- 			LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+ 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 			model = new ModelAndView("claim/claim_structure_list");
 
@@ -198,7 +198,7 @@ public class ClaimStructureAndAllotController {
 
 		HttpSession session = request.getSession();
 		ModelAndView model = null;
-		LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 		 
 		try {
 			model = new ModelAndView("claim/edit_claim_structure");
@@ -242,7 +242,7 @@ public class ClaimStructureAndAllotController {
 		String curDate = dateFormat.format(new Date());
 		String dateTime = dateFormat.format(now);
 		HttpSession session = request.getSession();
-		LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 		String clmsName = request.getParameter("clmsName");
 
@@ -336,7 +336,7 @@ public class ClaimStructureAndAllotController {
 	public String deleteClaimStructure(HttpServletRequest request, HttpServletResponse response) {
 		String a = null;
 		HttpSession session = request.getSession();
- 		LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+ 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 		 
 		
 		try {
@@ -371,7 +371,7 @@ public class ClaimStructureAndAllotController {
  
 		ModelAndView model = null;
 		HttpSession session = request.getSession();
-		LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 		 
 		  model = new ModelAndView("claim/claim_structure_allot_list");
@@ -414,7 +414,7 @@ public class ClaimStructureAndAllotController {
 		List<Integer> empList=null;
 		 
 			HttpSession session = request.getSession();
-			LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 			int lvsId = Integer.parseInt(request.getParameter("lvsId"));
 
 			String[] empIds = request.getParameterValues("empIds");

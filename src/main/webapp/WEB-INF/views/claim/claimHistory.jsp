@@ -29,34 +29,7 @@
 			<!-- Page header -->
 			<div class="page-header page-header-light">
 
-				<%-- 
-				<div
-					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
-					<div class="d-flex">
-						<div class="breadcrumb">
-							<a href="index.html" class="breadcrumb-item"><i
-								class="icon-home2 mr-2"></i> Home</a> <span
-								class="breadcrumb-item active">Dashboard</span>
-						</div>
 
-						<a href="#" class="header-elements-toggle text-default d-md-none"><i
-							class="icon-more"></i></a>
-
-
-
-					</div>
-
-
-					<div class="breadcrumb justify-content-center">
-					<c:if test="${addAccess == 0}">
-						<a href="${pageContext.request.contextPath}/claimTypeAdd"
-							class="breadcrumb-elements-item"> Add Claim Type </a>
-							</c:if>
-
-					</div>
-
-
-				</div> --%>
 			</div>
 			<!-- /page header -->
 
@@ -67,22 +40,20 @@
 
 				<!-- Highlighting rows and columns -->
 				<div class="card">
-
-
+					
 					<div class="card-header header-elements-inline">
-						<table width="100%">
+ 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Claim Type List</h5></td>
-								<td width="40%" align="right"><a
-									href="${pageContext.request.contextPath}/claimTypeAdd"
+								<td width="60%"><h5 class="card-title">Employee Claim List</h5></td>
+								<td width="40%" align="right">
+								 <a
+									href="${pageContext.request.contextPath}/showApplyForClaim"
 									class="breadcrumb-elements-item">
-										<button type="button" class="btn btn-primary">Add
-											Claim Type</button>
-								</a></td>
+										<button type="button" class="btn btn-primary">Employee List  </button>
+								</a> </td>
 							</tr>
 						</table>
 					</div>
-
 
 					<div class="card-body">
 
@@ -96,7 +67,7 @@
 							</button>
 							<span class="font-weight-semibold">Oh snap!</span>
 							<%
-								out.println(session.getAttribute("errorMsg"));
+								session.removeAttribute("errorMsg");
 							%>
 						</div>
 
@@ -114,7 +85,7 @@
 							</button>
 							<span class="font-weight-semibold">Well done!</span>
 							<%
-								out.println(session.getAttribute("successMsg"));
+								session.removeAttribute("successMsg");
 							%>
 						</div>
 						<%
@@ -127,8 +98,12 @@
 							<thead>
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
-									<th>Claim Type</th>
-									<th>Claim Short Name</th>
+									<th>Claim Title</th>
+									<th>Project</th>
+									<th>From Date</th>
+									<th>To Date</th>
+									<th>Total Amount</th>
+									<th>Status</th>
 
 
 									<th class="text-center" width="10%">Actions</th>
@@ -137,40 +112,55 @@
 							<tbody>
 
 
-								<c:forEach items="${claimTypelist}" var="claim"
+								<c:forEach items="${claimList1}" var="lvTypeList"
 									varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
-										<td>${claim.claimTypeTitle}</td>
-										<td>${claim.claimTypeTitleShort}</td>
-										<td class="text-center">
-											<!-- 	<div class="list-icons">
-												<div class="dropdown">
-													<a href="#" class="list-icons-item" data-toggle="dropdown">
-														<i class="icon-menu9"></i>
-													</a>
+										<td>${lvTypeList.claimTitle}</td>
+										<td>${lvTypeList.projectTitle}</td>
+										<td>${lvTypeList.claimFromDate}</td>
+										<td>${lvTypeList.claimToDate}</td>
+										<td>${lvTypeList.claimAmount}</td>
+										<c:if test="${lvTypeList.claimFinalStatus==1}">
+											<td><span class="badge badge-info">Initial
+													Pending</span></td>
+										</c:if>
+										<c:if test="${lvTypeList.claimFinalStatus==2}">
+											<td><span class="badge badge-secondary">Final
+													Pending</span></td>
+										</c:if>
+										<c:if test="${lvTypeList.claimFinalStatus==3}">
+											<td><span class="badge badge-success">Final
+													Approved</span></td>
+										</c:if>
+										<c:if test="${lvTypeList.claimFinalStatus==7}">
+											<td><span class="badge badge-danger">Leave
+													Cancelled</span></td>
+										</c:if>
+										<c:if test="${lvTypeList.claimFinalStatus==8}">
+											<td><span class="badge badge-danger">Initial
+													Rejected</span></td>
+										</c:if>
+										<c:if test="${lvTypeList.claimFinalStatus==9}">
+											<td><span class="badge badge-danger">Final Reject</span></td>
+										</c:if>
 
-													<div class="dropdown-menu dropdown-menu-right"> --> <%-- <c:if
-												test="${editAccess == 0}"> --%>
-												<a
-													href="${pageContext.request.contextPath}/editClaimType?claimTypeId=${claim.exVar1}"
-													title="Edit"><i class="icon-pencil7"
-													style="color: black;"></i></a>
-											<%-- </c:if> <c:if test="${deleteAccess == 0}"> --%>
-												<a
-													href="${pageContext.request.contextPath}/deleteClaimType?claimTypeId=${claim.exVar1}"
-													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a>
-										<%-- 	</c:if> --%>
 
-										</td>
+										<td class="text-center"><a
+											href="${pageContext.request.contextPath}/showClaimProofAgain?claimId=${lvTypeList.exVar1}"
+											title="Upload Document"><i class="icon-file-upload"
+												style="color: black;"></i></a> <a
+											href="${pageContext.request.contextPath}/showClaimHistDetailList?claimId=${lvTypeList.exVar1}"
+											title="History"><i class="icon-history"
+												style="color: black;"></i></a> <a
+											href="${pageContext.request.contextPath}/showClaimDetailList?claimId=${lvTypeList.exVar1}"
+											title="Claim Detail"><i class="icon-list"
+												style="color: black;"></i></a></td>
 									</tr>
 								</c:forEach>
 
 							</tbody>
 						</table>
-
 					</div>
 
 				</div>

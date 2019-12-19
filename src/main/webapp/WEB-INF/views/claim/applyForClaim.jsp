@@ -29,8 +29,8 @@
 			<!-- Page header -->
 			<div class="page-header page-header-light">
 
-				<%-- 
-				<div
+
+			<%-- 	<div
 					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
@@ -47,11 +47,9 @@
 					</div>
 
 
-					<div class="breadcrumb justify-content-center">
-					<c:if test="${addAccess == 0}">
-						<a href="${pageContext.request.contextPath}/claimTypeAdd"
-							class="breadcrumb-elements-item"> Add Claim Type </a>
-							</c:if>
+						<div class="breadcrumb justify-content-center">
+						<a href="${pageContext.request.contextPath}/employeeAdd"
+							class="breadcrumb-elements-item"> Add Employee </a>
 
 					</div>
 
@@ -67,22 +65,14 @@
 
 				<!-- Highlighting rows and columns -->
 				<div class="card">
-
-
 					<div class="card-header header-elements-inline">
-						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Claim Type List</h5></td>
-								<td width="40%" align="right"><a
-									href="${pageContext.request.contextPath}/claimTypeAdd"
-									class="breadcrumb-elements-item">
-										<button type="button" class="btn btn-primary">Add
-											Claim Type</button>
-								</a></td>
-							</tr>
-						</table>
+						<h5 class="card-title">Employee List</h5>
+						<!-- <div class="header-elements">
+							<div class="list-icons">
+								<a class="list-icons-item" data-action="collapse"></a>
+							</div>
+						</div> -->
 					</div>
-
 
 					<div class="card-body">
 
@@ -96,7 +86,7 @@
 							</button>
 							<span class="font-weight-semibold">Oh snap!</span>
 							<%
-								out.println(session.getAttribute("errorMsg"));
+								session.removeAttribute("errorMsg");
 							%>
 						</div>
 
@@ -114,7 +104,7 @@
 							</button>
 							<span class="font-weight-semibold">Well done!</span>
 							<%
-								out.println(session.getAttribute("successMsg"));
+								session.removeAttribute("successMsg");
 							%>
 						</div>
 						<%
@@ -126,9 +116,14 @@
 							id="printtable1">
 							<thead>
 								<tr class="bg-blue">
-									<th width="10%">Sr.no</th>
-									<th>Claim Type</th>
-									<th>Claim Short Name</th>
+									<th width="5%">Sr.no</th>
+									<th>Name</th>
+									<th>Work Description</th>
+
+									<th>Email</th>
+									<th>Mobile</th>
+
+									<!-- <th>Rate Per Hour</th> -->
 
 
 									<th class="text-center" width="10%">Actions</th>
@@ -136,33 +131,54 @@
 							</thead>
 							<tbody>
 
+								<tr>
+								<td>1</td>
+										<td>${tempList.empSname}&nbsp;${tempList.empFname}</td>
+										<td>${tempList.empCatShortName}-
+											${tempList.empTypeShortName} -
+											${tempList.empDeptShortName}</td>
 
-								<c:forEach items="${claimTypelist}" var="claim"
-									varStatus="count">
-									<tr>
-										<td>${count.index+1}</td>
-										<td>${claim.claimTypeTitle}</td>
-										<td>${claim.claimTypeTitleShort}</td>
+										<td>${tempList.empEmail}</td>
+										<td>${tempList.empMobile1}</td>
+										<%-- <td>${tempList.empRatePerhr}</td> --%>
+										
+										
 										<td class="text-center">
-											<!-- 	<div class="list-icons">
-												<div class="dropdown">
-													<a href="#" class="list-icons-item" data-toggle="dropdown">
-														<i class="icon-menu9"></i>
-													</a>
+											 <a
+											href="${pageContext.request.contextPath}/showClaimApply?empId=${tempList.exVar1}"
+											title="Add Claim"><i class="icon-diff-added"
+												style="color: black;"></i></a> <a
+											href="${pageContext.request.contextPath}/showClaimList?empId=${tempList.exVar1}"
+											title="Claim History"><i class="icon-history"
+												style="color: black;"></i></a>
 
-													<div class="dropdown-menu dropdown-menu-right"> --> <%-- <c:if
-												test="${editAccess == 0}"> --%>
-												<a
-													href="${pageContext.request.contextPath}/editClaimType?claimTypeId=${claim.exVar1}"
-													title="Edit"><i class="icon-pencil7"
-													style="color: black;"></i></a>
-											<%-- </c:if> <c:if test="${deleteAccess == 0}"> --%>
-												<a
-													href="${pageContext.request.contextPath}/deleteClaimType?claimTypeId=${claim.exVar1}"
-													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a>
-										<%-- 	</c:if> --%>
+										</td>
+								
+								</tr>
+								<c:set var="index" value="2"></c:set>
+								<c:forEach items="${empList}" var="lvTypeList"  >
+									<tr>
+										<td>${index}</td>
+										<c:set var="index" value="${index+1}"></c:set>
+										
+<td>${lvTypeList.empSname}&nbsp;${lvTypeList.empFname}</td>
+										<td>${lvTypeList.empCatShortName}-
+											${lvTypeList.empTypeShortName} -
+											${lvTypeList.empDeptShortName}</td>
+
+										<td>${lvTypeList.empEmail}</td>
+										<td>${lvTypeList.empMobile1}</td>
+										<%-- <td>${lvTypeList.empRatePerhr}</td> --%>
+										
+
+										<td class="text-center">
+											 <a
+											href="${pageContext.request.contextPath}/showClaimApply?empId=${lvTypeList.exVar1}"
+											title="Add Claim"><i class="icon-diff-added"
+												style="color: black;"></i></a> <a
+											href="${pageContext.request.contextPath}/showClaimList?empId=${lvTypeList.exVar1}"
+											title="Claim History"><i class="icon-history"
+												style="color: black;"></i></a>
 
 										</td>
 									</tr>
@@ -170,7 +186,6 @@
 
 							</tbody>
 						</table>
-
 					</div>
 
 				</div>

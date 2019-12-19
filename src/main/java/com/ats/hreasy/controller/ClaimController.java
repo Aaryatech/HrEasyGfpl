@@ -1,11 +1,14 @@
 package com.ats.hreasy.controller;
 
 import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,12 +20,18 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
- import com.ats.hreasy.common.Constants;
+ 
+import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.claim.ClaimAuthority;
 import com.ats.hreasy.model.claim.ClaimType;
+import com.ats.hreasy.model.claim.EmployeeInfo;
+import com.ats.hreasy.model.claim.GetClaimAuthority;
+import com.ats.hreasy.model.claim.GetEmployeeInfo;
 import com.ats.hreasy.model.Info;
 
 
@@ -61,7 +70,9 @@ public class ClaimController {
 		try {
 			HttpSession session = request.getSession();
 
-			LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+			System.err.println("user id "+userObj.toString());
+			
 
 			String calimTypeTitle = request.getParameter("calimTypeTitle");
 			String claimShortTypeTitle = request.getParameter("claimShortTypeTitle");
@@ -137,7 +148,7 @@ public class ClaimController {
 
 		try {
 			HttpSession session = request.getSession();
-			LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 			 
 
 			
@@ -288,4 +299,272 @@ public class ClaimController {
 	}
 		 return a;
 	}
+	
+	@RequestMapping(value = "/addClaimAuthority", method = RequestMethod.GET)
+	public ModelAndView addClaimAuthority(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("claim/claim_authority_add");
+
+		try {
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			map.add("locIdList", userObj.getLocationIds());
+
+			GetEmployeeInfo[] employeeDepartment = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpInfoList", map, GetEmployeeInfo[].class);
+
+			List<GetEmployeeInfo> employeeDepartmentlist = new ArrayList<GetEmployeeInfo>(
+					Arrays.asList(employeeDepartment));
+
+			model.addObject("empList", employeeDepartmentlist);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			map.add("locIdList", userObj.getLocationIds());
+
+			GetEmployeeInfo[] empInfoError = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpInfoListForClaimAuth", map, GetEmployeeInfo[].class);
+
+			List<GetEmployeeInfo> employeeInfo = new ArrayList<>(Arrays.asList(empInfoError));
+			model.addObject("empListAuth", employeeInfo);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/submitClaimAuthorityList", method = RequestMethod.POST)
+	public String submitClaimAuthorityList(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+			int iniAuthEmpId = Integer.parseInt(request.getParameter("iniAuthEmpId"));
+
+			int finAuthEmpId = Integer.parseInt(request.getParameter("finAuthEmpId"));
+
+			String[] empIds = request.getParameterValues("empIds");
+			String[] repToEmpIds = request.getParameterValues("repToEmpIds");
+
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < empIds.length; i++) {
+				sb = sb.append(empIds[i] + ",");
+
+			}
+			String empIdList = sb.toString();
+			empIdList = empIdList.substring(0, empIdList.length() - 1);
+
+			sb = new StringBuilder();
+
+			for (int i = 0; i < repToEmpIds.length; i++) {
+				sb = sb.append(repToEmpIds[i] + ",");
+
+			}
+			String repToEmpIdsList = sb.toString();
+			repToEmpIdsList = repToEmpIdsList.substring(0, repToEmpIdsList.length() - 1);
+
+			String[] arrOfStr = empIdList.split(",");
+			ClaimAuthority claim = new ClaimAuthority();
+
+			for (int j = 0; j < arrOfStr.length; j++) {
+
+				claim.setDelStatus(1);
+				claim.setEmpId(Integer.parseInt(arrOfStr[j]));
+
+				claim.setExVar1("NA");
+				claim.setExVar2("NA");
+				claim.setExVar3("NA");
+				claim.setIsActive(1);
+				claim.setMakerUserId(userObj.getUserId());
+				claim.setMakerEnterDatetime(dateTime);
+				claim.setCaIniAuthEmpId(iniAuthEmpId);
+				claim.setCaFinAuthEmpId(finAuthEmpId);
+				claim.setCompanyId(1);
+				claim.setCaRepToEmpIds(repToEmpIdsList);
+
+				ClaimAuthority res = Constants.getRestTemplate().postForObject(Constants.url + "/saveClaimAuthority",
+						claim, ClaimAuthority.class);
+
+				if (res != null) {
+					session.setAttribute("successMsg", "Record Inserted Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/claimAuthorityList";
+	}
+
+	@RequestMapping(value = "/claimAuthorityList", method = RequestMethod.GET)
+	public ModelAndView claimAuthorityList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("claim/claim_authority_list");
+
+		try {
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			map.add("locIdList", userObj.getLocationIds());
+			
+			
+			
+
+			GetClaimAuthority[] empInfoError = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getClaimAuthorityList", map, GetClaimAuthority[].class);
+
+			List<GetClaimAuthority> empLeaveAuth = new ArrayList<>(Arrays.asList(empInfoError));
+
+			for (int i = 0; i < empLeaveAuth.size(); i++) {
+
+				empLeaveAuth.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empLeaveAuth.get(i).getEmpId())));
+			}
+
+			model.addObject("empLeaveAuth", empLeaveAuth);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	ClaimAuthority claimAuthority = new ClaimAuthority();
+
+	@RequestMapping(value = "/editClaimAuthority", method = RequestMethod.GET)
+	public ModelAndView editClaimAuthority(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("claim/claim_authority_edit");
+
+		try {
+
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			String base64encodedString = request.getParameter("empId");
+			String empId = FormValidation.DecodeKey(base64encodedString);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			map.add("locIdList", userObj.getLocationIds());
+
+			GetEmployeeInfo[] employeeDepartment = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpInfoList", map, GetEmployeeInfo[].class);
+
+			List<GetEmployeeInfo> employeeDepartmentlist = new ArrayList<GetEmployeeInfo>(
+					Arrays.asList(employeeDepartment));
+
+			model.addObject("empList", employeeDepartmentlist);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			map.add("empIdList", empId);
+			GetEmployeeInfo[] empInfoError = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpInfoListByEmpIdList", map, GetEmployeeInfo[].class);
+
+			List<GetEmployeeInfo> employeeInfo = new ArrayList<>(Arrays.asList(empInfoError));
+			model.addObject("empListAuth", employeeInfo);
+
+			model.addObject("empIdForEdit", empId);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			claimAuthority = Constants.getRestTemplate().postForObject(Constants.url + "/getClaimAuthorityListByEmpId",
+					map, ClaimAuthority.class);
+			model.addObject("claimAuthority", claimAuthority);
+
+			List<Integer> reportingIdList = Stream.of(claimAuthority.getCaRepToEmpIds().split(","))
+					.map(Integer::parseInt).collect(Collectors.toList());
+
+			model.addObject("reportingIdList", reportingIdList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/editSubmitClaimAuthorityList", method = RequestMethod.POST)
+	public String editSubmitClaimAuthorityList(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			HttpSession session = request.getSession();
+			int iniAuthEmpId = Integer.parseInt(request.getParameter("iniAuthEmpId"));
+
+			int finAuthEmpId = Integer.parseInt(request.getParameter("finAuthEmpId"));
+
+			String[] repToEmpIds = request.getParameterValues("repToEmpIds");
+
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < repToEmpIds.length; i++) {
+				sb = sb.append(repToEmpIds[i] + ",");
+
+			}
+			String repToEmpIdsList = sb.toString();
+			repToEmpIdsList = repToEmpIdsList.substring(0, repToEmpIdsList.length() - 1);
+
+			claimAuthority.setCaRepToEmpIds(repToEmpIdsList);
+			claimAuthority.setCaFinAuthEmpId(finAuthEmpId);
+			claimAuthority.setCaIniAuthEmpId(iniAuthEmpId);
+
+			ClaimAuthority res = Constants.getRestTemplate().postForObject(Constants.url + "/saveClaimAuthority",
+					claimAuthority, ClaimAuthority.class);
+
+			if (res != null) {
+				session.setAttribute("successMsg", "Record Updated Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed to Update Record");
+			}
+
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/claimAuthorityList";
+	}
+
+	@RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+	public @ResponseBody EmployeeInfo getUserInfo(HttpServletRequest request, HttpServletResponse response) {
+
+		EmployeeInfo employeeInfo = new EmployeeInfo();
+
+		try {
+			HttpSession session = request.getSession();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			String inputValue = request.getParameter("inputValue");
+			int valueType = Integer.parseInt(request.getParameter("valueType"));
+
+			map.add("inputValue", inputValue);
+			map.add("checkValue", valueType);
+ 
+			employeeInfo = Constants.getRestTemplate().postForObject(Constants.url + "getUserInfoByContcAndEmail", map,
+					EmployeeInfo.class);
+			
+			 if(employeeInfo==null) {
+				 employeeInfo = new EmployeeInfo();
+			 }
+
+		} catch (Exception e) {
+			System.err.println("Exce in checkUniqueField  " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return employeeInfo;
+
+	}
+
 }

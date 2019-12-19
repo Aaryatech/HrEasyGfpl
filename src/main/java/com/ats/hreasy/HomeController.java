@@ -89,6 +89,7 @@ public class HomeController {
 
 					mav = "redirect:/dashboard";
 					session.setAttribute("userInfo", userObj);
+					System.err.println("Hoem**"+userObj.toString());
 
 				} else {
 					mav = "redirect:/";
