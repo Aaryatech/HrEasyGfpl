@@ -9,6 +9,7 @@ public class DataForUpdateAttendance {
 	private String toDate;
 	private int month;
 	private int year;
+	private int userId;
 	private List<FileUploadedData> fileUploadedDataList;
 	public String getFromDate() {
 		return fromDate;
@@ -40,10 +41,16 @@ public class DataForUpdateAttendance {
 	public void setFileUploadedDataList(List<FileUploadedData> fileUploadedDataList) {
 		this.fileUploadedDataList = fileUploadedDataList;
 	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	@Override
 	public String toString() {
 		return "DataForUpdateAttendance [fromDate=" + fromDate + ", toDate=" + toDate + ", month=" + month + ", year="
-				+ year + ", fileUploadedDataList=" + fileUploadedDataList + "]";
+				+ year + ", userId=" + userId + ", fileUploadedDataList=" + fileUploadedDataList + "]";
 	}
 	
 	
