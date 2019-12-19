@@ -94,20 +94,7 @@
 									session.removeAttribute("successMsg");
 									}
 								%>
-								<c:set var="tabClass1" value="nav-link" />
-								<c:set var="tabClass2" value="nav-link" />
-								<c:choose>
-									<c:when test="${flag==0}">
-										<c:set var="tabClass1" value="nav-link active" />
-										<c:set var="tabClass2" value="nav-link" />
-
-									</c:when>
-									<c:when test="${flag==1}">
-										<c:set var="tabClass1" value="nav-link" />
-										<c:set var="tabClass2" value="nav-link active" />
-									</c:when>
-								</c:choose>
-
+								
 								<!-- Highlighted tabs -->
 								<ul class="nav nav-tabs nav-tabs-highlight">
 									<li class="nav-item text-center"><a
@@ -145,7 +132,7 @@
 											action="${pageContext.request.contextPath}/insertEmployeeBasicInfo"
 											id="submitInsertEmp" method="post">
 
-											<input type="text" id="empId" name="empId"
+											<input type="hidden" id="empId" name="empId"
 												value="${emp.empId}">
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="empCode">Emp
@@ -473,11 +460,11 @@
 											id="submitEmpOtherInfo" method="post">
 											<div class="form-group row">
 												<div class="col-lg-6">
-													<input type="text" id="empId" name="empId"
+													<input type="hidden" id="empId" name="empId"
 														value="${emp.empId}">
 												</div>
 												<div class="col-lg-6">
-													<input type="text" id="empOtherInfoId"
+													<input type="hidden" id="empOtherInfoId"
 														name="empOtherInfoId" value="${empPersInfo.empInfoId}">
 												</div>
 											</div>
@@ -728,11 +715,11 @@
 											
 											<div class="form-group row">
 												<div class="col-lg-6">
-													<input type="text" id="empId" name="empId"
+													<input type="hidden" id="empId" name="empId"
 														value="${emp.empId}">
 												</div>
 												<div class="col-lg-6">
-													<input type="text" id="empNomId"
+													<input type="hidden" id="empNomId"
 														name="empNomId" value="${empNom.nomineeId}">
 												</div>
 											</div>
@@ -908,6 +895,7 @@
 													<div class="form-group">
 														<select name="relation4" id="relation4" data-rel="chosen"
 															style="width: 180px;" class="form-control">
+															<option>Please Select</option>
 															<option value="f" ${empNom.relation4 == 'f' ? 'selected' : ''}>Father</option>
 															<option value="m" ${empNom.relation4 == 'm' ? 'selected' : ''}>Mother</option>
 															<option value="s1" ${empNom.relation4 == 's1' ? 'selected' : ''}>Spouse</option>
@@ -1115,12 +1103,12 @@
 											
 											<div class="form-group row">
 												<div class="col-lg-4">
-													<input type="text" id="empId" name="empId"
+													<input type="hidden" id="empId" name="empId"
 														value="${emp.empId}">
 												</div>
 												
 												 <div class="col-lg-4">
-													<input type="text" id="empSalId"
+													<input type="hidden" id="empSalId"
 														name="empSalId" value="${empAllowanceId.salaryInfoId}">
 												</div>		
 											</div>
@@ -1380,7 +1368,7 @@
 											
 											<div class="form-group row">
 												<div class="col-lg-6">
-													<input type="text" id="empId" name="empId"
+													<input type="hidden" id="empId" name="empId"
 														value="${emp.empId}">
 												</div>
 												<!-- <div class="col-lg-6">
@@ -1573,21 +1561,9 @@
 				} else {
 					$("#error_locId").hide()
 				}
-
-				/* 	if (!$("#desigId").val()) {
-
-						isError = true;
-
-						$("#error_desigId")
-								.show()
-
-					} else {
-						$("#error_desigId")
-								.hide()
-					} */
-
+				
 				if (!$("#empCat").val()) {
-					alert("6")
+					
 					isError = true;
 
 					$("#error_empCat").show()
@@ -1595,16 +1571,6 @@
 				} else {
 					$("#error_empCat").hide()
 				}
-
-				/* if (!$("#empStatus").val()) {
-
-					isError = true;
-
-					$("#error_empStatus").show()
-
-				} else {
-					$("#error_empStatus").hide()
-				} */
 
 				if (!$("#empType").val()) {
 
@@ -1625,6 +1591,31 @@
 				} else {
 					$("#error_mobile1").hide()
 				}
+				/* 	if (!$("#desigId").val()) {
+
+						isError = true;
+
+						$("#error_desigId")
+								.show()
+
+					} else {
+						$("#error_desigId")
+								.hide()
+					} */
+
+				
+
+				/* if (!$("#empStatus").val()) {
+
+					isError = true;
+
+					$("#error_empStatus").show()
+
+				} else {
+					$("#error_empStatus").hide()
+				} */
+
+				
 
 				/* if (!$("#mobile2").val()) {
 
@@ -1720,7 +1711,8 @@
 			$("#submitEmpBankInfo").submit(function(e) {
 				var isError = false;
 				var errMsg = "";
-
+				var acc = $("#accNo").val();
+				
 				if (!$("#accNo").val()) {
 
 					isError = true;
@@ -1731,7 +1723,7 @@
 					$("#error_accNo").hide()
 				}
 
-				if ($("#accNo").val()<8 || $("#accNo").val()>17) {
+				if (acc.length<8 || acc.length>17) {
 
 					isError = true;
 					

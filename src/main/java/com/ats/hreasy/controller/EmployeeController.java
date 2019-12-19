@@ -14,16 +14,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.Constants;
-import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.common.VpsImageUpload;
 import com.ats.hreasy.model.Allowances;
@@ -36,7 +33,6 @@ import com.ats.hreasy.model.EmpSalAllowance;
 import com.ats.hreasy.model.EmpSalaryInfo;
 import com.ats.hreasy.model.EmployeDoc;
 import com.ats.hreasy.model.EmployeeMaster;
-import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.TblEmpBankInfo;
 import com.ats.hreasy.model.TblEmpInfo;
@@ -591,7 +587,7 @@ public class EmployeeController {
 				empInfo.setEmpId(empId);//empInfo.setEmpId(empIdInfo.getEmpId());
 				empInfo.setMiddleName(request.getParameter("midname"));
 				empInfo.setMiddleNameRelation(request.getParameter("relation"));
-				empInfo.setDob(DateConvertor.convertToYMD(request.getParameter("dob")));
+				empInfo.setDob(request.getParameter("dob"));
 				empInfo.setGender(request.getParameter("gender"));
 				empInfo.setMaritalStatus(request.getParameter("maritalstatus"));
 				empInfo.setEmail(request.getParameter("email"));
@@ -651,40 +647,40 @@ public class EmployeeController {
 				}
 				
 			TblEmpNominees empNominee = new TblEmpNominees();
-		/*	if(empIdNom!=null) {*/
+		
 				
 				empNominee.setNomineeId(empNomineeId);			//empNominee.setNomineeId(empIdNom.getNomineeId());
 				empNominee.setEmpId(empId);					//empNominee.setEmpId(empIdNom.getEmpId());
 				
 				
 				empNominee.setName(request.getParameter("name"));
-				empNominee.setDob(DateConvertor.convertToYMD(request.getParameter("dob")));
+				empNominee.setDob(request.getParameter("dob"));
 				empNominee.setRelation(request.getParameter("relation"));
 				empNominee.setOccupation1(request.getParameter("occupation"));
 				
 				empNominee.setName2(request.getParameter("name2"));
-				empNominee.setDob2(DateConvertor.convertToYMD(request.getParameter("dob2")));
+				empNominee.setDob2(request.getParameter("dob2"));
 				empNominee.setRelation2(request.getParameter("relation2"));
 				empNominee.setOccupation2(request.getParameter("occupation2"));
 				
 				
 				empNominee.setName3(request.getParameter("name3"));
-				empNominee.setDob3(DateConvertor.convertToYMD(request.getParameter("dob3")));
+				empNominee.setDob3(request.getParameter("dob3"));
 				empNominee.setRelation3(request.getParameter("relation3"));
 				empNominee.setOccupation3(request.getParameter("occupation3"));
 				
 				empNominee.setName4(request.getParameter("name4"));
-				empNominee.setDob4(DateConvertor.convertToYMD(request.getParameter("dob4")));
+				empNominee.setDob4(request.getParameter("dob4"));
 				empNominee.setRelation4(request.getParameter("relation4"));
 				empNominee.setOccupation4(request.getParameter("occupation4"));
 				
 				empNominee.setName5(request.getParameter("name5"));
-				empNominee.setDob5(DateConvertor.convertToYMD(request.getParameter("dob5")));
+				empNominee.setDob5(request.getParameter("dob5"));
 				empNominee.setRelation5(request.getParameter("relation5"));
 				empNominee.setOccupation5(request.getParameter("occupation5"));
 				
 				empNominee.setName6(request.getParameter("name6"));
-				empNominee.setDob6(DateConvertor.convertToYMD(request.getParameter("dob6")));
+				empNominee.setDob6(request.getParameter("dob6"));
 				empNominee.setRelation6(request.getParameter("relation6"));
 				empNominee.setOccupation6(request.getParameter("occupation6"));
 					
@@ -703,9 +699,7 @@ public class EmployeeController {
 						redirect = "redirect:/employeeAdd";
 					}
 			
-			/*}else {
-				redirect = "redirect:/employeeAdd";
-			}*/
+		
 		}catch (Exception e) {
 			e.printStackTrace();
 			
@@ -731,12 +725,11 @@ public class EmployeeController {
 			
 			
 			TblEmpBankInfo empBank = new TblEmpBankInfo();
-			/*if(empIdBank!=null) {*/
 				
 				empBank.setEmpId(empId);
 				empBank.setBankInfoId(empBankId);
 				empBank.setBankId(Integer.parseInt(request.getParameter("bankId")));
-				empBank.setAccNo(Integer.parseInt(request.getParameter("accNo")));
+				empBank.setAccNo(request.getParameter("accNo"));
 				
 					System.out.println("TblEmpBankInfo----"+empBank);
 					TblEmpBankInfo empIdBank =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank", empBank,
@@ -753,9 +746,6 @@ public class EmployeeController {
 						redirect = "redirect:/employeeAdd";
 					}
 			
-			/*}else {
-				redirect = "redirect:/employeeAdd";
-			}*/
 		}catch (Exception e) {
 			e.printStackTrace();
 			
@@ -869,8 +859,8 @@ public class EmployeeController {
 						}
 						
 						
-						List<EmpSalAllowance> allowance = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpSalAllowanceInfo", allowncList,
-							List.class);
+						EmpSalAllowance[] allowance = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpSalAllowanceInfo", allowncList,
+								EmpSalAllowance[].class);
 						
 						if(allowance!=null) {
 							String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));						
@@ -939,7 +929,7 @@ public class EmployeeController {
 				 
 				 System.out.println(docId+" - "+empId+" - "+docTypeId);
 				 img = doc.get(j).getOriginalFilename();
-				 imageName = empId+"_"+docTypeId+"_"+doc.get(j).getOriginalFilename();
+				 imageName = empId+"_"+docTypeId+"_"+doc.get(j).getOriginalFilename()+"_"+sf.format(date);
 				
 				System.out.println(imageName);				
 

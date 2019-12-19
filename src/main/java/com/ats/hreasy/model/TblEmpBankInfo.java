@@ -4,7 +4,7 @@ public class TblEmpBankInfo {
 
 	private int bankInfoId;
 	private int empId;
-	private long accNo;
+	private String accNo;
 	private int bankId;
 
 	public int getBankInfoId() {
@@ -23,11 +23,11 @@ public class TblEmpBankInfo {
 		this.empId = empId;
 	}
 
-	public long getAccNo() {
+	public String getAccNo() {
 		return accNo;
 	}
 
-	public void setAccNo(long accNo) {
+	public void setAccNo(String accNo) {
 		this.accNo = accNo;
 	}
 
