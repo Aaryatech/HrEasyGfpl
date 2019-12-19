@@ -197,7 +197,7 @@ public class EmployeeController {
 			model.addObject("allowanceList", allowanceList);
 			model.addObject("empDocList", empDocList);
 			model.addObject("emp", emp);
-			
+			model.addObject("imgUrl", Constants.imageSaveUrl);
 			
 			//}
 		} catch (Exception e) {
@@ -508,7 +508,7 @@ public class EmployeeController {
 			model.addObject("bankList", bankList);
 			model.addObject("allowanceList", allowanceList);
 			model.addObject("empDocList", empDocList);
-			
+			model.addObject("imgUrl", Constants.imageSaveUrl);
 			
 			/**************************************************Edit********************************************/
 
@@ -939,7 +939,7 @@ public class EmployeeController {
 				 
 				 System.out.println(docId+" - "+empId+" - "+docTypeId);
 				 img = doc.get(j).getOriginalFilename();
-				 imageName = empId+"-"+docTypeId+"-"+doc.get(j).getOriginalFilename()+"-"+sf.format(date);
+				 imageName = empId+"_"+docTypeId+"_"+doc.get(j).getOriginalFilename();
 				
 				System.out.println(imageName);				
 

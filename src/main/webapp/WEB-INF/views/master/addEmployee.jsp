@@ -470,7 +470,7 @@
 
 										<form
 											action="${pageContext.request.contextPath}/submitEmpOtherInfo"
-											id="submitInsertOtherEmp" method="post">
+											id="submitEmpOtherInfo" method="post">
 											<div class="form-group row">
 												<div class="col-lg-6">
 													<input type="text" id="empId" name="empId"
@@ -519,7 +519,7 @@
 														placeholder="Date of Birth" id="dob" name="dob" value="${empPersInfo.dob}"
 														autocomplete="off" onchange="trim(this)"> <span
 														class="hidedefault  validation-invalid-label"
-														id="error_dob" style="display: none;">This field is required.</span>
+														id="error_empDob" style="display: none;">This field is required.</span>
 												</div>
 
 												<label class="col-form-label col-lg-2" for="gender">Gender
@@ -609,7 +609,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="emergencyPerson">Name
-													<span style="color: red">* </span>:
+													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" value="${empPersInfo.emerName}"
@@ -1035,7 +1035,7 @@
 
 										<form
 											action="${pageContext.request.contextPath}/submitEmpBankInfo"
-											id="submitInsertRelationEmp" method="post">
+											id="submitEmpBankInfo" method="post">
 											
 											<div class="form-group row">
 												<div class="col-lg-6">
@@ -1049,15 +1049,17 @@
 											</div>
 								
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="accNo">Account No:*
-													<span style="color: red"></span>:
+												<label class="col-form-label col-lg-2" for="accNo">Account No:
+													<span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" value="${empBank.accNo}"
-														placeholder="Account No" id="accNo"
+														placeholder="Account No" id="accNo" maxlength="17"
 														name="accNo" autocomplete="off" onchange="trim(this)">
 													 <span class="hidedefault   validation-invalid-label" style="display: none;"
 														id="error_accNo">This field is required.</span> 
+													<span class="hidedefault   validation-invalid-label" style="display: none;"
+														id="error_accNoDigit">Invalid Account No.</span> 
 												</div>
 
 												<label class="col-form-label col-lg-2" for="bankId">Bank
@@ -1107,7 +1109,7 @@
 
 										<form
 											action="${pageContext.request.contextPath}/insertEmployeeAllowancesInfo"
-											id="submitInsertEmp" method="post"
+											id="insertEmployeeAllowancesInfo" method="post"
 											enctype="multipart/form-data">
 
 											
@@ -1120,18 +1122,8 @@
 												 <div class="col-lg-4">
 													<input type="text" id="empSalId"
 														name="empSalId" value="${empAllowanceId.salaryInfoId}">
-												</div>
-												
-												
-												
-													<!-- <div class="col-lg-4">
-														<input type="text" id="empSalAllownaceId"
-															name="empSalAllownaceId">
-													</div> -->
-												
-												
+												</div>		
 											</div>
-											
 
 											<div class="form-group row">
 
@@ -1140,7 +1132,9 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="Basic Rs."
-													 name="basic" id="basic" onchange="trim(this)" value="${empAllowanceId.basic}">												
+													 name="basic" id="basic" onchange="trim(this)" value="${empAllowanceId.basic}">		
+													 <span class="hidedefault   validation-invalid-label" style="display: none;"
+														id="error_salBasis">This field is required.</span>										
 												</div>
 				
 												<label class="col-form-label col-lg-2" for="societyContri">Society 
@@ -1286,7 +1280,19 @@
 														placeholder="PT Applicable" id="ptApplicable" name="ptApplicable"
 														autocomplete="off" onchange="trim(this)">
 												</div>
-
+												
+												<label class="col-form-label col-lg-2" for="salBasis">Salary Basis
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${empAllowanceId.salBasis}"
+														placeholder="Salary Basis" id="salBasis" name="salBasis"
+														autocomplete="off" onchange="trim(this)">
+												</div>												
+											</div>
+											
+											
+											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="epfJoinDate">EPF Joining Date
 													<span style="color: red"></span>:
 												</label>
@@ -1295,18 +1301,6 @@
 													 <input type="text" class="form-control datepickerclass" placeholder="EPF Joining Date"
 														id="epfJoinDate" name="epfJoinDate" autocomplete="off"
 														onchange="trim(this)" value="${empAllowanceId.epfJoiningDate}"> 
-												</div>
-											</div>
-											
-											
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="salBasis">Salary Basis
-													<span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${empAllowanceId.salBasis}"
-														placeholder="Salary Basis" id="salBasis" name="salBasis"
-														autocomplete="off" onchange="trim(this)">
 												</div>
 
 												<label class="col-form-label col-lg-2" for="joinDate">Joining Date
@@ -1418,11 +1412,11 @@
 														<div class="col-md-6">
 															<div class="form-group">
 																<label class="control-label col-md-3"><img
-																	id="blah" src="#" alt="Emp Photo" width="300px" /></label>
+																	id="blah" src="${imgUrl}${docName}" alt="Emp Photo" width="300px" /></label>
 																<div class="col-md-4" style="padding-left: 200px">
 																	<input id="doc${empDocList.doctypeId}" type="file" name="doc"
 																		class="nocheck" onchange="show(this)">
-																		<img alt="no img" src="${docName}">
+																		
 																	
 																	<input type="text" name="docType${empDocList.doctypeId}" 
 																		id="docType${empDocList.doctypeId}" value="${empDocList.doctypeId}">
@@ -1720,12 +1714,83 @@
 			});
 		});
 		//
+		/* Bank */
+		$(document).ready(function($) {
 
-		$(document)
+			$("#submitEmpBankInfo").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
+
+				if (!$("#accNo").val()) {
+
+					isError = true;
+
+					$("#error_accNo").show()
+					
+				} else {
+					$("#error_accNo").hide()
+				}
+
+				if ($("#accNo").val()<8 || $("#accNo").val()>17) {
+
+					isError = true;
+					
+					$("#error_accNoDigit").show()
+					
+				} else {
+					$("#error_accNoDigit").hide()
+				}
+				if (!isError) {
+
+					var x = true;
+					if (x == true) {
+
+						//document.getElementById("submtbtn").disabled = true;
+						return true;
+					}
+					//
+				}
+				return false;
+			});
+		});
+		/* Employee Salary */
+		$(document).ready(function($) {
+
+			$("#insertEmployeeAllowancesInfo").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
+
+				if (!$("#basic").val()) {
+
+					isError = true;
+
+					$("#error_salBasis").show()
+					//return false;
+				} else {
+					$("#error_salBasis").hide()
+				}
+
+				if (!isError) {
+
+					var x = true;
+					if (x == true) {
+
+						//document.getElementById("submtbtn").disabled = true;
+						return true;
+					}
+					//
+				}
+				return false;
+			});
+		});
+		
+		
+/* Personal Information */
+		 $(document)
 				.ready(
 						function($) {
 
-							$("#submitInsertOtherEmp")
+							$("#submitEmpOtherInfo")
 									.submit(
 											function(e) {
 												var isError = false;
@@ -1735,10 +1800,10 @@
 
 													isError = true;
 
-													$("#error_dob").show()
+													$("#error_empDob").show()
 													//return false;
 												} else {
-													$("#error_dob").hide()
+													$("#error_empDob").hide()
 												}
 
 												if (!isError) {
@@ -1746,27 +1811,6 @@
 													var x = true;
 													if (x == true) {
 
-														$
-																.ajax(
-																		{
-																			type : "POST",
-																			url : "${pageContext.request.contextPath}/submitEmpOtherInfo",
-																			data : $(
-																					"#submitInsertOtherEmp")
-																					.serialize(),
-																			dataType : 'json',
-																			success : function(
-																					data) {
-
-																			}
-																		})
-																.done(
-																		function() {
-																			setTimeout(
-																					function() {
-																					},
-																					500);
-																		});
 														//document.getElementById("submtbtn").disabled = true;
 														return true;
 													}
@@ -1775,6 +1819,8 @@
 												return false;
 											});
 						});
+	
+		
 	</script>
 
 	<!-- <script type="text/javascript">
