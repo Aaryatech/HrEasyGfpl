@@ -307,6 +307,7 @@ public class AttendenceController {
 				}
 				bufferedReader.close();
 
+				//System.out.println(fileUploadedDataList);
 				HttpSession session = request.getSession();
 				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 				
