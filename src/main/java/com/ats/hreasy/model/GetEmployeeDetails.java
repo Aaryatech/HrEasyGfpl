@@ -109,9 +109,17 @@ public class GetEmployeeDetails {
 	private String locName;
 	private String orgName;
 	
+	private String salTypeName;
 	
 	
 	
+	
+	public String getSalTypeName() {
+		return salTypeName;
+	}
+	public void setSalTypeName(String salTypeName) {
+		this.salTypeName = salTypeName;
+	}
 	public String getShiftname() {
 		return shiftname;
 	}
@@ -442,8 +450,9 @@ public class GetEmployeeDetails {
 				+ ", newHraRate=" + newHraRate + ", newDaRate=" + newDaRate + ", delStatus=" + delStatus + ", exInt1="
 				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", shiftname="
 				+ shiftname + ", empTypeName=" + empTypeName + ", deptName=" + deptName + ", empDesgn=" + empDesgn
-				+ ", locName=" + locName + ", orgName=" + orgName + "]";
+				+ ", locName=" + locName + ", orgName=" + orgName + ", salTypeName=" + salTypeName + "]";
 	}
+	 
 	 
 
 }

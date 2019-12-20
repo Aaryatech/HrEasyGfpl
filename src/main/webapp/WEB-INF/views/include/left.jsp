@@ -94,7 +94,7 @@
 							class="nav-link">Department List</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showDesignationList"
-							class="nav-link">Designation List</a></li>						
+							class="nav-link">Designation List</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showContractorsList"
 							class="nav-link">Contractor List</a></li>
@@ -134,34 +134,42 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/leaveYearEnd"
 							class="nav-link ">Carry Forward previous Leave </a></li>
+
+
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showEmpListToAssignSalStruct"
+							class="nav-link ">Employee Salary Structure Assignment </a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showEmpListToAssignShift"
+							class="nav-link ">Employee Shift Assignment </a></li>
 					</ul></li>
-					
-					
-					<li class="nav-item nav-item-submenu"><a href="#"
+
+
+				<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Claim</span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showClaimTypeList"
-							class="nav-link">Add  Claim Type</a></li>
+							class="nav-link">Add Claim Type</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/addClaimAuthority"
-							class="nav-link">Add  Claim Authority</a></li>
+							class="nav-link">Add Claim Authority</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showApplyForClaim"
 							class="nav-link">Apply Claim</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showClaimApprovalByAuthority"
-							class="nav-link">Claim Approval By Authorities</a></li>						
-						 
+							class="nav-link">Claim Approval By Authorities</a></li>
+
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/claimStructureAllotment"
 							class="nav-link">Claim Structure Allotment</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showClaimStructureList"
 							class="nav-link">Claim Structure</a></li>
-						 
-						 
+
+
 					</ul></li>
 
 				<%--<li class="nav-item nav-item-submenu"><a href="#"

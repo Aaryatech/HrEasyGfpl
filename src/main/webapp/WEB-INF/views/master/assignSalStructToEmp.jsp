@@ -42,8 +42,8 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee Shift Assignment
-									</h5></td>
+								<td width="60%"><h5 class="card-title">Employee Salary Structure Assignment
+										 </h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
@@ -87,12 +87,12 @@
 							}
 						%>
 						<form
-							action="${pageContext.request.contextPath}/submitAssignShiftToEmp"
+							action="${pageContext.request.contextPath}/submitAssignSalStructToEmp"
 							id="submitInsertEmp" method="post">
 
 							<div class="form-group row">
 								<label class="col-form-label col-lg-2" for="locId">
-									Select Shift To Assign <span style="color: red">* </span>:
+									Select Sal Structure To Assign <span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-10">
 									<select name="shiftId" data-placeholder="Select Shift"
@@ -103,7 +103,7 @@
 										<option value="">Select Shift</option>
 
 										<c:forEach items="${shiftList}" var="shiftList">
-											<option value="${shiftList.id}">${shiftList.shiftname}</option>
+											<option value="${shiftList.salTypeId}">${shiftList.salTypeName}</option>
 										</c:forEach>
 									</select> <span class="validation-invalid-label" id="error_shiftId"
 										style="display: none;">This field is required.</span>
@@ -125,7 +125,7 @@
 										<th>Department</th>
 										<th>Designation</th>
 										<th>Location</th>
-										<th>Shift Name</th>
+										<th>Salary Structure</th>
 
 
 									</tr>
@@ -148,7 +148,7 @@
 											<td>${empdetList.empDesgn}</td>
 
 											<td>${empdetList.locName}</td>
-											<td>${empdetList.shiftname}</td>
+ 											<td>${empdetList.salTypeName}</td>
 
 										</tr>
 									</c:forEach>
@@ -162,7 +162,7 @@
 
 							<div style="text-align: center;">
 								<input type="submit" class="btn btn-primary"
-									value="Assign Shift" id="deleteId"
+									value="Assign" id="deleteId"
 									style="align-content: center; width: 113px; margin-left: 40px;">
 							</div>
 						</form>
