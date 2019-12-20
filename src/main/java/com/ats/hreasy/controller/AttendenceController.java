@@ -307,11 +307,16 @@ public class AttendenceController {
 				}
 				bufferedReader.close();
 
+				//System.out.println(fileUploadedDataList);
+				HttpSession session = request.getSession();
+				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+				
 				DataForUpdateAttendance dataForUpdateAttendance = new DataForUpdateAttendance();
 				dataForUpdateAttendance.setFromDate(sf.format(firstDay));
 				dataForUpdateAttendance.setToDate(sf.format(lastDay));
 				dataForUpdateAttendance.setMonth(month);
 				dataForUpdateAttendance.setYear(year);
+				dataForUpdateAttendance.setUserId(userObj.getUserId());
 				dataForUpdateAttendance.setFileUploadedDataList(fileUploadedDataList);
 
 				info = Constants.getRestTemplate().postForObject(Constants.url + "/importAttendanceByFileAndUpdate",
