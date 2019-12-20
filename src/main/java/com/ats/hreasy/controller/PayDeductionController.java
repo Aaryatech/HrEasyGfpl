@@ -16,6 +16,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.Constants;
@@ -25,6 +26,7 @@ import com.ats.hreasy.model.EmployeDoc;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.PayDeduction;
+import com.ats.hreasy.model.PayDeductionDetails;
 
 @Controller
 @Scope("session")
@@ -195,5 +197,181 @@ public class PayDeductionController {
 		
 		
 		return "redirect:/showPayDeductionList";
+	}
+	
+	@RequestMapping(value = "/getPayDeductionTypeRate", method = RequestMethod.GET)
+	public@ResponseBody PayDeduction getPayDeductionTypeRate(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		
+		PayDeduction deductionRate = new PayDeduction();
+		try {
+			
+			int deducType = Integer.parseInt(request.getParameter("deductType"));
+		System.out.println("DedId----------"+deducType);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("typeId", deducType);
+			deductionRate = Constants.getRestTemplate().postForObject(Constants.url + "/getPayDeductionById", map,
+					PayDeduction.class);
+			System.out.println("Rate============="+deductionRate.getDedRate());
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return deductionRate;
+		
+	}
+	
+	/***************************************PayDeductionDetails*************************************/
+	@RequestMapping(value = "/viewPayDeduction", method = RequestMethod.GET)
+	public ModelAndView viewPayDeduction(HttpServletRequest request, HttpServletResponse responser) {
+
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		ModelAndView model = null;
+		try {
+			model = new ModelAndView("master/payDeductEmpList");
+		
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			
+			EmployeeMaster[] empArr =  Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmployee", map,
+					EmployeeMaster[].class);			
+			List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>(Arrays.asList(empArr));
+			
+			for (int i = 0; i < empList.size(); i++) {
+
+				empList.get(i)
+						.setExVar1(FormValidation.Encrypt(String.valueOf(empList.get(i).getEmpId())));
+			}
+
+			
+			model.addObject("empList", empList);
+					
+			model.addObject("addAccess", 0);
+			model.addObject("editAccess", 0);
+			model.addObject("deleteAccess", 0);
+			
+
+		} catch (Exception e) {
+			System.out.println("Exception in showPayDeductionList : "+e.getMessage());
+			e.printStackTrace();
+		}
+
+		return model;
+
+	}
+	
+	@RequestMapping(value = "/payDeductEmployee", method = RequestMethod.GET)
+	public ModelAndView payDeductEmployee(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+		
+		try {
+			
+			String base64encodedString = request.getParameter("empId");
+			String empId = FormValidation.DecodeKey(base64encodedString);
+				
+				PayDeductionDetails pay = new PayDeductionDetails();
+				
+				PayDeduction[] payDeductArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllPayDeduction",
+						PayDeduction[].class);			
+				List<PayDeduction> payDeductList = new ArrayList<PayDeduction>(Arrays.asList(payDeductArr));
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("departmentAdd", "showDepartmentList", 0, 1, 0,
+			 * 0, newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+			model = new ModelAndView("master/addEmpPayDeduct");
+			model.addObject("currentYear", "2019");
+			model.addObject("pay", pay);
+			model.addObject("empId", empId);
+			model.addObject("payDeductList", payDeductList);
+			
+			//}
+		} catch (Exception e) {
+			System.out.println("Exception in /submitInsertPayDeductType : "+e.getMessage());
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/insertPayDeductDetail", method = RequestMethod.POST)  
+	public String insertPayDeductDetail(HttpServletRequest request, HttpServletResponse response){
+		HttpSession session = request.getSession();
+		try {
+			int  dedId = 0;
+			int  empId = 0;
+			int  dedTypeId = 0;
+			int  month = 0;
+			int  year = 0;
+			try {
+				dedId =  Integer.parseInt(request.getParameter("dedId"));
+				empId = Integer.parseInt(request.getParameter("empId"));
+				dedTypeId = Integer.parseInt(request.getParameter("dedTypeId"));
+				month = Integer.parseInt(request.getParameter("month"));
+				year = Integer.parseInt(request.getParameter("year"));
+			}catch (Exception e) {
+				e.printStackTrace();
+				
+				  dedId = 0;
+				  empId = 0;
+				  dedTypeId = 0;
+				  month = 0;
+				  year = 0;
+			}
+			PayDeductionDetails pay = new PayDeductionDetails();
+				
+				pay.setDedId(dedId);
+				pay.setCmpId(1);
+				pay.setEmpId(empId);				
+				pay.setDedTypeId(dedTypeId);
+				pay.setMonth(month);
+				pay.setYear(year);	
+				pay.setDedRate(Double.parseDouble(request.getParameter("dedRate")));
+				pay.setDedRemark(request.getParameter("remark"));
+				
+				pay.setDedApprovalDatetime(currDate);
+				pay.setDedApprovalRemark("NA");
+				pay.setDedApprovedBy("NA");		
+				pay.setDedLoginName("NA");
+				pay.setDedLoginDteTime(currDate);
+				pay.setDedOccurence(0);
+				
+				pay.setDedTotal(0);
+				pay.setFinalStatus(1);
+				pay.setIsDeducted(0);
+				
+				pay.setDelStatus(1);
+				pay.setMakerEnterDatetime(currDate);
+				pay.setExInt1(0);
+				pay.setExInt2(0);
+				pay.setExVar1("NA");
+				pay.setExVar2("NA");
+					
+				PayDeductionDetails savePay = Constants.getRestTemplate().postForObject(Constants.url + "/savePayDeductnDetail", pay,
+						PayDeductionDetails.class);
+				
+				if (savePay != null ) {
+						session.setAttribute("successMsg", "Record Inserted Successfully");
+				} else {
+					
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+		}catch (Exception e) {
+			System.out.println("Exception in /payDeductionAdd : "+e.getMessage());
+			e.printStackTrace();
+		}
+		return "redirect:/viewPayDeduction";
+		
 	}
 }
