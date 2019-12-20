@@ -204,7 +204,7 @@ public class HrEasyController {
 			Integer emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpByDesignationId", map,
 					Integer.class);
 			
-			System.out.println("Emp-------------------"+emp);
+			
 			if(emp==0) {
 			
 				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteDesignationById", map,

@@ -87,6 +87,9 @@
 							href="${pageContext.request.contextPath}/showEmployeeList"
 							class="nav-link">Employee List</a></li>
 						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showPayDeductionList"
+							class="nav-link">Payment Deduction List</a></li>
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showDepartmentList"
 							class="nav-link">Department List</a></li>
 						<li class="nav-item"><a
