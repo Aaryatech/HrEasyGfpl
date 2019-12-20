@@ -21,10 +21,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.Info;
+import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.MstEmpType;
 import com.ats.hreasy.model.SalaryTypesMaster;
 import com.ats.hreasy.model.ShiftMaster;
  
@@ -196,5 +199,417 @@ public class EmployeeShiftAssignController {
 	}
 	
 	
+	////
+	
+	MstEmpType editMstType = new MstEmpType();
+	
+	@RequestMapping(value = "/mstEmpTypeAdd", method = RequestMethod.GET)
+	public ModelAndView mstEmpTypeAdd(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+
+		try {
+
+			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				model = new ModelAndView("master/mstEmpTypeAdd");
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	@RequestMapping(value = "/submitMstEmpTypeAdd", method = RequestMethod.POST)
+	public String submitMstEmpTypeAdd(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+System.err.println("dssfghjkl;l");
+		try {
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			String lateMark = request.getParameter("lateMark");
+			String weekOffWork = request.getParameter("weekOffWork");
+			String otType = request.getParameter("otType");
+			String minWorkHr = request.getParameter("minHr");
+			String otApplicable = request.getParameter("otApplicable");
+			String typeName = request.getParameter("typeName");
+			String halfDayDed = request.getParameter("halfDayDed");
+			String minWorkRule = request.getParameter("minWorkRule");
+			String woRemarks = request.getParameter( "woRemarks");
+
+			Boolean ret = false;
+
+			if (FormValidation.Validaton(lateMark, "") == true) {
+
+				ret = true;
+				System.out.println("lateMark" + ret);
+			}
+			if (FormValidation.Validaton(weekOffWork, "") == true) {
+
+				ret = true;
+				System.out.println("weekOffWork" + ret);
+			}
+			if (FormValidation.Validaton(otType, "") == true) {
+
+				ret = true;
+				System.out.println("otType" + ret);
+			}
+			if (FormValidation.Validaton(minWorkHr, "") == true) {
+
+				ret = true;
+				System.out.println("minWorkHr" + ret);
+			}
+			if (FormValidation.Validaton(otApplicable, "") == true) {
+
+				ret = true;
+				System.out.println("otApplicable" + ret);
+			}
+			if (FormValidation.Validaton(typeName, "") == true) {
+
+				ret = true;
+				System.out.println("typeName" + ret);
+			}
+			if (FormValidation.Validaton(halfDayDed, "") == true) {
+
+				ret = true;
+				System.out.println("halfDayDed" + ret);
+			}
+			if (FormValidation.Validaton(minWorkRule, "") == true) {
+
+				ret = true;
+				System.out.println("minWorkRule" + ret);
+			}
+			if (FormValidation.Validaton(woRemarks, "") == true) {
+
+				ret = true;
+				System.out.println("woRemarks" + ret);
+			}
+			 
+			if (ret == false) {
+
+				MstEmpType mstEmpType = new MstEmpType();
+
+				mstEmpType.setAttType("0");
+				mstEmpType.setCategory("0");
+				mstEmpType.setName(typeName);;
+				mstEmpType.setCompanyId(1);
+ 				mstEmpType.setDetails(woRemarks);;
+ 				mstEmpType.setHalfDay(halfDayDed);
+				mstEmpType.setLmApplicable(lateMark);
+				mstEmpType.setOtApplicable(otApplicable);
+				mstEmpType.setOtType(otType);
+ 				mstEmpType.setDelStatus(1);
+				mstEmpType.setWhWork(weekOffWork);
+				mstEmpType.setMinWorkHr(minWorkHr);
+			//	mstEmpType.setEarlyGoingAllowed();
+				//.setEarlyGoingMin(earlyGoingMin);
+			//	mstEmpType.setEmpTypeId(1);
+			//	mstEmpType.setMaxLateTimeAllowed(maxLateTimeAllowed);
+				mstEmpType.setMinworkApplicable(minWorkRule);
+				mstEmpType.setOtTime("0");
+				mstEmpType.setMaxLateTimeAllowed(0);
+			//	mstEmpType.setStatus(status);
+				//mstEmpType.setWeeklyHolidayLateAllowed(weeklyHolidayLateAllowed);
+				//mstEmpType.setWeeklyHolidayLateAllowedMin(weeklyHolidayLateAllowedMin);
+ 				
+				
+			//	mstEmpType.setOtTime(otTime);
+			//	mstEmpType.setEmpTypeId(empTypeId);
+
+				MstEmpType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveMstEmpType", mstEmpType,
+						MstEmpType.class);
+
+				if (res != null) {
+					session.setAttribute("successMsg", "Employee Type Inserted Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+
+			} else {
+				session.setAttribute("errorMsg", "Failed to Insert Record");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Insert Record");
+		}
+
+		return "redirect:/showMstEmpTypeList";
+	}
+
+	
+	@RequestMapping(value = "/showMstEmpTypeList", method = RequestMethod.GET)
+	public ModelAndView showMstEmpTypeList(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		//LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+		ModelAndView model = null;
+
+		try {
+
+			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showLocationList", "showLocationList", 1, 0, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				model = new ModelAndView("master/mstEmpTypeList");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				MstEmpType[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getMstEmpTypeList", map,
+						MstEmpType[].class);
+
+				List<MstEmpType> locationList = new ArrayList<MstEmpType>(Arrays.asList(location));
+
+				 
+				model.addObject("addAccess", 0);
+				model.addObject("editAccess", 0);
+				model.addObject("deleteAccess", 0);
+				model.addObject("locationList", locationList);
+				
+				for (int i = 0; i < locationList.size(); i++) {
+
+					locationList.get(i)
+							.setAttType(FormValidation.Encrypt(String.valueOf(locationList.get(i).getEmpTypeId())));
+				}
+				
+				/*Info add = AcessController.checkAccess("showLocationList", "showLocationList", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showLocationList", "showLocationList", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showLocationList", "showLocationList", 0, 0, 0, 1,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					System.out.println(" delete   Accessable ");
+					model.addObject("deleteAccess", 0);
+
+				}*/
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/deleteLMstEmpType", method = RequestMethod.GET)
+	public String deleteLocation(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		String a = null;
+		
+
+		try {
+			
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+
+			/*Info view = AcessController.checkAccess("deleteLocation", "showLocationList", 0, 0, 0, 1, newModuleList);
+			if (view.isError() == true) {
+
+				a = "redirect:/accessDenied";
+
+			}
+
+			else {*/
+				a = "redirect:/showMstEmpTypeList";
+			//}
+			String base64encodedString = request.getParameter("empTypeId");
+			String empTypeId = FormValidation.DecodeKey(base64encodedString);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empTypeId", empTypeId);
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteLMstEmpType", map, Info.class);
+
+			if (info.isError() == false) {
+				session.setAttribute("successMsg", "Deleted Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed to Delete");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+		return a;
+	}
+
+	
+	@RequestMapping(value = "/editMstType", method = RequestMethod.GET)
+	public ModelAndView editMstType(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+
+		try {
+
+			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("editLocation", "showLocationList", 0, 0, 1, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				model = new ModelAndView("master/mstEmpTypeEdit");
+				String base64encodedString = request.getParameter("empTypeId");
+				String empTypeId = FormValidation.DecodeKey(base64encodedString);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empTypeId", empTypeId);
+				editMstType = Constants.getRestTemplate().postForObject(Constants.url + "/getMstEmpTypeById", map,
+						MstEmpType.class);
+				model.addObject("employee", editMstType);
+			//}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/submitEditMstEmpTypeAdd", method = RequestMethod.POST)
+	public String submitEditMstEmpTypeAdd(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+System.err.println("dssfghjkl;l");
+		try {
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			String lateMark = request.getParameter("lateMark");
+			String weekOffWork = request.getParameter("weekOffWork");
+			String otType = request.getParameter("otType");
+			String minWorkHr = request.getParameter("minHr");
+			String otApplicable = request.getParameter("otApplicable");
+			String typeName = request.getParameter("typeName");
+			String halfDayDed = request.getParameter("halfDayDed");
+			String minWorkRule = request.getParameter("minWorkRule");
+			String woRemarks = request.getParameter( "woRemarks");
+			String empTypeId = request.getParameter( "empTypeId");
+
+			Boolean ret = false;
+
+			if (FormValidation.Validaton(lateMark, "") == true) {
+
+				ret = true;
+				System.out.println("lateMark" + ret);
+			}
+			if (FormValidation.Validaton(weekOffWork, "") == true) {
+
+				ret = true;
+				System.out.println("weekOffWork" + ret);
+			}
+			if (FormValidation.Validaton(otType, "") == true) {
+
+				ret = true;
+				System.out.println("otType" + ret);
+			}
+			if (FormValidation.Validaton(minWorkHr, "") == true) {
+
+				ret = true;
+				System.out.println("minWorkHr" + ret);
+			}
+			if (FormValidation.Validaton(otApplicable, "") == true) {
+
+				ret = true;
+				System.out.println("otApplicable" + ret);
+			}
+			if (FormValidation.Validaton(typeName, "") == true) {
+
+				ret = true;
+				System.out.println("typeName" + ret);
+			}
+			if (FormValidation.Validaton(halfDayDed, "") == true) {
+
+				ret = true;
+				System.out.println("halfDayDed" + ret);
+			}
+			if (FormValidation.Validaton(minWorkRule, "") == true) {
+
+				ret = true;
+				System.out.println("minWorkRule" + ret);
+			}
+			if (FormValidation.Validaton(woRemarks, "") == true) {
+
+				ret = true;
+				System.out.println("woRemarks" + ret);
+			}
+			 
+			if (ret == false) {
+
+				MstEmpType mstEmpType = new MstEmpType();
+
+				mstEmpType.setAttType("0");
+				mstEmpType.setCategory("0");
+				mstEmpType.setName(typeName);;
+				mstEmpType.setCompanyId(1);
+ 				mstEmpType.setDetails(woRemarks);;
+ 				mstEmpType.setHalfDay(halfDayDed);
+				mstEmpType.setLmApplicable(lateMark);
+				mstEmpType.setOtApplicable(otApplicable);
+				mstEmpType.setOtType(otType);
+ 				mstEmpType.setDelStatus(1);
+				mstEmpType.setWhWork(weekOffWork);
+				mstEmpType.setEmpTypeId(Integer.parseInt(empTypeId));
+				mstEmpType.setMinWorkHr(minWorkHr);
+			//	mstEmpType.setEarlyGoingAllowed();
+				//.setEarlyGoingMin(earlyGoingMin);
+			//	mstEmpType.setEmpTypeId(1);
+			//	mstEmpType.setMaxLateTimeAllowed(maxLateTimeAllowed);
+				mstEmpType.setMinworkApplicable(minWorkRule);
+				mstEmpType.setOtTime("0");
+				mstEmpType.setMaxLateTimeAllowed(0);
+			//	mstEmpType.setStatus(status);
+				//mstEmpType.setWeeklyHolidayLateAllowed(weeklyHolidayLateAllowed);
+				//mstEmpType.setWeeklyHolidayLateAllowedMin(weeklyHolidayLateAllowedMin);
+ 				
+				
+			//	mstEmpType.setOtTime(otTime);
+			//	mstEmpType.setEmpTypeId(empTypeId);
+
+				MstEmpType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveMstEmpType", mstEmpType,
+						MstEmpType.class);
+
+				if (res != null) {
+					session.setAttribute("successMsg", "Employee Type Inserted Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+
+			} else {
+				session.setAttribute("errorMsg", "Failed to Insert Record");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Insert Record");
+		}
+
+		return "redirect:/showMstEmpTypeList";
+	}
 
 }
