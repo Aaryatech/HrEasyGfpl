@@ -150,9 +150,7 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showClaimApprovalByAuthority"
 							class="nav-link">Claim Approval By Authorities</a></li>						
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/showClaimApprovalByAdmin"
-							class="nav-link">Claim Approval By Admin</a></li>
+						 
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/claimStructureAllotment"
 							class="nav-link">Claim Structure Allotment</a></li>

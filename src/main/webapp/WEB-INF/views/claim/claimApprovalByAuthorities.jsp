@@ -207,7 +207,7 @@
 														</c:when>
 
 													</c:choose> <a
-													href="${pageContext.request.contextPath}/claimDetailHistory?&claimId=${claimList.circulatedTo}"
+													href="${pageContext.request.contextPath}/claimDetailHistory?empId=${claimList.exVar1}&claimId=${claimList.circulatedTo}"
 													style="color: black"><i class="icon-list-unordered"></i></a></td>
 											</tr>
 										</c:forEach>
