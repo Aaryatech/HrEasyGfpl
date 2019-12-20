@@ -87,8 +87,14 @@
 							href="${pageContext.request.contextPath}/showEmployeeList"
 							class="nav-link">Employee List</a></li>
 						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showCompanyList"
+							class="nav-link">Company List</a></li>
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showPayDeductionList"
 							class="nav-link">Payment Deduction List</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/viewPayDeduction"
+							class="nav-link">Payment Deduction Details</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showDepartmentList"
 							class="nav-link">Department List</a></li>
