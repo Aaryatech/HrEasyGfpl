@@ -37,6 +37,10 @@ public class PayDeductionController {
 	String currDate = sf.format(date);
 	String redirect = "";
 	
+	Date d=new Date();  
+    int year=d.getYear();
+    int currentYear=year+1900; 
+	
 	@RequestMapping(value = "/showPayDeductionList", method = RequestMethod.GET)
 	public ModelAndView showPayDeductionList(HttpServletRequest request, HttpServletResponse responser) {
 
@@ -291,8 +295,9 @@ public class PayDeductionController {
 			 * 
 			 * } else {
 			 */
+			      
 			model = new ModelAndView("dailywork/addEmpPayDeduct");
-			model.addObject("currentYear", "2019");
+			model.addObject("currentYear", currentYear);
 			model.addObject("pay", pay);
 			model.addObject("empId", empId);
 			model.addObject("payDeductList", payDeductList);
@@ -450,7 +455,7 @@ public class PayDeductionController {
 			 * } else {
 			 */
 			model = new ModelAndView("dailywork/editEmpPayDeduct");
-			model.addObject("currentYear", "2019");
+			model.addObject("currentYear", currentYear);
 			model.addObject("deduct", deduct);
 			model.addObject("payDeductList", payDeductList);
 			
