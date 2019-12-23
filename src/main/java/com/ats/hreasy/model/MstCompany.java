@@ -50,7 +50,7 @@ public class MstCompany {
 	private String isParentCompany;
 	private int delStatus;
 	private String makerEnterDdatetime;
-	private int ex_Int1;
+	private int exInt1;
 	private int exInt2;
 	private String exVar1;
 	private String exVar2;
@@ -439,12 +439,12 @@ public class MstCompany {
 		this.makerEnterDdatetime = makerEnterDdatetime;
 	}
 
-	public int getEx_Int1() {
-		return ex_Int1;
+	public int getExInt1() {
+		return exInt1;
 	}
 
-	public void setEx_Int1(int ex_Int1) {
-		this.ex_Int1 = ex_Int1;
+	public void setExInt1(int exInt1) {
+		this.exInt1 = exInt1;
 	}
 
 	public int getExInt2() {
@@ -488,7 +488,7 @@ public class MstCompany {
 				+ cpDesignation + ", cpMobile=" + cpMobile + ", cmpBankAccount=" + cmpBankAccount + ", cpEmail1="
 				+ cpEmail1 + ", cpEmail2=" + cpEmail2 + ", managerUnderAct=" + managerUnderAct + ", managerAddress="
 				+ managerAddress + ", professionalFees=" + professionalFees + ", isParentCompany=" + isParentCompany
-				+ ", delStatus=" + delStatus + ", makerEnterDdatetime=" + makerEnterDdatetime + ", ex_Int1=" + ex_Int1
+				+ ", delStatus=" + delStatus + ", makerEnterDdatetime=" + makerEnterDdatetime + ", exInt1=" + exInt1
 				+ ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
 	}
 	

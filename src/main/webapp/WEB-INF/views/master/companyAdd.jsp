@@ -99,29 +99,29 @@
 								<ul class="nav nav-tabs nav-tabs-highlight">
 									<li class="nav-item text-center"><a
 										href="#highlighted-tab1" class="nav-link active"
-										data-toggle="tab">Basic Information </br>Step 1
+										data-toggle="tab">Company Information </br>Step 1
 									</a></li>
 									<li class="nav-item text-center"><a
 										href="#highlighted-tab2" class="nav-link" data-toggle="tab">Company
-											Information </br>Step 2
+											Logo </br>Step 2
 									</a></a></li>
 									<li class="nav-item text-center"><a
-										href="#highlighted-tab3" class="nav-link" data-toggle="tab">Relative
+										href="#highlighted-tab3" class="nav-link" data-toggle="tab">Other
 											Information </br>Step 3
 									</a></li>
 									<li class="nav-item text-center"><a
-										href="#highlighted-tab4" class="nav-link" data-toggle="tab">Employee Bank Details
+										href="#highlighted-tab4" class="nav-link" data-toggle="tab">Bank Details
 											</br>Step 4
 									</a></li>
 									
 									<li class="nav-item text-center"><a
-										href="#highlighted-tab5" class="nav-link" data-toggle="tab">Employee Salary Details
-											</br>Step 5
+										href="#highlighted-tab5" class="nav-link" data-toggle="tab">Manager  
+											Details</br>Step 5
 									</a></li>
-									<li class="nav-item text-center"><a
+									<!-- <li class="nav-item text-center"><a
 										href="#highlighted-tab6" class="nav-link" data-toggle="tab">Employee Documents
 											</br>Step 6
-									</a></li>
+									</a></li> -->
 									
 								</ul>
 
@@ -129,8 +129,8 @@
 									<div class="tab-pane fade show active" id="highlighted-tab1">
 									
 										<form
-											action="${pageContext.request.contextPath}/insertEmployeeBasicInfo"
-											id="submitInsertEmp" method="post">
+											action="${pageContext.request.contextPath}/insertCompanyInfo"
+											id="insertCompanyInfo" method="post">
 
 											<input type="hidden" id="companyId" name="companyId"
 												value="${company.companyId}">									
@@ -141,8 +141,8 @@
 													Name<span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="" id="companyName"
-													onchange="trim(this)" placeholder="Company Name" name="companyName">
+													<input type="text" class="form-control" value="${company.companyName}" id="companyName"
+													onchange="trim(this)" placeholder="Company Name" name="companyName" autocomplete="off">
 													<span class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_company">This field is required.</span>
 												</div>
@@ -151,8 +151,8 @@
 													Short Name<span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="" id="companyShortName"
-													onchange="trim(this)" placeholder="Company Short Name" id="companyShortName">
+													<input type="text" class="form-control" value="${company.nameSd}" id="companyShortName"
+													onchange="trim(this)" placeholder="Company Short Name" name="companyShortName" autocomplete="off">
 													<span class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_companyShortName">This field is required.</span>
 												</div>
@@ -164,18 +164,18 @@
 													<span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="" id="companyAddress1"
-													onchange="trim(this)" placeholder="Address1" id="companyAddress1">
+													<input type="text" class="form-control" value="${company.longAdd1}" id="companyAddress1"
+													onchange="trim(this)" placeholder="Address1" name="companyAddress1" autocomplete="off">
 													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_companyShortName">This field is required.</span>
+														style="display: none;" id="error_companyAddress1">This field is required.</span>
 												</div>
 												
 												<label class="col-form-label col-lg-2" for="companyAddress2">Address2
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="" id="companyAddress2"
-													onchange="trim(this)" placeholder="Address2" id="companyAddress2">
+													<input type="text" class="form-control" value="${company.longAdd2}" id="companyAddress2"
+													onchange="trim(this)" placeholder="Address2" name="companyAddress2" autocomplete="off">
 												</div>
 												
 												
@@ -187,16 +187,16 @@
 													<span style="color: red"> </span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="" id="companyAddress3"
-													onchange="trim(this)" placeholder="Address3" id="companyAddress3">
+													<input type="text" class="form-control" value="${company.longAdd3}" id="companyAddress3"
+													onchange="trim(this)" placeholder="Address3" name="companyAddress3" autocomplete="off">
 												</div>
 
 												<label class="col-form-label col-lg-2" for="empType">Short 
 													Address<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="" id="shortAddress"
-													onchange="trim(this)" placeholder="Short Address" id="shortAddress3">
+													<input type="text" class="form-control" value="${company.shortAddress}" id="shortAddress"
+													onchange="trim(this)" placeholder="Short Address" name="shortAddress" autocomplete="off">
 												</div>
 											</div>
 
@@ -207,8 +207,8 @@
 													No. <span style="color: red">* </span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value=""
-														placeholder="Landline No." id="mobile1" name="landline1" autocomplete="off"
+													<input type="text" class="form-control" value="${company.landline1}"
+														placeholder="Landline No." id="landline1" name="landline1" autocomplete="off"
 														onchange="trim(this)" maxlength="10"> <span style="display: none;"
 														class="hidedefault   validation-invalid-label"
 														id="error_landline1">This field is required.</span> 
@@ -219,7 +219,7 @@
 													No. <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value=""
+													<input type="text" class="form-control" value="${company.landline2}"
 														placeholder="Other Landline No." id="landline2" name="landline2"
 														autocomplete="off" onchange="trim(this)" maxlength="10">
 													<span class="hidedefault   validation-invalid-label" style="display: none;"
@@ -234,7 +234,7 @@
 													 <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-												<input type="text" class="form-control" value=""
+												<input type="text" class="form-control" value="${company.faxNo}"
 														placeholder="Fax" id="fax" name="fax"
 														autocomplete="off" onchange="trim(this)">
 												</div>
@@ -244,7 +244,7 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" maxlength="10"
-														placeholder="PAN No." id="pan" name="pan" value=""
+														placeholder="PAN No." id="pan" name="pan" value="${company.panNo}"
 														autocomplete="off" onchange="trim(this)"><span
 														class="hidedefault  validation-invalid-label"
 														id="error_pan" style="display: none;">Please enter correct PAN No.</span>
@@ -269,52 +269,451 @@
 											</div>
 										</form>
 									</div>
-									<!-- ********************************************Step Two********************************************** -->
+									
+									<!--***************************************** tab 2 *************************************-->
 									<div class="tab-pane fade" id="highlighted-tab2">
-										Step Two
+										<form
+											action="${pageContext.request.contextPath}/insertCompanyLogo"
+											id="insertCompanyLogo" method="post" enctype="multipart/form-data">
+
+											<input type="text" id="companyId" name="companyId"
+												value="${company.companyId}">	
+												
+											<div class="form-group row">
+
+												
+
+												<label class="col-form-label col-lg-2" for="pan">Logo ${company.logo}
+														<span style="color: red"></span>:
+													</label>
+													<div class="col-lg-4">
+														<input  type="file"  id="logo" name="logo" style="padding-bottom:8px" 
+														value="${company.logo}" class="form-control" 
+														 onchange="readURL(this); return Upload(logo)" title="Only jpg,png,gif">
+													</div>
+																
+                            		   </div>	
+										<div class="form-group col-lg-4">
+  									        <img src="http://gfpl.aaryatechindia.in/uploads/steps/0d41EOj5stMETA LOGO2.png" height="150px" width="200px" >
+											
+										</div>
+												
+														
+										<div class="form-group row mb-0">
+												<div class="col-lg-10 ml-lg-auto">
+													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+													<button type="submit" class="btn bg-blue ml-3 legitRipple"
+														id="submtbtn">
+														Submit <i class="icon-paperplane ml-2"></i>
+													</button>
+													<a href="${pageContext.request.contextPath}/showEmpList"><button
+															type="button" class="btn btn-primary">
+															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+															Cancel
+														</button></a> <input type="hidden" id="mobile1Exist"
+														name="mobile1Exist"><input type="hidden"
+														id="emailExist" name="emailExist">
+												</div>
+											</div>
+										</form>
+									</div>
+									<!-- ********************************************Step 3********************************************** -->
+									<div class="tab-pane fade" id="highlighted-tab3">
+										Step Three
+										
+										<form
+											action="${pageContext.request.contextPath}/insertCompanyFundsInfo"
+											id="insertCompanyFundsInfo" method="post">
+											
+												<input type="hidden" id="companyId" name="companyId"
+												value="${company.companyId}">		
 
 										<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="taxNo">Tax No. 
+												<label class="col-form-label col-lg-2" for="taxNo">TAN No. 
 													<span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="" id="taxNo"
-													onchange="trim(this)" placeholder="Tax No" name="taxNo">
+													<input type="text" class="form-control" value="${company.tanNo}" id="tanNo"
+													onchange="trim(this)" placeholder="TAN No" name="tanNo" autocomplete="off">
 													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_taxNoe">This field is required.</span>
+														style="display: none;" id="error_tanNo">This field is required.</span>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="companyShortName">Company 
-													Short Name<span style="color: red">*</span>:
+												<label class="col-form-label col-lg-2" for="ptNo">PT No. 
+													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="" id="companyShortName"
-													onchange="trim(this)" placeholder="Company Short Name" id="companyShortName">
+													<input type="text" class="form-control" value="${company.ptNo}" id="ptNo" autocomplete="off"
+													onchange="trim(this)" placeholder="PT No." name="ptNo">
 													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_companyShortName">This field is required.</span>
+														style="display: none;" id="error_ptNo">This field is required.</span>
 												</div>
 											</div>
-										
-									</div>
-									<!--***************************************** tab 3 *************************************-->
-									<div class="tab-pane fade" id="highlighted-tab3">
+											
+											<div class="form-group row">
 
+												<label class="col-form-label col-lg-2" for="serviceTaxNo">Service Tax No. 
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.serviceTaxNo}" id="serviceTaxNo"
+													onchange="trim(this)" placeholder="Service Tax No." name="serviceTaxNo" autocomplete="off">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_serviceTaxNo">This field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="vatNo">VAT No. 
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.vatNo}" id="vatNo" autocomplete="off"
+													onchange="trim(this)" placeholder="VAT No." name="vatNo">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_ptNo">This field is required.</span>
+												</div>
+											</div>
+											
+											<div class="form-group row">
+
+												<label class="col-form-label col-lg-2" for="cstNo">CST No. 
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.cstNo}" id="cstNo"
+													onchange="trim(this)" placeholder="CST No" name="cstNo" autocomplete="off">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_tanNo">This field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="gstNo">GST No.
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.gstNo}" id="gstNo" autocomplete="off"
+													onchange="trim(this)" placeholder="GST No." name="gstNo">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_ptNo">This field is required.</span>
+												</div>
+											</div>
+											
+											<div class="form-group row">
+
+												<label class="col-form-label col-lg-2" for="pf">PF
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<select name="isPfApplicable"
+														data-placeholder="Select Designation" id="isPfApplicable"
+														class="form-control form-control-select21 select2-hidden-accessible1">
+														<option value="1">Yes</option>
+														<option value="0">No</option>	
+													</select>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="pfNo">PF No.
+													<span style="color: red">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.pfNo}" id="pfNo" autocomplete="off"
+													onchange="trim(this)" placeholder="PF No." name="pfNo">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_pfNo">This field is required.</span>
+												</div>
+											</div>
+											
+											<div class="form-group row">
+
+												<label class="col-form-label col-lg-2" for="pfCoveregDate">PF Coverage  
+													Date<span style="color: red">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control datepickerclass" value="${company.pfCoverageDate}" id="pfCoveregDate"
+													onchange="trim(this)" placeholder="PF Coverage Date" name="pfCoveregDate" autocomplete="off">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_pfCoveregDate">This field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="ptNo">PF Signatory 1 
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.pfSignatory1}" id="pfSignatory1" autocomplete="off"
+													onchange="trim(this)" placeholder="PF Signatory1" name="pfSignatory1">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_ptNo">This field is required.</span>
+												</div>
+											</div>
+											
+											<div class="form-group row">
+
+												<label class="col-form-label col-lg-2" for="pfSignatory2">PF Signatory2
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.pfSignatory2}" id="pfSignatory2"
+													onchange="trim(this)" placeholder="PF Signatory2" name="pfSignatory2" autocomplete="off">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_tanNo">This field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="pfSignatory3">PF Signatory3 
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.pfSignatory3}" id="pfSignatory3" autocomplete="off"
+													onchange="trim(this)" placeholder="PF Signatory3" name="pfSignatory3">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_ptNo">This field is required.</span>
+												</div>
+											</div>
+											
+											<div class="form-group row">
+
+												<label class="col-form-label col-lg-2" for="isEsicApplicable">ESIC Applicable
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<select name="isEsicApplicable"
+														data-placeholder="Select Designation" id="isEsicApplicable"
+														class="form-control form-control-select21 select2-hidden-accessible1">														
+														<option value="1">Yes</option>
+														<option value="0">No</option>	
+													</select>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="esicNo">ESIC No. 
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.esicNo}" id="esicNo" autocomplete="off"
+													onchange="trim(this)" placeholder="ESIC No." name="esicNo">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_ptNo">This field is required.</span>
+												</div>
+											</div>
+											
+											<div class="form-group row">
+
+												<label class="col-form-label col-lg-2" for="esicCoverageDate">ESIC Coverage Date
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control datepickerclass" value="${company.esicCoverageDate}" id="esicCoverageDate"
+													onchange="trim(this)" placeholder="PF Signatory2" name="esicCoverageDate">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_tanNo">This field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="esicSignatory1">ESIC Signatory 1
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.esicSignatory1}" id="esicSignatory1" autocomplete="off"
+													onchange="trim(this)" placeholder="ESIC Signatory1" name="esicSignatory1">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_ptNo">This field is required.</span>
+												</div>
+											</div>
+											
+											<div class="form-group row">
+
+												<label class="col-form-label col-lg-2" for="esicSignatory2">ESIC Signatory2
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.esicSignatory2}" id="esicSignatory2"
+													onchange="trim(this)" placeholder="ESIC Signatory2" name="esicSignatory2" autocomplete="off">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_tanNo">This field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="esicSignatory3">ESIC Signatory3 
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.esicSignatory3}" id="esicSignatory1" autocomplete="off"
+													onchange="trim(this)" placeholder="ESIC Signatory3" name="esicSignatory1">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_ptNo">This field is required.</span>
+												</div>
+											</div>
+											
+											<div class="form-group row mb-0">
+												<div class="col-lg-10 ml-lg-auto">
+													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+													<button type="submit" class="btn bg-blue ml-3 legitRipple"
+														id="submtbtn">
+														Submit <i class="icon-paperplane ml-2"></i>
+													</button>
+													<a href="${pageContext.request.contextPath}/showEmpList"><button
+															type="button" class="btn btn-primary">
+															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+															Cancel
+														</button></a> <input type="hidden" id="mobile1Exist"
+														name="mobile1Exist"><input type="hidden"
+														id="emailExist" name="emailExist">
+												</div>
+											</div>
+										</form>
 										
 									</div>
-									<!-- *****************************************Tab 4******************************************* -->
+									<!--***************************************** tab 4 *************************************-->
 									<div class="tab-pane fade" id="highlighted-tab4">
+									
+									<form
+											action="${pageContext.request.contextPath}/insertCompanyBankInfo"
+											id="insertCompanyBankInfo" method="post">
+											
+												<input type="hidden" id="companyId" name="companyId"
+												value="${company.companyId}">		
 
+										<div class="form-group row">
+
+												<label class="col-form-label col-lg-2" for="person">Person Name 
+													<span style="color: red">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.cpName}" id="person"
+													onchange="trim(this)" placeholder="Person Name" name="person" autocomplete="off">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_person">This field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="designation">Designation 
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.cpDesignation}" id="designation" autocomplete="off"
+													onchange="trim(this)" placeholder="Designation" name="designation">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_ptNo">This field is required.</span>
+												</div>
+										</div>
+										
+										<div class="form-group row">
+
+												<label class="col-form-label col-lg-2" for="mobile">Mobile No.
+													<span style="color: red">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.cpMobile}" id="mobile"
+													onchange="trim(this)" placeholder="Mobile No." name="mobile" autocomplete="off">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_mobile">This field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="designation">Bank Account No 
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.cmpBankAccount}" id="accno" autocomplete="off"
+													onchange="trim(this)" placeholder="Bank Account No " name="accno">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_ptNo">This field is required.</span>
+												</div>
+										</div>
+										
+										<div class="form-group row">
+
+												<label class="col-form-label col-lg-2" for="email1">Email 1
+													<span style="color: red">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.cpEmail1}" id="email1"
+													onchange="trim(this)" placeholder="Email 1" name="email1" autocomplete="off">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_email1">This field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="email2">Email 2 
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.cpEmail2}" id="email2" autocomplete="off"
+													onchange="trim(this)" placeholder="Email 2" name="email2">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_ptNo">This field is required.</span>
+												</div>
+										</div>
+										
+											<div class="form-group row mb-0">
+												<div class="col-lg-10 ml-lg-auto">
+													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+													<button type="submit" class="btn bg-blue ml-3 legitRipple"
+														id="submtbtn">
+														Submit <i class="icon-paperplane ml-2"></i>
+													</button>
+													<a href="${pageContext.request.contextPath}/showEmpList"><button
+															type="button" class="btn btn-primary">
+															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+															Cancel
+														</button></a> <input type="hidden" id="mobile1Exist"
+														name="mobile1Exist"><input type="hidden"
+														id="emailExist" name="emailExist">
+												</div>
+											</div>
+										</form>
+										
+									</div>
+									<!-- *****************************************Tab 5******************************************* -->
+									<div class="tab-pane fade" id="highlighted-tab5">
+									<form
+											action="${pageContext.request.contextPath}/insertCompanyManagerInfo"
+											id="insertCompanyManagerInfo" method="post">
+											
+												<input type="hidden" id="companyId" name="companyId"
+												value="${company.companyId}">		
+
+										<div class="form-group row">
+
+												<label class="col-form-label col-lg-2" for="manager">Managers Under Shop Act 
+													<span style="color: red">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.managerUnderAct}" id="manager"
+													onchange="trim(this)" placeholder="Managers Under Shop Act " name="manager" autocomplete="off">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_manager">This field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="managerAddress">Manager Address 
+													<span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control" value="${company.managerAddress}" id="managerAddress" autocomplete="off"
+													onchange="trim(this)" placeholder="Manager Address" name="managerAddress">
+													<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_ptNo">This field is required.</span>
+												</div>
+										</div>
+										<div class="form-group row mb-0">
+												<div class="col-lg-10 ml-lg-auto">
+													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+													<button type="submit" class="btn bg-blue ml-3 legitRipple"
+														id="submtbtn">
+														Submit <i class="icon-paperplane ml-2"></i>
+													</button>
+													<a href="${pageContext.request.contextPath}/showEmpList"><button
+															type="button" class="btn btn-primary">
+															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+															Cancel
+														</button></a> <input type="hidden" id="mobile1Exist"
+														name="mobile1Exist"><input type="hidden"
+														id="emailExist" name="emailExist">
+												</div>
+											</div>
+										</form>
 										
 									</div>
 
 									<!--********************************* Tab 5 *********************************-->
-									<div class="tab-pane fade" id="highlighted-tab5">
+									<div class="tab-pane fade" id="highlighted-tab0">
 
 									
 									</div>
-									<!-- *****************************************Tab 6******************************************* -->
-									<div class="tab-pane fade" id="highlighted-tab6">
+									<!-- *****************************************Tab 0******************************************* -->
+									<div class="tab-pane fade" id="highlighted-tab0">
 
 									
 									</div>
@@ -383,186 +782,48 @@
 
 		$(document).ready(function($) {
 
-			$("#submitInsertEmp").submit(function(e) {
+			$("#insertCompanyInfo").submit(function(e) {
 				var isError = false;
 				var errMsg = "";
 
-				if (!$("#empCode").val()) {
+				if (!$("#companyName").val()) {
 
 					isError = true;
 
-					$("#error_empCode").show()
+					$("#error_company").show()
 					//return false;
 				} else {
-					$("#error_empCode").hide()
+					$("#error_company").hide()
 				}
 
-				if (!$("#fname").val()) {
+				if (!$("#companyShortName").val()) {
 
 					isError = true;
 
-					$("#error_fname").show()
+					$("#error_companyShortName").show()
 
 				} else {
-					$("#error_fname").hide()
+					$("#error_companyShortName").hide()
 				}
-				if (!$("#mname").val()) {
+				if (!$("#companyAddress1").val()) {
 
 					isError = true;
 
-					$("#error_mname").show()
+					$("#error_companyAddress1").show()
 
 				} else {
-					$("#error_mname").hide()
+					$("#error_companyAddress1").hide()
 				}
-				if (!$("#sname").val()) {
+				if (!$("#landline1").val()) {
 
 					isError = true;
 
-					$("#error_sname").show()
+					$("#error_landline1").show()
 
 				} else {
-					$("#error_sname").hide()
-				}
-				if (!$("#locId").val()) {
-
-					isError = true;
-
-					$("#error_locId").show()
-
-				} else {
-					$("#error_locId").hide()
+					$("#error_landline1").hide()
 				}
 				
-				if (!$("#empCat").val()) {
-					
-					isError = true;
-
-					$("#error_empCat").show()
-
-				} else {
-					$("#error_empCat").hide()
-				}
-
-				if (!$("#empType").val()) {
-
-					isError = true;
-
-					$("#error_empType").show()
-
-				} else {
-					$("#error_empType").hide()
-				}
-
-				if (!$("#mobile1").val()) {
-
-					isError = true;
-
-					$("#error_mobile1").show()
-
-				} else {
-					$("#error_mobile1").hide()
-				}
-				/* 	if (!$("#desigId").val()) {
-
-						isError = true;
-
-						$("#error_desigId")
-								.show()
-
-					} else {
-						$("#error_desigId")
-								.hide()
-					} */
-
-				
-
-				/* if (!$("#empStatus").val()) {
-
-					isError = true;
-
-					$("#error_empStatus").show()
-
-				} else {
-					$("#error_empStatus").hide()
-				} */
-
-				
-
-				/* if (!$("#mobile2").val()) {
-
-					isError = true;
-
-					$("#error_emgContNo2_alt").show()
-
-				} else {
-					$("#error_emgContNo2_alt").hide()
-				} */
-
-				/* if (!$("#landline").val()) {
-
-					isError = true;
-
-					$("#error_landline")
-							.show()
-
-				} else {
-					$("#error_landline")
-							.hide()
-				} */
-
-				/* if (!$("#esic").val()) {
-
-					isError = true;
-
-					$("#error_esic").show()
-
-				} else {
-					$("#error_esic").hide()
-				}
-
-				if (!$("#aadhar").val()) {
-
-					isError = true;
-
-					$("#error_aadhar").show()
-
-				} else {
-					$("#error_aadhar").hide()
-				}
-
-				if (!$("#uan").val()) {
-
-					isError = true;
-
-					$("#error_uan").show()
-
-				} else {
-					$("#error_uan").hide()
-				} */
-
-				/* if (!$("#pan").val()|| !validatePAN($(
-				"#pan").val())) {
-
-						isError = true;
-
-						$("#error_pan").show()
-
-					} else {
-						$("#error_pan").hide()
-					}
-					 
-					
-					if (!$("#pfNo").val()) {
-
-						isError = true;
-
-						$("#error_pfNo").show()
-
-					} else {
-						$("#error_pfNo").hide()
-					}
-				 */
 				if (!isError) {
 
 					var x = true;
@@ -577,61 +838,91 @@
 			});
 		});
 		//
+		/* 2 Funds */
+		$(document).ready(function($) {
+
+			$("#insertCompanyFundsInfo").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
+				
+				if (!$("#tanNo").val()) {
+
+					isError = true;
+
+					$("#error_tanNo").show()
+					
+				} else {
+					$("#error_tanNo").hide()
+				}
+
+
+				if (!$("#pfNo").val()) {
+
+					isError = true;
+
+					$("#error_pfNo").show()
+					
+				} else {
+					$("#error_pfNo").hide()
+				}
+				
+				if (!$("#pfCoveregDate").val()) {
+
+					isError = true;
+
+					$("#error_pfCoveregDate").show()
+					
+				} else {
+					$("#error_pfCoveregDate").hide()
+				}
+				
+				
+				if (!isError) {
+
+					var x = true;
+					if (x == true) {
+
+						//document.getElementById("submtbtn").disabled = true;
+						return true;
+					}
+					//
+				}
+				return false;
+			});
+		});
 		/* Bank */
 		$(document).ready(function($) {
 
-			$("#submitEmpBankInfo").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
-				var acc = $("#accNo").val();
-				
-				if (!$("#accNo").val()) {
-
-					isError = true;
-
-					$("#error_accNo").show()
-					
-				} else {
-					$("#error_accNo").hide()
-				}
-
-				if (acc.length<8 || acc.length>17) {
-
-					isError = true;
-					
-					$("#error_accNoDigit").show()
-					
-				} else {
-					$("#error_accNoDigit").hide()
-				}
-				if (!isError) {
-
-					var x = true;
-					if (x == true) {
-
-						//document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//
-				}
-				return false;
-			});
-		});
-		/* Employee Salary */
-		$(document).ready(function($) {
-
-			$("#insertEmployeeAllowancesInfo").submit(function(e) {
+			$("#insertCompanyBankInfo").submit(function(e) {
 				var isError = false;
 				var errMsg = "";
 
-				if (!$("#basic").val()) {
+				if (!$("#person").val()) {
 
 					isError = true;
 
-					$("#error_salBasis").show()
+					$("#error_person").show()
 					//return false;
 				} else {
-					$("#error_salBasis").hide()
+					$("#error_person").hide()
+				}
+				if (!$("#mobile").val()) {
+
+					isError = true;
+
+					$("#error_mobile").show()
+					//return false;
+				} else {
+					$("#error_mobile").hide()
+				}
+				if (!$("#email1").val()) {
+
+					isError = true;
+
+					$("#error_email1").show()
+					//return false;
+				} else {
+					$("#error_email1").hide()
 				}
 
 				if (!isError) {
@@ -649,25 +940,25 @@
 		});
 		
 		
-/* Personal Information */
+/* Manager */
 		 $(document)
 				.ready(
 						function($) {
 
-							$("#submitEmpOtherInfo")
+							$("#insertCompanyManagerInfo")
 									.submit(
 											function(e) {
 												var isError = false;
 												var errMsg = "";
 
-												if (!$("#dob").val()) {
+												if (!$("#manager").val()) {
 
 													isError = true;
 
-													$("#error_empDob").show()
+													$("#error_manager").show()
 													//return false;
 												} else {
-													$("#error_empDob").hide()
+													$("#error_manager").hide()
 												}
 
 												if (!isError) {
@@ -687,38 +978,7 @@
 		
 	</script>
 
-	<!-- <script type="text/javascript">
-	$('#submtbtn').on('click', function() {
-        swalInit({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-            buttonsStyling: false
-        }).then(function(result) {
-            if(result.value) {
-                swalInit(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                );
-            }
-            else if(result.dismiss === swal.DismissReason.cancel) {
-                swalInit(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
-                    'error'
-                );
-            }
-        });
-    });
-	
-	</script> -->
-	<script type="text/javascript">
+	<script type="text/javascript">insertCompanyManagerInfo
 		// Single picker
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
