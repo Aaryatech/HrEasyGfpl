@@ -42,12 +42,13 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Payment Deduction List</h5></td>
+								<td width="60%"><h5 class="card-title">Payment Deduction
+								 Details</h5></td>
 								<td width="40%" align="right"><c:if test="${addAccess==0}">
-										<a href="${pageContext.request.contextPath}/payDeductionAdd"
+										<a href="${pageContext.request.contextPath}/viewPayDeduction"
 											class="breadcrumb-elements-item">
-											<button type="button" class="btn btn-primary">Add
-												Pay Deduction Type</button>
+											<button type="button" class="btn btn-primary">Add Payment 
+												Deduction</button>
 										</a>
 									</c:if></td>
 							</tr>
@@ -97,37 +98,38 @@
 							<thead>
 								<tr class="bg-blue">
 
-								 <th width="10%">Sr. No.</th>
-									<th>Payment Deduction Type</th>
+									<th width="10%">Sr. No.</th>
+									<th>Emp Code </th>
+									<th>Employee Name</th>
 									<th>Deduction Rate</th>
+									<th>Deduction Total</th>
+									<th>Deduction Month Year</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
 
 
-								<c:forEach items="${payList}" var="payList"
+								<c:forEach items="${deductList}" var="deductList"
 									varStatus="count">
-									
 									<tr>
-										<td>${count.index+1}</td>
-										<td>${payList.typeName}</td>
-										<td>${payList.dedRate}</td> 	 						
-										
+										 <td>${count.index+1}</td>
+										<td>${deductList.empCode}</td>
+										<td>${deductList.empName}</td>
+										<td>${deductList.dedRate}</td>
+										<td>${deductList.dedTotal}</td>
+										<td>${deductList.month}-${deductList.year}</td>
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a
-													href="${pageContext.request.contextPath}/editPayDeduct?typeId=${payList.exVar1}"
-													class="list-icons-item text-primary-600" data-popup="tooltip" data-original-title="Edit"><i class="icon-pencil7"
+													href="${pageContext.request.contextPath}/editEmpPayDeduct?deductId=${deductList.encryptedId}"
+													class="list-icons-item text-primary-600" data-popup="tooltip"  data-original-title="Deduction"><i class="icon-pencil7"
 													 ></i></a>
 											</c:if> <c:if test="${deleteAccess == 0}">
-												<%-- <a
-													href="${pageContext.request.contextPath}/deleteDesignation?desigId=${designationList.exVar1}"
-													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a> --%>
+												 
+												 
 											<a href="javascript:void(0)"
 													class="list-icons-item text-danger-600 bootbox_custom"
-													data-uuid="${payList.exVar1}" data-popup="tooltip"
+													data-uuid="${deductList.encryptedId}" data-popup="tooltip"
 													title="" data-original-title="Delete"><i
 													class="icon-trash"></i></a>
 											</c:if></td>
@@ -177,7 +179,7 @@
 										},
 										callback : function(result) {
 											if (result) {
-												location.href = "${pageContext.request.contextPath}/deletePayDeduct?typeId="
+												location.href = "${pageContext.request.contextPath}/deleteEmpPayDeduct?deductId="
 														+ uuid;
 
 											}

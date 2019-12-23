@@ -88,13 +88,10 @@
 							class="nav-link">Employee List</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showCompanyList"
-							class="nav-link">Company List</a></li>
+							class="nav-link">Company List</a></li>							
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showPayDeductionList"
-							class="nav-link">Payment Deduction List</a></li>
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/viewPayDeduction"
-							class="nav-link">Payment Deduction Details</a></li>
+							class="nav-link">Payment Deduction Type List</a></li>						
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showDepartmentList"
 							class="nav-link">Department List</a></li>
@@ -176,6 +173,18 @@
 							class="nav-link">Claim Structure</a></li>
 
 
+					</ul></li>
+					
+					
+				<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-list-unordered"></i><span>Daily Work</span></a>	
+					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
+					<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/viewPayDeduction"
+							class="nav-link">Add Pay Deduction</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/payDeductionDetails"
+							class="nav-link">Payment Deduction Details</a></li>
 					</ul></li>
 
 				<%--<li class="nav-item nav-item-submenu"><a href="#"

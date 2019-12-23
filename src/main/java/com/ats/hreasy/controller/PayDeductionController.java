@@ -26,6 +26,7 @@ import com.ats.hreasy.model.EmployeDoc;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.PayDeduction;
+import com.ats.hreasy.model.PayDeductionDetailList;
 import com.ats.hreasy.model.PayDeductionDetails;
 
 @Controller
@@ -230,7 +231,7 @@ public class PayDeductionController {
 		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
 		ModelAndView model = null;
 		try {
-			model = new ModelAndView("master/payDeductEmpList");
+			model = new ModelAndView("dailywork/payDeductEmpList");
 		
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("companyId", 1);
@@ -290,7 +291,7 @@ public class PayDeductionController {
 			 * 
 			 * } else {
 			 */
-			model = new ModelAndView("master/addEmpPayDeduct");
+			model = new ModelAndView("dailywork/addEmpPayDeduct");
 			model.addObject("currentYear", "2019");
 			model.addObject("pay", pay);
 			model.addObject("empId", empId);
@@ -373,5 +374,121 @@ public class PayDeductionController {
 		}
 		return "redirect:/viewPayDeduction";
 		
+	}
+	
+	
+	@RequestMapping(value = "/payDeductionDetails", method = RequestMethod.GET)
+	public ModelAndView payDeductionDetails(HttpServletRequest request, HttpServletResponse responser) {
+
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		ModelAndView model = null;
+		try {
+			model = new ModelAndView("dailywork/payDeductDetailList");
+		
+			//MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			
+			
+			PayDeductionDetailList[] deductDetailArr =  Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmpPayDeductDetail",
+					PayDeductionDetailList[].class);			
+			List<PayDeductionDetailList> deductList = new ArrayList<PayDeductionDetailList>(Arrays.asList(deductDetailArr));
+			
+			for (int i = 0; i < deductList.size(); i++) {
+
+				deductList.get(i)
+						.setEncryptedId(FormValidation.Encrypt(String.valueOf(deductList.get(i).getDedId())));
+			}
+
+			
+			model.addObject("deductList", deductList);
+					
+			model.addObject("addAccess", 0);
+			model.addObject("editAccess", 0);
+			model.addObject("deleteAccess", 0);
+			
+
+		} catch (Exception e) {
+			System.out.println("Exception in payDeductionDetails : "+e.getMessage());
+			e.printStackTrace();
+		}
+
+		return model;
+
+	}
+	
+	@RequestMapping(value = "/editEmpPayDeduct", method = RequestMethod.GET)
+	public ModelAndView editPayDeduct(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+		
+		try {
+			PayDeduction[] payDeductArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllPayDeduction",
+					PayDeduction[].class);			
+			List<PayDeduction> payDeductList = new ArrayList<PayDeduction>(Arrays.asList(payDeductArr));
+			
+			String base64encodedString = request.getParameter("deductId");
+			String dedId = FormValidation.DecodeKey(base64encodedString);
+			
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("dedId", dedId);
+				
+				PayDeductionDetailList deduct = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpPayDeductionById",map,
+						PayDeductionDetailList.class);			
+				
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("departmentAdd", "showDepartmentList", 0, 1, 0,
+			 * 0, newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+			model = new ModelAndView("dailywork/editEmpPayDeduct");
+			model.addObject("currentYear", "2019");
+			model.addObject("deduct", deduct);
+			model.addObject("payDeductList", payDeductList);
+			
+			//}
+		} catch (Exception e) {
+			System.out.println("Exception in /editEmpPayDeduct : "+e.getMessage());
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/deleteEmpPayDeduct", method = RequestMethod.GET)
+	public String editEmpPayDeduct(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		try {
+			String base64encodedString = request.getParameter("deductId");
+			String dedId = FormValidation.DecodeKey(base64encodedString);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("dedId", dedId);
+			
+			
+				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deletePayDeductionDetailById", map,
+						Info.class);
+				
+				if (res.isError()) {
+					session.setAttribute("errorMsg", "Failed to Delete");
+				} else {
+					session.setAttribute("successMsg", "Deleted Successfully");
+					
+				}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+		
+		
+		return "redirect:/payDeductionDetails";
 	}
 }

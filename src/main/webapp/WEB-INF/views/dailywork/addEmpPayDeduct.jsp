@@ -185,13 +185,13 @@
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a href="${pageContext.request.contextPath}/showDesignationList"><button
+											<a href="${pageContext.request.contextPath}/viewPayDeduction"><button
 										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Back</button></a>
 										</div>
 									</div>
 								</form>
-								<p class="desc text-danger fontsize11">Notice : * Fields are
-									mandatory.</p>
+								<!-- <p class="desc text-danger fontsize11">Notice : * Fields are
+									mandatory.</p> -->
 							</div>
 						</div>
 
@@ -216,11 +216,7 @@
 	<script>
 	
 	function getDeductRate(deductType) {
-		alert(deductType);
-		
-			
-				
-			$
+		$
 			.getJSON(
 					'${getPayDeductionTypeRate}',
 
@@ -234,9 +230,6 @@
 						$('#dedRate').val(data.dedRate);
 
 					});
-				
-			
-		
 	}
 	
 	function checkSame(){
