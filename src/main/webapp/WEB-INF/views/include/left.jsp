@@ -186,6 +186,21 @@
 							href="${pageContext.request.contextPath}/payDeductionDetails"
 							class="nav-link">Payment Deduction Details</a></li>
 					</ul></li>
+					
+					
+						<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-list-unordered"></i><span>Advance</span></a>	
+					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
+					<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showEmpListToAddAdvance"
+							class="nav-link">Add Advance</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showEmpAdvancePendingList"
+							class="nav-link">Pending Advance List</a></li>
+							<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/payDeductionDetails"
+							class="nav-link">  Advance History</a></li>
+					</ul></li>
 
 				<%--<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Leave</span></a>

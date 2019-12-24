@@ -94,10 +94,7 @@
 									<tr class="bg-blue">
 
 										<th width="10%">Sr.no</th>
-
-										<th><input type="checkbox"   name="selAll"
-											id="selAll" /></th>
-										<th>Employee Code</th>
+ 										<th>Employee Code</th>
 										<th>Employee Name</th>
 										<th>Emp Type</th>
 										<th>Department</th>
@@ -116,10 +113,7 @@
 										<tr>
 
 											<td>${count.index+1}</td>
-											<td><input type="checkbox" id="empId${empdetList.empId}"
-												value="${empdetList.empId}" name="empId" class="select_all"
-												 ></td>
-											<td>${empdetList.empCode}</td>
+ 											<td>${empdetList.empCode}</td>
 											<td>${empdetList.surname}&nbsp;${empdetList.middleName}&nbsp;${empdetList.firstName}</td>
 											<td>${empdetList.empTypeName}</td>
 											<td>${empdetList.deptName}</td>
@@ -127,7 +121,7 @@
 
 											<td>${empdetList.locName}</td>
 											<td><a
-													href="${pageContext.request.contextPath}/addAdvance?empId=${empdetList.exVar1}"
+													href="${pageContext.request.contextPath}/showAddAdvance?empId=${empdetList.exVar1}"
 													class="list-icons-item text-primary-600" data-popup="tooltip" title="Add Advance" data-original-title="Edit"><i class="icon-pencil7"
 													 ></i></a></td>
 
