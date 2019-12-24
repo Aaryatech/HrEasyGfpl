@@ -1272,10 +1272,13 @@
 												<label class="col-form-label col-lg-2" for="salBasis">Salary Basis
 													<span style="color: red"></span>:
 												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${empAllowanceId.salBasis}"
-														placeholder="Salary Basis" id="salBasis" name="salBasis"
-														autocomplete="off" onchange="trim(this)">
+												<div class="col-lg-4">													
+													<select name="salBasis"
+														data-placeholder="Select Designation" id="salBasis"
+														class="form-control form-control-select21 select2-hidden-accessible1">														
+														<option value="monthly" ${empAllowanceId.salBasis=='monthly' ? 'selected' : ''}>Monthly</option>
+														<option value="daily" ${empAllowanceId.salBasis=='daily' ? 'selected' : ''}>Daily</option>	
+													</select>
 												</div>												
 											</div>
 											

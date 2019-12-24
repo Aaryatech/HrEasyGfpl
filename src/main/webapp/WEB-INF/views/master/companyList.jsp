@@ -123,19 +123,13 @@
 													href="${pageContext.request.contextPath}/editCompanyInfo?compId=${list.exVar1}"
 													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
 													 ></i></a>
-											</c:if> <c:if test="${deleteAccess == 0}">
-											<%-- 	<a
-													href="${pageContext.request.contextPath}/deleteDepartment?deptId=${departmentList.exVar1}"
-													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete" class="bootbox_custom"><i
-													class="icon-trash" style="color: black;"></i> </a>
- --%>
-												<a href="javascript:void(0)"
+										 	</c:if> <%--<c:if test="${deleteAccess == 0}"
+													<a href="javascript:void(0)"
 													class="list-icons-item text-danger-600 bootbox_custom"
 													data-uuid="${list.exVar1}" data-popup="tooltip"
 													title="" data-original-title="Delete"><i
 													class="icon-trash"></i></a>
-											</c:if></td>
+											</c:if> --%></td>
 									</tr>
 								</c:forEach>
 

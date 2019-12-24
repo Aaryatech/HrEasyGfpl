@@ -258,7 +258,7 @@
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
-													<a href="${pageContext.request.contextPath}/showEmpList"><button
+													<a href="${pageContext.request.contextPath}/showCompanyList"><button
 															type="button" class="btn btn-primary">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 															Cancel
@@ -276,7 +276,7 @@
 											action="${pageContext.request.contextPath}/insertCompanyLogo"
 											id="insertCompanyLogo" method="post" enctype="multipart/form-data">
 
-											<input type="text" id="companyId" name="companyId"
+											<input type="hidden" id="companyId" name="companyId"
 												value="${company.companyId}">	
 												
 											<div class="form-group row">
@@ -306,7 +306,7 @@
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
-													<a href="${pageContext.request.contextPath}/showEmpList"><button
+													<a href="${pageContext.request.contextPath}/showCompanyList"><button
 															type="button" class="btn btn-primary">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 															Cancel
@@ -546,7 +546,7 @@
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
-													<a href="${pageContext.request.contextPath}/showEmpList"><button
+													<a href="${pageContext.request.contextPath}/showCompanyList"><button
 															type="button" class="btn btn-primary">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 															Cancel
@@ -608,9 +608,9 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" value="${company.cmpBankAccount}" id="accno" autocomplete="off"
-													onchange="trim(this)" placeholder="Bank Account No " name="accno">
+													onchange="trim(this)" placeholder="Bank Account No " name="accno" maxlength="17">
 													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field is required.</span>
+														style="display: none;" id="error_accNoDigit">TInvalid Account No.</span>
 												</div>
 										</div>
 										
@@ -644,7 +644,7 @@
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
-													<a href="${pageContext.request.contextPath}/showEmpList"><button
+													<a href="${pageContext.request.contextPath}/showCompanyList"><button
 															type="button" class="btn btn-primary">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 															Cancel
@@ -694,7 +694,7 @@
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
-													<a href="${pageContext.request.contextPath}/showEmpList"><button
+													<a href="${pageContext.request.contextPath}/showCompanyList"><button
 															type="button" class="btn btn-primary">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 															Cancel
@@ -896,7 +896,8 @@
 			$("#insertCompanyBankInfo").submit(function(e) {
 				var isError = false;
 				var errMsg = "";
-
+				var acc = $("#accno").val();
+				
 				if (!$("#person").val()) {
 
 					isError = true;
@@ -923,6 +924,16 @@
 					//return false;
 				} else {
 					$("#error_email1").hide()
+				}
+				
+				if (acc.length<8 || acc.length>17) {
+
+					isError = true;
+					
+					$("#error_accNoDigit").show()
+					
+				} else {
+					$("#error_accNoDigit").hide()
 				}
 
 				if (!isError) {

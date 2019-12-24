@@ -128,7 +128,7 @@ public class CompanyController {
 	@RequestMapping(value = "/insertCompanyInfo", method = RequestMethod.POST)
 	public String insertEmployeeBasicInfo(HttpServletRequest request, HttpServletResponse response) {
 		try {
-				
+				HttpSession session = request.getSession();
 				MstCompany company = new MstCompany();
 				int compId = 0; 
 				try {
@@ -201,6 +201,12 @@ public class CompanyController {
 				
 				MstCompany saveComp = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewCompany", company,
 						MstCompany.class);
+				
+				if (saveComp != null) {
+					session.setAttribute("successMsg", "Record Updated Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Update Record");
+				}
 				encryptCompId = FormValidation.Encrypt(String.valueOf(compId));
 				System.out.println("Set CompId 1: "+encryptCompId);
 		}catch (Exception e) {
@@ -240,7 +246,7 @@ public class CompanyController {
 	@RequestMapping(value = "/insertCompanyFundsInfo", method = RequestMethod.POST)
 	public String insertCompanyFundsInfo(HttpServletRequest request, HttpServletResponse response) {
 		try {
-				
+				HttpSession session = request.getSession();
 				MstCompany company = new MstCompany();
 				int compId = 0; 
 				try {
@@ -314,6 +320,12 @@ public class CompanyController {
 				MstCompany saveComp = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewCompany", company,
 						MstCompany.class);
 				
+				if (saveComp != null) {
+					session.setAttribute("successMsg", "Record Updated Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Update Record");
+				}
+				
 				encryptCompId = FormValidation.Encrypt(String.valueOf(compId));
 				System.out.println("Set CompId 2: "+encryptCompId);
 		}catch (Exception e) {
@@ -327,7 +339,7 @@ public class CompanyController {
 	@RequestMapping(value = "/insertCompanyBankInfo", method = RequestMethod.POST)
 	public String insertCompanyBankInfo(HttpServletRequest request, HttpServletResponse response) {
 		try {
-				
+				HttpSession session = request.getSession();
 				MstCompany company = new MstCompany();
 				int compId = 0; 
 				try {
@@ -399,6 +411,11 @@ public class CompanyController {
 				company.setMakerEnterDdatetime(currDate);
 				MstCompany saveComp = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewCompany", company,
 						MstCompany.class);
+				if (saveComp != null) {
+					session.setAttribute("successMsg", "Record Updated Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Update Record");
+				}
 				
 				encryptCompId = FormValidation.Encrypt(String.valueOf(compId));
 				System.out.println("Set CompId 2: "+encryptCompId);
@@ -415,6 +432,8 @@ public class CompanyController {
 		try {
 				
 				MstCompany company = new MstCompany();
+				HttpSession session = request.getSession();
+				
 				int compId = 0; 
 				try {
 					compId = Integer.parseInt(request.getParameter("companyId"));
@@ -487,6 +506,12 @@ public class CompanyController {
 				MstCompany saveComp = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewCompany", company,
 						MstCompany.class);
 				
+				if (saveComp != null) {
+					session.setAttribute("successMsg", "Record Updated Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Update Record");
+				}
+				
 				encryptCompId = FormValidation.Encrypt(String.valueOf(compId));
 				System.out.println("Set CompId 2: "+encryptCompId);
 		}catch (Exception e) {
@@ -503,7 +528,7 @@ public class CompanyController {
 	public String insertCompanyLogo(@RequestParam("logo") List<MultipartFile> logo,  HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-			//	String logo = new String();
+				HttpSession session = request.getSession();
 				VpsImageUpload upload = new VpsImageUpload();
 			
 				MstCompany company = new MstCompany();
@@ -592,8 +617,14 @@ public class CompanyController {
 				MstCompany saveComp = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewCompany", company,
 						MstCompany.class);
 				
+				if (saveComp != null) {
+					session.setAttribute("successMsg", "Record Updated Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Update Record");
+				}
+				
 				encryptCompId = FormValidation.Encrypt(String.valueOf(compId));
-				System.out.println("Set CompId 2: "+encryptCompId);
+				//System.out.println("Set CompId 2: "+encryptCompId);
 		}catch (Exception e) {
 			System.out.println("Exception in insertEmployeeBasicInfo : "+e.getMessage());
 			e.printStackTrace();
