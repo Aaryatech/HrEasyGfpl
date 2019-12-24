@@ -33,6 +33,7 @@ import com.ats.hreasy.model.EmpSalAllowance;
 import com.ats.hreasy.model.EmpSalaryInfo;
 import com.ats.hreasy.model.EmployeDoc;
 import com.ats.hreasy.model.EmployeeMaster;
+import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.TblEmpBankInfo;
 import com.ats.hreasy.model.TblEmpInfo;
@@ -210,7 +211,7 @@ public class EmployeeController {
 		 empSave = new EmployeeMaster();
 		
 		try {
-			
+				HttpSession session = request.getSession();
 				EmployeeMaster emp =new EmployeeMaster();
 				int empId = 0;
 				int contract = 0;
@@ -301,13 +302,13 @@ public class EmployeeController {
 						 System.out.println("Edit Save = "+empSave);
 						empId = empSave.getEmpId();
 						 if(empSave!=null) {
-							// redirect="redirect:/employeeAdd";
-								String empEncryptId = FormValidation.Encrypt(String.valueOf(empSave.getEmpId()));
+							 	session.setAttribute("successMsg", "Record Updated Successfully");
 								
-								System.out.println("Success");
+							 	String empEncryptId = FormValidation.Encrypt(String.valueOf(empSave.getEmpId()));
 								
 								redirect="redirect:/employeeEdit?empId="+empEncryptId;
 						 }else {
+							 session.setAttribute("errorMsg", "Failed to Update Record");
 							 redirect="redirect:/employeeAdd";
 						 }
 				}else {
@@ -386,24 +387,28 @@ public class EmployeeController {
 									TblEmpInfo.class);
 							
 							TblEmpBankInfo empBank = new TblEmpBankInfo();
+							empBank.setDelStatus(1);
 							empBank.setEmpId(empSave.getEmpId());
 							
 							empIdBank =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank", empBank,
 									TblEmpBankInfo.class);
 							
 							TblEmpNominees empNominee = new TblEmpNominees();
+							empNominee.setDelStatus(1);
 							empNominee.setEmpId(empSave.getEmpId());
 							
 							empIdNom =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee,
 									TblEmpNominees.class);
 							
 							EmpSalaryInfo empSal = new EmpSalaryInfo();
+							empSal.setDelStatus(1);
 							empSal.setEmpId(empSave.getEmpId());
 							
 							empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
 							EmpSalaryInfo.class);
 							
 							EmpSalAllowance allowance = new EmpSalAllowance();
+							allowance.setDelStatus(1);
 							allowance.setEmpId(empSave.getEmpId());
 							
 							empSalAllowanceId =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpSalAllowanceIds", allowance,
@@ -420,11 +425,11 @@ public class EmployeeController {
 							
 							System.out.println("Emp Encrypt Id---"+empEncryptId);
 							
-							System.out.println("Success");
+							session.setAttribute("successMsg", "Record Inserted Successfully");
 							
 							redirect="redirect:/employeeEdit?empId="+empEncryptId;
 						}else {
-							System.err.println("Fail");
+							session.setAttribute("errorMsg", "Failed to Insert Record");
 							redirect="redirect:/employeeAdd";
 						}
 					}
@@ -566,7 +571,7 @@ public class EmployeeController {
 	
 	@RequestMapping(value= "/submitEmpOtherInfo", method = RequestMethod.POST)  
 	public String submitEmpOtherInfo(HttpServletRequest request, HttpServletResponse response){
-		
+		HttpSession session = request.getSession();
 		try {
 			
 			int empId = 0;
@@ -600,13 +605,18 @@ public class EmployeeController {
 				empInfo.setEmerContactNo2(request.getParameter("contact2"));
 				empInfo.setBloodGroup(request.getParameter("bloodgroup"));
 				empInfo.setUniformSize(request.getParameter("uniformsize"));
+				
 				empInfo.setDelStatus(1);
+				empInfo.setExInt1(0);
+				empInfo.setExInt2(0);
+				empInfo.setExVar1("NA");
+				empInfo.setExVar2("NA");
 					
 					System.out.println("TblEmpInfo----"+empInfo);
 					TblEmpInfo empIdInfo =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo,
 								TblEmpInfo.class);
 					if(empIdInfo!=null) {
-						System.out.println("Sucess---------"+empIdInfo);
+						session.setAttribute("successMsg", "Record Inserted Successfully");
 						
 						String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));						
 						System.out.println("Emp Encrypt Id---"+empEncryptId);
@@ -614,7 +624,7 @@ public class EmployeeController {
 						redirect="redirect:/employeeEdit?empId="+empEncryptId;
 						
 					}else {
-						System.err.println("Fail----------"+empIdInfo);
+						session.setAttribute("errorMsg", "Failed to Insert Record");
 						redirect = "redirect:/employeeAdd";
 					}
 			
@@ -623,7 +633,7 @@ public class EmployeeController {
 			}*/
 		}catch (Exception e) {
 			e.printStackTrace();
-			
+			session.setAttribute("errorMsg", "Failed to Insert Record");
 		}
 		return redirect;
 		
@@ -635,7 +645,7 @@ public class EmployeeController {
 	public String submitEmpRelationInfo(HttpServletRequest request, HttpServletResponse response){
 		
 		try {
-			
+			HttpSession session = request.getSession();
 				int empId = 0;
 				int empNomineeId = 0;
 				try {
@@ -684,18 +694,23 @@ public class EmployeeController {
 				empNominee.setRelation6(request.getParameter("relation6"));
 				empNominee.setOccupation6(request.getParameter("occupation6"));
 					
+				empNominee.setDelStatus(1);
+				empNominee.setExInt1(0);
+				empNominee.setExInt2(0);
+				empNominee.setExVar1("NA");
+				empNominee.setExVar2("NA");
 				
 					System.out.println("TblEmpNominees----"+empNominee);
 					empIdNom =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee,
 							 TblEmpNominees.class);
 					if(empIdNom!=null) {
-						System.out.println("Sucess---------"+empIdNom);
+						session.setAttribute("successMsg", "Record Inserted Successfully");
 						String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));						
 						System.out.println("Emp Encrypt Id---"+empEncryptId);
 						
 						redirect="redirect:/employeeEdit?empId="+empEncryptId;
 					}else {
-						System.err.println("Fail----------"+empIdNom);
+						session.setAttribute("errorMsg", "Failed to Insert Record");
 						redirect = "redirect:/employeeAdd";
 					}
 			
@@ -712,6 +727,7 @@ public class EmployeeController {
 	public String submitEmpBankInfo(HttpServletRequest request, HttpServletResponse response){
 		
 		try {
+				HttpSession session = request.getSession();
 			
 			int empId = 0;
 			int empBankId = 0;
@@ -731,18 +747,24 @@ public class EmployeeController {
 				empBank.setBankId(Integer.parseInt(request.getParameter("bankId")));
 				empBank.setAccNo(request.getParameter("accNo"));
 				
+				empBank.setDelStatus(1);
+				empBank.setExInt1(0);
+				empBank.setExInt2(0);
+				empBank.setExVar1("NA");
+				empBank.setExVar2("NA");
+				
 					System.out.println("TblEmpBankInfo----"+empBank);
 					TblEmpBankInfo empIdBank =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank", empBank,
 							TblEmpBankInfo.class);
 					if(empIdBank!=null) {
-						System.out.println("Sucess---------"+empIdBank);
+						session.setAttribute("successMsg", "Record Inserted Successfully");
 						
 						String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));						
 						System.out.println("Emp Encrypt Id---"+empEncryptId);
 						
 						redirect="redirect:/employeeEdit?empId="+empEncryptId;
 					}else {
-						System.err.println("Fail----------"+empIdBank);
+						session.setAttribute("errorMsg", "Failed to Insert Record");
 						redirect = "redirect:/employeeAdd";
 					}
 			
@@ -758,6 +780,7 @@ public class EmployeeController {
 	public String insertEmployeeBasicInfo(HttpServletRequest request, HttpServletResponse response){
 		
 		try {
+			HttpSession session = request.getSession();
 			EmpSalaryInfo empSal = new EmpSalaryInfo();
 			
 			int empId = 0;
@@ -814,6 +837,11 @@ public class EmployeeController {
 				empSal.setLeavingReasonEsic(request.getParameter("lrEsic"));
 				empSal.setLeavingReasonPf(request.getParameter("lrForPF"));
 			
+				empSal.setDelStatus(1);
+				empSal.setExInt1(0);
+				empSal.setExInt2(0);
+				empSal.setExVar1("NA");
+				empSal.setExVar2("NA");
 				
 					System.out.println("TblEmpBankInfo----"+empSal);
 					EmpSalaryInfo empIdSal =  Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary", empSal,
@@ -851,6 +879,12 @@ public class EmployeeController {
 								empSellAllwance.setAllowanceValue(allwncValue);	
 								empSellAllwance.setMakerEnterDatetime(currDate);
 								
+								empSellAllwance.setDelStatus(1);
+								empSellAllwance.setExInt1(0);
+								empSellAllwance.setExInt2(0);
+								empSellAllwance.setExVar1("NA");
+								empSellAllwance.setExVar2("NA");
+								
 								allowncList.add(empSellAllwance);
 								
 							}
@@ -863,11 +897,14 @@ public class EmployeeController {
 								EmpSalAllowance[].class);
 						
 						if(allowance!=null) {
+							
+							session.setAttribute("successMsg", "Record Inserted Successfully");
 							String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));						
 							System.out.println("Emp Encrypt Id---"+empEncryptId);
 						
 							redirect="redirect:/employeeEdit?empId="+empEncryptId;
 						}else {
+							session.setAttribute("errorMsg", "Failed to Insert Record");
 							redirect = "redirect:/employeeAdd";
 						}
 					}else {
@@ -950,6 +987,12 @@ public class EmployeeController {
 							employeDoc.setMakerUserId(100);
 							employeDoc.setMakerEnterDatetime(sf.format(date));	
 							employeDoc.setDocImage(imageName);
+							
+							employeDoc.setExInt1(0);
+							employeDoc.setExInt2(0);
+							employeDoc.setExVar1("NA");
+							employeDoc.setExVar2("NA");
+							
 							list.add(employeDoc);
 						}
 					} catch (Exception e) {
@@ -974,4 +1017,31 @@ public class EmployeeController {
 	}
 	
 	
+	@RequestMapping(value = "/deleteEmp", method = RequestMethod.GET)
+	public String deleteContractor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		try {
+			String base64encodedString = request.getParameter("empId");
+			String empId = FormValidation.DecodeKey(base64encodedString);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			
+			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteEmployee", map,
+						Info.class);
+				
+				if (res.isError()) {
+					session.setAttribute("errorMsg", "Failed to Delete");
+				} else {
+					session.setAttribute("successMsg", "Deleted Successfully");
+					
+				}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+		
+		
+		return "redirect:/showEmployeeList";
+	}
 }

@@ -207,7 +207,7 @@
 													No. <span style="color: red">* </span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${company.landline1}"
+													<input type="text" class="form-control numbersOnly" value="${company.landline1}"
 														placeholder="Landline No." id="landline1" name="landline1" autocomplete="off"
 														onchange="trim(this)" maxlength="10"> <span style="display: none;"
 														class="hidedefault   validation-invalid-label"
@@ -219,7 +219,7 @@
 													No. <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${company.landline2}"
+													<input type="text" class="form-control numbersOnly" value="${company.landline2}"
 														placeholder="Other Landline No." id="landline2" name="landline2"
 														autocomplete="off" onchange="trim(this)" maxlength="10">
 													<span class="hidedefault   validation-invalid-label" style="display: none;"
@@ -335,7 +335,7 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" value="${company.tanNo}" id="tanNo"
-													onchange="trim(this)" placeholder="TAN No" name="tanNo" autocomplete="off">
+													onchange="trim(this)" placeholder="TAN No" name="tanNo" autocomplete="off" maxlength="10">
 													<span class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_tanNo">This field is required.</span>
 												</div>
@@ -367,7 +367,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${company.vatNo}" id="vatNo" autocomplete="off"
+													<input type="text" class="form-control numbersOnly" value="${company.vatNo}" id="vatNo" autocomplete="off"
 													onchange="trim(this)" placeholder="VAT No." name="vatNo">
 													<span class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_ptNo">This field is required.</span>
@@ -391,7 +391,7 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" value="${company.gstNo}" id="gstNo" autocomplete="off"
-													onchange="trim(this)" placeholder="GST No." name="gstNo">
+													onchange="trim(this)" placeholder="GST No." name="gstNo" maxlength="15">
 													<span class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_ptNo">This field is required.</span>
 												</div>
@@ -406,8 +406,8 @@
 													<select name="isPfApplicable"
 														data-placeholder="Select Designation" id="isPfApplicable"
 														class="form-control form-control-select21 select2-hidden-accessible1">
-														<option value="1">Yes</option>
-														<option value="0">No</option>	
+														<option value="1" ${company.isPfApplicable==1 ? 'selected' : ''}>Yes</option>
+														<option value="0" ${company.isPfApplicable==0 ? 'selected' : ''}>No</option>	
 													</select>
 												</div>
 
@@ -477,8 +477,8 @@
 													<select name="isEsicApplicable"
 														data-placeholder="Select Designation" id="isEsicApplicable"
 														class="form-control form-control-select21 select2-hidden-accessible1">														
-														<option value="1">Yes</option>
-														<option value="0">No</option>	
+														<option value="1" ${company.isEsicApplicable==1 ? 'selected' : ''}>Yes</option>
+														<option value="0" ${company.isEsicApplicable==1 ? 'selected' : ''}>No</option>	
 													</select>
 												</div>
 
@@ -597,8 +597,8 @@
 													<span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${company.cpMobile}" id="mobile"
-													onchange="trim(this)" placeholder="Mobile No." name="mobile" autocomplete="off">
+													<input type="text" class="form-control numbersOnly" value="${company.cpMobile}" id="mobile"
+													onchange="trim(this)" placeholder="Mobile No." name="mobile" autocomplete="off" maxlength="10"">
 													<span class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_mobile">This field is required.</span>
 												</div>
@@ -824,6 +824,17 @@
 					$("#error_landline1").hide()
 				}
 				
+				if(!$("#pan").val()|| !validatePAN($(
+				"#pan").val())) {
+
+						isError = true;
+
+						$("#error_pan").show()
+
+					} else {
+						$("#error_pan").hide()
+					}
+				
 				if (!isError) {
 
 					var x = true;
@@ -916,7 +927,7 @@
 				} else {
 					$("#error_mobile").hide()
 				}
-				if (!$("#email1").val()) {
+				if (!$("#email1").val() || !validateEmail($("#email1").val())) {
 
 					isError = true;
 

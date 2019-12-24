@@ -317,7 +317,7 @@
 													No. <span style="color: red">* </span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${emp.mobileNo1}"
+													<input type="text" class="form-control numbersOnly" value="${emp.mobileNo1}"
 														placeholder="Mobile No." id="mobile1" name="mobile1" 
 														onchange="checkUnique(this.value,1)" autocomplete="off"
 														onchange="trim(this)" maxlength="10"> <span style="display: none;"
@@ -330,7 +330,7 @@
 
 
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${emp.mobileNo2}"
+													<input type="text" class="form-control numbersOnly" value="${emp.mobileNo2}"
 														placeholder="Other Mobile No." id="mobile2" name="mobile2"
 														autocomplete="off" onchange="trim(this)" maxlength="10">
 													<span class="hidedefault   validation-invalid-label" style="display: none;"
@@ -548,11 +548,11 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="email" class="form-control "
+													<input type="text" class="form-control"
 														placeholder="Email" id="email" name="email" value="${empPersInfo.email}"
 														autocomplete="off" onchange="trim(this)"> <span
 														class="hidedefault  validation-invalid-label"
-														id="error_dob" style="display: none;">This field is required.</span>
+														id="error_persnlInfoEmail" style="display: none;">Please enter correct email.</span>
 
 												</div>
 											</div>
@@ -613,7 +613,7 @@
 													Contact 1 <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${empPersInfo.emerContactNo1}"
+													<input type="text" class="form-control numbersOnly" value="${empPersInfo.emerContactNo1}"
 														placeholder="Emergency Contact No. 1" id="contact1" maxlength="10"
 														name="contact1" autocomplete="off" onchange="trim(this)">
 													<span class="hidedefault   validation-invalid-label"
@@ -625,7 +625,7 @@
 												</label>
 												<div class="col-lg-4">
 
-													<input type="text" class="form-control" value="${empPersInfo.emerContactNo2}"
+													<input type="text" class="form-control numbersOnly" value="${empPersInfo.emerContactNo2}"
 														placeholder="Emergency Contact No. 2" id="contact2" maxlength="10"
 														name="contact2" autocomplete="off" onchange="trim(this)">
 													<span class="hidedefault   validation-invalid-label"
@@ -1027,11 +1027,11 @@
 											
 											<div class="form-group row">
 												<div class="col-lg-6">
-													<input type="text" id="empId" name="empId"
+													<input type="hidden" id="empId" name="empId"
 														value="${emp.empId}">
 												</div>
 												<div class="col-lg-6">
-													<input type="text" id="empBankId"
+													<input type="hidden" id="empBankId"
 														name="empBankId" value="${empBank.bankInfoId}">
 												</div>
 											</div>
@@ -1119,7 +1119,7 @@
 													Rs.<span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" placeholder="Basic Rs."
+													<input type="text" class="form-control numbersOnly" placeholder="Basic Rs."
 													 name="basic" id="basic" onchange="trim(this)" value="${empAllowanceId.basic}">		
 													 <span class="hidedefault   validation-invalid-label" style="display: none;"
 														id="error_salBasis">This field is required.</span>										
@@ -1129,7 +1129,7 @@
 													Contribution Rs. <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${empAllowanceId.societyContribution}"
+													<input type="text" class="form-control numbersOnly" value="${empAllowanceId.societyContribution}"
 														placeholder="Society Contribution Rs." id="societyContri" 
 														name="societyContri" autocomplete="off" onchange="trim(this)">
 												
@@ -1163,7 +1163,7 @@
 														 <span style="color: red"></span>:
 														</label>
 														<div class="col-lg-10">
-															<input type="text" class="form-control" value="${allowanceValue}"
+															<input type="text" class="form-control numbersOnly" value="${allowanceValue}"
 																placeholder="${allowanceList.name}" id="allownces${allowanceList.allowanceId}"
 																name="allownces${allowanceList.allowanceId}"
 																autocomplete="off" onchange="trim(this)">
@@ -1203,7 +1203,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${empAllowanceId.pfEmpPer}"
+													<input type="text" class="form-control numbersOnly" value="${empAllowanceId.pfEmpPer}"
 														placeholder="PF Employee Per" id="pfEmpPer" name="pfEmpPer"
 														autocomplete="off" onchange="trim(this)">
 												</div>
@@ -1212,7 +1212,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" placeholder="PF Employer Per"
+													<input type="text" class="form-control numbersOnly" placeholder="PF Employer Per"
 														id="pfEmployerPer" name="pfEmployerPer" autocomplete="off"
 														onchange="trim(this)" value="${empAllowanceId.pfEmplrPer}"> 
 												</div>
@@ -1243,7 +1243,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" value="${empAllowanceId.employeeEsicPercentage}"
+													<input type="text" class="form-control numbersOnly" value="${empAllowanceId.employeeEsicPercentage}"
 														placeholder="Employee Esic Percentage" id="empEsicPer" name="empEsicPer"
 														autocomplete="off" onchange="trim(this)">
 												</div>
@@ -1252,7 +1252,7 @@
 													<span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" placeholder="Employer Esic Percentage"
+													<input type="text" class="form-control numbersOnly" placeholder="Employer Esic Percentage"
 														id="employerEsicPer" name="employerEsicPer" autocomplete="off"
 														onchange="trim(this)" value="${empAllowanceId.employerEsicPercentage}"> 
 												</div>
@@ -1585,7 +1585,7 @@
 					$("#error_empType").hide()
 				}
 
-				if (!$("#mobile1").val()) {
+				if (!$("#mobile1").val() || !validateMobile($("#mobile1").val())) {
 
 					isError = true;
 
@@ -1594,6 +1594,16 @@
 				} else {
 					$("#error_mobile1").hide()
 				}
+				
+				if(validatePAN($("#pan").val())) {
+
+						isError = true;
+
+						$("#error_pan").show()
+
+					} else {
+						$("#error_pan").hide()
+					}
 				/* 	if (!$("#desigId").val()) {
 
 						isError = true;
@@ -1800,7 +1810,17 @@
 												} else {
 													$("#error_empDob").hide()
 												}
+												
+												if (!validateEmail($("#email").val())) {
 
+													isError = true;
+
+													$("#error_persnlInfoEmail").show()
+													//return false;
+												} else {
+													$("#error_persnlInfoEmail").hide()
+												}
+												
 												if (!isError) {
 
 													var x = true;
