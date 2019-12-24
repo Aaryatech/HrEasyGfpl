@@ -373,5 +373,54 @@ public class AttendenceController {
 		return info;
 
 	}
+	
+	@RequestMapping(value = "/attendaceSheet", method = RequestMethod.GET)
+	public String attendaceSheet(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = "attendence/attendaceSheet";
+
+		try {
+
+			Date dt = new Date();
+			Calendar temp = Calendar.getInstance();
+			temp.setTime(dt);
+			int year = temp.get(Calendar.YEAR);
+			int month = temp.get(Calendar.MONTH);
+
+			/*
+			 * Date firstDay = new Date(year, month, 1); Date lastDay = new Date(year, month
+			 * + 1, 0);
+			 */
+
+			Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
+			Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", sf.format(firstDay));
+			map.add("toDate", sf.format(lastDay));
+			InfoForUploadAttendance infoForUploadAttendance = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getInformationOfUploadedAttendance", map, InfoForUploadAttendance.class);
+
+			temp = Calendar.getInstance();
+			temp.setTime(firstDay);
+			year = temp.get(Calendar.YEAR);
+			month = temp.get(Calendar.MONTH);
+
+			String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August",
+					"September", "October", "November", "December" };
+			String monthName = monthNames[month];
+
+			model.addAttribute("monthName", monthName);
+			model.addAttribute("year", year);
+			model.addAttribute("infoForUploadAttendance", infoForUploadAttendance);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+
+	}
 
 }

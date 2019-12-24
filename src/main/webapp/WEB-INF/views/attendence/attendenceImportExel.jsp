@@ -647,7 +647,7 @@
 							var month = $("#month").val();
 							var year = $("#year").val();
 
-							var fd = new FormData(); 
+							var fd = new FormData();
 							fd.append('month', month);
 							fd.append('year', year);
 
