@@ -155,13 +155,40 @@
 										</c:choose></li>
 									<c:if
 										test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1}">
-										<li class="nav-item mr-1"><a
-											href="#solid-rounded-justified-tab2"
-											class="nav-link active show" data-toggle="tab">Step 2
-												Upload Attendance File (csv)</a></li>
-										<li class="nav-item mr-1"><a
-											href="#solid-rounded-justified-tab3" class="nav-link "
-											data-toggle="tab">Step 3 Finalize Attendance</a></li>
+
+										<c:choose>
+											<c:when
+												test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1 
+										&& infoForUploadAttendance.updatedByFile!=infoForUploadAttendance.updatedByStep1}">
+												<li class="nav-item mr-1"><a
+													href="#solid-rounded-justified-tab2"
+													class="nav-link active show" data-toggle="tab">Step 2
+														Upload Attendance File (csv)</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="nav-item mr-1"><a
+													href="#solid-rounded-justified-tab2"
+													class="nav-link bg-success" data-toggle="tab">Step 2
+														Upload Attendance File (csv)</a></li>
+											</c:otherwise>
+										</c:choose>
+
+										<c:choose>
+											<c:when
+												test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1 
+										&& infoForUploadAttendance.updatedByFile==infoForUploadAttendance.updatedByStep1}">
+												<li class="nav-item mr-1"><a
+													href="#solid-rounded-justified-tab3"
+													class="nav-link active show" data-toggle="tab">Step 3
+														Finalize Attendance</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="nav-item mr-1"><a
+													href="#solid-rounded-justified-tab3" class="nav-link "
+													data-toggle="tab">Step 3 Finalize Attendance</a></li>
+											</c:otherwise>
+										</c:choose>
+
 									</c:if>
 									<!--  -->
 								</ul>
@@ -219,7 +246,8 @@
 								</div>
 								<c:choose>
 									<c:when
-										test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1}">
+										test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1 
+										&& infoForUploadAttendance.updatedByFile!=infoForUploadAttendance.updatedByStep1}">
 										<div class="tab-pane fade show active"
 											id="solid-rounded-justified-tab2">
 									</c:when>
@@ -279,82 +307,86 @@
 									</div>
 								</div>
 
-
-
-
-
-
-
 							</div>
+							<c:choose>
+								<c:when
+									test="${((infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp)==infoForUploadAttendance.updatedByStep1 
+										&& infoForUploadAttendance.updatedByFile==infoForUploadAttendance.updatedByStep1}">
+									<div class="tab-pane fade show active"
+										id="solid-rounded-justified-tab3">
+								</c:when>
+								<c:otherwise>
+									<div class="tab-pane fade" id="solid-rounded-justified-tab3">
+								</c:otherwise>
+							</c:choose>
 
-							<div class="tab-pane fade" id="solid-rounded-justified-tab3">
-								<form name="attendanceFinal" id="attendanceFinal"
-									action="http://gfplphp.aaryatechindia.in/index.php/attendance/attendanceprocess"
-									class="form-inline justify-content-center">
+							<form name="attendanceFinal" id="attendanceFinal"
+								action="http://gfplphp.aaryatechindia.in/index.php/attendance/attendanceprocess"
+								class="form-inline justify-content-center">
 
-									<input type="hidden" name="mode" id="mode" value="finalstep">
-									<input type="hidden" name="month" id="month"
-										class="form-control " value="11">
 
+								<%-- <input type="hidden" name="monthfinal" id="monthfinal"
+									class="form-control " value="${month}"> <input
+									type="hidden" name="yearfinal" id="yearfinal"
+									class="form-control " value="${year}"> --%>
+								<button type="button"
+									class=" btn btn-primary next   btnActStepFinal "
+									id="btnActStepFinal" data-toggle1="modal"
+									data-target1="#modal_Final">
+									Finalize Attendance<i class="icon-paperplane ml-2"></i>
+								</button>
+
+
+							</form>
+							<div class="row">
+								<div class="col-md-12 text-center mt-4">
 									<button type="button"
-										class=" btn btn-primary next   btnActStepFinal "
-										id="btnActStepFinal" data-toggle1="modal"
-										data-target1="#modal_Final">
-										Finalize Attendance<i class="icon-paperplane ml-2"></i>
+										class=" btn btn-info prev text-center  btn_go_prev_tab "
+										id="btn_go_prev_tab2">
+										<i class="icon-arrow-left8  mr-2 "></i> Previous Step
 									</button>
-
-
-								</form>
-								<div class="row">
-									<div class="col-md-12 text-center mt-4">
-										<button type="button"
-											class=" btn btn-info prev text-center  btn_go_prev_tab "
-											id="btn_go_prev_tab2">
-											<i class="icon-arrow-left8  mr-2 "></i> Previous Step
-										</button>
-										<!--   <button type="button" class=" btn btn-info next text-center  btn_go_next_tab " id="btn_go_next_tab">Next Step <i class="icon-arrow-right8  ml-2 "></i></button> -->
-									</div>
+									<!--   <button type="button" class=" btn btn-info next text-center  btn_go_next_tab " id="btn_go_next_tab">Next Step <i class="icon-arrow-right8  ml-2 "></i></button> -->
 								</div>
 							</div>
 						</div>
+					</div>
 
-						<div
-							class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-right wmin-300 border-0 shadow-0 order-1 order-md-2 sidebar-expand-md card">
-							<div class="card-header bg-transparent header-elements-inline">
-								<span class="card-title font-weight-bold">Stats</span>
-
-							</div>
-
-							<div class="card-body p-0">
-								<ul class="nav nav-sidebar my-2">
-									<li class="nav-item"><i class="icon-users"></i> Total
-										Employee <span class="badge bg-info badge-pill ml-auto"
-										id="total_emp">${infoForUploadAttendance.totalEmp}</span></li>
-									<li class="nav-item"><i class="icon-grid4"></i> Total
-										attendance expected <span
-										class="badge bg-info badge-pill ml-auto"
-										id="total_attendce_expected">${(infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp}</span></li>
-									<li class="nav-item"><i class="icon-grid52"></i> Total
-										added by step1 <span
-										class="badge bg-success badge-pill ml-auto"
-										id="total_att_present">${infoForUploadAttendance.updatedByStep1}</span></li>
-									<li class="nav-item"><i class="icon-grid52"></i> Total
-										attendance uploaded <span
-										class="badge bg-danger badge-pill ml-auto"
-										id="by_file_updated">${infoForUploadAttendance.updatedByFile}</span></li>
-								</ul>
-							</div>
+					<div
+						class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-right wmin-300 border-0 shadow-0 order-1 order-md-2 sidebar-expand-md card">
+						<div class="card-header bg-transparent header-elements-inline">
+							<span class="card-title font-weight-bold">Stats</span>
 
 						</div>
-						<span class="text-info"> <a
-							href="http://gfplphp.aaryatechindia.in/uploads/att_template/attendance_sample.csv"
-							target="_blank" id="genTemplate1" title=".csv Format"><i
-								class="icon-file-download"></i> Download Template</a></span>
-					</div>
-				</div>
 
+						<div class="card-body p-0">
+							<ul class="nav nav-sidebar my-2">
+								<li class="nav-item"><i class="icon-users"></i> Total
+									Employee <span class="badge bg-info badge-pill ml-auto"
+									id="total_emp">${infoForUploadAttendance.totalEmp}</span></li>
+								<li class="nav-item"><i class="icon-grid4"></i> Total
+									attendance expected <span
+									class="badge bg-info badge-pill ml-auto"
+									id="total_attendce_expected">${(infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp}</span></li>
+								<li class="nav-item"><i class="icon-grid52"></i> Total
+									added by step1 <span
+									class="badge bg-success badge-pill ml-auto"
+									id="total_att_present">${infoForUploadAttendance.updatedByStep1}</span></li>
+								<li class="nav-item"><i class="icon-grid52"></i> Total
+									attendance uploaded <span
+									class="badge bg-danger badge-pill ml-auto" id="by_file_updated">${infoForUploadAttendance.updatedByFile}</span></li>
+							</ul>
+						</div>
+
+					</div>
+					<span class="text-info"> <a
+						href="http://gfplphp.aaryatechindia.in/uploads/att_template/attendance_sample.csv"
+						target="_blank" id="genTemplate1" title=".csv Format"><i
+							class="icon-file-download"></i> Download Template</a></span>
+				</div>
 			</div>
+
 		</div>
+	</div>
 
 	</div>
 	<!-- /content area -->
@@ -599,6 +631,50 @@
 			}
 
 		});
+
+		$("#btnActStepFinal")
+				.click(
+						function(e) {
+							//
+							/* if (timeoutId != -99) {
+								clearTimeout(timeoutId);
+							} */
+							$("#error_step2").html("");
+							$("#error_step2").hide();
+							$("#msg_progess").hide();
+							$('#modal_step2_fileupload').modal('show');
+
+							var month = $("#month").val();
+							var year = $("#year").val();
+
+							var fd = new FormData(); 
+							fd.append('month', month);
+							fd.append('year', year);
+
+							$
+									.ajax({
+										url : '${pageContext.request.contextPath}/finalizeAttendaceProcess',
+										type : 'post',
+										dataType : 'json',
+										data : fd,
+										contentType : false,
+										processData : false,
+										success : function(response) {
+
+											if (response.error == false) {
+												location.reload(true);
+											} else {
+
+											}
+										},
+									});
+							//  alert(file);
+							// maby check size or type here with upload.getSize() and upload.getType()
+							// execute upload
+
+							//setProgressForCSV();
+
+						});
 	</script>
 
 

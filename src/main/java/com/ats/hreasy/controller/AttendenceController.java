@@ -307,10 +307,10 @@ public class AttendenceController {
 				}
 				bufferedReader.close();
 
-				//System.out.println(fileUploadedDataList);
+				// System.out.println(fileUploadedDataList);
 				HttpSession session = request.getSession();
 				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
-				
+
 				DataForUpdateAttendance dataForUpdateAttendance = new DataForUpdateAttendance();
 				dataForUpdateAttendance.setFromDate(sf.format(firstDay));
 				dataForUpdateAttendance.setToDate(sf.format(lastDay));
@@ -333,6 +333,42 @@ public class AttendenceController {
 		} catch (Exception e) {
 			e.printStackTrace();
 
+		}
+		return info;
+
+	}
+
+	@RequestMapping(value = "/finalizeAttendaceProcess", method = RequestMethod.POST)
+	@ResponseBody
+	public Info finalizeAttendaceProcess(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		Info info = new Info();
+
+		try {
+
+			int month = Integer.parseInt(request.getParameter("month"));
+			int year = Integer.parseInt(request.getParameter("year"));
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
+			Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", sf.format(firstDay));
+			map.add("toDate", sf.format(lastDay));
+			map.add("userId", userObj.getUserId());
+			map.add("month", month);
+			map.add("year", year);
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/finalUpdateDailySumaryRecord", map,
+					Info.class);
+			System.out.println(info);
+		} catch (Exception e) {
+			e.printStackTrace();
+			info = new Info();
+			info.setError(true);
+			info.setMsg("failed");
 		}
 		return info;
 
