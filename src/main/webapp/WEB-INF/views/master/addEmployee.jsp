@@ -1811,7 +1811,7 @@
 													$("#error_empDob").hide()
 												}
 												
-												if (!validateEmail($("#email").val())) {
+												if (validateEmail($("#email").val())) {
 
 													isError = true;
 
