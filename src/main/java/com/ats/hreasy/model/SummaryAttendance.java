@@ -27,6 +27,7 @@ public class SummaryAttendance {
 	private int totLate; 
 	private float hdpresentHdleave; 
 	private String salBasis;
+	private int totalDaysInmonth;
 	
 	public int getId() {
 		return id;
@@ -178,6 +179,12 @@ public class SummaryAttendance {
 	public void setSalBasis(String salBasis) {
 		this.salBasis = salBasis;
 	}
+	public int getTotalDaysInmonth() {
+		return totalDaysInmonth;
+	}
+	public void setTotalDaysInmonth(int totalDaysInmonth) {
+		this.totalDaysInmonth = totalDaysInmonth;
+	}
 	@Override
 	public String toString() {
 		return "SummaryAttendance [id=" + id + ", empId=" + empId + ", empCode=" + empCode + ", empName=" + empName
@@ -187,7 +194,8 @@ public class SummaryAttendance {
 				+ ", absentDays=" + absentDays + ", payableDays=" + payableDays + ", ncpDays=" + ncpDays
 				+ ", totlateMins=" + totlateMins + ", totlateDays=" + totlateDays + ", totoutMins=" + totoutMins
 				+ ", totworkingHrs=" + totworkingHrs + ", tototHrs=" + tototHrs + ", totOthr=" + totOthr + ", totLate="
-				+ totLate + ", hdpresentHdleave=" + hdpresentHdleave + ", salBasis=" + salBasis + "]";
+				+ totLate + ", hdpresentHdleave=" + hdpresentHdleave + ", salBasis=" + salBasis + ", totalDaysInmonth="
+				+ totalDaysInmonth + "]";
 	}
 	
 	

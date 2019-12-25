@@ -91,9 +91,9 @@
 
 								<div class="form-group row">
 									<label class="col-form-label col-lg-1"> Total Days : </label> <label
-										class="col-form-label col-lg-1"> 0</label> <label
-										class="col-form-label col-lg-1"> Working Days : </label> <label
-										class="col-form-label col-lg-1">${summaryAttendance.workingDays}</label>
+										class="col-form-label col-lg-1">${summaryAttendance.totalDaysInmonth}</label>
+									<label class="col-form-label col-lg-1"> Working Days :
+									</label> <label class="col-form-label col-lg-1">${summaryAttendance.workingDays}</label>
 									<label class="col-form-label col-lg-1"> Present : </label> <label
 										class="col-form-label col-lg-1">${summaryAttendance.presentDays}</label>
 									<label class="col-form-label col-lg-1"> Weekly Off : </label> <label
@@ -125,30 +125,57 @@
 										<thead>
 											<tr class="bg-blue" style="text-align: center;">
 
-												<th>Date</th>
-												<th>Status</th>
-												<th>In Time</th>
-												<th>Out Time</th>
-												<th>Late Mark</th>
-												<th>WR. Hrs</th>
-												<th>OT Hrs</th>
-												<th>Deduction HR</th>
-												<th>OShift/Loc</th>
-												<th>Last Modified</th>
-												<th>Action</th>
+												<th class="text-center">Date</th>
+												<th class="text-center">Status</th>
+												<th class="text-center">In Time</th>
+												<th class="text-center">Out Time</th>
+												<th class="text-center">Late Mark</th>
+												<th class="text-center">Late MIN</th>
+												<th class="text-center">WR. Hrs</th>
+												<th class="text-center">OT Hrs</th>
+												<th class="text-center">Deduction HR</th>
+												<th class="text-center">OShift/Loc</th>
+												<th class="text-center">Last Modified</th>
+												<th class="text-center">Action</th>
 
 											</tr>
 										</thead>
 										<tbody>
 											<c:forEach items="${dailyrecordList}" var="dailyrecordList">
 												<tr>
-													<td>${dailyrecordList.attDate}</td>
-													<td>${dailyrecordList.attStatus}</td>
-													<td>${dailyrecordList.inTime}</td>
-													<td>${dailyrecordList.outTime}</td>
-													<td>${dailyrecordList.lateMark}</td>
-													<td>${dailyrecordList.workingHrs}</td>
-													<td>${dailyrecordList.otHr}</td>
+													<td class="text-center">${dailyrecordList.attDate}</td>
+													<td class="text-center">${dailyrecordList.attStatus}</td>
+
+													<c:choose>
+														<c:when test="${dailyrecordList.inTime eq '00:00:00'}">
+															<td class="text-center" style="background-color: #FFA8A8">${dailyrecordList.inTime}</td>
+														</c:when>
+														<c:otherwise>
+															<td class="text-center">${dailyrecordList.inTime}</td>
+														</c:otherwise>
+													</c:choose>
+
+													<c:choose>
+														<c:when test="${dailyrecordList.outTime eq '00:00:00'}">
+															<td class="text-center" style="background-color: #FFA8A8">${dailyrecordList.outTime}</td>
+														</c:when>
+														<c:otherwise>
+															<td class="text-center">${dailyrecordList.outTime}</td>
+														</c:otherwise>
+													</c:choose>
+
+
+													<c:choose>
+														<c:when test="${dailyrecordList.lateMark==1}">
+															<td class="text-center" style="background-color: #FF9">Yes</td>
+														</c:when>
+														<c:otherwise>
+															<td class="text-center">No</td>
+														</c:otherwise>
+													</c:choose>
+													<td class="text-right">${dailyrecordList.lateMin}</td>
+													<td class="text-right">${dailyrecordList.workingHrs}</td>
+													<td class="text-right">${dailyrecordList.otHr}</td>
 													<td>-</td>
 													<td>${dailyrecordList.currentShiftname}</td>
 													<td>-</td>
