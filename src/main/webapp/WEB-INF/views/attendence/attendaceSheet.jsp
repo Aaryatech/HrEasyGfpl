@@ -51,7 +51,7 @@
 
 
 
-						<form action="/HrManagementAdmin/emptypewisereport"
+						<form action="${pageContext.request.contextPath}/attendaceSheet"
 							id="submitInsertLeave" method="get">
 							<div class="form-group row">
 								<label class="col-form-label col-lg-1" for="date">Select
@@ -59,8 +59,8 @@
 								</label>
 								<div class="col-md-2">
 									<input type="text" class="form-control datepickerclass"
-										placeholder="Select Date " id="date" name="date" value=""
-										autocomplete="off">
+										placeholder="Select Date " id="date" name="date"
+										value="${date}" autocomplete="off">
 								</div>
 
 
@@ -70,16 +70,16 @@
 									Search <i class="icon-paperplane ml-2"></i>
 								</button>
 
-
-								<button type="button" class="btn bg-blue ml-3 legitRipple"
+								<!-- <button type="button" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn"
 									onclick="getProgReport(0,'exelForEmployeeTypeWiseClaim')">
 									Excel <i class="icon-paperplane ml-2"></i>
-								</button>
+								</button> -->
 
 							</div>
 							<div id="loader" style="display: none;">
-								<img src="/HrManagementAdmin/resources/assets/images/giphy.gif"
+								<img
+									src="${pageContext.request.contextPath}/resources/assets/images/giphy.gif"
 									width="150px" height="150px"
 									style="display: block; margin-left: auto; margin-right: auto">
 							</div>
@@ -90,16 +90,37 @@
 									id="bootstrap-data-table">
 									<thead>
 										<tr class="bg-blue">
-											<th width="10%">Sr.no</th>
-											<th>Employee Code</th>
-
-											<th>Travel Expenses</th>
-
+											<th width="10%" style="text-align: center;">Sr.no</th>
+											<th style="text-align: center;">Employee Code</th>
+											<th style="text-align: center;">Month</th>
+											<th style="text-align: center;">Year</th>
+											<c:forEach items="${attendanceSheetData.dates}" var="dates"
+												varStatus="count">
+												<th style="text-align: center;">${count.index+1}</th>
+											</c:forEach>
+											<th style="text-align: center;">Edit</th>
 										</tr>
 									</thead>
 
 									<tbody>
-
+										<c:forEach items="${attendanceSheetData.infomationList}"
+											var="infomationList" varStatus="count">
+											<tr>
+												<td>${count.index+1}</td>
+												<td style="text-align: center;">${infomationList.empCode}</td>
+												<td style="text-align: right;">${month}</td>
+												<td style="text-align: right;">${year}</td>
+												<c:forEach items="${infomationList.sttsList}" var="sttsList">
+													<td style="text-align: center;"><p
+															title="In Time - ${sttsList.inTime}, Out Time - ${sttsList.outTime}, Wotking Hrs - ${sttsList.workingMin}, OT Min - ${sttsList.otMin}, Late Min - ${sttsList.lateMin}">${sttsList.status}</p></td>
+												</c:forEach>
+												<td class="text-center"><a
+													href="${pageContext.request.contextPath}/editWeeklyOff?woId=Mg=="
+													class="list-icons-item text-primary-600"
+													data-popup="tooltip" title="" data-original-title="Edit"><i
+														class="icon-pencil7"></i></a></td>
+											</tr>
+										</c:forEach>
 
 									</tbody>
 								</table>
