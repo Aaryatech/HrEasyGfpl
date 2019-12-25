@@ -198,7 +198,7 @@
 							href="${pageContext.request.contextPath}/showEmpAdvancePendingList"
 							class="nav-link">Pending Advance List</a></li>
 							<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/payDeductionDetails"
+							href="${pageContext.request.contextPath}/showAdvanceHistory"
 							class="nav-link">  Advance History</a></li>
 					</ul></li>
 

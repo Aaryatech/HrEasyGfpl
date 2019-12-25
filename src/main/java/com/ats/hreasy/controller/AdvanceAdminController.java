@@ -1,6 +1,7 @@
 package com.ats.hreasy.controller;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.Constants;
+import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.GetEmployeeDetails;
@@ -141,7 +143,6 @@ public class AdvanceAdminController {
 				adv.setEmpId(empId);
 				adv.setDedMonth(sf.format(date));
 				adv.setDedYear(sf.format(date));
-				adv.setEmpId(empId);
 				adv.setExInt1(0);
 				adv.setExInt2(0);
 				adv.setExVar1("NA");
@@ -149,10 +150,10 @@ public class AdvanceAdminController {
 				adv.setVoucherNo(voucherNo);
 				adv.setIsDed(0);
 				adv.setIsUsed(0);
-				adv.setLoginName("1");
+				adv.setLoginName(String.valueOf(userObj.getEmpId()));
 				adv.setLoginTime(sf2.format(date2));
 				adv.setSkipId(0);
-				adv.setSkipLoginName("1");
+				adv.setSkipLoginName(String.valueOf(userObj.getEmpId()));
 				adv.setSkipLoginTime(sf2.format(date2));
 				adv.setSkipRemarks("");
 				adv.setDelStatus(1);
@@ -206,45 +207,6 @@ public class AdvanceAdminController {
 		return model;
 	}
 
-	@RequestMapping(value = "/showSkipAdvance", method = RequestMethod.GET)
-	public ModelAndView showSkipAdvance(HttpServletRequest request, HttpServletResponse response) {
-
-		ModelAndView model = new ModelAndView("Advance/skipAdvance");
-
-		try {
-
-			String base64encodedString = request.getParameter("advId");
-			String advId = FormValidation.DecodeKey(base64encodedString);
-
-			String base64encodedString1 = request.getParameter("empId");
-			String empId = FormValidation.DecodeKey(base64encodedString1);
-
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("empId", empId);
-			GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
-			System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
-
-			String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
-					.concat(" ").concat(empPersInfo.getSurname()).concat("[")
-					.concat(empPersInfo.getEmpDesgn().concat("]"));
-			model.addObject("empPersInfo", empPersInfo);
-			model.addObject("empPersInfoString", empPersInfoString);
-
-			map = new LinkedMultiValueMap<>();
-			map.add("advId", advId);
-			Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
-					Advance.class);
-
-			model.addObject("advList", advList);
-
-			System.out.println("Adv   Info-------" + empPersInfo.toString());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return model;
-	}
 
 	@RequestMapping(value = "/deleteAdvance", method = RequestMethod.GET)
 	public String deleteLocation(HttpServletRequest request, HttpServletResponse response) {
@@ -328,25 +290,181 @@ public class AdvanceAdminController {
 
 		try {
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
-			GetAdvance[] empdetList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceHistory",
-					map, GetAdvance[].class);
-
-			List<GetAdvance> empdetList1 = new ArrayList<GetAdvance>(Arrays.asList(empdetList));
-			model.addObject("advanceList", empdetList1);
-			System.out.println("  Advance Info-------" + empdetList1.toString());
 			GetEmployeeDetails[] empdetList2 = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
 
 			List<GetEmployeeDetails> empdetList3 = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList2));
 			model.addObject("empdetList", empdetList3);
-			System.out.println("   Info-------" + empdetList3.toString());
+			// System.out.println(" Info-------" + empdetList3.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return model;
+	}
+
+	@RequestMapping(value = "/getAdvanceHistory", method = RequestMethod.GET)
+	public @ResponseBody List<GetAdvance> empInfoHistoryReportList(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		List<GetAdvance> employeeInfoList = new ArrayList<GetAdvance>();
+
+		try {
+
+			int empId = Integer.parseInt(request.getParameter("empId"));
+			String calYrId = request.getParameter("calYrId");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			map.add("calYrId", calYrId);
+			map.add("companyId", 1);
+
+			GetAdvance[] employeeInfo = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceHistory",
+					map, GetAdvance[].class);
+
+			employeeInfoList = new ArrayList<GetAdvance>(Arrays.asList(employeeInfo));
+			// System.out.println("employeeInfoList" + employeeInfoList.toString());
+
+			for (int i = 0; i < employeeInfoList.size(); i++) {
+
+				employeeInfoList.get(i).setAdvDate(DateConvertor.convertToDMY(employeeInfoList.get(i).getAdvDate()));
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return employeeInfoList;
+	}
+
+	
+	@RequestMapping(value = "/showSkipAdvance", method = RequestMethod.GET)
+	public ModelAndView showSkipAdvance(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("Advance/skipAdvance");
+
+		try {
+
+			String base64encodedString = request.getParameter("advId");
+			String advId = FormValidation.DecodeKey(base64encodedString);
+
+			String base64encodedString1 = request.getParameter("empId");
+			String empId = FormValidation.DecodeKey(base64encodedString1);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
+			//System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
+
+			String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
+					.concat(" ").concat(empPersInfo.getSurname()).concat("[")
+					.concat(empPersInfo.getEmpDesgn().concat("]"));
+			model.addObject("empPersInfo", empPersInfo);
+			model.addObject("empPersInfoString", empPersInfoString);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("advId", advId);
+			Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
+					Advance.class);
+
+			model.addObject("advList", advList);
+
+			String skipStr = new String();
+			if (advList.getSkipId() == 0) {
+				skipStr = "-";
+				model.addObject("skipStr", skipStr);
+			} else {
+				String abc = new String();
+				String csv = advList.getSkipRemarks();
+
+				String[] elements = csv.split(",");
+
+				List<String> fixedLenghtList = Arrays.asList(elements);
+
+				ArrayList<String> listOfString = new ArrayList<String>(fixedLenghtList);
+				
+				/*
+				 * System.out.println("Adv listOfString-------" + listOfString.toString()); for
+				 * (int i = 1; i < listOfString.size(); i++) {
+				 * 
+				 * 
+				 * String y= (String.valueOf(i)).concat(")").concat(listOfString.get(i));
+				 * abc.concat(y); System.out.println("Adv Info-------" + String.valueOf(i));
+				 * System.out.println("Adv Info-------" + listOfString.get(i));
+				 * 
+				 * }
+				 */
+ 				 model.addObject("listOfString", listOfString);
+			}
+
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/submitInsertAdvanceSkip", method = RequestMethod.POST)
+	public String submitInsertAdvanceSkip(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+		try {
+
+			Date date2 = new Date();
+			SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			String remark = request.getParameter("remark");
+			int advId = Integer.parseInt(request.getParameter("advId"));
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("advId", advId);
+			Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
+					Advance.class);
+
+			Boolean ret = false;
+
+			if (FormValidation.Validaton(remark, "") == true) {
+
+				ret = true;
+				System.out.println("remark" + ret);
+			}
+
+			if (ret == false) {
+				String skipStr = new String();
+				if (advList.getSkipId() == 0) {
+					skipStr = remark;
+				} else {
+					skipStr = advList.getSkipRemarks().concat(",").concat(remark);
+				}
+				int count = advList.getSkipId() + 1;
+
+				map = new LinkedMultiValueMap<>();
+				map.add("dateTimeUpdate", sf2.format(date2));
+				map.add("userId", userObj.getEmpId());
+				map.add("skipStr", skipStr);
+				map.add("count", count);
+				map.add("advId", advId);
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSkipAdvance", map,
+						Info.class);
+
+				if (info != null) {
+					session.setAttribute("successMsg", "Advance Skipped  Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+
+			} else {
+				session.setAttribute("errorMsg", "Failed to Insert Record");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Insert Record");
+		}
+
+		return "redirect:/showEmpAdvancePendingList";
 	}
 
 }

@@ -42,8 +42,8 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Pending Advance List
-										List</h5></td>
+								<td width="60%"><h5 class="card-title">Pending Advance
+										List List</h5></td>
 								<td width="40%" align="right"><c:if test="${addAccess==0}">
 										<a href="${pageContext.request.contextPath}/bankAdd"
 											class="breadcrumb-elements-item">
@@ -92,9 +92,9 @@
 							session.removeAttribute("successMsg");
 							}
 						%>
-						
-						
-					 
+
+
+
 						<table
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 							id="printtable1">
@@ -117,7 +117,8 @@
 							<tbody>
 
 
-								<c:forEach items="${empdetList}" var="empdetList" varStatus="count">
+								<c:forEach items="${empdetList}" var="empdetList"
+									varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${empdetList.empCode}</td>
@@ -128,19 +129,26 @@
 										<td>${empdetList.advAmount}</td>
 										<td>${empdetList.advRemainingAmount}</td>
 										<td>${empdetList.dedMonth}</td>
-										<td>${empdetList.isDed}</td>
+ 										<td>${empdetList.isDed==1 ? 'Yes':empdetList.isDed==0 ? 'No' : ''}</td>
+
 
 										<td class="text-center">
-											<c:if test="${editAccess == 0}"> <a
+											<%-- <c:if test="${editAccess == 0}"> --%> <a
 											href="${pageContext.request.contextPath}/showSkipAdvance?advId=${empdetList.exVar1}&empId=${empdetList.exVar2}"
 											class="list-icons-item text-primary-600" data-popup="tooltip"
 											title="" data-original-title="Skip Advance"><i
-												class="icon-pencil7"></i></a> </c:if> <c:if test="${deleteAccess == 0}">
-
+												class="icon-pencil7"></i></a> <%-- </c:if> <c:if test="${deleteAccess == 0}"> --%>
+											<%-- 
 											<a href="${pageContext.request.contextPath}/deleteAdvance?advId=${empdetList.exVar1}"
 											class="list-icons-item text-danger-600 bootbox_custom"
 											data-uuid="${empdetList.exVar1}" data-popup="tooltip" title=""
-											data-original-title="Delete"><i class="icon-trash"></i></a> </c:if>
+											data-original-title="Delete"><i class="icon-trash"></i></a>  --%>
+
+											<a href="javascript:void(0)"
+											class="list-icons-item text-danger-600 bootbox_custom"
+											data-uuid="${empdetList.exVar1}" data-popup="tooltip"
+											title="" data-original-title="Delete"><i
+												class="icon-trash"></i></a> <%-- </c:if> --%>
 										</td>
 									</tr>
 								</c:forEach>
@@ -189,7 +197,7 @@
 										},
 										callback : function(result) {
 											if (result) {
-												location.href = "${pageContext.request.contextPath}/deleteBank?bankId="
+												location.href = "${pageContext.request.contextPath}/deleteAdvance?advId="
 														+ uuid;
 
 											}

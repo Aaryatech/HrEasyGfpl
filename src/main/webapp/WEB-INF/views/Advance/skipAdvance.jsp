@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,39 +109,32 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="empName">Employee
-											Name <span style="color: red">* </span>:
-										</label> <label class="col-form-label col-lg-2" for="empName">${empPersInfoString}
+											Name : </label> <label class="col-form-label col-lg-2" for="empName">${empPersInfoString}
 										</label>
 									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="grossSal">Total
-											Gross Salary <span style="color: red">* </span>:
-										</label>
-										 
-										<label class="col-form-label col-lg-2" for="grossSal">${empPersInfo.grossSalaryEst}
-										</label>
+											Gross Salary: </label> <label class="col-form-label col-lg-2"
+											for="grossSal">${empPersInfo.grossSalaryEst} </label>
 									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="voucherNo">Voucher
-											No. <span style="color: red">* </span>:
-										</label> <label class="col-form-label col-lg-2" for="voucherNo">
+											No. : </label> <label class="col-form-label col-lg-2" for="voucherNo">
 											${advList.voucherNo} </label>
 
 									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="advanceAmt">Advance
-											Amount <span style="color: red">* </span>:
-										</label> <label class="col-form-label col-lg-2" for="voucherNo">
-											${advList.advAmount} </label>
+											Amount : </label> <label class="col-form-label col-lg-2"
+											for="voucherNo"> ${advList.advAmount} </label>
 									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">Date
-											<span style="color: red">* </span>:
-										</label> <label class="col-form-label col-lg-2" for="voucherNo">
+											: </label> <label class="col-form-label col-lg-2" for="voucherNo">
 											${advList.advDate} </label>
 									</div>
 
@@ -147,38 +142,46 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="advanceAmt">Date(month-year)
-											of Deduction <span style="color: red">* </span>:
-										</label> <label class="col-form-label col-lg-2" for="voucherNo">
-											${advList.dedMonth} &nbsp; ${advList.dedYear} </label>
+											of Deduction : </label> <label class="col-form-label col-lg-2"
+											for="voucherNo"> ${advList.dedMonth} &nbsp;
+											${advList.dedYear} </label>
 									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">Reason
-											/ Remark <span style="color: red">* </span>:
-										</label> <label class="col-form-label col-lg-2" for="voucherNo">
-											${advList.advRemarks} </label>
+											/ Remark : </label> <label class="col-form-label col-lg-2"
+											for="voucherNo"> ${advList.advRemarks} </label>
 									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">
-											Prev Skipped Reason <span style="color: red">* </span>:
-										</label> <label class="col-form-label col-lg-2" for="voucherNo">
-											${advList.skipRemarks} </label>
+											Prev Skipped Reason : </label>
+										<c:if test="${advList.skipId==0}">
+											<label class="col-form-label col-lg-2" for="voucherNo">
+												${skipStr} </label>
+										</c:if>
+										<c:if test="${advList.skipId>0}">
+
+
+											<label class="col-form-label col-lg-2" for="voucherNo">
+												<c:forEach items="${listOfString}" var="listOfString"
+													varStatus="count">${count.index+1}.${listOfString}<br> </c:forEach>
+											</label>
+										</c:if>
+
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="month">Skiped
-											Time <span style="color: red">* </span>:
-										</label> <label class="col-form-label col-lg-2" for="voucherNo">
-											${advList.skipLoginName} </label>
+										<label class="col-form-label col-lg-2" for="month">Skipped
+											Time : </label> <label class="col-form-label col-lg-2"
+											for="voucherNo"> ${advList.skipId} </label>
 									</div>
 
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">Last
-											Skiped date <span style="color: red">* </span>:
-										</label> <label class="col-form-label col-lg-2" for="voucherNo">
-											${advList.skipLoginTime} </label>
+											Skipped date: </label> <label class="col-form-label col-lg-2"
+											for="voucherNo"> ${advList.skipLoginTime} </label>
 									</div>
 
 
@@ -207,7 +210,7 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a
-												href="${pageContext.request.contextPath}/showEmpListToAddAdvance"><button
+												href="${pageContext.request.contextPath}/showEmpAdvancePendingList"><button
 													type="button" class="btn btn-light">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Back

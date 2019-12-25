@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<c:url var="getAdvanceHistory" value="/getAdvanceHistory" />
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
@@ -88,32 +89,13 @@
 						%>
 						
 							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="empId">
-								Employee<span style="color: red">* </span>:
-								</label>
-								<div class="col-lg-10">
-									<select name="empId" data-placeholder="Select  "
-										id="empId"
-										class="form-control form-control-select2 select2-hidden-accessible"
-										data-fouc="" aria-hidden="true">
-
-										<option value="0">Select Employee</option>
-
-										<c:forEach items="${empdetList}" var="empdetList">
-											<option value="${empdetList.empId}">${empdetList.empCode}&nbsp;${empdetList.surname}&nbsp;${empdetList.firstName}</option>
-										</c:forEach>
-									</select> <span class="validation-invalid-label" id="error_shiftId"
-										style="display: none;">This field is required.</span>
-								</div>
-							</div>
-							
-							<div class="form-group row">
+								
 								<label class="col-form-label col-lg-2" for="locId">
 								Year<span style="color: red">* </span>:
 								</label>
-								<div class="col-lg-10">
-									<select name="year" data-placeholder="Select  "
-										id="year"
+								<div class="col-lg-4">
+									<select name="calYrId" data-placeholder="Select  "
+										id="calYrId" onchange="show()"
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
 
@@ -122,10 +104,29 @@
  											<option value="2019">2019</option>
  											<option value="2020">2020</option>
  											<option value="2021">2021</option>
- 									</select> <span class="validation-invalid-label" id="error_shiftId"
-										style="display: none;">This field is required.</span>
+ 									</select>  
 								</div>
+								
+								<label class="col-form-label col-lg-2" for="empId">
+								Employee<span style="color: red">* </span>:
+								</label>
+								<div class="col-lg-4">
+									<select name="empId" data-placeholder="Select  "
+										id="empId" onchange="show()"
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
+
+										<option value="0">Select Employee</option>
+
+										<c:forEach items="${empdetList}" var="empdetList">
+											<option value="${empdetList.empId}">${empdetList.empCode}&nbsp;${empdetList.surname}&nbsp;${empdetList.firstName}</option>
+										</c:forEach>
+									</select>  
+								</div>
+								
 							</div>
+							
+							 
 						<table
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 							id="printtable1">
@@ -139,8 +140,7 @@
 									<th>Voucher No.</th>
 									<th>Adv Date</th>
 									<th>Advance Amount</th>
-									<th>Advance Pending</th>
-									<th>Deduction Month/Year</th>
+ 									<th>Deduction Month/Year</th>
 									<th>is Deducted</th>
  								</tr>
 							</thead>
@@ -184,36 +184,79 @@
 
 	</div>
 	<!-- /page content -->
-	<script>
-		// Custom bootbox dialog
-		$('.bootbox_custom')
-				.on(
-						'click',
-						function() {
-							var uuid = $(this).data("uuid") // will return the number 123
-							bootbox
-									.confirm({
-										title : 'Confirm ',
-										message : 'Are you sure you want to delete selected records ?',
-										buttons : {
-											confirm : {
-												label : 'Yes',
-												className : 'btn-success'
-											},
-											cancel : {
-												label : 'Cancel',
-												className : 'btn-link'
-											}
-										},
-										callback : function(result) {
-											if (result) {
-												location.href = "${pageContext.request.contextPath}/deleteBank?bankId="
-														+ uuid;
+	 <script type="text/javascript">
+		function show() {
 
-											}
-										}
-									});
-						});
-	</Script>
+			//alert("Hi View Orders  ");
+
+			var empId = document.getElementById("empId").value;
+			var calYrId = document.getElementById("calYrId").value;
+ 
+			//alert("empId  "+empId);
+			//alert("calYrId "+calYrId);
+			var valid = true;
+
+			if (empId == null || empId == "") {
+				valid = false;
+				alert("Please Select Employee");
+			}
+
+			var valid = true;
+			if (calYrId == null || calYrId == "") {
+				valid = false;
+				alert("Please Select Year");
+
+				var dataTable = $('#printtable1').DataTable();
+				dataTable.clear().draw();
+
+			}
+			$("#loader").show();
+
+			if (valid == true) {
+
+				$.getJSON('${getAdvanceHistory}', {
+					empId : empId,
+					calYrId : calYrId,
+					ajax : 'true',
+				},
+
+				function(data) {
+					
+				//	alert("Data " +JSON.stringify(data));
+
+					var dataTable = $('#printtable1').DataTable();
+					dataTable.clear().draw();
+
+					$.each(data, function(i, v) {
+						
+					 var dedStr;
+					 if(parseInt(v.isDed)==1){
+						 dedStr="Yes";
+					 }else{
+						 dedStr="No";
+					 }
+						 
+						dataTable.row.add(
+								[
+										i + 1,
+										v.empCode,
+										v.designation,
+										v.surname,
+										v.voucherNo,
+										v.advDate,
+										v.advAmount,
+										v.dedMonth,
+										dedStr
+										 
+										]).draw();
+					});
+					$("#loader").hide(); 
+
+				});
+
+			}//end of if valid ==true
+
+		}
+	</script> 
 </body>
 </html>
