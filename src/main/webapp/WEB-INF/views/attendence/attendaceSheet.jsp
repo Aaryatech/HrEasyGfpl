@@ -48,9 +48,6 @@
 
 					<div class="card-body">
 
-
-
-
 						<form action="${pageContext.request.contextPath}/attendaceSheet"
 							id="submitInsertLeave" method="get">
 							<div class="form-group row">
@@ -77,56 +74,126 @@
 								</button> -->
 
 							</div>
-							<div id="loader" style="display: none;">
-								<img
-									src="${pageContext.request.contextPath}/resources/assets/images/giphy.gif"
-									width="150px" height="150px"
-									style="display: block; margin-left: auto; margin-right: auto">
-							</div>
-
-							<div class="table-responsive">
-								<table
-									class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
-									id="bootstrap-data-table">
-									<thead>
-										<tr class="bg-blue">
-											<th width="10%" style="text-align: center;">Sr.no</th>
-											<th style="text-align: center;">Employee Code</th>
-											<th style="text-align: center;">Month</th>
-											<th style="text-align: center;">Year</th>
-											<c:forEach items="${attendanceSheetData.dates}" var="dates"
-												varStatus="count">
-												<th style="text-align: center;">${count.index+1}</th>
-											</c:forEach>
-											<th style="text-align: center;">Edit</th>
-										</tr>
-									</thead>
-
-									<tbody>
-										<c:forEach items="${attendanceSheetData.infomationList}"
-											var="infomationList" varStatus="count">
-											<tr>
-												<td>${count.index+1}</td>
-												<td style="text-align: center;">${infomationList.empCode}</td>
-												<td style="text-align: right;">${month}</td>
-												<td style="text-align: right;">${year}</td>
-												<c:forEach items="${infomationList.sttsList}" var="sttsList">
-													<td style="text-align: center;"><p
-															title="In Time - ${sttsList.inTime}, Out Time - ${sttsList.outTime}, Wotking Hrs - ${sttsList.workingMin}, OT Min - ${sttsList.otMin}, Late Min - ${sttsList.lateMin}">${sttsList.status}</p></td>
-												</c:forEach>
-												<td class="text-center"><a
-													href="${pageContext.request.contextPath}/editWeeklyOff?woId=Mg=="
-													class="list-icons-item text-primary-600"
-													data-popup="tooltip" title="" data-original-title="Edit"><i
-														class="icon-pencil7"></i></a></td>
-											</tr>
-										</c:forEach>
-
-									</tbody>
-								</table>
-							</div>
-
 						</form>
+						<div id="loader" style="display: none;">
+							<img
+								src="${pageContext.request.contextPath}/resources/assets/images/giphy.gif"
+								width="150px" height="150px"
+								style="display: block; margin-left: auto; margin-right: auto">
+						</div>
+						<ul class="nav nav-tabs nav-tabs-highlight nav-justified1">
+							<li class="nav-item"><a href="#highlighted-justified-tab1"
+								class="nav-link active" data-toggle="tab">View Monthly
+									Attendance</a></li>
+							<li class="nav-item"><a href="#highlighted-justified-tab2"
+								class="nav-link" data-toggle="tab">View Summary Attendance </a></li>
+
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane fade show active"
+								id="highlighted-justified-tab1">
+								<div class="table-responsive">
+									<table
+										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
+										id="bootstrap-data-table">
+										<thead>
+											<tr class="bg-blue">
+												<th width="10%" style="text-align: center;">Sr.no</th>
+												<th style="text-align: center;">Employee Code</th>
+												<th style="text-align: center;">Month</th>
+												<th style="text-align: center;">Year</th>
+												<c:forEach items="${attendanceSheetData.dates}" var="dates"
+													varStatus="count">
+													<th style="text-align: center;">${count.index+1}</th>
+												</c:forEach>
+												<th style="text-align: center;">Edit</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<c:forEach items="${attendanceSheetData.infomationList}"
+												var="infomationList" varStatus="count">
+												<tr>
+													<td>${count.index+1}</td>
+													<td style="text-align: center;">${infomationList.empCode}</td>
+													<td style="text-align: right;">${month}</td>
+													<td style="text-align: right;">${year}</td>
+													<c:forEach items="${infomationList.sttsList}"
+														var="sttsList">
+														<td style="text-align: center;"><p
+																title="In Time - ${sttsList.inTime}, Out Time - ${sttsList.outTime}, Wotking Hrs - ${sttsList.workingMin}, OT Min - ${sttsList.otMin}, Late Min - ${sttsList.lateMin}">${sttsList.status}</p></td>
+													</c:forEach>
+													<td class="text-center"><a
+														href="${pageContext.request.contextPath}/attendanceEditEmpMonth?month=${month}&year=${year}&empId=${infomationList.empId}"
+														class="list-icons-item text-primary-600"
+														data-popup="tooltip" title="" data-original-title="Edit"><i
+															class="icon-pencil7"></i></a></td>
+												</tr>
+											</c:forEach>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="highlighted-justified-tab2">
+
+								<div class="table-responsive">
+									<table
+										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
+										id="bootstrap-data-table1">
+										<thead>
+											<tr class="bg-blue">
+												<th width="5%" class="text-center">Sr.no</th>
+												<th class="text-center">EMP Code</th>
+												<th class="text-center">EMP Name</th>
+												<th class="text-center">Working Days</th>
+												<th class="text-center">Present Days</th>
+												<th class="text-center">Weekly Off</th>
+												<th class="text-center">Paid Holiday</th>
+												<th class="text-center">Paid Leave</th>
+												<th class="text-center">Unpaid Holiday</th>
+												<th class="text-center">Unpaid Leave</th>
+												<th class="text-center">Late MIN</th>
+												<th class="text-center">Late Days</th>
+												<th class="text-center">Payable Days</th>
+												<th class="text-center">NCP Days</th>
+												<th class="text-center">Total Hrs</th>
+												<th class="text-center">Total OT Hrs</th>
+												<th class="text-center">Attendance Type</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<c:forEach items="${summrylist}" var="summrylist"
+												varStatus="count">
+												<tr>
+													<td>${count.index+1}</td>
+													<td>${summrylist.empCode}</td>
+													<td>${summrylist.empName}</td>
+													<td class="text-right">${summrylist.workingDays}</td>
+													<td class="text-right">${summrylist.presentDays}</td>
+													<td class="text-right">${summrylist.weeklyOff}</td>
+													<td class="text-right">${summrylist.paidHoliday}</td>
+													<td class="text-right">${summrylist.paidLeave}</td>
+													<td class="text-right">${summrylist.unpaidHoliday}</td>
+													<td class="text-right">${summrylist.unpaidLeave}</td>
+													<td class="text-right">${summrylist.totlateMins}</td>
+													<td class="text-right">${summrylist.totlateDays}</td>
+													<td class="text-right">${summrylist.payableDays}</td>
+													<td class="text-right">${summrylist.ncpDays}</td>
+													<td class="text-right">${summrylist.totworkingHrs}</td>
+													<td class="text-right">${summrylist.totOthr}</td>
+													<td class="text-center">${summrylist.salBasis}</td>
+												</tr>
+											</c:forEach>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
 					</div>
 
 				</div>

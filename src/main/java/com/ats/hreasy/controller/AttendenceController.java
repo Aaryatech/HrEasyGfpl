@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -39,9 +40,12 @@ import com.ats.hreasy.model.DailyAttendance;
 import com.ats.hreasy.model.DataForUpdateAttendance;
 import com.ats.hreasy.model.Designation;
 import com.ats.hreasy.model.FileUploadedData;
+import com.ats.hreasy.model.GetDailyDailyRecord;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.InfoForUploadAttendance;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.SummaryAttendance;
+import com.ats.hreasy.model.SummaryDailyAttendance;
 import com.ats.hreasy.model.VariousList;
 
 @Controller
@@ -387,7 +391,7 @@ public class AttendenceController {
 			String date = request.getParameter("date");
 
 			if (date != null) {
-				
+
 				Date dt = dd.parse(date);
 				Calendar temp = Calendar.getInstance();
 				temp.setTime(dt);
@@ -402,14 +406,63 @@ public class AttendenceController {
 				map.add("toDate", sf.format(lastDay));
 				AttendanceSheetData attendanceSheetData = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getAttendanceSheet", map, AttendanceSheetData.class);
-				
+
 				model.addAttribute("attendanceSheetData", attendanceSheetData);
 				model.addAttribute("date", date);
 				model.addAttribute("year", year);
 				model.addAttribute("month", month);
+
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("year", year);
+				map.add("month", month);
+				SummaryAttendance[] summaryDailyAttendance = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getMonthlySummryAttendace", map, SummaryAttendance[].class);
+				List<SummaryAttendance> summrylist = new ArrayList<SummaryAttendance>(
+						Arrays.asList(summaryDailyAttendance));
+				model.addAttribute("summrylist", summrylist);
 			}
 
-		 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+
+	}
+
+	@RequestMapping(value = "/attendanceEditEmpMonth", method = RequestMethod.GET)
+	public String attendanceEditEmpMonth(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = "attendence/attendanceEditEmpMonth";
+
+		try {
+
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			int year = Integer.parseInt(request.getParameter("year"));
+			int month = Integer.parseInt(request.getParameter("month"));
+			int empId = Integer.parseInt(request.getParameter("empId"));
+
+			Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
+			Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", sf.format(firstDay));
+			map.add("toDate", sf.format(lastDay));
+			map.add("year", year);
+			map.add("month", month);
+			map.add("empId", empId);
+
+			GetDailyDailyRecord[] getDailyDailyRecord = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getDailyDailyRecord", map, GetDailyDailyRecord[].class);
+			List<GetDailyDailyRecord> dailyrecordList = new ArrayList<GetDailyDailyRecord>(
+					Arrays.asList(getDailyDailyRecord));
+			model.addAttribute("dailyrecordList", dailyrecordList);
+
+			SummaryAttendance summaryAttendance = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getMonthlySummryAttendaceByEmpId", map, SummaryAttendance.class);
+			model.addAttribute("summaryAttendance", summaryAttendance);
+			model.addAttribute("year", year);
+			model.addAttribute("month", month);
 
 		} catch (Exception e) {
 			e.printStackTrace();
