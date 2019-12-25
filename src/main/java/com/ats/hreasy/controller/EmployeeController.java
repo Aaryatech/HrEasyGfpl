@@ -867,7 +867,7 @@ public class EmployeeController {
 							}
 							
 							
-						if (allwncValue > 0) {
+						if (allwncValue >= 0) {
 							try {
 								allwnSalId = Integer.parseInt(request.getParameter("empSalAllownaceId"+allowanceList.get(i).getAllowanceId()));
 							}catch (Exception e) {
