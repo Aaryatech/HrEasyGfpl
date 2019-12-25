@@ -99,13 +99,13 @@
 								%>
 
 								<form
-									action="${pageContext.request.contextPath}/submitInsertAdvance"
+									action="${pageContext.request.contextPath}/submitInsertLoan"
 									id="submitInsertLocaion" method="post">
 									<input type="hidden" value="${empPersInfo.empId}" id="empId"
 										name="empId">
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="empName">Employee
-											Name <span style="color: red">* </span>:
+											Name  :
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -118,7 +118,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="grossSal">
-											Gross Salary <span style="color: red">* </span>:
+											Gross Salary  :
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" id="grossSal"
@@ -129,8 +129,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="grossSal">
-											Previous Loan Unpaid Amount <span style="color: red">*
-										</span>:
+											Previous Loan Unpaid Amount < :
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" id="grossSal"
@@ -142,7 +141,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="grossSal">
-											Loan EMI Per Month <span style="color: red">* </span>:
+											Loan EMI Per Month  :
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" id="grossSal"
@@ -158,15 +157,15 @@
 										<label class="col-form-label col-lg-2" for="voucherNo">Loan
 											Application No. <span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-10">
+										<div class="col-lg-4">
 											<input type="text" class="form-control" readonly="readonly"
 												id="appNo" value="${appNo}" name="appNo" autocomplete="off">
 
 										</div>
 
 										<label class="col-form-label col-lg-2" for="voucherNo">
-											Today <span style="color: red">* </span>:
-										</label> <label class="col-form-label col-lg-2" for="voucherNo">
+											Today  :
+										</label> <label class="col-form-label col-lg-4" for="voucherNo">
 											${todaysDate} </label>
 									</div>
 
@@ -174,12 +173,12 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="advanceAmt">Loan
-											Amount Rs <span style="color: red">* </span>:
+											Amount (Rs) <span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-10">
+										<div class="col-lg-4">
 											<input type="text" class="form-control"
 												placeholder="Enter Loan Amount" id="loanAmt" name="loanAmt"
-												autocomplete="off" onchange="trim(this)"> <span
+												value="0" autocomplete="off" onchange="calAmt()"> <span
 												class="validation-invalid-label" id="error_loanAmt"
 												style="display: none;">This field is required.</span>
 										</div>
@@ -187,11 +186,11 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">Rate
-											of Interest <span style="color: red">* </span>:
+											of Interest (%)<span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-10">
+										<div class="col-lg-4">
 											<input type="text" class="form-control" id="roi" name="roi"
-												autocomplete="off" onchange="trim(this)"> <span
+												value="0" autocomplete="off" onchange="calAmt()"> <span
 												class="validation-invalid-label" id="error_roi"
 												style="display: none;">This field is required.</span>
 										</div>
@@ -200,51 +199,38 @@
 										<label class="col-form-label col-lg-2" for="month">Loan
 											Tenure In Month <span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-10">
-											<input type="text" class="form-control" id="tenure"
-												name="tenure" autocomplete="off" onchange="trim(this)">
+										<div class="col-lg-4">
+											<input type="text" class="form-control" id="tenure" value="1"
+												name="tenure" autocomplete="off" onchange="calAmt()">
 											<span class="validation-invalid-label" id="error_tenure"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="dob">Start
-											Date of Cutting <span style="color: red">* </span>:
+										<label class="col-form-label col-lg-2">Date Of Cutting<span
+											style="color: red">* </span>:
 										</label>
-										<div class="col-lg-4">
-											<input type="text" class="form-control datepickerclass"
-												id="startDate" name="startDate" autocomplete="off"
-												onchange="trim(this)"> <span
-												class="hidedefault  validation-invalid-label"
-												id="error_startDate" style="display: none;">This
-												field is required.</span>
+										<div class="col-lg-10">
+											<input type="text" class="form-control daterange-basic_new "
+												name="cuttingDate" data-placeholder="Select Date"
+												id="cuttingDate"> <span
+												class="validation-invalid-label" id="error_cuttingDate"
+												style="display: none;">This field is required.</span>
+
 										</div>
 									</div>
 
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="dob"> End
-											Date of Cutting <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<input type="text" class="form-control datepickerclass1"
-												id="endDate" name="endDate" autocomplete="off"
-												onchange="trim(this)"> <span
-												class="hidedefault  validation-invalid-label"
-												id="error_endDate" style="display: none;">This field
-												is required.</span>
-										</div>
-									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">Total
 											Repay Amount <span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-10">
+										<div class="col-lg-4">
 											<input type="text" class="form-control" id="repayAmt"
-												name="repayAmt" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_repayAmt"
+												readonly="readonly" name="repayAmt" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_repayAmt"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
@@ -254,16 +240,13 @@
 										<label class="col-form-label col-lg-2" for="month">Loan
 											EMI <span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-10">
+										<div class="col-lg-4">
 											<input type="text" class="form-control" id="emi" name="emi"
-												autocomplete="off" onchange="trim(this)"> <span
-												class="validation-invalid-label" id="error_emi"
+												readonly="readonly" autocomplete="off" onchange="trim(this)">
+											<span class="validation-invalid-label" id="error_emi"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-
-
-
 
 
 									<div class="form-group row">
@@ -288,7 +271,7 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a
-												href="${pageContext.request.contextPath}/showEmpListToAddAdvance"><button
+												href="${pageContext.request.contextPath}/showEmpListToAddLoan"><button
 													type="button" class="btn btn-light">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Back
@@ -339,6 +322,10 @@
 			},
 
 			function(data) {
+
+				document.getElementById("repayAmt").value = data.repayAmt;
+
+				document.getElementById("emi").value = data.emiAmt;
 
 			});
 
@@ -420,24 +407,24 @@
 					$("#error_loanAmt").hide()
 				}
 
-				if (!$("#startDate").val()) {
+				if (!$("#cuttingDate").val()) {
 
 					isError = true;
 
-					$("#error_startDate").show()
+					$("#error_cuttingDate").show()
 
 				} else {
-					$("#error_startDate").hide()
+					$("#error_cuttingDate").hide()
 				}
-
-				if (!$("#endDate").val()) {
+ 
+				if (!$("#remark").val()) {
 
 					isError = true;
 
-					$("#error_endDate").show()
+					$("#error_remark").show()
 
 				} else {
-					$("#error_endDate").hide()
+					$("#error_remark").hide()
 				}
 
 				if (!isError) {
@@ -467,47 +454,18 @@
 			}
 		});
 
-		$('.datepickerclass1').daterangepicker({
-			singleDatePicker : true,
-			selectMonths : true,
-			selectYears : true,
+		//daterange-basic_new
+		// Basic initialization
+		$('.daterange-basic_new').daterangepicker({
+			applyClass : 'bg-slate-600',
+
+			cancelClass : 'btn-light',
 			locale : {
-				format : 'DD-MM-YYYY'
+				format : 'DD-MM-YYYY',
+				separator : ' to '
 			}
 		});
 	</script>
-
-	<!-- <script type="text/javascript">
-	$('#submtbtn').on('click', function() {
-        swalInit({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-            buttonsStyling: false
-        }).then(function(result) {
-            if(result.value) {
-                swalInit(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                );
-            }
-            else if(result.dismiss === swal.DismissReason.cancel) {
-                swalInit(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
-                    'error'
-                );
-            }
-        });
-    });
-	
-	</script> -->
 
 </body>
 </html>

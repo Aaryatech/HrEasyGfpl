@@ -201,6 +201,20 @@
 							href="${pageContext.request.contextPath}/showAdvanceHistory"
 							class="nav-link">  Advance History</a></li>
 					</ul></li>
+					
+						<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-list-unordered"></i><span>Loan</span></a>	
+					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
+					<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showEmpListToAddLoan"
+							class="nav-link">Add Loan</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showCompLoanList"
+							class="nav-link">Pending Laon List</a></li>
+							<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showLoanHistory"
+							class="nav-link">  Loan History</a></li>
+					</ul></li>
 
 				<%--<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Leave</span></a>

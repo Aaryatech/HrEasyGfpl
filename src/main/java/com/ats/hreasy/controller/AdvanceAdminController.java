@@ -153,8 +153,8 @@ public class AdvanceAdminController {
 				adv.setLoginName(String.valueOf(userObj.getEmpId()));
 				adv.setLoginTime(sf2.format(date2));
 				adv.setSkipId(0);
-				adv.setSkipLoginName(String.valueOf(userObj.getEmpId()));
-				adv.setSkipLoginTime(sf2.format(date2));
+				adv.setSkipLoginName("0");
+				adv.setSkipLoginTime("0000-00-00 00:00:00");
 				adv.setSkipRemarks("");
 				adv.setDelStatus(1);
 

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<c:url var="getAdvanceHistory" value="/getAdvanceHistory" />
+<c:url var="getLoanHistory" value="/getLoanHistory" />
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
@@ -43,9 +43,9 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Advance History
-										 </h5></td>
-						 
+								<td width="60%"><h5 class="card-title">Loan History
+									</h5></td>
+
 							</tr>
 						</table>
 					</div>
@@ -87,27 +87,44 @@
 							session.removeAttribute("successMsg");
 							}
 						%>
-						
-							<div class="form-group row">
-								
-								<label class="col-form-label col-lg-2" for="locId">
-								Year<span style="color: red">* </span>:
-								</label>
-								<div class="col-lg-4">
-									<select name="calYrId" data-placeholder="Select  "
-										id="calYrId" onchange="show()"
-										class="form-control form-control-select2 select2-hidden-accessible"
-										data-fouc="" aria-hidden="true">
 
-										<option value="0">Select Year</option>
+						<div class="form-group row">
 
- 											<option value="2019">2019</option>
- 											<option value="2020">2020</option>
- 											<option value="2021">2021</option>
- 									</select>  
-								</div>
-								
-								<label class="col-form-label col-lg-2" for="empId">
+							<label class="col-form-label col-lg-2" for="locId"> Year<span
+								style="color: red">* </span>:
+							</label>
+							<div class="col-lg-4">
+								<select name="calYrId" data-placeholder="Select  " id="calYrId"
+									onchange="show()"
+									class="form-control form-control-select2 select2-hidden-accessible"
+									data-fouc="" aria-hidden="true">
+
+									<option value="0">Select Year</option>
+
+									<option value="2019">2019</option>
+									<option value="2020">2020</option>
+									<option value="2021">2021</option>
+								</select>
+							</div>
+
+
+							<label class="col-form-label col-lg-2" for="status">
+								Status<span style="color: red">* </span>:
+							</label>
+							<div class="col-lg-4">
+								<select name="status" data-placeholder="Select  " id="status"
+									onchange="show()"
+									class="form-control form-control-select2 select2-hidden-accessible"
+									data-fouc="" aria-hidden="true">
+
+									<option value="0">Select Status</option>
+
+									<option value="Active">Active</option>
+									<option value="Paid">Paid</option>
+								</select>
+							</div>
+
+							<%-- <label class="col-form-label col-lg-2" for="empId">
 								Employee<span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-4">
@@ -122,11 +139,14 @@
 											<option value="${empdetList.empId}">${empdetList.empCode}&nbsp;${empdetList.surname}&nbsp;${empdetList.firstName}</option>
 										</c:forEach>
 									</select>  
-								</div>
-								
-							</div>
-							
-							 
+								</div> --%>
+
+
+
+
+						</div>
+
+
 						<table
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 							id="printtable1">
@@ -137,16 +157,16 @@
 									<th>Emp Code</th>
 									<th>Designation</th>
 									<th>Name</th>
-									<th>Voucher No.</th>
-									<th>Adv Date</th>
-									<th>Advance Amount</th>
- 									<th>Deduction Month/Year</th>
-									<th>is Deducted</th>
- 								</tr>
+									<th>Loan Amount</th>
+									<th>Repay Amount</th>
+									<th>Loan EMI</th>
+									<th>Current Outstanding</th>
+									<th>Action</th>
+								</tr>
 							</thead>
 							<tbody>
 
-<%-- 
+								<%-- 
 								<c:forEach items="${empdetList}" var="empdetList" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
@@ -184,79 +204,66 @@
 
 	</div>
 	<!-- /page content -->
-	 <script type="text/javascript">
+	<script type="text/javascript">
 		function show() {
 
 			//alert("Hi View Orders  ");
 
-			var empId = document.getElementById("empId").value;
 			var calYrId = document.getElementById("calYrId").value;
- 
+			var status = document.getElementById("status").value;
+
 			//alert("empId  "+empId);
 			//alert("calYrId "+calYrId);
 			var valid = true;
 
-			if (empId == null || empId == "") {
-				valid = false;
-				alert("Please Select Employee");
-			}
-
-			var valid = true;
 			if (calYrId == null || calYrId == "") {
 				valid = false;
 				alert("Please Select Year");
+			}
+
+			var valid = true;
+			if (status == null || status == "") {
+				valid = false;
+				alert("Please Select Status");
 
 				var dataTable = $('#printtable1').DataTable();
 				dataTable.clear().draw();
 
 			}
-			$("#loader").show();
 
 			if (valid == true) {
 
-				$.getJSON('${getAdvanceHistory}', {
-					empId : empId,
+				$.getJSON('${getLoanHistory}', {
 					calYrId : calYrId,
+					status : status,
 					ajax : 'true',
 				},
 
 				function(data) {
-					
-				//	alert("Data " +JSON.stringify(data));
+
+					//	alert("Data " +JSON.stringify(data));
 
 					var dataTable = $('#printtable1').DataTable();
 					dataTable.clear().draw();
 
 					$.each(data, function(i, v) {
 						
-					 var dedStr;
-					 if(parseInt(v.isDed)==1){
-						 dedStr="Yes";
-					 }else{
-						 dedStr="No";
-					 }
-						 
+						var acButton = '<a href="${pageContext.request.contextPath}/showLoanDetailHistory?empId='+v.exVar1+'&calYrId='+v.exVar3+'&status='+v.exVar2+'"><i class="icon-pencil7" title="Detail History" style="color: black;">';	
+
+
 						dataTable.row.add(
-								[
-										i + 1,
-										v.empCode,
-										v.designation,
-										 v.surname+''+v.firstName,
-										v.voucherNo,
-										v.advDate,
-										v.advAmount,
-										v.dedMonth,
-										dedStr
-										 
-										]).draw();
+								[ i + 1, v.empCode, v.designation, v.surname+' '+v.firstName,
+										v.loanAmt, v.loanRepayAmt, v.loanEmi,
+										v.currentOutstanding,acButton
+
+								]).draw();
 					});
-					$("#loader").hide(); 
 
 				});
 
 			}//end of if valid ==true
 
 		}
-	</script> 
+	</script>
 </body>
 </html>
