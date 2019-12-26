@@ -7,16 +7,6 @@
 <html lang="en">
 <head>
 
-<c:url var="addStrDetail" value="/addStrDetail" />
-
-
-<c:url var="chkNumber" value="/chkNumber" />
-
-<c:url var="getLeaveStructureForEdit" value="/getLeaveStructureForEdit" />
-<c:url var="getHolidayAndWeeklyOffList"
-	value="/getHolidayAndWeeklyOffList" />
-<c:url var="calholidayWebservice" value="/calholidayWebservice" />
-<c:url var="checkDatesRange" value="/checkDatesRange" />
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
@@ -62,24 +52,11 @@
 
 
 							<div class="card-header header-elements-inline">
-								<table width="100%">
-									<tr width="100%">
-										<td width="60%"><h5 class="card-title">Employee
-												Attendance Details for ${year}-${month}</h5></td>
-										<td width="40%" align="right">
-											<%-- <a
-									href="${pageContext.request.contextPath}/showApplyForLeave"
-									class="breadcrumb-elements-item">
-										<button type="button" class="btn btn-primary">Employee List</button>
-								</a>  --%>
-										</td>
-									</tr>
-								</table>
+								<h5 class="card-title">Employee Attendance Details for
+									${year}-${month}</h5>
 							</div>
 
 							<div class="card-body">
-
-
 
 								<div class="form-group row">
 									<label class="col-form-label col-lg-2"> Employee Code :
@@ -115,7 +92,138 @@
 									<label class="col-form-label col-lg-1">${summaryAttendance.totOthr}</label>
 								</div>
 
+							</div>
+							<hr>
+
+							<div id="editAttanceDiv" style="display: none;">
+								<div class="card-header header-elements-inline">
+									<h5 class="card-title">Edit Attendance Detail</h5>
+								</div>
+								<div class="card-body">
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="attDate">
+											Date : </label>
+										<div class="col-lg-2">
+											<input type="text" class="form-control"
+												placeholder="Attendace Date" id="attDate" name="attDate"
+												autocomplete="off" disabled>
+
+										</div>
+										<div class="col-lg-1"></div>
+										<label class="col-form-label col-lg-2" for="attStatus">
+											Status : </label>
+										<div class="col-lg-2">
+											<input type="text" class="form-control" placeholder="Status"
+												id="attStatus" name="attStatus" autocomplete="off" disabled>
+
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="selectUpdateBy">
+											Update By : </label>
+										<div class="col-lg-2">
+											<input type="radio" name="selectUpdateBy" id="byStatus"
+												value="1" checked onclick="openHideDiv(1)">By Status
+											<input type="radio" name="selectUpdateBy" id="byIntime"
+												value="2" onclick="openHideDiv(2)">In Time and Out
+											Time
+
+										</div>
+
+									</div>
+									<div id="byStatusDive">
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2" for="selectStatus">
+												Select Status : </label>
+											<div class="col-lg-2">
+												<select name="selectStatus"
+													data-placeholder="Select Leave Type" id="selectStatus"
+													class="form-control form-control-select2 select2-hidden-accessible">
+													<option value="0">Select Status</option>
+													<c:forEach items="${leaveHistoryList}"
+														var="leaveHistoryList">
+														<c:choose>
+															<c:when
+																test="${leaveHistoryList.lvTypeId == editLeave.lvTypeId}">
+																<option value="${leaveHistoryList.lvTypeId}"
+																	selected="selected"
+																	data-leavestrname="${leaveHistoryList.lvTitle}">${leaveHistoryList.lvTitle}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${leaveHistoryList.lvTypeId}"
+																	data-leavestrname="${leaveHistoryList.lvTitle}">${leaveHistoryList.lvTitle}</option>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												</select>
+											</div>
+											<div class="col-lg-1"></div>
+											<label class="col-form-label col-lg-2" for="lateMark">
+												Late Mark : </label>
+											<div class="col-lg-2">
+												<input type="checkbox" class="chk" name="lateMark"
+													id="lateMark">
+											</div>
+
+										</div>
+
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2" for="otHours">
+												OT Hours : </label>
+											<div class="col-lg-2">
+												<input type="time" class="form-control"
+													placeholder="OT Hours" id="otHours" name="otHours"
+													autocomplete="off">
+
+											</div>
+
+										</div>
+									</div>
+									<div id="byIntimeDive" style="display: none;">
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2" for="inTime">
+												In Time : </label>
+											<div class="col-lg-2">
+												<input type="time" class="form-control"
+													placeholder="In Time" id="inTime" name="inTime"
+													autocomplete="off">
+
+											</div>
+											<div class="col-lg-1"></div>
+											<label class="col-form-label col-lg-2" for="outTime">
+												Out Time : </label>
+											<div class="col-lg-2">
+												<input type="time" class="form-control"
+													placeholder="Out Time" id="outTime" name="outTime"
+													autocomplete="off">
+
+											</div>
+										</div>
+
+									</div>
+
+
+
+									<div class="col-md-12 text-center">
+										<button type="submit" class="btn bg-blue ml-3 legitRipple"
+											id="submtbtn" onclick="saveAttendanceDetail()">Save</button>
+										<button type="button" class="btn btn-primary"
+											onclick="closeEditDetailTab()">Cancel</button>
+										<input type="hidden" class="form-control"
+											placeholder="Out Time" id="dailyId" name="dailyId"
+											autocomplete="off"> <input type="hidden"
+											class="form-control" placeholder="Out Time" id="dailyId"
+											name="dailyId" autocomplete="off"> <input
+											type="hidden" id="year" name="year" value="${year}">
+										<input type="hidden" id="month" name="month" value="${month}">
+									</div>
+
+
+								</div>
 								<hr>
+							</div>
+							<div class="card-body">
 								<div class="table-responsive">
 									<table
 										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
@@ -133,9 +241,7 @@
 												<th class="text-center">Late MIN</th>
 												<th class="text-center">WR. Hrs</th>
 												<th class="text-center">OT Hrs</th>
-												<th class="text-center">Deduction HR</th>
 												<th class="text-center">OShift/Loc</th>
-												<th class="text-center">Last Modified</th>
 												<th class="text-center">Action</th>
 
 											</tr>
@@ -176,10 +282,11 @@
 													<td class="text-right">${dailyrecordList.lateMin}</td>
 													<td class="text-right">${dailyrecordList.workingHrs}</td>
 													<td class="text-right">${dailyrecordList.otHr}</td>
-													<td>-</td>
 													<td>${dailyrecordList.currentShiftname}</td>
-													<td>-</td>
-													<td>-</td>
+													<td class="text-center"><a href="#"
+														onclick="editAttendanceDetail(${dailyrecordList.id})"
+														class="list-icons-item text-primary-600"
+														data-popup="tooltip" title=""><i class="icon-pencil7"></i></a></td>
 												</tr>
 											</c:forEach>
 
@@ -212,7 +319,121 @@
 	</div>
 	<!-- /page content -->
 
+	<script type="text/javascript">
+		function openHideDiv(value) {
 
+			if (value == 1) {
+
+				document.getElementById("byIntimeDive").style.display = 'none';
+				document.getElementById("byStatusDive").style.display = 'block';
+
+			} else {
+				document.getElementById("byIntimeDive").style.display = 'block';
+				document.getElementById("byStatusDive").style.display = 'none';
+			}
+		}
+
+		function closeEditDetailTab() {
+
+			document.getElementById("editAttanceDiv").style.display = 'none';
+		}
+
+		function editAttendanceDetail(dailyId) {
+ 
+			
+			
+			var fd = new FormData();
+			fd.append('dailyId', dailyId);
+			
+			$
+			.ajax({
+				url : '${pageContext.request.contextPath}/editDailyRecord',
+				type : 'post',
+				dataType : 'json',
+				data : fd,
+				contentType : false,
+				processData : false,
+				success : function(response) {
+
+					document.getElementById("editAttanceDiv").style.display = 'block';
+					document.getElementById("byIntimeDive").style.display = 'none';
+					document.getElementById("byStatusDive").style.display = 'block';
+					document.getElementById("byStatus").checked = true;
+					
+					document.getElementById("attDate").value = response.attDate;
+					document.getElementById("attStatus").value = response.attStatus;
+					 
+					if(response.otHr.length==4){
+						document.getElementById("otHours").value = 0+response.otHr;
+					}else{
+						document.getElementById("otHours").value = response.otHr;
+					}
+					
+
+					document.getElementById("inTime").value = response.inTime.substr(0, 5);
+					document.getElementById("outTime").value = response.outTime.substr(0, 5);
+					document.getElementById("dailyId").value = response.id;
+					
+					if(response.lateMark==1){
+						document.getElementById("lateMark").checked = true;
+					}else{
+						document.getElementById("lateMark").checked = false;
+					}
+					 
+				},
+			});
+
+		}
+		
+	function saveAttendanceDetail() {
+  
+		var selectStatus = document.getElementById("selectStatus").value;  
+		var selectStatusText = $("#selectStatus option:selected").text();
+		var otHours = document.getElementById("otHours").value;  
+		var dailyId = document.getElementById("dailyId").value;
+		var inTime = document.getElementById("inTime").value;
+		var outTime = document.getElementById("outTime").value;
+		var byStatus=1;
+		var lateMark=0;
+		var month = document.getElementById("month").value;
+		var year = document.getElementById("year").value;
+		
+		
+		if(document.getElementById("byIntime").checked==true){
+			byStatus=2;
+		}
+		if(document.getElementById("lateMark").checked==true){
+			lateMark=1;
+		}
+		 
+			var fd = new FormData();
+			fd.append('dailyId', dailyId);
+			fd.append('otHours', otHours);
+			fd.append('selectStatus', selectStatus);
+			fd.append('byStatus', byStatus);
+			fd.append('lateMark', lateMark);
+			fd.append('inTime', inTime);
+			fd.append('outTime', outTime);
+			fd.append('selectStatusText', selectStatusText);
+			fd.append('month', month);
+			fd.append('year', year);
+			
+			  $
+			.ajax({
+				url : '${pageContext.request.contextPath}/submitAttendanceDetail',
+				type : 'post',
+				dataType : 'json',
+				data : fd,
+				contentType : false,
+				processData : false,
+				success : function(response) {
+
+					location.reload(true);
+				},
+			});  
+
+		}
+	</script>
 
 
 

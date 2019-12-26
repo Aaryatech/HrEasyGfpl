@@ -154,7 +154,7 @@
 												<th class="text-center">Paid Leave</th>
 												<th class="text-center">Unpaid Holiday</th>
 												<th class="text-center">Unpaid Leave</th>
-												<th class="text-center">Late MIN</th>
+												<th class="text-center">Late Hrs</th>
 												<th class="text-center">Late Days</th>
 												<th class="text-center">Payable Days</th>
 												<th class="text-center">NCP Days</th>

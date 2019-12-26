@@ -323,7 +323,7 @@ public class AttendenceController {
 				dataForUpdateAttendance.setYear(year);
 				dataForUpdateAttendance.setUserId(userObj.getUserId());
 				dataForUpdateAttendance.setFileUploadedDataList(fileUploadedDataList);
-
+				dataForUpdateAttendance.setEmpId(0);
 				info = Constants.getRestTemplate().postForObject(Constants.url + "/importAttendanceByFileAndUpdate",
 						dataForUpdateAttendance, Info.class);
 				// System.out.println(variousList);
@@ -366,9 +366,10 @@ public class AttendenceController {
 			map.add("userId", userObj.getUserId());
 			map.add("month", month);
 			map.add("year", year);
+			map.add("empId", 0);
 			info = Constants.getRestTemplate().postForObject(Constants.url + "/finalUpdateDailySumaryRecord", map,
 					Info.class);
-			System.out.println(info);
+			// System.out.println(info);
 		} catch (Exception e) {
 			e.printStackTrace();
 			info = new Info();
@@ -468,6 +469,79 @@ public class AttendenceController {
 			e.printStackTrace();
 		}
 		return mav;
+
+	}
+
+	@RequestMapping(value = "/editDailyRecord", method = RequestMethod.POST)
+	@ResponseBody
+	public GetDailyDailyRecord editDailyRecord(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		GetDailyDailyRecord info = new GetDailyDailyRecord();
+
+		try {
+
+			int dailyId = Integer.parseInt(request.getParameter("dailyId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("dailyId", dailyId);
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/getDailyDailyRecordByDailyId", map,
+					GetDailyDailyRecord.class);
+			// System.out.println(info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+
+	}
+
+	@RequestMapping(value = "/submitAttendanceDetail", method = RequestMethod.POST)
+	@ResponseBody
+	public Info submitAttendanceDetail(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		Info info = new Info();
+
+		try {
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			int dailyId = Integer.parseInt(request.getParameter("dailyId"));
+			int selectStatus = Integer.parseInt(request.getParameter("selectStatus"));
+			int byStatus = Integer.parseInt(request.getParameter("byStatus"));
+			int lateMark = Integer.parseInt(request.getParameter("lateMark"));
+			String otHours = request.getParameter("otHours");
+			String inTime = request.getParameter("inTime");
+			String outTime = request.getParameter("outTime");
+			String selectStatusText = request.getParameter("selectStatusText");
+			int year = Integer.parseInt(request.getParameter("year"));
+			int month = Integer.parseInt(request.getParameter("month"));
+
+			Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
+			Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("dailyId", dailyId);
+			map.add("selectStatus", selectStatus);
+			map.add("byStatus", byStatus);
+			map.add("lateMark", lateMark);
+			map.add("otHours", otHours);
+			map.add("inTime", inTime + ":00");
+			map.add("outTime", outTime + ":00");
+			map.add("selectStatusText", selectStatusText);
+			map.add("fromDate", sf.format(firstDay));
+			map.add("toDate", sf.format(lastDay));
+			map.add("userId", userObj.getUserId());
+			map.add("year", year);
+			map.add("month", month);
+			System.out.println(map);
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/updateAttendaceRecordSingle", map,
+					Info.class);
+			// System.out.println(info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
 
 	}
 

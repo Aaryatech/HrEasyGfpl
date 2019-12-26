@@ -10,6 +10,7 @@ public class DataForUpdateAttendance {
 	private int month;
 	private int year;
 	private int userId;
+	private int empId;
 	private List<FileUploadedData> fileUploadedDataList;
 	public String getFromDate() {
 		return fromDate;
@@ -47,10 +48,17 @@ public class DataForUpdateAttendance {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
+	public int getEmpId() {
+		return empId;
+	}
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
 	@Override
 	public String toString() {
 		return "DataForUpdateAttendance [fromDate=" + fromDate + ", toDate=" + toDate + ", month=" + month + ", year="
-				+ year + ", userId=" + userId + ", fileUploadedDataList=" + fileUploadedDataList + "]";
+				+ year + ", userId=" + userId + ", empId=" + empId + ", fileUploadedDataList=" + fileUploadedDataList
+				+ "]";
 	}
 	
 	
