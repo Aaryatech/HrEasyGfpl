@@ -43,7 +43,7 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Loan History
+								<td width="60%"><h5 class="card-title">Company Loan List
 									</h5></td>
 
 							</tr>
@@ -167,7 +167,7 @@
 							</thead>
 							<tbody>
 	 
-								<c:forEach items="${empdetList}" var="empdetList" varStatus="count">
+								<c:forEach items="${loanList}" var="empdetList" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${empdetList.empCode}</td>
@@ -177,6 +177,11 @@
 										<td>${empdetList.loanRepayAmt}</td>
 										<td>${empdetList.loanEmi}</td>
 										<td>${empdetList.currentOutstanding}</td>
+										<td><a
+													href="${pageContext.request.contextPath}/showLoanListForAction?empId=${empdetList.exVar1}"
+													class="list-icons-item text-primary-600" data-popup="tooltip" title="Add Advance" data-original-title="Edit"><i class="icon-pencil7"
+													 ></i></a></td>
+										
  									</tr>
 								</c:forEach>
 
@@ -202,11 +207,7 @@
 	</div>
 	<!-- /page content -->
 	<script type="text/javascript">
-		function show() {
-
-		 
-
-			 
+		function show() { 
 				$.getJSON('${getLoanHistory}', {
 					 
 					ajax : 'true',

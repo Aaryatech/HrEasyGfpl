@@ -43,14 +43,14 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Loan Detail
-										History</h5></td>
-										
-										<td width="40%" align="right"><a
-									href="${pageContext.request.contextPath}/showLoanHistory"
+								<td width="60%"><h5 class="card-title">Company Loan
+										List Detail</h5></td>
+
+								<td width="40%" align="right"><a
+									href="${pageContext.request.contextPath}/showCompLoanList"
 									class="breadcrumb-elements-item">
-										<button type="button" class="btn btn-primary"> 
-											Loan History</button>
+										<button type="button" class="btn btn-primary">
+											Company Loan List</button>
 								</a></td>
 
 							</tr>
@@ -139,6 +139,7 @@
 									<th>Loan EMI</th>
 									<th>Current Outstanding</th>
 									<th>Status</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -155,6 +156,41 @@
 										<td>${empdetList.loanEmi}</td>
 										<td>${empdetList.currentOutstanding}</td>
 										<td>${empdetList.loanStatus}</td>
+										<td>
+										
+										 <c:if test="${empdetList.exInt1==2}">
+											 <a
+											href="${pageContext.request.contextPath}/showSkipLoan?id=${empdetList.exVar1}&empId=${empdetList.exVar2}"
+											class="list-icons-item text-primary-600" data-popup="tooltip"
+											title="" data-original-title="Skip Loan"><i
+												class="icon-pencil7"></i></a>
+										</c:if>
+										 
+									 <a
+											href="${pageContext.request.contextPath}/showForeCloseLoan?id=${empdetList.exVar1}&empId=${empdetList.exVar2}"
+											class="list-icons-item text-primary-600" data-popup="tooltip"
+											title="" data-original-title="Foreclose Loan"><i
+												class="icon-pencil7"></i></a>
+										
+												
+												
+												 <a
+											href="${pageContext.request.contextPath}/showPartialPayLoan?id=${empdetList.exVar1}&empId=${empdetList.exVar2}"
+											class="list-icons-item text-primary-600" data-popup="tooltip"
+											title="" data-original-title="Partial Pay"><i
+												class="icon-pencil7"></i></a>
+										 
+												
+												
+												<a
+											href="${pageContext.request.contextPath}/showLoanListForAction?empId=${empdetList.exVar1}"
+											class="list-icons-item text-primary-600" data-popup="tooltip"
+											title="Repay Schedule" data-original-title="Edit"><i
+												class="icon-pencil7"></i></a>
+												
+											
+												
+												</td>
 
 
 									</tr>
@@ -163,7 +199,7 @@
 							</tbody>
 						</table>
 
-					 
+
 
 					</div>
 
