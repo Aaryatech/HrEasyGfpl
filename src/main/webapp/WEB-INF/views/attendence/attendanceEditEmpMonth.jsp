@@ -91,6 +91,11 @@
 									<label class="col-form-label col-lg-1"> Total OT Hrs: </label>
 									<label class="col-form-label col-lg-1">${summaryAttendance.totOthr}</label>
 								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-lg-1"> NCP Days : </label> <label
+										class="col-form-label col-lg-1">${summaryAttendance.ncpDays}</label>
+
+								</div>
 
 							</div>
 							<hr>
@@ -141,20 +146,10 @@
 													data-placeholder="Select Leave Type" id="selectStatus"
 													class="form-control form-control-select2 select2-hidden-accessible">
 													<option value="0">Select Status</option>
-													<c:forEach items="${leaveHistoryList}"
-														var="leaveHistoryList">
-														<c:choose>
-															<c:when
-																test="${leaveHistoryList.lvTypeId == editLeave.lvTypeId}">
-																<option value="${leaveHistoryList.lvTypeId}"
-																	selected="selected"
-																	data-leavestrname="${leaveHistoryList.lvTitle}">${leaveHistoryList.lvTitle}</option>
-															</c:when>
-															<c:otherwise>
-																<option value="${leaveHistoryList.lvTypeId}"
-																	data-leavestrname="${leaveHistoryList.lvTitle}">${leaveHistoryList.lvTitle}</option>
-															</c:otherwise>
-														</c:choose>
+													<c:forEach items="${lvTypeList}" var="lvTypeList">
+														<%-- data-leavestrname="${leaveHistoryList.lvTitle}" --%>
+														<option value="${lvTypeList.lvSumupId}">${lvTypeList.nameSd}</option>
+
 													</c:forEach>
 												</select>
 											</div>

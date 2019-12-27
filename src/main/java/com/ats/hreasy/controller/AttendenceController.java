@@ -44,6 +44,7 @@ import com.ats.hreasy.model.GetDailyDailyRecord;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.InfoForUploadAttendance;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.LvType;
 import com.ats.hreasy.model.SummaryAttendance;
 import com.ats.hreasy.model.SummaryDailyAttendance;
 import com.ats.hreasy.model.VariousList;
@@ -465,6 +466,10 @@ public class AttendenceController {
 			model.addAttribute("year", year);
 			model.addAttribute("month", month);
 
+			LvType[] lvType = Constants.getRestTemplate().getForObject(Constants.url + "/getLvTypeList",
+					LvType[].class);
+			List<LvType> lvTypeList = new ArrayList<LvType>(Arrays.asList(lvType));
+			model.addAttribute("lvTypeList", lvTypeList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
