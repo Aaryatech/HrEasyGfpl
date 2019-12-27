@@ -1,6 +1,8 @@
 package com.ats.hreasy.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -404,6 +406,7 @@ class LoanAdminController {
 
 		Date date = new Date();
 		SimpleDateFormat sf = new SimpleDateFormat("MM-yyyy");
+		
 
 		try {
 
@@ -547,6 +550,25 @@ class LoanAdminController {
 					LoanMain.class);
 
 			model.addObject("advList", advList);
+			
+			
+			map = new LinkedMultiValueMap<>();
+			map.add("loanId", id);
+			LoanDetails[] employeeInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpLoanDetailByMainId", map, LoanDetails[].class);
+
+			List<LoanDetails> laonDetalList = new ArrayList<LoanDetails>(Arrays.asList(employeeInfo));
+			
+			model.addObject("laonDetalList", laonDetalList);
+			for(int i=0;i<laonDetalList.size();i++) {
+
+			int monthNumber = laonDetalList.get(i).getMonths();
+			String a=Month.of(monthNumber).name();
+			laonDetalList.get(i).setLoginName(a);
+			
+			
+			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -794,6 +816,8 @@ class LoanAdminController {
 
 		try {
 
+			
+			
 			String base64encodedString = request.getParameter("id");
 			String id = FormValidation.DecodeKey(base64encodedString);
 
@@ -819,6 +843,25 @@ class LoanAdminController {
 					LoanMain.class);
 
 			model.addObject("advList", advList);
+			
+			
+			map = new LinkedMultiValueMap<>();
+			map.add("loanId", id);
+			LoanDetails[] employeeInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpLoanDetailByMainId", map, LoanDetails[].class);
+
+			List<LoanDetails> laonDetalList = new ArrayList<LoanDetails>(Arrays.asList(employeeInfo));
+			
+			model.addObject("laonDetalList", laonDetalList);
+			for(int i=0;i<laonDetalList.size();i++) {
+
+			int monthNumber = laonDetalList.get(i).getMonths();
+			String a=Month.of(monthNumber).name();
+			laonDetalList.get(i).setLoginName(a);
+			
+			
+			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -829,7 +872,7 @@ class LoanAdminController {
 	@RequestMapping(value = "/calDateForPartialPay", method = RequestMethod.GET)
 	public @ResponseBody Info calDateForPartialPay(HttpServletRequest request, HttpServletResponse response) {
 
-		Info employeeInfoList = new Info();
+		Info employeeInfo = new Info();
 
 		try {
 
@@ -837,24 +880,104 @@ class LoanAdminController {
 			int loanEmi = Integer.parseInt(request.getParameter("loanEmi"));
 			String partialAmt = request.getParameter("partialAmt");
 			String endDate = request.getParameter("endDate");
+			String loanId = request.getParameter("loanId");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("currentOutstanding", currentOutstanding);
 			map.add("loanEmi", loanEmi);
 			map.add("partialAmt", partialAmt);
 			map.add("endDate", DateConvertor.convertToYMD(endDate));
+			map.add("loanId", loanId);
 
-			Info employeeInfo = Constants.getRestTemplate().postForObject(Constants.url + "/calDatePartialPay", map,
+			  employeeInfo = Constants.getRestTemplate().postForObject(Constants.url + "/calDatePartialPay", map,
 					Info.class);
-
-			if (employeeInfo.isError() == false) {
+			
+			if (employeeInfo.isError()==false) {
+				
 				employeeInfo.setMsg(DateConvertor.convertToDMY(employeeInfo.getMsg()));
+				System.err.println("employeeInfo***"+employeeInfo.toString());
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return employeeInfoList;
+		return employeeInfo;
 	}
+	
+	
+	@RequestMapping(value = "/showRepayLoan", method = RequestMethod.GET)
+	public ModelAndView showRepayLoan(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("Loan/loanRepaySch");
+
+		try {
+
+			String base64encodedString = request.getParameter("id");
+			String id = FormValidation.DecodeKey(base64encodedString);
+
+			String base64encodedString1 = request.getParameter("empId");
+			String empId = FormValidation.DecodeKey(base64encodedString1);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
+			// System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
+			model.addObject("encEmpId", FormValidation.Encrypt(String.valueOf(empPersInfo.getEmpId())));
+
+			String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
+					.concat(" ").concat(empPersInfo.getSurname()).concat("[")
+					.concat(empPersInfo.getEmpDesgn().concat("]"));
+			model.addObject("empPersInfo", empPersInfo);
+			model.addObject("empPersInfoString", empPersInfoString);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("id", id);
+			LoanMain advList = Constants.getRestTemplate().postForObject(Constants.url + "/getLoanById", map,
+					LoanMain.class);
+
+			model.addObject("advList", advList);
+			
+			
+			map = new LinkedMultiValueMap<>();
+			map.add("loanId", id);
+			LoanDetails[] employeeInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpLoanDetailByMainId", map, LoanDetails[].class);
+
+			List<LoanDetails> laonDetalList = new ArrayList<LoanDetails>(Arrays.asList(employeeInfo));
+			
+			model.addObject("laonDetalList", laonDetalList);
+			for(int i=0;i<laonDetalList.size();i++) {
+
+			int monthNumber = laonDetalList.get(i).getMonths();
+			String a=Month.of(monthNumber).name();
+			laonDetalList.get(i).setLoginName(a);
+			
+			
+			}
+			
+			Date date2 = new Date();
+			SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			 
+ 			LocalDate localDate = LocalDate.parse(DateConvertor.convertToYMD(advList.getLoanRepayStart()));
+ 			List<String> dateList=new ArrayList<>();
+			for(int i=0;i<advList.getLoanTenure();i++) {
+				
+			 
+   				LocalDate oneMonthLater = localDate.plusMonths(i);
+   				
+   				String x=String.valueOf(oneMonthLater.getMonth()).concat("-").concat(	String.valueOf(oneMonthLater.getYear()));
+   				dateList.add(x);
+    				
+				
+			}
+			model.addObject("dateList", dateList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
 
 }

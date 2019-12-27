@@ -102,7 +102,7 @@
 
 								<form
 									action="${pageContext.request.contextPath}/submitLoanForeClose"
-									id="submitInsertLocaion" method="post">
+									id="submitData" method="post">
 									<input type="hidden" value="${empPersInfo.empId}" id="empId"
 										name="empId"> <input type="hidden"
 										value="${advList.id}" id="id" name="id">
@@ -183,6 +183,35 @@
 
 									<hr>
 									
+									
+									<div class="col-md-12">
+										<h6 class="card-title">Paid Status</h6>
+										<div class="table-responsive">
+											<table
+												class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
+												id="printtable2">
+												<thead>
+													<tr class="bg-blue">
+														<th>Month</th>
+														<th>Amount</th>
+														<th>Type</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${laonDetalList}" var="laonDetalList"
+														varStatus="count">
+														<tr>
+															<td>${laonDetalList.loginName}-${laonDetalList.years}</td>
+															<td>${laonDetalList.amountEmi}</td>
+															<td>${laonDetalList.payType}</td>
+														</tr>
+													</c:forEach>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<hr>
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="advanceAmt">Foreclose Amount
 											  (Rs) <span style="color: red">* </span>:
@@ -213,9 +242,9 @@
 										</label>
 										<div class="col-lg-4">
 											<textarea class="form-control"
-												placeholder="Enter Reason / Remark" id="remark"
+												placeholder="Enter Reason / Remark" id="reason"
 												name="remark" autocomplete="off" onchange="trim(this)"> </textarea>
-											<span class="validation-invalid-label" id="error_remark"
+											<span class="validation-invalid-label" id="error_reason"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
@@ -271,19 +300,17 @@
 
 		$(document).ready(function($) {
 
-			$("#submitInsertLocaion").submit(function(e) {
-
-				var isError = false;
+			$("#submitData").submit(function(e) {
+ 				var isError = false;
 				var errMsg = "";
 
-				if (!$("#remark").val()) {
+				if (!$("#reason").val()) {
+ 					isError = true;
 
-					isError = true;
-
-					$("#error_remark").show()
+					$("#error_reason").show()
 
 				} else {
-					$("#error_remark").hide()
+ 					$("#error_reason").hide()
 				}
 
 				if (!isError) {
@@ -328,37 +355,6 @@
 	</script>
 
 
-	<!-- <script type="text/javascript">
-	$('#submtbtn').on('click', function() {
-        swalInit({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-            buttonsStyling: false
-        }).then(function(result) {
-            if(result.value) {
-                swalInit(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                );
-            }
-            else if(result.dismiss === swal.DismissReason.cancel) {
-                swalInit(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
-                    'error'
-                );
-            }
-        });
-    });
-	
-	</script> -->
-
+	 
 </body>
 </html>

@@ -13,6 +13,8 @@ public class LoanDetails {
 	private String payType;
 
 	private int amountEmi;
+	
+	private int delStatus;
 	private String remarks;
 
 	private String loginTime;
@@ -21,6 +23,14 @@ public class LoanDetails {
 	private String skippMonthYear;
 	private double skippAmoount;
 	private String skippRemark;
+	
+	
+	public int getDelStatus() {
+		return delStatus;
+	}
+	public void setDelStatus(int delStatus) {
+		this.delStatus = delStatus;
+	}
 	public int getId() {
 		return id;
 	}
@@ -96,11 +106,16 @@ public class LoanDetails {
 	@Override
 	public String toString() {
 		return "LoanDetails [id=" + id + ", loanMainId=" + loanMainId + ", months=" + months + ", years=" + years
-				+ ", payType=" + payType + ", amountEmi=" + amountEmi + ", remarks=" + remarks + ", loginTime="
-				+ loginTime + ", loginName=" + loginName + ", skippMonthYear=" + skippMonthYear + ", skippAmoount="
-				+ skippAmoount + ", skippRemark=" + skippRemark + "]";
+				+ ", payType=" + payType + ", amountEmi=" + amountEmi + ", delStatus=" + delStatus + ", remarks="
+				+ remarks + ", loginTime=" + loginTime + ", loginName=" + loginName + ", skippMonthYear="
+				+ skippMonthYear + ", skippAmoount=" + skippAmoount + ", skippRemark=" + skippRemark
+				+ ", getDelStatus()=" + getDelStatus() + ", getId()=" + getId() + ", getLoanMainId()=" + getLoanMainId()
+				+ ", getMonths()=" + getMonths() + ", getYears()=" + getYears() + ", getPayType()=" + getPayType()
+				+ ", getAmountEmi()=" + getAmountEmi() + ", getRemarks()=" + getRemarks() + ", getLoginTime()="
+				+ getLoginTime() + ", getLoginName()=" + getLoginName() + ", getSkippMonthYear()=" + getSkippMonthYear()
+				+ ", getSkippAmoount()=" + getSkippAmoount() + ", getSkippRemark()=" + getSkippRemark()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
 	}
-	
-	
-
+	 
 }

@@ -105,7 +105,7 @@
 									action="${pageContext.request.contextPath}/submitLoanPartialPay"
 									id="submitInsertLocaion" method="post">
 									<input type="hidden" value="${empPersInfo.empId}" id="empId"
-										name="empId"> <input type="hidden"
+										name="empId"> <input type="text"
 										value="${advList.id}" id="id" name="id">
 
 
@@ -184,6 +184,36 @@
 
 									<hr>
 
+									<div class="col-md-12">
+										<h6 class="card-title">Paid Status</h6>
+										<div class="table-responsive">
+											<table
+												class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
+												id="printtable2">
+												<thead>
+													<tr class="bg-blue">
+														<th>Month</th>
+														<th>Amount</th>
+														<th>Type</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${laonDetalList}" var="laonDetalList"
+														varStatus="count">
+														<tr>
+															<td>${laonDetalList.loginName}-${laonDetalList.years}</td>
+															<td>${laonDetalList.amountEmi}</td>
+															<td>${laonDetalList.payType}</td>
+														</tr>
+													</c:forEach>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									<hr>
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="advanceAmt">PartialPay
 											Amount (Rs) <span style="color: red">* </span>:
@@ -198,23 +228,26 @@
 											style="display: none;">This field is required.</span> <span
 											class="validation-invalid-label" id="error_partialAmtGreat"
 											style="display: none;">Partial Pay Amount Should Be
-											Less Than Current Outstanding </span> <label
-											class="col-form-label col-lg-2" for="joiningDate">
+											Less Than Current Outstanding </span>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="joiningDate">
 											Date <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control datepickerclass "
-												name="joiningDate" id="joiningDate"
+												disabled="disabled" name="joiningDate" id="joiningDate"
 												placeholder="Joining Date">
 										</div>
-
 									</div>
 
 									<input type="hidden" name="curr" id="currentOutstanding"
 										value="${advList.currentOutstanding}"> <input
-										type="text" name="loanEmi" id="loanEmi"
-										value=" ${advList.loanEmi}"> <input type="hidden"
-										name="startDate" id="startDate" value=" ${advList.loanRepayEnd}">
+										type="hidden" name="loanEmi" id="loanEmi"
+										value="${advList.loanEmiIntrest}"> <input
+										type="hidden" name="startDate" id="startDate"
+										value="${advList.loanRepayStart}">
 
 
 									<div class="form-group row">
@@ -223,9 +256,9 @@
 										</label>
 										<div class="col-lg-4">
 											<textarea class="form-control"
-												placeholder="Enter Reason / Remark" id="remark"
+												placeholder="Enter Reason / Remark" id="reason"
 												name="remark" autocomplete="off" onchange="trim(this)"> </textarea>
-											<span class="validation-invalid-label" id="error_remark"
+											<span class="validation-invalid-label" id="error_reason"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
@@ -273,43 +306,44 @@
 	<script type="text/javascript">
 		function show() {
 
-			alert("Hi View Orders  ");
+			//	alert("Hi View Orders  ");
 
 			var currentOutstanding = document
 					.getElementById("currentOutstanding").value;
 			var loanEmi = document.getElementById("loanEmi").value;
 			var partialAmt = document.getElementById("partialAmt").value;
 			var endDate = document.getElementById("startDate").value;
-
-			$.getJSON('${calDateForPartialPay}', {
-				currentOutstanding : currentOutstanding,
-				loanEmi : loanEmi,
-				partialAmt : partialAmt,
-				endDate : endDate,
-				ajax : 'true',
-			},
-
-			function(data) {
-
-				alert("Data " + JSON.stringify(data));
-				document.getElementById("joiningDate").value=data.msg;
-			});
-
-		}
-	</script>
-	<script>
-		function calAmt() {
-			//alert(11);
-			var partial = document.getElementById("partial_amt").value;
-
-			var curr = document.getElementById("curr").value;
-			if (parseFloat(partial) <= parseFloat(curr)) {
-				$("#amt_error").show()
+			var loanId = document.getElementById("id").value;
+			var valid = false;
+			if ((parseFloat(partialAmt) <= parseFloat(currentOutstanding))
+					&& (parseFloat(partialAmt) > 0)) {
+				valid = true;
+				$("#error_partialAmtGreat").hide();
 			} else {
-				$("#amt_error").hide()
+				$("#error_partialAmtGreat").show();
+			}
+
+			if (valid == true) {
+				$.getJSON('${calDateForPartialPay}', {
+					currentOutstanding : currentOutstanding,
+					loanEmi : loanEmi,
+					partialAmt : partialAmt,
+					endDate : endDate,
+					loanId : loanId,
+					ajax : 'true',
+				},
+
+				function(data) {
+
+					alert("Data " + JSON.stringify(data));
+					document.getElementById("joiningDate").value = data.msg;
+					alert(data.msg);
+
+				});
 			}
 		}
 	</script>
+
 	<script>
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
@@ -322,18 +356,25 @@
 		$(document).ready(function($) {
 
 			$("#submitInsertLocaion").submit(function(e) {
-				alert(11);
+				//alert(11);
 				var isError = false;
 				var errMsg = "";
-				alert("" + $("#remark").val());
-				if (!$("#remark").val()) {
-
+				//	alert($("#reason").val());
+				if (!$("#reason").val()) {
 					isError = true;
 
-					$("#error_remark").show()
+					$("#error_reason").show()
 
 				} else {
-					$("#error_remark").hide()
+					$("#error_reason").hide()
+				}
+				if (!$("#partialAmt").val()) {
+					isError = true;
+
+					$("#error_partialAmt").show()
+
+				} else {
+					$("#error_partialAmt").hide()
 				}
 
 				if (!isError) {

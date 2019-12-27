@@ -182,10 +182,10 @@
 										 
 												
 												
-												<a
-											href="${pageContext.request.contextPath}/showLoanListForAction?empId=${empdetList.exVar1}"
+												 <a
+											href="${pageContext.request.contextPath}/showRepayLoan?id=${empdetList.exVar1}&empId=${empdetList.exVar2}"
 											class="list-icons-item text-primary-600" data-popup="tooltip"
-											title="Repay Schedule" data-original-title="Edit"><i
+											title="" data-original-title="Repay Schedule"><i
 												class="icon-pencil7"></i></a>
 												
 											
