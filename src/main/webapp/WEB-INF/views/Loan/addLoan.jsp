@@ -105,8 +105,7 @@
 										name="empId">
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="empName">Employee
-											Name  :
-										</label>
+											Name : </label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												value="${empPersInfoString}" id="empName"
@@ -118,8 +117,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="grossSal">
-											Gross Salary  :
-										</label>
+											Gross Salary : </label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" id="grossSal"
 												value="${empPersInfo.grossSalaryEst}" readonly="readonly"
@@ -129,8 +127,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="grossSal">
-											Previous Loan Unpaid Amount < :
-										</label>
+											Previous Loan Unpaid Amount < : </label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" id="grossSal"
 												readonly="readonly" name="grossSal"
@@ -141,8 +138,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="grossSal">
-											Loan EMI Per Month  :
-										</label>
+											Loan EMI Per Month : </label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" id="grossSal"
 												readonly="readonly" name="grossSal"
@@ -164,9 +160,8 @@
 										</div>
 
 										<label class="col-form-label col-lg-2" for="voucherNo">
-											Today  :
-										</label> <label class="col-form-label col-lg-4" for="voucherNo">
-											${todaysDate} </label>
+											Today : </label> <label class="col-form-label col-lg-4"
+											for="voucherNo"> ${todaysDate} </label>
 									</div>
 
 
@@ -208,16 +203,28 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2">Date Of Cutting<span
-											style="color: red">* </span>:
-										</label>
-										<div class="col-lg-10">
-											<input type="text" class="form-control daterange-basic_new "
-												name="cuttingDate" data-placeholder="Select Date"
-												id="cuttingDate"> <span
-												class="validation-invalid-label" id="error_cuttingDate"
-												style="display: none;">This field is required.</span>
 
+
+										<label class="col-form-label col-lg-2" for="startDate">
+											Start Date of Cutting <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control datepickerclass " onchange="calAmt()"
+												name="startDate" id="startDate" placeholder="Joining Date">
+										</div>
+
+
+									</div>
+
+									<div class="form-group row">
+
+
+										<label class="col-form-label col-lg-2" for="joiningDate">
+											End Date of Cutting<span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control datepickerclass "
+												name="endDate" id="endDate" placeholder="Joining Date">
 										</div>
 									</div>
 
@@ -310,6 +317,7 @@
 			var roi = document.getElementById("roi").value;
 			var tenure = document.getElementById("tenure").value;
 			var loanAmt = document.getElementById("loanAmt").value;
+			var startDate = document.getElementById("startDate").value;
 
 			//alert("empId  "+empId);
 			//alert("calYrId "+calYrId);
@@ -318,6 +326,7 @@
 				roi : roi,
 				tenure : tenure,
 				loanAmt : loanAmt,
+				startDate : startDate,
 				ajax : 'true',
 			},
 
@@ -326,6 +335,9 @@
 				document.getElementById("repayAmt").value = data.repayAmt;
 
 				document.getElementById("emi").value = data.emiAmt;
+				
+				document.getElementById("endDate").value = data.calDate;
+
 
 			});
 
@@ -407,16 +419,7 @@
 					$("#error_loanAmt").hide()
 				}
 
-				if (!$("#cuttingDate").val()) {
-
-					isError = true;
-
-					$("#error_cuttingDate").show()
-
-				} else {
-					$("#error_cuttingDate").hide()
-				}
- 
+				 
 				if (!$("#remark").val()) {
 
 					isError = true;

@@ -210,14 +210,11 @@
 
 									</div>
 
-									<input type="hidden" class="form-control datepickerclass "
-										name="curr" id="currentOutstanding"
+									<input type="hidden" name="curr" id="currentOutstanding"
 										value="${advList.currentOutstanding}"> <input
-										type="hidden" class="form-control datepickerclass "
-										name="curr" id="loanEmi" value=" ${advList.loanEmi}">
-
-									<input type="hidden" class="form-control datepickerclass "
-										name="curr" id="startDate" value=" ${advList.loanRepayEnd}">
+										type="text" name="loanEmi" id="loanEmi"
+										value=" ${advList.loanEmi}"> <input type="hidden"
+										name="startDate" id="startDate" value=" ${advList.loanRepayEnd}">
 
 
 									<div class="form-group row">
@@ -284,23 +281,19 @@
 			var partialAmt = document.getElementById("partialAmt").value;
 			var endDate = document.getElementById("startDate").value;
 
-	 
+			$.getJSON('${calDateForPartialPay}', {
+				currentOutstanding : currentOutstanding,
+				loanEmi : loanEmi,
+				partialAmt : partialAmt,
+				endDate : endDate,
+				ajax : 'true',
+			},
 
-				$.getJSON('${calDateForPartialPay}', {
-					currentOutstanding : currentOutstanding,
-					loanEmi : loanEmi,
-					partialAmt : partialAmt,
-					endDate : endDate,
-					ajax : 'true',
-				},
+			function(data) {
 
-				function(data) {
-
-					alert("Data " + JSON.stringify(data));
-
-				});
-
-		 
+				alert("Data " + JSON.stringify(data));
+				document.getElementById("joiningDate").value=data.msg;
+			});
 
 		}
 	</script>

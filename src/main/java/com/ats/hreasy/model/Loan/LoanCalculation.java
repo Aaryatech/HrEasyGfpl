@@ -6,6 +6,19 @@ public class LoanCalculation {
 	private float repayAmt;
 	
 	private float emiAmt;
+	
+	private String  calDate;
+	
+	
+	
+
+	public String getCalDate() {
+		return calDate;
+	}
+
+	public void setCalDate(String calDate) {
+		this.calDate = calDate;
+	}
 
 	public float getRepayAmt() {
 		return repayAmt;
@@ -25,9 +38,9 @@ public class LoanCalculation {
 
 	@Override
 	public String toString() {
-		return "LoanCalculation [repayAmt=" + repayAmt + ", emiAmt=" + emiAmt + "]";
+		return "LoanCalculation [repayAmt=" + repayAmt + ", emiAmt=" + emiAmt + ", calDate=" + calDate + "]";
 	}
-	
+
 	
 	
 	

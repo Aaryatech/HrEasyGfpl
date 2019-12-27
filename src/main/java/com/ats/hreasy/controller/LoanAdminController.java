@@ -113,13 +113,16 @@ class LoanAdminController {
 			String roi = request.getParameter("roi");
 			String tenure = request.getParameter("tenure");
 			String loanAmt = request.getParameter("loanAmt");
+			String startDate = request.getParameter("startDate");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("roi", roi);
 			map.add("tenure", tenure);
 			map.add("loanAmt", loanAmt);
-			loan = Constants.getRestTemplate().postForObject(Constants.url + "/calLoan", map, LoanCalculation.class);
+			map.add("startDate", DateConvertor.convertToYMD(startDate));
 
+			loan = Constants.getRestTemplate().postForObject(Constants.url + "/calLoan", map, LoanCalculation.class);
+			loan.setCalDate(DateConvertor.convertToDMY(loan.getCalDate()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -149,11 +152,13 @@ class LoanAdminController {
 			String appNo = request.getParameter("appNo");
 			int empId = Integer.parseInt(request.getParameter("empId"));
 
-			String leaveDateRange = request.getParameter("cuttingDate");
-
-			String[] arrOfStr = leaveDateRange.split("to", 2);
-			System.err.println("date1 is " + arrOfStr[0].toString().trim());
-			System.err.println("date2 is " + arrOfStr[1].toString().trim());
+			String startDate = request.getParameter("startDate");
+			String endDate = request.getParameter("endDate");
+			/*
+			 * String[] arrOfStr = leaveDateRange.split("to", 2);
+			 * System.err.println("date1 is " + arrOfStr[0].toString().trim());
+			 * System.err.println("date2 is " + arrOfStr[1].toString().trim());
+			 */
 
 			Boolean ret = false;
 
@@ -188,6 +193,18 @@ class LoanAdminController {
 				System.out.println("repayAmt" + ret);
 			}
 
+			if (FormValidation.Validaton(startDate, "") == true) {
+
+				ret = true;
+				System.out.println("startDate" + ret);
+			}
+
+			if (FormValidation.Validaton(endDate, "") == true) {
+
+				ret = true;
+				System.out.println("endDate" + ret);
+			}
+
 			if (ret == false) {
 
 				LoanMain adv = new LoanMain();
@@ -201,8 +218,8 @@ class LoanAdminController {
 				adv.setLoanEmi(temp);
 				adv.setLoanEmiIntrest(Integer.parseInt(emi));
 				adv.setLoanRepayAmt(Integer.parseInt(repayAmt));
-				adv.setLoanRepayEnd(arrOfStr[1].toString());
-				adv.setLoanRepayStart(arrOfStr[0].toString());
+				adv.setLoanRepayEnd(endDate);
+				adv.setLoanRepayStart(startDate);
 				adv.setLoanRoi(Double.parseDouble(roi));
 				adv.setLoanStatus("Active");
 				adv.setLoanTenure(Integer.parseInt(tenure));
@@ -406,8 +423,9 @@ class LoanAdminController {
 			model.addObject("loanList", employeeInfoList);
 
 			for (int i = 0; i < employeeInfoList.size(); i++) {
-			    Date date1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(employeeInfoList.get(i).getSkipLoginTime());  
-				
+				Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+						.parse(employeeInfoList.get(i).getSkipLoginTime());
+
 				System.out.println("date------" + sf.format(date));
 				String a = sf.format(date1);
 
@@ -423,7 +441,7 @@ class LoanAdminController {
 						.setExVar1(FormValidation.Encrypt(String.valueOf(employeeInfoList.get(i).getId())));
 				employeeInfoList.get(i)
 						.setExVar2(FormValidation.Encrypt(String.valueOf(employeeInfoList.get(i).getEmpId())));
-				
+
 			}
 
 			map = new LinkedMultiValueMap<>();
@@ -541,7 +559,7 @@ class LoanAdminController {
 
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
- 		String empId = null;
+		String empId = null;
 		try {
 
 			Date date2 = new Date();
@@ -557,7 +575,7 @@ class LoanAdminController {
 			String closeDate = request.getParameter("joiningDate");
 			String foreclose_amt = request.getParameter("foreclose_amt");
 			int id = Integer.parseInt(request.getParameter("id"));
- 
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map = new LinkedMultiValueMap<>();
 			map.add("id", id);
@@ -572,7 +590,7 @@ class LoanAdminController {
 				System.out.println("remark" + ret);
 			}
 			if (ret == false) {
- 				LoanDetails adv = new LoanDetails();
+				LoanDetails adv = new LoanDetails();
 				adv.setAmountEmi(Integer.parseInt(foreclose_amt));
 				adv.setLoanMainId(advList.getId());
 				adv.setLoginName(String.valueOf(userObj.getEmpId()));
@@ -590,7 +608,7 @@ class LoanAdminController {
 						LoanDetails.class);
 
 				if (res != null) {
- 					session.setAttribute("successMsg", "Advance Inserted Successfully");
+					session.setAttribute("successMsg", "Advance Inserted Successfully");
 
 					map = new LinkedMultiValueMap<>();
 					map.add("dateTimeUpdate", sf2.format(date2));
@@ -616,7 +634,7 @@ class LoanAdminController {
 
 		return "redirect:/showLoanListForAction?empId=" + empId;
 	}
-	
+
 	@RequestMapping(value = "/submitLoanPartialPay", method = RequestMethod.POST)
 	public String submitLoanPartialPay(HttpServletRequest request, HttpServletResponse response) {
 
@@ -639,7 +657,7 @@ class LoanAdminController {
 			String closeDate = request.getParameter("joiningDate");
 			String partialAmt = request.getParameter("partialAmt");
 			int id = Integer.parseInt(request.getParameter("id"));
- 
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map = new LinkedMultiValueMap<>();
 			map.add("id", id);
@@ -654,18 +672,18 @@ class LoanAdminController {
 				System.out.println("remark" + ret);
 			}
 			if (ret == false) {
- 				LoanDetails adv = new LoanDetails();
+				LoanDetails adv = new LoanDetails();
 				adv.setAmountEmi(Integer.parseInt(partialAmt));
 				adv.setLoanMainId(advList.getId());
 				adv.setLoginName(String.valueOf(userObj.getEmpId()));
 				adv.setLoginTime(sf2.format(date2));
 				adv.setMonths(Integer.parseInt(sf1.format(date1)));
-				if((advList.getCurrentOutstanding() - Integer.parseInt(partialAmt))==0) {
+				if ((advList.getCurrentOutstanding() - Integer.parseInt(partialAmt)) == 0) {
 					adv.setPayType("FC");
-				}else {
+				} else {
 					adv.setPayType("PP");
 				}
-				
+
 				adv.setRemarks(remark);
 				adv.setSkippAmoount(0);
 				adv.setSkippMonthYear("0000-00-00 00:00:00");
@@ -677,7 +695,7 @@ class LoanAdminController {
 						LoanDetails.class);
 
 				if (res != null) {
- 					session.setAttribute("successMsg", "Advance Inserted Successfully");
+					session.setAttribute("successMsg", "Advance Inserted Successfully");
 
 					map = new LinkedMultiValueMap<>();
 					map.add("dateTimeUpdate", sf2.format(date2));
@@ -807,18 +825,16 @@ class LoanAdminController {
 		}
 		return model;
 	}
-	
-	
+
 	@RequestMapping(value = "/calDateForPartialPay", method = RequestMethod.GET)
-	public @ResponseBody Info calDateForPartialPay(HttpServletRequest request,
-			HttpServletResponse response) {
+	public @ResponseBody Info calDateForPartialPay(HttpServletRequest request, HttpServletResponse response) {
 
 		Info employeeInfoList = new Info();
 
 		try {
 
- 			String currentOutstanding = request.getParameter("currentOutstanding");
-			String loanEmi = request.getParameter("loanEmi");
+			String currentOutstanding = request.getParameter("currentOutstanding");
+			int loanEmi = Integer.parseInt(request.getParameter("loanEmi"));
 			String partialAmt = request.getParameter("partialAmt");
 			String endDate = request.getParameter("endDate");
 
@@ -828,11 +844,13 @@ class LoanAdminController {
 			map.add("partialAmt", partialAmt);
 			map.add("endDate", DateConvertor.convertToYMD(endDate));
 
-			Info employeeInfo = Constants.getRestTemplate().postForObject(Constants.url + "/calDatePartialPay",
-					map, Info.class);
+			Info employeeInfo = Constants.getRestTemplate().postForObject(Constants.url + "/calDatePartialPay", map,
+					Info.class);
 
-	 
- 
+			if (employeeInfo.isError() == false) {
+				employeeInfo.setMsg(DateConvertor.convertToDMY(employeeInfo.getMsg()));
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
