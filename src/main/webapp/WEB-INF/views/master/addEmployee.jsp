@@ -9,6 +9,7 @@
 </head>
 
 <body>
+<c:url var="getUniqEmpCodeResp" value="/getUniqEmpCodeResp"></c:url>
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -143,7 +144,7 @@
 														placeholder="Employee Code." id="empCode" name="empCode"
 														autocomplete="off" onchange="trim(this)"> <span
 														class="hidedefault   validation-invalid-label" style="display: none;"
-														id="error_empCode">This field is required.</span>
+														id="unique_user">Employee Code Already Exist.</span>
 												</div>
 											</div>
 
@@ -336,16 +337,7 @@
 													<span class="hidedefault   validation-invalid-label" style="display: none;"
 														id="error_emgContNo2_alt">This field is required.</span>
 												</div>
-
-												<!-- 
-										<div class="col-lg-3">
-											<input type="text" class="form-control"
-												placeholder="Residence LandLine No" id="landline"
-												name="landline" autocomplete="off" onchange="trim(this)">
-											<span class="hidedefault validation-invalid-label"
-												id="error_landline">This
-												field is required.</span>
-										</div> -->
+												
 											</div>
 
 											<div class="form-group row">
@@ -359,11 +351,11 @@
 														class="form-control form-control-select21 select2-hidden-accessible1">
 
 														<option value="">Select Category</option>
-														<option value="Muster" ${emp.empCategory==Muster ? selected : ''}>Muster</option>
-														<option value="Voucher" ${emp.empType==Voucher ? selected : ''}>Voucher</option>
-														<option value="Contract" ${emp.empCategory==Contract ? selected : ''}>Contract</option>
-														<option value="Trainee" ${emp.empCategory==Trainee ? selected : ''}>Trainee</option>
-														<option value="Job" ${emp.empCategory==Job ? selected : ''}>Job</option>
+														<option value="Muster" ${emp.empCategory=='Muster' ? 'selected' : ''}>Muster</option>
+														<option value="Voucher" ${emp.empCategory=='Voucher' ? 'selected' : ''}>Voucher</option>
+														<option value="Contract" ${emp.empCategory=='Contract' ? 'selected' : ''}>Contract</option>
+														<option value="Trainee" ${emp.empCategory=='Trainee' ? 'selected' : ''}>Trainee</option>
+														<option value="Job" ${emp.empCategory=='Job' ? 'selected' : ''}>Job</option>
 
 													</select> <span class="hidedefault   validation-invalid-label"
 														id="error_empCat" style="display: none;">This field is required.</span>
@@ -1496,21 +1488,33 @@
 			});
 		});
 
-		/* $('#sbtbtn4').click(function() {
+		 $(document).ready(function(){
+			
+			  $("#empCode").change(function(){
+			    var empCode = $('#empCode').val();
+			  
+			    $
+				.getJSON(
+						'${getUniqEmpCodeResp}',
 
-			$.ajax({
-				type : "POST",
-				url : "${pageContext.request.contextPath}/postIssueData",
-				data : $("#modalfrm4").serialize(),
-				dataType : 'json',
-				success : function(data) {
+						{
+							 
+							empCode : empCode,
+							ajax : 'true'
 
-				}
-			}).done(function() {
-				setTimeout(function() {
-				}, 500);
+						},
+						function(data) {
+							//alert(JSON.stringify(data));
+							if(data==0){
+								$("#unique_user").show()
+							}else{
+								$("#unique_user").hide()
+							}
+
+						});
+			  });
 			});
-		}); */
+		
 
 		$(document).ready(function($) {
 

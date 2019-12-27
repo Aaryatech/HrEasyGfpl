@@ -17,6 +17,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -1043,5 +1044,31 @@ public class EmployeeController {
 		
 		
 		return "redirect:/showEmployeeList";
+	}
+	
+	
+	
+	@RequestMapping(value = "/getUniqEmpCodeResp", method = RequestMethod.GET)
+	public@ResponseBody int getUniqEmpCodeResp(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		int flag = 0;
+		try {
+				String empCode = request.getParameter("empCode");
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empCode", empCode);
+				EmployeeMaster res = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpInfoByEmpCode", map,
+						EmployeeMaster.class);
+				
+				if(res!=null) {					
+					flag = 0;
+				}else {
+					flag = 1;
+				}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return flag;
+		
 	}
 }
