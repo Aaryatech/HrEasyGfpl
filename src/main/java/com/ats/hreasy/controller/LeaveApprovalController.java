@@ -17,22 +17,21 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
- 
+
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.common.UpateAttendaceCommon;
 import com.ats.hreasy.model.GetLeaveApplyAuthwise;
 import com.ats.hreasy.model.GetLeaveStatus;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.LeaveTrail;
 import com.ats.hreasy.model.LoginResponse;
- 
 
 @Controller
 @Scope("session")
 public class LeaveApprovalController {
-	
-	
+
 	@RequestMapping(value = "/approveLeaveByInitialAuth", method = RequestMethod.GET)
 	public ModelAndView approveLeaveByInitialAuth(HttpServletRequest request, HttpServletResponse response) {
 
@@ -71,14 +70,14 @@ public class LeaveApprovalController {
 		return model;
 
 	}
-	
+
 	@RequestMapping(value = "/approveLeaveByInitialAuth1", method = RequestMethod.POST)
 	public String approveLeaveByInitialAuth1(HttpServletRequest request, HttpServletResponse response) {
 
 		String ret = "redirect:/showLeaveApprovalByAuthority";
-		
+
 		try {
-			
+
 			HttpSession session = request.getSession();
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 			Date date = new Date();
@@ -104,7 +103,7 @@ public class LeaveApprovalController {
 				msg = "Rejected";
 			} else if (stat1 == 7) {
 				msg = "Cancelled";
-				ret = "redirect:/showLeaveHistList?empId="+FormValidation.Encrypt(String.valueOf(empId));
+				ret = "redirect:/showLeaveHistList?empId=" + FormValidation.Encrypt(String.valueOf(empId));
 			}
 			System.err.println("link data :::" + empId + leaveId + stat);
 
@@ -149,6 +148,20 @@ public class LeaveApprovalController {
 						session.setAttribute("errorMsg", "Failed to " + msg + " Leave");
 					}
 
+					if (stat1 == 3 || stat1 == 7) {
+
+						map = new LinkedMultiValueMap<>();
+						map.add("leaveId", leaveId);
+						GetLeaveApplyAuthwise lvEmp = Constants.getRestTemplate().postForObject(
+								Constants.url + "/getLeaveApplyDetailsByLeaveId", map, GetLeaveApplyAuthwise.class);
+
+						UpateAttendaceCommon upateAttendaceCommon = new UpateAttendaceCommon();
+						Info updateAttendaceInfo = upateAttendaceCommon.changeInDailyDailyAfterLeaveTransaction(
+								DateConvertor.convertToDMY(lvEmp.getLeaveFromdt()),
+								DateConvertor.convertToDMY(lvEmp.getLeaveTodt()), empId, userObj.getUserId());
+
+					}
+
 				}
 			}
 
@@ -161,7 +174,7 @@ public class LeaveApprovalController {
 		}
 
 		return ret;
-		 
+
 	}
 
 }
