@@ -167,7 +167,7 @@
 							</div>
 
 							<div style="text-align: center;">
-								<input type="submit" class="btn btn-primary" value="Search"
+								<input type="submit" class="btn btn-primary" value="Search"  
 									id="deleteId"
 									style="align-content: center; width: 113px; margin-left: 40px;">
 							</div>
@@ -249,7 +249,7 @@
 
 							<div style="text-align: center;">
 								<input type="submit" class="btn btn-primary" value="Submit"
-									id="submtbtn" disabled="disabled"
+									id="submtbtn"  
 									style="align-content: center; width: 113px; margin-left: 40px;">
 							</div>
 						</form>
@@ -281,6 +281,20 @@
 		}
 	</script>
 	
+	<script type="text/javascript">
+		function search() {
+			var count = $('#printtable2 tr').length;
+			alert(count);
+			if(parseInt(count)>0){
+				document.getElementById("submtbtn").disabled = false;
+					 
+			}else{
+				document.getElementById("submtbtn").disabled = true;
+				}
+
+		}
+	</script>
+	
 	<script>
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
@@ -306,14 +320,7 @@
 				} else {
 					$("#error_remark").hide()
 				}
-				var count = $('#gvPerformanceResult tr').length;
-				if(parseInt(count)<=0){
-					isError = true;
-
-					$("#error_remark").show()
-				}else{
-					$("#error_remark").hide()
-				}
+				
 				if (!isError) {
 
 					var x = true;
