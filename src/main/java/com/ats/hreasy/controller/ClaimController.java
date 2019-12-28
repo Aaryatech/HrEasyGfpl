@@ -463,7 +463,7 @@ public class ClaimController {
 			List<GetEmployeeInfo> employeeDepartmentlist = new ArrayList<GetEmployeeInfo>(
 					Arrays.asList(employeeDepartment));
 			
-			System.err.println("empList**"+employeeDepartmentlist.toString());
+			
 
 			model.addObject("empList", employeeDepartmentlist);
 
@@ -471,10 +471,12 @@ public class ClaimController {
 			map.add("companyId", 1);
 			map.add("empIdList", empId);
 			GetEmployeeInfo[] empInfoError = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getEmpInfoListByEmpIdList", map, GetEmployeeInfo[].class);
+					.postForObject(Constants.url + "/getEmpInfoListByEmpIdList1", map, GetEmployeeInfo[].class);
 
 			List<GetEmployeeInfo> employeeInfo = new ArrayList<>(Arrays.asList(empInfoError));
 			model.addObject("empListAuth", employeeInfo);
+			
+			System.err.println("empListAuth**"+employeeInfo.toString());
 
 			model.addObject("empIdForEdit", empId);
 

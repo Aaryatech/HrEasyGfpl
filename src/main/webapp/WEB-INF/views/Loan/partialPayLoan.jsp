@@ -105,7 +105,7 @@
 									action="${pageContext.request.contextPath}/submitLoanPartialPay"
 									id="submitInsertLocaion" method="post">
 									<input type="hidden" value="${empPersInfo.empId}" id="empId"
-										name="empId"> <input type="text"
+										name="empId"> <input type="hidden"
 										value="${advList.id}" id="id" name="id">
 
 
@@ -236,9 +236,10 @@
 											Date <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-4">
-											<input type="text" class="form-control datepickerclass "
+											<input type="text" class="form-control datepickerclass "  
 												disabled="disabled" name="joiningDate" id="joiningDate"
-												placeholder="Joining Date">
+												placeholder=" Date"><span class="validation-invalid-label" id="error_joiningDate"
+											style="display: none;">This field is required.</span>
 										</div>
 									</div>
 
@@ -335,9 +336,9 @@
 
 				function(data) {
 
-					alert("Data " + JSON.stringify(data));
+					//alert("Data " + JSON.stringify(data));
 					document.getElementById("joiningDate").value = data.msg;
-					alert(data.msg);
+					//alert(data.msg);
 
 				});
 			}
@@ -375,6 +376,15 @@
 
 				} else {
 					$("#error_partialAmt").hide()
+				}
+				
+				if (!$("#joiningDate").val()) {
+					isError = true;
+
+					$("#error_joiningDate").show()
+
+				} else {
+					$("#error_joiningDate").hide()
 				}
 
 				if (!isError) {

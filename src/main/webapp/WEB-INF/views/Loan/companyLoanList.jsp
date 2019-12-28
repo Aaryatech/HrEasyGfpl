@@ -179,7 +179,7 @@
 										<td>${empdetList.currentOutstanding}</td>
 										<td><a
 													href="${pageContext.request.contextPath}/showLoanListForAction?empId=${empdetList.exVar1}"
-													class="list-icons-item text-primary-600" data-popup="tooltip" title="Add Advance" data-original-title="Edit"><i class="icon-pencil7"
+													class="list-icons-item text-primary-600" data-popup="tooltip" title="Loan Details" data-original-title="Edit"><i class="icon-pencil7"
 													 ></i></a></td>
 										
  									</tr>

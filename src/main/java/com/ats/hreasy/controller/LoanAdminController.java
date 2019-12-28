@@ -861,6 +861,8 @@ class LoanAdminController {
 			
 			
 			}
+			//System.out.println("laonDetalList-------" + laonDetalList.toString());
+			 
 			
 
 		} catch (Exception e) {
@@ -877,7 +879,7 @@ class LoanAdminController {
 		try {
 
 			String currentOutstanding = request.getParameter("currentOutstanding");
-			int loanEmi = Integer.parseInt(request.getParameter("loanEmi"));
+			String loanEmi = (request.getParameter("loanEmi"));
 			String partialAmt = request.getParameter("partialAmt");
 			String endDate = request.getParameter("endDate");
 			String loanId = request.getParameter("loanId");
@@ -896,6 +898,8 @@ class LoanAdminController {
 				
 				employeeInfo.setMsg(DateConvertor.convertToDMY(employeeInfo.getMsg()));
 				System.err.println("employeeInfo***"+employeeInfo.toString());
+			}else {
+				employeeInfo.setMsg("");
 			}
 
 		} catch (Exception e) {

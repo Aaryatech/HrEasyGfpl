@@ -151,8 +151,7 @@
 													<td width="10%">${emp.empCode}</td>
 													<td>${emp.empSname}&nbsp;${emp.empFname}</td>
 													<td width="10%">${emp.empDept}</td>
-													<%-- <td width="10%">${emp.empCategory}</td> --%>
-												</tr>
+ 												</tr>
 											</c:forEach>
 
 										</tbody>

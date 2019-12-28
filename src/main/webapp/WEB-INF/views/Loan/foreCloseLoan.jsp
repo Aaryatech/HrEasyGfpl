@@ -226,7 +226,7 @@
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control datepickerclass "
-												name="joiningDate" id="joiningDate"
+												name="joiningDate" id="joiningDate" disabled="disabled"
 												placeholder="Joining Date"> <span
 												class="validation-invalid-label" id="error_joiningDate"
 												style="display: none;">This field is required.</span>

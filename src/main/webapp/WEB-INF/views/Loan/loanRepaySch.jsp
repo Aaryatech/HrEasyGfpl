@@ -208,7 +208,7 @@
 
 
 									
-									<div class="col-md-12">
+									<div class="col-md-5">
 										<h6 class="card-title">Paid Status</h6>
 										<div class="table-responsive">
 											<table
