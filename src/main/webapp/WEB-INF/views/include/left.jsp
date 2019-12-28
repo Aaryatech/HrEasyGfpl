@@ -88,10 +88,10 @@
 							class="nav-link">Employee List</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showCompanyList"
-							class="nav-link">Company List</a></li>							
+							class="nav-link">Company List</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showPayDeductionList"
-							class="nav-link">Payment Deduction Type List</a></li>						
+							class="nav-link">Payment Deduction Type List</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showDepartmentList"
 							class="nav-link">Department List</a></li>
@@ -147,7 +147,17 @@
 							class="nav-link ">Employee Shift Assignment </a></li>
 					</ul></li>
 
+				<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-list-unordered"></i><span>Attendance</span></a>
+					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/attendanceSelectMonth"
+							class="nav-link">Upload Attendance CSV File</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/attendaceSheet"
+							class="nav-link">Attendance Summary</a></li>
 
+					</ul></li>
 				<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Claim</span></a>
 
@@ -174,46 +184,47 @@
 
 
 					</ul></li>
-					
-					
+
+
 				<li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-list-unordered"></i><span>Daily Work</span></a>	
+					class="nav-link"><i class="icon-list-unordered"></i><span>Daily
+							Work</span></a>
 					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
-					<li class="nav-item"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/viewPayDeduction"
 							class="nav-link">Add Pay Deduction</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/payDeductionDetails"
 							class="nav-link">Payment Deduction Details</a></li>
 					</ul></li>
-					
-					
-						<li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-list-unordered"></i><span>Advance</span></a>	
+
+
+				<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-list-unordered"></i><span>Advance</span></a>
 					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
-					<li class="nav-item"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showEmpListToAddAdvance"
 							class="nav-link">Add Advance</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showEmpAdvancePendingList"
 							class="nav-link">Pending Advance List</a></li>
-							<li class="nav-item"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showAdvanceHistory"
-							class="nav-link">  Advance History</a></li>
+							class="nav-link"> Advance History</a></li>
 					</ul></li>
-					
-						<li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-list-unordered"></i><span>Loan</span></a>	
+
+				<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-list-unordered"></i><span>Loan</span></a>
 					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
-					<li class="nav-item"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showEmpListToAddLoan"
 							class="nav-link">Add Loan</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showCompLoanList"
 							class="nav-link">Pending Laon List</a></li>
-							<li class="nav-item"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showLoanHistory"
-							class="nav-link">  Loan History</a></li>
+							class="nav-link"> Loan History</a></li>
 					</ul></li>
 
 				<%--<li class="nav-item nav-item-submenu"><a href="#"
@@ -289,10 +300,10 @@
 								href="${pageContext.request.contextPath}/${accessRightSubModuleList.subModuleMapping}"
 								class="nav-link"
 								onclick="selectSubMod(${accessRightSubModuleList.subModuleId},${accessRightSubModuleList.moduleId})">${accessRightSubModuleList.subModulName}</a>
-							</li>
-						</c:otherwise>
-						</c:choose>
-					</c:forEach>
+				</li>
+				</c:otherwise>
+				</c:choose>
+				</c:forEach>
 			</ul>
 			</li>
 

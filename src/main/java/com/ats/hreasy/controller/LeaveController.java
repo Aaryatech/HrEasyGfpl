@@ -566,8 +566,11 @@ public class LeaveController {
 						.setExVar1(FormValidation.Encrypt(String.valueOf(employeeInfoList.get(i).getLeaveId())));
 			}
 
-			model.addObject("fname", userObj.getFirstName());
-			model.addObject("sname", userObj.getSurname());
+			 
+			EmployeeMaster editEmp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpInfoByEmpId",
+					map, EmployeeMaster.class);
+			model.addObject("fname", editEmp.getFirstName());
+			model.addObject("sname", editEmp.getSurname());
 			model.addObject("leaveHistoryList", employeeInfoList);
 			// model.addObject("empId1",empId1);
 
@@ -1047,8 +1050,10 @@ public class LeaveController {
 
 			GetLeaveApplyAuthwise lvEmp = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getLeaveApplyDetailsByLeaveId", map1, GetLeaveApplyAuthwise.class);
+			lvEmp.setLeaveFromdt(DateConvertor.convertToDMY(lvEmp.getLeaveFromdt()));
+			lvEmp.setLeaveTodt(DateConvertor.convertToDMY(lvEmp.getLeaveTodt()));
 			model.addObject("lvEmp", lvEmp);
-			System.out.println("emp leave details" + lvEmp.toString());
+			//System.out.println("emp leave details" + lvEmp.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
