@@ -24,16 +24,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.Constants;
+import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.GetWeeklyOff;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.WeeklyOff;
+import com.ats.hreasy.model.WeeklyOffShit;
 
 @Controller
 @Scope("session")
 public class WeeklyOffController {
+
+	String locId = "0";
+	String month = "0";
+	String year = "0";
 
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date now = new Date();
@@ -76,10 +82,10 @@ public class WeeklyOffController {
 				locationList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getLocId())));
 			}
 
-			//System.out.println(userObj);
+			// System.out.println(userObj);
 			model.addObject("locationList", locationList);
 			model.addObject("locationAccess", userObj.getLocationIds().split(","));
-			//model.addObject("locationAccess", "2,3".split(","));
+			// model.addObject("locationAccess", "2,3".split(","));
 
 			// }
 		} catch (Exception e) {
@@ -186,7 +192,7 @@ public class WeeklyOffController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("companyId", 1);
 			map.add("locIdList", userObj.getLocationIds());
-			//map.add("locIdList", "2,3");
+			// map.add("locIdList", "2,3");
 			GetWeeklyOff[] holListArray = Constants.getRestTemplate().postForObject(Constants.url + "/getWeeklyOffList",
 					map, GetWeeklyOff[].class);
 
@@ -272,51 +278,54 @@ public class WeeklyOffController {
 		ModelAndView model = null;
 
 		// model.addObject("weighImageUrl", Constants.imageSaveUrl);
-		
+
 		try {
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
-			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-			Info view = AcessController.checkAccess("editWeeklyOff", "showWeeklyOffList", 0, 0, 1, 0, newModuleList);
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("editWeeklyOff", "showWeeklyOffList", 0, 0, 1, 0,
+			 * newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+			model = new ModelAndView("master/weekly_off_edit");
 
-			if (view.isError() == true) {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
 
-				model = new ModelAndView("accessDenied");
+			Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+					Location[].class);
 
-			} else { */
-				model = new ModelAndView("master/weekly_off_edit");
+			List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("companyId", 1);
+			for (int i = 0; i < locationList.size(); i++) {
 
-				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
-						Location[].class);
+				locationList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getLocId())));
+			}
 
-				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+			model.addObject("locationList", locationList);
 
-				for (int i = 0; i < locationList.size(); i++) {
+			String base64encodedString = request.getParameter("woId");
+			String woId = FormValidation.DecodeKey(base64encodedString);
 
-					locationList.get(i)
-							.setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getLocId())));
-				}
+			map = new LinkedMultiValueMap<>();
+			map.add("woId", woId);
+			editWeeklyOff = Constants.getRestTemplate().postForObject(Constants.url + "/getWeeklyOffById", map,
+					WeeklyOff.class);
+			model.addObject("editWeeklyOff", editWeeklyOff);
 
-				model.addObject("locationList", locationList);
+			List<Integer> locIdList = Stream.of(editWeeklyOff.getLocId().split(",")).map(Integer::parseInt)
+					.collect(Collectors.toList());
 
-				String base64encodedString = request.getParameter("woId");
-				String woId = FormValidation.DecodeKey(base64encodedString);
-
-				map = new LinkedMultiValueMap<>();
-				map.add("woId", woId);
-				editWeeklyOff = Constants.getRestTemplate().postForObject(Constants.url + "/getWeeklyOffById", map,
-						WeeklyOff.class);
-				model.addObject("editWeeklyOff", editWeeklyOff);
-
-				List<Integer> locIdList = Stream.of(editWeeklyOff.getLocId().split(",")).map(Integer::parseInt)
-						.collect(Collectors.toList());
-
-				model.addObject("locIdList", locIdList);
-				model.addObject("locationAccess", userObj.getLocationIds().split(","));
-				//model.addObject("locationAccess", "2,3".split(","));
-			//}
+			model.addObject("locIdList", locIdList);
+			model.addObject("locationAccess", userObj.getLocationIds().split(","));
+			// model.addObject("locationAccess", "2,3".split(","));
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -386,6 +395,139 @@ public class WeeklyOffController {
 		}
 
 		return "redirect:/showWeeklyOffList";
+	}
+
+	// Change Weekly off
+
+	@RequestMapping(value = "/showChangeWeekOff", method = RequestMethod.GET)
+	public ModelAndView showLocationList(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+		ModelAndView model = null;
+
+		try {
+
+			locId = "0";
+			month = "0";
+			year = "0";
+
+			try {
+				locId = request.getParameter("locId");
+
+			} catch (Exception e) {
+				locId = "0";
+			}
+			try {
+				month = request.getParameter("month");
+
+			} catch (Exception e) {
+				month = "0";
+			}
+			try {
+				year = request.getParameter("year");
+
+			} catch (Exception e) {
+				year = "0";
+			}
+
+			model = new ModelAndView("master/changeWeeklyOff");
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+					Location[].class);
+
+			List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+
+			System.err.println("locationList" + locationList.toString());
+			model.addObject("locationList", locationList);
+			model.addObject("locId", locId);
+			model.addObject("month", (month));
+			model.addObject("year", (year));
+
+			map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			map.add("month", Integer.parseInt(month));
+			map.add("year", Integer.parseInt(year));
+			map.add("locId", Integer.parseInt(locId));
+
+			String[] strArr = Constants.getRestTemplate().postForObject(Constants.url + "/getWeeklyOffDatesToChange",
+					map, String[].class);
+
+			List<String> dateList = new ArrayList<String>(Arrays.asList(strArr));
+			model.addObject("dateList", (dateList));
+			// System.err.println("datelist"+dateList.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/submitInsertWeeklyOffChange", method = RequestMethod.POST)
+	public String submitInsertWeeklyOffChange(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+
+		try {
+
+			String changeDate = request.getParameter("changeDate");
+
+			String reason = request.getParameter("reason");
+
+			/*
+			 * int locId = Integer.parseInt(request.getParameter("locIdTemp")); int month =
+			 * Integer.parseInt(request.getParameter("monthTemp")); int year =
+			 * Integer.parseInt(request.getParameter("yearTemp"));
+			 */
+
+			String dateFrom = request.getParameter("tempDate");
+			System.err.println("locId" + locId);
+			Boolean ret = false;
+
+			if (FormValidation.Validaton(changeDate, "") == true) {
+				System.err.println("changeDate");
+				ret = true;
+			}
+
+			if (FormValidation.Validaton(reason, "") == true) {
+				System.err.println("reason");
+				ret = true;
+			}
+
+			if (ret == false) {
+
+				WeeklyOffShit weekShft = new WeeklyOffShit();
+				weekShft.setCmpId(1);
+				weekShft.setDelStatus(1);
+				weekShft.setLocationId(Integer.parseInt(locId));
+				weekShft.setLoginTime(dateTime);
+				weekShft.setMonth(Integer.parseInt(month));
+				weekShft.setReason(reason);
+				weekShft.setWeekofffromdate(DateConvertor.convertToYMD(dateFrom));
+				weekShft.setWeekoffshiftdate(DateConvertor.convertToYMD(changeDate));
+				weekShft.setYear(Integer.parseInt(year));
+
+				WeeklyOffShit res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOffShit",
+						weekShft, WeeklyOffShit.class);
+
+				if (res != null) {
+					session.setAttribute("successMsg", "Record Updated Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Update Record");
+				}
+
+			} else {
+				session.setAttribute("errorMsg", "Failed to Update Record");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Update Record");
+		}
+
+		return "redirect:/showChangeWeekOff";
 	}
 
 }

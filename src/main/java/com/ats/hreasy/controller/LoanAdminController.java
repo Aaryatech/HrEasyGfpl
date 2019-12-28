@@ -304,7 +304,7 @@ class LoanAdminController {
 					map, GetLoan[].class);
 
 			employeeInfoList = new ArrayList<GetLoan>(Arrays.asList(employeeInfo));
-			System.out.println("employeeInfoList" + employeeInfoList.toString());
+			//System.out.println("employeeInfoList" + employeeInfoList.toString());
 
 			for (int i = 0; i < employeeInfoList.size(); i++) {
 
@@ -347,7 +347,7 @@ class LoanAdminController {
 					.postForObject(Constants.url + "/getLoanHistoryEmpWiseDetail", map, LoanMain[].class);
 
 			employeeInfoList = new ArrayList<LoanMain>(Arrays.asList(employeeInfo));
-			System.out.println("employeeInfoList" + employeeInfoList.toString());
+			//System.out.println("employeeInfoList" + employeeInfoList.toString());
 			model.addObject("loanList", employeeInfoList);
 
 			map = new LinkedMultiValueMap<>();
@@ -422,7 +422,7 @@ class LoanAdminController {
 					.postForObject(Constants.url + "/getLoanHistoryEmpWiseDetailComp", map, LoanMain[].class);
 
 			employeeInfoList = new ArrayList<LoanMain>(Arrays.asList(employeeInfo));
-			System.out.println("employeeInfoList" + employeeInfoList.toString());
+			//System.out.println("employeeInfoList" + employeeInfoList.toString());
 			model.addObject("loanList", employeeInfoList);
 
 			for (int i = 0; i < employeeInfoList.size(); i++) {

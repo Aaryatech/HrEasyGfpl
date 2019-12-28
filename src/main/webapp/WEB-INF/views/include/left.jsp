@@ -145,6 +145,9 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showEmpListToAssignShift"
 							class="nav-link ">Employee Shift Assignment </a></li>
+							<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showChangeWeekOff"
+							class="nav-link ">>Change WeeklyOff </a></li>
 					</ul></li>
 
 				<li class="nav-item nav-item-submenu"><a href="#"
