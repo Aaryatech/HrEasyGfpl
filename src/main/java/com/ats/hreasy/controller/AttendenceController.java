@@ -34,11 +34,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ats.hreasy.common.Constants;
+import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.VpsImageUpload;
 import com.ats.hreasy.model.AttendanceSheetData;
 import com.ats.hreasy.model.DailyAttendance;
 import com.ats.hreasy.model.DataForUpdateAttendance;
 import com.ats.hreasy.model.Designation;
+import com.ats.hreasy.model.EmpInfo;
 import com.ats.hreasy.model.FileUploadedData;
 import com.ats.hreasy.model.GetDailyDailyRecord;
 import com.ats.hreasy.model.Info;
@@ -547,6 +549,52 @@ public class AttendenceController {
 			e.printStackTrace();
 		}
 		return info;
+
+	}
+
+	@RequestMapping(value = "/fixAttendaceByDateAndEmp", method = RequestMethod.GET)
+	public String fixAttendaceByDateAndEmp(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = "attendence/fixAttendace";
+
+		try {
+
+			EmpInfo[] empInfo = Constants.getRestTemplate().getForObject(Constants.url + "/getEmpListForFixAttendace",
+					EmpInfo[].class);
+			List<EmpInfo> empList = new ArrayList<EmpInfo>(Arrays.asList(empInfo));
+			model.addAttribute("empList", empList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+
+	}
+
+	@RequestMapping(value = "/submitFixAttendaceByDateAndEmp", method = RequestMethod.POST)
+	public String submitFixAttendaceByDateAndEmp(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			String[] empIds = request.getParameterValues("selectEmp");
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			String empId = new String();
+
+			for (int i = 0; i < empIds.length; i++) {
+				empId = empId + "," + empIds[i];
+			}
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("empIds", empId.substring(1, empId.length()));
+			//System.out.println(map);
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/fixAttendanceByDateOfEmpLoyee", map,
+					Info.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/fixAttendaceByDateAndEmp";
 
 	}
 

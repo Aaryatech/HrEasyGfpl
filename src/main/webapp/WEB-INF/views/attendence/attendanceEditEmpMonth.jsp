@@ -278,10 +278,14 @@
 													<td class="text-right">${dailyrecordList.workingHrs}</td>
 													<td class="text-right">${dailyrecordList.otHr}</td>
 													<td>${dailyrecordList.currentShiftname}</td>
-													<td class="text-center"><a href="#"
-														onclick="editAttendanceDetail(${dailyrecordList.id})"
-														class="list-icons-item text-primary-600"
-														data-popup="tooltip" title=""><i class="icon-pencil7"></i></a></td>
+													<td class="text-center"><c:if
+															test="${dailyrecordList.isFixed==0}">
+															<a href="#"
+																onclick="editAttendanceDetail(${dailyrecordList.id})"
+																class="list-icons-item text-primary-600"
+																data-popup="tooltip" title=""><i
+																class="icon-pencil7"></i></a>
+														</c:if></td>
 												</tr>
 											</c:forEach>
 
