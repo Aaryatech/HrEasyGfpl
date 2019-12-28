@@ -158,7 +158,7 @@
 										<td class="text-center"><a
 											href="${pageContext.request.contextPath}/showLeaveHistDetailList?leaveId=${holiday.exVar1}"><i
 												class="icon-history" style="color: black;"></i></a> <c:if
-												test="${empId==loginEmpId && holiday.exInt1!=7}">
+												test="${empId==loginEmpId && holiday.exInt1!=7 && holiday.empDeptName==0}">
 
 												<a
 													href="${pageContext.request.contextPath}/approveLeaveByInitialAuth?empId=${encryptEmpId}&leaveId=${holiday.exVar1}&stat=7"
