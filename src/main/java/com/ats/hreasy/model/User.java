@@ -5,19 +5,29 @@ public class User {
 	private int user_id;
 	private int empId;
 	private int empTypeId;
-	private int locId;
+	private String locId;
 	private String userName;
-	private String user_pwd;
+	private String userPwd;
 	private int delStatus;
 	private int isActive;
 	private int makerUserId;
 	private String makerEnterDatetime;
 	private int exInt1;
-	private int ex_int2;
+	private int exInt2;
 	private int exInt3;
 	private int exVar1;
 	private String exVar2;
 	private String exVar3;
+	
+ 	private boolean error;
+ 	 
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
 
 	public int getUser_id() {
 		return user_id;
@@ -43,11 +53,12 @@ public class User {
 		this.empTypeId = empTypeId;
 	}
 
-	public int getLocId() {
+	 
+	public String getLocId() {
 		return locId;
 	}
 
-	public void setLocId(int locId) {
+	public void setLocId(String locId) {
 		this.locId = locId;
 	}
 
@@ -59,14 +70,7 @@ public class User {
 		this.userName = userName;
 	}
 
-	public String getUser_pwd() {
-		return user_pwd;
-	}
-
-	public void setUser_pwd(String user_pwd) {
-		this.user_pwd = user_pwd;
-	}
-
+	 
 	public int getDelStatus() {
 		return delStatus;
 	}
@@ -107,13 +111,7 @@ public class User {
 		this.exInt1 = exInt1;
 	}
 
-	public int getEx_int2() {
-		return ex_int2;
-	}
-
-	public void setEx_int2(int ex_int2) {
-		this.ex_int2 = ex_int2;
-	}
+ 
 
 	public int getExInt3() {
 		return exInt3;
@@ -147,14 +145,34 @@ public class User {
 		this.exVar3 = exVar3;
 	}
 
+	public String getUserPwd() {
+		return userPwd;
+	}
+
+	public void setUserPwd(String userPwd) {
+		this.userPwd = userPwd;
+	}
+
+	public int getExInt2() {
+		return exInt2;
+	}
+
+	public void setExInt2(int exInt2) {
+		this.exInt2 = exInt2;
+	}
+
+	
 	@Override
 	public String toString() {
 		return "User [user_id=" + user_id + ", empId=" + empId + ", empTypeId=" + empTypeId + ", locId=" + locId
-				+ ", userName=" + userName + ", user_pwd=" + user_pwd + ", delStatus=" + delStatus + ", isActive="
+				+ ", userName=" + userName + ", userPwd=" + userPwd + ", delStatus=" + delStatus + ", isActive="
 				+ isActive + ", makerUserId=" + makerUserId + ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1="
-				+ exInt1 + ", ex_int2=" + ex_int2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
-				+ ", exVar3=" + exVar3 + "]";
+				+ exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ ", exVar3=" + exVar3 + ", error=" + error + "]";
 	}
+
+	 
+ 
 	
 	
 }

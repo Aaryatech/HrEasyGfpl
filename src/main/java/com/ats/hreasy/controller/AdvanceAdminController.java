@@ -1,11 +1,15 @@
 package com.ats.hreasy.controller;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +34,7 @@ import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.ShiftMaster;
 import com.ats.hreasy.model.TblEmpInfo;
+import com.ats.hreasy.model.User;
 import com.ats.hreasy.model.Advance.Advance;
 import com.ats.hreasy.model.Advance.GetAdvance;
 
@@ -207,7 +212,6 @@ public class AdvanceAdminController {
 		return model;
 	}
 
-
 	@RequestMapping(value = "/deleteAdvance", method = RequestMethod.GET)
 	public String deleteLocation(HttpServletRequest request, HttpServletResponse response) {
 
@@ -336,7 +340,6 @@ public class AdvanceAdminController {
 		return employeeInfoList;
 	}
 
-	
 	@RequestMapping(value = "/showSkipAdvance", method = RequestMethod.GET)
 	public ModelAndView showSkipAdvance(HttpServletRequest request, HttpServletResponse response) {
 
@@ -354,7 +357,7 @@ public class AdvanceAdminController {
 			map.add("empId", empId);
 			GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
-			//System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
+			// System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
 
 			String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
 					.concat(" ").concat(empPersInfo.getSurname()).concat("[")
@@ -382,7 +385,7 @@ public class AdvanceAdminController {
 				List<String> fixedLenghtList = Arrays.asList(elements);
 
 				ArrayList<String> listOfString = new ArrayList<String>(fixedLenghtList);
-				
+
 				/*
 				 * System.out.println("Adv listOfString-------" + listOfString.toString()); for
 				 * (int i = 1; i < listOfString.size(); i++) {
@@ -394,10 +397,8 @@ public class AdvanceAdminController {
 				 * 
 				 * }
 				 */
- 				 model.addObject("listOfString", listOfString);
+				model.addObject("listOfString", listOfString);
 			}
-
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -465,6 +466,109 @@ public class AdvanceAdminController {
 		}
 
 		return "redirect:/showEmpAdvancePendingList";
+	}
+
+	// ***********Change Pass********************
+
+	@RequestMapping(value = "/changePass", method = RequestMethod.GET)
+	public ModelAndView changePass(HttpServletRequest request, HttpServletResponse res) {
+		HttpSession session = request.getSession();
+		ModelAndView mav = null;
+		try {
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			mav = new ModelAndView("changePassword");
+			mav.addObject("empId", userObj.getUserId());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/checkPass", method = RequestMethod.POST)
+	public @ResponseBody User updateLeaveLimit(HttpServletRequest request, HttpServletResponse response) {
+
+		User user1 = new User();
+		try {
+			System.err.println("in  checkPass is ");
+			String empId = (request.getParameter("empId"));
+			String password = (request.getParameter("password"));
+			
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] messageDigest = md.digest(password.getBytes());
+			BigInteger number = new BigInteger(1, messageDigest);
+			String hashtext = number.toString(16);
+		//	System.out.println(hashtext);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			map.add("password", hashtext);
+ 
+			user1 = Constants.getRestTemplate().postForObject(Constants.url + "/getUserInfoByEmpIdPass", map,
+					User.class);
+			System.err.println("info is " + user1);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user1;
+	}
+
+	@RequestMapping(value = "/submitUpdatePass", method = RequestMethod.POST)
+	public String submitInsertCompany(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			/*
+			 * HttpSession session = request.getSession(); LoginResponse userObj =
+			 * (LoginResponse) session.getAttribute("UserDetail"); Date date = new Date();
+			 * SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			 * SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+			 * VpsImageUpload upload = new VpsImageUpload();
+			 */
+			String empId = request.getParameter("empId");
+			String password = request.getParameter("password");
+			String currPass = request.getParameter("currPass");
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			Pattern p = Pattern.compile("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$");
+			Matcher m = p.matcher(password);
+
+			if (currPass.equals(userObj.getUserPwd()) && m.matches()) {
+				
+
+ 				MessageDigest md = MessageDigest.getInstance("MD5");
+				byte[] messageDigest = md.digest(password.getBytes());
+				BigInteger number = new BigInteger(1, messageDigest);
+				String hashtext = number.toString(16);
+
+				System.out.println(hashtext);
+
+				System.out.println("in if password " + password + " currPass " + currPass + " m.find() " + m.matches());
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", userObj.getUserId());
+				map.add("password", hashtext);
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateUserPass", map,
+						Info.class);
+
+				if (info.isError() == false) {
+					session.setAttribute("successMsg", "password change successfully.");
+				} else {
+					session.setAttribute("errorMsg", "something wrong while changing password.");
+				}
+			} else {
+
+				System.out
+						.println("in else password " + password + " currPass " + currPass + " m.find() " + m.matches());
+				session.setAttribute("errorMsg", "something wrong while changing password.");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/changePass";
 	}
 
 }

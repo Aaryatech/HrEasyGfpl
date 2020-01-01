@@ -98,8 +98,7 @@
 								</label>
 								<div class="col-lg-10">
 									<select name="locId" data-placeholder="Select Location"
-										id="locId" multiple="multiple"
-										class="form-control form-control-sm select"
+										id="locId" class="form-control form-control-sm select"
 										data-container-css-class="select-sm" data-fouc>
 										<option value="">Select Location</option>
 										<c:forEach items="${locationList}" var="location">
@@ -167,7 +166,7 @@
 							</div>
 
 							<div style="text-align: center;">
-								<input type="submit" class="btn btn-primary" value="Search"  
+								<input type="submit" class="btn btn-primary" value="Search"
 									id="deleteId"
 									style="align-content: center; width: 113px; margin-left: 40px;">
 							</div>
@@ -233,23 +232,23 @@
 
 
 							<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="remark">
-											  Reason <span style="color: red">*</span>:
-										</label>
-										<div class="col-lg-4">
-											<textarea class="form-control"
-												placeholder="Enter Reason / Remark" id="remark"
-												name="reason" autocomplete="off" onchange="trim(this)"> </textarea>
-											<span class="validation-invalid-label" id="error_remark"
-												style="display: none;">This field is required.</span>
-										</div>
-									</div>
+								<label class="col-form-label col-lg-2" for="remark">
+									Reason <span style="color: red">*</span>:
+								</label>
+								<div class="col-lg-4">
+									<textarea class="form-control"
+										placeholder="Enter Reason / Remark" id="remark" name="reason"
+										autocomplete="off" onchange="trim(this)"> </textarea>
+									<span class="validation-invalid-label" id="error_remark"
+										style="display: none;">This field is required.</span>
+								</div>
+							</div>
 
 
 
 							<div style="text-align: center;">
 								<input type="submit" class="btn btn-primary" value="Submit"
-									id="submtbtn"  
+									id="submtbtn"
 									style="align-content: center; width: 113px; margin-left: 40px;">
 							</div>
 						</form>
@@ -280,21 +279,21 @@
 
 		}
 	</script>
-	
+
 	<script type="text/javascript">
 		function search() {
 			var count = $('#printtable2 tr').length;
 			alert(count);
-			if(parseInt(count)>0){
+			if (parseInt(count) > 0) {
 				document.getElementById("submtbtn").disabled = false;
-					 
-			}else{
+
+			} else {
 				document.getElementById("submtbtn").disabled = true;
-				}
+			}
 
 		}
 	</script>
-	
+
 	<script>
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
@@ -320,7 +319,7 @@
 				} else {
 					$("#error_remark").hide()
 				}
-				
+
 				if (!isError) {
 
 					var x = true;
@@ -389,7 +388,7 @@
 	</script> -->
 
 
-<!-- 
+	<!-- 
 	<script type="text/javascript">
 		$(document).ready(function($) {
 			$("#submitInsertEmp").submit(function(e) {

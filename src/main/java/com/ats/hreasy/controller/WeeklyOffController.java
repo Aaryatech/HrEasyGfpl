@@ -20,18 +20,20 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.model.GetWeekShiftChange;
 import com.ats.hreasy.model.GetWeeklyOff;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.WeeklyOff;
 import com.ats.hreasy.model.WeeklyOffShit;
+import com.ats.hreasy.model.Loan.GetLoan;
 
 @Controller
 @Scope("session")
@@ -528,6 +530,72 @@ public class WeeklyOffController {
 		}
 
 		return "redirect:/showChangeWeekOff";
+	}
+	
+	
+	@RequestMapping(value = "/showWeekOffShift", method = RequestMethod.GET)
+	public ModelAndView showWeekOffShift(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+		try {
+
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("addWeeklyOff", "showWeeklyOffList", 0, 1, 0, 0,
+			 * newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+			model = new ModelAndView("master/shiftedWeekOffList");
+
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+ 
+			// System.out.println(userObj);
+  			// model.addObject("locationAccess", "2,3".split(","));
+
+			// }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/getWeekOffChangeDetails", method = RequestMethod.GET)
+	public @ResponseBody List<GetWeekShiftChange> getLoanHistory(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		List<GetWeekShiftChange> employeeInfoList = new ArrayList<GetWeekShiftChange>();
+
+		try {
+
+			String calYrId = request.getParameter("calYrId");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("year", calYrId);
+			map.add("companyId", 1);
+
+			GetWeekShiftChange[] employeeInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getAllWeekOffShifted", map, GetWeekShiftChange[].class);
+
+			employeeInfoList = new ArrayList<GetWeekShiftChange>(Arrays.asList(employeeInfo));
+			// System.out.println("employeeInfoList" + employeeInfoList.toString());
+
+			for (int i = 0; i < employeeInfoList.size(); i++) {
+
+				employeeInfoList.get(i)
+						.setLoginTime(FormValidation.Encrypt(String.valueOf(employeeInfoList.get(i).getId())));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return employeeInfoList;
 	}
 
 }

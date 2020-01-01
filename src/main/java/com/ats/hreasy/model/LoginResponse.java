@@ -14,6 +14,17 @@ public class LoginResponse {
 	private int userId; 
 	private String locationIds; 
 	private boolean isError;
+	
+	private String userPwd; 
+
+
+	public String getUserPwd() {
+		return userPwd;
+	}
+
+	public void setUserPwd(String userPwd) {
+		this.userPwd = userPwd;
+	}
 
 	public int getEmpId() {
 		return empId;
@@ -103,10 +114,11 @@ public class LoginResponse {
 	public String toString() {
 		return "LoginResponse [empId=" + empId + ", empCode=" + empCode + ", firstName=" + firstName + ", middleName="
 				+ middleName + ", surname=" + surname + ", motherName=" + motherName + ", emailId=" + emailId
-				+ ", userId=" + userId + ", locationIds=" + locationIds + ", isError=" + isError + "]";
+				+ ", userId=" + userId + ", locationIds=" + locationIds + ", isError=" + isError + ", userPwd="
+				+ userPwd + "]";
 	}
-	
-	
+
+ 
 	
 	
 
