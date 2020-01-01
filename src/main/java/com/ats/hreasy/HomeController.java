@@ -82,8 +82,14 @@ public class HomeController {
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
+				 
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				byte[] messageDigest = md.digest(password.getBytes());
+				BigInteger number = new BigInteger(1, messageDigest);
+				String hashtext = number.toString(16);
+				
 				map.add("username", name);
-				map.add("password", password);
+				map.add("password", hashtext);
 
 				LoginResponse userObj = Constants.getRestTemplate().postForObject(Constants.url + "loginProcess", map,
 						LoginResponse.class);
