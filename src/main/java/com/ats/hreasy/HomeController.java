@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -150,11 +151,10 @@ public class HomeController {
 			BigInteger number = new BigInteger(1, messageDigest);
 			String hashtext = number.toString(16);
 
-			System.out.println(hashtext);*/
-			
-			/*RandomString randomString = new RandomString();
+			System.out.println(hashtext);*/ 
+			RandomString randomString = new RandomString();
 			String password = randomString.nextString();
-			System.out.println(password);*/
+			System.out.println(password);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
