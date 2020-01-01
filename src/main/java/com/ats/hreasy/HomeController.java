@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.ats.hreasy.common.Constants;
+import com.ats.hreasy.common.RandomString;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.EmpType;
 import com.ats.hreasy.model.LoginResponse;
@@ -150,6 +151,11 @@ public class HomeController {
 			String hashtext = number.toString(16);
 
 			System.out.println(hashtext);*/
+			
+			RandomString randomString = new RandomString();
+			String password = randomString.nextString();
+			System.out.println(password);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
