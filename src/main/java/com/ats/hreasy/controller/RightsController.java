@@ -422,7 +422,7 @@ public class RightsController {
 
 					if (moduleList.get(i).getModuleId() == moduleJsonList.get(j).getModuleId()) {
 
-						System.out.println("match Module " + moduleList.get(i).getModuleName());
+						//System.out.println("match Module " + moduleList.get(i).getModuleName());
 
 						for (int k = 0; k < moduleList.get(i).getAccessRightSubModuleList().size(); k++) {
 
