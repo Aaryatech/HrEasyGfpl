@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.ats.hreasy.common.Constants;
+import com.ats.hreasy.model.AccessRightModule;
+import com.ats.hreasy.model.EmpType;
 import com.ats.hreasy.model.LoginResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -89,7 +91,27 @@ public class HomeController {
 
 					mav = "redirect:/dashboard";
 					session.setAttribute("userInfo", userObj);
-					System.err.println("Hoem**"+userObj.toString());
+					
+					
+					map = new LinkedMultiValueMap<>();
+					map.add("empTypeId", 1);
+					EmpType editEmpType = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpTypeById", map,
+							EmpType.class); 
+					List<AccessRightModule> moduleJsonList = new ArrayList<AccessRightModule>();
+
+					try {
+
+						AccessRightModule[] moduleJson = null;
+						ObjectMapper mapper = new ObjectMapper();
+						moduleJson = mapper.readValue(editEmpType.getEmpTypeAccess(), AccessRightModule[].class);
+						moduleJsonList = new ArrayList<AccessRightModule>(Arrays.asList(moduleJson));
+
+					} catch (Exception e) {
+
+						e.printStackTrace();
+					}
+					session.setAttribute("moduleJsonList", moduleJsonList);
+					//System.err.println("Hoem**"+userObj.toString());
 
 				} else {
 					mav = "redirect:/";

@@ -145,9 +145,9 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showEmpListToAssignShift"
 							class="nav-link ">Employee Shift Assignment </a></li>
-							<li class="nav-item"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showChangeWeekOff"
-							class="nav-link ">>Change WeeklyOff </a></li>
+							class="nav-link ">Change WeeklyOff </a></li>
 					</ul></li>
 
 				<li class="nav-item nav-item-submenu"><a href="#"
@@ -184,8 +184,6 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showClaimStructureList"
 							class="nav-link">Claim Structure</a></li>
-
-
 					</ul></li>
 
 
@@ -303,10 +301,10 @@
 								href="${pageContext.request.contextPath}/${accessRightSubModuleList.subModuleMapping}"
 								class="nav-link"
 								onclick="selectSubMod(${accessRightSubModuleList.subModuleId},${accessRightSubModuleList.moduleId})">${accessRightSubModuleList.subModulName}</a>
-				</li>
-				</c:otherwise>
-				</c:choose>
-				</c:forEach>
+							</li>
+						</c:otherwise>
+						</c:choose>
+					</c:forEach>
 			</ul>
 			</li>
 

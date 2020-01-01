@@ -43,7 +43,7 @@
 						<table width="100%">
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Pending Advance
-										List List</h5></td>
+										List</h5></td>
 								<td width="40%" align="right"><c:if test="${addAccess==0}">
 										<a href="${pageContext.request.contextPath}/bankAdd"
 											class="breadcrumb-elements-item">
@@ -129,7 +129,7 @@
 										<td>${empdetList.advAmount}</td>
 										<td>${empdetList.advRemainingAmount}</td>
 										<td>${empdetList.dedMonth}</td>
- 										<td>${empdetList.isDed==1 ? 'Yes':empdetList.isDed==0 ? 'No' : ''}</td>
+										<td>${empdetList.isDed==1 ? 'Yes':empdetList.isDed==0 ? 'No' : ''}</td>
 
 
 										<td class="text-center">
