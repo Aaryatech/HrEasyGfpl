@@ -196,10 +196,13 @@
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
 
-											<button type="submit" class="btn bg-blue ml-3 legitRipple"
+											<!-- <button type="submit" class="btn btn-primary"
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
+											 -->
+											<input type="submit" class="btn btn-primary" value="Submit"
+									id="submtbtn">
 											 
 											<a
 												href="${pageContext.request.contextPath}/showLoanListForAction?empId=${encEmpId}"><button
@@ -258,21 +261,19 @@
 				} else {
 					$("#error_remark").hide()
 				}
-
+				
+			 
 				if (!isError) {
 
-					var x = true;
-					if (x == true) {
-						
+				 
 						$('#modal_scrollable')
 						.modal('show');
 
-						document.getElementById("submtbtn").disabled = true;
-						return true;
+ 						return false;
 						
 					}
 					//end ajax send this to php page
-				}
+				
 				return false;
 			});
 		});
@@ -282,7 +283,7 @@
 		function submitForm() {
 			$('#modal_scrollable').modal('hide');
 			document.getElementById("submtbtn").disabled = true;
-			document.getElementById("submitInsertCompany").submit();
+			document.getElementById("submitInsertLocaion").submit();
 
 		}
 	</script>

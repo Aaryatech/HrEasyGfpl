@@ -315,20 +315,46 @@
 
 				if (!isError) {
 
-					var x = true;
-					if (x == true) {
+					$('#modal_scrollable')
+					.modal('show');
 
-						document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//end ajax send this to php page
+						return false;
 				}
 				return false;
 			});
 		});
 		//
 	</script>
+<script>
+		function submitForm() {
+			$('#modal_scrollable').modal('hide');
+			document.getElementById("submtbtn").disabled = true;
+			document.getElementById("submitData").submit();
 
+		}
+	</script>
+		<div id="modal_scrollable" class="modal fade" data-backdrop="false"
+		tabindex="-1">
+		<div class="modal-dialog modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header pb-3">
+
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body py-0">
+					<h5 class="modal-title">Are You Sure You Want  To Submit This Record </h5>
+					<br>
+				 
+				</div>
+
+				<div class="modal-footer pt-3">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn bg-primary" onclick="submitForm()">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 <script type="text/javascript">
 		// Single picker
