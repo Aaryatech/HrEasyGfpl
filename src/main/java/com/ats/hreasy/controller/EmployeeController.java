@@ -1,5 +1,7 @@
 package com.ats.hreasy.controller;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.common.RandomString;
 import com.ats.hreasy.common.VpsImageUpload;
 import com.ats.hreasy.model.Allowances;
 import com.ats.hreasy.model.Bank;
@@ -36,6 +39,8 @@ import com.ats.hreasy.model.EmployeDoc;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
+import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.Setting;
 import com.ats.hreasy.model.TblEmpBankInfo;
 import com.ats.hreasy.model.TblEmpInfo;
 import com.ats.hreasy.model.TblEmpNominees;
@@ -152,6 +157,8 @@ public class EmployeeController {
 			 * 
 			 * } else {
 			 */
+			System.err.println("pass is"+randomAlphaNumeric(6));
+			
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("companyId", 1);
@@ -210,10 +217,10 @@ public class EmployeeController {
 	@RequestMapping(value= "/insertEmployeeBasicInfo", method = RequestMethod.POST)  
 	public String submitInsertEmployeeUserInfo(HttpServletRequest request, HttpServletResponse response){
 		 empSave = new EmployeeMaster();
-		
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 		try {
-				HttpSession session = request.getSession();
-				EmployeeMaster emp =new EmployeeMaster();
+ 				EmployeeMaster emp =new EmployeeMaster();
 				int empId = 0;
 				int contract = 0;
 				int deptId= 0;
@@ -303,6 +310,8 @@ public class EmployeeController {
 						 System.out.println("Edit Save = "+empSave);
 						empId = empSave.getEmpId();
 						 if(empSave!=null) {
+							 
+						 
 							 	session.setAttribute("successMsg", "Record Updated Successfully");
 								
 							 	String empEncryptId = FormValidation.Encrypt(String.valueOf(empSave.getEmpId()));
@@ -346,6 +355,12 @@ public class EmployeeController {
 						emp.setEmpCode(request.getParameter("empCode"));				
 						emp.setEmpType(empType);
 						emp.setEsicNo(request.getParameter("esic"));
+						MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				/*
+				 * map = new LinkedMultiValueMap<>(); map.add("limitKey", "LEAVELIMIT"); Setting
+				 * setlimit = Constants.getRestTemplate().postForObject(Constants.url +
+				 * "/getSettingByKey", map, Setting.class);
+				 */
 						emp.setExgratiaPerc(0);
 						
 						emp.setGrossSalaryEst(0);
@@ -379,6 +394,35 @@ public class EmployeeController {
 								EmployeeMaster.class);										
 						 empId = empSave.getEmpId();
 						if(empSave!=null) {
+							
+							User uinfo = new User();
+							uinfo.setEmpId(empSave.getEmpId());
+							uinfo.setEmpTypeId(empSave.getEmpType());
+							uinfo.setUserName(empSave.getEmpCode());
+							
+							RandomString randomString = new RandomString();
+							String password = randomString.nextString();
+							MessageDigest md = MessageDigest.getInstance("MD5");
+							byte[] messageDigest = md.digest(password.getBytes());
+							BigInteger number = new BigInteger(1, messageDigest);
+							String hashtext = number.toString(16);
+							
+ 							uinfo.setUserPwd(hashtext);
+							uinfo.setLocId(String.valueOf(empSave.getLocationId()));
+							uinfo.setExInt1(1);
+							uinfo.setExInt2(1);
+							uinfo.setExInt3(1);
+							uinfo.setExVar1("NA");
+							uinfo.setExVar2("NA");
+							uinfo.setExVar3("NA");
+							uinfo.setIsActive(1);
+							uinfo.setDelStatus(1);
+							uinfo.setMakerUserId(userObj.getEmpId());
+							uinfo.setMakerEnterDatetime(sf.format(date));
+
+							User res1 = Constants.getRestTemplate().postForObject(Constants.url + "/saveUserInfo", uinfo,
+									User.class);
+							 
 							
 							TblEmpInfo empInfo = new TblEmpInfo();
 							empInfo.setEmpId(empSave.getEmpId());
@@ -428,6 +472,11 @@ public class EmployeeController {
 							
 							session.setAttribute("successMsg", "Record Inserted Successfully");
 							
+							
+							
+						
+
+							
 							redirect="redirect:/employeeEdit?empId="+empEncryptId;
 						}else {
 							session.setAttribute("errorMsg", "Failed to Insert Record");
@@ -441,6 +490,25 @@ public class EmployeeController {
 		return redirect;
 		
 	}
+	
+	
+	 static String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz@#!$";
+
+	 public static String randomAlphaNumeric(int count) {
+
+	 StringBuilder builder = new StringBuilder();
+
+	 while (count-- != 0) {
+
+	 int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+
+	 builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+
+	 }
+
+	 return builder.toString();
+
+	 }
 	
 	@RequestMapping(value = "/employeeEdit", method = RequestMethod.GET)
 	public ModelAndView employeeEdit(HttpServletRequest request, HttpServletResponse response) {

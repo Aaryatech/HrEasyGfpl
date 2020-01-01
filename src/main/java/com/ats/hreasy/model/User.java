@@ -15,7 +15,7 @@ public class User {
 	private int exInt1;
 	private int exInt2;
 	private int exInt3;
-	private int exVar1;
+	private String exVar1;
 	private String exVar2;
 	private String exVar3;
 	
@@ -121,11 +121,11 @@ public class User {
 		this.exInt3 = exInt3;
 	}
 
-	public int getExVar1() {
+	public String getExVar1() {
 		return exVar1;
 	}
 
-	public void setExVar1(int exVar1) {
+	public void setExVar1(String exVar1) {
 		this.exVar1 = exVar1;
 	}
 
