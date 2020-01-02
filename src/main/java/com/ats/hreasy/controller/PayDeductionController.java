@@ -142,49 +142,48 @@ public class PayDeductionController {
 		String a = null;
 
 		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-		Info view = AcessController.checkAccess("payDeductionAdd", "showPayDeductionList", 0, 1, 0, 0,
-				newModuleList);
+		Info view = AcessController.checkAccess("payDeductionAdd", "showPayDeductionList", 0, 1, 0, 0, newModuleList);
 
 		if (view.isError() == true) {
 
 			a = "redirect:/accessDenied";
 
 		} else {
-			 
-				a = "redirect:/showPayDeductionList";
-				try {
-			int typId = 0;
+
+			a = "redirect:/showPayDeductionList";
 			try {
-				typId = Integer.parseInt(request.getParameter("payDeductTypeId"));
+				int typId = 0;
+				try {
+					typId = Integer.parseInt(request.getParameter("payDeductTypeId"));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				PayDeduction pay = new PayDeduction();
+
+				pay.setDedTypeId(typId);
+				pay.setTypeName(request.getParameter("payDeductType"));
+				pay.setDedRate(Double.parseDouble(request.getParameter("deductRate")));
+				pay.setIsUsed(1);
+				pay.setDelStatus(1);
+				pay.setEnterMakerDatetime(currDate);
+				pay.setExInt1(0);
+				pay.setExInt2(0);
+				pay.setExVar1("NA");
+				pay.setExVar2("NA");
+
+				PayDeduction savePay = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/saveDeductnPaymentType", pay, PayDeduction.class);
+
+				if (savePay != null) {
+					session.setAttribute("successMsg", "Record Inserted Successfully");
+				} else {
+
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
 			} catch (Exception e) {
-				// TODO: handle exception
+				System.out.println("Exception in /payDeductionAdd : " + e.getMessage());
+				e.printStackTrace();
 			}
-			PayDeduction pay = new PayDeduction();
-
-			pay.setDedTypeId(typId);
-			pay.setTypeName(request.getParameter("payDeductType"));
-			pay.setDedRate(Double.parseDouble(request.getParameter("deductRate")));
-			pay.setIsUsed(1);
-			pay.setDelStatus(1);
-			pay.setEnterMakerDatetime(currDate);
-			pay.setExInt1(0);
-			pay.setExInt2(0);
-			pay.setExVar1("NA");
-			pay.setExVar2("NA");
-
-			PayDeduction savePay = Constants.getRestTemplate().postForObject(Constants.url + "/saveDeductnPaymentType",
-					pay, PayDeduction.class);
-
-			if (savePay != null) {
-				session.setAttribute("successMsg", "Record Inserted Successfully");
-			} else {
-
-				session.setAttribute("errorMsg", "Failed to Insert Record");
-			}
-		} catch (Exception e) {
-			System.out.println("Exception in /payDeductionAdd : " + e.getMessage());
-			e.printStackTrace();
-		}
 		}
 		return a;
 
@@ -194,10 +193,9 @@ public class PayDeductionController {
 	public ModelAndView editPayDeduct(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
 		ModelAndView model = null;
-		
+
 		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-		Info view = AcessController.checkAccess("editPayDeduct", "showPayDeductionList", 0, 0, 1, 0,
-				newModuleList);
+		Info view = AcessController.checkAccess("editPayDeduct", "showPayDeductionList", 0, 0, 1, 0, newModuleList);
 
 		if (view.isError() == true) {
 
@@ -205,21 +203,21 @@ public class PayDeductionController {
 
 		} else {
 
-		try {
-			model = new ModelAndView("master/addPayDeduction");
+			try {
+				model = new ModelAndView("master/addPayDeduction");
 
-			String base64encodedString = request.getParameter("typeId");
-			String typeId = FormValidation.DecodeKey(base64encodedString);
+				String base64encodedString = request.getParameter("typeId");
+				String typeId = FormValidation.DecodeKey(base64encodedString);
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("typeId", typeId);
-			PayDeduction pay = Constants.getRestTemplate().postForObject(Constants.url + "/getPayDeductionById", map,
-					PayDeduction.class);
-			model.addObject("pay", pay);
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("typeId", typeId);
+				PayDeduction pay = Constants.getRestTemplate().postForObject(Constants.url + "/getPayDeductionById",
+						map, PayDeduction.class);
+				model.addObject("pay", pay);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return model;
 
@@ -227,42 +225,41 @@ public class PayDeductionController {
 
 	@RequestMapping(value = "/deletePayDeduct", method = RequestMethod.GET)
 	public String deletePayDeduct(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		
+
 		String a = null;
 
 		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-		Info view = AcessController.checkAccess("deletePayDeduct", "showPayDeductionList", 0, 0, 0, 1,
-				newModuleList);
+		Info view = AcessController.checkAccess("deletePayDeduct", "showPayDeductionList", 0, 0, 0, 1, newModuleList);
 
 		if (view.isError() == true) {
 
 			a = "redirect:/accessDenied";
 
 		} else {
-			 
-				a = "redirect:/showPayDeductionList";
-		
-		try {
-			String base64encodedString = request.getParameter("typeId");
-			String typeId = FormValidation.DecodeKey(base64encodedString);
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("typeId", typeId);
+			a = "redirect:/showPayDeductionList";
 
-			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deletePayDeduction", map,
-					Info.class);
+			try {
+				String base64encodedString = request.getParameter("typeId");
+				String typeId = FormValidation.DecodeKey(base64encodedString);
 
-			if (res.isError()) {
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("typeId", typeId);
+
+				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deletePayDeduction", map,
+						Info.class);
+
+				if (res.isError()) {
+					session.setAttribute("errorMsg", "Failed to Delete");
+				} else {
+					session.setAttribute("successMsg", "Deleted Successfully");
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
 				session.setAttribute("errorMsg", "Failed to Delete");
-			} else {
-				session.setAttribute("successMsg", "Deleted Successfully");
-
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("errorMsg", "Failed to Delete");
-		}
 		}
 
 		return a;
@@ -299,34 +296,47 @@ public class PayDeductionController {
 	public ModelAndView viewPayDeduction(HttpServletRequest request, HttpServletResponse responser) {
 
 		HttpSession session = request.getSession();
-		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
 		ModelAndView model = null;
-		try {
-			model = new ModelAndView("dailywork/payDeductEmpList");
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("viewPayDeduction", "viewPayDeduction", 1, 0, 0, 0, newModuleList);
 
-			EmployeeMaster[] empArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmployee", map,
-					EmployeeMaster[].class);
-			List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>(Arrays.asList(empArr));
+		if (view.isError() == true) {
 
-			for (int i = 0; i < empList.size(); i++) {
+			model = new ModelAndView("accessDenied");
 
-				empList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empList.get(i).getEmpId())));
+		} else {
+
+			try {
+				model = new ModelAndView("dailywork/payDeductEmpList");
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+
+				EmployeeMaster[] empArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmployee",
+						map, EmployeeMaster[].class);
+				List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>(Arrays.asList(empArr));
+
+				for (int i = 0; i < empList.size(); i++) {
+
+					empList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empList.get(i).getEmpId())));
+				}
+
+				Info edit = AcessController.checkAccess("viewPayDeduction", "viewPayDeduction", 0, 0, 1, 0,
+						newModuleList);
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addObject("editAccess", 0);
+				}
+
+				model.addObject("empList", empList);
+
+			} catch (Exception e) {
+				System.out.println("Exception in showPayDeductionList : " + e.getMessage());
+				e.printStackTrace();
 			}
-
-			model.addObject("empList", empList);
-
-			model.addObject("addAccess", 0);
-			model.addObject("editAccess", 0);
-			model.addObject("deleteAccess", 0);
-
-		} catch (Exception e) {
-			System.out.println("Exception in showPayDeductionList : " + e.getMessage());
-			e.printStackTrace();
 		}
-
 		return model;
 
 	}
@@ -485,42 +495,39 @@ public class PayDeductionController {
 
 		HttpSession session = request.getSession();
 		ModelAndView model = null;
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("editEmpPayDeduct", "viewPayDeduction", 0, 0, 1, 0, newModuleList);
 
-		try {
-			PayDeduction[] payDeductArr = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllPayDeduction", PayDeduction[].class);
-			List<PayDeduction> payDeductList = new ArrayList<PayDeduction>(Arrays.asList(payDeductArr));
+		if (view.isError() == true) {
 
-			String base64encodedString = request.getParameter("deductId");
-			String dedId = FormValidation.DecodeKey(base64encodedString);
+			model = new ModelAndView("accessDenied");
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("dedId", dedId);
+		} else {
 
-			PayDeductionDetailList deduct = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getEmpPayDeductionById", map, PayDeductionDetailList.class);
+			try {
+				PayDeduction[] payDeductArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllPayDeduction", PayDeduction[].class);
+				List<PayDeduction> payDeductList = new ArrayList<PayDeduction>(Arrays.asList(payDeductArr));
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("departmentAdd", "showDepartmentList", 0, 1, 0,
-			 * 0, newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
-			model = new ModelAndView("dailywork/editEmpPayDeduct");
-			model.addObject("currentYear", currentYear);
-			model.addObject("deduct", deduct);
-			model.addObject("payDeductList", payDeductList);
+				String base64encodedString = request.getParameter("deductId");
+				String dedId = FormValidation.DecodeKey(base64encodedString);
 
-			// }
-		} catch (Exception e) {
-			System.out.println("Exception in /editEmpPayDeduct : " + e.getMessage());
-			e.printStackTrace();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("dedId", dedId);
+
+				PayDeductionDetailList deduct = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getEmpPayDeductionById", map, PayDeductionDetailList.class);
+
+				model = new ModelAndView("dailywork/editEmpPayDeduct");
+				model.addObject("currentYear", currentYear);
+				model.addObject("deduct", deduct);
+				model.addObject("payDeductList", payDeductList);
+
+				// }
+			} catch (Exception e) {
+				System.out.println("Exception in /editEmpPayDeduct : " + e.getMessage());
+				e.printStackTrace();
+			}
 		}
 		return model;
 	}

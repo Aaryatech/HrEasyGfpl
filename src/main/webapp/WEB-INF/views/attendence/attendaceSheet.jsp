@@ -124,11 +124,15 @@
 														<td style="text-align: center;"><p
 																title="In Time - ${sttsList.inTime}, Out Time - ${sttsList.outTime}, Wotking Hrs - ${sttsList.workingMin}, OT Min - ${sttsList.otMin}, Late Min - ${sttsList.lateMin}">${sttsList.status}</p></td>
 													</c:forEach>
-													<td class="text-center"><a
+													<td class="text-center">
+													<c:if test="${editAccess == 0}">
+													<a
 														href="${pageContext.request.contextPath}/attendanceEditEmpMonth?month=${month}&year=${year}&empId=${infomationList.empId}"
 														class="list-icons-item text-primary-600"
 														data-popup="tooltip" title="" data-original-title="Edit"><i
-															class="icon-pencil7"></i></a></td>
+															class="icon-pencil7"></i></a></c:if>
+															
+															</td>
 												</tr>
 											</c:forEach>
 

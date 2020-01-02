@@ -32,10 +32,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.VpsImageUpload;
+import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.AttendanceSheetData;
 import com.ats.hreasy.model.DailyAttendance;
 import com.ats.hreasy.model.DataForUpdateAttendance;
@@ -167,47 +170,60 @@ public class AttendenceController {
 	@RequestMapping(value = "/attendanceSelectMonth", method = RequestMethod.GET)
 	public String attendanceSelectMonth(HttpServletRequest request, HttpServletResponse response, Model model) {
 
-		String mav = "attendence/attendanceSelectMonth";
+		String mav = null;
+		HttpSession session = request.getSession();
 
-		try {
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("attendanceSelectMonth", "attendanceSelectMonth", 1, 0, 0, 0,
+				newModuleList);
 
-			Date dt = new Date();
-			Calendar temp = Calendar.getInstance();
-			temp.setTime(dt);
-			int year = temp.get(Calendar.YEAR);
-			int month = temp.get(Calendar.MONTH);
+		if (view.isError() == true) {
 
-			/*
-			 * Date firstDay = new Date(year, month, 1); Date lastDay = new Date(year, month
-			 * + 1, 0);
-			 */
+			mav = "accessDenied";
 
-			Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
-			Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+		} else {
+			mav = "attendence/attendanceSelectMonth";
 
-			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			try {
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("fromDate", sf.format(firstDay));
-			map.add("toDate", sf.format(lastDay));
-			InfoForUploadAttendance infoForUploadAttendance = Constants.getRestTemplate().postForObject(
-					Constants.url + "/getInformationOfUploadedAttendance", map, InfoForUploadAttendance.class);
+				Date dt = new Date();
+				Calendar temp = Calendar.getInstance();
+				temp.setTime(dt);
+				int year = temp.get(Calendar.YEAR);
+				int month = temp.get(Calendar.MONTH);
 
-			temp = Calendar.getInstance();
-			temp.setTime(firstDay);
-			year = temp.get(Calendar.YEAR);
-			month = temp.get(Calendar.MONTH);
+				/*
+				 * Date firstDay = new Date(year, month, 1); Date lastDay = new Date(year, month
+				 * + 1, 0);
+				 */
 
-			String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August",
-					"September", "October", "November", "December" };
-			String monthName = monthNames[month];
+				Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
+				Date lastDay = new GregorianCalendar(year, month, 0).getTime();
 
-			model.addAttribute("monthName", monthName);
-			model.addAttribute("year", year);
-			model.addAttribute("infoForUploadAttendance", infoForUploadAttendance);
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
-		} catch (Exception e) {
-			e.printStackTrace();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("fromDate", sf.format(firstDay));
+				map.add("toDate", sf.format(lastDay));
+				InfoForUploadAttendance infoForUploadAttendance = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getInformationOfUploadedAttendance", map, InfoForUploadAttendance.class);
+
+				temp = Calendar.getInstance();
+				temp.setTime(firstDay);
+				year = temp.get(Calendar.YEAR);
+				month = temp.get(Calendar.MONTH);
+
+				String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August",
+						"September", "October", "November", "December" };
+				String monthName = monthNames[month];
+
+				model.addAttribute("monthName", monthName);
+				model.addAttribute("year", year);
+				model.addAttribute("infoForUploadAttendance", infoForUploadAttendance);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return mav;
 
@@ -386,48 +402,70 @@ public class AttendenceController {
 	@RequestMapping(value = "/attendaceSheet", method = RequestMethod.GET)
 	public String attendaceSheet(HttpServletRequest request, HttpServletResponse response, Model model) {
 
-		String mav = "attendence/attendaceSheet";
+		String mav = null;
 
-		try {
-			SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
-			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		HttpSession session = request.getSession();
 
-			String date = request.getParameter("date");
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("attendaceSheet", "attendaceSheet", 1, 0, 0, 0, newModuleList);
 
-			if (date != null) {
+		if (view.isError() == true) {
 
-				Date dt = dd.parse(date);
-				Calendar temp = Calendar.getInstance();
-				temp.setTime(dt);
-				int year = temp.get(Calendar.YEAR);
-				int month = temp.get(Calendar.MONTH) + 1;
+			mav = "accessDenied";
 
-				Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
-				Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+		} else {
+			mav = "attendence/attendaceSheet";
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("fromDate", sf.format(firstDay));
-				map.add("toDate", sf.format(lastDay));
-				AttendanceSheetData attendanceSheetData = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getAttendanceSheet", map, AttendanceSheetData.class);
+			try {
 
-				model.addAttribute("attendanceSheetData", attendanceSheetData);
-				model.addAttribute("date", date);
-				model.addAttribute("year", year);
-				model.addAttribute("month", month);
+				Info edit = AcessController.checkAccess("attendaceSheet", "attendaceSheet", 0, 0, 1, 0, newModuleList);
 
-				map = new LinkedMultiValueMap<String, Object>();
-				map.add("year", year);
-				map.add("month", month);
-				SummaryAttendance[] summaryDailyAttendance = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getMonthlySummryAttendace", map, SummaryAttendance[].class);
-				List<SummaryAttendance> summrylist = new ArrayList<SummaryAttendance>(
-						Arrays.asList(summaryDailyAttendance));
-				model.addAttribute("summrylist", summrylist);
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addAttribute("editAccess", 0);
+				}
+
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+				String date = request.getParameter("date");
+
+				if (date != null) {
+
+					Date dt = dd.parse(date);
+					Calendar temp = Calendar.getInstance();
+					temp.setTime(dt);
+					int year = temp.get(Calendar.YEAR);
+					int month = temp.get(Calendar.MONTH) + 1;
+
+					Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
+					Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("fromDate", sf.format(firstDay));
+					map.add("toDate", sf.format(lastDay));
+					AttendanceSheetData attendanceSheetData = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getAttendanceSheet", map, AttendanceSheetData.class);
+
+					model.addAttribute("attendanceSheetData", attendanceSheetData);
+					model.addAttribute("date", date);
+					model.addAttribute("year", year);
+					model.addAttribute("month", month);
+
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("year", year);
+					map.add("month", month);
+					SummaryAttendance[] summaryDailyAttendance = Constants.getRestTemplate().postForObject(
+							Constants.url + "/getMonthlySummryAttendace", map, SummaryAttendance[].class);
+					List<SummaryAttendance> summrylist = new ArrayList<SummaryAttendance>(
+							Arrays.asList(summaryDailyAttendance));
+					model.addAttribute("summrylist", summrylist);
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return mav;
 
@@ -435,45 +473,56 @@ public class AttendenceController {
 
 	@RequestMapping(value = "/attendanceEditEmpMonth", method = RequestMethod.GET)
 	public String attendanceEditEmpMonth(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
 
-		String mav = "attendence/attendanceEditEmpMonth";
+		String mav = null;
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("attendanceEditEmpMonth", "attendaceSheet", 0, 0, 1, 0, newModuleList);
 
-		try {
+		if (view.isError() == true) {
 
-			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			mav = "accessDenied";
 
-			int year = Integer.parseInt(request.getParameter("year"));
-			int month = Integer.parseInt(request.getParameter("month"));
-			int empId = Integer.parseInt(request.getParameter("empId"));
+		} else {
+			mav = "attendence/attendanceEditEmpMonth";
 
-			Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
-			Date lastDay = new GregorianCalendar(year, month, 0).getTime();
+			try {
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("fromDate", sf.format(firstDay));
-			map.add("toDate", sf.format(lastDay));
-			map.add("year", year);
-			map.add("month", month);
-			map.add("empId", empId);
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
-			GetDailyDailyRecord[] getDailyDailyRecord = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getDailyDailyRecord", map, GetDailyDailyRecord[].class);
-			List<GetDailyDailyRecord> dailyrecordList = new ArrayList<GetDailyDailyRecord>(
-					Arrays.asList(getDailyDailyRecord));
-			model.addAttribute("dailyrecordList", dailyrecordList);
+				int year = Integer.parseInt(request.getParameter("year"));
+				int month = Integer.parseInt(request.getParameter("month"));
+				int empId = Integer.parseInt(request.getParameter("empId"));
 
-			SummaryAttendance summaryAttendance = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getMonthlySummryAttendaceByEmpId", map, SummaryAttendance.class);
-			model.addAttribute("summaryAttendance", summaryAttendance);
-			model.addAttribute("year", year);
-			model.addAttribute("month", month);
+				Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
+				Date lastDay = new GregorianCalendar(year, month, 0).getTime();
 
-			LvType[] lvType = Constants.getRestTemplate().getForObject(Constants.url + "/getLvTypeList",
-					LvType[].class);
-			List<LvType> lvTypeList = new ArrayList<LvType>(Arrays.asList(lvType));
-			model.addAttribute("lvTypeList", lvTypeList);
-		} catch (Exception e) {
-			e.printStackTrace();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("fromDate", sf.format(firstDay));
+				map.add("toDate", sf.format(lastDay));
+				map.add("year", year);
+				map.add("month", month);
+				map.add("empId", empId);
+
+				GetDailyDailyRecord[] getDailyDailyRecord = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getDailyDailyRecord", map, GetDailyDailyRecord[].class);
+				List<GetDailyDailyRecord> dailyrecordList = new ArrayList<GetDailyDailyRecord>(
+						Arrays.asList(getDailyDailyRecord));
+				model.addAttribute("dailyrecordList", dailyrecordList);
+
+				SummaryAttendance summaryAttendance = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getMonthlySummryAttendaceByEmpId", map, SummaryAttendance.class);
+				model.addAttribute("summaryAttendance", summaryAttendance);
+				model.addAttribute("year", year);
+				model.addAttribute("month", month);
+
+				LvType[] lvType = Constants.getRestTemplate().getForObject(Constants.url + "/getLvTypeList",
+						LvType[].class);
+				List<LvType> lvTypeList = new ArrayList<LvType>(Arrays.asList(lvType));
+				model.addAttribute("lvTypeList", lvTypeList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return mav;
 
@@ -554,18 +603,30 @@ public class AttendenceController {
 
 	@RequestMapping(value = "/fixAttendaceByDateAndEmp", method = RequestMethod.GET)
 	public String fixAttendaceByDateAndEmp(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
 
-		String mav = "attendence/fixAttendace";
+		String mav = null;
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("fixAttendaceByDateAndEmp", "fixAttendaceByDateAndEmp", 1, 0, 0, 0,
+				newModuleList);
 
-		try {
+		if (view.isError() == true) {
 
-			EmpInfo[] empInfo = Constants.getRestTemplate().getForObject(Constants.url + "/getEmpListForFixAttendace",
-					EmpInfo[].class);
-			List<EmpInfo> empList = new ArrayList<EmpInfo>(Arrays.asList(empInfo));
-			model.addAttribute("empList", empList);
+			mav = "accessDenied";
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else {
+			mav = "attendence/fixAttendace";
+
+			try {
+
+				EmpInfo[] empInfo = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getEmpListForFixAttendace", EmpInfo[].class);
+				List<EmpInfo> empList = new ArrayList<EmpInfo>(Arrays.asList(empInfo));
+				model.addAttribute("empList", empList);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return mav;
 
@@ -588,7 +649,7 @@ public class AttendenceController {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 			map.add("empIds", empId.substring(1, empId.length()));
-			//System.out.println(map);
+			// System.out.println(map);
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/fixAttendanceByDateOfEmpLoyee", map,
 					Info.class);
 		} catch (Exception e) {

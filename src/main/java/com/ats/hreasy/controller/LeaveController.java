@@ -964,72 +964,73 @@ public class LeaveController {
 	@RequestMapping(value = "/showLeaveApprovalByAuthority", method = RequestMethod.GET)
 	public ModelAndView showLeaveApprovalByInitialAuthority(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("leave/leaveApproveByInitial");
+		ModelAndView model = null;
 
 		// for pending
 		try {
 			HttpSession session = request.getSession();
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("showLeaveApprovalByAuthority",
-			 * "showLeaveApprovalByAuthority", 1, 0, 0, 0, newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showLeaveApprovalByAuthority", "showLeaveApprovalByAuthority", 1,
+					0, 0, 0, newModuleList);
 
-			CalenderYear calculateYear = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("empId", userObj.getEmpId());
-			map.add("currYrId", calculateYear.getCalYrId());
+			if (view.isError() == true) {
 
-			GetLeaveApplyAuthwise[] employeeDoc = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getLeaveApplyListForPending", map, GetLeaveApplyAuthwise[].class);
+				model = new ModelAndView("accessDenied");
 
-			List<GetLeaveApplyAuthwise> leaveList = new ArrayList<GetLeaveApplyAuthwise>(Arrays.asList(employeeDoc));
+			} else {
+				model = new ModelAndView("leave/leaveApproveByInitial");
+				CalenderYear calculateYear = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", userObj.getEmpId());
+				map.add("currYrId", calculateYear.getCalYrId());
 
-			for (int i = 0; i < leaveList.size(); i++) {
+				GetLeaveApplyAuthwise[] employeeDoc = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getLeaveApplyListForPending", map, GetLeaveApplyAuthwise[].class);
 
-				leaveList.get(i).setCirculatedTo(FormValidation.Encrypt(String.valueOf(leaveList.get(i).getLeaveId())));
-				leaveList.get(i).setLeaveTypeName(FormValidation.Encrypt(String.valueOf(leaveList.get(i).getEmpId())));
-				leaveList.get(i).setLeaveFromdt(DateConvertor.convertToDMY(leaveList.get(i).getLeaveFromdt()));
-				leaveList.get(i).setLeaveTodt(DateConvertor.convertToDMY(leaveList.get(i).getLeaveTodt()));
+				List<GetLeaveApplyAuthwise> leaveList = new ArrayList<GetLeaveApplyAuthwise>(
+						Arrays.asList(employeeDoc));
+
+				for (int i = 0; i < leaveList.size(); i++) {
+
+					leaveList.get(i)
+							.setCirculatedTo(FormValidation.Encrypt(String.valueOf(leaveList.get(i).getLeaveId())));
+					leaveList.get(i)
+							.setLeaveTypeName(FormValidation.Encrypt(String.valueOf(leaveList.get(i).getEmpId())));
+					leaveList.get(i).setLeaveFromdt(DateConvertor.convertToDMY(leaveList.get(i).getLeaveFromdt()));
+					leaveList.get(i).setLeaveTodt(DateConvertor.convertToDMY(leaveList.get(i).getLeaveTodt()));
+				}
+				model.addObject("leaveListForApproval", leaveList);
+				model.addObject("list1Count", leaveList.size());
+
+				// for Info
+
+				model.addObject("empIdOrig", userObj.getEmpId());
+
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", userObj.getEmpId());
+				map.add("currYrId", calculateYear.getCalYrId());
+				GetLeaveApplyAuthwise[] employeeDoc1 = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getLeaveApplyListForInformation", map, GetLeaveApplyAuthwise[].class);
+
+				List<GetLeaveApplyAuthwise> leaveList1 = new ArrayList<GetLeaveApplyAuthwise>(
+						Arrays.asList(employeeDoc1));
+
+				for (int i = 0; i < leaveList1.size(); i++) {
+
+					leaveList1.get(i)
+							.setCirculatedTo(FormValidation.Encrypt(String.valueOf(leaveList1.get(i).getLeaveId())));
+					leaveList1.get(i)
+							.setLeaveTypeName(FormValidation.Encrypt(String.valueOf(leaveList1.get(i).getEmpId())));
+					leaveList1.get(i).setLeaveFromdt(DateConvertor.convertToDMY(leaveList1.get(i).getLeaveFromdt()));
+					leaveList1.get(i).setLeaveTodt(DateConvertor.convertToDMY(leaveList1.get(i).getLeaveTodt()));
+				}
+
+				model.addObject("list2Count", leaveList1.size());
+				model.addObject("leaveListForApproval1", leaveList1);
 			}
-			model.addObject("leaveListForApproval", leaveList);
-			model.addObject("list1Count", leaveList.size());
-
-			// for Info
-
-			model.addObject("empIdOrig", userObj.getEmpId());
-
-			map = new LinkedMultiValueMap<>();
-			map.add("empId", userObj.getEmpId());
-			map.add("currYrId", calculateYear.getCalYrId());
-			GetLeaveApplyAuthwise[] employeeDoc1 = Constants.getRestTemplate().postForObject(
-					Constants.url + "/getLeaveApplyListForInformation", map, GetLeaveApplyAuthwise[].class);
-
-			List<GetLeaveApplyAuthwise> leaveList1 = new ArrayList<GetLeaveApplyAuthwise>(Arrays.asList(employeeDoc1));
-
-			for (int i = 0; i < leaveList1.size(); i++) {
-
-				leaveList1.get(i)
-						.setCirculatedTo(FormValidation.Encrypt(String.valueOf(leaveList1.get(i).getLeaveId())));
-				leaveList1.get(i)
-						.setLeaveTypeName(FormValidation.Encrypt(String.valueOf(leaveList1.get(i).getEmpId())));
-				leaveList1.get(i).setLeaveFromdt(DateConvertor.convertToDMY(leaveList1.get(i).getLeaveFromdt()));
-				leaveList1.get(i).setLeaveTodt(DateConvertor.convertToDMY(leaveList1.get(i).getLeaveTodt()));
-			}
-
-			model.addObject("list2Count", leaveList1.size());
-			model.addObject("leaveListForApproval1", leaveList1);
-			// }
 
 		} catch (Exception e) {
 			e.printStackTrace();

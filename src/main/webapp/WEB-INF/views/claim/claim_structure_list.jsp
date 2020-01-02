@@ -29,7 +29,7 @@
 			<!-- Page header -->
 			<div class="page-header page-header-light">
 
-<%-- 
+				<%-- 
 				<div
 					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
@@ -64,17 +64,18 @@
 				<!-- Highlighting rows and columns -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
- 						<table width="100%">
+						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Claim Structure List</h5></td>
-								<td width="40%" align="right">
-								<%-- <c:if
-																test="${addAccess == 0}"> --%>
-								 <a
-									href="${pageContext.request.contextPath}/addClaimStructure"
-									class="breadcrumb-elements-item">
-										<button type="button" class="btn btn-primary">Add Claim Structure </button>
-								</a><%-- </c:if>  --%></td>
+								<td width="60%"><h5 class="card-title">Claim Structure
+										List</h5></td>
+								<td width="40%" align="right"><c:if
+										test="${addAccess == 0}">
+										<a href="${pageContext.request.contextPath}/addClaimStructure"
+											class="breadcrumb-elements-item">
+											<button type="button" class="btn btn-primary">Add
+												Claim Structure</button>
+										</a>
+									</c:if></td>
 							</tr>
 						</table>
 					</div>
@@ -138,22 +139,18 @@
 
 										<td>${structure.claimStructName}</td>
 
-										<td class="text-center">
-											<%-- <c:if test="${editAccess == 0}"> --%>
-														<a
-															href="${pageContext.request.contextPath}/editClaimStructure?clmHeadId=${structure.exVar1}"
-															 title="Edit Claim Structure"><i class="icon-pencil7" style="color: black;"></i></a>
-														<%-- </c:if>	
-														
-														<c:if
-																test="${deleteAccess == 0}">  --%>
-															 	<a
-															href="${pageContext.request.contextPath}/deleteClaimStructure?clmHeadId=${structure.exVar1}"
-															onClick="return confirm('Are you sure want to delete this record');"
-															title="Delete Claim Structure"><i class="icon-trash" style="color: black;"></i>
-															</a><%-- </c:if> --%>
-												
-										</td>
+										<td class="text-center"><c:if test="${editAccess == 0}">
+												<a
+													href="${pageContext.request.contextPath}/editClaimStructure?clmHeadId=${structure.exVar1}"
+													title="Edit Claim Structure"><i class="icon-pencil7"
+													style="color: black;"></i></a>
+											</c:if> <c:if test="${deleteAccess == 0}">
+												<a
+													href="${pageContext.request.contextPath}/deleteClaimStructure?clmHeadId=${structure.exVar1}"
+													onClick="return confirm('Are you sure want to delete this record');"
+													title="Delete Claim Structure"><i class="icon-trash"
+													style="color: black;"></i> </a>
+											</c:if></td>
 									</tr>
 								</c:forEach>
 

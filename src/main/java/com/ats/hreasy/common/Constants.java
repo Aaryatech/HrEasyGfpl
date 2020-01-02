@@ -1,3 +1,6 @@
+
+
+
 package com.ats.hreasy.common;
   
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
@@ -6,14 +9,12 @@ import org.springframework.web.client.RestTemplate;
 public class Constants {
  
 	public static final String url="http://localhost:8094/";
-	//public static final String url="http://115.124.111.55:8080/esayWebApi/"; 
-	public static String REPORT_SAVE = "/home/lenovo/Documents/pdf/Report.pdf";
-	public static final String imageSaveUrl = "/home/lenovo/Documents/attendance/";
-	
+ 	public static final String imageSaveUrl = "/home/lenovo/Downloads/";
+	public static final String getImageSaveUrl = "/home/lenovo/Downloads/";
+	public static final String REPORT_SAVE = "/home/lenovo/pdf/abc.pdf";
 	public static RestTemplate rest = new RestTemplate();
-	public static String[] allextension;
-	public static String[] values;
-	public static Object getImageSaveUrl; 
+	public static String[] allextension; 
+	public static String[] values = { "jpg", "jpeg", "gif", "png" };
 	 
 	 public static RestTemplate getRestTemplate() {
 		rest=new RestTemplate();
