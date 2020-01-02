@@ -250,6 +250,9 @@
 								<input type="submit" class="btn btn-primary" value="Submit"
 									id="submtbtn"
 									style="align-content: center; width: 113px; margin-left: 40px;">
+
+								<a href="${pageContext.request.contextPath}/showWeekOffShift"><button
+										type="button" class="btn btn-light">Back</button></a>
 							</div>
 						</form>
 

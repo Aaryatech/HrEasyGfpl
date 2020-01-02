@@ -752,7 +752,7 @@ public class LeaveStructureController {
 	@RequestMapping(value = "/leaveStructureAllotment", method = RequestMethod.GET)
 	public ModelAndView leaveStructureAllotment(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model =null;
+		ModelAndView model = null;
 
 		try {
 
@@ -861,40 +861,37 @@ public class LeaveStructureController {
 	@RequestMapping(value = "/leaveYearEnd", method = RequestMethod.GET)
 	public ModelAndView leaveYearEnd(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("leave/leaveYearEnd");
+		ModelAndView model = null;
 
 		try {
 
 			HttpSession session = request.getSession();
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("leaveYearEnd", "leaveYearEnd", 1, 0, 0, 0,
-			 * newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("leaveYearEnd", "leaveYearEnd", 1, 0, 0, 0, newModuleList);
 
-			EmployeeMaster[] employeeInfo = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getemplistwhichisnotyearend", EmployeeMaster[].class);
+			if (view.isError() == true) {
 
-			List<EmployeeMaster> employeeInfoList = new ArrayList<EmployeeMaster>(Arrays.asList(employeeInfo));
-			model.addObject("employeeInfoList", employeeInfoList);
+				model = new ModelAndView("accessDenied");
 
-			map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
-			LeaveStructureHeader[] lvStrSummery = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getStructureList", map, LeaveStructureHeader[].class);
-			List<LeaveStructureHeader> lSummarylist = new ArrayList<>(Arrays.asList(lvStrSummery));
-			model.addObject("lStrList", lSummarylist);
-			// }
+			} else {
+				model = new ModelAndView("leave/leaveYearEnd");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+				EmployeeMaster[] employeeInfo = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getemplistwhichisnotyearend", EmployeeMaster[].class);
+
+				List<EmployeeMaster> employeeInfoList = new ArrayList<EmployeeMaster>(Arrays.asList(employeeInfo));
+				model.addObject("employeeInfoList", employeeInfoList);
+
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				LeaveStructureHeader[] lvStrSummery = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getStructureList", map, LeaveStructureHeader[].class);
+				List<LeaveStructureHeader> lSummarylist = new ArrayList<>(Arrays.asList(lvStrSummery));
+				model.addObject("lStrList", lSummarylist);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -168,91 +168,91 @@ public class LeaveController {
 		String a = null;
 		if (view.isError() == true) {
 			a = "redirect:/accessDenied";
- 
+
 		} else {
-		
-			a="redirect:/showLeaveTypeList";
-		
-		try {
-			
-			Date date = new Date();
-			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 
-			String compName = request.getParameter("1");
-			String leaveTypeTitle = request.getParameter("leaveTypeTitle");
-			String leaveShortTypeTitle = request.getParameter("leaveShortTypeTitle");
-			// int WprkingHrs = Integer.parseInt(request.getParameter("leaveWorlHrs"));
-			int summId = Integer.parseInt(request.getParameter("summId"));
-			String leaveColor = request.getParameter("leaveColor");
-			String remark = null;
+			a = "redirect:/showLeaveTypeList";
 
-			System.out.println("color    " + leaveColor);
-			int isStructured = Integer.parseInt(request.getParameter("isStructured"));
 			try {
-				remark = request.getParameter("remark");
-			} catch (Exception e) {
-				remark = "NA";
-			}
 
-			Boolean ret = false;
+				Date date = new Date();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 
-			if (FormValidation.Validaton(leaveTypeTitle, "") == true) {
+				String compName = request.getParameter("1");
+				String leaveTypeTitle = request.getParameter("leaveTypeTitle");
+				String leaveShortTypeTitle = request.getParameter("leaveShortTypeTitle");
+				// int WprkingHrs = Integer.parseInt(request.getParameter("leaveWorlHrs"));
+				int summId = Integer.parseInt(request.getParameter("summId"));
+				String leaveColor = request.getParameter("leaveColor");
+				String remark = null;
 
-				ret = true;
-				System.out.println("locShortName" + ret);
-			}
-			if (FormValidation.Validaton(leaveShortTypeTitle, "") == true) {
+				System.out.println("color    " + leaveColor);
+				int isStructured = Integer.parseInt(request.getParameter("isStructured"));
+				try {
+					remark = request.getParameter("remark");
+				} catch (Exception e) {
+					remark = "NA";
+				}
 
-				ret = true;
-				System.out.println("add" + ret);
-			}
+				Boolean ret = false;
 
-			if (FormValidation.Validaton(request.getParameter("leaveColor"), "") == true) {
+				if (FormValidation.Validaton(leaveTypeTitle, "") == true) {
 
-				ret = true;
-				System.out.println("add" + ret);
-			}
+					ret = true;
+					System.out.println("locShortName" + ret);
+				}
+				if (FormValidation.Validaton(leaveShortTypeTitle, "") == true) {
 
-			if (ret == false) {
+					ret = true;
+					System.out.println("add" + ret);
+				}
 
-				LeaveType leaveSummary = new LeaveType();
+				if (FormValidation.Validaton(request.getParameter("leaveColor"), "") == true) {
 
-				leaveSummary.setCompanyId(1);
-				leaveSummary.setIsStructured(isStructured);
-				leaveSummary.setLvColor(leaveColor);
-				leaveSummary.setLvTitle(leaveTypeTitle);
-				leaveSummary.setLvTitleShort(leaveShortTypeTitle);
-				leaveSummary.setLvWorkingHrs(0);
-				leaveSummary.setLvSumupId(summId);
-				leaveSummary.setLvRmarks(remark);
-				leaveSummary.setExInt1(1);
-				leaveSummary.setExInt2(1);
-				leaveSummary.setExInt3(1);
-				leaveSummary.setExVar1("NA");
-				leaveSummary.setExVar2("NA");
-				leaveSummary.setExVar3("NA");
-				leaveSummary.setIsActive(1);
-				leaveSummary.setDelStatus(1);
-				leaveSummary.setMakerUserId(userObj.getUserId());
-				leaveSummary.setMakerEnterDatetime(sf.format(date));
+					ret = true;
+					System.out.println("add" + ret);
+				}
 
-				LeaveType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLeaveType",
-						leaveSummary, LeaveType.class);
+				if (ret == false) {
 
-				if (res.isError() == false) {
-					session.setAttribute("successMsg", "Record Inserted Successfully");
+					LeaveType leaveSummary = new LeaveType();
+
+					leaveSummary.setCompanyId(1);
+					leaveSummary.setIsStructured(isStructured);
+					leaveSummary.setLvColor(leaveColor);
+					leaveSummary.setLvTitle(leaveTypeTitle);
+					leaveSummary.setLvTitleShort(leaveShortTypeTitle);
+					leaveSummary.setLvWorkingHrs(0);
+					leaveSummary.setLvSumupId(summId);
+					leaveSummary.setLvRmarks(remark);
+					leaveSummary.setExInt1(1);
+					leaveSummary.setExInt2(1);
+					leaveSummary.setExInt3(1);
+					leaveSummary.setExVar1("NA");
+					leaveSummary.setExVar2("NA");
+					leaveSummary.setExVar3("NA");
+					leaveSummary.setIsActive(1);
+					leaveSummary.setDelStatus(1);
+					leaveSummary.setMakerUserId(userObj.getUserId());
+					leaveSummary.setMakerEnterDatetime(sf.format(date));
+
+					LeaveType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLeaveType",
+							leaveSummary, LeaveType.class);
+
+					if (res.isError() == false) {
+						session.setAttribute("successMsg", "Record Inserted Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Insert Record");
+					}
+
 				} else {
 					session.setAttribute("errorMsg", "Failed to Insert Record");
 				}
 
-			} else {
-				session.setAttribute("errorMsg", "Failed to Insert Record");
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		}
 		return a;
 
@@ -407,12 +407,11 @@ public class LeaveController {
 	@RequestMapping(value = "/submitEditLeaveType", method = RequestMethod.POST)
 	public String submitEditLeaveType(HttpServletRequest request, HttpServletResponse response) {
 
-		
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 		Info view = AcessController.checkAccess("editLeaveType", "showLeaveTypeList", 0, 0, 1, 0, newModuleList);
-		String a=null;
+		String a = null;
 		if (view.isError() == true) {
 			a = "redirect:/accessDenied";
 
@@ -421,75 +420,74 @@ public class LeaveController {
 		else {
 
 			a = "redirect:/showLeaveTypeList";
-		try {
-			
-
-			Date date = new Date();
-			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-
-			String compName = request.getParameter("1");
-			String leaveTypeTitle = request.getParameter("leaveTypeTitle");
-			String leaveShortTypeTitle = request.getParameter("leaveShortTypeTitle");
-			// int WprkingHrs = Integer.parseInt(request.getParameter("leaveWorlHrs"));
-			int summId = Integer.parseInt(request.getParameter("summId"));
-			String leaveColor = request.getParameter("leaveColor");
-			String remark = null;
-			System.out.println("color    " + leaveColor);
-			int isStructured = Integer.parseInt(request.getParameter("isStructured"));
 			try {
-				remark = request.getParameter("remark");
-			} catch (Exception e) {
-				remark = "NA";
-			}
 
-			Boolean ret = false;
+				Date date = new Date();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 
-			if (FormValidation.Validaton(leaveTypeTitle, "") == true) {
+				String compName = request.getParameter("1");
+				String leaveTypeTitle = request.getParameter("leaveTypeTitle");
+				String leaveShortTypeTitle = request.getParameter("leaveShortTypeTitle");
+				// int WprkingHrs = Integer.parseInt(request.getParameter("leaveWorlHrs"));
+				int summId = Integer.parseInt(request.getParameter("summId"));
+				String leaveColor = request.getParameter("leaveColor");
+				String remark = null;
+				System.out.println("color    " + leaveColor);
+				int isStructured = Integer.parseInt(request.getParameter("isStructured"));
+				try {
+					remark = request.getParameter("remark");
+				} catch (Exception e) {
+					remark = "NA";
+				}
 
-				ret = true;
-				System.out.println("locShortName" + ret);
-			}
-			if (FormValidation.Validaton(leaveShortTypeTitle, "") == true) {
+				Boolean ret = false;
 
-				ret = true;
-				System.out.println("add" + ret);
-			}
+				if (FormValidation.Validaton(leaveTypeTitle, "") == true) {
 
-			if (FormValidation.Validaton(request.getParameter("leaveColor"), "") == true) {
+					ret = true;
+					System.out.println("locShortName" + ret);
+				}
+				if (FormValidation.Validaton(leaveShortTypeTitle, "") == true) {
 
-				ret = true;
-				System.out.println("add" + ret);
-			}
+					ret = true;
+					System.out.println("add" + ret);
+				}
 
-			if (ret == false) {
+				if (FormValidation.Validaton(request.getParameter("leaveColor"), "") == true) {
 
-				editLeaveType.setCompanyId(1);
-				editLeaveType.setIsStructured(isStructured);
-				editLeaveType.setLvColor(leaveColor);
-				editLeaveType.setLvTitle(leaveTypeTitle);
-				editLeaveType.setLvTitleShort(leaveShortTypeTitle);
-				editLeaveType.setLvWorkingHrs(0);
-				editLeaveType.setLvSumupId(summId);
-				editLeaveType.setLvRmarks(remark);
-				editLeaveType.setMakerUserId(userObj.getUserId());
-				editLeaveType.setMakerEnterDatetime(sf.format(date));
+					ret = true;
+					System.out.println("add" + ret);
+				}
 
-				LeaveType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLeaveType",
-						editLeaveType, LeaveType.class);
+				if (ret == false) {
 
-				if (res.isError() == false) {
-					session.setAttribute("successMsg", "Record Updated Successfully");
+					editLeaveType.setCompanyId(1);
+					editLeaveType.setIsStructured(isStructured);
+					editLeaveType.setLvColor(leaveColor);
+					editLeaveType.setLvTitle(leaveTypeTitle);
+					editLeaveType.setLvTitleShort(leaveShortTypeTitle);
+					editLeaveType.setLvWorkingHrs(0);
+					editLeaveType.setLvSumupId(summId);
+					editLeaveType.setLvRmarks(remark);
+					editLeaveType.setMakerUserId(userObj.getUserId());
+					editLeaveType.setMakerEnterDatetime(sf.format(date));
+
+					LeaveType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLeaveType",
+							editLeaveType, LeaveType.class);
+
+					if (res.isError() == false) {
+						session.setAttribute("successMsg", "Record Updated Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Update Record");
+					}
 				} else {
 					session.setAttribute("errorMsg", "Failed to Update Record");
 				}
-			} else {
-				session.setAttribute("errorMsg", "Failed to Update Record");
-			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 		return a;
@@ -509,50 +507,44 @@ public class LeaveController {
 			HttpSession session = request.getSession();
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("showApplyForLeave", "showApplyForLeave", 1, 0,
-			 * 0, 0, newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showApplyForLeave", "showApplyForLeave", 1, 0, 0, 0,
+					newModuleList);
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("empId", userObj.getEmpId());
+			if (view.isError() == true) {
 
-			EmployeeMaster[] employeeDepartment = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getAuthorityWiseEmpListByEmpId", map, EmployeeMaster[].class);
+				model = new ModelAndView("accessDenied");
 
-			List<EmployeeMaster> employeeDepartmentlist = new ArrayList<EmployeeMaster>(
-					Arrays.asList(employeeDepartment));
+			} else {
 
-			for (int i = 0; i < employeeDepartmentlist.size(); i++) {
-				// System.out.println("employeeDepartmentlist.get(i).getEmpId()"+employeeDepartmentlist.get(i).getEmpId());
-				employeeDepartmentlist.get(i)
-						.setRawData(FormValidation.Encrypt(String.valueOf(employeeDepartmentlist.get(i).getEmpId())));
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", userObj.getEmpId());
+
+				EmployeeMaster[] employeeDepartment = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAuthorityWiseEmpListByEmpId", map, EmployeeMaster[].class);
+
+				List<EmployeeMaster> employeeDepartmentlist = new ArrayList<EmployeeMaster>(
+						Arrays.asList(employeeDepartment));
+
+				for (int i = 0; i < employeeDepartmentlist.size(); i++) {
+					// System.out.println("employeeDepartmentlist.get(i).getEmpId()"+employeeDepartmentlist.get(i).getEmpId());
+					employeeDepartmentlist.get(i).setRawData(
+							FormValidation.Encrypt(String.valueOf(employeeDepartmentlist.get(i).getEmpId())));
+				}
+
+				model.addObject("empList", employeeDepartmentlist);
+				model.addObject("empId", userObj.getEmpId());
+
+				Info add = AcessController.checkAccess("showApplyForLeave", "showApplyForLeave", 0, 1, 0, 0,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addObject("addAccess", 0);
+
+				}
+
 			}
-
-			model.addObject("empList", employeeDepartmentlist);
-			model.addObject("empId", userObj.getEmpId());
-			model.addObject("addAccess", 0);
-
-			/*
-			 * Info add = AcessController.checkAccess("showApplyForLeave",
-			 * "showApplyForLeave", 0, 1, 0, 0, newModuleList);
-			 * 
-			 * 
-			 * if (add.isError() == false) { System.out.println(" add   Accessable ");
-			 * model.addObject("addAccess", 0);
-			 * 
-			 * }
-			 */
-
-			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1080,36 +1072,33 @@ public class LeaveController {
 	@RequestMapping(value = "/empInfoHistoryReport", method = RequestMethod.GET)
 	public ModelAndView empInfoHistory(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("Report/empHistoryReport");
+		ModelAndView model = null;
 
 		try {
 			HttpSession session = request.getSession();
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("empInfoHistoryReport", "empInfoHistoryReport",
-			 * 1, 0, 0, 0, newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("empInfoHistoryReport", "empInfoHistoryReport", 1, 0, 0, 0,
+					newModuleList);
 
-			CalenderYear[] calenderYear = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getCalculateYearList", CalenderYear[].class);
-			List<CalenderYear> calYearList = new ArrayList<CalenderYear>(Arrays.asList(calenderYear));
+			if (view.isError() == true) {
 
-			EmployeeMaster[] employeeInfo = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getEmplistForAssignAuthority", EmployeeMaster[].class);
+				model = new ModelAndView("accessDenied");
 
-			List<EmployeeMaster> employeeInfoList = new ArrayList<EmployeeMaster>(Arrays.asList(employeeInfo));
-			model.addObject("calYearList", calYearList);
-			model.addObject("employeeInfoList", employeeInfoList);
-			// }
+			} else {
+				model = new ModelAndView("Report/empHistoryReport");
+				CalenderYear[] calenderYear = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getCalculateYearList", CalenderYear[].class);
+				List<CalenderYear> calYearList = new ArrayList<CalenderYear>(Arrays.asList(calenderYear));
+
+				EmployeeMaster[] employeeInfo = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getEmplistForAssignAuthority", EmployeeMaster[].class);
+
+				List<EmployeeMaster> employeeInfoList = new ArrayList<EmployeeMaster>(Arrays.asList(employeeInfo));
+				model.addObject("calYearList", calYearList);
+				model.addObject("employeeInfoList", employeeInfoList);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

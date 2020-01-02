@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.GetWeekShiftChange;
 import com.ats.hreasy.model.GetWeeklyOff;
 import com.ats.hreasy.model.Info;
@@ -56,40 +58,38 @@ public class WeeklyOffController {
 		ModelAndView model = null;
 		try {
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("addWeeklyOff", "showWeeklyOffList", 0, 1, 0, 0,
-			 * newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
-			model = new ModelAndView("master/weekly_off_add");
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("addWeeklyOff", "showWeeklyOffList", 0, 1, 0, 0, newModuleList);
 
-			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+			if (view.isError() == true) {
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
-			Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
-					Location[].class);
+				model = new ModelAndView("accessDenied");
 
-			List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+			} else {
 
-			for (int i = 0; i < locationList.size(); i++) {
+				model = new ModelAndView("master/weekly_off_add");
 
-				locationList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getLocId())));
+				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+						Location[].class);
+
+				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+
+				for (int i = 0; i < locationList.size(); i++) {
+
+					locationList.get(i)
+							.setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getLocId())));
+				}
+
+				// System.out.println(userObj);
+				model.addObject("locationList", locationList);
+				model.addObject("locationAccess", userObj.getLocationIds().split(","));
+				// model.addObject("locationAccess", "2,3".split(","));
+
 			}
-
-			// System.out.println(userObj);
-			model.addObject("locationList", locationList);
-			model.addObject("locationAccess", userObj.getLocationIds().split(","));
-			// model.addObject("locationAccess", "2,3".split(","));
-
-			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -98,73 +98,81 @@ public class WeeklyOffController {
 
 	@RequestMapping(value = "/submitInsertWeeklyOff", method = RequestMethod.POST)
 	public String submitInsertWeeklyOff(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("addWeeklyOff", "showWeeklyOffList", 0, 1, 0, 0, newModuleList);
+		String a = null;
+		if (view.isError() == true) {
+			a = "redirect:/accessDenied";
 
-		try {
-			System.out.println("inside submitInsertWeeklyOff");
-			HttpSession session = request.getSession();
-			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+		} else {
+			a = "redirect:/showWeeklyOffList";
+			try {
+				System.out.println("inside submitInsertWeeklyOff");
+				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
-			String woDay = request.getParameter("woDay");
-			String woPresently = request.getParameter("woPresently");
-			String woRemarks = null;
-			woRemarks = request.getParameter("woRemarks");
-			String woType = request.getParameter("woType");
+				String woDay = request.getParameter("woDay");
+				String woPresently = request.getParameter("woPresently");
+				String woRemarks = null;
+				woRemarks = request.getParameter("woRemarks");
+				String woType = request.getParameter("woType");
 
-			String[] locIds = request.getParameterValues("locId");
+				String[] locIds = request.getParameterValues("locId");
 
-			StringBuilder sb = new StringBuilder();
+				StringBuilder sb = new StringBuilder();
 
-			for (int i = 0; i < locIds.length; i++) {
-				sb = sb.append(locIds[i] + ",");
+				for (int i = 0; i < locIds.length; i++) {
+					sb = sb.append(locIds[i] + ",");
 
-			}
-			String locIdList = sb.toString();
-			locIdList = locIdList.substring(0, locIdList.length() - 1);
+				}
+				String locIdList = sb.toString();
+				locIdList = locIdList.substring(0, locIdList.length() - 1);
 
-			Boolean ret = false;
+				Boolean ret = false;
 
-			if (FormValidation.Validaton(woDay, "") == true) {
+				if (FormValidation.Validaton(woDay, "") == true) {
 
-				ret = true;
-			}
+					ret = true;
+				}
 
-			if (FormValidation.Validaton(woPresently, "") == true) {
+				if (FormValidation.Validaton(woPresently, "") == true) {
 
-				ret = true;
-			}
+					ret = true;
+				}
 
-			if (ret == false) {
+				if (ret == false) {
 
-				WeeklyOff save = new WeeklyOff();
-				save.setCompanyId(1);
-				save.setDelStatus(1);
-				save.setIsActive(1);
-				save.setLocId(locIdList);
-				save.setWoType(woType);
-				save.setWoRemarks(woRemarks);
-				save.setWoIsUsed(1);
-				save.setWoDay(woDay);
-				save.setWoPresently(woPresently);
-				save.setMakerEnterDatetime(dateTime);
-				save.setMakerUserId(userObj.getUserId());
+					WeeklyOff save = new WeeklyOff();
+					save.setCompanyId(1);
+					save.setDelStatus(1);
+					save.setIsActive(1);
+					save.setLocId(locIdList);
+					save.setWoType(woType);
+					save.setWoRemarks(woRemarks);
+					save.setWoIsUsed(1);
+					save.setWoDay(woDay);
+					save.setWoPresently(woPresently);
+					save.setMakerEnterDatetime(dateTime);
+					save.setMakerUserId(userObj.getUserId());
 
-				WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff", save,
-						WeeklyOff.class);
+					WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff", save,
+							WeeklyOff.class);
 
-				if (res != null) {
-					session.setAttribute("successMsg", "Record Inserted Successfully");
+					if (res != null) {
+						session.setAttribute("successMsg", "Record Inserted Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Insert Record");
+					}
+
 				} else {
 					session.setAttribute("errorMsg", "Failed to Insert Record");
 				}
-
-			} else {
-				session.setAttribute("errorMsg", "Failed to Insert Record");
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
-		return "redirect:/showWeeklyOffList";
+		return a;
 	}
 
 	@RequestMapping(value = "/showWeeklyOffList", method = RequestMethod.GET)
@@ -177,57 +185,57 @@ public class WeeklyOffController {
 
 		try {
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("showWeeklyOffList", "showWeeklyOffList", 1, 0,
-			 * 0, 0, newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
-			model = new ModelAndView("master/weekly_off_list");
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showWeeklyOffList", "showWeeklyOffList", 1, 0, 0, 0,
+					newModuleList);
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
-			map.add("locIdList", userObj.getLocationIds());
-			// map.add("locIdList", "2,3");
-			GetWeeklyOff[] holListArray = Constants.getRestTemplate().postForObject(Constants.url + "/getWeeklyOffList",
-					map, GetWeeklyOff[].class);
+			if (view.isError() == true) {
 
-			List<GetWeeklyOff> weekOffList = new ArrayList<>(Arrays.asList(holListArray));
+				model = new ModelAndView("accessDenied");
 
-			for (int i = 0; i < weekOffList.size(); i++) {
+			} else {
 
-				weekOffList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(weekOffList.get(i).getWoId())));
+				model = new ModelAndView("master/weekly_off_list");
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				map.add("locIdList", userObj.getLocationIds());
+				// map.add("locIdList", "2,3");
+				GetWeeklyOff[] holListArray = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getWeeklyOffList", map, GetWeeklyOff[].class);
+
+				List<GetWeeklyOff> weekOffList = new ArrayList<>(Arrays.asList(holListArray));
+
+				for (int i = 0; i < weekOffList.size(); i++) {
+
+					weekOffList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(weekOffList.get(i).getWoId())));
+				}
+
+				model.addObject("weekOffList", weekOffList);
+
+				Info add = AcessController.checkAccess("showWeeklyOffList", "showWeeklyOffList", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showWeeklyOffList", "showWeeklyOffList", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showWeeklyOffList", "showWeeklyOffList", 0, 0, 0, 1,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					System.out.println(" delete   Accessable ");
+					model.addObject("deleteAccess", 0);
+
+				}
+
 			}
-
-			model.addObject("addAccess", 0);
-			model.addObject("editAccess", 0);
-			model.addObject("deleteAccess", 0);
-			model.addObject("weekOffList", weekOffList);
-			/*
-			 * Info add = AcessController.checkAccess("showWeeklyOffList",
-			 * "showWeeklyOffList", 0, 1, 0, 0, newModuleList); Info edit =
-			 * AcessController.checkAccess("showWeeklyOffList", "showWeeklyOffList", 0, 0,
-			 * 1, 0, newModuleList); Info delete =
-			 * AcessController.checkAccess("showWeeklyOffList", "showWeeklyOffList", 0, 0,
-			 * 0, 1, newModuleList);
-			 * 
-			 * if (add.isError() == false) { System.out.println(" add   Accessable ");
-			 * model.addObject("addAccess", 0);
-			 * 
-			 * } if (edit.isError() == false) { System.out.println(" edit   Accessable ");
-			 * model.addObject("editAccess", 0); } if (delete.isError() == false) {
-			 * System.out.println(" delete   Accessable "); model.addObject("deleteAccess",
-			 * 0);
-			 * 
-			 * }
-			 */
-			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -242,30 +250,29 @@ public class WeeklyOffController {
 
 		try {
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("deleteWeeklyOff", "showWeeklyOffList", 0, 0, 0,
-			 * 1, newModuleList); if (view.isError() == true) {
-			 * 
-			 * a = "redirect:/accessDenied";
-			 * 
-			 * } else {
-			 */
-			a = "redirect:/showWeeklyOffList";
-			String base64encodedString = request.getParameter("woId");
-			String woId = FormValidation.DecodeKey(base64encodedString);
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("deleteWeeklyOff", "showWeeklyOffList", 0, 0, 0, 1, newModuleList);
+			if (view.isError() == true) {
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("woId", woId);
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteWeeklyOff", map, Info.class);
+				a = "redirect:/accessDenied";
 
-			if (info.isError() == false) {
-				session.setAttribute("successMsg", "Deleted Successfully");
 			} else {
-				session.setAttribute("errorMsg", "Failed to Delete");
+
+				a = "redirect:/showWeeklyOffList";
+				String base64encodedString = request.getParameter("woId");
+				String woId = FormValidation.DecodeKey(base64encodedString);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("woId", woId);
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteWeeklyOff", map,
+						Info.class);
+
+				if (info.isError() == false) {
+					session.setAttribute("successMsg", "Deleted Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Delete");
+				}
 			}
-			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("errorMsg", "Failed to Delete");
@@ -283,51 +290,50 @@ public class WeeklyOffController {
 
 		try {
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("editWeeklyOff", "showWeeklyOffList", 0, 0, 1, 0,
-			 * newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
-			model = new ModelAndView("master/weekly_off_edit");
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("editWeeklyOff", "showWeeklyOffList", 0, 0, 1, 0, newModuleList);
 
-			Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
-					Location[].class);
+			if (view.isError() == true) {
 
-			List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+				model = new ModelAndView("accessDenied");
 
-			for (int i = 0; i < locationList.size(); i++) {
+			} else {
 
-				locationList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getLocId())));
+				model = new ModelAndView("master/weekly_off_edit");
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+
+				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+						Location[].class);
+
+				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+
+				for (int i = 0; i < locationList.size(); i++) {
+
+					locationList.get(i)
+							.setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getLocId())));
+				}
+
+				model.addObject("locationList", locationList);
+
+				String base64encodedString = request.getParameter("woId");
+				String woId = FormValidation.DecodeKey(base64encodedString);
+
+				map = new LinkedMultiValueMap<>();
+				map.add("woId", woId);
+				editWeeklyOff = Constants.getRestTemplate().postForObject(Constants.url + "/getWeeklyOffById", map,
+						WeeklyOff.class);
+				model.addObject("editWeeklyOff", editWeeklyOff);
+
+				List<Integer> locIdList = Stream.of(editWeeklyOff.getLocId().split(",")).map(Integer::parseInt)
+						.collect(Collectors.toList());
+
+				model.addObject("locIdList", locIdList);
+				model.addObject("locationAccess", userObj.getLocationIds().split(","));
+				// model.addObject("locationAccess", "2,3".split(","));
 			}
-
-			model.addObject("locationList", locationList);
-
-			String base64encodedString = request.getParameter("woId");
-			String woId = FormValidation.DecodeKey(base64encodedString);
-
-			map = new LinkedMultiValueMap<>();
-			map.add("woId", woId);
-			editWeeklyOff = Constants.getRestTemplate().postForObject(Constants.url + "/getWeeklyOffById", map,
-					WeeklyOff.class);
-			model.addObject("editWeeklyOff", editWeeklyOff);
-
-			List<Integer> locIdList = Stream.of(editWeeklyOff.getLocId().split(",")).map(Integer::parseInt)
-					.collect(Collectors.toList());
-
-			model.addObject("locIdList", locIdList);
-			model.addObject("locationAccess", userObj.getLocationIds().split(","));
-			// model.addObject("locationAccess", "2,3".split(","));
-			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -338,65 +344,72 @@ public class WeeklyOffController {
 	public String submitEditInsertWeeklyOff(HttpServletRequest request, HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("editWeeklyOff", "showWeeklyOffList", 0, 0, 1, 0, newModuleList);
+		String a = null;
+		if (view.isError() == true) {
+			a = "redirect:/accessDenied";
+		} else {
+			a = "redirect:/showWeeklyOffList";
 
-		try {
+			try {
 
-			String woDay = request.getParameter("woDay");
-			String woPresently = request.getParameter("woPresently");
-			String woRemarks = null;
-			woRemarks = request.getParameter("woRemarks");
-			String woType = request.getParameter("woType");
+				String woDay = request.getParameter("woDay");
+				String woPresently = request.getParameter("woPresently");
+				String woRemarks = null;
+				woRemarks = request.getParameter("woRemarks");
+				String woType = request.getParameter("woType");
 
-			String[] locIds = request.getParameterValues("locId");
+				String[] locIds = request.getParameterValues("locId");
 
-			StringBuilder sb = new StringBuilder();
+				StringBuilder sb = new StringBuilder();
 
-			for (int i = 0; i < locIds.length; i++) {
-				sb = sb.append(locIds[i] + ",");
+				for (int i = 0; i < locIds.length; i++) {
+					sb = sb.append(locIds[i] + ",");
 
-			}
-			String locIdList = sb.toString();
-			locIdList = locIdList.substring(0, locIdList.length() - 1);
+				}
+				String locIdList = sb.toString();
+				locIdList = locIdList.substring(0, locIdList.length() - 1);
 
-			Boolean ret = false;
+				Boolean ret = false;
 
-			if (FormValidation.Validaton(woDay, "") == true) {
+				if (FormValidation.Validaton(woDay, "") == true) {
 
-				ret = true;
-			}
+					ret = true;
+				}
 
-			if (FormValidation.Validaton(woPresently, "") == true) {
+				if (FormValidation.Validaton(woPresently, "") == true) {
 
-				ret = true;
-			}
+					ret = true;
+				}
 
-			if (ret == false) {
+				if (ret == false) {
 
-				editWeeklyOff.setLocId(locIdList);
-				editWeeklyOff.setWoDay(woDay);
-				editWeeklyOff.setWoPresently(woPresently);
-				editWeeklyOff.setWoRemarks(woRemarks);
-				editWeeklyOff.setWoType(woType);
+					editWeeklyOff.setLocId(locIdList);
+					editWeeklyOff.setWoDay(woDay);
+					editWeeklyOff.setWoPresently(woPresently);
+					editWeeklyOff.setWoRemarks(woRemarks);
+					editWeeklyOff.setWoType(woType);
 
-				WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff",
-						editWeeklyOff, WeeklyOff.class);
+					WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff",
+							editWeeklyOff, WeeklyOff.class);
 
-				if (res != null) {
-					session.setAttribute("successMsg", "Record Updated Successfully");
+					if (res != null) {
+						session.setAttribute("successMsg", "Record Updated Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Update Record");
+					}
+
 				} else {
 					session.setAttribute("errorMsg", "Failed to Update Record");
 				}
 
-			} else {
+			} catch (Exception e) {
+				e.printStackTrace();
 				session.setAttribute("errorMsg", "Failed to Update Record");
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("errorMsg", "Failed to Update Record");
 		}
-
-		return "redirect:/showWeeklyOffList";
+		return a;
 	}
 
 	// Change Weekly off
@@ -409,60 +422,71 @@ public class WeeklyOffController {
 
 		ModelAndView model = null;
 
-		try {
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showChangeWeekOff", "showWeekOffShift", 0, 1, 0, 0, newModuleList);
 
-			locId = "0";
-			month = "0";
-			year = "0";
+		if (view.isError() == true) {
 
-			try {
-				locId = request.getParameter("locId");
+			model = new ModelAndView("accessDenied");
 
-			} catch (Exception e) {
-				locId = "0";
-			}
-			try {
-				month = request.getParameter("month");
-
-			} catch (Exception e) {
-				month = "0";
-			}
-			try {
-				year = request.getParameter("year");
-
-			} catch (Exception e) {
-				year = "0";
-			}
+		} else {
 
 			model = new ModelAndView("master/changeWeeklyOff");
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
-			Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
-					Location[].class);
 
-			List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+			try {
 
-			System.err.println("locationList" + locationList.toString());
-			model.addObject("locationList", locationList);
-			model.addObject("locId", locId);
-			model.addObject("month", (month));
-			model.addObject("year", (year));
+				locId = "0";
+				month = "0";
+				year = "0";
 
-			map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
-			map.add("month", Integer.parseInt(month));
-			map.add("year", Integer.parseInt(year));
-			map.add("locId", Integer.parseInt(locId));
+				try {
+					locId = request.getParameter("locId");
 
-			String[] strArr = Constants.getRestTemplate().postForObject(Constants.url + "/getWeeklyOffDatesToChange",
-					map, String[].class);
+				} catch (Exception e) {
+					locId = "0";
+				}
+				try {
+					month = request.getParameter("month");
 
-			List<String> dateList = new ArrayList<String>(Arrays.asList(strArr));
-			model.addObject("dateList", (dateList));
-			// System.err.println("datelist"+dateList.toString());
+				} catch (Exception e) {
+					month = "0";
+				}
+				try {
+					year = request.getParameter("year");
 
-		} catch (Exception e) {
-			e.printStackTrace();
+				} catch (Exception e) {
+					year = "0";
+				}
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+						Location[].class);
+
+				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+
+				System.err.println("locationList" + locationList.toString());
+				model.addObject("locationList", locationList);
+				model.addObject("locId", locId);
+				model.addObject("month", (month));
+				model.addObject("year", (year));
+
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				map.add("month", Integer.parseInt(month));
+				map.add("year", Integer.parseInt(year));
+				map.add("locId", Integer.parseInt(locId));
+
+				String[] strArr = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getWeeklyOffDatesToChange", map, String[].class);
+
+				List<String> dateList = new ArrayList<String>(Arrays.asList(strArr));
+				model.addObject("dateList", (dateList));
+				// System.err.println("datelist"+dateList.toString());
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return model;
 	}
@@ -472,93 +496,112 @@ public class WeeklyOffController {
 
 		HttpSession session = request.getSession();
 
-		try {
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showChangeWeekOff", "showWeekOffShift", 0, 1, 0, 0, newModuleList);
+		String a = null;
+		if (view.isError() == true) {
 
-			String changeDate = request.getParameter("changeDate");
+			a = "redirect:/accessDenied";
 
-			String reason = request.getParameter("reason");
+		} else {
 
-			/*
-			 * int locId = Integer.parseInt(request.getParameter("locIdTemp")); int month =
-			 * Integer.parseInt(request.getParameter("monthTemp")); int year =
-			 * Integer.parseInt(request.getParameter("yearTemp"));
-			 */
+			a = "redirect:/showChangeWeekOff";
+			try {
 
-			String dateFrom = request.getParameter("tempDate");
-			System.err.println("locId" + locId);
-			Boolean ret = false;
+				String changeDate = request.getParameter("changeDate");
 
-			if (FormValidation.Validaton(changeDate, "") == true) {
-				System.err.println("changeDate");
-				ret = true;
-			}
+				String reason = request.getParameter("reason");
 
-			if (FormValidation.Validaton(reason, "") == true) {
-				System.err.println("reason");
-				ret = true;
-			}
+				String dateFrom = request.getParameter("tempDate");
+				System.err.println("locId" + locId);
+				Boolean ret = false;
 
-			if (ret == false) {
+				if (FormValidation.Validaton(changeDate, "") == true) {
+					System.err.println("changeDate");
+					ret = true;
+				}
 
-				WeeklyOffShit weekShft = new WeeklyOffShit();
-				weekShft.setCmpId(1);
-				weekShft.setDelStatus(1);
-				weekShft.setLocationId(Integer.parseInt(locId));
-				weekShft.setLoginTime(dateTime);
-				weekShft.setMonth(Integer.parseInt(month));
-				weekShft.setReason(reason);
-				weekShft.setWeekofffromdate(DateConvertor.convertToYMD(dateFrom));
-				weekShft.setWeekoffshiftdate(DateConvertor.convertToYMD(changeDate));
-				weekShft.setYear(Integer.parseInt(year));
+				if (FormValidation.Validaton(reason, "") == true) {
+					System.err.println("reason");
+					ret = true;
+				}
 
-				WeeklyOffShit res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOffShit",
-						weekShft, WeeklyOffShit.class);
+				if (ret == false) {
 
-				if (res != null) {
-					session.setAttribute("successMsg", "Record Updated Successfully");
+					WeeklyOffShit weekShft = new WeeklyOffShit();
+					weekShft.setCmpId(1);
+					weekShft.setDelStatus(1);
+					weekShft.setLocationId(Integer.parseInt(locId));
+					weekShft.setLoginTime(dateTime);
+					weekShft.setMonth(Integer.parseInt(month));
+					weekShft.setReason(reason);
+					weekShft.setWeekofffromdate(DateConvertor.convertToYMD(dateFrom));
+					weekShft.setWeekoffshiftdate(DateConvertor.convertToYMD(changeDate));
+					weekShft.setYear(Integer.parseInt(year));
+
+					WeeklyOffShit res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOffShit",
+							weekShft, WeeklyOffShit.class);
+
+					if (res != null) {
+						session.setAttribute("successMsg", "Record Updated Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Update Record");
+					}
+
 				} else {
 					session.setAttribute("errorMsg", "Failed to Update Record");
 				}
 
-			} else {
+			} catch (Exception e) {
+				e.printStackTrace();
 				session.setAttribute("errorMsg", "Failed to Update Record");
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("errorMsg", "Failed to Update Record");
 		}
-
-		return "redirect:/showChangeWeekOff";
+		return a;
 	}
-	
-	
+
 	@RequestMapping(value = "/showWeekOffShift", method = RequestMethod.GET)
 	public ModelAndView showWeekOffShift(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		ModelAndView model = null;
 		try {
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("addWeeklyOff", "showWeeklyOffList", 0, 1, 0, 0,
-			 * newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
-			model = new ModelAndView("master/shiftedWeekOffList");
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showWeekOffShift", "showWeekOffShift", 0, 1, 0, 0, newModuleList);
 
-			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
- 
-			// System.out.println(userObj);
-  			// model.addObject("locationAccess", "2,3".split(","));
+			if (view.isError() == true) {
 
-			// }
+				model = new ModelAndView("accessDenied");
+
+			} else {
+
+				model = new ModelAndView("master/shiftedWeekOffList");
+
+				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+				Info add = AcessController.checkAccess("showWeeklyOffList", "showWeeklyOffList", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showWeeklyOffList", "showWeeklyOffList", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showWeeklyOffList", "showWeeklyOffList", 0, 0, 0, 1,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					System.out.println(" delete   Accessable ");
+					model.addObject("deleteAccess", 0);
+
+				}
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

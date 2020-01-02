@@ -39,16 +39,22 @@
 				<!-- Highlighting rows and columns -->
 				<div class="card">
 
-
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Loan History</h5></td>
-
+								<td width="60%"><h5 class="card-title">Shifted Weekly
+										Off List</h5></td>
+								<td width="40%" align="right"><c:if
+										test="${addAccess == 0}">
+										<a href="${pageContext.request.contextPath}/showChangeWeekOff"
+											class="breadcrumb-elements-item">
+											<button type="button" class="btn btn-primary">Change
+												Weekly Off</button>
+										</a>
+									</c:if></td>
 							</tr>
 						</table>
 					</div>
-
 					<div class="card-body">
 
 						<%
@@ -94,7 +100,6 @@
 							</label>
 							<div class="col-lg-4">
 								<select name="calYrId" data-placeholder="Select  " id="calYrId"
-									onchange="show()"
 									class="form-control form-control-select2 select2-hidden-accessible"
 									data-fouc="" aria-hidden="true">
 
@@ -107,8 +112,8 @@
 							</div>
 
 							<div style="text-align: center;">
-								<input type="button" class="btn btn-primary" value="Search" onclick="show()"
-									id="deleteId"
+								<input type="button" class="btn btn-primary" value="Search"
+									onclick="show()" id="deleteId"
 									style="align-content: center; width: 113px; margin-left: 40px;">
 							</div>
 
@@ -125,12 +130,12 @@
 									<th>From Date</th>
 									<th>Shift Date</th>
 									<th>Location</th>
- 									<th>Reason</th>
+									<th>Reason</th>
 
 								</tr>
 							</thead>
 							<tbody>
- 
+
 							</tbody>
 						</table>
 
@@ -158,8 +163,7 @@
 			//alert("Hi View Orders  ");
 
 			var calYrId = document.getElementById("calYrId").value;
- 
-			 
+
 			var valid = true;
 
 			if (calYrId == null || calYrId == "") {
@@ -167,55 +171,40 @@
 				alert("Please Select Year");
 			}
 
-			 
-
 			if (valid == true) {
 
-				$
-						.getJSON(
-								'${getWeekOffChangeDetails}',
-								{
-									calYrId : calYrId,
- 									ajax : 'true',
-								},
+				$.getJSON('${getWeekOffChangeDetails}', {
+					calYrId : calYrId,
+					ajax : 'true',
+				},
 
-								function(data) {
+				function(data) {
 
-									//	alert("Data " +JSON.stringify(data));
+					//	alert("Data " +JSON.stringify(data));
 
-									var dataTable = $('#printtable1')
-											.DataTable();
-									dataTable.clear().draw();
+					var dataTable = $('#printtable1').DataTable();
+					dataTable.clear().draw();
 
-									$
-											.each(
-													data,
-													function(i, v) {
+					$.each(data, function(i, v) {
 
-														/* var acButton = '<a href="${pageContext.request.contextPath}/showLoanDetailHistory?empId='
-																+ v.exVar1
-																+ '&calYrId='
-																+ v.exVar3
-																+ '&status='
-																+ v.exVar2
-																+ '"><i class="icon-pencil7" title="Detail History" style="color: black;">';
- */
-														dataTable.row
-																.add(
-																		[
-																				i + 1,
-																				v.weekofffromdate,
- 																				v.weekoffshiftdate,
-																				v.locName,
-																				v.reason,
-  
-																		])
-																.draw();
-													});
+						/* var acButton = '<a href="${pageContext.request.contextPath}/showLoanDetailHistory?empId='
+								+ v.exVar1
+								+ '&calYrId='
+								+ v.exVar3
+								+ '&status='
+								+ v.exVar2
+								+ '"><i class="icon-pencil7" title="Detail History" style="color: black;">';
+						 */
+						dataTable.row.add(
+								[ i + 1, v.weekofffromdate, v.weekoffshiftdate,
+										v.locName, v.reason,
 
-								});
+								]).draw();
+					});
 
-			} 
+				});
+
+			}
 
 		}
 	</script>
