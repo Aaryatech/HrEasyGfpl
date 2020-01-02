@@ -1,6 +1,7 @@
 package com.ats.hreasy.controller;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,7 +18,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
- 
+
+import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
@@ -30,7 +32,7 @@ import com.ats.hreasy.model.LoginResponse;
 public class MasterController {
 
 	Location editLocation = new Location();
-	
+
 	@RequestMapping(value = "/locationAdd", method = RequestMethod.GET)
 	public ModelAndView locationAdd(HttpServletRequest request, HttpServletResponse response) {
 
@@ -39,16 +41,16 @@ public class MasterController {
 
 		try {
 
-			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 			Info view = AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0, newModuleList);
 
 			if (view.isError() == true) {
 
 				model = new ModelAndView("accessDenied");
 
-			} else {*/
+			} else {
 				model = new ModelAndView("master/locationAdd");
-			//}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,109 +62,120 @@ public class MasterController {
 
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0, newModuleList);
+		String a = new String();
+		if (view.isError() == true) {
 
-		try {
+			a = "redirect:/accessDenied";
 
-			Date date = new Date();
-			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		} else {
 
-			String locName = request.getParameter("locName");
-			String locShortName = request.getParameter("locShortName");
-			String add = request.getParameter("add");
-			String prsnName = request.getParameter("prsnName");
-			String contactNo = request.getParameter("contactNo");
-			String email = request.getParameter("email");
-			String remark = request.getParameter("remark");
+			a = "redirect:/showLocationList";
+			try {
 
-			Boolean ret = false;
+				Date date = new Date();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-			if (FormValidation.Validaton(locName, "") == true) {
+				String locName = request.getParameter("locName");
+				String locShortName = request.getParameter("locShortName");
+				String add = request.getParameter("add");
+				String prsnName = request.getParameter("prsnName");
+				String contactNo = request.getParameter("contactNo");
+				String email = request.getParameter("email");
+				String remark = request.getParameter("remark");
 
-				ret = true;
-				System.out.println("locName" + ret);
-			}
-			if (FormValidation.Validaton(locShortName, "") == true) {
+				Boolean ret = false;
 
-				ret = true;
-				System.out.println("locShortName" + ret);
-			}
-			if (FormValidation.Validaton(add, "") == true) {
+				if (FormValidation.Validaton(locName, "") == true) {
 
-				ret = true;
-				System.out.println("add" + ret);
-			}
-			if (FormValidation.Validaton(prsnName, "") == true) {
+					ret = true;
+					System.out.println("locName" + ret);
+				}
+				if (FormValidation.Validaton(locShortName, "") == true) {
 
-				ret = true;
-				System.out.println("prsnName" + ret);
-			}
-			if (FormValidation.Validaton(contactNo, "mobile") == true) {
+					ret = true;
+					System.out.println("locShortName" + ret);
+				}
+				if (FormValidation.Validaton(add, "") == true) {
 
-				ret = true;
-				System.out.println("contactNo" + ret);
-			}
-			if (FormValidation.Validaton(email, "email") == true) {
+					ret = true;
+					System.out.println("add" + ret);
+				}
+				if (FormValidation.Validaton(prsnName, "") == true) {
 
-				ret = true;
-				System.out.println("email" + ret);
-			}
+					ret = true;
+					System.out.println("prsnName" + ret);
+				}
+				if (FormValidation.Validaton(contactNo, "mobile") == true) {
 
-			if (ret == false) {
+					ret = true;
+					System.out.println("contactNo" + ret);
+				}
+				if (FormValidation.Validaton(email, "email") == true) {
 
-				Location location = new Location();
+					ret = true;
+					System.out.println("email" + ret);
+				}
 
-				location.setLocName(locName);
-				location.setLocNameShort(locShortName);
-				location.setLocShortAddress(add);
-				location.setLocHrContactPerson(prsnName);
-				location.setLocHrContactNumber(contactNo);
-				location.setLocHrContactEmail(email);
-				location.setLocRemarks(remark);
-				location.setIsActive(1);
-				location.setDelStatus(1);
-				location.setMakerUserId(userObj.getUserId());
-				location.setCompId(1);
-				location.setMakerEnterDatetime(sf.format(date));
+				if (ret == false) {
 
-				Location res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLocation", location,
-						Location.class);
+					Location location = new Location();
 
-				if (res != null) {
-					session.setAttribute("successMsg", "Location Inserted Successfully");
+					location.setLocName(locName);
+					location.setLocNameShort(locShortName);
+					location.setLocShortAddress(add);
+					location.setLocHrContactPerson(prsnName);
+					location.setLocHrContactNumber(contactNo);
+					location.setLocHrContactEmail(email);
+					location.setLocRemarks(remark);
+					location.setIsActive(1);
+					location.setDelStatus(1);
+					location.setMakerUserId(userObj.getUserId());
+					location.setCompId(1);
+					location.setMakerEnterDatetime(sf.format(date));
+
+					Location res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLocation", location,
+							Location.class);
+
+					if (res != null) {
+						session.setAttribute("successMsg", "Location Inserted Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Insert Record");
+					}
+
 				} else {
 					session.setAttribute("errorMsg", "Failed to Insert Record");
 				}
 
-			} else {
+			} catch (Exception e) {
+				e.printStackTrace();
 				session.setAttribute("errorMsg", "Failed to Insert Record");
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("errorMsg", "Failed to Insert Record");
 		}
 
-		return "redirect:/showLocationList";
+		return a;
 	}
 
 	@RequestMapping(value = "/showLocationList", method = RequestMethod.GET)
 	public ModelAndView showLocationList(HttpServletRequest request, HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
-		//LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
 
 		ModelAndView model = null;
 
 		try {
 
-			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 			Info view = AcessController.checkAccess("showLocationList", "showLocationList", 1, 0, 0, 0, newModuleList);
 
 			if (view.isError() == true) {
 
 				model = new ModelAndView("accessDenied");
 
-			} else {*/
+			} else {
+
 				model = new ModelAndView("master/locationList");
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("companyId", 1);
@@ -177,12 +190,13 @@ public class MasterController {
 							.setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getLocId())));
 				}
 
-				model.addObject("addAccess", 0);
-				model.addObject("editAccess", 0);
-				model.addObject("deleteAccess", 0);
+				/*
+				 * model.addObject("addAccess", 0); model.addObject("editAccess", 0);
+				 * model.addObject("deleteAccess", 0);
+				 */
 				model.addObject("locationList", locationList);
-				
-				/*Info add = AcessController.checkAccess("showLocationList", "showLocationList", 0, 1, 0, 0,
+
+				Info add = AcessController.checkAccess("showLocationList", "showLocationList", 0, 1, 0, 0,
 						newModuleList);
 				Info edit = AcessController.checkAccess("showLocationList", "showLocationList", 0, 0, 1, 0,
 						newModuleList);
@@ -202,8 +216,9 @@ public class MasterController {
 					System.out.println(" delete   Accessable ");
 					model.addObject("deleteAccess", 0);
 
-				}*/
-			//}
+				}
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -215,22 +230,22 @@ public class MasterController {
 
 		HttpSession session = request.getSession();
 		String a = null;
-		
 
 		try {
-			
+
 			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 
-			/*Info view = AcessController.checkAccess("deleteLocation", "showLocationList", 0, 0, 0, 1, newModuleList);
+			Info view = AcessController.checkAccess("deleteLocation", "showLocationList", 0, 0, 0, 1, newModuleList);
 			if (view.isError() == true) {
 
 				a = "redirect:/accessDenied";
 
 			}
 
-			else {*/
+			else {
+
 				a = "redirect:/showLocationList";
-			//}
+			
 			String base64encodedString = request.getParameter("locId");
 			String locId = FormValidation.DecodeKey(base64encodedString);
 
@@ -242,6 +257,7 @@ public class MasterController {
 				session.setAttribute("successMsg", "Deleted Successfully");
 			} else {
 				session.setAttribute("errorMsg", "Failed to Delete");
+			}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -258,14 +274,15 @@ public class MasterController {
 
 		try {
 
-			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 			Info view = AcessController.checkAccess("editLocation", "showLocationList", 0, 0, 1, 0, newModuleList);
 
 			if (view.isError() == true) {
 
 				model = new ModelAndView("accessDenied");
 
-			} else {*/
+			} else {
+
 				model = new ModelAndView("master/locationEdit");
 				String base64encodedString = request.getParameter("locId");
 				String locId = FormValidation.DecodeKey(base64encodedString);
@@ -275,7 +292,7 @@ public class MasterController {
 				editLocation = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationById", map,
 						Location.class);
 				model.addObject("editLocation", editLocation);
-			//}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -286,8 +303,17 @@ public class MasterController {
 	public String submitEditLocation(HttpServletRequest request, HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
-		//LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("editLocation", "showLocationList", 0, 0, 1, 0, newModuleList);
+		String a = new String();
+		if (view.isError() == true) {
 
+			a = "redirect:/accessDenied";
+
+		} else {
+
+			a = "redirect:/showLocationList";
 		try {
 
 			Date date = new Date();
@@ -363,8 +389,9 @@ public class MasterController {
 			e.printStackTrace();
 			session.setAttribute("errorMsg", "Failed to Update Record");
 		}
+		}
 
-		return "redirect:/showLocationList";
+		return a;
 	}
 
 }
