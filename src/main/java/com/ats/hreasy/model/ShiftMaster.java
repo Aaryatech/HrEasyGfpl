@@ -20,6 +20,7 @@ public class ShiftMaster {
 	private float shiftOtHour;  
 	private int departmentId;  
 	private int status;
+	private int locationId;
 	public int getId() {
 		return id;
 	}
@@ -116,6 +117,12 @@ public class ShiftMaster {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	public int getLocationId() {
+		return locationId;
+	}
+	public void setLocationId(int locationId) {
+		this.locationId = locationId;
+	}
 	@Override
 	public String toString() {
 		return "ShiftMaster [id=" + id + ", shiftname=" + shiftname + ", fromtime=" + fromtime + ", totime=" + totime
@@ -123,7 +130,7 @@ public class ShiftMaster {
 				+ ", maxLateTimeAllowed=" + maxLateTimeAllowed + ", shift_hr=" + shift_hr + ", shiftHalfdayHr="
 				+ shiftHalfdayHr + ", earlyGoingMin=" + earlyGoingMin + ", otCalculatedTime=" + otCalculatedTime
 				+ ", otCalculatedAfterHr=" + otCalculatedAfterHr + ", shiftOtHour=" + shiftOtHour + ", departmentId="
-				+ departmentId + ", status=" + status + "]";
+				+ departmentId + ", status=" + status + ", locationId=" + locationId + "]";
 	}
 	
 	
