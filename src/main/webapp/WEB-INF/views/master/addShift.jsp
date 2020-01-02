@@ -212,12 +212,12 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="groupId">Is
+										<label class="col-form-label col-lg-2" for="ischange">Is
 											Changeable<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-2">
 											<input type="checkbox" id="ischange" name="ischange"
-												onclick="changeIsChange()" autocomplete="off">
+												onchange="changeIsChange()">
 										</div>
 
 									</div>
@@ -277,8 +277,10 @@
 
 			if (document.getElementById("ischange").checked == true) {
 				$("#changeHideShow").show();
+				document.getElementById("ischange").value = 1;
 			} else {
 				$("#changeHideShow").hide();
+				document.getElementById("ischange").value = 0;
 			}
 		}
 		function trim(el) {
@@ -330,23 +332,18 @@
 				if (!$("#locId").val()) {
 
 					isError = true;
-
 					$("#error_locId").show()
-					//return false;
 				}
 
 				if (!$("#shiftName").val()) {
 
 					isError = true;
-
 					$("#error_shiftName").show()
-
 				}
 
 				if (!$("#intime").val()) {
 
 					isError = true;
-
 					$("#error_intime").show()
 
 				}
@@ -354,7 +351,6 @@
 				if (!$("#outtime").val()) {
 
 					isError = true;
-
 					$("#error_outtime").show()
 
 				}
@@ -362,15 +358,12 @@
 				if (!$("#hfdayhour").val()) {
 
 					isError = true;
-
 					$("#error_hfdayhour").show()
-
 				}
 
 				if (!$("#othour").val()) {
 
 					isError = true;
-
 					$("#error_othour").show()
 
 				}
@@ -378,7 +371,6 @@
 				if (!$("#lateMin").val()) {
 
 					isError = true;
-
 					$("#error_lateMin").show()
 
 				}
@@ -386,19 +378,14 @@
 				if (!$("#groupId").val()) {
 
 					isError = true;
-
 					$("#error_groupId").show()
 
 				}
 				if (!isError) {
 
-					var x = true;
-					if (x == true) {
+					document.getElementById("submtbtn").disabled = true;
+					return true;
 
-						document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//end ajax send this to php page
 				}
 				return false;
 			});
@@ -428,7 +415,7 @@
 				var len = data.length;
 				for (var i = 0; i < len; i++) {
 
-					html += '<option selected value="' + data[i].id + '">'
+					html += '<option   value="' + data[i].id + '">'
 							+ data[i].shiftname + '</option>';
 
 				}
