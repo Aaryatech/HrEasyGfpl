@@ -72,7 +72,7 @@ public class HomeController {
 		String mav = new String();
 		HttpSession session = request.getSession();
 		try {
-			
+
 			String name = request.getParameter("username");
 			String password = request.getParameter("password");
 
@@ -84,12 +84,11 @@ public class HomeController {
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-				 
 				MessageDigest md = MessageDigest.getInstance("MD5");
 				byte[] messageDigest = md.digest(password.getBytes());
 				BigInteger number = new BigInteger(1, messageDigest);
 				String hashtext = number.toString(16);
-				
+
 				map.add("username", name);
 				map.add("password", hashtext);
 
@@ -100,12 +99,11 @@ public class HomeController {
 
 					mav = "redirect:/dashboard";
 					session.setAttribute("userInfo", userObj);
-					
-					
+
 					map = new LinkedMultiValueMap<>();
 					map.add("empTypeId", 1);
-					EmpType editEmpType = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpTypeById", map,
-							EmpType.class); 
+					EmpType editEmpType = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpTypeById",
+							map, EmpType.class);
 					List<AccessRightModule> moduleJsonList = new ArrayList<AccessRightModule>();
 
 					try {
@@ -120,7 +118,7 @@ public class HomeController {
 						e.printStackTrace();
 					}
 					session.setAttribute("moduleJsonList", moduleJsonList);
-					//System.err.println("Hoem**"+userObj.toString());
+					// System.err.println("Hoem**"+userObj.toString());
 
 				} else {
 					mav = "redirect:/";
@@ -145,17 +143,18 @@ public class HomeController {
 
 		try {
 
-			/*String testString = request.getParameter("pass");
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			byte[] messageDigest = md.digest(testString.getBytes());
-			BigInteger number = new BigInteger(1, messageDigest);
-			String hashtext = number.toString(16);
-
-			System.out.println(hashtext);*/ 
+			/*
+			 * String testString = request.getParameter("pass"); MessageDigest md =
+			 * MessageDigest.getInstance("MD5"); byte[] messageDigest =
+			 * md.digest(testString.getBytes()); BigInteger number = new BigInteger(1,
+			 * messageDigest); String hashtext = number.toString(16);
+			 * 
+			 * System.out.println(hashtext);
+			 */
 			RandomString randomString = new RandomString();
 			String password = randomString.nextString();
 			System.out.println(password);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -191,5 +190,11 @@ public class HomeController {
 		session.setAttribute("sessionSubModuleId", subModId);
 		session.removeAttribute("exportExcelList");
 	}
-	
+
+	@RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
+	public String accessDenied(HttpServletRequest request, HttpServletResponse response) { 
+		String mav = "accessDenied";
+		return mav;
+	}
+
 }
