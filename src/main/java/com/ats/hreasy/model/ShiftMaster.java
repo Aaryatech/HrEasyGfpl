@@ -3,7 +3,7 @@ package com.ats.hreasy.model;
 
 public class ShiftMaster {
 	
-	 
+	  
 	private int id ; 
 	private String shiftname ; 
 	private String fromtime ; 
@@ -12,15 +12,18 @@ public class ShiftMaster {
 	private int changewith; 
 	private int companyId;  
 	private int maxLateTimeAllowed;  
-	private String shift_hr;  
+	private String shiftHr;  
 	private String shiftHalfdayHr ; 
 	private int earlyGoingMin; 
 	private String otCalculatedTime; 
 	private int otCalculatedAfterHr; 
 	private float shiftOtHour;  
 	private int departmentId;  
-	private int status;
+	private int selfGroupId;  
+	private int status; 
 	private int locationId;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -68,13 +71,7 @@ public class ShiftMaster {
 	}
 	public void setMaxLateTimeAllowed(int maxLateTimeAllowed) {
 		this.maxLateTimeAllowed = maxLateTimeAllowed;
-	}
-	public String getShift_hr() {
-		return shift_hr;
-	}
-	public void setShift_hr(String shift_hr) {
-		this.shift_hr = shift_hr;
-	}
+	} 
 	public String getShiftHalfdayHr() {
 		return shiftHalfdayHr;
 	}
@@ -122,15 +119,28 @@ public class ShiftMaster {
 	}
 	public void setLocationId(int locationId) {
 		this.locationId = locationId;
+	} 
+	public String getShiftHr() {
+		return shiftHr;
+	}
+	public void setShiftHr(String shiftHr) {
+		this.shiftHr = shiftHr;
+	}
+	public int getSelfGroupId() {
+		return selfGroupId;
+	}
+	public void setSelfGroupId(int selfGroupId) {
+		this.selfGroupId = selfGroupId;
 	}
 	@Override
 	public String toString() {
 		return "ShiftMaster [id=" + id + ", shiftname=" + shiftname + ", fromtime=" + fromtime + ", totime=" + totime
 				+ ", changeable=" + changeable + ", changewith=" + changewith + ", companyId=" + companyId
-				+ ", maxLateTimeAllowed=" + maxLateTimeAllowed + ", shift_hr=" + shift_hr + ", shiftHalfdayHr="
+				+ ", maxLateTimeAllowed=" + maxLateTimeAllowed + ", shiftHr=" + shiftHr + ", shiftHalfdayHr="
 				+ shiftHalfdayHr + ", earlyGoingMin=" + earlyGoingMin + ", otCalculatedTime=" + otCalculatedTime
 				+ ", otCalculatedAfterHr=" + otCalculatedAfterHr + ", shiftOtHour=" + shiftOtHour + ", departmentId="
-				+ departmentId + ", status=" + status + ", locationId=" + locationId + "]";
+				+ departmentId + ", selfGroupId=" + selfGroupId + ", status=" + status + ", locationId=" + locationId
+				+ "]";
 	}
 	
 	
