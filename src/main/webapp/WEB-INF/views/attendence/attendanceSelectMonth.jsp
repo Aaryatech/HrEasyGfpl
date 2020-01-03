@@ -5,9 +5,13 @@
 <head>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
- 
-</head>
 
+</head>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
 <body>
 
 	<!-- Main navbar -->
@@ -101,12 +105,11 @@
 
 											</div>
 											<div class="input-group mr-3">
-												<!-- <input type="text" name="month" id="month"
-													class="form-control datepicker" value="11"
-													data-min-view-mode="months" data-start-view="2"
-													data-format="mm"> -->
-												<select name="selectMonth" data-placeholder="Please Select"
-													id="selectMonth"
+
+												<input type="text" name="selectMonth" id="datepicker"
+													class="form-control" required />
+												<!-- <select name="selectMonth"
+													data-placeholder="Please Select" id="selectMonth"
 													class="form-control form-control-select21 select2-hidden-accessible1"
 													tabindex="-1" aria-hidden="true" required="required">
 													<option value="">Please Select</option>
@@ -123,7 +126,7 @@
 													<option value="11">November</option>
 													<option value="12">December</option>
 
-												</select>
+												</select> -->
 											</div>
 
 											<button type="submit" class="btn btn-primary   btnActStep1 "
@@ -295,6 +298,14 @@
 											});
 						});
 		//
+		$(function() {
+			$("#datepicker").datepicker({
+				changeMonth : true,
+				changeYear : true,
+				yearRange : "-50:+50",
+				dateFormat : "mm-yy"
+			});
+		});
 	</script>
 
 

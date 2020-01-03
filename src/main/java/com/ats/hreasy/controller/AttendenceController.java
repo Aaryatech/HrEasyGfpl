@@ -65,17 +65,25 @@ public class AttendenceController {
 
 		try {
 
-			int month = Integer.parseInt(request.getParameter("selectMonth"));
-
-			Date dt = new Date();
-			Calendar temp = Calendar.getInstance();
-			temp.setTime(dt);
-			int year = temp.get(Calendar.YEAR);
-
-			Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
-			Date lastDay = new GregorianCalendar(year, month, 0).getTime();
-
+			/*
+			 * int month = Integer.parseInt(request.getParameter("selectMonth"));
+			 * 
+			 * Date dt = new Date(); Calendar temp = Calendar.getInstance();
+			 * temp.setTime(dt); int year = temp.get(Calendar.YEAR);
+			 * 
+			 * Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime(); Date
+			 * lastDay = new GregorianCalendar(year, month, 0).getTime();
+			 * 
+			 * SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			 */
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar temp = Calendar.getInstance();
+			String month = request.getParameter("selectMonth");
+
+			String[] monthsplt = month.split("-");
+
+			Date firstDay = new GregorianCalendar(Integer.parseInt(monthsplt[1]), Integer.parseInt(monthsplt[0]) - 1, 1).getTime();
+			Date lastDay = new GregorianCalendar(Integer.parseInt(monthsplt[1]), Integer.parseInt(monthsplt[0]), 0).getTime();
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("fromDate", sf.format(firstDay));
@@ -85,16 +93,16 @@ public class AttendenceController {
 
 			temp = Calendar.getInstance();
 			temp.setTime(firstDay);
-			year = temp.get(Calendar.YEAR);
-			month = temp.get(Calendar.MONTH);
+			int year = temp.get(Calendar.YEAR);
+			int month1 = temp.get(Calendar.MONTH);
 
 			String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August",
 					"September", "October", "November", "December" };
-			String monthName = monthNames[month];
+			String monthName = monthNames[month1];
 
 			model.addAttribute("monthName", monthName);
 			model.addAttribute("year", year);
-			model.addAttribute("month", month + 1);
+			model.addAttribute("month", month1 + 1);
 			model.addAttribute("infoForUploadAttendance", infoForUploadAttendance);
 
 			// System.out.println(month);
