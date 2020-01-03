@@ -241,14 +241,13 @@ public class AdvanceAdminController {
 
 		} else {
 			model = new ModelAndView("Advance/advancePendingList");
-			
-			
+
 			Info add = AcessController.checkAccess("showEmpAdvancePendingList", "showEmpAdvancePendingList", 0, 1, 0, 0,
 					newModuleList);
-			Info edit = AcessController.checkAccess("showEmpAdvancePendingList", "showEmpAdvancePendingList", 0, 0, 1, 0,
-					newModuleList);
-			Info delete = AcessController.checkAccess("showEmpAdvancePendingList", "showEmpAdvancePendingList", 0, 0, 0, 1,
-					newModuleList);
+			Info edit = AcessController.checkAccess("showEmpAdvancePendingList", "showEmpAdvancePendingList", 0, 0, 1,
+					0, newModuleList);
+			Info delete = AcessController.checkAccess("showEmpAdvancePendingList", "showEmpAdvancePendingList", 0, 0, 0,
+					1, newModuleList);
 
 			if (add.isError() == false) {
 				System.out.println(" add   Accessable ");
@@ -265,8 +264,6 @@ public class AdvanceAdminController {
 
 			}
 			try {
-				
-				
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("companyId", 1);
@@ -599,15 +596,25 @@ public class AdvanceAdminController {
 	@RequestMapping(value = "/changePass", method = RequestMethod.GET)
 	public ModelAndView changePass(HttpServletRequest request, HttpServletResponse res) {
 		HttpSession session = request.getSession();
+
 		ModelAndView mav = null;
-		try {
-			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("changePass", "changePass", 1, 0, 0, 0, newModuleList);
 
-			mav = new ModelAndView("changePassword");
-			mav.addObject("empId", userObj.getUserId());
+		if (view.isError() == true) {
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			mav = new ModelAndView("accessDenied");
+
+		} else {
+			try {
+				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+				mav = new ModelAndView("changePassword");
+				mav.addObject("empId", userObj.getUserId());
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return mav;
 	}
