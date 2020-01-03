@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +25,11 @@ import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.EmployeeMaster;
+import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.ShiftMaster;
 import com.ats.hreasy.model.Bonus.BonusMaster;
 
 @Controller
@@ -361,6 +364,47 @@ public class BonusAdminController {
 		}
 
 		return a;
+	}
+
+	@RequestMapping(value = "/showEmpListToAssignBonus", method = RequestMethod.GET)
+	public String showEmpListToAssignBonus(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showEmpListToAssignBonus", "showEmpListToAssignBonus", 1, 0, 0, 0,
+				newModuleList);
+		String mav = null;
+		if (view.isError() == true) {
+			mav = "accessDenied";
+
+		} else {
+			mav = "Bonus/assignBonus";
+
+		 
+ 
+				try {
+
+					GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+							.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+
+					List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+					model.addAttribute("empdetList", empdetList);
+					
+					BonusMaster[] location = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBonusList",
+							BonusMaster[].class);
+
+					List<BonusMaster> bonusList = new ArrayList<BonusMaster>(Arrays.asList(location));
+					model.addAttribute("bonusList", bonusList);
+					
+
+				} catch (Exception e) {
+
+					e.printStackTrace();
+				}
+
+  
+			 
+		}
+		return mav;
 	}
 
 }

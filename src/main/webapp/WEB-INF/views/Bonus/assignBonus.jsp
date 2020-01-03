@@ -42,7 +42,7 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee Salary Structure Assignment
+								<td width="60%"><h5 class="card-title">Employee Bonus Assignment
 										 </h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
@@ -87,25 +87,25 @@
 							}
 						%>
 						<form
-							action="${pageContext.request.contextPath}/submitAssignSalStructToEmp"
+							action="${pageContext.request.contextPath}/submitAssignBonusToEmp"
 							id="submitInsertEmp" method="post">
 
 							<div class="form-group row">
 								<label class="col-form-label col-lg-2" for="locId">
-									Select Sal Structure To Assign <span style="color: red">* </span>:
+									Select Bonus to Assign <span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-10">
-									<select name="shiftId" data-placeholder="Select Salary Structure  "
-										id="shiftId"
+									<select name="bonusId" data-placeholder="Select  "
+										id="bonusId"
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
 
-										<option value="">Select Salary Structure</option>
+										<option value="">Select </option>
 
-										<c:forEach items="${shiftList}" var="shiftList">
-											<option value="${shiftList.salTypeId}">${shiftList.salTypeName}</option>
+										<c:forEach items="${bonusList}" var="bonusList">
+											<option value="${bonusList.bonusId}">${bonusList.fyTitle}</option>
 										</c:forEach>
-									</select> <span class="validation-invalid-label" id="error_shiftId"
+									</select> <span class="validation-invalid-label" id="error_bonusId"
 										style="display: none;">This field is required.</span>
 								</div>
 							</div>
@@ -126,9 +126,7 @@
 										<th>Designation</th>
 										<th>Location</th>
 										<th>Salary Structure</th>
-
-
-									</tr>
+ 									</tr>
 								</thead>
 								<tbody>
 
@@ -146,8 +144,7 @@
 											<td>${empdetList.empTypeName}</td>
 											<td>${empdetList.deptName}</td>
 											<td>${empdetList.empDesgn}</td>
-
-											<td>${empdetList.locName}</td>
+ 											<td>${empdetList.locName}</td>
  											<td>${empdetList.salTypeName}</td>
 
 										</tr>

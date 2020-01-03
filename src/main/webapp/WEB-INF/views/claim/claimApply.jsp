@@ -785,12 +785,12 @@
 												}
 												if (!isError) {
 
-													var option1 = $(
+												/* 	var option1 = $(
 															"#projectTypeId option:selected")
 															.attr(
 																	"data-prostrname");
 
-													$('#proName').html(option1)
+													$('#proName').html(option1) */
 
 													$('#claimAmt1')
 															.html(
@@ -904,12 +904,12 @@
 
 					</div>
 
-					<div class="form-group row">
+				<!-- 	<div class="form-group row">
 						<label class="col-form-label col-lg-3" for="proName">
 							Project Name : </label> <label class="col-form-label col-lg-6"
 							id="proName" for="proName"> </label>
 
-					</div>
+					</div> -->
 
 
 					<div class="form-group row">

@@ -30,6 +30,7 @@ import com.ats.hreasy.common.VpsImageUpload;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.AuthorityInformation;
 import com.ats.hreasy.model.EmployeeMaster;
+import com.ats.hreasy.model.GetAuthorityIds;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.claim.ClaimApply;
@@ -967,6 +968,26 @@ public class ClaimApplicationController {
 
 			ClaimApplyHeader res = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/saveClaimHeaderAndDetail", docHead, ClaimApplyHeader.class);
+			
+			
+		 
+
+			// get Authority ids
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+
+			GetAuthorityIds editEmp = Constants.getRestTemplate().postForObject(Constants.url + "/getAuthIdByEmpId",
+					map, GetAuthorityIds.class);
+			int stat = 0;
+
+			if (editEmp.getFinAuthEmpId() == userObj.getEmpId()) {
+				stat = 3;
+			} else if (editEmp.getIniAuthEmpId() == userObj.getEmpId()) {
+				stat = 2;
+			} else {
+				stat = 1;
+			}
 
 			if (res != null) {
 				System.out.println("claim saved success");
@@ -975,7 +996,7 @@ public class ClaimApplicationController {
 				lt.setEmpRemarks(docHead.getClaimTitle());
 				;
 				lt.setClaimId(res.getCaHeadId());
-				lt.setClaimStatus(1);
+				lt.setClaimStatus(stat);
 				lt.setEmpId(docHead.getEmpId());
 				lt.setExInt1(1);
 				lt.setExInt2(1);
@@ -993,7 +1014,7 @@ public class ClaimApplicationController {
 
 				if (res1.isError() == false) {
 					System.out.println("claim trail saved success");
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				  map = new LinkedMultiValueMap<>();
 					map.add("claimId", res.getCaHeadId());
 					map.add("trailId", res1.getClaimTrailPkey());
 					Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateClaimTrailId", map,
