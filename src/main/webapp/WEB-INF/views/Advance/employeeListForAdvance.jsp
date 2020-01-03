@@ -42,8 +42,8 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee List For Advance
-									</h5></td>
+								<td width="60%"><h5 class="card-title">Employee List
+										For Advance</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
@@ -86,53 +86,56 @@
 							session.removeAttribute("successMsg");
 							}
 						%>
-					 
-							<table
-								class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
-								id="printtable1">
-								<thead>
-									<tr class="bg-blue">
 
-										<th width="10%">Sr.no</th>
- 										<th>Employee Code</th>
-										<th>Employee Name</th>
-										<th>Emp Type</th>
-										<th>Department</th>
-										<th>Designation</th>
-										<th>Location</th>
-										<th>Action</th>
+						<table
+							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+							id="printtable1">
+							<thead>
+								<tr class="bg-blue">
 
+									<th width="10%">Sr.no</th>
+									<th>Employee Code</th>
+									<th>Employee Name</th>
+									<th>Emp Type</th>
+									<th>Department</th>
+									<th>Designation</th>
+									<th>Location</th>
+									<th>Action</th>
+
+
+								</tr>
+							</thead>
+							<tbody>
+
+
+								<c:forEach items="${empdetList}" var="empdetList"
+									varStatus="count">
+									<tr>
+
+										<td>${count.index+1}</td>
+										<td>${empdetList.empCode}</td>
+										<td>${empdetList.surname}&nbsp;${empdetList.middleName}&nbsp;${empdetList.firstName}</td>
+										<td>${empdetList.empTypeName}</td>
+										<td>${empdetList.deptName}</td>
+										<td>${empdetList.empDesgn}</td>
+
+										<td>${empdetList.locName}</td>
+										<td><c:if test="${editAccess == 0}">
+												<a
+													href="${pageContext.request.contextPath}/showAddAdvance?empId=${empdetList.exVar1}"
+													class="list-icons-item text-primary-600"
+													data-popup="tooltip" title="Add Advance"
+													data-original-title="Edit"><i class="icon-pencil7"></i></a>
+											</c:if></td>
 
 									</tr>
-								</thead>
-								<tbody>
+								</c:forEach>
+
+							</tbody>
+						</table>
 
 
-									<c:forEach items="${empdetList}" var="empdetList"
-										varStatus="count">
-										<tr>
 
-											<td>${count.index+1}</td>
- 											<td>${empdetList.empCode}</td>
-											<td>${empdetList.surname}&nbsp;${empdetList.middleName}&nbsp;${empdetList.firstName}</td>
-											<td>${empdetList.empTypeName}</td>
-											<td>${empdetList.deptName}</td>
-											<td>${empdetList.empDesgn}</td>
-
-											<td>${empdetList.locName}</td>
-											<td><a
-													href="${pageContext.request.contextPath}/showAddAdvance?empId=${empdetList.exVar1}"
-													class="list-icons-item text-primary-600" data-popup="tooltip" title="Add Advance" data-original-title="Edit"><i class="icon-pencil7"
-													 ></i></a></td>
-
-										</tr>
-									</c:forEach>
-
-								</tbody>
-							</table>
-
-						 
-					 
 
 					</div>
 

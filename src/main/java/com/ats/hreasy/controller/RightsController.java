@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
- 
+
+import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
@@ -44,26 +45,23 @@ public class RightsController {
 
 		try {
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("empTypeAdd", "showEmpTypeList", 0, 1, 0, 0,
-			 * newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * mav = "accessDenied";
-			 * 
-			 * } else {
-			 */
-			mav = "master/addRightsRole";
-			AccessRightModule[] accessRightModule = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getModuleAndSubModuleList", AccessRightModule[].class);
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("addRightsRole", "showAccessRoleList", 0, 1, 0, 0, newModuleList);
 
-			moduleList = new ArrayList<AccessRightModule>(Arrays.asList(accessRightModule));
+			if (view.isError() == true) {
 
-			model.addAttribute("moduleList", moduleList);
-			/* } */
+				mav = "accessDenied";
+
+			} else {
+
+				mav = "master/addRightsRole";
+				AccessRightModule[] accessRightModule = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getModuleAndSubModuleList", AccessRightModule[].class);
+
+				moduleList = new ArrayList<AccessRightModule>(Arrays.asList(accessRightModule));
+
+				model.addAttribute("moduleList", moduleList);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -101,7 +99,17 @@ public class RightsController {
 	public String submitInsertAccessRole(HttpServletRequest request, HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view1 = AcessController.checkAccess("addRightsRole", "showAccessRoleList", 0, 1, 0, 0, newModuleList);
+		String a = null;
 
+		if (view1.isError() == true) {
+
+			a = "redirect:/accessDenied";
+
+		} else {
+			a="redirect:/showAccessRoleList";
+		}
 		try {
 
 			List<AccessRightModule> moduleJsonList = new ArrayList<>();
@@ -259,7 +267,7 @@ public class RightsController {
 			session.setAttribute("errorMsg", "Failed to Insert Record");
 		}
 
-		return "redirect:/showAccessRoleList";
+		return a;
 	}
 
 	@RequestMapping(value = "/showAccessRoleList", method = RequestMethod.GET)
@@ -271,55 +279,55 @@ public class RightsController {
 
 		try {
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("showEmpTypeList", "showEmpTypeList", 1, 0, 0, 0,
-			 * newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * mav = "accessDenied" ;
-			 * 
-			 * } else {
-			 */
-			mav = "master/accessrollist";
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("compId", 1);
-			EmpType[] EmpType = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpTypeList", map,
-					EmpType[].class);
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showAccessRoleList", "showAccessRoleList", 1, 0, 0, 0,
+					newModuleList);
 
-			List<EmpType> empTypelist = new ArrayList<EmpType>(Arrays.asList(EmpType));
+			if (view.isError() == true) {
 
-			for (int i = 0; i < empTypelist.size(); i++) {
+				mav = "accessDenied";
 
-				empTypelist.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empTypelist.get(i).getEmpTypeId())));
+			} else {
+
+				mav = "master/accessrollist";
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("compId", 1);
+				EmpType[] EmpType = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpTypeList", map,
+						EmpType[].class);
+
+				List<EmpType> empTypelist = new ArrayList<EmpType>(Arrays.asList(EmpType));
+
+				for (int i = 0; i < empTypelist.size(); i++) {
+
+					empTypelist.get(i)
+							.setExVar1(FormValidation.Encrypt(String.valueOf(empTypelist.get(i).getEmpTypeId())));
+				}
+
+				model.addAttribute("empTypelist", empTypelist);
+
+				Info add = AcessController.checkAccess("showAccessRoleList", "showAccessRoleList", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showAccessRoleList", "showAccessRoleList", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showAccessRoleList", "showAccessRoleList", 0, 0, 0, 1,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addAttribute("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addAttribute("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					System.out.println(" delete   Accessable ");
+					model.addAttribute("deleteAccess", 0);
+
+				}
+
 			}
-
-			model.addAttribute("empTypelist", empTypelist);
-			model.addAttribute("addAccess", 0);
-			model.addAttribute("editAccess", 0);
-			model.addAttribute("deleteAccess", 0);
-
-			/*
-			 * Info add = AcessController.checkAccess("showEmpTypeList", "showEmpTypeList",
-			 * 0, 1, 0, 0, newModuleList); Info edit =
-			 * AcessController.checkAccess("showEmpTypeList", "showEmpTypeList", 0, 0, 1, 0,
-			 * newModuleList); Info delete = AcessController.checkAccess("showEmpTypeList",
-			 * "showEmpTypeList", 0, 0, 0, 1, newModuleList);
-			 * 
-			 * if (add.isError() == false) { System.out.println(" add   Accessable ");
-			 * model.addObject("addAccess", 0);
-			 * 
-			 * } if (edit.isError() == false) { System.out.println(" edit   Accessable ");
-			 * model.addObject("editAccess", 0); } if (delete.isError() == false) {
-			 * System.out.println(" delete   Accessable "); model.addObject("deleteAccess",
-			 * 0);
-			 * 
-			 * }
-			 */
-
-			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -331,36 +339,35 @@ public class RightsController {
 
 		HttpSession session = request.getSession();
 		String mav = null;
-		// List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-		// session.getAttribute("moduleJsonList");
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 
-		// Info view = AcessController.checkAccess("deleteEmpType", "showEmpTypeList",
-		// 0, 0, 0, 1, newModuleList);
+		Info view = AcessController.checkAccess("deleteAccessRole", "showAccessRoleList", 0, 0, 0, 1, newModuleList);
 
 		try {
-			/*
-			 * if (view.isError() == true) {
-			 * 
-			 * mav = "redirect:/accessDenied";
-			 * 
-			 * }
-			 * 
-			 * else {
-			 */
-			mav = "redirect:/showAccessRoleList";
-			String base64encodedString = request.getParameter("empTypeId");
-			String empTypeId = FormValidation.DecodeKey(base64encodedString);
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("empTypeId", empTypeId);
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteEmpType", map, Info.class);
+			if (view.isError() == true) {
 
-			if (info.isError() == false) {
-				session.setAttribute("successMsg", "Deleted Successfully");
-			} else {
-				session.setAttribute("errorMsg", "Failed to Delete");
+				mav = "redirect:/accessDenied";
+
 			}
-			// }
+
+			else {
+
+				mav = "redirect:/showAccessRoleList";
+				String base64encodedString = request.getParameter("empTypeId");
+				String empTypeId = FormValidation.DecodeKey(base64encodedString);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empTypeId", empTypeId);
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteEmpType", map,
+						Info.class);
+
+				if (info.isError() == false) {
+					session.setAttribute("successMsg", "Deleted Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Delete");
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("errorMsg", "Failed to Delete");
@@ -372,257 +379,262 @@ public class RightsController {
 	public String editAccessRole(HttpServletRequest request, HttpServletResponse response, Model model) {
 		HttpSession session = request.getSession();
 		String mav = new String();
-
 		try {
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("editEmpType", "showEmpTypeList", 0, 0, 1, 0,
-			 * newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
-			mav = "master/accessRoleEdit";
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("editAccessRole", "showAccessRoleList", 0, 0, 1, 0, newModuleList);
 
-			String base64encodedString = request.getParameter("empTypeId");
-			String empTypeId = FormValidation.DecodeKey(base64encodedString);
+			if (view.isError() == true) {
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("empTypeId", empTypeId);
-			editEmpType = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpTypeById", map,
-					EmpType.class);
-			model.addAttribute("editEmpType", editEmpType);
+				mav = "accessDenied";
 
-			List<AccessRightModule> moduleJsonList = new ArrayList<AccessRightModule>();
+			} else {
 
-			try {
+				mav = "master/accessRoleEdit";
 
-				AccessRightModule[] moduleJson = null;
-				ObjectMapper mapper = new ObjectMapper();
-				moduleJson = mapper.readValue(editEmpType.getEmpTypeAccess(), AccessRightModule[].class);
-				moduleJsonList = new ArrayList<AccessRightModule>(Arrays.asList(moduleJson));
+				String base64encodedString = request.getParameter("empTypeId");
+				String empTypeId = FormValidation.DecodeKey(base64encodedString);
 
-			} catch (Exception e) {
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empTypeId", empTypeId);
+				editEmpType = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpTypeById", map,
+						EmpType.class);
+				model.addAttribute("editEmpType", editEmpType);
 
-			}
+				List<AccessRightModule> moduleJsonList = new ArrayList<AccessRightModule>();
 
-			AccessRightModule[] accessRightModule = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getModuleAndSubModuleList", AccessRightModule[].class);
+				try {
 
-			moduleList = new ArrayList<AccessRightModule>(Arrays.asList(accessRightModule));
+					AccessRightModule[] moduleJson = null;
+					ObjectMapper mapper = new ObjectMapper();
+					moduleJson = mapper.readValue(editEmpType.getEmpTypeAccess(), AccessRightModule[].class);
+					moduleJsonList = new ArrayList<AccessRightModule>(Arrays.asList(moduleJson));
 
-			for (int i = 0; i < moduleList.size(); i++) {
+				} catch (Exception e) {
 
-				for (int j = 0; j < moduleJsonList.size(); j++) {
+				}
 
-					if (moduleList.get(i).getModuleId() == moduleJsonList.get(j).getModuleId()) {
+				AccessRightModule[] accessRightModule = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getModuleAndSubModuleList", AccessRightModule[].class);
 
-						//System.out.println("match Module " + moduleList.get(i).getModuleName());
+				moduleList = new ArrayList<AccessRightModule>(Arrays.asList(accessRightModule));
 
-						for (int k = 0; k < moduleList.get(i).getAccessRightSubModuleList().size(); k++) {
+				for (int i = 0; i < moduleList.size(); i++) {
 
-							for (int m = 0; m < moduleJsonList.get(j).getAccessRightSubModuleList().size(); m++) {
+					for (int j = 0; j < moduleJsonList.size(); j++) {
 
-								if (moduleList.get(i).getAccessRightSubModuleList().get(k)
-										.getSubModuleId() == moduleJsonList.get(j).getAccessRightSubModuleList().get(m)
-												.getSubModuleId()) {
+						if (moduleList.get(i).getModuleId() == moduleJsonList.get(j).getModuleId()) {
 
-									moduleList.get(i).getAccessRightSubModuleList().get(k)
-											.setAddApproveConfig(moduleJsonList.get(j).getAccessRightSubModuleList()
-													.get(m).getAddApproveConfig());
-									moduleList.get(i).getAccessRightSubModuleList().get(k).setView(
-											moduleJsonList.get(j).getAccessRightSubModuleList().get(m).getView());
-									moduleList.get(i).getAccessRightSubModuleList().get(k).setEditReject(
-											moduleJsonList.get(j).getAccessRightSubModuleList().get(m).getEditReject());
-									moduleList.get(i).getAccessRightSubModuleList().get(k)
-											.setDeleteRejectApprove(moduleJsonList.get(j).getAccessRightSubModuleList()
-													.get(m).getDeleteRejectApprove());
-									break;
+							// System.out.println("match Module " + moduleList.get(i).getModuleName());
+
+							for (int k = 0; k < moduleList.get(i).getAccessRightSubModuleList().size(); k++) {
+
+								for (int m = 0; m < moduleJsonList.get(j).getAccessRightSubModuleList().size(); m++) {
+
+									if (moduleList.get(i).getAccessRightSubModuleList().get(k)
+											.getSubModuleId() == moduleJsonList.get(j).getAccessRightSubModuleList()
+													.get(m).getSubModuleId()) {
+
+										moduleList.get(i).getAccessRightSubModuleList().get(k)
+												.setAddApproveConfig(moduleJsonList.get(j).getAccessRightSubModuleList()
+														.get(m).getAddApproveConfig());
+										moduleList.get(i).getAccessRightSubModuleList().get(k).setView(
+												moduleJsonList.get(j).getAccessRightSubModuleList().get(m).getView());
+										moduleList.get(i).getAccessRightSubModuleList().get(k)
+												.setEditReject(moduleJsonList.get(j).getAccessRightSubModuleList()
+														.get(m).getEditReject());
+										moduleList.get(i).getAccessRightSubModuleList().get(k)
+												.setDeleteRejectApprove(moduleJsonList.get(j)
+														.getAccessRightSubModuleList().get(m).getDeleteRejectApprove());
+										break;
+									}
+
 								}
 
 							}
 
+							break;
 						}
 
-						break;
 					}
 
 				}
-
+				model.addAttribute("allModuleList", moduleList);
+				model.addAttribute("moduleJsonList", moduleJsonList);
 			}
-			model.addAttribute("allModuleList", moduleList);
-			model.addAttribute("moduleJsonList", moduleJsonList);
-			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/submitEditAccessRole", method = RequestMethod.POST)
 	public String submitEditAccessRole(HttpServletRequest request, HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
-		 
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view1 = AcessController.checkAccess("editAccessRole", "showAccessRoleList", 0, 0, 1, 0, newModuleList);
+		String a = null;
+		if (view1.isError() == true) {
 
-		try {
+			a = "redirect:/accessDenied";
 
-			List<AccessRightModule> moduleJsonList = new ArrayList<>();
+		} else {
 
-			Date date = new Date();
-			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			a = "redirect:/showAccessRoleList";
+			try {
 
-			String empTypeName = request.getParameter("empTypeName");
-			String empShortName = request.getParameter("empShortName");
-			int comoffallowed = Integer.parseInt(request.getParameter("comoffallowed"));
-			String remark = request.getParameter("remark");
+				List<AccessRightModule> moduleJsonList = new ArrayList<>();
 
-			Boolean ret = false;
+				Date date = new Date();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-			if (FormValidation.Validaton(empTypeName, "") == true) {
+				String empTypeName = request.getParameter("empTypeName");
+				String empShortName = request.getParameter("empShortName");
+				int comoffallowed = Integer.parseInt(request.getParameter("comoffallowed"));
+				String remark = request.getParameter("remark");
 
-				ret = true;
+				Boolean ret = false;
 
-			}
-			if (FormValidation.Validaton(empShortName, "") == true) {
+				if (FormValidation.Validaton(empTypeName, "") == true) {
 
-				ret = true;
+					ret = true;
 
-			}
+				}
+				if (FormValidation.Validaton(empShortName, "") == true) {
 
-			if (ret == false) {
+					ret = true;
 
-				editEmpType.setEmpTypeName(empTypeName);
-				editEmpType.setEmpTypeShortName(empShortName);
-				editEmpType.setCompOffRequestAllowed(comoffallowed);
-				editEmpType.setCompanyId(1);
-				editEmpType.setEmpTypeRemarks(remark);
-				editEmpType.setEmpTypeAccess("");
-				editEmpType.setMakerEnterDatetime(sf.format(date));
+				}
 
-				for (int i = 0; i < moduleList.size(); i++) {
+				if (ret == false) {
 
-					AccessRightModule moduleJson = new AccessRightModule();
-					int isPresent = 0;
+					editEmpType.setEmpTypeName(empTypeName);
+					editEmpType.setEmpTypeShortName(empShortName);
+					editEmpType.setCompOffRequestAllowed(comoffallowed);
+					editEmpType.setCompanyId(1);
+					editEmpType.setEmpTypeRemarks(remark);
+					editEmpType.setEmpTypeAccess("");
+					editEmpType.setMakerEnterDatetime(sf.format(date));
 
-					List<AccessRightSubModule> subModuleJsonList = new ArrayList<>();
+					for (int i = 0; i < moduleList.size(); i++) {
 
-					for (int j = 0; j < moduleList.get(i).getAccessRightSubModuleList().size(); j++) {
+						AccessRightModule moduleJson = new AccessRightModule();
+						int isPresent = 0;
 
-						AccessRightSubModule subModuleJson = new AccessRightSubModule();
+						List<AccessRightSubModule> subModuleJsonList = new ArrayList<>();
 
-						String view = request
-								.getParameter(moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleId()
-										+ "view" + moduleList.get(i).getModuleId());
+						for (int j = 0; j < moduleList.get(i).getAccessRightSubModuleList().size(); j++) {
 
-						try {
-							if (view.equals("1")) {
-								isPresent = 1;
+							AccessRightSubModule subModuleJson = new AccessRightSubModule();
 
-								subModuleJson.setView(Integer.parseInt(view));
-								subModuleJson.setSubModuleId(
-										moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleId());
-								subModuleJson.setModuleId(moduleList.get(i).getModuleId());
-								subModuleJson.setSubModulName(
-										moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModulName());
-								subModuleJson.setSubModuleDesc(
-										moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleDesc());
-								subModuleJson.setSubModuleMapping(
-										moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleMapping());
-								subModuleJson.setOrderBy(
-										moduleList.get(i).getAccessRightSubModuleList().get(j).getOrderBy());
+							String view = request.getParameter(
+									moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleId() + "view"
+											+ moduleList.get(i).getModuleId());
 
-								try {
-									int add = Integer.parseInt(request.getParameter(
-											moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleId()
-													+ "add" + moduleList.get(i).getModuleId()));
-									subModuleJson.setAddApproveConfig(add);
-								} catch (Exception e) {
-									subModuleJson.setAddApproveConfig(0);
+							try {
+								if (view.equals("1")) {
+									isPresent = 1;
+
+									subModuleJson.setView(Integer.parseInt(view));
+									subModuleJson.setSubModuleId(
+											moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleId());
+									subModuleJson.setModuleId(moduleList.get(i).getModuleId());
+									subModuleJson.setSubModulName(
+											moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModulName());
+									subModuleJson.setSubModuleDesc(
+											moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleDesc());
+									subModuleJson.setSubModuleMapping(moduleList.get(i).getAccessRightSubModuleList()
+											.get(j).getSubModuleMapping());
+									subModuleJson.setOrderBy(
+											moduleList.get(i).getAccessRightSubModuleList().get(j).getOrderBy());
+
+									try {
+										int add = Integer.parseInt(request.getParameter(
+												moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleId()
+														+ "add" + moduleList.get(i).getModuleId()));
+										subModuleJson.setAddApproveConfig(add);
+									} catch (Exception e) {
+										subModuleJson.setAddApproveConfig(0);
+									}
+
+									try {
+										int edit = Integer.parseInt(request.getParameter(
+												moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleId()
+														+ "edit" + moduleList.get(i).getModuleId()));
+										subModuleJson.setEditReject(edit);
+									} catch (Exception e) {
+										subModuleJson.setEditReject(0);
+									}
+
+									try {
+										int delete = Integer.parseInt(request.getParameter(
+												moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleId()
+														+ "delete" + moduleList.get(i).getModuleId()));
+										subModuleJson.setDeleteRejectApprove(delete);
+									} catch (Exception e) {
+										subModuleJson.setDeleteRejectApprove(0);
+									}
+
+									subModuleJsonList.add(subModuleJson);
+
 								}
-
-								try {
-									int edit = Integer.parseInt(request.getParameter(
-											moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleId()
-													+ "edit" + moduleList.get(i).getModuleId()));
-									subModuleJson.setEditReject(edit);
-								} catch (Exception e) {
-									subModuleJson.setEditReject(0);
-								}
-
-								try {
-									int delete = Integer.parseInt(request.getParameter(
-											moduleList.get(i).getAccessRightSubModuleList().get(j).getSubModuleId()
-													+ "delete" + moduleList.get(i).getModuleId()));
-									subModuleJson.setDeleteRejectApprove(delete);
-								} catch (Exception e) {
-									subModuleJson.setDeleteRejectApprove(0);
-								}
-
-								subModuleJsonList.add(subModuleJson);
+							} catch (Exception e) {
 
 							}
-						} catch (Exception e) {
 
+						}
+
+						if (isPresent == 1) {
+							moduleJson.setModuleId(moduleList.get(i).getModuleId());
+							moduleJson.setModuleName(moduleList.get(i).getModuleName());
+							moduleJson.setModuleDesc(moduleList.get(i).getModuleDesc());
+							moduleJson.setOrderBy(moduleList.get(i).getOrderBy());
+							moduleJson.setIconDiv(moduleList.get(i).getIconDiv());
+							moduleJson.setAccessRightSubModuleList(subModuleJsonList);
+							moduleJsonList.add(moduleJson);
 						}
 
 					}
 
-					if (isPresent == 1) {
-						moduleJson.setModuleId(moduleList.get(i).getModuleId());
-						moduleJson.setModuleName(moduleList.get(i).getModuleName());
-						moduleJson.setModuleDesc(moduleList.get(i).getModuleDesc());
-						moduleJson.setOrderBy(moduleList.get(i).getOrderBy());
-						moduleJson.setIconDiv(moduleList.get(i).getIconDiv());
-						moduleJson.setAccessRightSubModuleList(subModuleJsonList);
-						moduleJsonList.add(moduleJson);
-					}
+					if (moduleJsonList != null && !moduleJsonList.isEmpty()) {
 
-				}
+						ObjectMapper mapper = new ObjectMapper();
+						try {
 
-				if (moduleJsonList != null && !moduleJsonList.isEmpty()) {
+							String newsLetterJSON = mapper.writeValueAsString(moduleJsonList);
 
-					ObjectMapper mapper = new ObjectMapper();
-					try {
+							System.out.println("JSON  " + newsLetterJSON);
+							editEmpType.setEmpTypeAccess(newsLetterJSON);
 
-						String newsLetterJSON = mapper.writeValueAsString(moduleJsonList);
+						} catch (JsonProcessingException e) {
 
-						System.out.println("JSON  " + newsLetterJSON);
-						editEmpType.setEmpTypeAccess(newsLetterJSON);
+							e.printStackTrace();
+						}
 
-					} catch (JsonProcessingException e) {
+						EmpType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpType",
+								editEmpType, EmpType.class);
 
-						e.printStackTrace();
-					}
+						if (res.isError() == false) {
+							session.setAttribute("successMsg", "Record Updated Successfully");
+						} else {
+							session.setAttribute("errorMsg", "Failed to Updated Record");
+						}
 
-					EmpType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpType", editEmpType,
-							EmpType.class);
-
-					if (res.isError() == false) {
-						session.setAttribute("successMsg", "Record Updated Successfully");
 					} else {
-						session.setAttribute("errorMsg", "Failed to Updated Record");
+						session.setAttribute("errorMsg", "Select Minimum One View Access.");
 					}
 
 				} else {
-					session.setAttribute("errorMsg", "Select Minimum One View Access.");
+					session.setAttribute("errorMsg", "Failed to Updated Record");
 				}
 
-			} else {
+			} catch (Exception e) {
+				e.printStackTrace();
 				session.setAttribute("errorMsg", "Failed to Updated Record");
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("errorMsg", "Failed to Updated Record");
 		}
-
-		return "redirect:/showAccessRoleList";
+		return a;
 	}
 
 }

@@ -177,10 +177,10 @@
 										<td>${empdetList.loanRepayAmt}</td>
 										<td>${empdetList.loanEmi}</td>
 										<td>${empdetList.currentOutstanding}</td>
-										<td><a
+										<td><c:if test="${editAccess == 0}"><a
 													href="${pageContext.request.contextPath}/showLoanListForAction?empId=${empdetList.exVar1}"
 													class="list-icons-item text-primary-600" data-popup="tooltip" title="Loan Details" data-original-title="Edit"><i class="icon-pencil7"
-													 ></i></a></td>
+													 ></i></a></c:if></td>
 										
  									</tr>
 								</c:forEach>

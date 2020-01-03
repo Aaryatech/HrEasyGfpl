@@ -120,10 +120,10 @@
 											<td>${empdetList.empDesgn}</td>
 
 											<td>${empdetList.locName}</td>
-											<td><a
+											<td><c:if test="${editAccess == 0}"><a
 													href="${pageContext.request.contextPath}/showAddLoan?empId=${empdetList.exVar1}"
 													class="list-icons-item text-primary-600" data-popup="tooltip" title="Add Loan" data-original-title="Edit"><i class="icon-pencil7"
-													 ></i></a></td>
+													 ></i></a></c:if></td>
 
 										</tr>
 									</c:forEach>

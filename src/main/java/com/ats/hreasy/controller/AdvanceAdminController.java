@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
@@ -45,51 +46,80 @@ public class AdvanceAdminController {
 	@RequestMapping(value = "/showEmpListToAddAdvance", method = RequestMethod.GET)
 	public ModelAndView showEmpListToAssignShift(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("Advance/employeeListForAdvance");
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showEmpListToAddAdvance", "showEmpListToAddAdvance", 1, 0, 0, 0,
+				newModuleList);
 
-		try {
-			GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+		if (view.isError() == true) {
 
-			List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
-			model.addObject("empdetList", empdetList);
+			model = new ModelAndView("accessDenied");
 
-			// System.err.println("sh list"+shiftList.toString());
+		} else {
+			model = new ModelAndView("Advance/employeeListForAdvance");
 
-			for (int i = 0; i < empdetList.size(); i++) {
-
-				empdetList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empdetList.get(i).getEmpId())));
+			Info edit = AcessController.checkAccess("showEmpListToAddAdvance", "showEmpListToAddAdvance", 0, 0, 1, 0,
+					newModuleList);
+			if (edit.isError() == false) {
+				System.out.println(" edit   Accessable ");
+				model.addObject("editAccess", 0);
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			try {
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+				model.addObject("empdetList", empdetList);
+
+				// System.err.println("sh list"+shiftList.toString());
+
+				for (int i = 0; i < empdetList.size(); i++) {
+
+					empdetList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empdetList.get(i).getEmpId())));
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return model;
 	}
 
 	@RequestMapping(value = "/showAddAdvance", method = RequestMethod.GET)
 	public ModelAndView showAddAdvance(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showAddAdvance", "showEmpListToAddAdvance", 0, 0, 1, 0, newModuleList);
 
-		ModelAndView model = new ModelAndView("Advance/addAdvance");
+		if (view.isError() == true) {
 
-		try {
+			model = new ModelAndView("accessDenied");
 
-			String base64encodedString = request.getParameter("empId");
-			String empTypeId = FormValidation.DecodeKey(base64encodedString);
+		} else {
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("empId", empTypeId);
-			GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
-			// System.out.println("Edit EmpPersonal Info-------"+ empPersInfo.toString());
+			model = new ModelAndView("Advance/addAdvance");
+			try {
 
-			String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
-					.concat(" ").concat(empPersInfo.getSurname());
-			model.addObject("empPersInfo", empPersInfo);
-			model.addObject("empPersInfoString", empPersInfoString);
+				String base64encodedString = request.getParameter("empId");
+				String empTypeId = FormValidation.DecodeKey(base64encodedString);
 
-		} catch (Exception e) {
-			e.printStackTrace();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empTypeId);
+				GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
+				// System.out.println("Edit EmpPersonal Info-------"+ empPersInfo.toString());
+
+				String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
+						.concat(" ").concat(empPersInfo.getSurname());
+				model.addObject("empPersInfo", empPersInfo);
+				model.addObject("empPersInfoString", empPersInfoString);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return model;
 	}
@@ -99,6 +129,18 @@ public class AdvanceAdminController {
 
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+		ModelAndView model = null;
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showAddAdvance", "showEmpListToAddAdvance", 0, 0, 1, 0, newModuleList);
+		String a = new String();
+		if (view.isError() == true) {
+
+			a = "redirect:/accessDenied";
+
+		} else {
+
+			a = "redirect:/showEmpListToAddAdvance";
+		}
 
 		try {
 
@@ -181,33 +223,69 @@ public class AdvanceAdminController {
 			session.setAttribute("errorMsg", "Failed to Insert Record");
 		}
 
-		return "redirect:/showEmpListToAddAdvance";
+		return a;
 	}
 
 	@RequestMapping(value = "/showEmpAdvancePendingList", method = RequestMethod.GET)
 	public ModelAndView showEmpAdvancePendingList(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("Advance/advancePendingList");
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showEmpAdvancePendingList", "showEmpAdvancePendingList", 1, 0, 0, 0,
+				newModuleList);
 
-		try {
+		if (view.isError() == true) {
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
-			GetAdvance[] empdetList1 = Constants.getRestTemplate().postForObject(Constants.url + "/getPendingAdvance",
-					map, GetAdvance[].class);
+			model = new ModelAndView("accessDenied");
 
-			List<GetAdvance> empdetList = new ArrayList<GetAdvance>(Arrays.asList(empdetList1));
-			model.addObject("empdetList", empdetList);
-			// System.out.println(" Advance Info-------" + empdetList.toString());
-			for (int i = 0; i < empdetList.size(); i++) {
+		} else {
+			model = new ModelAndView("Advance/advancePendingList");
+			
+			
+			Info add = AcessController.checkAccess("showEmpAdvancePendingList", "showEmpAdvancePendingList", 0, 1, 0, 0,
+					newModuleList);
+			Info edit = AcessController.checkAccess("showEmpAdvancePendingList", "showEmpAdvancePendingList", 0, 0, 1, 0,
+					newModuleList);
+			Info delete = AcessController.checkAccess("showEmpAdvancePendingList", "showEmpAdvancePendingList", 0, 0, 0, 1,
+					newModuleList);
 
-				empdetList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empdetList.get(i).getId())));
-				empdetList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empdetList.get(i).getEmpId())));
+			if (add.isError() == false) {
+				System.out.println(" add   Accessable ");
+				model.addObject("addAccess", 0);
 
 			}
+			if (edit.isError() == false) {
+				System.out.println(" edit   Accessable ");
+				model.addObject("editAccess", 0);
+			}
+			if (delete.isError() == false) {
+				System.out.println(" delete   Accessable ");
+				model.addObject("deleteAccess", 0);
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			}
+			try {
+				
+				
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				GetAdvance[] empdetList1 = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getPendingAdvance", map, GetAdvance[].class);
+
+				List<GetAdvance> empdetList = new ArrayList<GetAdvance>(Arrays.asList(empdetList1));
+				model.addObject("empdetList", empdetList);
+				// System.out.println(" Advance Info-------" + empdetList.toString());
+				for (int i = 0; i < empdetList.size(); i++) {
+
+					empdetList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empdetList.get(i).getId())));
+					empdetList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empdetList.get(i).getEmpId())));
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return model;
 	}
@@ -222,29 +300,31 @@ public class AdvanceAdminController {
 
 			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 
-			/*
-			 * Info view = AcessController.checkAccess("deleteLocation", "showLocationList",
-			 * 0, 0, 0, 1, newModuleList); if (view.isError() == true) {
-			 * 
-			 * a = "redirect:/accessDenied";
-			 * 
-			 * }
-			 * 
-			 * else {
-			 */
-			a = "redirect:/showEmpAdvancePendingList";
-			// }
-			String base64encodedString = request.getParameter("advId");
-			String advId = FormValidation.DecodeKey(base64encodedString);
+			Info view = AcessController.checkAccess("deleteAdvance", "showEmpAdvancePendingList", 0, 0, 0, 1,
+					newModuleList);
+			if (view.isError() == true) {
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("advId", advId);
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteAdvance", map, Info.class);
+				a = "redirect:/accessDenied";
 
-			if (info.isError() == false) {
-				session.setAttribute("successMsg", "Deleted Successfully");
-			} else {
-				session.setAttribute("errorMsg", "Failed to Delete");
+			}
+
+			else {
+
+				a = "redirect:/showEmpAdvancePendingList";
+				// }
+				String base64encodedString = request.getParameter("advId");
+				String advId = FormValidation.DecodeKey(base64encodedString);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("advId", advId);
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteAdvance", map,
+						Info.class);
+
+				if (info.isError() == false) {
+					session.setAttribute("successMsg", "Deleted Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Delete");
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -291,18 +371,28 @@ public class AdvanceAdminController {
 	public ModelAndView showAdvanceHistory(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("Advance/advanceHistory");
+		HttpSession session = request.getSession();
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showAdvanceHistory", "showAdvanceHistory", 1, 0, 0, 0, newModuleList);
 
-		try {
+		if (view.isError() == true) {
 
-			GetEmployeeDetails[] empdetList2 = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+			model = new ModelAndView("accessDenied");
 
-			List<GetEmployeeDetails> empdetList3 = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList2));
-			model.addObject("empdetList", empdetList3);
-			// System.out.println(" Info-------" + empdetList3.toString());
+		} else {
+			model = new ModelAndView("Advance/advanceHistory");
+			try {
 
-		} catch (Exception e) {
-			e.printStackTrace();
+				GetEmployeeDetails[] empdetList2 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+
+				List<GetEmployeeDetails> empdetList3 = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList2));
+				model.addObject("empdetList", empdetList3);
+				// System.out.println(" Info-------" + empdetList3.toString());
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return model;
 	}
@@ -312,30 +402,42 @@ public class AdvanceAdminController {
 			HttpServletResponse response) {
 
 		List<GetAdvance> employeeInfoList = new ArrayList<GetAdvance>();
+		ModelAndView model = null;
+		HttpSession session = request.getSession();
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showAdvanceHistory", "showAdvanceHistory", 1, 0, 0, 0, newModuleList);
 
-		try {
+		if (view.isError() == true) {
 
-			int empId = Integer.parseInt(request.getParameter("empId"));
-			String calYrId = request.getParameter("calYrId");
+			model = new ModelAndView("accessDenied");
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("empId", empId);
-			map.add("calYrId", calYrId);
-			map.add("companyId", 1);
+		} else {
+			model = new ModelAndView("Advance/advanceHistory");
+			try {
 
-			GetAdvance[] employeeInfo = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceHistory",
-					map, GetAdvance[].class);
+				int empId = Integer.parseInt(request.getParameter("empId"));
+				String calYrId = request.getParameter("calYrId");
 
-			employeeInfoList = new ArrayList<GetAdvance>(Arrays.asList(employeeInfo));
-			// System.out.println("employeeInfoList" + employeeInfoList.toString());
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+				map.add("calYrId", calYrId);
+				map.add("companyId", 1);
 
-			for (int i = 0; i < employeeInfoList.size(); i++) {
+				GetAdvance[] employeeInfo = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAdvanceHistory", map, GetAdvance[].class);
 
-				employeeInfoList.get(i).setAdvDate(DateConvertor.convertToDMY(employeeInfoList.get(i).getAdvDate()));
+				employeeInfoList = new ArrayList<GetAdvance>(Arrays.asList(employeeInfo));
+				// System.out.println("employeeInfoList" + employeeInfoList.toString());
 
+				for (int i = 0; i < employeeInfoList.size(); i++) {
+
+					employeeInfoList.get(i)
+							.setAdvDate(DateConvertor.convertToDMY(employeeInfoList.get(i).getAdvDate()));
+
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return employeeInfoList;
 	}
@@ -343,65 +445,78 @@ public class AdvanceAdminController {
 	@RequestMapping(value = "/showSkipAdvance", method = RequestMethod.GET)
 	public ModelAndView showSkipAdvance(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("Advance/skipAdvance");
+		ModelAndView model = null;
+		HttpSession session = request.getSession();
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showSkipAdvance", "showEmpAdvancePendingList", 0, 0, 1, 0,
+				newModuleList);
 
-		try {
+		if (view.isError() == true) {
 
-			String base64encodedString = request.getParameter("advId");
-			String advId = FormValidation.DecodeKey(base64encodedString);
+			model = new ModelAndView("accessDenied");
 
-			String base64encodedString1 = request.getParameter("empId");
-			String empId = FormValidation.DecodeKey(base64encodedString1);
+		} else {
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("empId", empId);
-			GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
-			// System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
+			model = new ModelAndView("Advance/skipAdvance");
 
-			String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
-					.concat(" ").concat(empPersInfo.getSurname()).concat("[")
-					.concat(empPersInfo.getEmpDesgn().concat("]"));
-			model.addObject("empPersInfo", empPersInfo);
-			model.addObject("empPersInfoString", empPersInfoString);
+			try {
 
-			map = new LinkedMultiValueMap<>();
-			map.add("advId", advId);
-			Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
-					Advance.class);
+				String base64encodedString = request.getParameter("advId");
+				String advId = FormValidation.DecodeKey(base64encodedString);
 
-			model.addObject("advList", advList);
+				String base64encodedString1 = request.getParameter("empId");
+				String empId = FormValidation.DecodeKey(base64encodedString1);
 
-			String skipStr = new String();
-			if (advList.getSkipId() == 0) {
-				skipStr = "-";
-				model.addObject("skipStr", skipStr);
-			} else {
-				String abc = new String();
-				String csv = advList.getSkipRemarks();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+				GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
+				// System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
 
-				String[] elements = csv.split(",");
+				String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
+						.concat(" ").concat(empPersInfo.getSurname()).concat("[")
+						.concat(empPersInfo.getEmpDesgn().concat("]"));
+				model.addObject("empPersInfo", empPersInfo);
+				model.addObject("empPersInfoString", empPersInfoString);
 
-				List<String> fixedLenghtList = Arrays.asList(elements);
+				map = new LinkedMultiValueMap<>();
+				map.add("advId", advId);
+				Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
+						Advance.class);
 
-				ArrayList<String> listOfString = new ArrayList<String>(fixedLenghtList);
+				model.addObject("advList", advList);
 
-				/*
-				 * System.out.println("Adv listOfString-------" + listOfString.toString()); for
-				 * (int i = 1; i < listOfString.size(); i++) {
-				 * 
-				 * 
-				 * String y= (String.valueOf(i)).concat(")").concat(listOfString.get(i));
-				 * abc.concat(y); System.out.println("Adv Info-------" + String.valueOf(i));
-				 * System.out.println("Adv Info-------" + listOfString.get(i));
-				 * 
-				 * }
-				 */
-				model.addObject("listOfString", listOfString);
+				String skipStr = new String();
+				if (advList.getSkipId() == 0) {
+					skipStr = "-";
+					model.addObject("skipStr", skipStr);
+				} else {
+					String abc = new String();
+					String csv = advList.getSkipRemarks();
+
+					String[] elements = csv.split(",");
+
+					List<String> fixedLenghtList = Arrays.asList(elements);
+
+					ArrayList<String> listOfString = new ArrayList<String>(fixedLenghtList);
+
+					/*
+					 * System.out.println("Adv listOfString-------" + listOfString.toString()); for
+					 * (int i = 1; i < listOfString.size(); i++) {
+					 * 
+					 * 
+					 * String y= (String.valueOf(i)).concat(")").concat(listOfString.get(i));
+					 * abc.concat(y); System.out.println("Adv Info-------" + String.valueOf(i));
+					 * System.out.println("Adv Info-------" + listOfString.get(i));
+					 * 
+					 * }
+					 */
+					model.addObject("listOfString", listOfString);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return model;
 	}
@@ -411,60 +526,71 @@ public class AdvanceAdminController {
 
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showSkipAdvance", "showEmpAdvancePendingList", 0, 0, 1, 0,
+				newModuleList);
+		String a = new String();
+		if (view.isError() == true) {
 
-		try {
+			a = "redirect:/accessDenied";
 
-			Date date2 = new Date();
-			SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		} else {
 
-			String remark = request.getParameter("remark");
-			int advId = Integer.parseInt(request.getParameter("advId"));
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("advId", advId);
-			Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
-					Advance.class);
+			a = "redirect:/showEmpAdvancePendingList";
 
-			Boolean ret = false;
+			try {
 
-			if (FormValidation.Validaton(remark, "") == true) {
+				Date date2 = new Date();
+				SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-				ret = true;
-				System.out.println("remark" + ret);
-			}
-
-			if (ret == false) {
-				String skipStr = new String();
-				if (advList.getSkipId() == 0) {
-					skipStr = remark;
-				} else {
-					skipStr = advList.getSkipRemarks().concat(",").concat(remark);
-				}
-				int count = advList.getSkipId() + 1;
-
-				map = new LinkedMultiValueMap<>();
-				map.add("dateTimeUpdate", sf2.format(date2));
-				map.add("userId", userObj.getEmpId());
-				map.add("skipStr", skipStr);
-				map.add("count", count);
+				String remark = request.getParameter("remark");
+				int advId = Integer.parseInt(request.getParameter("advId"));
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("advId", advId);
-				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSkipAdvance", map,
-						Info.class);
+				Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
+						Advance.class);
 
-				if (info != null) {
-					session.setAttribute("successMsg", "Advance Skipped  Successfully");
+				Boolean ret = false;
+
+				if (FormValidation.Validaton(remark, "") == true) {
+
+					ret = true;
+					System.out.println("remark" + ret);
+				}
+
+				if (ret == false) {
+					String skipStr = new String();
+					if (advList.getSkipId() == 0) {
+						skipStr = remark;
+					} else {
+						skipStr = advList.getSkipRemarks().concat(",").concat(remark);
+					}
+					int count = advList.getSkipId() + 1;
+
+					map = new LinkedMultiValueMap<>();
+					map.add("dateTimeUpdate", sf2.format(date2));
+					map.add("userId", userObj.getEmpId());
+					map.add("skipStr", skipStr);
+					map.add("count", count);
+					map.add("advId", advId);
+					Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSkipAdvance", map,
+							Info.class);
+
+					if (info != null) {
+						session.setAttribute("successMsg", "Advance Skipped  Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Insert Record");
+					}
+
 				} else {
 					session.setAttribute("errorMsg", "Failed to Insert Record");
 				}
 
-			} else {
+			} catch (Exception e) {
+				e.printStackTrace();
 				session.setAttribute("errorMsg", "Failed to Insert Record");
 			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("errorMsg", "Failed to Insert Record");
 		}
-
 		return "redirect:/showEmpAdvancePendingList";
 	}
 
@@ -494,17 +620,17 @@ public class AdvanceAdminController {
 			System.err.println("in  checkPass is ");
 			String empId = (request.getParameter("empId"));
 			String password = (request.getParameter("password"));
-			
+
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			byte[] messageDigest = md.digest(password.getBytes());
 			BigInteger number = new BigInteger(1, messageDigest);
 			String hashtext = number.toString(16);
-		//	System.out.println(hashtext);
+			// System.out.println(hashtext);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
 			map.add("password", hashtext);
- 
+
 			user1 = Constants.getRestTemplate().postForObject(Constants.url + "/getUserInfoByEmpIdPass", map,
 					User.class);
 			System.err.println("info is " + user1);
@@ -536,9 +662,8 @@ public class AdvanceAdminController {
 			Matcher m = p.matcher(password);
 
 			if (currPass.equals(userObj.getUserPwd()) && m.matches()) {
-				
 
- 				MessageDigest md = MessageDigest.getInstance("MD5");
+				MessageDigest md = MessageDigest.getInstance("MD5");
 				byte[] messageDigest = md.digest(password.getBytes());
 				BigInteger number = new BigInteger(1, messageDigest);
 				String hashtext = number.toString(16);
