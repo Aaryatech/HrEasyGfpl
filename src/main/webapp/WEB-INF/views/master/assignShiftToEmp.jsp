@@ -98,7 +98,7 @@
 									<select name="locId" data-placeholder="Select Location"
 										id="locId"
 										class="form-control form-control-select2 select2-hidden-accessible"
-										aria-hidden="true">
+										aria-hidden="true" required="required">
 										<option value="">Please Select</option>
 										<c:forEach items="${locationList}" var="location">
 											<c:forEach items="${locationAccess}" var="locationAccess">
@@ -153,7 +153,7 @@
 
 							</div>
 							<table
-								class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+								class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
 								id="printtable1">
 								<thead>
 									<tr class="bg-blue">
@@ -195,7 +195,7 @@
 									</c:forEach>
 
 								</tbody>
-							</table>
+							</table><br>
 
 							<span class="validation-invalid-label" id="error_chk"
 								style="display: none;">Please Select the Employee.</span>
