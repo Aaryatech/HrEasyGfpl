@@ -7,7 +7,11 @@
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
-
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
 <body>
 
 	<!-- Main navbar -->
@@ -55,8 +59,8 @@
 									Date <span style="color: red">* </span> :
 								</label>
 								<div class="col-md-2">
-									<input type="text" class="form-control datepickerclass"
-										placeholder="Select Date " id="date" name="date"
+									<input type="text" class="form-control "
+										placeholder="Select Date " id="datepicker" name="date"
 										value="${date}" autocomplete="off">
 								</div>
 
@@ -124,15 +128,14 @@
 														<td style="text-align: center;"><p
 																title="In Time - ${sttsList.inTime}, Out Time - ${sttsList.outTime}, Wotking Hrs - ${sttsList.workingMin}, OT Min - ${sttsList.otMin}, Late Min - ${sttsList.lateMin}">${sttsList.status}</p></td>
 													</c:forEach>
-													<td class="text-center">
-													<c:if test="${editAccess == 0}">
-													<a
-														href="${pageContext.request.contextPath}/attendanceEditEmpMonth?month=${month}&year=${year}&empId=${infomationList.empId}"
-														class="list-icons-item text-primary-600"
-														data-popup="tooltip" title="" data-original-title="Edit"><i
-															class="icon-pencil7"></i></a></c:if>
-															
-															</td>
+													<td class="text-center"><c:if
+															test="${editAccess == 0}">
+															<a
+																href="${pageContext.request.contextPath}/attendanceEditEmpMonth?month=${month}&year=${year}&empId=${infomationList.empId}"
+																class="list-icons-item text-primary-600"
+																data-popup="tooltip" title="" data-original-title="Edit"><i
+																class="icon-pencil7"></i></a>
+														</c:if></td>
 												</tr>
 											</c:forEach>
 
@@ -218,13 +221,11 @@
 	<!-- /page content -->
 	<script type="text/javascript">
 		// Single picker
-		$('.datepickerclass').daterangepicker({
-			singleDatePicker : true,
-			selectMonths : true,
-			selectYears : true,
-			locale : {
-				format : 'DD-MM-YYYY'
-			}
+		$("#datepicker").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			yearRange : "-50:+50",
+			dateFormat : "mm-yy"
 		});
 
 		//daterange-basic_new

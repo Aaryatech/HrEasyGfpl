@@ -82,8 +82,10 @@ public class AttendenceController {
 
 			String[] monthsplt = month.split("-");
 
-			Date firstDay = new GregorianCalendar(Integer.parseInt(monthsplt[1]), Integer.parseInt(monthsplt[0]) - 1, 1).getTime();
-			Date lastDay = new GregorianCalendar(Integer.parseInt(monthsplt[1]), Integer.parseInt(monthsplt[0]), 0).getTime();
+			Date firstDay = new GregorianCalendar(Integer.parseInt(monthsplt[1]), Integer.parseInt(monthsplt[0]) - 1, 1)
+					.getTime();
+			Date lastDay = new GregorianCalendar(Integer.parseInt(monthsplt[1]), Integer.parseInt(monthsplt[0]), 0)
+					.getTime();
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("fromDate", sf.format(firstDay));
@@ -429,7 +431,6 @@ public class AttendenceController {
 				Info edit = AcessController.checkAccess("attendaceSheet", "attendaceSheet", 0, 0, 1, 0, newModuleList);
 
 				if (edit.isError() == false) {
-					System.out.println(" edit   Accessable ");
 					model.addAttribute("editAccess", 0);
 				}
 
@@ -440,7 +441,7 @@ public class AttendenceController {
 
 				if (date != null) {
 
-					Date dt = dd.parse(date);
+					Date dt = dd.parse("01-" + date);
 					Calendar temp = Calendar.getInstance();
 					temp.setTime(dt);
 					int year = temp.get(Calendar.YEAR);

@@ -102,8 +102,7 @@
 										<option value="">Please Select</option>
 										<c:forEach items="${locationList}" var="location">
 											<c:forEach items="${locationAccess}" var="locationAccess">
-												<c:if test="${location.locId==locationAccess}">
-
+												<c:if test="${location.locId==locationAccess}"> 
 													<c:choose>
 														<c:when test="${location.locId==locationId}">
 															<option value="${location.locId}" selected>${location.locName}</option>
