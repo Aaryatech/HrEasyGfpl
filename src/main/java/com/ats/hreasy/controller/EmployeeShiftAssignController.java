@@ -56,18 +56,41 @@ public class EmployeeShiftAssignController {
 			model = new ModelAndView("master/assignShiftToEmp");
 
 			try {
-				List<ShiftMaster> shiftList = new ArrayList<>();
-				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
 
-				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
-				model.addObject("empdetList", empdetList);
+				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
-				ShiftMaster[] empdetList2 = Constants.getRestTemplate().getForObject(Constants.url + "/getAllShiftList",
-						ShiftMaster[].class);
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+						Location[].class);
 
-				shiftList = new ArrayList<ShiftMaster>(Arrays.asList(empdetList2));
-				model.addObject("shiftList", shiftList);
+				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+				model.addObject("locationList", locationList);
+				model.addObject("locationAccess", userObj.getLocationIds().split(","));
+
+				try {
+					int locationId = Integer.parseInt(request.getParameter("locId"));
+
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("locationIds", locationId);
+
+					List<ShiftMaster> shiftList = new ArrayList<>();
+					GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getEmpDetailListByLocId", map, GetEmployeeDetails[].class);
+
+					List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+					model.addObject("empdetList", empdetList);
+
+					ShiftMaster[] shiftMaster = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/showShiftListByLocationIds", map, ShiftMaster[].class);
+					shiftList = new ArrayList<ShiftMaster>(Arrays.asList(shiftMaster));
+					model.addObject("shiftList", shiftList);
+					model.addObject("locationId", locationId);
+				} catch (Exception e) {
+
+					//e.printStackTrace();
+				}
+
 				// System.err.println("sh list"+shiftList.toString());
 
 			} catch (Exception e) {
@@ -526,7 +549,7 @@ public class EmployeeShiftAssignController {
 
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
- 		
+
 		String a = null;
 		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 		Info view = AcessController.checkAccess("editMstType", "showMstEmpTypeList", 0, 1, 0, 0, newModuleList);
@@ -537,120 +560,120 @@ public class EmployeeShiftAssignController {
 		} else {
 
 			a = "redirect:/showMstEmpTypeList";
-		try {
+			try {
 
-			Date date = new Date();
-			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date date = new Date();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-			String lateMark = request.getParameter("lateMark");
-			String weekOffWork = request.getParameter("weekOffWork");
-			String otType = request.getParameter("otType");
-			String minWorkHr = request.getParameter("minHr");
-			String otApplicable = request.getParameter("otApplicable");
-			String typeName = request.getParameter("typeName");
-			String halfDayDed = request.getParameter("halfDayDed");
-			String minWorkRule = request.getParameter("minWorkRule");
-			String woRemarks = request.getParameter("woRemarks");
-			String empTypeId = request.getParameter("empTypeId");
+				String lateMark = request.getParameter("lateMark");
+				String weekOffWork = request.getParameter("weekOffWork");
+				String otType = request.getParameter("otType");
+				String minWorkHr = request.getParameter("minHr");
+				String otApplicable = request.getParameter("otApplicable");
+				String typeName = request.getParameter("typeName");
+				String halfDayDed = request.getParameter("halfDayDed");
+				String minWorkRule = request.getParameter("minWorkRule");
+				String woRemarks = request.getParameter("woRemarks");
+				String empTypeId = request.getParameter("empTypeId");
 
-			Boolean ret = false;
+				Boolean ret = false;
 
-			if (FormValidation.Validaton(lateMark, "") == true) {
+				if (FormValidation.Validaton(lateMark, "") == true) {
 
-				ret = true;
-				System.out.println("lateMark" + ret);
-			}
-			if (FormValidation.Validaton(weekOffWork, "") == true) {
+					ret = true;
+					System.out.println("lateMark" + ret);
+				}
+				if (FormValidation.Validaton(weekOffWork, "") == true) {
 
-				ret = true;
-				System.out.println("weekOffWork" + ret);
-			}
-			if (FormValidation.Validaton(otType, "") == true) {
+					ret = true;
+					System.out.println("weekOffWork" + ret);
+				}
+				if (FormValidation.Validaton(otType, "") == true) {
 
-				ret = true;
-				System.out.println("otType" + ret);
-			}
-			if (FormValidation.Validaton(minWorkHr, "") == true) {
+					ret = true;
+					System.out.println("otType" + ret);
+				}
+				if (FormValidation.Validaton(minWorkHr, "") == true) {
 
-				ret = true;
-				System.out.println("minWorkHr" + ret);
-			}
-			if (FormValidation.Validaton(otApplicable, "") == true) {
+					ret = true;
+					System.out.println("minWorkHr" + ret);
+				}
+				if (FormValidation.Validaton(otApplicable, "") == true) {
 
-				ret = true;
-				System.out.println("otApplicable" + ret);
-			}
-			if (FormValidation.Validaton(typeName, "") == true) {
+					ret = true;
+					System.out.println("otApplicable" + ret);
+				}
+				if (FormValidation.Validaton(typeName, "") == true) {
 
-				ret = true;
-				System.out.println("typeName" + ret);
-			}
-			if (FormValidation.Validaton(halfDayDed, "") == true) {
+					ret = true;
+					System.out.println("typeName" + ret);
+				}
+				if (FormValidation.Validaton(halfDayDed, "") == true) {
 
-				ret = true;
-				System.out.println("halfDayDed" + ret);
-			}
-			if (FormValidation.Validaton(minWorkRule, "") == true) {
+					ret = true;
+					System.out.println("halfDayDed" + ret);
+				}
+				if (FormValidation.Validaton(minWorkRule, "") == true) {
 
-				ret = true;
-				System.out.println("minWorkRule" + ret);
-			}
-			if (FormValidation.Validaton(woRemarks, "") == true) {
+					ret = true;
+					System.out.println("minWorkRule" + ret);
+				}
+				if (FormValidation.Validaton(woRemarks, "") == true) {
 
-				ret = true;
-				System.out.println("woRemarks" + ret);
-			}
+					ret = true;
+					System.out.println("woRemarks" + ret);
+				}
 
-			if (ret == false) {
+				if (ret == false) {
 
-				MstEmpType mstEmpType = new MstEmpType();
+					MstEmpType mstEmpType = new MstEmpType();
 
-				mstEmpType.setAttType("0");
-				mstEmpType.setCategory("0");
-				mstEmpType.setName(typeName);
-				;
-				mstEmpType.setCompanyId(1);
-				mstEmpType.setDetails(woRemarks);
-				;
-				mstEmpType.setHalfDay(halfDayDed);
-				mstEmpType.setLmApplicable(lateMark);
-				mstEmpType.setOtApplicable(otApplicable);
-				mstEmpType.setOtType(otType);
-				mstEmpType.setDelStatus(1);
-				mstEmpType.setWhWork(weekOffWork);
-				mstEmpType.setEmpTypeId(Integer.parseInt(empTypeId));
-				mstEmpType.setMinWorkHr(minWorkHr);
-				// mstEmpType.setEarlyGoingAllowed();
-				// .setEarlyGoingMin(earlyGoingMin);
-				// mstEmpType.setEmpTypeId(1);
-				// mstEmpType.setMaxLateTimeAllowed(maxLateTimeAllowed);
-				mstEmpType.setMinworkApplicable(minWorkRule);
-				mstEmpType.setOtTime("0");
-				mstEmpType.setMaxLateTimeAllowed(0);
-				// mstEmpType.setStatus(status);
-				// mstEmpType.setWeeklyHolidayLateAllowed(weeklyHolidayLateAllowed);
-				// mstEmpType.setWeeklyHolidayLateAllowedMin(weeklyHolidayLateAllowedMin);
+					mstEmpType.setAttType("0");
+					mstEmpType.setCategory("0");
+					mstEmpType.setName(typeName);
+					;
+					mstEmpType.setCompanyId(1);
+					mstEmpType.setDetails(woRemarks);
+					;
+					mstEmpType.setHalfDay(halfDayDed);
+					mstEmpType.setLmApplicable(lateMark);
+					mstEmpType.setOtApplicable(otApplicable);
+					mstEmpType.setOtType(otType);
+					mstEmpType.setDelStatus(1);
+					mstEmpType.setWhWork(weekOffWork);
+					mstEmpType.setEmpTypeId(Integer.parseInt(empTypeId));
+					mstEmpType.setMinWorkHr(minWorkHr);
+					// mstEmpType.setEarlyGoingAllowed();
+					// .setEarlyGoingMin(earlyGoingMin);
+					// mstEmpType.setEmpTypeId(1);
+					// mstEmpType.setMaxLateTimeAllowed(maxLateTimeAllowed);
+					mstEmpType.setMinworkApplicable(minWorkRule);
+					mstEmpType.setOtTime("0");
+					mstEmpType.setMaxLateTimeAllowed(0);
+					// mstEmpType.setStatus(status);
+					// mstEmpType.setWeeklyHolidayLateAllowed(weeklyHolidayLateAllowed);
+					// mstEmpType.setWeeklyHolidayLateAllowedMin(weeklyHolidayLateAllowedMin);
 
-				// mstEmpType.setOtTime(otTime);
-				// mstEmpType.setEmpTypeId(empTypeId);
+					// mstEmpType.setOtTime(otTime);
+					// mstEmpType.setEmpTypeId(empTypeId);
 
-				MstEmpType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveMstEmpType",
-						mstEmpType, MstEmpType.class);
+					MstEmpType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveMstEmpType",
+							mstEmpType, MstEmpType.class);
 
-				if (res != null) {
-					session.setAttribute("successMsg", "Employee Type Inserted Successfully");
+					if (res != null) {
+						session.setAttribute("successMsg", "Employee Type Inserted Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Insert Record");
+					}
+
 				} else {
 					session.setAttribute("errorMsg", "Failed to Insert Record");
 				}
 
-			} else {
+			} catch (Exception e) {
+				e.printStackTrace();
 				session.setAttribute("errorMsg", "Failed to Insert Record");
 			}
-		
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("errorMsg", "Failed to Insert Record");
-		}
 		}
 
 		return "redirect:/showMstEmpTypeList";

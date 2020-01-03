@@ -42,8 +42,8 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee Shift Assignment
-									</h5></td>
+								<td width="60%"><h5 class="card-title">Employee Shift
+										Assignment</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
@@ -87,6 +87,48 @@
 							}
 						%>
 						<form
+							action="${pageContext.request.contextPath}/showEmpListToAssignShift"
+							id="showEmpListToAssignShift" method="get">
+
+							<div class="form-group row">
+								<label class="col-form-label col-lg-2" for="locId">Select
+									Location <span style="color: red">* </span> :
+								</label>
+								<div class="col-md-2">
+									<select name="locId" data-placeholder="Select Location"
+										id="locId"
+										class="form-control form-control-select2 select2-hidden-accessible"
+										aria-hidden="true">
+										<option value="">Please Select</option>
+										<c:forEach items="${locationList}" var="location">
+											<c:forEach items="${locationAccess}" var="locationAccess">
+												<c:if test="${location.locId==locationAccess}">
+
+													<c:choose>
+														<c:when test="${location.locId==locationId}">
+															<option value="${location.locId}" selected>${location.locName}</option>
+														</c:when>
+														<c:otherwise>
+															<option value="${location.locId}">${location.locName}</option>
+														</c:otherwise>
+													</c:choose>
+												</c:if>
+											</c:forEach>
+										</c:forEach>
+									</select>
+								</div>
+
+
+
+								<button type="submit" class="btn bg-blue ml-3 legitRipple"
+									id="submtbtn">
+									Search <i class="icon-paperplane ml-2"></i>
+								</button>
+
+
+							</div>
+						</form>
+						<form
 							action="${pageContext.request.contextPath}/submitAssignShiftToEmp"
 							id="submitInsertEmp" method="post">
 
@@ -108,6 +150,7 @@
 									</select> <span class="validation-invalid-label" id="error_shiftId"
 										style="display: none;">This field is required.</span>
 								</div>
+
 							</div>
 							<table
 								class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
@@ -117,8 +160,7 @@
 
 										<th width="10%">Sr.no</th>
 
-										<th><input type="checkbox"   name="selAll"
-											id="selAll" /></th>
+										<th><input type="checkbox" name="selAll" id="selAll" /></th>
 										<th>Employee Code</th>
 										<th>Employee Name</th>
 										<th>Emp Type</th>
@@ -139,8 +181,7 @@
 
 											<td>${count.index+1}</td>
 											<td><input type="checkbox" id="empId${empdetList.empId}"
-												value="${empdetList.empId}" name="empId" class="select_all"
-												 ></td>
+												value="${empdetList.empId}" name="empId" class="select_all"></td>
 											<td>${empdetList.empCode}</td>
 											<td>${empdetList.surname}&nbsp;${empdetList.middleName}&nbsp;${empdetList.firstName}</td>
 											<td>${empdetList.empTypeName}</td>
