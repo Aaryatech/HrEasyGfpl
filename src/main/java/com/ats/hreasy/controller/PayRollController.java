@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.model.AccessRightModule;
+import com.ats.hreasy.model.Allowances;
 import com.ats.hreasy.model.EmpSalaryInfoForPayroll;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.InfoForUploadAttendance;
+import com.ats.hreasy.model.PayRollDataForProcessing;
 
 @Controller
 @Scope("session")
@@ -44,12 +46,19 @@ public class PayRollController {
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				map.add("month", monthyear[0]);
 				map.add("year", monthyear[1]);
-				EmpSalaryInfoForPayroll[] empSalaryInfoForPayroll = Constants.getRestTemplate().postForObject(
+				PayRollDataForProcessing payRollDataForProcessing = Constants.getRestTemplate().postForObject(
 						Constants.url + "/getEmployeeListWithEmpSalEnfoForPayRoll", map,
-						EmpSalaryInfoForPayroll[].class);
-				List<EmpSalaryInfoForPayroll> list = new ArrayList<EmpSalaryInfoForPayroll>(
-						Arrays.asList(empSalaryInfoForPayroll));
+						PayRollDataForProcessing.class);
+				List<EmpSalaryInfoForPayroll> list = payRollDataForProcessing.getList();
+
 				model.addAttribute("empList", list);
+				model.addAttribute("allownceList", payRollDataForProcessing.getAllowancelist());
+				System.out.println(payRollDataForProcessing.getList());
+			} else {
+				Allowances[] allowances = Constants.getRestTemplate().getForObject(Constants.url + "/getAllAllowances",
+						Allowances[].class);
+				List<Allowances> allowancelist = new ArrayList<>(Arrays.asList(allowances));
+				model.addAttribute("allownceList", allowancelist);
 			}
 
 		} catch (Exception e) {

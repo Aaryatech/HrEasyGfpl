@@ -98,7 +98,7 @@
 											<th class="text-center">Designation</th>
 											<th class="text-center">Location</th>
 											<th class="text-center">Salary Basis</th>
-											<th class="text-center">PT</th>
+											<!-- <th class="text-center">PT</th>
 											<th class="text-center">PF</th>
 											<th class="text-center">ESIC</th>
 											<th class="text-center">MLWF</th>
@@ -113,7 +113,11 @@
 											<th class="text-center">Veh</th>
 											<th class="text-center">Oth1</th>
 											<th class="text-center">Oth2</th>
-											<th class="text-center">Gross Salary</th>
+											<th class="text-center">Gross Salary</th> -->
+
+											<c:forEach items="${allownceList}" var="allownceList">
+												<th class="text-center">${allownceList.shortName}</th>
+											</c:forEach>
 										</tr>
 
 
@@ -131,7 +135,7 @@
 												<td>${empList.designation}</td>
 												<td>${empList.locName}</td>
 												<td>${empList.salBasis}</td>
-												<td>${empList.pfType}</td>
+												<%-- <td>${empList.pfType}</td>
 												<td>${empList.pfApplicable}</td>
 												<td>${empList.esicApplicable}</td>
 												<td>${empList.mlwfApplicable}</td>
@@ -146,7 +150,17 @@
 												<td>${empList.empCode}</td>
 												<td>${empList.empCode}</td>
 												<td>${empList.empCode}</td>
-												<td>${empList.empCode}</td>
+												<td>${empList.empCode}</td> --%>
+												<c:forEach items="${allownceList}" var="allownceList">
+													<th class="text-center"><c:forEach
+															items="${empList.empAllowanceList}"
+															var="empAllowanceList">
+															<c:if
+																test="${allownceList.allowanceId==empAllowanceList.allowanceId}">
+															${empAllowanceList.value}
+														</c:if>
+														</c:forEach></th>
+												</c:forEach>
 											</tr>
 										</c:forEach>
 
@@ -155,7 +169,7 @@
 							</div>
 
 							<c:if test="${date!=null}">
-
+								<br>
 								<div class="text-center">
 
 									<button type="submit" class="btn bg-blue ml-3 legitRipple"

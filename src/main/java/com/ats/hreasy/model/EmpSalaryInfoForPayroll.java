@@ -1,4 +1,6 @@
 package com.ats.hreasy.model;
+
+import java.util.List;
  
 
 public class EmpSalaryInfoForPayroll {
@@ -45,6 +47,8 @@ public class EmpSalaryInfoForPayroll {
 	private String deptName; 	
 	private String empName;
 	private String locName;
+	List<EmpAllowanceList> empAllowanceList;
+	
 	
 	public int getEmpId() {
 		return empId;
@@ -314,7 +318,13 @@ public class EmpSalaryInfoForPayroll {
 				+ employerEsicPercentage + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
 				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", empCode=" + empCode + ", empTypeName=" + empTypeName
 				+ ", salTypeName=" + salTypeName + ", designation=" + designation + ", deptName=" + deptName
-				+ ", empName=" + empName + ", locName=" + locName + "]";
+				+ ", empName=" + empName + ", locName=" + locName + ", empAllowanceList=" + empAllowanceList + "]";
+	}
+	public List<EmpAllowanceList> getEmpAllowanceList() {
+		return empAllowanceList;
+	}
+	public void setEmpAllowanceList(List<EmpAllowanceList> empAllowanceList) {
+		this.empAllowanceList = empAllowanceList;
 	}
 	
 	

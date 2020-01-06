@@ -76,7 +76,8 @@
 								</button>
 
 							</div>
-
+							<span style="color: red">*Note : Leaves Sanction All
+								Leaves If Pending.</span><br>
 							<div id="loader" style="display: none;">
 								<img
 									src="${pageContext.request.contextPath}/resources/assets/images/giphy.gif"
