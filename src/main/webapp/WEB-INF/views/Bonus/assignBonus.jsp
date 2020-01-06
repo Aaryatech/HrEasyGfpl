@@ -201,11 +201,11 @@
 					isError = false;
 				}
 				//alert("checked" +checked);
-				if (shiftId == null || shiftId == "") {
+				if (bonusId == null || bonusId == "") {
 					isError = true;
-					$("#error_shiftId").show()
+					$("#error_bonusId").show()
 				} else {
-					$("#error_shiftId").hide()
+					$("#error_bonusId").hide()
 				}
 
 				if (!isError) {
