@@ -88,6 +88,8 @@ public class BonusAdminController {
 				String leaveDateRange = request.getParameter("leaveDateRange");
 				String bonusTitle = request.getParameter("bonusTitle");
 				String bonusPrcnt = request.getParameter("bonusPrcnt");
+				String minDays = request.getParameter("minDays");
+
 				String bonusRemark = new String();
 				String[] arrOfStr = leaveDateRange.split("to", 2);
 				Boolean ret = false;
@@ -114,10 +116,16 @@ public class BonusAdminController {
 					System.out.println("bonusPrcnt" + ret);
 				}
 
+				if (FormValidation.Validaton(minDays, "") == true) {
+
+					ret = true;
+					System.out.println("minDays" + ret);
+				}
+
 				if (ret == false) {
 
 					BonusMaster bonus = new BonusMaster();
-
+					bonus.setMinDays(Integer.parseInt(minDays));
 					bonus.setBonusPercentage(Double.parseDouble(bonusPrcnt));
 					bonus.setDelStatus(1);
 					bonus.setExInt1(0);
@@ -223,7 +231,7 @@ public class BonusAdminController {
 		}
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/checkBonusTitle", method = RequestMethod.GET)
 	@ResponseBody
 	public int checkEmailText(HttpServletRequest request, HttpServletResponse response) {
@@ -243,10 +251,10 @@ public class BonusAdminController {
 			// System.out.println("Info" + info+"info.isError()"+info.isError());
 			if (info.isError() == false) {
 				res = 0;// not presents
-				//System.out.println("0s" + res);
+				// System.out.println("0s" + res);
 			} else {
-				res = 1;//present
-			//	System.out.println("1888" + res);
+				res = 1;// present
+				// System.out.println("1888" + res);
 			}
 
 		} catch (Exception e) {
@@ -257,7 +265,6 @@ public class BonusAdminController {
 		return res;
 
 	}
-
 
 	@RequestMapping(value = "/deleteBonus", method = RequestMethod.GET)
 	public String deleteBonus(HttpServletRequest request, HttpServletResponse response) {
@@ -454,6 +461,63 @@ public class BonusAdminController {
 
 		}
 		return mav;
+	}
+	
+	
+	@RequestMapping(value = "/submitAssignBonusToEmp", method = RequestMethod.POST)
+	public String submitAssignBonusToEmp(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+ 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+ 		
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+
+			String bonusId = null;
+			try {
+				bonusId = request.getParameter("bonusId");
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+			// System.out.println("work date**" + workDate);
+
+			String[] empId = request.getParameterValues("empId");
+
+			StringBuilder sb = new StringBuilder();
+
+			List<Integer> empIdList = new ArrayList<>();
+
+			for (int i = 0; i < empId.length; i++) {
+				sb = sb.append(empId[i] + ",");
+				empIdList.add(Integer.parseInt(empId[i]));
+
+				// System.out.println("empId id are**" + empId[i]);
+
+			}
+
+			String items = sb.toString();
+
+			items = items.substring(0, items.length() - 1);
+
+			StringBuilder sbEmp = new StringBuilder();
+
+			// System.out.println("empId id are**" + empIdList.toString());
+			// System.out.println("shiftId id are**" + shiftId);
+
+			map.add("empIdList", items);
+			map.add("bonusId",Integer.parseInt(bonusId));
+			map.add("companyId", 1);
+			map.add("userId", userObj.getEmpId());
+ 
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empBonusSave", map,
+					Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "redirect:/showEmpListToAssignShift";
 	}
 
 }

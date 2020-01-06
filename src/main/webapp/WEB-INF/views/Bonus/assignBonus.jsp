@@ -125,7 +125,7 @@
 										<th>Department</th>
 										<th>Designation</th>
 										<th>Location</th>
-										<th>Salary Structure</th>
+										<th>Bonus</th>
  									</tr>
 								</thead>
 								<tbody>
@@ -145,7 +145,7 @@
 											<td>${empdetList.deptName}</td>
 											<td>${empdetList.empDesgn}</td>
  											<td>${empdetList.locName}</td>
- 											<td>${empdetList.salTypeName}</td>
+ 											<td>${empdetList.fyTitle}</td>
 
 										</tr>
 									</c:forEach>

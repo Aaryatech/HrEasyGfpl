@@ -17,8 +17,7 @@ public class BonusCalc {
 
 	private String companyEmpCode;
 
-	private String pfNo;
-
+ 
 	private String location;
 
 	private String empName;
@@ -137,13 +136,11 @@ public class BonusCalc {
 		this.companyEmpCode = companyEmpCode;
 	}
 
-	public String getPfNo() {
-		return pfNo;
-	}
-
-	public void setPfNo(String pfNo) {
-		this.pfNo = pfNo;
-	}
+	/*
+	 * public String getPfNo() { return pfNo; }
+	 * 
+	 * public void setPfNo(String pfNo) { this.pfNo = pfNo; }
+	 */
 
 	public String getLocation() {
 		return location;
@@ -434,12 +431,12 @@ public class BonusCalc {
 	@Override
 	public String toString() {
 		return "BonusCalc [bonusCalcId=" + bonusCalcId + ", companyId=" + companyId + ", bonusId=" + bonusId
-				+ ", fYear=" + fYear + ", empId=" + empId + ", companyEmpCode=" + companyEmpCode + ", pfNo=" + pfNo
-				+ ", location=" + location + ", empName=" + empName + ", currAge=" + currAge + ", currDesignation="
-				+ currDesignation + ", bonusDetails=" + bonusDetails + ", totalBonusWages=" + totalBonusWages
-				+ ", bonusApplicable=" + bonusApplicable + ", grossBonusAmt=" + grossBonusAmt + ", dedBonusPujaAmt="
-				+ dedBonusPujaAmt + ", dedBonusAdvAmt=" + dedBonusAdvAmt + ", dedBonusLossAmt=" + dedBonusLossAmt
-				+ ", netBonusAmt=" + netBonusAmt + ", paidBonusAmt=" + paidBonusAmt + ", paidBonusDate=" + paidBonusDate
+				+ ", fYear=" + fYear + ", empId=" + empId + ", companyEmpCode=" + companyEmpCode + ", location="
+				+ location + ", empName=" + empName + ", currAge=" + currAge + ", currDesignation=" + currDesignation
+				+ ", bonusDetails=" + bonusDetails + ", totalBonusWages=" + totalBonusWages + ", bonusApplicable="
+				+ bonusApplicable + ", grossBonusAmt=" + grossBonusAmt + ", dedBonusPujaAmt=" + dedBonusPujaAmt
+				+ ", dedBonusAdvAmt=" + dedBonusAdvAmt + ", dedBonusLossAmt=" + dedBonusLossAmt + ", netBonusAmt="
+				+ netBonusAmt + ", paidBonusAmt=" + paidBonusAmt + ", paidBonusDate=" + paidBonusDate
 				+ ", isBonussheetFinalized=" + isBonussheetFinalized + ", exgretiaDetails=" + exgretiaDetails
 				+ ", totalExgretiaDays=" + totalExgretiaDays + ", totalExgretiaWages=" + totalExgretiaWages
 				+ ", exgretiaApplicable=" + exgretiaApplicable + ", exgretiaAmt=" + exgretiaAmt + ", dedExgretiaAmt="
@@ -450,5 +447,7 @@ public class BonusCalc {
 				+ ", loginTimeExgretia=" + loginTimeExgretia + ", delStatus=" + delStatus + ", exInt1=" + exInt1
 				+ ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
 	}
+
+	 
 
 }

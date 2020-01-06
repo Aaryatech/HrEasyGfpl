@@ -25,6 +25,8 @@ public class BonusMaster {
 	private String exVar2;
 
  	private boolean error;
+ 	
+ 	private int minDays ;
 
 	public int getBonusId() {
 		return bonusId;
@@ -131,14 +133,23 @@ public class BonusMaster {
 		this.error = error;
 	}
 
+	public int getMinDays() {
+		return minDays;
+	}
+
+	public void setMinDays(int minDays) {
+		this.minDays = minDays;
+	}
+
 	@Override
 	public String toString() {
 		return "BonusMaster [bonusId=" + bonusId + ", fyTitle=" + fyTitle + ", fyFromdt=" + fyFromdt + ", fyTodt="
 				+ fyTodt + ", isCurrent=" + isCurrent + ", remark=" + remark + ", bonusPercentage=" + bonusPercentage
 				+ ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1
-				+ ", exVar2=" + exVar2 + ", error=" + error + "]";
+				+ ", exVar2=" + exVar2 + ", error=" + error + ", minDays=" + minDays + "]";
 	}
 
+ 
 	 
 
 }

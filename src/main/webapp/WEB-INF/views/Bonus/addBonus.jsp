@@ -139,6 +139,19 @@
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
+									
+										<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="shiftName">Min Days
+										  <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control"
+												placeholder="Minimum Bonus Days" id="minDays" name="minDays"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_minDays"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="lvngReson">Remark<span
@@ -239,7 +252,16 @@
 				} else {
 					$("#error_bonusPrcnt").hide()
 				}
+				
+				if (!$("#minDays").val()) {
 
+					isError = true;
+
+					$("#error_minDays").show()
+				} else {
+					$("#error_minDays").hide()
+				}
+				
 				if (!isError) {
 
 					document.getElementById("submtbtn").disabled = true;
