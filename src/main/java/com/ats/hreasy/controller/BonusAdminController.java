@@ -30,6 +30,7 @@ import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.ShiftMaster;
+import com.ats.hreasy.model.Bonus.BonusCalc;
 import com.ats.hreasy.model.Bonus.BonusMaster;
 
 @Controller
@@ -171,14 +172,32 @@ public class BonusAdminController {
 				BonusMaster[] location = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBonusList",
 						BonusMaster[].class);
 
-				List<BonusMaster> locationList = new ArrayList<BonusMaster>(Arrays.asList(location));
+				List<BonusMaster> bonusList = new ArrayList<BonusMaster>(Arrays.asList(location));
 
-				for (int i = 0; i < locationList.size(); i++) {
+				for (int i = 0; i < bonusList.size(); i++) {
 
-					locationList.get(i)
-							.setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getBonusId())));
+					bonusList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(bonusList.get(i).getBonusId())));
 				}
-				model.addObject("bonusList", locationList);
+
+				BonusCalc[] bonusCalc = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBonusCalcList",
+						BonusCalc[].class);
+
+				List<BonusCalc> bonusCalcList = new ArrayList<BonusCalc>(Arrays.asList(bonusCalc));
+				for (int i = 0; i < bonusList.size(); i++) {
+
+					for (int j = 0; j < bonusCalcList.size(); j++) {
+
+						if (bonusList.get(i).getBonusId() == bonusCalcList.get(j).getBonusId()) {
+							bonusList.get(i).setExInt2(1);
+						} else {
+							bonusList.get(i).setExInt2(0);
+						}
+
+					}
+
+				}
+
+				model.addObject("bonusList", bonusList);
 				Info add = AcessController.checkAccess("showBonusList", "showBonusList", 0, 1, 0, 0, newModuleList);
 				Info edit = AcessController.checkAccess("showBonusList", "showBonusList", 0, 0, 1, 0, newModuleList);
 				Info delete = AcessController.checkAccess("showBonusList", "showBonusList", 0, 0, 0, 1, newModuleList);
@@ -204,6 +223,41 @@ public class BonusAdminController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/checkBonusTitle", method = RequestMethod.GET)
+	@ResponseBody
+	public int checkEmailText(HttpServletRequest request, HttpServletResponse response) {
+
+		Info info = new Info();
+		int res = 0;
+
+		try {
+
+			String bonusTitle = request.getParameter("bonusTitle");
+			// System.out.println("Info" + voucherNo);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("bonusTitle", bonusTitle);
+
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/checkBonusTitle", map, Info.class);
+			// System.out.println("Info" + info+"info.isError()"+info.isError());
+			if (info.isError() == false) {
+				res = 0;// not presents
+				//System.out.println("0s" + res);
+			} else {
+				res = 1;//present
+			//	System.out.println("1888" + res);
+			}
+
+		} catch (Exception e) {
+			System.err.println("Exception in checkBonusTitle : " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return res;
+
+	}
+
 
 	@RequestMapping(value = "/deleteBonus", method = RequestMethod.GET)
 	public String deleteBonus(HttpServletRequest request, HttpServletResponse response) {
@@ -379,30 +433,25 @@ public class BonusAdminController {
 		} else {
 			mav = "Bonus/assignBonus";
 
-		 
- 
-				try {
+			try {
 
-					GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
-							.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
 
-					List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
-					model.addAttribute("empdetList", empdetList);
-					
-					BonusMaster[] location = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBonusList",
-							BonusMaster[].class);
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+				model.addAttribute("empdetList", empdetList);
 
-					List<BonusMaster> bonusList = new ArrayList<BonusMaster>(Arrays.asList(location));
-					model.addAttribute("bonusList", bonusList);
-					
+				BonusMaster[] location = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBonusList",
+						BonusMaster[].class);
 
-				} catch (Exception e) {
+				List<BonusMaster> bonusList = new ArrayList<BonusMaster>(Arrays.asList(location));
+				model.addAttribute("bonusList", bonusList);
 
-					e.printStackTrace();
-				}
+			} catch (Exception e) {
 
-  
-			 
+				e.printStackTrace();
+			}
+
 		}
 		return mav;
 	}

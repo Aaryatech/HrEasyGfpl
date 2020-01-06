@@ -7,6 +7,8 @@
 <head>
 <c:url var="getShiftListByLocationIdAndSelftGroupId"
 	value="/getShiftListByLocationIdAndSelftGroupId" />
+<c:url value="/checkBonusTitle" var="checkBonusTitle"></c:url>
+
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
@@ -100,10 +102,12 @@
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" placeholder="  Title"
-												id="bonusTitle" name="bonusTitle" autocomplete="off"
-												onchange="trim(this)"> <span
+												onchange="uniqueVoucherNum()" id="bonusTitle"
+												name="bonusTitle" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_bonusTitle"
-												style="display: none;">This field is required.</span>
+												style="display: none;">This field is required.</span> <span
+												class="validation-invalid-label" id="error_voucherNo1"
+												style="display: none;">Bonus Title Already Exists</span>
 										</div>
 									</div>
 
@@ -178,7 +182,33 @@
 
 	</div>
 	<!-- /page content -->
+	<script type="text/javascript">
+		function uniqueVoucherNum() {
+			 
+			var bonusTitle = $("#bonusTitle").val();
+			var valid = false;
+			$.getJSON('${checkBonusTitle}', {
+				bonusTitle : bonusTitle,
+				ajax : 'true',
+			}, function(data) {
+				if (parseInt(data) == 1) {
 
+					document.getElementById("submtbtn").disabled = true;
+					document.getElementById("bonusTitle").value = "";
+					$("#error_voucherNo1").show();
+
+				} else {
+					valid = true;
+					document.getElementById("submtbtn").disabled = false;
+					$("#error_voucherNo1").hide();
+				}
+
+			});
+
+			return valid;
+
+		}
+	</script>
 	<script>
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
@@ -221,7 +251,7 @@
 		});
 		//
 	</script>
- <script type="text/javascript">
+	<script type="text/javascript">
 		// Single picker
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
