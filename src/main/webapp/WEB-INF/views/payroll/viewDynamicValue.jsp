@@ -41,6 +41,66 @@
 
 				<!-- Highlighting rows and columns -->
 				<div class="card">
+
+					<div id="editBonusDiv" style="display: none;">
+						<div class="card-header header-elements-inline">
+							<h5 class="card-title">Edit Attendance Detail</h5>
+						</div>
+						<div class="card-body">
+							<div class="form-group row">
+								<label class="col-form-label col-lg-2" for="empCode">
+									EMP Code : </label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control" placeholder="EMP Code"
+										id="empCode" name="empCode" autocomplete="off" disabled>
+
+								</div>
+
+							</div>
+
+							<div class="form-group row">
+								<label class="col-form-label col-lg-2" for="itAmt"> IT
+									Ammount : </label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control numbersOnly"
+										placeholder="IT Ammount" id="itAmt" name="itAmt"
+										autocomplete="off">
+
+								</div>
+								<div class="col-lg-1"></div>
+								<label class="col-form-label col-lg-2" for="perBonus">
+									Performance Bonus : </label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control numbersOnly"
+										placeholder="Status" id="perBonus" name="perBonus"
+										autocomplete="off">
+
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-form-label col-lg-2" for="comnt">
+									Comments : </label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control" placeholder="Comments"
+										id="comnt" name="comnt" autocomplete="off">
+
+								</div>
+							</div>
+
+							<div class="col-md-12 text-center">
+								<button type="submit" class="btn bg-blue ml-3 legitRipple"
+									id="submtbtn" onclick="saveBonusDetail()">Save</button>
+								<button type="button" class="btn btn-primary"
+									onclick="closeEditDetailTab()">Cancel</button>
+								<input type="hidden" class="form-control" id="tempSalDaynamicId"
+									name="tempSalDaynamicId" autocomplete="off">
+							</div>
+
+
+						</div>
+						<hr>
+					</div>
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Enter Dynamic Amount</h5>
 						<!-- <div class="header-elements">
@@ -94,13 +154,14 @@
 												<td>${empList.empName}</td>
 												<td>${empList.salTypeName}</td>
 												<td>${empList.designation}</td>
-												<td>${empList.designation}</td>
-												<td>${empList.designation}</td>
-												<td>${empList.designation}</td>
-												<td>${empList.designation}</td>
-												<td>${empList.designation}</td>
-												<td>${empList.designation}</td>
+												<td class="text-right">${empList.advanceDed}</td>
+												<td class="text-right">${empList.loanDed}</td>
+												<td class="text-right">${empList.payDed}</td>
+												<td class="text-right">${empList.miscExpDed}</td>
+												<td class="text-right">${empList.itded}</td>
+												<td class="text-right">${empList.performanceBonus}</td>
 												<td class="text-center"><a href="#"
+													onclick="editBonus(${empList.id})"
 													data-original-title="Edit"><i class="icon-pencil7"></i></a></td>
 											</tr>
 										</c:forEach>
@@ -113,7 +174,7 @@
 
 								<button type="submit" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn">
-									Submit <i class="icon-paperplane ml-2"></i>
+									Process Pay Roll <i class="icon-paperplane ml-2"></i>
 								</button>
 
 							</div>
@@ -167,19 +228,47 @@
 				separator : ' to '
 			}
 		});
+ 
+	</script>
 
-		$('#selectAll').click(function(event) {
-			if (this.checked) {
-				// Iterate each checkbox
-				$(':checkbox').each(function() {
-					this.checked = true;
-				});
-			} else {
-				$(':checkbox').each(function() {
-					this.checked = false;
-				});
+	<script type="text/javascript">
+		 
+		function editBonus(tempSalDaynamicId) {
+ 
+			
+			
+			var fd = new FormData();
+			fd.append('tempSalDaynamicId', tempSalDaynamicId);
+			
+			$
+			.ajax({
+				url : '${pageContext.request.contextPath}/editBonus',
+				type : 'post',
+				dataType : 'json',
+				data : fd,
+				contentType : false,
+				processData : false,
+				success : function(response) {
+
+					document.getElementById("editBonusDiv").style.display = 'block';  
+					document.getElementById("tempSalDaynamicId").value = response.id; 
+					document.getElementById("empCode").value = response.empCode; 
+					document.getElementById("itAmt").value = response.itded; 
+					document.getElementById("perBonus").value = response.performanceBonus; 
+				},
+			});
+
+		} 
+		function closeEditDetailTab() {
+
+			document.getElementById("editBonusDiv").style.display = 'none';
+		}
+		
+		function saveBonusDetail() {
+			  
+			location.reload(true);
+
 			}
-		});
 	</script>
 </body>
 </html>
