@@ -82,9 +82,18 @@ public class PayRollController {
 			String[] monthyear = date.split("-");
 			model.addAttribute("date", date);
 
+			String[] selectEmp = request.getParameterValues("selectEmp");
+			String empIds = "0";
+			
+			for(int i=0 ; i<selectEmp.length ; i++) {
+				empIds=empIds+","+selectEmp[i];
+			}
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("month", monthyear[0]);
 			map.add("year", monthyear[1]);
+			map.add("empIds", empIds);
+			//System.out.println(map);
 			Info insertTemp = Constants.getRestTemplate().postForObject(Constants.url + "/insertPayrollIntempTable",
 					map, Info.class);
 			if (insertTemp.isError() == false) {

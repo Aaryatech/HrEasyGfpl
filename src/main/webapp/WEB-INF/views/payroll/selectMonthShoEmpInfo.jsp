@@ -90,6 +90,8 @@
 									<thead>
 										<tr class="bg-blue">
 											<th width="5%" class="text-center">Sr.no</th>
+											<th width="5%" class="text-center">All <input
+												type="checkbox" name="selectAll" id="selectAll"></th>
 											<th width="10%" class="text-center">EMP Code</th>
 											<th class="text-center">EMP Name</th>
 											<th class="text-center">EMP Type</th>
@@ -127,6 +129,8 @@
 										<c:forEach items="${empList}" var="empList" varStatus="count">
 											<tr>
 												<td>${count.index+1}</td>
+												<td><input type="checkbox" name="selectEmp"
+													id="selectEmp${empList.empId}" value="${empList.empId}"></td>
 												<td>${empList.empCode}</td>
 												<td>${empList.empName}</td>
 												<td>${empList.empTypeName}</td>
@@ -168,7 +172,7 @@
 								</table>
 							</div>
 
-							<c:if test="${date!=null}">
+							<c:if test="${date!=null && empList.size()>0}">
 								<br>
 								<div class="text-center">
 
@@ -208,27 +212,7 @@
 				dateFormat : "mm-yy"
 			});
 		});
-		$('.datepickerclass').daterangepicker({
-			singleDatePicker : true,
-			selectMonths : true,
-			selectYears : true,
-			locale : {
-				format : 'DD-MM-YYYY'
-			}
-		});
-
-		//daterange-basic_new
-		// Basic initialization
-		$('.daterange-basic_new').daterangepicker({
-			applyClass : 'bg-slate-600',
-
-			cancelClass : 'btn-light',
-			locale : {
-				format : 'DD-MM-YYYY',
-				separator : ' to '
-			}
-		});
-
+		 
 		$('#selectAll').click(function(event) {
 			if (this.checked) {
 				// Iterate each checkbox
