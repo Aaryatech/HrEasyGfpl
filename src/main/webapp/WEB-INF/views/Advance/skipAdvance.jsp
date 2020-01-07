@@ -143,7 +143,7 @@
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="advanceAmt">Date(month-year)
 											of Deduction : </label> <label class="col-form-label col-lg-2"
-											for="voucherNo"> ${advList.dedMonth} -
+											for="voucherNo"> ${monthName} &nbsp;
 											${advList.dedYear} </label>
 									</div>
 

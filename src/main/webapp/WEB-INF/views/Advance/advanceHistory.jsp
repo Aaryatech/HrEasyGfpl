@@ -245,7 +245,7 @@
 										v.voucherNo,
 										v.advDate,
 										v.advAmount,
-										v.dedMonth,
+										v.dedMonth+'-'+v.dedYear,
 										dedStr
 										 
 										]).draw();

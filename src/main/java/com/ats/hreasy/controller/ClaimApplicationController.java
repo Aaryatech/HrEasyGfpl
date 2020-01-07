@@ -98,8 +98,8 @@ public class ClaimApplicationController {
 				GetEmployeeInfo editEmp = Constants.getRestTemplate().postForObject(Constants.url + "/GetEmployeeInfo",
 						map, GetEmployeeInfo.class);
 				model.addObject("editEmp", editEmp);
-			//	System.err.println("self" + editEmp.toString());
-			//	System.err.println("oteher" + employeeDepartmentlist.toString());
+				// System.err.println("self" + editEmp.toString());
+				// System.err.println("oteher" + employeeDepartmentlist.toString());
 
 				for (int i = 0; i < employeeDepartmentlist.size(); i++) {
 					if (employeeDepartmentlist.get(i).getEmpId() == userObj.getEmpId()) {
@@ -137,7 +137,7 @@ public class ClaimApplicationController {
 				/* } */
 
 				temp.setExVar1(FormValidation.Encrypt(String.valueOf(editEmp.getEmpId())));
-			//	System.err.println("temp list is claim  " + temp.toString());
+				// System.err.println("temp list is claim " + temp.toString());
 				for (int i = 0; i < employeeDepartmentlist.size(); i++) {
 					// System.out.println("employeeDepartmentlist.get(i).getEmpId()"+employeeDepartmentlist.get(i).getEmpId());
 					employeeDepartmentlist.get(i).setExVar1(
@@ -145,7 +145,7 @@ public class ClaimApplicationController {
 				}
 
 				model.addObject("empList", employeeDepartmentlist);
-				//System.err.println("emp list is  " + employeeDepartment.toString());
+				// System.err.println("emp list is " + employeeDepartment.toString());
 				model.addObject("tempList", temp);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -165,7 +165,7 @@ public class ClaimApplicationController {
 
 			String base64encodedString = request.getParameter("empId");
 			String empId = FormValidation.DecodeKey(base64encodedString);
-		//	System.err.println("empIDDDD list " + empId);
+			// System.err.println("empIDDDD list " + empId);
 			// neew claim types
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -176,14 +176,14 @@ public class ClaimApplicationController {
 
 			List<GetEmployeeClaimStrudt> claimTypeList = new ArrayList<GetEmployeeClaimStrudt>(
 					Arrays.asList(employeeDoc));
-			//System.out.println("getEmpClaimStructure list " + claimTypeList.toString());
+			// System.out.println("getEmpClaimStructure list " + claimTypeList.toString());
 			model.addObject("claimTypeList", claimTypeList);
 			map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
 			EmployeeMaster editEmp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpInfoById", map,
 					EmployeeMaster.class);
 			model.addObject("editEmp", editEmp);
-		//	System.out.println("empInfo list " + editEmp.toString());
+			// System.out.println("empInfo list " + editEmp.toString());
 
 			/*
 			 * map = new LinkedMultiValueMap<>(); map.add("companyId",
@@ -203,7 +203,8 @@ public class ClaimApplicationController {
 					.postForObject(Constants.url + "/getAuthorityInfoByEmpId", map, AuthorityInformation.class);
 			model.addObject("authorityInformation", authorityInformation);
 
-			//System.err.println("authorityInformation is  " + authorityInformation.toString());
+			// System.err.println("authorityInformation is " +
+			// authorityInformation.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -383,7 +384,7 @@ public class ClaimApplicationController {
 
 				}
 
-			//	System.out.println("lv claimList list pending " + claimList.toString());
+				// System.out.println("lv claimList list pending " + claimList.toString());
 
 				// for Info
 
@@ -410,7 +411,7 @@ public class ClaimApplicationController {
 				model.addObject("list1Count", claimList.size());
 				model.addObject("empIdOrig", userObj.getEmpId());
 
-			///	System.out.println("lv leaveList list1 info " + claimList1.toString());
+				/// System.out.println("lv leaveList list1 info " + claimList1.toString());
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -432,7 +433,7 @@ public class ClaimApplicationController {
 			model.addObject("empId", empId);
 			model.addObject("claimId", claimId);
 			model.addObject("stat", stat);
-		//	System.out.println("empId" + empId);
+			// System.out.println("empId" + empId);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("claimId", claimId);
@@ -561,11 +562,23 @@ public class ClaimApplicationController {
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-			//System.err.println("emp data :::" + request.getParameter("empId"));
+			// System.err.println("emp data :::" + request.getParameter("empId"));
 			int empId = Integer.parseInt((request.getParameter("empId")));
 			int claimId = Integer.parseInt((request.getParameter("claimId")));
 			String stat = request.getParameter("stat");
+			String month = null;
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			int stat1 = Integer.parseInt(stat);
+			if (stat1 == 3) {
+				month = request.getParameter("date");
+				String temp[] = month.split("-");
+				map.add("month", temp[0]);
+				map.add("year", temp[1]);
+
+			} else {
+				map.add("month", 0);
+				map.add("year", 0);
+			}
 
 			String msg = null;
 			if (stat1 == 2 || stat1 == 3) {
@@ -583,14 +596,13 @@ public class ClaimApplicationController {
 				remark = "NA";
 			}
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("claimId", claimId);
 			map.add("status", stat);
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateClaimStatus", map,
 					Info.class);
 
 			if (info.isError() == false) {
-				//System.err.println("link data :::" + empId + claimId + stat);
+				// System.err.println("link data :::" + empId + claimId + stat);
 				ClaimTrail lt = new ClaimTrail();
 
 				lt.setEmpRemarks(remark);
@@ -651,7 +663,7 @@ public class ClaimApplicationController {
 		try {
 
 			int empId = Integer.parseInt(FormValidation.DecodeKey(request.getParameter("empId")));
-		//	System.err.println("emp idis " + empId);
+			// System.err.println("emp idis " + empId);
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
 
@@ -685,7 +697,7 @@ public class ClaimApplicationController {
 		try {
 
 			int claimId = Integer.parseInt(FormValidation.DecodeKey(request.getParameter("claimId")));
-			//System.err.println("claimId idis " + claimId);
+			// System.err.println("claimId idis " + claimId);
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("claimId", claimId);
 
@@ -693,7 +705,7 @@ public class ClaimApplicationController {
 					.postForObject(Constants.url + "/getClaimDetailListByEmpId", map, ClaimDetail[].class);
 
 			List<ClaimDetail> claimList1 = new ArrayList<ClaimDetail>(Arrays.asList(employeeDoc1));
-		//	System.err.println("claim list" + claimList1.toString());
+			// System.err.println("claim list" + claimList1.toString());
 
 			for (int i = 0; i < claimList1.size(); i++) {
 
@@ -940,6 +952,7 @@ public class ClaimApplicationController {
 			Date date = new Date();
 			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 			VpsImageUpload upload = new VpsImageUpload();
 
 			// int claimId = Integer.parseInt(request.getParameter("claimId"));
@@ -959,15 +972,29 @@ public class ClaimApplicationController {
 
 			if (editEmp.getFinAuthEmpId() == userObj.getEmpId()) {
 				stat = 3;
+
 			} else if (editEmp.getIniAuthEmpId() == userObj.getEmpId()) {
 				stat = 2;
 			} else {
 				stat = 1;
 			}
 
-			//System.out.println("stat is " + stat);
+			
 
 			docHead.setClaimStatus(stat);
+			String dt = docHead.getCafromDt();
+			
+			String temp[] = dt.split("-");
+		 
+ 			if (stat == 3) {
+				docHead.setMonth(Integer.parseInt(temp[1]));
+				docHead.setYear(Integer.parseInt(temp[0]));
+				docHead.setIsPaid(0);
+			} else {
+				docHead.setMonth(0);
+				docHead.setYear(0);
+				docHead.setIsPaid(0);
+			}
 
 			ClaimApplyHeader res = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/saveClaimHeaderAndDetail", docHead, ClaimApplyHeader.class);
@@ -975,7 +1002,7 @@ public class ClaimApplicationController {
 			// get Authority ids
 
 			if (res != null) {
-			//	System.out.println("claim saved success");
+				// System.out.println("claim saved success");
 				ClaimTrail lt = new ClaimTrail();
 
 				lt.setEmpRemarks(docHead.getClaimTitle());
@@ -995,10 +1022,10 @@ public class ClaimApplicationController {
 
 				ClaimTrail res1 = Constants.getRestTemplate().postForObject(Constants.url + "/saveClaimTrail", lt,
 						ClaimTrail.class);
-				//System.err.println("trail detail::" + res1.toString());
+				// System.err.println("trail detail::" + res1.toString());
 
 				if (res1.isError() == false) {
-					//System.out.println("claim trail saved success");
+					// System.out.println("claim trail saved success");
 					map = new LinkedMultiValueMap<>();
 					map.add("claimId", res.getCaHeadId());
 					map.add("trailId", res1.getClaimTrailPkey());
@@ -1165,7 +1192,7 @@ public class ClaimApplicationController {
 			model.addObject("empId", empId);
 			model.addObject("claimId", claimId);
 			model.addObject("stat", stat);
-		//	System.out.println("empId" + empId);
+			// System.out.println("empId" + empId);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("claimId", claimId);
@@ -1242,7 +1269,7 @@ public class ClaimApplicationController {
 					.postForObject(Constants.url + "/getClaimApplyDetailsByClaimId", map1, GetClaimApplyAuthwise.class);
 			// lvEmp.setClaimDate(DateConvertor.convertToDMY(lvEmp.getClaimDate()));
 			model.addObject("lvEmp", lvEmp);
-		//	System.out.println("emp leave details" + lvEmp.toString());
+			// System.out.println("emp leave details" + lvEmp.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();

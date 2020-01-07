@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -151,11 +152,12 @@ public class AdvanceAdminController {
 			SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 			String voucherNo = request.getParameter("voucherNo");
-			String month = request.getParameter("date");
-			System.err.println("month"+month);
-			String remark = request.getParameter("remark");
+ 			String remark = request.getParameter("remark");
 			String advanceAmt = request.getParameter("advanceAmt");
 			int empId = Integer.parseInt(request.getParameter("empId"));
+			
+			String month = request.getParameter("date");
+
 			String temp[]=month.split("-");
 			Boolean ret = false;
 
@@ -278,7 +280,7 @@ public class AdvanceAdminController {
 
 					empdetList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empdetList.get(i).getId())));
 					empdetList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empdetList.get(i).getEmpId())));
-
+					empdetList.get(i).setAdvDate(DateConvertor.convertToDMY(empdetList.get(i).getAdvDate()));
 				}
 
 			} catch (Exception e) {
@@ -472,7 +474,7 @@ public class AdvanceAdminController {
 				// System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
 
 				String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
-						.concat("-").concat(empPersInfo.getSurname()).concat("[")
+						.concat(empPersInfo.getSurname()).concat("-[")
 						.concat(empPersInfo.getEmpDesgn().concat("]"));
 				model.addObject("empPersInfo", empPersInfo);
 				model.addObject("empPersInfoString", empPersInfoString);
@@ -483,7 +485,8 @@ public class AdvanceAdminController {
 						Advance.class);
 				advList.setAdvDate(DateConvertor.convertToDMY(advList.getAdvDate()));
 				model.addObject("advList", advList);
-
+				String a = Month.of(advList.getDedMonth()).name();
+				model.addObject("monthName", a);
 				String skipStr = new String();
 				if (advList.getSkipId() == 0) {
 					skipStr = "-";

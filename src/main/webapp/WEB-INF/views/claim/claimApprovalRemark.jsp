@@ -7,7 +7,11 @@
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
-
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
 <body>
 
 	<!-- Main navbar -->
@@ -145,8 +149,8 @@
 									</div>
 								</div>
 
-								 
- 
+
+
 								<h6 class="card-title">Claim Detail</h6>
 								<table
 									class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
@@ -157,7 +161,7 @@
 											<th>Claim Type</th>
 											<th>Amount</th>
 											<th>Remark</th>
-										 
+
 										</tr>
 									</thead>
 									<tbody>
@@ -173,7 +177,7 @@
 												<c:forEach items="${claimTypeList}" var="claimTypeList">
 													<c:if
 														test="${claimTypeList.clmTypeId==lvTypeList.claimTypeId}">
-													 
+
 													</c:if>
 												</c:forEach>
 											</tr>
@@ -250,6 +254,21 @@
 								<form
 									action="${pageContext.request.contextPath}/approveClaimByAuth1"
 									id="submitInsertCompany" method="post">
+									<c:if test="${stat==3}">
+
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2" for="date">Select
+												Date <span style="color: red">* </span> :
+											</label>
+											<div class="col-md-10">
+												<input type="text" class="form-control "
+													placeholder="Select Date " id="datepicker" name="date"
+													value="${date}" autocomplete="off"> <span
+													class="validation-invalid-label" id="error_month"
+													style="display: none;">This field is required.</span>
+											</div>
+										</div>
+									</c:if>
 
 
 									<div class="form-group row">
@@ -263,7 +282,7 @@
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-								 
+
 									<input type="hidden" id="empId" name="empId" value="${empId}">
 									<input type="hidden" id="leaveId" name="claimId"
 										value="${claimId}"> <input type="hidden" id="stat"
@@ -380,6 +399,20 @@
 
 												}
 
+												if ($("#stat").val() == 3) {
+													if (!$("#datepicker").val()) {
+
+														isError = true;
+
+														$("#error_month")
+																.show()
+
+													} else {
+														$("#error_month")
+																.hide()
+													}
+												}
+
 												if (!isError) {
 
 													$('#clTitle1')
@@ -427,7 +460,27 @@
 
 		}
 	</script>
+	<script type="text/javascript">
+		// Single picker
+		$("#datepicker").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			yearRange : "-50:+50",
+			dateFormat : "mm-yy"
+		});
 
+		//daterange-basic_new
+		// Basic initialization
+		$('.daterange-basic_new').daterangepicker({
+			applyClass : 'bg-slate-600',
+
+			cancelClass : 'btn-light',
+			locale : {
+				format : 'DD-MM-YYYY',
+				separator : ' to '
+			}
+		});
+	</script>
 
 	<!-- Scrollable modal -->
 	<div id="modal_scrollable" class="modal fade" data-backdrop="false"
