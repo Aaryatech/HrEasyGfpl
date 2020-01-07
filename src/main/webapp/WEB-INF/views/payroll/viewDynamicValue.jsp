@@ -135,10 +135,10 @@
 											<th width="20%" class="text-center">EMP Name</th>
 											<th class="text-center">Salary STR.</th>
 											<th class="text-center">Designation</th>
+											<th class="text-center">Misc/Claim Add</th>
 											<th class="text-center">Advance</th>
 											<th class="text-center">Loan EMI</th>
 											<th class="text-center">Pay Ded</th>
-											<th class="text-center">Misc/Claim Ded</th>
 											<th class="text-center">IT Ded</th>
 											<th class="text-center">Performance Bonus</th>
 											<th class="text-center">Edit</th>
@@ -154,10 +154,10 @@
 												<td>${empList.empName}</td>
 												<td>${empList.salTypeName}</td>
 												<td>${empList.designation}</td>
+												<td class="text-right">${empList.miscExpDed}</td>
 												<td class="text-right">${empList.advanceDed}</td>
 												<td class="text-right">${empList.loanDed}</td>
-												<td class="text-right">${empList.payDed}</td>
-												<td class="text-right">${empList.miscExpDed}</td>
+												<td class="text-right">${empList.payDed}</td> 
 												<td class="text-right">${empList.itded}</td>
 												<td class="text-right">${empList.performanceBonus}</td>
 												<td class="text-center"><a href="#"
