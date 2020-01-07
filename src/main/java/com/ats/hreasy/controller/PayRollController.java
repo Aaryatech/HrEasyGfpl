@@ -122,5 +122,32 @@ public class PayRollController {
 		}
 		return getSalDynamicTempRecordById;
 	}
+	
+	@RequestMapping(value = "/saveBonusDetail", method = RequestMethod.POST)
+	public @ResponseBody Info saveBonusDetail(HttpServletRequest request, HttpServletResponse response, Model model) {
+ 
+		Info info = new Info();
+		
+		try {
+
+			int tempSalDaynamicId = Integer.parseInt(request.getParameter("tempSalDaynamicId"));
+			float itAmt =  Float.parseFloat(request.getParameter("itAmt"));
+			float perBonus =  Float.parseFloat(request.getParameter("perBonus"));
+ 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("tempSalDaynamicId", tempSalDaynamicId); 
+			map.add("itAmt", itAmt); 
+			map.add("perBonus", perBonus); 
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/updateBonusAmt",
+					map, Info.class);
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+			info = new Info();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+		return info;
+	}
 
 }

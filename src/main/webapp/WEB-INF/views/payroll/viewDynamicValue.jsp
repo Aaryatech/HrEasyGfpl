@@ -78,7 +78,7 @@
 								</div>
 							</div>
 
-							<div class="form-group row">
+							<!-- <div class="form-group row">
 								<label class="col-form-label col-lg-2" for="comnt">
 									Comments : </label>
 								<div class="col-lg-2">
@@ -86,7 +86,7 @@
 										id="comnt" name="comnt" autocomplete="off">
 
 								</div>
-							</div>
+							</div> -->
 
 							<div class="col-md-12 text-center">
 								<button type="submit" class="btn bg-blue ml-3 legitRipple"
@@ -266,8 +266,38 @@
 		
 		function saveBonusDetail() {
 			  
-			location.reload(true);
+			var tempSalDaynamicId = document.getElementById("tempSalDaynamicId").value;  
+			var itAmt = document.getElementById("itAmt").value;  
+			var perBonus = document.getElementById("perBonus").value; 
+			var flag=0;
+			if(itAmt==""){
+				alert("Enter IT Ammount");
+				flag=1;
+			}else if(perBonus==""){
+				alert("Enter Bonus Ammount");
+				flag=1;
+			}
+			
+			if(flag==0){
+				var fd = new FormData();
+				fd.append('tempSalDaynamicId', tempSalDaynamicId);
+				fd.append('itAmt', itAmt);
+				fd.append('perBonus', perBonus); 
+				
+				  $
+				.ajax({
+					url : '${pageContext.request.contextPath}/saveBonusDetail',
+					type : 'post',
+					dataType : 'json',
+					data : fd,
+					contentType : false,
+					processData : false,
+					success : function(response) {
 
+						location.reload(true);
+					},
+				}); 
+			}
 			}
 	</script>
 </body>
