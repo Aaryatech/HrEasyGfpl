@@ -99,8 +99,7 @@
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
 									<th>Claim Title</th>
-									<th>Project</th>
-									<th>From Date</th>
+ 									<th>From Date</th>
 									<th>To Date</th>
 									<th>Total Amount</th>
 									<th>Status</th>
@@ -117,8 +116,7 @@
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${lvTypeList.claimTitle}</td>
-										<td>${lvTypeList.projectTitle}</td>
-										<td>${lvTypeList.claimFromDate}</td>
+ 										<td>${lvTypeList.claimFromDate}</td>
 										<td>${lvTypeList.claimToDate}</td>
 										<td>${lvTypeList.claimAmount}</td>
 										<c:if test="${lvTypeList.claimFinalStatus==1}">
