@@ -154,10 +154,10 @@
 												<td>${empList.empName}</td>
 												<td>${empList.salTypeName}</td>
 												<td>${empList.designation}</td>
-												<td class="text-right">${empList.miscExpDed}</td>
+												<td class="text-right">${empList.miscExpAdd}</td>
 												<td class="text-right">${empList.advanceDed}</td>
 												<td class="text-right">${empList.loanDed}</td>
-												<td class="text-right">${empList.payDed}</td> 
+												<td class="text-right">${empList.payDed}</td>
 												<td class="text-right">${empList.itded}</td>
 												<td class="text-right">${empList.performanceBonus}</td>
 												<td class="text-center"><a href="#"
