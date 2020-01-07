@@ -53,7 +53,7 @@ public class PayRollController {
 
 				model.addAttribute("empList", list);
 				model.addAttribute("allownceList", payRollDataForProcessing.getAllowancelist());
-				System.out.println(payRollDataForProcessing.getList());
+				//System.out.println(payRollDataForProcessing.getList());
 			} else {
 				Allowances[] allowances = Constants.getRestTemplate().getForObject(Constants.url + "/getAllAllowances",
 						Allowances[].class);
@@ -83,11 +83,10 @@ public class PayRollController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("month", monthyear[0]);
 			map.add("year", monthyear[1]);
-			EmpSalaryInfoForPayroll[] empSalaryInfoForPayroll = Constants.getRestTemplate().postForObject(
-					Constants.url + "/getEmployeeListWithEmpSalEnfoForPayRoll", map, EmpSalaryInfoForPayroll[].class);
-			List<EmpSalaryInfoForPayroll> list = new ArrayList<EmpSalaryInfoForPayroll>(
-					Arrays.asList(empSalaryInfoForPayroll));
-			model.addAttribute("empList", list);
+			Info insertTemp = Constants.getRestTemplate().postForObject(
+					Constants.url + "/insertPayrollIntempTable", map, Info.class);
+			 
+			//model.addAttribute("empList", list);
 
 		} catch (Exception e) {
 			e.printStackTrace();

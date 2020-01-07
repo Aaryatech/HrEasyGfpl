@@ -2,7 +2,6 @@ package com.ats.hreasy.model;
 
 import java.util.List;
  
-
 public class EmpSalaryInfoForPayroll {
 	 
 	private int empId; 
@@ -46,7 +45,13 @@ public class EmpSalaryInfoForPayroll {
 	private String designation;	 
 	private String deptName; 	
 	private String empName;
-	private String locName;
+	private String locName; 
+	private int empTypeId; 
+	private int locId; 
+	private int departId; 
+	private int contractorId; 
+	private int desigId; 
+	private int sumId;
 	List<EmpAllowanceList> empAllowanceList;
 	
 	
@@ -302,6 +307,49 @@ public class EmpSalaryInfoForPayroll {
 	public void setLocName(String locName) {
 		this.locName = locName;
 	}
+	 
+	public int getEmpTypeId() {
+		return empTypeId;
+	}
+	public void setEmpTypeId(int empTypeId) {
+		this.empTypeId = empTypeId;
+	}
+	public int getLocId() {
+		return locId;
+	}
+	public void setLocId(int locId) {
+		this.locId = locId;
+	}
+	public int getDepartId() {
+		return departId;
+	}
+	public void setDepartId(int departId) {
+		this.departId = departId;
+	}
+	public int getContractorId() {
+		return contractorId;
+	}
+	public void setContractorId(int contractorId) {
+		this.contractorId = contractorId;
+	}
+	public int getDesigId() {
+		return desigId;
+	}
+	public void setDesigId(int desigId) {
+		this.desigId = desigId;
+	}
+	public int getSumId() {
+		return sumId;
+	}
+	public void setSumId(int sumId) {
+		this.sumId = sumId;
+	}
+	public List<EmpAllowanceList> getEmpAllowanceList() {
+		return empAllowanceList;
+	}
+	public void setEmpAllowanceList(List<EmpAllowanceList> empAllowanceList) {
+		this.empAllowanceList = empAllowanceList;
+	}
 	@Override
 	public String toString() {
 		return "EmpSalaryInfoForPayroll [empId=" + empId + ", salaryInfoId=" + salaryInfoId + ", salaryTypeId="
@@ -318,15 +366,10 @@ public class EmpSalaryInfoForPayroll {
 				+ employerEsicPercentage + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
 				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", empCode=" + empCode + ", empTypeName=" + empTypeName
 				+ ", salTypeName=" + salTypeName + ", designation=" + designation + ", deptName=" + deptName
-				+ ", empName=" + empName + ", locName=" + locName + ", empAllowanceList=" + empAllowanceList + "]";
+				+ ", empName=" + empName + ", locName=" + locName + ", empTypeId=" + empTypeId + ", locId=" + locId
+				+ ", departId=" + departId + ", contractorId=" + contractorId + ", desigId=" + desigId + ", sumId="
+				+ sumId + ", empAllowanceList=" + empAllowanceList + "]";
 	}
-	public List<EmpAllowanceList> getEmpAllowanceList() {
-		return empAllowanceList;
-	}
-	public void setEmpAllowanceList(List<EmpAllowanceList> empAllowanceList) {
-		this.empAllowanceList = empAllowanceList;
-	}
-	
-	
+	 
 
 }

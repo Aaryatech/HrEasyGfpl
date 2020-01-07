@@ -152,7 +152,7 @@
 												<td>${empList.empCode}</td>
 												<td>${empList.empCode}</td> --%>
 												<c:forEach items="${allownceList}" var="allownceList">
-													<th class="text-center"><c:forEach
+													<th class="text-right"><c:forEach
 															items="${empList.empAllowanceList}"
 															var="empAllowanceList">
 															<c:if

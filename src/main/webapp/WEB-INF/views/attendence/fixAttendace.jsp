@@ -75,9 +75,7 @@
 									Submit <i class="icon-paperplane ml-2"></i>
 								</button>
 
-							</div>
-							<span style="color: red">*Note : Leaves Sanction All
-								Leaves If Pending.</span><br>
+							</div> 
 							<div id="loader" style="display: none;">
 								<img
 									src="${pageContext.request.contextPath}/resources/assets/images/giphy.gif"
@@ -134,6 +132,38 @@
 
 	</div>
 	<!-- /page content -->
+
+
+	<!-- Modal -->
+	<!-- Info modal -->
+	<div id="myModal_checklist" class="modal fade " data-backdrop="false"
+		tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h6 class="modal-title">Checklist</h6>
+					<!-- <button type="button" class="close" data-dismiss="modal">&times;</button>  -->
+				</div>
+
+				<div class="modal-body">
+					<h6 class="font-weight-semibold text-center">
+						*Note : Leaves Sanction All Leaves If Pending.<br> *Note :
+						All Attendance Are Uploaded for Employee.
+					</h6>
+
+
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /info modal -->
+
+
 	<script type="text/javascript">
 		// Single picker
 		$('.datepickerclass').daterangepicker({
@@ -168,6 +198,11 @@
 					this.checked = false;
 				});
 			}
+		});
+	</script>
+	<script type="text/javascript">
+		$(window).on('load', function() {
+			$('#myModal_checklist').modal('show');
 		});
 	</script>
 </body>
