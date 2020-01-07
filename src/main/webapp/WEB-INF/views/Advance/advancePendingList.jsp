@@ -128,7 +128,7 @@
 										<td>${empdetList.advDate}</td>
 										<td>${empdetList.advAmount}</td>
 										<td>${empdetList.advRemainingAmount}</td>
-										<td>${empdetList.dedMonth}</td>
+										<td>${empdetList.dedMonth}-${empdetList.dedYear}</td>
 										<td>${empdetList.isDed==1 ? 'Yes':empdetList.isDed==0 ? 'No' : ''}</td>
 
 

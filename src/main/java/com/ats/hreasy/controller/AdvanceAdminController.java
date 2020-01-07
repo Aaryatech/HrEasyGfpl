@@ -3,7 +3,7 @@ package com.ats.hreasy.controller;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -151,11 +151,12 @@ public class AdvanceAdminController {
 			SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 			String voucherNo = request.getParameter("voucherNo");
-			String month = request.getParameter("month");
+			String month = request.getParameter("date");
+			System.err.println("month"+month);
 			String remark = request.getParameter("remark");
 			String advanceAmt = request.getParameter("advanceAmt");
 			int empId = Integer.parseInt(request.getParameter("empId"));
-
+			String temp[]=month.split("-");
 			Boolean ret = false;
 
 			if (FormValidation.Validaton(voucherNo, "") == true) {
@@ -188,8 +189,8 @@ public class AdvanceAdminController {
 				adv.setAdvRemarks(remark);
 				adv.setCmpId(1);
 				adv.setEmpId(empId);
-				adv.setDedMonth(sf.format(date));
-				adv.setDedYear(sf.format(date));
+				adv.setDedMonth(Integer.parseInt(temp[0]));
+				adv.setDedYear(Integer.parseInt(temp[1]));
 				adv.setExInt1(0);
 				adv.setExInt2(0);
 				adv.setExVar1("NA");
@@ -471,7 +472,7 @@ public class AdvanceAdminController {
 				// System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
 
 				String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
-						.concat(" ").concat(empPersInfo.getSurname()).concat("[")
+						.concat("-").concat(empPersInfo.getSurname()).concat("[")
 						.concat(empPersInfo.getEmpDesgn().concat("]"));
 				model.addObject("empPersInfo", empPersInfo);
 				model.addObject("empPersInfoString", empPersInfoString);
@@ -480,7 +481,7 @@ public class AdvanceAdminController {
 				map.add("advId", advId);
 				Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
 						Advance.class);
-
+				advList.setAdvDate(DateConvertor.convertToDMY(advList.getAdvDate()));
 				model.addObject("advList", advList);
 
 				String skipStr = new String();
@@ -547,6 +548,17 @@ public class AdvanceAdminController {
 				Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
 						Advance.class);
 
+				String  dedMonth=String.valueOf(advList.getDedMonth());
+				String dedYear=String.valueOf(advList.getDedYear());
+				
+				if (dedMonth.length() == 1) {
+					dedMonth = "0".concat(dedMonth);
+				}  
+				String tempDate="01-".concat(dedMonth).concat("-").concat(dedYear);
+				LocalDate localDate = LocalDate.parse(DateConvertor.convertToYMD(tempDate));
+ 				LocalDate oneMonthLater = localDate.plusMonths(1);
+				
+				
 				Boolean ret = false;
 
 				if (FormValidation.Validaton(remark, "") == true) {
@@ -570,6 +582,8 @@ public class AdvanceAdminController {
 					map.add("skipStr", skipStr);
 					map.add("count", count);
 					map.add("advId", advId);
+					map.add("dedMonth", oneMonthLater.getMonthValue());
+					map.add("dedYear", oneMonthLater.getYear());
 					Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSkipAdvance", map,
 							Info.class);
 

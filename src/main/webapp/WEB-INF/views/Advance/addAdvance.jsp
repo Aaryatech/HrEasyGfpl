@@ -1,13 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
-	<c:url value="/checkVoucherNo" var="checkVoucherNo"></c:url>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
+<c:url value="/checkVoucherNo" var="checkVoucherNo"></c:url>
 <body>
 
 	<!-- Main navbar -->
@@ -134,10 +139,11 @@
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Voucher Number" id="voucherNo"
-												name="voucherNo" autocomplete="off" onchange="uniqueVoucherNum()">
-											<span class="validation-invalid-label" id="error_voucherNo"
-												style="display: none;">This field is required.</span>
-												<span class="validation-invalid-label" id="error_voucherNo1"
+												name="voucherNo" autocomplete="off"
+												onchange="uniqueVoucherNum()"> <span
+												class="validation-invalid-label" id="error_voucherNo"
+												style="display: none;">This field is required.</span> <span
+												class="validation-invalid-label" id="error_voucherNo1"
 												style="display: none;">Voucher No. Already Exists</span>
 
 										</div>
@@ -156,7 +162,7 @@
 										</div>
 									</div>
 
-									<div class="form-group row">
+									<!-- <div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">Month
 											<span style="color: red">* </span>:
 										</label>
@@ -167,18 +173,31 @@
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
+									 -->
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="date">Select
+											Date <span style="color: red">* </span> :
+										</label>
+										<div class="col-md-10">
+											<input type="text" class="form-control "
+												placeholder="Select Date " id="datepicker" name="date"
+												value="${date}" autocomplete="off"> <span
+												class="validation-invalid-label" id="error_month"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
 
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="remark">
+										<label class="col-form-label col-lg-2" for="reason">
 											Remark <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-4">
 											<textarea class="form-control"
-												placeholder="Enter Reason / Remark" id="remark"
+												placeholder="Enter Reason / Remark" id="reason"
 												name="remark" autocomplete="off" onchange="trim(this)"> </textarea>
-											<span class="validation-invalid-label" id="error_remark"
+											<span class="validation-invalid-label" id="error_reason"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
@@ -276,7 +295,7 @@
 					$("#error_voucherNo").hide()
 				}
 
-				if (!$("#month").val()) {
+				if (!$("#datepicker").val()) {
 
 					isError = true;
 
@@ -285,14 +304,14 @@
 				} else {
 					$("#error_month").hide()
 				}
-				if (!$("#remark").val()) {
+				if (!$("#reason").val()) {
 
 					isError = true;
 
-					$("#error_remark").show()
+					$("#error_reason").show()
 
 				} else {
-					$("#error_remark").hide()
+					$("#error_reason").hide()
 				}
 				if (!$("#advanceAmt").val()) {
 
@@ -318,6 +337,28 @@
 			});
 		});
 		//
+	</script>
+
+	<script type="text/javascript">
+		// Single picker
+		$("#datepicker").datepicker({
+			changeMonth : true,
+			changeYear : true,
+			yearRange : "-50:+50",
+			dateFormat : "mm-yy"
+		});
+
+		//daterange-basic_new
+		// Basic initialization
+		$('.daterange-basic_new').daterangepicker({
+			applyClass : 'bg-slate-600',
+
+			cancelClass : 'btn-light',
+			locale : {
+				format : 'DD-MM-YYYY',
+				separator : ' to '
+			}
+		});
 	</script>
 
 	<!-- <script type="text/javascript">

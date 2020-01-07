@@ -5,8 +5,7 @@ package com.ats.hreasy.model.Advance;
 public class Advance {
 	
 
-	 
-	private int id;
+private int id;
 	
 	private int cmpId; 
 	
@@ -22,8 +21,7 @@ public class Advance {
  	
 	private String advRemarks;
  	
-	private String dedMonth ;
-	private String dedYear ;
+	private int dedMonth ;
  	
  	private int isDed ;
  	
@@ -39,9 +37,10 @@ public class Advance {
  	
  	private String skipLoginTime ;
  	
+	private int dedYear ;
  	
  	private String skipRemarks ;
-	
+ 	
 	private int exInt1;
 	
 	private int exInt2;
@@ -64,17 +63,9 @@ public class Advance {
 	public void setDelStatus(int delStatus) {
 		this.delStatus = delStatus;
 	}
-	
 
 
-	public String getDedYear() {
-		return dedYear;
-	}
-
-
-	public void setDedYear(String dedYear) {
-		this.dedYear = dedYear;
-	}
+ 
 
 
 	public int getExInt1() {
@@ -196,15 +187,7 @@ public class Advance {
 		this.advRemarks = advRemarks;
 	}
 
-
-	public String getDedMonth() {
-		return dedMonth;
-	}
-
-
-	public void setDedMonth(String dedMonth) {
-		this.dedMonth = dedMonth;
-	}
+ 
 
 
 	public int getIsDed() {
@@ -287,19 +270,37 @@ public class Advance {
 	}
 
 
+	public int getDedMonth() {
+		return dedMonth;
+	}
+
+
+	public void setDedMonth(int dedMonth) {
+		this.dedMonth = dedMonth;
+	}
+
+
+	public int getDedYear() {
+		return dedYear;
+	}
+
+
+	public void setDedYear(int dedYear) {
+		this.dedYear = dedYear;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Advance [id=" + id + ", cmpId=" + cmpId + ", empId=" + empId + ", voucherNo=" + voucherNo + ", advDate="
 				+ advDate + ", advAmount=" + advAmount + ", advRemainingAmount=" + advRemainingAmount + ", advRemarks="
-				+ advRemarks + ", dedMonth=" + dedMonth + ", dedYear=" + dedYear + ", isDed=" + isDed + ", isUsed="
-				+ isUsed + ", loginName=" + loginName + ", loginTime=" + loginTime + ", skipId=" + skipId
-				+ ", skipLoginName=" + skipLoginName + ", skipLoginTime=" + skipLoginTime + ", skipRemarks="
-				+ skipRemarks + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2="
-				+ exVar2 + ", delStatus=" + delStatus + "]";
+				+ advRemarks + ", dedMonth=" + dedMonth + ", isDed=" + isDed + ", isUsed=" + isUsed + ", loginName="
+				+ loginName + ", loginTime=" + loginTime + ", skipId=" + skipId + ", skipLoginName=" + skipLoginName
+				+ ", skipLoginTime=" + skipLoginTime + ", dedYear=" + dedYear + ", skipRemarks=" + skipRemarks
+				+ ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ ", delStatus=" + delStatus + "]";
 	}
 
-
- 
 	
 
 }
