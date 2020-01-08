@@ -32,6 +32,7 @@ import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.ShiftMaster;
 import com.ats.hreasy.model.Bonus.BonusCalc;
 import com.ats.hreasy.model.Bonus.BonusMaster;
+import com.ats.hreasy.model.claim.ClaimProof;
 
 @Controller
 @Scope("session")
@@ -196,7 +197,7 @@ public class BonusAdminController {
 					for (int j = 0; j < bonusCalcList.size(); j++) {
 
 						if (bonusList.get(i).getBonusId() == bonusCalcList.get(j).getBonusId()) {
-							//System.err.println("matched bonus id " + bonusList.get(i).getBonusId());
+							// System.err.println("matched bonus id " + bonusList.get(i).getBonusId());
 
 							flag = 1;
 							break;
@@ -448,7 +449,7 @@ public class BonusAdminController {
 			try {
 
 				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getAllEmployeeDetailForBonus", GetEmployeeDetails[].class);
+						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
 
 				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
 				model.addAttribute("empdetList", empdetList);
@@ -472,11 +473,13 @@ public class BonusAdminController {
 	public String submitAssignBonusToEmp(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
-
+		//String retString = null;
+		String a = null;
+		String bonusId = null;
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
 
-			String bonusId = null;
+		
 			try {
 				bonusId = request.getParameter("bonusId");
 			} catch (Exception e) {
@@ -514,13 +517,51 @@ public class BonusAdminController {
 			map.add("userId", userObj.getEmpId());
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empBonusSave", map, Info.class);
+			System.err.println("info" + info.toString());
+			if (info.isError() == false) {
+				//retString = info.getMsg();
+				session.setAttribute("successMsg", "Data Inserted Successfully");
 
+				a = "redirect:/showAddBonusNextStep?bonusId=" + FormValidation.Encrypt(bonusId);
+			} else {
+				session.setAttribute("successMsg", "Failed to Insert Data");
+				a = "redirect:/showEmpListToAssignBonus";
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
 			e.printStackTrace();
 		}
 
-		return "redirect:/showEmpListToAssignBonus";
+		return a;
+	}
+
+	@RequestMapping(value = "/showAddBonusNextStep", method = RequestMethod.GET)
+	public ModelAndView showClaimProofAgain(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("Bonus/BonusCalcList");
+		int  bonusId =Integer.parseInt( (FormValidation.DecodeKey(request.getParameter("bonusId"))));
+		/*
+		 * String strArray[] = retString.split(" "); List<Integer> calcIdList = new
+		 * ArrayList<>(); for (int i = 0; i < strArray.length; i++) {
+		 * calcIdList.add(Integer.parseInt(strArray[i]));
+		 * System.out.println("  id are**" + strArray[i]); }
+		 */
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("bonusId", bonusId);
+
+			BonusCalc[] employeeDoc1 = Constants.getRestTemplate().postForObject(Constants.url + "/getBonusCalcList",
+					map, BonusCalc[].class);
+
+			List<BonusCalc> claimProofList1 = new ArrayList<BonusCalc>(Arrays.asList(employeeDoc1));
+			/// System.err.println("claimProofList1 list" + claimProofList1.toString());
+
+			model.addObject("bonusCalcList", claimProofList1);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
 	}
 
 }
