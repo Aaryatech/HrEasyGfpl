@@ -109,7 +109,8 @@
 							<tbody>
 
 
-								<c:forEach items="${bonusList}" var="bonusList" varStatus="count">
+								<c:forEach items="${bonusList}" var="bonusList"
+									varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${bonusList.fyTitle}</td>
@@ -125,12 +126,13 @@
 													data-popup="tooltip" title="" data-original-title="Edit"><i
 													class="icon-pencil7"></i></a>
 											</c:if> <c:if test="${deleteAccess == 0}">
-											 <c:if test="${bonusList.exInt2==0}">
-												<a href="javascript:void(0)"
-													class="list-icons-item text-danger-600 bootbox_custom"
-													data-uuid="${bonusList.exVar1}" data-popup="tooltip"
-													title="" data-original-title="Delete"><i
-													class="bonusListicon-trash"></i></a></c:if>
+												<c:if test="${bonusList.exInt2 == 0}">
+													<a href="javascript:void(0)"
+														class="list-icons-item text-danger-600 bootbox_custom"
+														data-uuid="${bonusList.exVar1}" data-popup="tooltip"
+														title="" data-original-title="Delete"><i
+														class="icon-trash"></i></a>
+												</c:if>
 											</c:if></td>
 									</tr>
 								</c:forEach>

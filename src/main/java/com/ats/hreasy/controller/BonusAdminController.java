@@ -192,20 +192,25 @@ public class BonusAdminController {
 
 				List<BonusCalc> bonusCalcList = new ArrayList<BonusCalc>(Arrays.asList(bonusCalc));
 				for (int i = 0; i < bonusList.size(); i++) {
-
+					int flag = 0;
 					for (int j = 0; j < bonusCalcList.size(); j++) {
 
 						if (bonusList.get(i).getBonusId() == bonusCalcList.get(j).getBonusId()) {
-							bonusList.get(i).setExInt2(1);
-						} else {
-							bonusList.get(i).setExInt2(0);
+							//System.err.println("matched bonus id " + bonusList.get(i).getBonusId());
+
+							flag = 1;
+							break;
 						}
 
+					}
+					if (flag == 1) {
+						bonusList.get(i).setExInt2(1);
 					}
 
 				}
 
 				model.addObject("bonusList", bonusList);
+				System.err.println("bonus list" + bonusList.toString());
 				Info add = AcessController.checkAccess("showBonusList", "showBonusList", 0, 1, 0, 0, newModuleList);
 				Info edit = AcessController.checkAccess("showBonusList", "showBonusList", 0, 0, 1, 0, newModuleList);
 				Info delete = AcessController.checkAccess("showBonusList", "showBonusList", 0, 0, 0, 1, newModuleList);
@@ -443,7 +448,7 @@ public class BonusAdminController {
 			try {
 
 				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+						.getForObject(Constants.url + "/getAllEmployeeDetailForBonus", GetEmployeeDetails[].class);
 
 				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
 				model.addAttribute("empdetList", empdetList);
@@ -462,13 +467,12 @@ public class BonusAdminController {
 		}
 		return mav;
 	}
-	
-	
+
 	@RequestMapping(value = "/submitAssignBonusToEmp", method = RequestMethod.POST)
 	public String submitAssignBonusToEmp(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
- 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
- 		
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
 
@@ -505,19 +509,18 @@ public class BonusAdminController {
 			// System.out.println("shiftId id are**" + shiftId);
 
 			map.add("empIdList", items);
-			map.add("bonusId",Integer.parseInt(bonusId));
+			map.add("bonusId", Integer.parseInt(bonusId));
 			map.add("companyId", 1);
 			map.add("userId", userObj.getEmpId());
- 
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empBonusSave", map,
-					Info.class);
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empBonusSave", map, Info.class);
 
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
 			e.printStackTrace();
 		}
 
-		return "redirect:/showEmpListToAssignShift";
+		return "redirect:/showEmpListToAssignBonus";
 	}
 
 }
