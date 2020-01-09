@@ -135,6 +135,20 @@
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
+									
+									
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="shiftName">Exgratia 
+											% <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control"
+												placeholder="E.g. Exgratia %" id="exgratiaPrcnt" name="exgratiaPrcnt"  value="${editBonus.exgratiaPercentage}"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_exgratiaPrcnt"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="lvngReson">Remark<span

@@ -140,6 +140,19 @@
 										</div>
 									</div>
 									
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="shiftName">Exgratia 
+											% <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control"
+												placeholder="E.g. Exgratia %" id="exgratiaPrcnt" name="exgratiaPrcnt"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_exgratiaPrcnt"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
+									
 										<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="shiftName">Min Days
 										  <span style="color: red">* </span>:
@@ -251,6 +264,15 @@
 					$("#error_bonusPrcnt").show()
 				} else {
 					$("#error_bonusPrcnt").hide()
+				}
+				
+				if (!$("#exgratiaPrcnt").val()) {
+
+					isError = true;
+
+					$("#error_exgratiaPrcnt").show()
+				} else {
+					$("#error_exgratiaPrcnt").hide()
 				}
 				
 				if (!$("#minDays").val()) {

@@ -101,7 +101,8 @@
 									<th>Title</th>
 									<th>From Date</th>
 									<th>To Date</th>
-									<th>Percentage</th>
+									<th>Bonus Percentage</th>
+									<th>Exgratia Percentage</th>
 									<th>Remarks</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
@@ -117,22 +118,24 @@
 										<td>${bonusList.fyFromdt}</td>
 										<td>${bonusList.fyTodt}</td>
 										<td>${bonusList.bonusPercentage}</td>
+										<td>${bonusList.exgratiaPercentage}</td>
 										<td>${bonusList.remark}</td>
 
 										<td class="text-center"><c:if test="${editAccess == 0}">
+									<%-- 	<c:if test="${bonusList.exInt2 == 0}"> --%>
 												<a
 													href="${pageContext.request.contextPath}/editBonus?bonusId=${bonusList.exVar1}"
 													class="list-icons-item text-primary-600"
 													data-popup="tooltip" title="" data-original-title="Edit"><i
 													class="icon-pencil7"></i></a>
-											</c:if> <c:if test="${deleteAccess == 0}">
-												<c:if test="${bonusList.exInt2 == 0}">
+											<%-- </c:if> --%></c:if> <c:if test="${deleteAccess == 0}">
+												<%-- <c:if test="${bonusList.exInt2 == 0}"> --%>
 													<a href="javascript:void(0)"
 														class="list-icons-item text-danger-600 bootbox_custom"
 														data-uuid="${bonusList.exVar1}" data-popup="tooltip"
 														title="" data-original-title="Delete"><i
 														class="icon-trash"></i></a>
-												</c:if>
+												<%-- </c:if> --%>
 											</c:if></td>
 									</tr>
 								</c:forEach>

@@ -1,7 +1,5 @@
 package com.ats.hreasy.model.Bonus;
 
- 
- 
 public class BonusMaster {
 
 	private int bonusId;
@@ -24,9 +22,25 @@ public class BonusMaster {
 	private String exVar1;;
 	private String exVar2;
 
- 	private boolean error;
- 	
- 	private int minDays ;
+	private boolean error;
+
+	private int minDays;
+
+	private double exgratiaPercentage;
+
+	private int bonusAppBelowAmount;
+
+	private int bonusAppBelowApplicable;
+
+	private int bonusSealingLimitApplicable;
+
+	private int bonuSealingLimitAmountPerMonth;
+
+	private int dedBonusPujaAmtPercentage;
+
+	private int dedBonusAdvAmtPercentage;
+
+	private int dedBonusLossAmtPercentage;
 
 	public int getBonusId() {
 		return bonusId;
@@ -44,7 +58,6 @@ public class BonusMaster {
 		this.fyTitle = fyTitle;
 	}
 
-	 
 	public String getFyFromdt() {
 		return fyFromdt;
 	}
@@ -141,15 +154,83 @@ public class BonusMaster {
 		this.minDays = minDays;
 	}
 
+	public double getExgratiaPercentage() {
+		return exgratiaPercentage;
+	}
+
+	public void setExgratiaPercentage(double exgratiaPercentage) {
+		this.exgratiaPercentage = exgratiaPercentage;
+	}
+
+	public int getBonusAppBelowAmount() {
+		return bonusAppBelowAmount;
+	}
+
+	public void setBonusAppBelowAmount(int bonusAppBelowAmount) {
+		this.bonusAppBelowAmount = bonusAppBelowAmount;
+	}
+
+	public int getBonusAppBelowApplicable() {
+		return bonusAppBelowApplicable;
+	}
+
+	public void setBonusAppBelowApplicable(int bonusAppBelowApplicable) {
+		this.bonusAppBelowApplicable = bonusAppBelowApplicable;
+	}
+
+	 
+
+	public int getBonusSealingLimitApplicable() {
+		return bonusSealingLimitApplicable;
+	}
+
+	public void setBonusSealingLimitApplicable(int bonusSealingLimitApplicable) {
+		this.bonusSealingLimitApplicable = bonusSealingLimitApplicable;
+	}
+
+	public int getBonuSealingLimitAmountPerMonth() {
+		return bonuSealingLimitAmountPerMonth;
+	}
+
+	public void setBonuSealingLimitAmountPerMonth(int bonuSealingLimitAmountPerMonth) {
+		this.bonuSealingLimitAmountPerMonth = bonuSealingLimitAmountPerMonth;
+	}
+
+	public int getDedBonusPujaAmtPercentage() {
+		return dedBonusPujaAmtPercentage;
+	}
+
+	public void setDedBonusPujaAmtPercentage(int dedBonusPujaAmtPercentage) {
+		this.dedBonusPujaAmtPercentage = dedBonusPujaAmtPercentage;
+	}
+
+	public int getDedBonusAdvAmtPercentage() {
+		return dedBonusAdvAmtPercentage;
+	}
+
+	public void setDedBonusAdvAmtPercentage(int dedBonusAdvAmtPercentage) {
+		this.dedBonusAdvAmtPercentage = dedBonusAdvAmtPercentage;
+	}
+
+	public int getDedBonusLossAmtPercentage() {
+		return dedBonusLossAmtPercentage;
+	}
+
+	public void setDedBonusLossAmtPercentage(int dedBonusLossAmtPercentage) {
+		this.dedBonusLossAmtPercentage = dedBonusLossAmtPercentage;
+	}
+
 	@Override
 	public String toString() {
 		return "BonusMaster [bonusId=" + bonusId + ", fyTitle=" + fyTitle + ", fyFromdt=" + fyFromdt + ", fyTodt="
 				+ fyTodt + ", isCurrent=" + isCurrent + ", remark=" + remark + ", bonusPercentage=" + bonusPercentage
 				+ ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1
-				+ ", exVar2=" + exVar2 + ", error=" + error + ", minDays=" + minDays + "]";
+				+ ", exVar2=" + exVar2 + ", error=" + error + ", minDays=" + minDays + ", exgratiaPercentage="
+				+ exgratiaPercentage + ", bonusAppBelowAmount=" + bonusAppBelowAmount + ", bonusAppBelowApplicable="
+				+ bonusAppBelowApplicable + ", bonusAealingLimitApplicable=" + bonusSealingLimitApplicable
+				+ ", bonuSealingLimitAmountPerMonth=" + bonuSealingLimitAmountPerMonth + ", dedBonusPujaAmtPercentage="
+				+ dedBonusPujaAmtPercentage + ", dedBonusAdvAmtPercentage=" + dedBonusAdvAmtPercentage
+				+ ", dedBonusLossAmtPercentage=" + dedBonusLossAmtPercentage + "]";
 	}
-
- 
-	 
 
 }

@@ -90,6 +90,7 @@ public class BonusAdminController {
 				String leaveDateRange = request.getParameter("leaveDateRange");
 				String bonusTitle = request.getParameter("bonusTitle");
 				String bonusPrcnt = request.getParameter("bonusPrcnt");
+			
 				String minDays = request.getParameter("minDays");
 
 				String bonusRemark = new String();
@@ -112,10 +113,17 @@ public class BonusAdminController {
 					ret = true;
 					System.out.println("bonusTitle" + ret);
 				}
+				
 				if (FormValidation.Validaton(bonusPrcnt, "") == true) {
 
 					ret = true;
 					System.out.println("bonusPrcnt" + ret);
+				}
+				String exgratiaPrcnt = request.getParameter("exgratiaPrcnt");
+				if (FormValidation.Validaton(exgratiaPrcnt, "") == true) {
+
+					ret = true;
+					System.out.println("exgratiaPrcnt" + ret);
 				}
 
 				if (FormValidation.Validaton(minDays, "") == true) {
@@ -139,6 +147,12 @@ public class BonusAdminController {
 					bonus.setFyTodt(arrOfStr[1].toString().trim());
 					bonus.setIsCurrent(1);
 					bonus.setRemark(bonusRemark);
+					bonus.setBonusAppBelowAmount(0);
+					bonus.setBonusAppBelowApplicable(0);
+					bonus.setBonuSealingLimitAmountPerMonth(0);
+					bonus.setBonusSealingLimitApplicable(0);
+					bonus.setDedBonusAdvAmtPercentage(0);
+					bonus.setExgratiaPercentage(Double.parseDouble(exgratiaPrcnt));
 
 					BonusMaster res = Constants.getRestTemplate().postForObject(Constants.url + "/saveBonus", bonus,
 							BonusMaster.class);
@@ -383,6 +397,13 @@ public class BonusAdminController {
 					bonusRemark = "";
 				}
 
+				String exgratiaPrcnt = request.getParameter("exgratiaPrcnt");
+				if (FormValidation.Validaton(exgratiaPrcnt, "") == true) {
+
+					ret = true;
+					System.out.println("exgratiaPrcnt" + ret);
+				}
+
 				if (FormValidation.Validaton(leaveDateRange, "") == true) {
 
 					ret = true;
@@ -402,6 +423,7 @@ public class BonusAdminController {
 				if (ret == false) {
 
 					editBonus.setBonusPercentage(Double.parseDouble(bonusPrcnt));
+					editBonus.setExgratiaPercentage(Double.parseDouble(exgratiaPrcnt));
 					/*
 					 * editBonus.setDelStatus(1); editBonus.setExInt1(0); editBonus.setExInt2(0);
 					 * editBonus.setExVar1("NA"); editBonus.setExVar2("NA");
