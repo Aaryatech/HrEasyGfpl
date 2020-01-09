@@ -30,6 +30,7 @@ import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.ShiftMaster;
+import com.ats.hreasy.model.Bonus.BonusApplicable;
 import com.ats.hreasy.model.Bonus.BonusCalc;
 import com.ats.hreasy.model.Bonus.BonusMaster;
 import com.ats.hreasy.model.claim.ClaimProof;
@@ -473,13 +474,12 @@ public class BonusAdminController {
 	public String submitAssignBonusToEmp(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
-		//String retString = null;
+		// String retString = null;
 		String a = null;
 		String bonusId = null;
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
 
-		
 			try {
 				bonusId = request.getParameter("bonusId");
 			} catch (Exception e) {
@@ -517,9 +517,9 @@ public class BonusAdminController {
 			map.add("userId", userObj.getEmpId());
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empBonusSave", map, Info.class);
-			System.err.println("info" + info.toString());
+			// System.err.println("info" + info.toString());
 			if (info.isError() == false) {
-				//retString = info.getMsg();
+				// retString = info.getMsg();
 				session.setAttribute("successMsg", "Data Inserted Successfully");
 
 				a = "redirect:/showAddBonusNextStep?bonusId=" + FormValidation.Encrypt(bonusId);
@@ -536,16 +536,13 @@ public class BonusAdminController {
 	}
 
 	@RequestMapping(value = "/showAddBonusNextStep", method = RequestMethod.GET)
-	public ModelAndView showClaimProofAgain(HttpServletRequest request, HttpServletResponse response) {
+	public String showClaimProofAgain(HttpServletRequest request, HttpServletResponse response, Model model) {
+		String mav = null;
+		mav = "Bonus/BonusCalcList";
 
-		ModelAndView model = new ModelAndView("Bonus/BonusCalcList");
-		int  bonusId =Integer.parseInt( (FormValidation.DecodeKey(request.getParameter("bonusId"))));
-		/*
-		 * String strArray[] = retString.split(" "); List<Integer> calcIdList = new
-		 * ArrayList<>(); for (int i = 0; i < strArray.length; i++) {
-		 * calcIdList.add(Integer.parseInt(strArray[i]));
-		 * System.out.println("  id are**" + strArray[i]); }
-		 */
+		int isfinalized = 0;
+		int bonusId = Integer.parseInt((FormValidation.DecodeKey(request.getParameter("bonusId"))));
+
 		try {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("bonusId", bonusId);
@@ -554,14 +551,139 @@ public class BonusAdminController {
 					map, BonusCalc[].class);
 
 			List<BonusCalc> claimProofList1 = new ArrayList<BonusCalc>(Arrays.asList(employeeDoc1));
-			/// System.err.println("claimProofList1 list" + claimProofList1.toString());
 
-			model.addObject("bonusCalcList", claimProofList1);
+			for (int i = 0; i < claimProofList1.size(); i++) {
+
+				claimProofList1.get(i)
+						.setExVar1(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusCalcId())));
+				claimProofList1.get(i)
+						.setExVar2(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusId())));
+			}
+
+			model.addAttribute("bonusId", bonusId);
+			model.addAttribute("bonusCalcList", claimProofList1);
+			map = new LinkedMultiValueMap<>();
+			map.add("bonusId", bonusId);
+			BonusApplicable info = Constants.getRestTemplate().postForObject(Constants.url + "/chkIsBonusFinalized",
+					map, BonusApplicable.class);
+
+			try {
+				model.addAttribute("bonusAppId", info.getBappNo());
+				if (info.getIsBonussheetFinalized().equals("1")) {
+					System.err.println("1");
+					isfinalized = 1;
+					model.addAttribute("isfinalized", isfinalized);
+				} else {
+					System.err.println("2");
+					isfinalized = 2;
+					model.addAttribute("isfinalized", isfinalized);
+				}
+
+			} catch (Exception e) {
+				System.err.println("3");
+				isfinalized = 3;
+				model.addAttribute("bonusAppId", 0);
+				model.addAttribute("isfinalized", isfinalized);
+			}
+
+			System.err.println("isfinalized" + isfinalized);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return model;
+		return mav;
+	}
+
+	@RequestMapping(value = "/submitBonusApplicable", method = RequestMethod.POST)
+	public String submitBonusApplicable(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String temp = null;
+		String a = null;
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+			int bonusId = Integer.parseInt(request.getParameter("bonusId"));
+			temp = request.getParameter("bonusId");
+			int isFinal = Integer.parseInt(request.getParameter("isFinal"));
+			String startDate = request.getParameter("startDate");
+			String remark = request.getParameter("remark");
+			int bonusAppId = Integer.parseInt(request.getParameter("bonusAppId"));
+
+			map.add("bonusAppId", bonusAppId);
+			map.add("startDate", startDate);
+			map.add("isFinal", isFinal);
+			map.add("bonusId", bonusId);
+			map.add("remark", remark);
+			map.add("companyId", 1);
+			map.add("dateTime", sf.format(date));
+			map.add("userId", userObj.getUserId());
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empBonusAppSaveOrUpdate", map,
+					Info.class);
+			System.err.println("info" + info.toString());
+			if (info.isError() == false) {
+				// retString = info.getMsg();
+				session.setAttribute("successMsg", "Data Inserted Successfully");
+
+			} else {
+				session.setAttribute("successMsg", "Failed to Insert Data");
+				a = "redirect:/showEmpListToAssignBonus";
+			}
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
+			e.printStackTrace();
+		}
+		a = "redirect:/showAddBonusNextStep?bonusId=" + FormValidation.Encrypt(temp);
+		return a;
+	}
+
+	@RequestMapping(value = "/deleteBonusCalc", method = RequestMethod.GET)
+	public String deleteBonusCalc(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		String a = null;
+
+		try {
+
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList");
+			 * 
+			 * Info view = AcessController.checkAccess("deleteBonus", "showBonusList", 0, 0,
+			 * 0, 1, newModuleList); if (view.isError() == true) {
+			 * 
+			 * a = "redirect:/accessDenied";
+			 * 
+			 * }
+			 * 
+			 * else {
+			 */
+
+			String base64encodedString = request.getParameter("bonusCalcId");
+			String bonusCalcId = FormValidation.DecodeKey(base64encodedString);
+			String base64encodedString1 = request.getParameter("bonusId");
+			String bonusId = FormValidation.DecodeKey(base64encodedString1);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("bonusCalcId", bonusCalcId);
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteBonusCalc", map, Info.class);
+
+			a = "redirect:/showAddBonusNextStep?bonusId=" + FormValidation.Encrypt(bonusId);
+			if (info.isError() == false) {
+				session.setAttribute("successMsg", "Deleted Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed to Delete");
+			}
+			// }
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+		return a;
 	}
 
 }

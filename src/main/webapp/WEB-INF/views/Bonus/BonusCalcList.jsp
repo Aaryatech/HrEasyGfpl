@@ -43,13 +43,12 @@
 						<table width="100%">
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Bonus List</h5></td>
-								<td width="40%" align="right"><<%-- c:if test="${addAccess==0}">
-										<a href="${pageContext.request.contextPath}/showAddBonus"
-											class="breadcrumb-elements-item">
-											<button type="button" class="btn btn-primary">Add
-												Bonus</button>
-										</a>
-									</c:if> --%></td>
+								<td width="40%" align="right"><a
+									href="${pageContext.request.contextPath}/showEmpListToAssignBonus"
+									class="breadcrumb-elements-item">
+										<button type="button" class="btn btn-primary">
+											Employee List</button>
+								</a></td>
 							</tr>
 						</table>
 					</div>
@@ -101,7 +100,7 @@
 									<th>Emp Code</th>
 									<th>Emp Name</th>
 									<th>Designation</th>
-									<th>Total Days</th>
+									<!-- 	<th>Total Days</th> -->
 									<th>Total Wages</th>
 									<th>Gross Bonus Amt</th>
 									<th>Ded Bonus Puja Amt</th>
@@ -109,7 +108,7 @@
 									<th>Ded Bonus Loss_amt</th>
 									<th>Net Bonus Amt</th>
 									<th>Paid Bonus Amt</th>
-									<!-- <th width="10%" class="text-center">Actions</th> -->
+									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -122,35 +121,79 @@
 										<td>${bonusList.companyEmpCode}</td>
 										<td>${bonusList.empName}</td>
 										<td>${bonusList.currDesignation}</td>
-										<td>${bonusList.totalBonusDays}</td>
+										<%-- 										<td>${bonusList.totalBonusDays}</td>
+ --%>
 										<td>${bonusList.totalBonusWages}</td>
 										<td>${bonusList.grossBonusAmt}</td>
- 										<td>${bonusList.dedBonusPujaAmt}</td>
+										<td>${bonusList.dedBonusPujaAmt}</td>
 										<td>${bonusList.dedBonusAdvAmt}</td>
 										<td>${bonusList.dedBonusLossAmt}</td>
 										<td>${bonusList.netBonusAmt}</td>
 										<td>${bonusList.paidBonusAmt}</td>
-  										<%-- <td class="text-center"><c:if test="${editAccess == 0}">
-												<a
-													href="${pageContext.request.contextPath}/editBonus?bonusId=${bonusList.exVar1}"
-													class="list-icons-item text-primary-600"
-													data-popup="tooltip" title="" data-original-title="Edit"><i
-													class="icon-pencil7"></i></a>
-											</c:if> <c:if test="${deleteAccess == 0}">
-												<c:if test="${bonusList.exInt2 == 0}">
-													<a href="javascript:void(0)"
-														class="list-icons-item text-danger-600 bootbox_custom"
-														data-uuid="${bonusList.exVar1}" data-popup="tooltip"
-														title="" data-original-title="Delete"><i
-														class="icon-trash"></i></a>
-												</c:if>
-											</c:if></td> --%>
+										<td class="text-center"><a href="javascript:void(0)"
+											class="list-icons-item text-danger-600 bootbox_custom"
+											data-uuid="${bonusList.exVar1}"
+											data-abc="${bonusList.exVar2}" data-popup="tooltip" title=""
+											data-original-title="Delete"><i class="icon-trash"></i></a></td>
 									</tr>
 								</c:forEach>
 
 							</tbody>
 						</table>
 
+
+						<c:if test="${isfinalized ne '1'}">
+							<form
+								action="${pageContext.request.contextPath}/submitBonusApplicable"
+								id="submitBonusApplicable" method="post">
+								<input type="hidden" id="isFinal" name="isFinal"
+									value="${isfinalized}"> <input type="hidden"
+									id="bonusId" name="bonusId" value="${bonusId}"> <input
+									type="hidden" id="bonusAppId" name="bonusAppId"
+									value="${bonusAppId}">
+								<div class="form-group row">
+
+
+									<label class="col-form-label col-lg-2" for="startDate">
+										Pay Bonus In This Salary Month <span style="color: red">*
+									</span>:
+									</label>
+									<div class="col-lg-4">
+										<input type="text" class="form-control datepickerclass "
+											name="startDate" id="startDate" placeholder="  Date">
+										<span class="validation-invalid-label" id="error_startDate"
+											style="display: none;">This field is required.</span>
+									</div>
+
+
+								</div>
+
+								<div class="form-group row">
+									<label class="col-form-label col-lg-2" for="remark">
+										Remark <span style="color: red">*</span>:
+									</label>
+									<div class="col-lg-4">
+										<textarea class="form-control"
+											placeholder="Enter Reason / Remark" id="remark" name="remark"
+											autocomplete="off" onchange="trim(this)"> </textarea>
+										<span class="validation-invalid-label" id="error_remark"
+											style="display: none;">This field is required.</span>
+									</div>
+								</div>
+								<div class="form-group row mb-0">
+									<div class="col-lg-10 ml-lg-auto">
+
+										<button type="submit" class="btn bg-blue ml-3 legitRipple"
+											id="submtbtn">
+											Submit <i class="icon-paperplane ml-2"></i>
+										</button>
+										<a
+											href="${pageContext.request.contextPath}/showEmpListToAssignBonus"><button
+												type="button" class="btn btn-light">Back</button></a>
+									</div>
+								</div>
+							</form>
+						</c:if>
 					</div>
 
 				</div>
@@ -169,6 +212,73 @@
 
 	</div>
 	<!-- /page content -->
+
+
+
+	<script>
+		function trim(el) {
+			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
+			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
+			replace(/\n +/, "\n"); // Removes spaces after newlines
+			checkSame();
+			return;
+		}
+
+		$(document)
+				.ready(
+						function($) {
+
+							$("#submitBonusApplicable")
+									.submit(
+											function(e) {
+
+												var isError = false;
+												var errMsg = "";
+
+												if ($("#isFinal").val() != 1) {
+
+													if (!$("#startDate").val()) {
+
+														isError = true;
+
+														$("#error_startDate")
+																.show()
+														//return false;
+													} else {
+														$("#error_startDate")
+																.hide()
+													}
+
+													if (!$("#remark").val()) {
+
+														isError = true;
+
+														$("#error_remark")
+																.show()
+
+													} else {
+														$("#error_remark")
+																.hide()
+													}
+
+													if (!isError) {
+
+														var x = true;
+														if (x == true) {
+
+															document
+																	.getElementById("submtbtn").disabled = true;
+															return true;
+														}
+														//end ajax send this to php page
+													}
+												}
+												return false;
+											});
+						});
+		//
+	</script>
+
 	<script>
 		// Custom bootbox dialog
 		$('.bootbox_custom')
@@ -176,6 +286,7 @@
 						'click',
 						function() {
 							var uuid = $(this).data("uuid") // will return the number 123
+							var abc = $(this).data("abc") // will return the number 123
 							bootbox
 									.confirm({
 										title : 'Confirm ',
@@ -192,13 +303,39 @@
 										},
 										callback : function(result) {
 											if (result) {
-												location.href = "${pageContext.request.contextPath}/deleteBonus?bonusId="
-														+ uuid;
+												location.href = "${pageContext.request.contextPath}/deleteBonusCalc?bonusCalcId="
+														+ uuid
+														+ "&bonusId="
+														+ abc;
 
 											}
 										}
 									});
 						});
 	</Script>
+
+	<script type="text/javascript">
+		// Single picker
+		$('.datepickerclass').daterangepicker({
+			singleDatePicker : true,
+			selectMonths : true,
+			selectYears : true,
+			locale : {
+				format : 'DD-MM-YYYY'
+			}
+		});
+
+		//daterange-basic_new
+		// Basic initialization
+		$('.daterange-basic_new').daterangepicker({
+			applyClass : 'bg-slate-600',
+
+			cancelClass : 'btn-light',
+			locale : {
+				format : 'DD-MM-YYYY',
+				separator : ' to '
+			}
+		});
+	</script>
 </body>
 </html>
