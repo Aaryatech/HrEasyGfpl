@@ -2,6 +2,15 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Arrays"%>
+<%@ page import="org.springframework.util.LinkedMultiValueMap"%>
+<%@ page import="org.springframework.util.MultiValueMap"%>
+<%@ page import="com.ats.hreasy.model.EmpSalInfoDaiyInfoTempInfo"%>
+<%@ page import="com.ats.hreasy.common.Constants"%>
+<%@ page import="com.ats.hreasy.common.ReportCostants"%>
+<%@ page import="com.ats.hreasy.model.Setting"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,6 +108,132 @@
 									</thead>
 
 									<tbody>
+
+										<%
+											MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+											map.add("month", request.getAttribute("month"));
+											map.add("year", request.getAttribute("year"));
+											map.add("empIds", request.getAttribute("empIds"));
+
+											EmpSalInfoDaiyInfoTempInfo[] getSalDynamicTempRecord = Constants.getRestTemplate()
+													.postForObject(Constants.url + "/calculateSalary", map, EmpSalInfoDaiyInfoTempInfo[].class);
+											List<EmpSalInfoDaiyInfoTempInfo> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
+
+											map = new LinkedMultiValueMap<String, Object>();
+											map.add("limitKey", "ammount_format_show");
+											Setting getSettingByKey = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey", map,
+													Setting.class);
+											int amount_round = Integer.parseInt(getSettingByKey.getValue());
+
+											for (int i = 0; i < list.size(); i++) {
+										%><tr>
+											<td>
+												<%
+													out.println(i + 1);
+												%>
+											</td>
+											<td>
+												<%
+													out.println(list.get(i).getEmpCode());
+												%>
+											</td>
+											<td>
+												<%
+													out.println(list.get(i).getEmpName());
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getBasicCal(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getOtWages(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getFund(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f",
+																ReportCostants.castNumber(list.get(i).getGrossSalaryDytemp(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(
+																String.format("%.2f", ReportCostants.castNumber(list.get(i).getMiscExpAdd(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(
+																String.format("%.2f", ReportCostants.castNumber(list.get(i).getAdvanceDed(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getLoanDed(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getItded(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getPayDed(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getPtDed(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getEpfWages(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getEsic(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getMlwf(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													double finalDed = list.get(i).getAdvanceDed() + list.get(i).getLoanDed() + list.get(i).getItded()
+																+ list.get(i).getPayDed() + list.get(i).getPtDed() + list.get(i).getEpfWages()
+																+ list.get(i).getEsic() + list.get(i).getMlwf();
+														out.println(String.format("%.2f", ReportCostants.castNumber(finalDed, amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f",
+																ReportCostants.castNumber(list.get(i).getPerformanceBonus(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getNetSalary(), amount_round)));
+												%>
+											</td>
+										</tr>
+										<%
+											}
+										%>
+
 										<c:forEach items="${empList}" var="empList" varStatus="count">
 											<tr>
 												<td>${count.index+1}</td>

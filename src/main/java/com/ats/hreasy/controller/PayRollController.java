@@ -31,7 +31,7 @@ import com.ats.hreasy.model.PayRollDataForProcessing;
 @Controller
 @Scope("session")
 public class PayRollController {
-
+ 
 	@RequestMapping(value = "/selectMonthForPayRoll", method = RequestMethod.GET)
 	public String selectMonthForPayRoll(HttpServletRequest request, HttpServletResponse response, Model model) {
 
@@ -169,17 +169,20 @@ public class PayRollController {
 
 			String date = request.getParameter("searchDate");
 			String empIds = request.getParameter("empIds");
-			String[] monthyear = date.split("-"); 
-			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			String[] monthyear = date.split("-");
+			request.setAttribute("month", monthyear[0]);
+			request.setAttribute("year", monthyear[1]);
+			request.setAttribute("empIds", empIds);
+
+			/*MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("month", monthyear[0]);
 			map.add("year", monthyear[1]);
-			map.add("empIds", empIds); 
-			
+			map.add("empIds", empIds);
+
 			EmpSalInfoDaiyInfoTempInfo[] getSalDynamicTempRecord = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/calculateSalary", map, EmpSalInfoDaiyInfoTempInfo[].class);
 			List<EmpSalInfoDaiyInfoTempInfo> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
-			model.addAttribute("empList", list); 
+			model.addAttribute("empList", list);*/
 			model.addAttribute("empIds", empIds);
 			model.addAttribute("date", date);
 			// model.addAttribute("empList", list);
