@@ -16,7 +16,8 @@ public class BonusCalc {
 
 	private String companyEmpCode;
 
- 
+	private double exgratiaPrcnt;
+
 	private String location;
 
 	private String empName;
@@ -55,7 +56,7 @@ public class BonusCalc {
 
 	private String exgretiaApplicable;
 
-	private double exgretiaAmt;
+	private double grossExgretiaAmt;
 
 	private double dedExgretiaAmt;
 
@@ -86,6 +87,16 @@ public class BonusCalc {
 
 	private String exVar1;;
 	private String exVar2;
+	
+	
+
+	public double getExgratiaPrcnt() {
+		return exgratiaPrcnt;
+	}
+
+	public void setExgratiaPrcnt(double exgratiaPrcnt) {
+		this.exgratiaPrcnt = exgratiaPrcnt;
+	}
 
 	public int getBonusCalcId() {
 		return bonusCalcId;
@@ -290,13 +301,17 @@ public class BonusCalc {
 	public void setExgretiaApplicable(String exgretiaApplicable) {
 		this.exgretiaApplicable = exgretiaApplicable;
 	}
-
-	public double getExgretiaAmt() {
-		return exgretiaAmt;
+ 
+	public double getGrossExgretiaAmt() {
+		return grossExgretiaAmt;
 	}
 
-	public void setExgretiaAmt(double exgretiaAmt) {
-		this.exgretiaAmt = exgretiaAmt;
+	public void setGrossExgretiaAmt(double grossExgretiaAmt) {
+		this.grossExgretiaAmt = grossExgretiaAmt;
+	}
+
+	public String getPaidExgretiaDate() {
+		return paidExgretiaDate;
 	}
 
 	public double getDedExgretiaAmt() {
@@ -423,23 +438,25 @@ public class BonusCalc {
 	@Override
 	public String toString() {
 		return "BonusCalc [bonusCalcId=" + bonusCalcId + ", companyId=" + companyId + ", bonusId=" + bonusId
-				+ ", empId=" + empId + ", companyEmpCode=" + companyEmpCode + ", location=" + location + ", empName="
-				+ empName + ", currAge=" + currAge + ", currDesignation=" + currDesignation + ", bonusDetails="
-				+ bonusDetails + ", totalBonusWages=" + totalBonusWages + ", bonusApplicable=" + bonusApplicable
-				+ ", grossBonusAmt=" + grossBonusAmt + ", dedBonusPujaAmt=" + dedBonusPujaAmt + ", dedBonusAdvAmt="
-				+ dedBonusAdvAmt + ", dedBonusLossAmt=" + dedBonusLossAmt + ", netBonusAmt=" + netBonusAmt
-				+ ", paidBonusAmt=" + paidBonusAmt + ", paidBonusDate=" + paidBonusDate + ", isBonussheetFinalized="
-				+ isBonussheetFinalized + ", exgretiaDetails=" + exgretiaDetails + ", totalExgretiaDays="
-				+ totalExgretiaDays + ", totalExgretiaWages=" + totalExgretiaWages + ", exgretiaApplicable="
-				+ exgretiaApplicable + ", exgretiaAmt=" + exgretiaAmt + ", dedExgretiaAmt=" + dedExgretiaAmt
-				+ ", dedReason=" + dedReason + ", netExgretiaAmt=" + netExgretiaAmt + ", paidExgretiaAmt="
-				+ paidExgretiaAmt + ", paidExgretiaDate=" + paidExgretiaDate + ", isExgretiaFinalized="
-				+ isExgretiaFinalized + ", recStatus=" + recStatus + ", loginIdBonus=" + loginIdBonus
-				+ ", loginIdExgretia=" + loginIdExgretia + ", loginTimeBonus=" + loginTimeBonus + ", loginTimeExgretia="
-				+ loginTimeExgretia + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
+				+ ", empId=" + empId + ", companyEmpCode=" + companyEmpCode + ", exgratiaPrcnt=" + exgratiaPrcnt
+				+ ", location=" + location + ", empName=" + empName + ", currAge=" + currAge + ", currDesignation="
+				+ currDesignation + ", bonusDetails=" + bonusDetails + ", totalBonusWages=" + totalBonusWages
+				+ ", bonusApplicable=" + bonusApplicable + ", grossBonusAmt=" + grossBonusAmt + ", dedBonusPujaAmt="
+				+ dedBonusPujaAmt + ", dedBonusAdvAmt=" + dedBonusAdvAmt + ", dedBonusLossAmt=" + dedBonusLossAmt
+				+ ", netBonusAmt=" + netBonusAmt + ", paidBonusAmt=" + paidBonusAmt + ", paidBonusDate=" + paidBonusDate
+				+ ", isBonussheetFinalized=" + isBonussheetFinalized + ", exgretiaDetails=" + exgretiaDetails
+				+ ", totalExgretiaDays=" + totalExgretiaDays + ", totalExgretiaWages=" + totalExgretiaWages
+				+ ", exgretiaApplicable=" + exgretiaApplicable + ", grossExgretiaAmt=" + grossExgretiaAmt
+				+ ", dedExgretiaAmt=" + dedExgretiaAmt + ", dedReason=" + dedReason + ", netExgretiaAmt="
+				+ netExgretiaAmt + ", paidExgretiaAmt=" + paidExgretiaAmt + ", paidExgretiaDate=" + paidExgretiaDate
+				+ ", isExgretiaFinalized=" + isExgretiaFinalized + ", recStatus=" + recStatus + ", loginIdBonus="
+				+ loginIdBonus + ", loginIdExgretia=" + loginIdExgretia + ", loginTimeBonus=" + loginTimeBonus
+				+ ", loginTimeExgretia=" + loginTimeExgretia + ", delStatus=" + delStatus + ", exInt1=" + exInt1
+				+ ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
 	}
 
+	 
+	 
 	 
 	 
 

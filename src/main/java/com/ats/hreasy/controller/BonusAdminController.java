@@ -90,7 +90,7 @@ public class BonusAdminController {
 				String leaveDateRange = request.getParameter("leaveDateRange");
 				String bonusTitle = request.getParameter("bonusTitle");
 				String bonusPrcnt = request.getParameter("bonusPrcnt");
-			
+
 				String minDays = request.getParameter("minDays");
 
 				String bonusRemark = new String();
@@ -113,7 +113,7 @@ public class BonusAdminController {
 					ret = true;
 					System.out.println("bonusTitle" + ret);
 				}
-				
+
 				if (FormValidation.Validaton(bonusPrcnt, "") == true) {
 
 					ret = true;
@@ -463,6 +463,8 @@ public class BonusAdminController {
 		Info view = AcessController.checkAccess("showEmpListToAssignBonus", "showEmpListToAssignBonus", 1, 0, 0, 0,
 				newModuleList);
 		String mav = null;
+		int isfinalized = 0;
+		;
 		if (view.isError() == true) {
 			mav = "accessDenied";
 
@@ -471,8 +473,16 @@ public class BonusAdminController {
 
 			try {
 
+				String bonusName = null;
+				String base64encodedString1 = request.getParameter("bonusId");
+				String bonusId = FormValidation.DecodeKey(base64encodedString1);
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("bonusId", bonusId);
+				map.add("flag", 0);
+				
 				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+						.postForObject(Constants.url + "/getAllEmployeeDetailForBonus",map, GetEmployeeDetails[].class);
 
 				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
 				model.addAttribute("empdetList", empdetList);
@@ -482,6 +492,64 @@ public class BonusAdminController {
 
 				List<BonusMaster> bonusList = new ArrayList<BonusMaster>(Arrays.asList(location));
 				model.addAttribute("bonusList", bonusList);
+				model.addAttribute("bonusId", bonusId);
+
+				for (int i = 0; i < bonusList.size(); i++) {
+
+					if (bonusList.get(i).getBonusId() == Integer.parseInt(bonusId)) {
+						model.addAttribute("bonusName", bonusList.get(i).getFyTitle());
+					}
+
+				}
+
+				// new added
+
+			map = new LinkedMultiValueMap<>();
+				map.add("bonusId", bonusId);
+				map.add("flag", 0);
+
+				BonusCalc[] employeeDoc1 = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getBonusCalcList", map, BonusCalc[].class);
+
+				List<BonusCalc> claimProofList1 = new ArrayList<BonusCalc>(Arrays.asList(employeeDoc1));
+
+				for (int i = 0; i < claimProofList1.size(); i++) {
+
+					claimProofList1.get(i)
+							.setExVar1(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusCalcId())));
+					claimProofList1.get(i)
+							.setExVar2(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusId())));
+				}
+
+				model.addAttribute("bonusId", bonusId);
+				model.addAttribute("bonusCalcList", claimProofList1);
+				map = new LinkedMultiValueMap<>();
+				map.add("bonusId", bonusId);
+				BonusApplicable info = Constants.getRestTemplate().postForObject(Constants.url + "/chkIsBonusFinalized",
+						map, BonusApplicable.class);
+
+				
+				//model.addAttribute("payRollFinal", info.getIsPayrollFinalized());
+				try {
+					model.addAttribute("bonusAppId", info.getBappNo());
+					if (info.getIsBonussheetFinalized().equals("1")) {
+						System.err.println("1");
+						isfinalized = 1;
+						model.addAttribute("isfinalized", isfinalized);
+					} else {
+						System.err.println("2");
+						isfinalized = 2;
+						model.addAttribute("isfinalized", isfinalized);
+					}
+
+				} catch (Exception e) {
+					System.err.println("3");
+					isfinalized = 3;
+					model.addAttribute("bonusAppId", 0);
+					model.addAttribute("isfinalized", isfinalized);
+				}
+
+				System.err.println("isfinalized" + isfinalized);
 
 			} catch (Exception e) {
 
@@ -544,11 +612,9 @@ public class BonusAdminController {
 				// retString = info.getMsg();
 				session.setAttribute("successMsg", "Data Inserted Successfully");
 
-				a = "redirect:/showAddBonusNextStep?bonusId=" + FormValidation.Encrypt(bonusId);
-			} else {
-				session.setAttribute("successMsg", "Failed to Insert Data");
-				a = "redirect:/showEmpListToAssignBonus";
-			}
+				
+			}  
+			a = "redirect:/showEmpListToAssignBonus?bonusId=" + FormValidation.Encrypt(bonusId);
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
 			e.printStackTrace();
@@ -557,65 +623,7 @@ public class BonusAdminController {
 		return a;
 	}
 
-	@RequestMapping(value = "/showAddBonusNextStep", method = RequestMethod.GET)
-	public String showClaimProofAgain(HttpServletRequest request, HttpServletResponse response, Model model) {
-		String mav = null;
-		mav = "Bonus/BonusCalcList";
-
-		int isfinalized = 0;
-		int bonusId = Integer.parseInt((FormValidation.DecodeKey(request.getParameter("bonusId"))));
-
-		try {
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("bonusId", bonusId);
-
-			BonusCalc[] employeeDoc1 = Constants.getRestTemplate().postForObject(Constants.url + "/getBonusCalcList",
-					map, BonusCalc[].class);
-
-			List<BonusCalc> claimProofList1 = new ArrayList<BonusCalc>(Arrays.asList(employeeDoc1));
-
-			for (int i = 0; i < claimProofList1.size(); i++) {
-
-				claimProofList1.get(i)
-						.setExVar1(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusCalcId())));
-				claimProofList1.get(i)
-						.setExVar2(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusId())));
-			}
-
-			model.addAttribute("bonusId", bonusId);
-			model.addAttribute("bonusCalcList", claimProofList1);
-			map = new LinkedMultiValueMap<>();
-			map.add("bonusId", bonusId);
-			BonusApplicable info = Constants.getRestTemplate().postForObject(Constants.url + "/chkIsBonusFinalized",
-					map, BonusApplicable.class);
-
-			try {
-				model.addAttribute("bonusAppId", info.getBappNo());
-				if (info.getIsBonussheetFinalized().equals("1")) {
-					System.err.println("1");
-					isfinalized = 1;
-					model.addAttribute("isfinalized", isfinalized);
-				} else {
-					System.err.println("2");
-					isfinalized = 2;
-					model.addAttribute("isfinalized", isfinalized);
-				}
-
-			} catch (Exception e) {
-				System.err.println("3");
-				isfinalized = 3;
-				model.addAttribute("bonusAppId", 0);
-				model.addAttribute("isfinalized", isfinalized);
-			}
-
-			System.err.println("isfinalized" + isfinalized);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return mav;
-	}
-
+	
 	@RequestMapping(value = "/submitBonusApplicable", method = RequestMethod.POST)
 	public String submitBonusApplicable(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
@@ -628,8 +636,8 @@ public class BonusAdminController {
 		String a = null;
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
-			int bonusId = Integer.parseInt(request.getParameter("bonusId"));
-			temp = request.getParameter("bonusId");
+			int bonusId = Integer.parseInt(request.getParameter("bonusIdNew"));
+			temp = request.getParameter("bonusIdNew");
 			int isFinal = Integer.parseInt(request.getParameter("isFinal"));
 			String startDate = request.getParameter("startDate");
 			String remark = request.getParameter("remark");
@@ -659,7 +667,7 @@ public class BonusAdminController {
 			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
 			e.printStackTrace();
 		}
-		a = "redirect:/showAddBonusNextStep?bonusId=" + FormValidation.Encrypt(temp);
+		a = "redirect:/showEmpListToAssignBonus?bonusId=" + FormValidation.Encrypt(temp);
 		return a;
 	}
 
@@ -694,7 +702,7 @@ public class BonusAdminController {
 			map.add("bonusCalcId", bonusCalcId);
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteBonusCalc", map, Info.class);
 
-			a = "redirect:/showAddBonusNextStep?bonusId=" + FormValidation.Encrypt(bonusId);
+			a = "redirect:/showEmpListToAssignBonus?bonusId=" + FormValidation.Encrypt(bonusId);
 			if (info.isError() == false) {
 				session.setAttribute("successMsg", "Deleted Successfully");
 			} else {

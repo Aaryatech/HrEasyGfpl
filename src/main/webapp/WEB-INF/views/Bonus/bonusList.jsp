@@ -122,20 +122,33 @@
 										<td>${bonusList.remark}</td>
 
 										<td class="text-center"><c:if test="${editAccess == 0}">
-									<%-- 	<c:if test="${bonusList.exInt2 == 0}"> --%>
-												<a
-													href="${pageContext.request.contextPath}/editBonus?bonusId=${bonusList.exVar1}"
-													class="list-icons-item text-primary-600"
-													data-popup="tooltip" title="" data-original-title="Edit"><i
-													class="icon-pencil7"></i></a>
-											<%-- </c:if> --%></c:if> <c:if test="${deleteAccess == 0}">
-												<%-- <c:if test="${bonusList.exInt2 == 0}"> --%>
+												<c:if test="${bonusList.exInt2 == 0}">
+													<a
+														href="${pageContext.request.contextPath}/editBonus?bonusId=${bonusList.exVar1}"
+														class="list-icons-item text-primary-600"
+														data-popup="tooltip" title="" data-original-title="Edit"><i
+														class="icon-pencil7"></i></a>
+												</c:if>
+											</c:if> <c:if test="${deleteAccess == 0}">
+												<c:if test="${bonusList.exInt2 == 0}">
 													<a href="javascript:void(0)"
 														class="list-icons-item text-danger-600 bootbox_custom"
 														data-uuid="${bonusList.exVar1}" data-popup="tooltip"
 														title="" data-original-title="Delete"><i
 														class="icon-trash"></i></a>
-												<%-- </c:if> --%>
+												</c:if>
+											</c:if> <a
+											href="${pageContext.request.contextPath}/showEmpListToAssignBonus?bonusId=${bonusList.exVar1}"
+											class="list-icons-item text-primary-600" data-popup="tooltip"
+											title="Assign Bonus" data-original-title="Edit"><i
+												class="icon-pencil7"></i></a> <c:if
+												test="${bonusList.exInt2 == 1}">
+
+												<a
+													href="${pageContext.request.contextPath}/showEmpListToAssignExgratia?bonusId=${bonusList.exVar1}"
+													class="list-icons-item text-primary-600"
+													data-popup="tooltip" title="Assign Exgratia"
+													data-original-title="Edit"><i class="icon-pencil7"></i></a>
 											</c:if></td>
 									</tr>
 								</c:forEach>
