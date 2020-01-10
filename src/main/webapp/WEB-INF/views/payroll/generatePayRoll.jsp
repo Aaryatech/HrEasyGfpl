@@ -124,6 +124,9 @@
 											Setting getSettingByKey = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey", map,
 													Setting.class);
 											int amount_round = Integer.parseInt(getSettingByKey.getValue());
+											session = request.getSession();
+											session.setAttribute("payrollexelList", getSalDynamicTempRecord);
+											session.setAttribute("amount_round", amount_round);
 
 											for (int i = 0; i < list.size(); i++) {
 										%><tr>
@@ -234,7 +237,7 @@
 											}
 										%>
 
-										<c:forEach items="${empList}" var="empList" varStatus="count">
+										<%-- <c:forEach items="${empList}" var="empList" varStatus="count">
 											<tr>
 												<td>${count.index+1}</td>
 												<td>${empList.empCode}</td>
@@ -291,7 +294,7 @@
 														maxFractionDigits="2" minFractionDigits="2" /></td>
 
 											</tr>
-										</c:forEach>
+										</c:forEach> --%>
 
 									</tbody>
 								</table>
@@ -300,10 +303,10 @@
 							<div class="text-center">
 
 								<button type="submit" class="btn bg-blue ml-3 legitRipple"
-									id="submtbtn">
-									Process Pay Roll <i class="icon-paperplane ml-2"></i>
-								</button>
-
+									id="submtbtn">Process Pay Roll</button>
+								<button type="button" class="btn bg-blue ml-3 legitRipple"
+									id="submtbtn" onclick="getProgReport(0,'exelForPayroll')">
+									Excel</button>
 							</div>
 
 						</form>
@@ -358,69 +361,12 @@
 	</script>
 
 	<script type="text/javascript">
-		function editBonus(tempSalDaynamicId) {
+		//use this function for all reports just get mapping form action name dynamically as like of prm from every report pdf,excel function	
+		function getProgReport(prm, mapping) {
 
-			var fd = new FormData();
-			fd.append('tempSalDaynamicId', tempSalDaynamicId);
+			window.open("${pageContext.request.contextPath}/" + mapping + "/",
+					"_blank");
 
-			$
-					.ajax({
-						url : '${pageContext.request.contextPath}/editBonus',
-						type : 'post',
-						dataType : 'json',
-						data : fd,
-						contentType : false,
-						processData : false,
-						success : function(response) {
-
-							document.getElementById("editBonusDiv").style.display = 'block';
-							document.getElementById("tempSalDaynamicId").value = response.id;
-							document.getElementById("empCode").value = response.empCode;
-							document.getElementById("itAmt").value = response.itded;
-							document.getElementById("perBonus").value = response.performanceBonus;
-						},
-					});
-
-		}
-		function closeEditDetailTab() {
-
-			document.getElementById("editBonusDiv").style.display = 'none';
-		}
-
-		function saveBonusDetail() {
-
-			var tempSalDaynamicId = document
-					.getElementById("tempSalDaynamicId").value;
-			var itAmt = document.getElementById("itAmt").value;
-			var perBonus = document.getElementById("perBonus").value;
-			var flag = 0;
-			if (itAmt == "") {
-				alert("Enter IT Ammount");
-				flag = 1;
-			} else if (perBonus == "") {
-				alert("Enter Bonus Ammount");
-				flag = 1;
-			}
-
-			if (flag == 0) {
-				var fd = new FormData();
-				fd.append('tempSalDaynamicId', tempSalDaynamicId);
-				fd.append('itAmt', itAmt);
-				fd.append('perBonus', perBonus);
-
-				$.ajax({
-					url : '${pageContext.request.contextPath}/saveBonusDetail',
-					type : 'post',
-					dataType : 'json',
-					data : fd,
-					contentType : false,
-					processData : false,
-					success : function(response) {
-
-						location.reload(true);
-					},
-				});
-			}
 		}
 	</script>
 </body>
