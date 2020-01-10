@@ -101,7 +101,7 @@ public class PayRollController {
 			map.add("month", monthyear[0]);
 			map.add("year", monthyear[1]);
 			map.add("empIds", empIds);
-			//System.out.println(map);
+			// System.out.println(map);
 			Info insertTemp = Constants.getRestTemplate().postForObject(Constants.url + "/insertPayrollIntempTable",
 					map, Info.class);
 			if (insertTemp.isError() == false) {
@@ -203,6 +203,27 @@ public class PayRollController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/insertFinalPayRollAndDeleteFroTemp", method = RequestMethod.POST)
+	public String insertFinalPayRollAndDeleteFroTemp(HttpServletRequest request, HttpServletResponse response,
+			Model model) {
+
+		String mav = "redirect:/selectMonthForPayRoll";
+
+		try {
+
+			HttpSession session = request.getSession();
+			EmpSalInfoDaiyInfoTempInfo[] getSalDynamicTempRecord = (EmpSalInfoDaiyInfoTempInfo[]) session
+					.getAttribute("payrollexelList");
+			List<EmpSalInfoDaiyInfoTempInfo> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/insertFinalPayRollAndDeleteFroTemp",
+					list, Info.class);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
+
 	@RequestMapping(value = "/exelForPayroll", method = RequestMethod.GET)
 	public void exelForClientWiseClaim(HttpServletRequest request, HttpServletResponse response) {
 
@@ -295,7 +316,7 @@ public class PayRollController {
 
 			XSSFWorkbook wb = null;
 			try {
-				//System.out.println("exportToExcelList" + exportToExcelList.toString());
+				// System.out.println("exportToExcelList" + exportToExcelList.toString());
 
 				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, " ", "", 'S');
 
