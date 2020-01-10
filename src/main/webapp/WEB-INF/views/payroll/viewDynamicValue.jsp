@@ -102,7 +102,7 @@
 						<hr>
 					</div>
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Enter Dynamic Amount</h5>
+						<h5 class="card-title">Enter Dynamic Amount ${date}</h5>
 						<!-- <div class="header-elements">
 							<div class="list-icons">
 								<a class="list-icons-item" data-action="collapse"></a>
@@ -112,11 +112,12 @@
 
 					<div class="card-body">
 
-						<form action="${pageContext.request.contextPath}/viewDynamicValue"
+						<form action="${pageContext.request.contextPath}/generatePayRoll"
 							id="submitInsertLeave" method="post">
 
 							<input type="hidden" name="searchDate" id="searchDate"
-								value="${date}" />
+								value="${date}" /> <input type="hidden" name="empIds"
+								id="empIds" value="${empIds}" />
 							<div id="loader" style="display: none;">
 								<img
 									src="${pageContext.request.contextPath}/resources/assets/images/giphy.gif"

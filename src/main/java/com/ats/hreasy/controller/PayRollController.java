@@ -21,6 +21,7 @@ import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Allowances;
+import com.ats.hreasy.model.EmpSalInfoDaiyInfoTempInfo;
 import com.ats.hreasy.model.EmpSalaryInfoForPayroll;
 import com.ats.hreasy.model.GetSalDynamicTempRecord;
 import com.ats.hreasy.model.Info;
@@ -72,7 +73,6 @@ public class PayRollController {
 	@RequestMapping(value = "/viewDynamicValue", method = RequestMethod.POST)
 	public String viewDynamicValue(HttpServletRequest request, HttpServletResponse response, Model model) {
 
-		 
 		String mav = "payroll/viewDynamicValue";
 
 		try {
@@ -84,16 +84,17 @@ public class PayRollController {
 
 			String[] selectEmp = request.getParameterValues("selectEmp");
 			String empIds = "0";
-			
-			for(int i=0 ; i<selectEmp.length ; i++) {
-				empIds=empIds+","+selectEmp[i];
+
+			for (int i = 0; i < selectEmp.length; i++) {
+				empIds = empIds + "," + selectEmp[i];
 			}
-			
+			empIds = empIds.substring(2, empIds.length());
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("month", monthyear[0]);
 			map.add("year", monthyear[1]);
 			map.add("empIds", empIds);
-			//System.out.println(map);
+			System.out.println(map);
 			Info insertTemp = Constants.getRestTemplate().postForObject(Constants.url + "/insertPayrollIntempTable",
 					map, Info.class);
 			if (insertTemp.isError() == false) {
@@ -102,6 +103,8 @@ public class PayRollController {
 				List<GetSalDynamicTempRecord> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
 				model.addAttribute("empList", list);
 			}
+			model.addAttribute("empIds", empIds);
+			model.addAttribute("date", date);
 			// model.addAttribute("empList", list);
 
 		} catch (Exception e) {
@@ -109,47 +112,45 @@ public class PayRollController {
 		}
 		return mav;
 	}
-	
-	@RequestMapping(value = "/editBonus", method = RequestMethod.POST)
-	public @ResponseBody GetSalDynamicTempRecord editBonus(HttpServletRequest request, HttpServletResponse response, Model model) {
 
-		 
-		 
+	@RequestMapping(value = "/editBonus", method = RequestMethod.POST)
+	public @ResponseBody GetSalDynamicTempRecord editBonus(HttpServletRequest request, HttpServletResponse response,
+			Model model) {
+
 		GetSalDynamicTempRecord getSalDynamicTempRecordById = new GetSalDynamicTempRecord();
-		
+
 		try {
 
 			int tempSalDaynamicId = Integer.parseInt(request.getParameter("tempSalDaynamicId"));
- 
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("tempSalDaynamicId", tempSalDaynamicId); 
-			getSalDynamicTempRecordById = Constants.getRestTemplate().postForObject(Constants.url + "/getSalDynamicTempRecordById",
-					map, GetSalDynamicTempRecord.class);
-			 
+			map.add("tempSalDaynamicId", tempSalDaynamicId);
+			getSalDynamicTempRecordById = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getSalDynamicTempRecordById", map, GetSalDynamicTempRecord.class);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return getSalDynamicTempRecordById;
 	}
-	
+
 	@RequestMapping(value = "/saveBonusDetail", method = RequestMethod.POST)
 	public @ResponseBody Info saveBonusDetail(HttpServletRequest request, HttpServletResponse response, Model model) {
- 
+
 		Info info = new Info();
-		
+
 		try {
 
 			int tempSalDaynamicId = Integer.parseInt(request.getParameter("tempSalDaynamicId"));
-			float itAmt =  Float.parseFloat(request.getParameter("itAmt"));
-			float perBonus =  Float.parseFloat(request.getParameter("perBonus"));
- 
+			float itAmt = Float.parseFloat(request.getParameter("itAmt"));
+			float perBonus = Float.parseFloat(request.getParameter("perBonus"));
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("tempSalDaynamicId", tempSalDaynamicId); 
-			map.add("itAmt", itAmt); 
-			map.add("perBonus", perBonus); 
-			info = Constants.getRestTemplate().postForObject(Constants.url + "/updateBonusAmt",
-					map, Info.class);
-			 
+			map.add("tempSalDaynamicId", tempSalDaynamicId);
+			map.add("itAmt", itAmt);
+			map.add("perBonus", perBonus);
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/updateBonusAmt", map, Info.class);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			info = new Info();
@@ -157,6 +158,36 @@ public class PayRollController {
 			info.setMsg("failed");
 		}
 		return info;
+	}
+
+	@RequestMapping(value = "/generatePayRoll", method = RequestMethod.POST)
+	public String generatePayRoll(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = "payroll/generatePayRoll";
+
+		try {
+
+			String date = request.getParameter("searchDate");
+			String empIds = request.getParameter("empIds");
+			String[] monthyear = date.split("-"); 
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("month", monthyear[0]);
+			map.add("year", monthyear[1]);
+			map.add("empIds", empIds); 
+			
+			EmpSalInfoDaiyInfoTempInfo[] getSalDynamicTempRecord = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/calculateSalary", map, EmpSalInfoDaiyInfoTempInfo[].class);
+			List<EmpSalInfoDaiyInfoTempInfo> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
+			model.addAttribute("empList", list); 
+			model.addAttribute("empIds", empIds);
+			model.addAttribute("date", date);
+			// model.addAttribute("empList", list);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
 	}
 
 }
