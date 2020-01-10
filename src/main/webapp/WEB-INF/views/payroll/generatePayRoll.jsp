@@ -102,7 +102,6 @@
 											<th class="text-center">Gross Ded</th>
 											<th class="text-center">Performance Bonus</th>
 											<th class="text-center">Net Salary</th>
-											<th class="text-center">Net Salary</th>
 										</tr>
 
 									</thead>
@@ -230,11 +229,6 @@
 											<td class="text-right">
 												<%
 													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getNetSalary(), amount_round)));
-												%>
-											</td>
-											<td class="text-right">
-												<%
-													out.println(list.get(i).getGetAllowanceTempList());
 												%>
 											</td>
 										</tr>
