@@ -126,7 +126,8 @@
 											session = request.getSession();
 											session.setAttribute("payrollexelList", getSalDynamicTempRecord);
 											session.setAttribute("amount_round", amount_round);
-
+											session.setAttribute("monthAndYear", request.getAttribute("month") + "-" +request.getAttribute("year"));
+											
 											for (int i = 0; i < list.size(); i++) {
 										%><tr>
 											<td>

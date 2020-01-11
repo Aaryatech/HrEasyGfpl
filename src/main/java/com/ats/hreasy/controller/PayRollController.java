@@ -227,15 +227,15 @@ public class PayRollController {
 	@RequestMapping(value = "/exelForPayroll", method = RequestMethod.GET)
 	public void exelForClientWiseClaim(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Payroll List ";
-
 		try {
 
 			HttpSession session = request.getSession();
 			EmpSalInfoDaiyInfoTempInfo[] getSalDynamicTempRecord = (EmpSalInfoDaiyInfoTempInfo[]) session
 					.getAttribute("payrollexelList");
 			int amount_round = (int) session.getAttribute("amount_round");
+			String monthAndYear = (String) session.getAttribute("monthAndYear");
 			List<EmpSalInfoDaiyInfoTempInfo> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
+			String reportName = "Payroll List for " + monthAndYear;
 
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
