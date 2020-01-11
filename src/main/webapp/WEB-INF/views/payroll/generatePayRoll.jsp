@@ -303,7 +303,7 @@
 							<div class="text-center">
 
 								<button type="submit" class="btn bg-blue ml-3 legitRipple"
-									id="submtbtn">Process Pay Roll</button>
+									id="submtbtn">Generate Payroll</button>
 								<button type="button" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn" onclick="getProgReport(0,'exelForPayroll')">
 									Excel</button>
