@@ -211,17 +211,23 @@ public class PayRollController {
 			Model model) {
 
 		String mav = "redirect:/selectMonthForPayRoll";
-
+		HttpSession session = request.getSession();
 		try {
 
-			HttpSession session = request.getSession();
 			EmpSalInfoDaiyInfoTempInfo[] getSalDynamicTempRecord = (EmpSalInfoDaiyInfoTempInfo[]) session
 					.getAttribute("payrollexelList");
 			List<EmpSalInfoDaiyInfoTempInfo> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/insertFinalPayRollAndDeleteFroTemp",
 					list, Info.class);
 
+			if (info.isError() == false) {
+				session.setAttribute("successMsg", "Payroll Generated Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed to Generated Payroll");
+			}
+
 		} catch (Exception e) {
+			session.setAttribute("errorMsg", "Failed to Generated Payroll");
 			e.printStackTrace();
 		}
 		return mav;
