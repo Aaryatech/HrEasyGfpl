@@ -33,6 +33,7 @@ import com.ats.hreasy.model.EmpSalaryInfoForPayroll;
 import com.ats.hreasy.model.GetSalDynamicTempRecord;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.InfoForUploadAttendance;
+import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.PayRollDataForProcessing;
 
 @Controller
@@ -83,7 +84,8 @@ public class PayRollController {
 		String mav = "payroll/viewDynamicValue";
 
 		try {
-
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 			String date = request.getParameter("searchDate");
 
 			String[] monthyear = date.split("-");
@@ -101,6 +103,7 @@ public class PayRollController {
 			map.add("month", monthyear[0]);
 			map.add("year", monthyear[1]);
 			map.add("empIds", empIds);
+			map.add("userId", userObj.getUserId());
 			// System.out.println(map);
 			Info insertTemp = Constants.getRestTemplate().postForObject(Constants.url + "/insertPayrollIntempTable",
 					map, Info.class);

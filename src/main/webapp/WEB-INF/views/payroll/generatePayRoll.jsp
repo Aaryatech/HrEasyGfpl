@@ -10,7 +10,8 @@
 <%@ page import="com.ats.hreasy.model.EmpSalInfoDaiyInfoTempInfo"%>
 <%@ page import="com.ats.hreasy.common.Constants"%>
 <%@ page import="com.ats.hreasy.common.ReportCostants"%>
-<%@ page import="com.ats.hreasy.model.Setting"%>
+<%@ page import="com.ats.hreasy.model.Setting"%><%@ page
+	import="com.ats.hreasy.model.LoginResponse"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,11 +110,15 @@
 									<tbody>
 
 										<%
+											session = request.getSession();
+											LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
 											MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 											map.add("month", request.getAttribute("month"));
 											map.add("year", request.getAttribute("year"));
 											map.add("empIds", request.getAttribute("empIds"));
-
+											map.add("userId", userObj.getUserId());
+											
 											EmpSalInfoDaiyInfoTempInfo[] getSalDynamicTempRecord = Constants.getRestTemplate()
 													.postForObject(Constants.url + "/calculateSalary", map, EmpSalInfoDaiyInfoTempInfo[].class);
 											List<EmpSalInfoDaiyInfoTempInfo> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
@@ -126,8 +131,8 @@
 											session = request.getSession();
 											session.setAttribute("payrollexelList", getSalDynamicTempRecord);
 											session.setAttribute("amount_round", amount_round);
-											session.setAttribute("monthAndYear", request.getAttribute("month") + "-" +request.getAttribute("year"));
-											
+											session.setAttribute("monthAndYear", request.getAttribute("month") + "-" + request.getAttribute("year"));
+
 											for (int i = 0; i < list.size(); i++) {
 										%><tr>
 											<td>
