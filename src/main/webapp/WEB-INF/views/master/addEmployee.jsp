@@ -141,8 +141,8 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" value="${emp.empCode}"
-														placeholder="Employee Code." id="empCode" name="empCode"
-														autocomplete="off" onchange="trim(this)"> <span
+														placeholder="Employee Code." id="empCode" name="empCode" style="text-transform: uppercase;"
+														autocomplete="off" onchange="trim(this)" maxlength="5"> <span
 														class="hidedefault   validation-invalid-label" style="display: none;"
 														id="unique_user">Employee Code Already Exist.</span>
 												</div>
@@ -419,6 +419,32 @@
 														onchange="trim(this)"> <span
 														class="hidedefault   validation-invalid-label"
 														id="error_pfNo" style="display: none;">This field is required.</span>
+												</div>
+											</div>
+											
+											
+											<div class="form-group row">
+												<label class="col-form-label col-lg-2" for="pan">Accessable 
+												 Location<span style="color: red">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<select name="locId_list" data-placeholder="Select Location"
+														id="locId_list" multiple="multiple"
+												class="form-control form-control-sm select"
+												data-container-css-class="select-sm" data-fouc>
+														
+														<c:forEach items="${locationList}" var="locationList">
+														<c:choose>  
+														<c:when test="${locationList.locId==emp.locationId}">
+															<option selected="selected" value="${locationList.locId}">${locationList.locName}</option>														
+														</c:when>
+														<c:otherwise>
+															<option value="${locationList.locId}">${locationList.locName}</option>
+														</c:otherwise>
+															</c:choose>
+														</c:forEach>
+													</select> <span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_locId_list">This field is required.</span>
 												</div>
 											</div>
 
@@ -1567,6 +1593,16 @@
 
 				} else {
 					$("#error_locId").hide()
+				}
+				
+				if ($("#locId_list").val()=="") {
+
+					isError = true;
+
+					$("#error_locId_list").show()
+
+				} else {
+					$("#error_locId_list").hide()
 				}
 				
 				if (!$("#empCat").val()) {
