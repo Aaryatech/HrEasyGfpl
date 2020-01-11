@@ -428,11 +428,19 @@ public class EmployeeController {
 					empId = empSave.getEmpId();
 					if (empSave != null) {
 
+						StringBuilder sb = new StringBuilder();
+						String[] locIds = request.getParameterValues("locId_list");
+						for (int i = 0; i < locIds.length; i++) {
+							sb = sb.append(locIds[i] + ",");
+
+						}
 						User uinfo = new User();
 						uinfo.setEmpId(empSave.getEmpId());
 						uinfo.setEmpTypeId(empSave.getEmpType());
 						uinfo.setUserName(empSave.getEmpCode());
-
+						String locIdList = sb.toString();
+						locIdList = locIdList.substring(0, locIdList.length() - 1);
+						
 						RandomString randomString = new RandomString();
 						String password = randomString.nextString();
 						MessageDigest md = MessageDigest.getInstance("MD5");
@@ -440,6 +448,8 @@ public class EmployeeController {
 						BigInteger number = new BigInteger(1, messageDigest);
 						String hashtext = number.toString(16);
 
+						uinfo.setLocId(locIdList);
+						uinfo.setUserName(empSave.getEmpCode());
 						uinfo.setUserPwd(hashtext);
 						uinfo.setLocId(String.valueOf(empSave.getLocationId()));
 						uinfo.setExInt1(1);
