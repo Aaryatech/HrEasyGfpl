@@ -57,6 +57,8 @@ public class EmployeeController {
 	String currDate = sf.format(date);
 	String redirect = "";
 	int flag = 0;
+	User userRes = new User();
+
 	EmployeeMaster empSave = null;
 	// TblEmpInfo empIdInfo = null;
 	TblEmpNominees empIdNom = null;
@@ -136,38 +138,38 @@ public class EmployeeController {
 	public String deleteContractor(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String a = null;
 
-	 
-			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-			Info view = AcessController.checkAccess("deleteEmp", "showEmployeeList", 0, 0, 0, 1, newModuleList);
-			if (view.isError() == true) {
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("deleteEmp", "showEmployeeList", 0, 0, 0, 1, newModuleList);
+		if (view.isError() == true) {
 
-				a = "redirect:/accessDenied";
+			a = "redirect:/accessDenied";
 
-			} else {
+		} else {
 
-				a = "redirect:/showEmployeeList"; 
-				try {
-			String base64encodedString = request.getParameter("empId");
-			String empId = FormValidation.DecodeKey(base64encodedString);
+			a = "redirect:/showEmployeeList";
+			try {
+				String base64encodedString = request.getParameter("empId");
+				String empId = FormValidation.DecodeKey(base64encodedString);
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("empId", empId);
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
 
-			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteEmployee", map, Info.class);
+				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteEmployee", map,
+						Info.class);
 
-			if (res.isError()) {
+				if (res.isError()) {
+					session.setAttribute("errorMsg", "Failed to Delete");
+				} else {
+					session.setAttribute("successMsg", "Deleted Successfully");
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
 				session.setAttribute("errorMsg", "Failed to Delete");
-			} else {
-				session.setAttribute("successMsg", "Deleted Successfully");
-
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("errorMsg", "Failed to Delete");
 		}
-			 
-			}
 		return a;
 	}
 
@@ -346,11 +348,24 @@ public class EmployeeController {
 					System.out.println("Edit Save = " + empSave);
 					empId = empSave.getEmpId();
 					if (empSave != null) {
+						 
+						StringBuilder sb = new StringBuilder();
+						String[] locIds = request.getParameterValues("locId_list");
+						for (int i = 0; i < locIds.length; i++) {
+							sb = sb.append(locIds[i] + ",");
 
+						}
+						String locIdList = sb.toString();
+						locIdList = locIdList.substring(0, locIdList.length() - 1);
+						userRes.setUserName(empSave.getEmpCode());
+						userRes.setLocId(locIdList);
+						userRes.setMakerUserId(userObj.getEmpId());
+						userRes.setMakerEnterDatetime(sf.format(date));
+
+						userRes = Constants.getRestTemplate().postForObject(Constants.url + "/saveUserInfo", userRes,
+								User.class);
 						session.setAttribute("successMsg", "Record Updated Successfully");
-
 						String empEncryptId = FormValidation.Encrypt(String.valueOf(empSave.getEmpId()));
-
 						redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
 					} else {
 						session.setAttribute("errorMsg", "Failed to Update Record");
@@ -440,7 +455,7 @@ public class EmployeeController {
 						uinfo.setUserName(empSave.getEmpCode());
 						String locIdList = sb.toString();
 						locIdList = locIdList.substring(0, locIdList.length() - 1);
-						
+
 						RandomString randomString = new RandomString();
 						String password = randomString.nextString();
 						MessageDigest md = MessageDigest.getInstance("MD5");
@@ -448,10 +463,9 @@ public class EmployeeController {
 						BigInteger number = new BigInteger(1, messageDigest);
 						String hashtext = number.toString(16);
 
-						uinfo.setLocId(locIdList);
 						uinfo.setUserName(empSave.getEmpCode());
 						uinfo.setUserPwd(hashtext);
-						uinfo.setLocId(String.valueOf(empSave.getLocationId()));
+						uinfo.setLocId(locIdList);
 						uinfo.setExInt1(1);
 						uinfo.setExInt2(1);
 						uinfo.setExInt3(1);
@@ -463,6 +477,7 @@ public class EmployeeController {
 						uinfo.setMakerUserId(userObj.getEmpId());
 						uinfo.setMakerEnterDatetime(sf.format(date));
 
+						System.out.println(locIdList + "" + uinfo.getLocId());
 						User res1 = Constants.getRestTemplate().postForObject(Constants.url + "/saveUserInfo", uinfo,
 								User.class);
 
@@ -620,40 +635,46 @@ public class EmployeeController {
 				String base64encodedString = request.getParameter("empId");
 				String empId = FormValidation.DecodeKey(base64encodedString);
 
-				System.out.println("Encrypt-----" + empId);
+				// System.out.println("Encrypt-----" + empId);
 				map = new LinkedMultiValueMap<>();
 				map.add("empId", Integer.parseInt(empId));
 
 				EmployeeMaster emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map,
 						EmployeeMaster.class);
-				System.out.println("Edit Emp-------" + emp);
+				// System.out.println("Edit Emp-------" + emp);
 
 				TblEmpInfo empPersInfo = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getEmployeePersonalInfo", map, TblEmpInfo.class);
-				System.out.println("Edit EmpPersonal Info-------" + empPersInfo);
+				// System.out.println("Edit EmpPersonal Info-------" + empPersInfo);
 
 				TblEmpNominees empNom = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeNominee",
 						map, TblEmpNominees.class);
-				System.out.println("Edit Emp Nominee Info-------" + empNom);
+				// System.out.println("Edit Emp Nominee Info-------" + empNom);
 
 				TblEmpBankInfo empBank = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getEmployeeBankInfo", map, TblEmpBankInfo.class);
-				System.out.println("Edit Emp Bank Info-------" + empBank);
+				// System.out.println("Edit Emp Bank Info-------" + empBank);
 
 				EmpSalaryInfo empSalInfo = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getEmployeeSalInfo", map, EmpSalaryInfo.class);
-				System.out.println("Edit Emp Salary Info-------" + empSalInfo);
+				// System.out.println("Edit Emp Salary Info-------" + empSalInfo);
 
 				EmpSalAllowance[] empSalAllowance = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getEmployeeSalAllowances", map, EmpSalAllowance[].class);
 
 				empAllowncList = new ArrayList<EmpSalAllowance>(Arrays.asList(empSalAllowance));
-				System.out.println("Edit Emp Salary EmpSalAllowance Info-------" + empAllowncList);
+				// System.out.println("Edit Emp Salary EmpSalAllowance Info-------" +
+				// empAllowncList);
 
 				EmployeDoc[] docArr = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeDocs", map,
 						EmployeDoc[].class);
 				List<EmployeDoc> docList = new ArrayList<EmployeDoc>(Arrays.asList(docArr));
 
+				map = new LinkedMultiValueMap<>();
+				map.add("EmpId", Integer.parseInt(empId));
+				userRes = Constants.getRestTemplate().postForObject(Constants.url + "/findUserInfoByEmpId", map, User.class);
+				model.addObject("locationIds", userRes.getLocId().split(","));
+				
 				model.addObject("emp", emp);
 				model.addObject("empPersInfo", empPersInfo); // model.addObject("empPersInfo", empIdInfo);
 				model.addObject("empNom", empNom); // model.addObject("empNom", empIdNom);

@@ -470,15 +470,17 @@
 														data-container-css-class="select-sm" data-fouc>
 
 														<c:forEach items="${locationList}" var="locationList">
-															<c:choose>
-																<c:when test="${locationList.locId==emp.locationId}">
+															<c:set value="0" var="find"></c:set>
+															<c:forEach items="${locationIds}" var="locationIds">
+																<c:if test="${locationList.locId==locationIds}">
 																	<option selected="selected"
 																		value="${locationList.locId}">${locationList.locName}</option>
-																</c:when>
-																<c:otherwise>
-																	<option value="${locationList.locId}">${locationList.locName}</option>
-																</c:otherwise>
-															</c:choose>
+																	<c:set value="1" var="find"></c:set>
+																</c:if>
+															</c:forEach>
+															<c:if test="${find==0}">
+																<option value="${locationList.locId}">${locationList.locName}</option>
+															</c:if>
 														</c:forEach>
 													</select> <span class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_locId_list">This
