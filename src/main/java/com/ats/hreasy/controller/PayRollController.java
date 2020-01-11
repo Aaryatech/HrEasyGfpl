@@ -44,32 +44,39 @@ public class PayRollController {
 	public String selectMonthForPayRoll(HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		HttpSession session = request.getSession();
-		String mav = "payroll/selectMonthShoEmpInfo";
+		String mav = "redirect:/accessDenied";
 
 		try {
 
-			String date = request.getParameter("selectMonth");
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("selectMonthForPayRoll", "selectMonthForPayRoll", 1, 0, 0, 0,
+					newModuleList);
+			if (view.isError() == false) {
 
-			if (date != null) {
-				String[] monthyear = date.split("-");
-				model.addAttribute("date", date);
+				mav = "payroll/selectMonthShoEmpInfo";
+				String date = request.getParameter("selectMonth");
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-				map.add("month", monthyear[0]);
-				map.add("year", monthyear[1]);
-				PayRollDataForProcessing payRollDataForProcessing = Constants.getRestTemplate().postForObject(
-						Constants.url + "/getEmployeeListWithEmpSalEnfoForPayRoll", map,
-						PayRollDataForProcessing.class);
-				List<EmpSalaryInfoForPayroll> list = payRollDataForProcessing.getList();
+				if (date != null) {
+					String[] monthyear = date.split("-");
+					model.addAttribute("date", date);
 
-				model.addAttribute("empList", list);
-				model.addAttribute("allownceList", payRollDataForProcessing.getAllowancelist());
-				// System.out.println(payRollDataForProcessing.getList());
-			} else {
-				Allowances[] allowances = Constants.getRestTemplate().getForObject(Constants.url + "/getAllAllowances",
-						Allowances[].class);
-				List<Allowances> allowancelist = new ArrayList<>(Arrays.asList(allowances));
-				model.addAttribute("allownceList", allowancelist);
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("month", monthyear[0]);
+					map.add("year", monthyear[1]);
+					PayRollDataForProcessing payRollDataForProcessing = Constants.getRestTemplate().postForObject(
+							Constants.url + "/getEmployeeListWithEmpSalEnfoForPayRoll", map,
+							PayRollDataForProcessing.class);
+					List<EmpSalaryInfoForPayroll> list = payRollDataForProcessing.getList();
+
+					model.addAttribute("empList", list);
+					model.addAttribute("allownceList", payRollDataForProcessing.getAllowancelist());
+					// System.out.println(payRollDataForProcessing.getList());
+				} else {
+					Allowances[] allowances = Constants.getRestTemplate()
+							.getForObject(Constants.url + "/getAllAllowances", Allowances[].class);
+					List<Allowances> allowancelist = new ArrayList<>(Arrays.asList(allowances));
+					model.addAttribute("allownceList", allowancelist);
+				}
 			}
 
 		} catch (Exception e) {
@@ -81,40 +88,48 @@ public class PayRollController {
 	@RequestMapping(value = "/viewDynamicValue", method = RequestMethod.POST)
 	public String viewDynamicValue(HttpServletRequest request, HttpServletResponse response, Model model) {
 
-		String mav = "payroll/viewDynamicValue";
+		String mav = "redirect:/accessDenied";
 
 		try {
 			HttpSession session = request.getSession();
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
-			String date = request.getParameter("searchDate");
 
-			String[] monthyear = date.split("-");
-			model.addAttribute("date", date);
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("selectMonthForPayRoll", "selectMonthForPayRoll", 1, 0, 0, 0,
+					newModuleList);
+			if (view.isError() == false) {
 
-			String[] selectEmp = request.getParameterValues("selectEmp");
-			String empIds = "0";
+				String date = request.getParameter("searchDate");
+				mav = "payroll/viewDynamicValue";
+				String[] monthyear = date.split("-");
+				model.addAttribute("date", date);
 
-			for (int i = 0; i < selectEmp.length; i++) {
-				empIds = empIds + "," + selectEmp[i];
+				String[] selectEmp = request.getParameterValues("selectEmp");
+				String empIds = "0";
+
+				for (int i = 0; i < selectEmp.length; i++) {
+					empIds = empIds + "," + selectEmp[i];
+				}
+				empIds = empIds.substring(2, empIds.length());
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("month", monthyear[0]);
+				map.add("year", monthyear[1]);
+				map.add("empIds", empIds);
+				map.add("userId", userObj.getUserId());
+				// System.out.println(map);
+				Info insertTemp = Constants.getRestTemplate().postForObject(Constants.url + "/insertPayrollIntempTable",
+						map, Info.class);
+				if (insertTemp.isError() == false) {
+					GetSalDynamicTempRecord[] getSalDynamicTempRecord = Constants.getRestTemplate().postForObject(
+							Constants.url + "/getSalDynamicTempRecord", map, GetSalDynamicTempRecord[].class);
+					List<GetSalDynamicTempRecord> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
+					model.addAttribute("empList", list);
+				}
+				model.addAttribute("empIds", empIds);
+				model.addAttribute("date", date);
 			}
-			empIds = empIds.substring(2, empIds.length());
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("month", monthyear[0]);
-			map.add("year", monthyear[1]);
-			map.add("empIds", empIds);
-			map.add("userId", userObj.getUserId());
-			// System.out.println(map);
-			Info insertTemp = Constants.getRestTemplate().postForObject(Constants.url + "/insertPayrollIntempTable",
-					map, Info.class);
-			if (insertTemp.isError() == false) {
-				GetSalDynamicTempRecord[] getSalDynamicTempRecord = Constants.getRestTemplate().postForObject(
-						Constants.url + "/getSalDynamicTempRecord", map, GetSalDynamicTempRecord[].class);
-				List<GetSalDynamicTempRecord> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
-				model.addAttribute("empList", list);
-			}
-			model.addAttribute("empIds", empIds);
-			model.addAttribute("date", date);
 			// model.addAttribute("empList", list);
 
 		} catch (Exception e) {
@@ -172,17 +187,27 @@ public class PayRollController {
 
 	@RequestMapping(value = "/generatePayRoll", method = RequestMethod.POST)
 	public String generatePayRoll(HttpServletRequest request, HttpServletResponse response, Model model) {
-
-		String mav = "payroll/generatePayRoll";
+		String mav = "redirect:/accessDenied";
 
 		try {
 
-			String date = request.getParameter("searchDate");
-			String empIds = request.getParameter("empIds");
-			String[] monthyear = date.split("-");
-			request.setAttribute("month", monthyear[0]);
-			request.setAttribute("year", monthyear[1]);
-			request.setAttribute("empIds", empIds);
+			HttpSession session = request.getSession();
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("selectMonthForPayRoll", "selectMonthForPayRoll", 1, 0, 0, 0,
+					newModuleList);
+			if (view.isError() == false) {
+
+				mav = "payroll/generatePayRoll";
+				String date = request.getParameter("searchDate");
+				String empIds = request.getParameter("empIds");
+				String[] monthyear = date.split("-");
+				request.setAttribute("month", monthyear[0]);
+				request.setAttribute("year", monthyear[1]);
+				request.setAttribute("empIds", empIds);
+				model.addAttribute("empIds", empIds);
+				model.addAttribute("date", date);
+			}
 
 			/*
 			 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
@@ -196,8 +221,7 @@ public class PayRollController {
 			 * ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
 			 * model.addAttribute("empList", list);
 			 */
-			model.addAttribute("empIds", empIds);
-			model.addAttribute("date", date);
+
 			// model.addAttribute("empList", list);
 
 		} catch (Exception e) {
@@ -209,21 +233,28 @@ public class PayRollController {
 	@RequestMapping(value = "/insertFinalPayRollAndDeleteFroTemp", method = RequestMethod.POST)
 	public String insertFinalPayRollAndDeleteFroTemp(HttpServletRequest request, HttpServletResponse response,
 			Model model) {
+		String mav = "redirect:/accessDenied";
 
-		String mav = "redirect:/selectMonthForPayRoll";
 		HttpSession session = request.getSession();
 		try {
 
-			EmpSalInfoDaiyInfoTempInfo[] getSalDynamicTempRecord = (EmpSalInfoDaiyInfoTempInfo[]) session
-					.getAttribute("payrollexelList");
-			List<EmpSalInfoDaiyInfoTempInfo> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/insertFinalPayRollAndDeleteFroTemp",
-					list, Info.class);
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("selectMonthForPayRoll", "selectMonthForPayRoll", 1, 0, 0, 0,
+					newModuleList);
+			if (view.isError() == false) {
 
-			if (info.isError() == false) {
-				session.setAttribute("successMsg", "Payroll Generated Successfully");
-			} else {
-				session.setAttribute("errorMsg", "Failed to Generated Payroll");
+				mav = "redirect:/selectMonthForPayRoll";
+				EmpSalInfoDaiyInfoTempInfo[] getSalDynamicTempRecord = (EmpSalInfoDaiyInfoTempInfo[]) session
+						.getAttribute("payrollexelList");
+				List<EmpSalInfoDaiyInfoTempInfo> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
+				Info info = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/insertFinalPayRollAndDeleteFroTemp", list, Info.class);
+
+				if (info.isError() == false) {
+					session.setAttribute("successMsg", "Payroll Generated Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Generated Payroll");
+				}
 			}
 
 		} catch (Exception e) {
