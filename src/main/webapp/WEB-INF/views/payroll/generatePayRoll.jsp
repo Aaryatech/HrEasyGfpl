@@ -66,7 +66,7 @@
 
 						<form
 							action="${pageContext.request.contextPath}/insertFinalPayRollAndDeleteFroTemp"
-							id="submitInsertLeave" method="post">
+							id="insertFinalPayRollAndDeleteFroTemp" method="post">
 
 							<input type="hidden" name="searchDate" id="searchDate"
 								value="${date}" /> <input type="hidden" name="empIds"
@@ -319,7 +319,8 @@
 							<br>
 							<div class="text-center">
 
-								<button type="submit" class="btn bg-blue ml-3 legitRipple"
+								<button type="button"
+									class="btn bg-blue ml-3 legitRipple bootbox_custom"
 									id="submtbtn">Generate Payroll</button>
 								<button type="button" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn" onclick="getProgReport(0,'exelForPayroll')">
@@ -386,5 +387,32 @@
 
 		}
 	</script>
+
+	<script>
+		// Custom bootbox dialog
+		$('.bootbox_custom').on('click', function() {
+			var uuid = $(this).data("uuid") // will return the number 123
+			bootbox.confirm({
+				title : 'Confirm ',
+				message : 'Are you sure want to generate the payroll. Once it Gerenerated you will not able to edit any records/data like TDS,Advance, Loan etc?',
+				buttons : {
+					confirm : {
+						label : 'Yes',
+						className : 'btn-success'
+					},
+					cancel : {
+						label : 'Cancel',
+						className : 'btn-link'
+					}
+				},
+				callback : function(result) {
+					if (result) {
+						document.getElementById('insertFinalPayRollAndDeleteFroTemp').submit();
+
+					}
+				}
+			});
+		});
+	</Script>
 </body>
 </html>
