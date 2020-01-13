@@ -1403,27 +1403,62 @@ public class ClaimApplicationController {
 
 	@RequestMapping(value = "/showClaimListToChangeDate", method = RequestMethod.GET)
 	public String showClaimListToChangeDate(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
 
 		String mav = new String();
-		try {
 
-			mav = "claim/changeClaimYearmonth";
-			ClaimApplyHeader[] employeeDoc1 = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getClaimHeaderToChangeDate", ClaimApplyHeader[].class);
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showClaimListToChangeDate", "showClaimListToChangeDate", 1, 0, 0, 0, newModuleList);
 
-			List<ClaimApplyHeader> claimList1 = new ArrayList<ClaimApplyHeader>(Arrays.asList(employeeDoc1));
-			// System.err.println("claim list" + claimList1.toString());
+		if (view.isError() == true) {
 
-			for (int i = 0; i < claimList1.size(); i++) {
+			mav = "accessDenied";
 
-				claimList1.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(claimList1.get(i).getCaHeadId())));
+		} else {
+			try {
 
+				mav = "claim/changeClaimYearmonth";
+				ClaimApplyHeader[] employeeDoc1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getClaimHeaderToChangeDate", ClaimApplyHeader[].class);
+
+				List<ClaimApplyHeader> claimList1 = new ArrayList<ClaimApplyHeader>(Arrays.asList(employeeDoc1));
+				// System.err.println("claim list" + claimList1.toString());
+
+				for (int i = 0; i < claimList1.size(); i++) {
+
+					claimList1.get(i)
+							.setExVar2(FormValidation.Encrypt(String.valueOf(claimList1.get(i).getCaHeadId())));
+
+				}
+
+				model.addAttribute("claimList1", claimList1);
+				
+				Info add = AcessController.checkAccess("showClaimListToChangeDate", "showClaimListToChangeDate", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showClaimListToChangeDate", "showClaimListToChangeDate", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showClaimListToChangeDate", "showClaimListToChangeDate", 0, 0, 0, 1,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addAttribute("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addAttribute("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					System.out.println(" delete   Accessable ");
+					model.addAttribute("deleteAccess", 0);
+
+				}
+
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-			model.addAttribute("claimList1", claimList1);
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return mav;
 
@@ -1442,7 +1477,7 @@ public class ClaimApplicationController {
 
 			String workDate1 = request.getParameter("workDate1");
 			int clmHeadId = Integer.parseInt(request.getParameter("clmHeadId"));
-			//System.out.println("updateClmPaidDate" + workDate1);
+			// System.out.println("updateClmPaidDate" + workDate1);
 			String temp[] = workDate1.split("-");
 			Boolean ret = false;
 

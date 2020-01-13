@@ -44,15 +44,9 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Designation
-										List</h5></td>
-								<td width="40%" align="right"><c:if test="${addAccess==0}">
-										<a href="${pageContext.request.contextPath}/companyAdd"
-											class="breadcrumb-elements-item">
-											<button type="button" class="btn btn-primary">Add
-												Company</button>
-										</a>
-									</c:if></td>
+								<td width="60%"><h5 class="card-title">Change Claim
+										Paid Date</h5></td>
+								<td width="40%" align="right"></td>
 							</tr>
 						</table>
 					</div>
@@ -127,11 +121,13 @@
 										<td>${claimList.claimAmount}</td>
 										<td>${claimList.month}-${claimList.year}</td>
 
-										<td class="text-center"><a href="#"
-											onclick="chkAssign('${claimList.caHeadId}','${claimList.claimTitle}','${claimList.claimAmount}','${claimList.exVar1}','${claimList.exVar3}','${claimList.cafromDt}','${claimList.caToDt}')"
-											title="Edit"><i class="icon-pencil7"
-												style="color: black;" data-toggle="modal"
-												data-target="#modal_edit"></i></a></td>
+										<td class="text-center"><c:if test="${editAccess == 0}">
+												<a href="#"
+													onclick="chkAssign('${claimList.caHeadId}','${claimList.claimTitle}','${claimList.claimAmount}','${claimList.exVar1}','${claimList.exVar3}','${claimList.cafromDt}','${claimList.caToDt}')"
+													title="Edit"><i class="icon-pencil7"
+													style="color: black;" data-toggle="modal"
+													data-target="#modal_edit"></i></a>
+											</c:if></td>
 									</tr>
 								</c:forEach>
 

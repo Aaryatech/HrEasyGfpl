@@ -330,6 +330,12 @@ public class ExgratiaAdminController {
 					BonusCalc.class);
 			model.addObject("editBonusCalc", editBonusCalc);
 			model.addObject("bonusId", editBonusCalc.getBonusId());
+			
+		 map = new LinkedMultiValueMap<>();
+			map.add("bonusId", editBonusCalc.getBonusId());
+			BonusMaster editBonus = Constants.getRestTemplate().postForObject(Constants.url + "/getBonusById", map,
+					BonusMaster.class);
+			model.addObject("editBonus", editBonus);
 
 			/* } */
 		} catch (Exception e) {
@@ -357,13 +363,14 @@ public class ExgratiaAdminController {
 
 			System.err.println("bonusCalcId ****" + bonusCalcId);
 			double exPrcnt = Double.parseDouble(request.getParameter("exgratiaPrcnt"));
-			double exgratiaAmt = Double.parseDouble(request.getParameter("exgratiaAmt"));
+		//	double exgratiaAmt = Double.parseDouble(request.getParameter("exgratiaAmt"));
 
 			map.add("bonusId", bonusId);
 			map.add("bonusCalcId", bonusCalcId);
 			map.add("exPrcnt", exPrcnt);
-			map.add("exgratiaAmt1", exgratiaAmt);
-			map.add("companyId", 1);
+			/*
+			 * map.add("exgratiaAmt1", exgratiaAmt);
+			 */			map.add("companyId", 1);
 			map.add("dateTime", sf.format(date));
 			map.add("userId", userObj.getUserId());
 

@@ -98,6 +98,49 @@
 
 
 
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="shiftName">Exgratia
+											Amt <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control" id="exgratiaAmt"
+												name="exgratiaAmt"  readonly="readonly"
+												value="${editBonusCalc.totalExgretiaWages}"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_exgratiaAmt"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
+									
+										<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="shiftName">Gross Exgratia
+											Amt <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control" id="exgratiaAmt"
+												name="exgratiaAmt"  readonly="readonly"
+												value="${editBonusCalc.grossExgretiaAmt}"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_exgratiaAmt"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
+									
+										<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="shiftName">Paid Exgratia
+											Amt <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control" id="exgratiaAmt"
+												name="exgratiaAmt" readonly="readonly"
+												value="${editBonusCalc.paidExgretiaAmt}"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_exgratiaAmt"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="shiftName">Exgratia
 											% <span style="color: red">* </span>:
@@ -113,19 +156,6 @@
 									</div>
 
 
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="shiftName">Exgratia
-											Amt <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-10">
-											<input type="text" class="form-control" id="exgratiaAmt"
-												name="exgratiaAmt"
-												value="${editBonusCalc.totalExgretiaWages}"
-												autocomplete="off" onchange="trim(this)"> <span
-												class="validation-invalid-label" id="error_exgratiaAmt"
-												style="display: none;">This field is required.</span>
-										</div>
-									</div>
 
 									<input type="hidden" id="bonusId" name="bonusId"
 										value="${bonusId}"> <input type="hidden"
@@ -187,14 +217,7 @@
 					$("#error_exgratiaPrcnt").hide()
 				}
 
-				if (!$("#exgratiaAmt").val()) {
-
-					isError = true;
-
-					$("#error_exgratiaAmt").show()
-				} else {
-					$("#error_exgratiaAmt").hide()
-				}
+				 
 
 				if (!isError) {
 
