@@ -44,7 +44,12 @@
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Employee Bonus
 										Assignment</h5></td>
-								<td width="40%" align="right"></td>
+								<td width="40%" align="right"><a
+									href="${pageContext.request.contextPath}/showBonusList"
+									class="breadcrumb-elements-item">
+										<button type="button" class="btn btn-primary">Bonus
+											List</button>
+								</a></td>
 							</tr>
 						</table>
 					</div>
@@ -240,14 +245,16 @@
 												<td>${bonusList.dedBonusLossAmt}</td>
 												<td>${bonusList.netBonusAmt}</td>
 												<td>${bonusList.paidBonusAmt}</td>
-												
-<%-- 												<c:if test="${payRollFinal==1}">
- --%>												<td class="text-center"><a href="javascript:void(0)"
+
+												<%-- 												<c:if test="${payRollFinal==1}">
+ --%>
+												<td class="text-center"><a href="javascript:void(0)"
 													class="list-icons-item text-danger-600 bootbox_custom"
 													data-uuid="${bonusList.exVar1}"
 													data-abc="${bonusList.exVar2}" data-popup="tooltip"
 													title="" data-original-title="Delete"><i
-														class="icon-trash"></i></a></td><%-- </c:if> --%>
+														class="icon-trash"></i></a></td>
+												<%-- </c:if> --%>
 											</tr>
 										</c:forEach>
 
@@ -300,9 +307,7 @@
 													id="submtbtn">
 													Submit <i class="icon-paperplane ml-2"></i>
 												</button>
-												<a
-													href="${pageContext.request.contextPath}/showEmpListToAssignBonus"><button
-														type="button" class="btn btn-light">Back</button></a>
+
 											</div>
 										</div>
 									</form>
@@ -384,7 +389,7 @@
 	</script>
 
 
-<script>
+	<script>
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 

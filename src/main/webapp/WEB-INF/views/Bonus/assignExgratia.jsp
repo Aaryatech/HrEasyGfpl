@@ -42,9 +42,14 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee Exgratia
-										Assignment</h5></td>
-								<td width="40%" align="right"></td>
+								<td width="60%"><h5 class="card-title">Employee
+										Exgratia Assignment</h5></td>
+								<td width="40%" align="right"><a
+									href="${pageContext.request.contextPath}/showBonusList"
+									class="breadcrumb-elements-item">
+										<button type="button" class="btn btn-primary">Bonus
+											List</button>
+								</a></td>
 							</tr>
 						</table>
 					</div>
@@ -250,25 +255,24 @@
 												<td>${bonusList.grossExgretiaAmt}</td>
 												<td>${bonusList.netExgretiaAmt}</td>
 												<td>${bonusList.paidExgretiaAmt}</td>
-												
-											
-												<td class="text-center">	<c:if test="${bonusList.isExgretiaFinalized ne 'Yes'}"><a
-														href="${pageContext.request.contextPath}/showEditExgratia?bonusCalcId=${bonusList.exVar2}"
-														class="list-icons-item text-primary-600"
-														data-popup="tooltip" title="" data-original-title="Edit"><i
-														class="icon-pencil7"></i></a>		<a href="javascript:void(0)"
-													class="list-icons-item text-danger-600 bootbox_custom"
-													data-uuid="${bonusList.exVar1}"
-													data-abc="${bonusList.exVar2}" data-popup="tooltip"
-													title="" data-original-title="Delete"><i
-														class="icon-trash"></i></a></c:if>
-														
-														
-														
-														
-														</td>
-														
-												
+
+
+												<td class="text-center"><c:if
+														test="${bonusList.isExgretiaFinalized ne 'Yes'}">
+														<a
+															href="${pageContext.request.contextPath}/showEditExgratia?bonusCalcId=${bonusList.exVar2}"
+															class="list-icons-item text-primary-600"
+															data-popup="tooltip" title="" data-original-title="Edit"><i
+															class="icon-pencil7"></i></a>
+														<a href="javascript:void(0)"
+															class="list-icons-item text-danger-600 bootbox_custom"
+															data-uuid="${bonusList.exVar1}"
+															data-abc="${bonusList.exVar2}" data-popup="tooltip"
+															title="" data-original-title="Delete"><i
+															class="icon-trash"></i></a>
+													</c:if></td>
+
+
 											</tr>
 										</c:forEach>
 
@@ -321,9 +325,8 @@
 													id="submtbtn">
 													Submit <i class="icon-paperplane ml-2"></i>
 												</button>
-												<a
-													href="${pageContext.request.contextPath}/showEmpListToAssignExgratia"><button
-														type="button" class="btn btn-light">Back</button></a>
+												<%-- <a href="${pageContext.request.contextPath}/showBonusList"><button
+														type="button" class="btn btn-light">Back</button></a> --%>
 											</div>
 										</div>
 									</form>
@@ -409,8 +412,8 @@
 							});
 				});
 	</script>
-	
-	
+
+
 	<script>
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces

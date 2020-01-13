@@ -198,16 +198,47 @@ public class BonusAdminController {
 
 				List<BonusMaster> bonusList = new ArrayList<BonusMaster>(Arrays.asList(location));
 
-				for (int i = 0; i < bonusList.size(); i++) {
-
-					bonusList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(bonusList.get(i).getBonusId())));
-				}
-
 				BonusCalc[] bonusCalc = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBonusCalcList",
 						BonusCalc[].class);
 
 				List<BonusCalc> bonusCalcList = new ArrayList<BonusCalc>(Arrays.asList(bonusCalc));
 				for (int i = 0; i < bonusList.size(); i++) {
+
+					// encrpt bonusId
+					bonusList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(bonusList.get(i).getBonusId())));
+
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("bonusId", bonusList.get(i).getBonusId());
+					BonusApplicable info = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/chkIsBonusFinalized", map, BonusApplicable.class);
+					int isExFinalized = 0;
+
+					// model.addAttribute("payRollFinal", info.getIsPayrollFinalized());
+					try {
+						if (info.getIsBonussheetFinalized().equals("1")) {
+							bonusList.get(i).setExVar2("1");
+						} else {
+							bonusList.get(i).setExVar2("2");
+						}
+
+					} catch (Exception e) {
+						bonusList.get(i).setExVar2("2");
+					}
+
+					try {
+
+						if (info.getIsExgretiaFinalized().equals("1")) {
+							isExFinalized = 1;
+						} else {
+							isExFinalized = 2;
+						}
+
+					} catch (Exception e) {
+						isExFinalized = 2;
+					}
+
+					// chk isCal
+
 					int flag = 0;
 					for (int j = 0; j < bonusCalcList.size(); j++) {
 
@@ -221,7 +252,15 @@ public class BonusAdminController {
 					}
 					if (flag == 1) {
 						bonusList.get(i).setExInt2(1);
+						if(isExFinalized==2) {
+							bonusList.get(i).setBonusAppBelowAmount(1);
+						}else {
+							bonusList.get(i).setBonusAppBelowAmount(2);
+						}
+						
 					}
+
+					// chk isApp
 
 				}
 
@@ -245,26 +284,6 @@ public class BonusAdminController {
 					model.addObject("deleteAccess", 0);
 
 				}
-				
-				
-				/*
-				 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				 * map.add("bonusId", bonusId); BonusApplicable info =
-				 * Constants.getRestTemplate().postForObject(Constants.url +
-				 * "/chkIsBonusFinalized", map, BonusApplicable.class);
-				 * 
-				 * 
-				 * //model.addAttribute("payRollFinal", info.getIsPayrollFinalized()); try {
-				 * model.addAttribute("bonusAppId", info.getBappNo()); if
-				 * (info.getIsBonussheetFinalized().equals("1")) { System.err.println("1");
-				 * isfinalized = 1; model.addAttribute("isfinalized", isfinalized); } else {
-				 * System.err.println("2"); isfinalized = 2; model.addAttribute("isfinalized",
-				 * isfinalized); }
-				 * 
-				 * } catch (Exception e) { System.err.println("3"); isfinalized = 3;
-				 * model.addAttribute("bonusAppId", 0); model.addAttribute("isfinalized",
-				 * isfinalized); }
-				 */
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -479,105 +498,104 @@ public class BonusAdminController {
 	@RequestMapping(value = "/showEmpListToAssignBonus", method = RequestMethod.GET)
 	public String showEmpListToAssignBonus(HttpServletRequest request, HttpServletResponse response, Model model) {
 		HttpSession session = request.getSession();
-		 String mav = null;
-		 int isfinalized = 0;
+		String mav = null;
+		int isfinalized = 0;
 		/*
 		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
 		 * session.getAttribute("moduleJsonList"); Info view =
 		 * AcessController.checkAccess("showEmpListToAssignBonus",
-		 * "showEmpListToAssignBonus", 1, 0, 0, 0, newModuleList);
-		 *  ; if (view.isError() == true) { mav = "accessDenied";
+		 * "showEmpListToAssignBonus", 1, 0, 0, 0, newModuleList); ; if (view.isError()
+		 * == true) { mav = "accessDenied";
 		 * 
 		 * } else {
 		 */
-			mav = "Bonus/assignBonus";
+		mav = "Bonus/assignBonus";
 
-			try {
+		try {
 
-				String bonusName = null;
-				String base64encodedString1 = request.getParameter("bonusId");
-				String bonusId = FormValidation.DecodeKey(base64encodedString1);
-				
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("bonusId", bonusId);
-				map.add("flag", 0);
-				
-				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getAllEmployeeDetailForBonus",map, GetEmployeeDetails[].class);
+			String bonusName = null;
+			String base64encodedString1 = request.getParameter("bonusId");
+			String bonusId = FormValidation.DecodeKey(base64encodedString1);
 
-				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
-				model.addAttribute("empdetList", empdetList);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("bonusId", bonusId);
+			map.add("flag", 0);
 
-				BonusMaster[] location = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBonusList",
-						BonusMaster[].class);
+			GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getAllEmployeeDetailForBonus", map, GetEmployeeDetails[].class);
 
-				List<BonusMaster> bonusList = new ArrayList<BonusMaster>(Arrays.asList(location));
-				model.addAttribute("bonusList", bonusList);
-				model.addAttribute("bonusId", bonusId);
+			List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+			model.addAttribute("empdetList", empdetList);
 
-				for (int i = 0; i < bonusList.size(); i++) {
+			BonusMaster[] location = Constants.getRestTemplate().getForObject(Constants.url + "/getAllBonusList",
+					BonusMaster[].class);
 
-					if (bonusList.get(i).getBonusId() == Integer.parseInt(bonusId)) {
-						model.addAttribute("bonusName", bonusList.get(i).getFyTitle());
-					}
+			List<BonusMaster> bonusList = new ArrayList<BonusMaster>(Arrays.asList(location));
+			model.addAttribute("bonusList", bonusList);
+			model.addAttribute("bonusId", bonusId);
 
+			for (int i = 0; i < bonusList.size(); i++) {
+
+				if (bonusList.get(i).getBonusId() == Integer.parseInt(bonusId)) {
+					model.addAttribute("bonusName", bonusList.get(i).getFyTitle());
 				}
 
-				// new added
+			}
+
+			// new added
 
 			map = new LinkedMultiValueMap<>();
-				map.add("bonusId", bonusId);
-				map.add("flag", 0);
+			map.add("bonusId", bonusId);
+			map.add("flag", 0);
 
-				BonusCalc[] employeeDoc1 = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getBonusCalcList", map, BonusCalc[].class);
+			BonusCalc[] employeeDoc1 = Constants.getRestTemplate().postForObject(Constants.url + "/getBonusCalcList",
+					map, BonusCalc[].class);
 
-				List<BonusCalc> claimProofList1 = new ArrayList<BonusCalc>(Arrays.asList(employeeDoc1));
+			List<BonusCalc> claimProofList1 = new ArrayList<BonusCalc>(Arrays.asList(employeeDoc1));
 
-				for (int i = 0; i < claimProofList1.size(); i++) {
+			for (int i = 0; i < claimProofList1.size(); i++) {
 
-					claimProofList1.get(i)
-							.setExVar1(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusCalcId())));
-					claimProofList1.get(i)
-							.setExVar2(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusId())));
-				}
+				claimProofList1.get(i)
+						.setExVar1(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusCalcId())));
+				claimProofList1.get(i)
+						.setExVar2(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusId())));
+			}
 
-				model.addAttribute("bonusId", bonusId);
-				model.addAttribute("bonusCalcList", claimProofList1);
-				map = new LinkedMultiValueMap<>();
-				map.add("bonusId", bonusId);
-				BonusApplicable info = Constants.getRestTemplate().postForObject(Constants.url + "/chkIsBonusFinalized",
-						map, BonusApplicable.class);
+			model.addAttribute("bonusId", bonusId);
+			model.addAttribute("bonusCalcList", claimProofList1);
+			map = new LinkedMultiValueMap<>();
+			map.add("bonusId", bonusId);
+			BonusApplicable info = Constants.getRestTemplate().postForObject(Constants.url + "/chkIsBonusFinalized",
+					map, BonusApplicable.class);
 
-				
-				//model.addAttribute("payRollFinal", info.getIsPayrollFinalized());
-				try {
-					model.addAttribute("bonusAppId", info.getBappNo());
-					if (info.getIsBonussheetFinalized().equals("1")) {
-						System.err.println("1");
-						isfinalized = 1;
-						model.addAttribute("isfinalized", isfinalized);
-					} else {
-						System.err.println("2");
-						isfinalized = 2;
-						model.addAttribute("isfinalized", isfinalized);
-					}
-
-				} catch (Exception e) {
-					System.err.println("3");
-					isfinalized = 3;
-					model.addAttribute("bonusAppId", 0);
+			// model.addAttribute("payRollFinal", info.getIsPayrollFinalized());
+			try {
+				model.addAttribute("bonusAppId", info.getBappNo());
+				if (info.getIsBonussheetFinalized().equals("1")) {
+					System.err.println("1");
+					isfinalized = 1;
+					model.addAttribute("isfinalized", isfinalized);
+				} else {
+					System.err.println("2");
+					isfinalized = 2;
 					model.addAttribute("isfinalized", isfinalized);
 				}
 
-				System.err.println("isfinalized" + isfinalized);
-
 			} catch (Exception e) {
-
-				e.printStackTrace();
+				System.err.println("3");
+				isfinalized = 3;
+				model.addAttribute("bonusAppId", 0);
+				model.addAttribute("isfinalized", isfinalized);
 			}
 
-		//}
+			System.err.println("isfinalized" + isfinalized);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		// }
 		return mav;
 	}
 
@@ -633,8 +651,7 @@ public class BonusAdminController {
 				// retString = info.getMsg();
 				session.setAttribute("successMsg", "Data Inserted Successfully");
 
-				
-			}  
+			}
 			a = "redirect:/showEmpListToAssignBonus?bonusId=" + FormValidation.Encrypt(bonusId);
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
@@ -644,7 +661,6 @@ public class BonusAdminController {
 		return a;
 	}
 
-	
 	@RequestMapping(value = "/submitBonusApplicable", method = RequestMethod.POST)
 	public String submitBonusApplicable(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
