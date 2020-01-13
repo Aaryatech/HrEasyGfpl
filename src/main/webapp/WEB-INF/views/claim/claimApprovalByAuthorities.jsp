@@ -310,7 +310,7 @@
 
 
 													</c:if> <a
-													href="${pageContext.request.contextPath}/claimDetailHistory?&claimId=${claimList1.circulatedTo}"
+													href="${pageContext.request.contextPath}/claimDetailHistory?empId=${claimList1.exVar1}&claimId=${claimList1.circulatedTo}"
 													style="color: black"><i class="icon-list-unordered"></i></a></td>
 											</tr>
 										</c:forEach>

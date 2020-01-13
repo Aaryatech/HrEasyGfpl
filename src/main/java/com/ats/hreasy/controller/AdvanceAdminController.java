@@ -605,7 +605,7 @@ public class AdvanceAdminController {
 				session.setAttribute("errorMsg", "Failed to Insert Record");
 			}
 		}
-		return "redirect:/showEmpAdvancePendingList";
+		return a;
 	}
 
 	// ***********Change Pass********************

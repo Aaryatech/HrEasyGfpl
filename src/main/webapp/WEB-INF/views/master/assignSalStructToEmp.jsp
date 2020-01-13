@@ -42,8 +42,8 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee Salary Structure Assignment
-										 </h5></td>
+								<td width="60%"><h5 class="card-title">Employee Salary
+										Structure Assignment</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
@@ -92,11 +92,12 @@
 
 							<div class="form-group row">
 								<label class="col-form-label col-lg-2" for="locId">
-									Select Sal Structure To Assign <span style="color: red">* </span>:
+									Select Sal Structure To Assign <span style="color: red">*
+								</span>:
 								</label>
 								<div class="col-lg-10">
-									<select name="shiftId" data-placeholder="Select Salary Structure  "
-										id="shiftId"
+									<select name="shiftId"
+										data-placeholder="Select Salary Structure  " id="shiftId"
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
 
@@ -117,8 +118,7 @@
 
 										<th width="10%">Sr.no</th>
 
-										<th><input type="checkbox"   name="selAll"
-											id="selAll" /></th>
+										<th><input type="checkbox" name="selAll" id="selAll" /></th>
 										<th>Employee Code</th>
 										<th>Employee Name</th>
 										<th>Emp Type</th>
@@ -139,8 +139,7 @@
 
 											<td>${count.index+1}</td>
 											<td><input type="checkbox" id="empId${empdetList.empId}"
-												value="${empdetList.empId}" name="empId" class="select_all"
-												 ></td>
+												value="${empdetList.empId}" name="empId" class="select_all"></td>
 											<td>${empdetList.empCode}</td>
 											<td>${empdetList.surname}&nbsp;${empdetList.middleName}&nbsp;${empdetList.firstName}</td>
 											<td>${empdetList.empTypeName}</td>
@@ -148,7 +147,7 @@
 											<td>${empdetList.empDesgn}</td>
 
 											<td>${empdetList.locName}</td>
- 											<td>${empdetList.salTypeName}</td>
+											<td>${empdetList.salTypeName}</td>
 
 										</tr>
 									</c:forEach>
@@ -161,8 +160,8 @@
 
 
 							<div style="text-align: center;">
-								<input type="submit" class="btn btn-primary"
-									value="Assign" id="deleteId"
+								<input type="submit" class="btn btn-primary" value="Assign"
+									id="deleteId"
 									style="align-content: center; width: 113px; margin-left: 40px;">
 							</div>
 						</form>

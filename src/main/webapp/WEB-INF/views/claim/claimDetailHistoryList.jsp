@@ -165,7 +165,7 @@
 										</div>
 									</div>
 									
-									<div class="form-group row">
+								<%-- 	<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="compName">Project Title
 											: </label>
 										<div class="col-lg-6">
@@ -174,7 +174,7 @@
 												name="compName" autocomplete="off" readonly>
 											
 										</div>
-									</div>
+									</div> --%>
 						
 					<h6 class="card-title">Claim Trail History</h6>
 								

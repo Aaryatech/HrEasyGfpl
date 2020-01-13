@@ -163,7 +163,7 @@
 									<tbody>
 
 
-										<c:forEach items="${claimDetList}" var="lvTypeList"
+										<c:forEach items="${claimList1}" var="lvTypeList"
 											varStatus="count">
 											<tr>
 												<td>${count.index+1}</td>

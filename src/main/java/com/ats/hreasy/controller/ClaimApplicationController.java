@@ -1,7 +1,7 @@
 package com.ats.hreasy.controller;
 
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetAuthorityIds;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.Advance.Advance;
 import com.ats.hreasy.model.claim.ClaimApply;
 import com.ats.hreasy.model.claim.ClaimApplyHeader;
 import com.ats.hreasy.model.claim.ClaimDetail;
@@ -384,8 +386,6 @@ public class ClaimApplicationController {
 
 				}
 
-				// System.out.println("lv claimList list pending " + claimList.toString());
-
 				// for Info
 
 				map = new LinkedMultiValueMap<>();
@@ -396,7 +396,7 @@ public class ClaimApplicationController {
 
 				List<GetClaimApplyAuthwise> claimList1 = new ArrayList<GetClaimApplyAuthwise>(
 						Arrays.asList(employeeDoc1));
-
+				System.out.println("claimList1 " + claimList1.toString());
 				for (int i = 0; i < claimList1.size(); i++) {
 
 					claimList1.get(i)
@@ -705,7 +705,7 @@ public class ClaimApplicationController {
 					.postForObject(Constants.url + "/getClaimDetailListByEmpId", map, ClaimDetail[].class);
 
 			List<ClaimDetail> claimList1 = new ArrayList<ClaimDetail>(Arrays.asList(employeeDoc1));
-			// System.err.println("claim list" + claimList1.toString());
+			System.err.println("ClaimDetail list" + claimList1.toString());
 
 			for (int i = 0; i < claimList1.size(); i++) {
 
@@ -979,14 +979,12 @@ public class ClaimApplicationController {
 				stat = 1;
 			}
 
-			
-
 			docHead.setClaimStatus(stat);
 			String dt = docHead.getCafromDt();
-			
+
 			String temp[] = dt.split("-");
-		 
- 			if (stat == 3) {
+
+			if (stat == 3) {
 				docHead.setMonth(Integer.parseInt(temp[1]));
 				docHead.setYear(Integer.parseInt(temp[0]));
 				docHead.setIsPaid(0);
@@ -1402,5 +1400,92 @@ public class ClaimApplicationController {
 	 * 
 	 * } catch (Exception e) { e.printStackTrace(); } return model; }
 	 */
+
+	@RequestMapping(value = "/showClaimListToChangeDate", method = RequestMethod.GET)
+	public String showClaimListToChangeDate(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = new String();
+		try {
+
+			mav = "claim/changeClaimYearmonth";
+			ClaimApplyHeader[] employeeDoc1 = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getClaimHeaderToChangeDate", ClaimApplyHeader[].class);
+
+			List<ClaimApplyHeader> claimList1 = new ArrayList<ClaimApplyHeader>(Arrays.asList(employeeDoc1));
+			// System.err.println("claim list" + claimList1.toString());
+
+			for (int i = 0; i < claimList1.size(); i++) {
+
+				claimList1.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(claimList1.get(i).getCaHeadId())));
+
+			}
+
+			model.addAttribute("claimList1", claimList1);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+
+	}
+
+	@RequestMapping(value = "/updateClmPaidDate", method = RequestMethod.POST)
+	public String updateClmPaidDate(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+		try {
+
+			Date date2 = new Date();
+			SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			String workDate1 = request.getParameter("workDate1");
+			int clmHeadId = Integer.parseInt(request.getParameter("clmHeadId"));
+			//System.out.println("updateClmPaidDate" + workDate1);
+			String temp[] = workDate1.split("-");
+			Boolean ret = false;
+
+			if (FormValidation.Validaton(workDate1, "") == true) {
+
+				ret = true;
+				System.out.println("workDate1" + ret);
+			}
+
+			if (FormValidation.Validaton(request.getParameter("clmHeadId"), "") == true) {
+
+				ret = true;
+				System.out.println("clmHeadId" + ret);
+			}
+
+			if (ret == false) {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("dateTimeUpdate", sf2.format(date2));
+				map.add("userId", userObj.getEmpId());
+				map.add("clmHeadId", clmHeadId);
+				map.add("month", String.valueOf(temp[1]));
+				map.add("year", String.valueOf(temp[2]));
+
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateClmPaidDate", map,
+						Info.class);
+
+				if (info != null) {
+					session.setAttribute("successMsg", "Advance Skipped  Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+
+			} else {
+				session.setAttribute("errorMsg", "Failed to Insert Record");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Insert Record");
+		}
+
+		return "redirect:/showClaimListToChangeDate";
+	}
 
 }

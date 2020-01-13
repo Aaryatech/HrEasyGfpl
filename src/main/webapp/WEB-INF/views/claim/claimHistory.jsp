@@ -147,12 +147,14 @@
 										<td class="text-center"><a
 											href="${pageContext.request.contextPath}/showClaimProofAgain?claimId=${lvTypeList.exVar1}"
 											title="Upload Document"><i class="icon-file-upload"
-												style="color: black;"></i></a> <a
+												style="color: black;"></i></a> <%-- <a
 											href="${pageContext.request.contextPath}/showClaimHistDetailList?claimId=${lvTypeList.exVar1}"
 											title="History"><i class="icon-history"
-												style="color: black;"></i></a> <a
+												style="color: black;"></i></a>
+												 --%>
+												 <a
 											href="${pageContext.request.contextPath}/showClaimDetailList?claimId=${lvTypeList.exVar1}"
-											title="Claim Detail"><i class="icon-list"
+											title="Claim Detail"><i class="icon-history"
 												style="color: black;"></i></a></td>
 									</tr>
 								</c:forEach>

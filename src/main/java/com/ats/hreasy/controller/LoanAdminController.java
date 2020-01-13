@@ -508,7 +508,7 @@ class LoanAdminController {
 				System.out.println("date------" + sf.format(date));
 				String a = sf.format(date1);
 
-				System.out.println("a------" + a);
+				//System.out.println("a------" + a);
 
 				if (sf.format(date).equals(a)) {
 					employeeInfoList.get(i).setExInt1(1);
@@ -839,6 +839,11 @@ class LoanAdminController {
 			Boolean ret = false;
 			empId = FormValidation.Encrypt(String.valueOf(advList.getEmpId()));
 
+			String repayDate=advList.getLoanRepayEnd();
+		//	System.err.println("one repayDate  "+repayDate);
+			LocalDate localDate = LocalDate.parse(DateConvertor.convertToYMD(repayDate));
+				LocalDate oneMonthLater = localDate.plusMonths(1);
+				//System.err.println("one month later"+oneMonthLater);
 			if (FormValidation.Validaton(remark, "") == true) {
 
 				ret = true;
@@ -860,6 +865,9 @@ class LoanAdminController {
 				map.add("skipStr", skipStr);
 				map.add("count", count);
 				map.add("advId", id);
+				map.add("repayEnd", String.valueOf(oneMonthLater));
+				
+				
 				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSkipLoan", map,
 						Info.class);
 
