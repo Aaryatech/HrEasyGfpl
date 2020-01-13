@@ -122,7 +122,7 @@
 												name="exgratiaAmt"
 												value="${editBonusCalc.totalExgretiaWages}"
 												autocomplete="off" onchange="trim(this)"> <span
-												class="validation-invalid-label" id="error_exgratiaPrcnt"
+												class="validation-invalid-label" id="error_exgratiaAmt"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
@@ -178,22 +178,22 @@
 			$("#submitBonus").submit(function(e) {
 				var isError = false;
 				var errMsg = "";
-				if (!$("#bonusTitle").val()) {
+				if (!$("#exgratiaPrcnt").val()) {
 
 					isError = true;
 
-					$("#error_bonusTitle").show()
+					$("#error_exgratiaPrcnt").show()
 				} else {
-					$("#error_bonusTitle").hide()
+					$("#error_exgratiaPrcnt").hide()
 				}
 
-				if (!$("#bonusPrcnt").val()) {
+				if (!$("#exgratiaAmt").val()) {
 
 					isError = true;
 
-					$("#error_bonusPrcnt").show()
+					$("#error_exgratiaAmt").show()
 				} else {
-					$("#error_bonusPrcnt").hide()
+					$("#error_exgratiaAmt").hide()
 				}
 
 				if (!isError) {

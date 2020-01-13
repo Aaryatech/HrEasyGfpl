@@ -245,6 +245,26 @@ public class BonusAdminController {
 					model.addObject("deleteAccess", 0);
 
 				}
+				
+				
+				/*
+				 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				 * map.add("bonusId", bonusId); BonusApplicable info =
+				 * Constants.getRestTemplate().postForObject(Constants.url +
+				 * "/chkIsBonusFinalized", map, BonusApplicable.class);
+				 * 
+				 * 
+				 * //model.addAttribute("payRollFinal", info.getIsPayrollFinalized()); try {
+				 * model.addAttribute("bonusAppId", info.getBappNo()); if
+				 * (info.getIsBonussheetFinalized().equals("1")) { System.err.println("1");
+				 * isfinalized = 1; model.addAttribute("isfinalized", isfinalized); } else {
+				 * System.err.println("2"); isfinalized = 2; model.addAttribute("isfinalized",
+				 * isfinalized); }
+				 * 
+				 * } catch (Exception e) { System.err.println("3"); isfinalized = 3;
+				 * model.addAttribute("bonusAppId", 0); model.addAttribute("isfinalized",
+				 * isfinalized); }
+				 */
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -459,16 +479,17 @@ public class BonusAdminController {
 	@RequestMapping(value = "/showEmpListToAssignBonus", method = RequestMethod.GET)
 	public String showEmpListToAssignBonus(HttpServletRequest request, HttpServletResponse response, Model model) {
 		HttpSession session = request.getSession();
-		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-		Info view = AcessController.checkAccess("showEmpListToAssignBonus", "showEmpListToAssignBonus", 1, 0, 0, 0,
-				newModuleList);
-		String mav = null;
-		int isfinalized = 0;
-		;
-		if (view.isError() == true) {
-			mav = "accessDenied";
-
-		} else {
+		 String mav = null;
+		 int isfinalized = 0;
+		/*
+		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+		 * session.getAttribute("moduleJsonList"); Info view =
+		 * AcessController.checkAccess("showEmpListToAssignBonus",
+		 * "showEmpListToAssignBonus", 1, 0, 0, 0, newModuleList);
+		 *  ; if (view.isError() == true) { mav = "accessDenied";
+		 * 
+		 * } else {
+		 */
 			mav = "Bonus/assignBonus";
 
 			try {
@@ -556,7 +577,7 @@ public class BonusAdminController {
 				e.printStackTrace();
 			}
 
-		}
+		//}
 		return mav;
 	}
 

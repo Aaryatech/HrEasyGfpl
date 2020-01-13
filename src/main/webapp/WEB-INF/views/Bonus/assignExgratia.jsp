@@ -42,7 +42,7 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee Bonus
+								<td width="60%"><h5 class="card-title">Employee Exgratia
 										Assignment</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
@@ -252,18 +252,18 @@
 												<td>${bonusList.paidExgretiaAmt}</td>
 												
 											
-												<td class="text-center">	<c:if test="${bonusList.isExgretiaFinalized ne 'Yes'}"><a href="javascript:void(0)"
+												<td class="text-center">	<c:if test="${bonusList.isExgretiaFinalized ne 'Yes'}"><a
+														href="${pageContext.request.contextPath}/showEditExgratia?bonusCalcId=${bonusList.exVar2}"
+														class="list-icons-item text-primary-600"
+														data-popup="tooltip" title="" data-original-title="Edit"><i
+														class="icon-pencil7"></i></a>		<a href="javascript:void(0)"
 													class="list-icons-item text-danger-600 bootbox_custom"
 													data-uuid="${bonusList.exVar1}"
 													data-abc="${bonusList.exVar2}" data-popup="tooltip"
 													title="" data-original-title="Delete"><i
 														class="icon-trash"></i></a></c:if>
 														
-														<a
-														href="${pageContext.request.contextPath}/showEditExgratia?bonusCalcId=${bonusList.exVar2}"
-														class="list-icons-item text-primary-600"
-														data-popup="tooltip" title="" data-original-title="Edit"><i
-														class="icon-pencil7"></i></a>		
+														
 														
 														
 														</td>

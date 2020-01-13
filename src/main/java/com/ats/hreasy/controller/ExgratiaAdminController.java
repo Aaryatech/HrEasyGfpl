@@ -293,8 +293,8 @@ public class ExgratiaAdminController {
 		return a;
 	}
 
-	
-	BonusCalc editBonusCalc=new BonusCalc();
+	BonusCalc editBonusCalc = new BonusCalc();
+
 	@RequestMapping(value = "/showEditExgratia", method = RequestMethod.GET)
 	public ModelAndView showEditExgratia(HttpServletRequest request, HttpServletResponse response) {
 
@@ -330,19 +330,20 @@ public class ExgratiaAdminController {
 					BonusCalc.class);
 			model.addObject("editBonusCalc", editBonusCalc);
 			model.addObject("bonusId", editBonusCalc.getBonusId());
- 
+
 			/* } */
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/submitEditExgratia", method = RequestMethod.POST)
 	public String submitEditExgratia(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
+		System.err.println("hii ****");
 		Date date = new Date();
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -351,18 +352,17 @@ public class ExgratiaAdminController {
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
 			int bonusId = Integer.parseInt(request.getParameter("bonusId"));
-			 
+			temp=request.getParameter("bonusId");
 			int bonusCalcId = Integer.parseInt(request.getParameter("bonusCalcId"));
 
-			
-			double exPrcnt=Double.parseDouble(request.getParameter("bonusId"));
-			double exgratiaAmt=Double.parseDouble(request.getParameter("exgratiaAmt"));
-			
+			System.err.println("bonusCalcId ****" + bonusCalcId);
+			double exPrcnt = Double.parseDouble(request.getParameter("exgratiaPrcnt"));
+			double exgratiaAmt = Double.parseDouble(request.getParameter("exgratiaAmt"));
+
 			map.add("bonusId", bonusId);
 			map.add("bonusCalcId", bonusCalcId);
 			map.add("exPrcnt", exPrcnt);
-			map.add("bonusId", bonusId);
-			map.add("exgratiaAmt", exgratiaAmt);
+			map.add("exgratiaAmt1", exgratiaAmt);
 			map.add("companyId", 1);
 			map.add("dateTime", sf.format(date));
 			map.add("userId", userObj.getUserId());
