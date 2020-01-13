@@ -88,7 +88,6 @@
 											<th class="text-center">EMP Code</th>
 											<th width="20%" class="text-center">EMP Name</th>
 											<th class="text-center">Basic</th>
-											<th class="text-center">OT AMT</th>
 											<th class="text-center">Fund</th>
 											<th class="text-center">Gross Earning</th>
 											<th class="text-center">Adv</th>
@@ -103,6 +102,7 @@
 											<th class="text-center">Gross Ded</th>
 											<th class="text-center">Claim ADD</th>
 											<th class="text-center">Performance Bonus</th>
+											<th class="text-center">OT AMT</th>
 											<th class="text-center">Net Salary</th>
 										</tr>
 
@@ -162,12 +162,6 @@
 											</td>
 											<td class="text-right">
 												<%
-													out.println(
-																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getOtWages(), amount_round)));
-												%>
-											</td>
-											<td class="text-right">
-												<%
 													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getFund(), amount_round)));
 												%>
 											</td>
@@ -207,8 +201,8 @@
 											</td>
 											<td class="text-right">
 												<%
-													out.println(
-																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getEmployeePf(), amount_round)));
+													out.println(String.format("%.2f",
+																	ReportCostants.castNumber(list.get(i).getEmployeePf(), amount_round)));
 												%>
 											</td>
 											<td class="text-right">
@@ -245,6 +239,12 @@
 												<%
 													out.println(String.format("%.2f",
 																	ReportCostants.castNumber(list.get(i).getPerformanceBonus(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(
+																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getOtWages(), amount_round)));
 												%>
 											</td>
 											<td class="text-right">

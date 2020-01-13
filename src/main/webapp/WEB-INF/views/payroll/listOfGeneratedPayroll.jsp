@@ -210,6 +210,7 @@
 											<th class="text-center">Gross Ded</th>
 											<th class="text-center">Claim ADD</th>
 											<th class="text-center">Performance Bonus</th>
+											<th class="text-center">OT AMT</th>
 											<th class="text-center">Net Salary</th>
 
 										</tr>
@@ -404,6 +405,12 @@
 												<%
 													out.println(String.format("%.2f",
 																		ReportCostants.castNumber(list.get(i).getPerformanceBonus(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f",
+																		ReportCostants.castNumber(list.get(i).getOtWages(), amount_round)));
 												%>
 											</td>
 											<td class="text-right">
