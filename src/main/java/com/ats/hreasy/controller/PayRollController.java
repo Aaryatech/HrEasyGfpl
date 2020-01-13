@@ -30,6 +30,7 @@ import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Allowances;
 import com.ats.hreasy.model.EmpSalInfoDaiyInfoTempInfo;
 import com.ats.hreasy.model.EmpSalaryInfoForPayroll;
+import com.ats.hreasy.model.GetPayrollGeneratedList;
 import com.ats.hreasy.model.GetSalDynamicTempRecord;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.InfoForUploadAttendance;
@@ -382,7 +383,7 @@ public class PayRollController {
 		}
 
 	}
-	
+
 	@RequestMapping(value = "/listOfGeneratedPayroll", method = RequestMethod.GET)
 	public String listOfGeneratedPayroll(HttpServletRequest request, HttpServletResponse response, Model model) {
 
@@ -403,23 +404,28 @@ public class PayRollController {
 					String[] monthyear = date.split("-");
 					model.addAttribute("date", date);
 
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-					map.add("month", monthyear[0]);
-					map.add("year", monthyear[1]);
-					PayRollDataForProcessing payRollDataForProcessing = Constants.getRestTemplate().postForObject(
-							Constants.url + "/getEmployeeListWithEmpSalEnfoForPayRoll", map,
-							PayRollDataForProcessing.class);
-					List<EmpSalaryInfoForPayroll> list = payRollDataForProcessing.getList();
+					request.setAttribute("month", monthyear[0]);
+					request.setAttribute("year", monthyear[1]);
 
-					model.addAttribute("empList", list);
-					model.addAttribute("allownceList", payRollDataForProcessing.getAllowancelist());
+					/*
+					 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
+					 * Object>(); map.add("month", monthyear[0]); map.add("year", monthyear[1]);
+					 * PayRollDataForProcessing payRollDataForProcessing =
+					 * Constants.getRestTemplate().postForObject( Constants.url +
+					 * "/getPayrollGenratedList", map, PayRollDataForProcessing.class);
+					 * List<GetPayrollGeneratedList> list =
+					 * payRollDataForProcessing.getPayrollGeneratedList();
+					 * 
+					 * model.addAttribute("empList", list); model.addAttribute("allownceList",
+					 * payRollDataForProcessing.getAllowancelist());
+					 */
 					// System.out.println(payRollDataForProcessing.getList());
 				} else {
-					Allowances[] allowances = Constants.getRestTemplate()
-							.getForObject(Constants.url + "/getAllAllowances", Allowances[].class);
-					List<Allowances> allowancelist = new ArrayList<>(Arrays.asList(allowances));
-					model.addAttribute("allownceList", allowancelist);
+
+					request.removeAttribute("month");
+					request.removeAttribute("year");
 				}
+ 
 			}
 
 		} catch (Exception e) {

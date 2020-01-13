@@ -91,7 +91,6 @@
 											<th class="text-center">OT AMT</th>
 											<th class="text-center">Fund</th>
 											<th class="text-center">Gross Earning</th>
-											<th class="text-center">Claim ADD</th>
 											<th class="text-center">Adv</th>
 											<th class="text-center">Loan</th>
 											<th class="text-center">IT Ded</th>
@@ -100,7 +99,9 @@
 											<th class="text-center">PF</th>
 											<th class="text-center">ESIC</th>
 											<th class="text-center">MLWF</th>
+											<th class="text-center">Society Contribution</th>
 											<th class="text-center">Gross Ded</th>
+											<th class="text-center">Claim ADD</th>
 											<th class="text-center">Performance Bonus</th>
 											<th class="text-center">Net Salary</th>
 										</tr>
@@ -179,12 +180,6 @@
 											<td class="text-right">
 												<%
 													out.println(String.format("%.2f",
-																	ReportCostants.castNumber(list.get(i).getMiscExpAdd(), amount_round)));
-												%>
-											</td>
-											<td class="text-right">
-												<%
-													out.println(String.format("%.2f",
 																	ReportCostants.castNumber(list.get(i).getAdvanceDed(), amount_round)));
 												%>
 											</td>
@@ -213,7 +208,7 @@
 											<td class="text-right">
 												<%
 													out.println(
-																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getEpfWages(), amount_round)));
+																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getEmployeePf(), amount_round)));
 												%>
 											</td>
 											<td class="text-right">
@@ -228,10 +223,22 @@
 											</td>
 											<td class="text-right">
 												<%
+													out.println(String.format("%.2f",
+																	ReportCostants.castNumber(list.get(i).getSocietyContribution(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
 													double finalDed = list.get(i).getAdvanceDed() + list.get(i).getLoanDed() + list.get(i).getItded()
-																	+ list.get(i).getPayDed() + list.get(i).getPtDed() + list.get(i).getEpfWages()
-																	+ list.get(i).getEsic() + list.get(i).getMlwf();
+																	+ list.get(i).getPayDed() + list.get(i).getPtDed() + list.get(i).getEmployeePf()
+																	+ list.get(i).getEsic() + list.get(i).getMlwf() + list.get(i).getSocietyContribution();
 															out.println(String.format("%.2f", ReportCostants.castNumber(finalDed, amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f",
+																	ReportCostants.castNumber(list.get(i).getMiscExpAdd(), amount_round)));
 												%>
 											</td>
 											<td class="text-right">
@@ -390,29 +397,36 @@
 
 	<script>
 		// Custom bootbox dialog
-		$('.bootbox_custom').on('click', function() {
-			var uuid = $(this).data("uuid") // will return the number 123
-			bootbox.confirm({
-				title : 'Confirm ',
-				message : 'Are you sure want to generate the payroll. Once it Gerenerated you will not able to edit any records/data like TDS,Advance, Loan etc?',
-				buttons : {
-					confirm : {
-						label : 'Yes',
-						className : 'btn-success'
-					},
-					cancel : {
-						label : 'Cancel',
-						className : 'btn-link'
-					}
-				},
-				callback : function(result) {
-					if (result) {
-						document.getElementById('insertFinalPayRollAndDeleteFroTemp').submit();
+		$('.bootbox_custom')
+				.on(
+						'click',
+						function() {
+							//var uuid = $(this).data("uuid") // will return the number 123
+							bootbox
+									.confirm({
+										title : 'Confirm ',
+										message : 'Are you sure want to generate the payroll. Once it Gerenerated you will not able to edit any records/data like TDS,Advance, Loan etc?',
+										buttons : {
+											confirm : {
+												label : 'Yes',
+												className : 'btn-success'
+											},
+											cancel : {
+												label : 'Cancel',
+												className : 'btn-link'
+											}
+										},
+										callback : function(result) {
+											if (result) {
+												document
+														.getElementById(
+																'insertFinalPayRollAndDeleteFroTemp')
+														.submit();
 
-					}
-				}
-			});
-		});
+											}
+										}
+									});
+						});
 	</Script>
 </body>
 </html>
