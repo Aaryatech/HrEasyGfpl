@@ -123,7 +123,7 @@ public class ExgratiaAdminController {
 			BonusApplicable info = Constants.getRestTemplate().postForObject(Constants.url + "/chkIsBonusFinalized",
 					map, BonusApplicable.class);
 
-			System.err.println("BonusApplicable**" + info.toString());
+		//	System.err.println("BonusApplicable**" + info.toString());
 
 			try {
 				model.addAttribute("bonusAppId", info.getBappNo());
@@ -379,7 +379,7 @@ public class ExgratiaAdminController {
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
-		System.err.println("hii ****");
+		//System.err.println("hii ****");
 		Date date = new Date();
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -391,7 +391,7 @@ public class ExgratiaAdminController {
 			temp = request.getParameter("bonusId");
 			int bonusCalcId = Integer.parseInt(request.getParameter("bonusCalcId"));
 
-			System.err.println("bonusCalcId ****" + bonusCalcId);
+			//System.err.println("bonusCalcId ****" + bonusCalcId);
 			double exPrcnt = Double.parseDouble(request.getParameter("exgratiaPrcnt"));
 			// double exgratiaAmt = Double.parseDouble(request.getParameter("exgratiaAmt"));
 
@@ -406,7 +406,7 @@ public class ExgratiaAdminController {
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empBonusCalcUpdateForExgratia", map,
 					Info.class);
-			System.err.println("info" + info.toString());
+			//System.err.println("info" + info.toString());
 			if (info.isError() == false) {
 				// retString = info.getMsg();
 				session.setAttribute("successMsg", "Data Inserted Successfully");

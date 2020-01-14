@@ -25,10 +25,12 @@ import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.common.ReportCostants;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.Setting;
 import com.ats.hreasy.model.Advance.Advance;
 import com.ats.hreasy.model.Advance.GetAdvance;
 import com.ats.hreasy.model.Loan.GetLoan;
@@ -365,6 +367,7 @@ class LoanAdminController {
 
 				employeeInfoList.get(i).setExVar3(FormValidation.Encrypt(calYrId));
 
+			 
 			}
 
 		} catch (Exception e) {
@@ -431,8 +434,7 @@ class LoanAdminController {
 
 		} else {
 			model = new ModelAndView("Loan/companyLoanList");
-			Info edit = AcessController.checkAccess("showCompLoanList", "showCompLoanList", 0, 0, 1, 0,
-					newModuleList);
+			Info edit = AcessController.checkAccess("showCompLoanList", "showCompLoanList", 0, 0, 1, 0, newModuleList);
 			if (edit.isError() == false) {
 				System.out.println(" edit   Accessable ");
 				model.addObject("editAccess", 0);
@@ -450,10 +452,29 @@ class LoanAdminController {
 
 				model.addObject("loanList", employeeInfoList);
 
+				/*
+				 * map = new LinkedMultiValueMap<String, Object>(); map.add("limitKey",
+				 * "ammount_format_show"); Setting getSettingByKey =
+				 * Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey",
+				 * map, Setting.class); int amount_round =
+				 * Integer.parseInt(getSettingByKey.getValue());
+				 */
 				for (int i = 0; i < employeeInfoList.size(); i++) {
 
 					employeeInfoList.get(i)
 							.setExVar1(FormValidation.Encrypt(String.valueOf(employeeInfoList.get(i).getEmpId())));
+
+					/*
+					 * employeeInfoList.get(i).setLoanAmt((int)
+					 * (ReportCostants.castNumber(employeeInfoList.get(i).getLoanAmt(),
+					 * amount_round))); employeeInfoList.get(i).setLoanRepayAmt((int)
+					 * (ReportCostants.castNumber(employeeInfoList.get(i).getLoanRepayAmt(),
+					 * amount_round))); employeeInfoList.get(i).setLoanEmi((int)
+					 * (ReportCostants.castNumber(employeeInfoList.get(i).getLoanEmi(),
+					 * amount_round))); employeeInfoList.get(i).setCurrentOutstanding((int)
+					 * (ReportCostants.castNumber(employeeInfoList.get(i).getCurrentOutstanding(),
+					 * amount_round)));
+					 */
 
 				}
 			} catch (Exception e) {
@@ -468,7 +489,7 @@ class LoanAdminController {
 		Date date2 = new Date();
 		SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
- 		List<LoanMain> employeeInfoList = new ArrayList<LoanMain>();
+		List<LoanMain> employeeInfoList = new ArrayList<LoanMain>();
 		GetLoan loan = new GetLoan();
 
 		Date date = new Date();
@@ -484,54 +505,55 @@ class LoanAdminController {
 
 		} else {
 			model = new ModelAndView("Loan/loanListForAction");
-		try {
+			try {
 
-			String base64encodedString = request.getParameter("empId");
-			String empId = FormValidation.DecodeKey(base64encodedString);
+				String base64encodedString = request.getParameter("empId");
+				String empId = FormValidation.DecodeKey(base64encodedString);
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
-			map.add("companyId", 1);
-			map.add("empId", empId);
+				map.add("companyId", 1);
+				map.add("empId", empId);
 
-			LoanMain[] employeeInfo = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getLoanHistoryEmpWiseDetailComp", map, LoanMain[].class);
+				LoanMain[] employeeInfo = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getLoanHistoryEmpWiseDetailComp", map, LoanMain[].class);
 
-			employeeInfoList = new ArrayList<LoanMain>(Arrays.asList(employeeInfo));
-			// System.out.println("employeeInfoList" + employeeInfoList.toString());
-			model.addObject("loanList", employeeInfoList);
+				employeeInfoList = new ArrayList<LoanMain>(Arrays.asList(employeeInfo));
+				// System.out.println("employeeInfoList" + employeeInfoList.toString());
+				model.addObject("loanList", employeeInfoList);
 
-			for (int i = 0; i < employeeInfoList.size(); i++) {
-				Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-						.parse(employeeInfoList.get(i).getSkipLoginTime());
+				for (int i = 0; i < employeeInfoList.size(); i++) {
+					Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+							.parse(employeeInfoList.get(i).getSkipLoginTime());
 
-				System.out.println("date------" + sf.format(date));
-				String a = sf.format(date1);
+					System.out.println("date------" + sf.format(date));
+					String a = sf.format(date1);
 
-				//System.out.println("a------" + a);
+					// System.out.println("a------" + a);
 
-				if (sf.format(date).equals(a)) {
-					employeeInfoList.get(i).setExInt1(1);
-				} else {
-					employeeInfoList.get(i).setExInt1(2);
+					if (sf.format(date).equals(a)) {
+						employeeInfoList.get(i).setExInt1(1);
+					} else {
+						employeeInfoList.get(i).setExInt1(2);
+					}
+
+					employeeInfoList.get(i)
+							.setExVar1(FormValidation.Encrypt(String.valueOf(employeeInfoList.get(i).getId())));
+					employeeInfoList.get(i)
+							.setExVar2(FormValidation.Encrypt(String.valueOf(employeeInfoList.get(i).getEmpId())));
+
 				}
 
-				employeeInfoList.get(i)
-						.setExVar1(FormValidation.Encrypt(String.valueOf(employeeInfoList.get(i).getId())));
-				employeeInfoList.get(i)
-						.setExVar2(FormValidation.Encrypt(String.valueOf(employeeInfoList.get(i).getEmpId())));
-
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				map.add("empId", empId);
+				loan = Constants.getRestTemplate().postForObject(Constants.url + "/getLoanHistoryEmpWiseSpecForCompany",
+						map, GetLoan.class);
+				model.addObject("empDeatil", loan);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-			map = new LinkedMultiValueMap<>();
-			map.add("companyId", 1);
-			map.add("empId", empId);
-			loan = Constants.getRestTemplate().postForObject(Constants.url + "/getLoanHistoryEmpWiseSpecForCompany",
-					map, GetLoan.class);
-			model.addObject("empDeatil", loan);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}}
+		}
 		return model;
 	}
 
@@ -839,11 +861,11 @@ class LoanAdminController {
 			Boolean ret = false;
 			empId = FormValidation.Encrypt(String.valueOf(advList.getEmpId()));
 
-			String repayDate=advList.getLoanRepayEnd();
-		//	System.err.println("one repayDate  "+repayDate);
+			String repayDate = advList.getLoanRepayEnd();
+			// System.err.println("one repayDate "+repayDate);
 			LocalDate localDate = LocalDate.parse(DateConvertor.convertToYMD(repayDate));
-				LocalDate oneMonthLater = localDate.plusMonths(1);
-				//System.err.println("one month later"+oneMonthLater);
+			LocalDate oneMonthLater = localDate.plusMonths(1);
+			// System.err.println("one month later"+oneMonthLater);
 			if (FormValidation.Validaton(remark, "") == true) {
 
 				ret = true;
@@ -866,8 +888,7 @@ class LoanAdminController {
 				map.add("count", count);
 				map.add("advId", id);
 				map.add("repayEnd", String.valueOf(oneMonthLater));
-				
-				
+
 				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSkipLoan", map,
 						Info.class);
 
