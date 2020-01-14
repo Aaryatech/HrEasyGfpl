@@ -68,6 +68,13 @@ public class GetPayrollGeneratedList {
 	private String  empTypeName; 
 	private String  departName; 
 	private String  designName;
+	
+	private float payableDays; 
+	private float presentDays;
+	private float weeklyOff;
+	private float paidHoliday;
+	private float paidLeave;
+	private float unpaidLeave;
 	 
 	List<SalAllownceCal> payrollAllownceList;
 
@@ -583,6 +590,54 @@ public class GetPayrollGeneratedList {
 		this.payrollAllownceList = payrollAllownceList;
 	}
 
+	public float getPayableDays() {
+		return payableDays;
+	}
+
+	public void setPayableDays(float payableDays) {
+		this.payableDays = payableDays;
+	}
+
+	public float getPresentDays() {
+		return presentDays;
+	}
+
+	public void setPresentDays(float presentDays) {
+		this.presentDays = presentDays;
+	}
+
+	public float getWeeklyOff() {
+		return weeklyOff;
+	}
+
+	public void setWeeklyOff(float weeklyOff) {
+		this.weeklyOff = weeklyOff;
+	}
+
+	public float getPaidHoliday() {
+		return paidHoliday;
+	}
+
+	public void setPaidHoliday(float paidHoliday) {
+		this.paidHoliday = paidHoliday;
+	}
+
+	public float getPaidLeave() {
+		return paidLeave;
+	}
+
+	public void setPaidLeave(float paidLeave) {
+		this.paidLeave = paidLeave;
+	}
+
+	public float getUnpaidLeave() {
+		return unpaidLeave;
+	}
+
+	public void setUnpaidLeave(float unpaidLeave) {
+		this.unpaidLeave = unpaidLeave;
+	}
+
 	@Override
 	public String toString() {
 		return "GetPayrollGeneratedList [id=" + id + ", cmpId=" + cmpId + ", empId=" + empId + ", empCode=" + empCode
@@ -605,6 +660,8 @@ public class GetPayrollGeneratedList {
 				+ ", commentsForItBonus=" + commentsForItBonus + ", societyContribution=" + societyContribution
 				+ ", empCategory=" + empCategory + ", basicDefault=" + basicDefault + ", name=" + name
 				+ ", empTypeName=" + empTypeName + ", departName=" + departName + ", designName=" + designName
+				+ ", payableDays=" + payableDays + ", presentDays=" + presentDays + ", weeklyOff=" + weeklyOff
+				+ ", paidHoliday=" + paidHoliday + ", paidLeave=" + paidLeave + ", unpaidLeave=" + unpaidLeave
 				+ ", payrollAllownceList=" + payrollAllownceList + "]";
 	}
 	

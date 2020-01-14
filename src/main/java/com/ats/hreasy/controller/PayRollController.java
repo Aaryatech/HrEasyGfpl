@@ -49,7 +49,7 @@ import com.ats.hreasy.model.GetSalDynamicTempRecord;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.InfoForUploadAttendance;
 import com.ats.hreasy.model.LoginResponse;
-import com.ats.hreasy.model.PayRollDataForProcessing; 
+import com.ats.hreasy.model.PayRollDataForProcessing;
 
 @Controller
 @Scope("session")
@@ -632,11 +632,30 @@ public class PayRollController {
 
 	}
 
-	@RequestMapping(value = "/pdf/generatedPayrollPdf/{id}", method = RequestMethod.GET)
-	public ModelAndView poPdf(@PathVariable int[] id, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/pdf/generatedPayrollPdf/{id}/{selectMonth}", method = RequestMethod.GET)
+	public ModelAndView poPdf(@PathVariable int[] id, @PathVariable String selectMonth, HttpServletRequest request,
+			HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("payroll/generatedPayrollPdf");
 		try {
+
+			String[] monthyear = selectMonth.split("-");
+
+			String empIds = "0";
+
+			for (int i = 0; i < id.length; i++) {
+				empIds = empIds + "," + id[i];
+			}
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("month", monthyear[0]);
+			map.add("year", monthyear[1]);
+			map.add("empIds", empIds);
+			PayRollDataForProcessing payRollDataForProcessing = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getPayrollGenratedListByEmpIds", map, PayRollDataForProcessing.class);
+			List<GetPayrollGeneratedList> list = payRollDataForProcessing.getPayrollGeneratedList();
+			model.addObject("list", list);
+			//System.out.println(list);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -692,7 +711,7 @@ public class PayRollController {
 				// set to binary type if MIME mapping not found
 				mimeType = "application/pdf";
 			}
-			System.out.println("MIME type: " + mimeType);
+			// System.out.println("MIME type: " + mimeType);
 
 			String headerKey = "Content-Disposition";
 
@@ -726,7 +745,7 @@ public class PayRollController {
 			if (!urlstring.startsWith("http://") && !urlstring.startsWith("file:")) {
 				urlstring = "http://" + urlstring;
 			}
-			System.out.println("PDF URL " + urlstring);
+			// System.out.println("PDF URL " + urlstring);
 			java.io.FileOutputStream fos = new java.io.FileOutputStream(output);
 
 			PD4ML pd4ml = new PD4ML();

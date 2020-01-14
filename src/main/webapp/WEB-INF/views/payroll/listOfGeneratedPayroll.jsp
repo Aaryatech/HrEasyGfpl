@@ -120,7 +120,7 @@
 
 							</div>
 						</form>
-						<form action="${pageContext.request.contextPath}/viewDynamicValue"
+						<form action="${pageContext.request.contextPath}/#"
 							id="submitInsertLeave" method="post">
 
 							<input type="hidden" name="searchDate" id="searchDate"
@@ -181,6 +181,9 @@
 													session.setAttribute("monthAndYear",
 															request.getAttribute("month") + "-" + request.getAttribute("year"));
 													allowancelist = payRollDataForProcessing.getAllowancelist();
+													
+													//System.out.println(list);
+
 												} else {
 													Allowances[] allowances = Constants.getRestTemplate().getForObject(Constants.url + "/getAllAllowances",
 															Allowances[].class);
@@ -493,14 +496,16 @@
 
 	<script type="text/javascript">
 		function commonPdf() {
-
+			
+			var selectMonth = document.getElementById("datepicker").value;
 			var list = [];
 
 			$("input:checkbox[name=selectEmp]:checked").each(function() {
 				list.push($(this).val());
 			});
- 
-			window.open('pdfForReport?url=/pdf/generatedPayrollPdf/' + list);
+
+			window.open('pdfForReport?url=/pdf/generatedPayrollPdf/' + list
+					+ '/' + selectMonth);
 		}
 	</script>
 

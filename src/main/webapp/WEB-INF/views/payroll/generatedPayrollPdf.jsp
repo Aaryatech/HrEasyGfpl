@@ -110,108 +110,306 @@ hr {
 <body>
 
 
+	<c:set value="0" var="index"></c:set>
+	<c:forEach items="${list}" var="list" varStatus="count">
 
-	<%-- <c:forEach items="${list}" var="item" varStatus="count"> --%>
+		<c:set value="${index+1}" var="index"></c:set>
 
+		<!--  -->
 
-	<!--  -->
-
-	<%-- <p style="text-align: left; font-weight: normal;">
+		<%-- <p style="text-align: left; font-weight: normal;">
 			Original / Duplicate(Acnt)/Triplicate(Purch)/Stroes <span
 				style="float: right;">${documentBean.docIsoSerialNumber}</span>
 		</p> --%>
-	<!-- p -->
+		<!-- p -->
 
 
-	 
-	<table width="100%" border="0" cellpadding="0" cellspacing="0"
-		style="border-top: 1px solid #313131; border-right: 1px solid #313131;">
-		<tr>
-			<td colspan="2"
-				style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
-				align="center"><table width="100%">
-					<tr>
-						<td width="22.33%"><img
-							src="${pageContext.request.contextPath}/resources/img/monginislogo.png"
-							width="95" height="60" /></td>
 
-						<td width="53.33%" valign="top"
-							style="font-weight: bold; margin: 0px;" align="center">
-							<h4 align="center" style="font-size: 16px;">METAFORGE
-								ENGINEERING (I) PVT. LTD.</h4>
-							<h6 style="font-weight: bold; margin: 0px; font-size: 10px;"
-								align="center">S.NO. 22/3, Dindori Road, Mhasrul, Nasik -
-								422004</h6>
-							<h6 style="font-weight: bold; margin: 0px; font-size: 10px;"
-								align="center">Payslip for the month of November 2019</h6>
-						</td>
+		<table width="100%" border="0" cellpadding="0" cellspacing="0"
+			style="border-top: 1px solid #313131; border-right: 1px solid #313131;">
+			<tr>
+				<td colspan="2"
+					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
+					align="center"><table width="100%">
+						<tr>
+							<td width="22.33%"><img
+								src="${pageContext.request.contextPath}/resources/img/monginislogo.png"
+								width="95" height="60" /></td>
 
-						<td width="22.33%" valign="top"
-							style="font-weight: bold; margin: 0px;" align="right"></td>
+							<td width="53.33%" valign="top"
+								style="font-weight: bold; margin: 0px;" align="center">
+								<h4 align="center" style="font-size: 16px;">METAFORGE
+									ENGINEERING (I) PVT. LTD.</h4>
+								<h6 style="font-weight: bold; margin: 0px; font-size: 10px;"
+									align="center">S.NO. 22/3, Dindori Road, Mhasrul, Nasik -
+									422004</h6>
+								<h6 style="font-weight: bold; margin: 0px; font-size: 10px;"
+									align="center">Payslip for the month of November 2019</h6>
+							</td>
 
-					</tr>
+							<td width="22.33%" valign="top"
+								style="font-weight: bold; margin: 0px;" align="right"></td>
 
-				</table></td>
-		</tr>
-		<tr>
-			<td colspan="2"
-				style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
-				align="center"><table width="100%">
-					<tr>
-						<td width="22.33%" style="color: #000; font-size: 12px;">Emp
-							Code: C001</td>
+						</tr>
 
-						<td width="53.33%" valign="top"
-							style="color: #000; font-size: 12px;" align="center">Name:
-							KAMINI DHANANJAY SONAWANE</td>
+					</table></td>
+			</tr>
+			<tr>
+				<td colspan="2"
+					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
+					align="center"><table width="100%">
+						<tr>
+							<td width="22.33%" style="color: #000; font-size: 12px;">Emp
+								Code: ${list.empCode}</td>
 
-						<td width="22.33%" valign="top"
-							style="color: #000; font-size: 12px;" align="right">Designation
-							:OPERATOR</td>
-					</tr>
-				</table></td>
-		</tr>
+							<td width="53.33%" valign="top"
+								style="color: #000; font-size: 12px;" align="center">Name:
+								${list.name}</td>
 
-		<tr>
-			<td colspan="2"
-				style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
-				align="center"><table width="100%">
-					<tr>
-						<td width="22.33%" style="color: #000; font-size: 12px;">Payable
-							Days: 26.5</td>
+							<td width="22.33%" valign="top"
+								style="color: #000; font-size: 12px;" align="right">Designation
+								:${list.designName}</td>
+						</tr>
+					</table></td>
+			</tr>
 
-						<td width="53.33%" valign="top"
-							style="color: #000; font-size: 12px;" align="center">Present
-							Days: 22</td>
+			<tr>
+				<td colspan="2"
+					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
+					align="center"><table width="100%">
+						<tr>
+							<td width="16.66%" style="color: #000; font-size: 12px;"
+								align="center">Payable Days: ${list.payableDays}</td>
 
-						<td width="22.33%" valign="top"
-							style="color: #000; font-size: 12px;" align="right">Weekly
-							Off : 5</td>
-					</tr>
-				</table></td>
-		</tr>
-		<tr>
-			<td colspan="2"
-				style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
-				align="center"><table width="100%">
-					<tr>
-						<td width="22.33%" style="color: #000; font-size: 12px;">Payable
-							Days: 26.5</td>
+							<td width="16.66%" valign="top"
+								style="color: #000; font-size: 12px;" align="center">Present
+								Days: ${list.presentDays}</td>
 
-						<td width="53.33%" valign="top"
-							style="color: #000; font-size: 12px;" align="center">Present
-							Days: 22</td>
+							<td width="16.66%" valign="top"
+								style="color: #000; font-size: 12px;" align="center">Weekly
+								Off : ${list.weeklyOff}</td>
+							<td width="16.66%" style="color: #000; font-size: 12px;">Paid
+								Leave: ${list.paidLeave}</td>
 
-						<td width="22.33%" valign="top"
-							style="color: #000; font-size: 12px;" align="right">Weekly
-							Off : 5</td>
-					</tr>
-				</table></td>
-		</tr>
-	</table>
-	<!-- END Main Content -->
+							<td width="16.66%" valign="top"
+								style="color: #000; font-size: 12px;" align="center">Holiday:
+								${list.paidHoliday}</td>
 
-	<div style="page-break-after: always;"></div>
-	<%-- </c:forEach> --%>
+							<td width="16.66%" valign="top"
+								style="color: #000; font-size: 12px;" align="center">Absent:
+								${list.unpaidLeave}</td>
+						</tr>
+					</table></td>
+			</tr>
+
+			<tr>
+				<td
+					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
+					align="center" valign="top"><table width="100%"
+						style="border-top: 1px solid #313131; border-right: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131;">
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; border-bottom: 1px solid #313131;"
+								align="center">PAY HEAD</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-bottom: 1px solid #313131;"
+								align="center">EARNINGS</td>
+						</tr>
+
+						<!-- <tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">PAY HEAD</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">EARNINGS</td>
+
+						</tr> -->
+
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">Basic</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.basicCal}</td>
+
+						</tr>
+						<c:forEach items="${list.payrollAllownceList}"
+							var="payrollAllownceList">
+							<tr>
+								<td width="50%" valign="top"
+									style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+									align="left">${payrollAllownceList.shortName}</td>
+
+								<td width="50%" valign="top"
+									style="color: #000; font-size: 12px; padding-right: 5px;"
+									align="right">${payrollAllownceList.allowanceValueCal}</td>
+
+							</tr>
+						</c:forEach>
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">Claim ADD</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.miscExpAdd}</td>
+
+						</tr>
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">Performance Bonus</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.performanceBonus}</td>
+
+						</tr>
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">OT AMT</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.otWages}</td>
+
+						</tr>
+
+					</table></td>
+
+				<td
+					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
+					align="center" valign="top">
+					<table width="100%"
+						style="border-top: 1px solid #313131; border-right: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131;">
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; border-bottom: 1px solid #313131;"
+								align="center">DEDUCTION HEAD</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-bottom: 1px solid #313131;"
+								align="center">DEDUTIONS</td>
+
+						</tr>
+
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">PROVIDENT FUND</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.employeePf}</td>
+
+						</tr>
+
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">PROF TAX</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.ptDed}</td>
+
+						</tr>
+
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">ESIC</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.esic}</td>
+
+						</tr>
+
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">ADVANCE</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.advanceDed}</td>
+
+						</tr>
+
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">TDS</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.itded}</td>
+
+						</tr>
+
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">SOCIETY CONTR</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.societyContribution}</td>
+
+						</tr>
+
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">LOAN</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.loanDed}</td>
+
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"
+					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 2px; color: #000; font-size: 12px;"
+					align="center">
+					<table width="100%">
+						<tr>
+							<td width="80%"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131;"
+								align="center">THIS IS A COMPUTER GENERATED PAYSLIP, NOT
+								REQUIRING SIGNATURE</td>
+
+							<td width="20%" valign="top"
+								style="color: #000; font-size: 12px;" align="right">Net
+								Pay: ${list.netSalary}</td>
+
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<!-- END Main Content -->
+		<br>
+		<br>
+		<br>
+		<br>
+
+		<c:if test="${index==2}">
+			<c:set value="0" var="index"></c:set>
+			<div style="page-break-after: always;"></div>
+		</c:if>
+		<!-- <div style="page-break-after: always;"></div> -->
+	</c:forEach>
 </body>
 </html>
