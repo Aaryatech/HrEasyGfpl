@@ -434,13 +434,21 @@
 							</div>
 
 							<c:if test="${date!=null}">
+								<%
+									if (list.size() > 0) {
+								%>
 								<br>
 								<div class="text-center">
 
 									<button type="button" class="btn bg-blue ml-3 legitRipple"
-										id="submtbtn">Excel</button>
+										id="excel"
+										onclick="getProgReport(0,'excelForGeneratedPayroll')">
+										Excel</button>
 
 								</div>
+								<%
+									}
+								%>
 							</c:if>
 						</form>
 					</div>
@@ -461,6 +469,25 @@
 
 	</div>
 	<!-- /page content -->
+	<script type="text/javascript">
+		//use this function for all reports just get mapping form action name dynamically as like of prm from every report pdf,excel function	
+		function getProgReport(prm, mapping) {
+
+			var checkboxes = document.getElementsByName('selectEmp');
+			var vals = "0";
+			for (var i = 0; i < checkboxes.length; i++) {
+				if (checkboxes[i].checked) {
+					vals = vals + "," + checkboxes[i].value;
+				}
+			}
+			/* if (vals)
+				vals = vals.substring(1); */
+
+			window.open("${pageContext.request.contextPath}/" + mapping + "/"
+					+ vals + "/", "_blank");
+
+		}
+	</script>
 	<script type="text/javascript">
 		// Single picker
 		$(function() {

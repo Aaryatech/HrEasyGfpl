@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -285,7 +286,7 @@ public class PayRollController {
 
 			rowData.add("Sr. No");
 			rowData.add("EMP Code");
-			rowData.add("EMP Namel");
+			rowData.add("EMP Name");
 			rowData.add("Basic");
 			rowData.add("OT AMT");
 			rowData.add("Fund");
@@ -337,8 +338,8 @@ public class PayRollController {
 						"" + String.format("%.2f", ReportCostants.castNumber(list.get(i).getPayDed(), amount_round)));
 				rowData.add(
 						"" + String.format("%.2f", ReportCostants.castNumber(list.get(i).getPtDed(), amount_round)));
-				rowData.add(
-						"" + String.format("%.2f", ReportCostants.castNumber(list.get(i).getEpfWages(), amount_round)));
+				rowData.add(""
+						+ String.format("%.2f", ReportCostants.castNumber(list.get(i).getEmployeePf(), amount_round)));
 				rowData.add("" + String.format("%.2f", ReportCostants.castNumber(list.get(i).getEsic(), amount_round)));
 				rowData.add("" + String.format("%.2f", ReportCostants.castNumber(list.get(i).getMlwf(), amount_round)));
 				double finalDed = list.get(i).getAdvanceDed() + list.get(i).getLoanDed() + list.get(i).getItded()
@@ -425,13 +426,197 @@ public class PayRollController {
 					request.removeAttribute("month");
 					request.removeAttribute("year");
 				}
- 
+
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return mav;
+	}
+
+	@RequestMapping(value = "/excelForGeneratedPayroll/{vals}", method = RequestMethod.GET)
+	public void excelForGeneratedPayroll(@PathVariable("vals") String vals, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+
+			String[] ids = vals.split(",");
+			HttpSession session = request.getSession();
+			PayRollDataForProcessing payRollDataForProcessing = (PayRollDataForProcessing) session
+					.getAttribute("payRollDataForProcessing");
+			int amount_round = (int) session.getAttribute("amount_round");
+			String monthAndYear = (String) session.getAttribute("monthAndYear");
+			List<GetPayrollGeneratedList> list = payRollDataForProcessing.getPayrollGeneratedList();
+			String reportName = "Generated Payroll List for " + monthAndYear;
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("EMP Code");
+			rowData.add("EMP Name");
+			rowData.add("EMP Type");
+			rowData.add("Department");
+			rowData.add("Designation");
+			rowData.add("Salary Basis");
+			rowData.add("PT");
+			rowData.add("PF");
+			rowData.add("ESIC");
+			rowData.add("MLWF");
+			rowData.add("Basic");
+			for (int i = 0; i < payRollDataForProcessing.getAllowancelist().size(); i++) {
+				rowData.add("" + payRollDataForProcessing.getAllowancelist().get(i).getShortName());
+
+			}
+			rowData.add("Gross Earning");
+			rowData.add("Adv");
+			rowData.add("Loan");
+			rowData.add("IT Ded");
+			rowData.add("Pay Ded");
+			rowData.add("PT");
+			rowData.add("PF");
+			rowData.add("ESIC");
+			rowData.add("MLWF");
+			rowData.add("Society Contribution");
+			rowData.add("Gross Ded");
+			rowData.add("Claim ADD");
+			rowData.add("Performance Bonus");
+			rowData.add("OT AMT");
+			rowData.add("Net Salary");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+
+			int cnt = 1;
+			float empTotal = 0;
+
+			for (int i = 0; i < list.size(); i++) {
+				for (int m = 0; m < ids.length; m++) {
+
+					if (Integer.parseInt(ids[m]) == list.get(i).getEmpId()) {
+
+						expoExcel = new ExportToExcel();
+						rowData = new ArrayList<String>();
+						rowData.add("" + cnt);
+						rowData.add("" + list.get(i).getEmpCode());
+						rowData.add("" + list.get(i).getName());
+						rowData.add("" + list.get(i).getEmpTypeName());
+						rowData.add("" + list.get(i).getDepartName());
+						rowData.add("" + list.get(i).getDesignName());
+						rowData.add("" + list.get(i).getEmpCategory());
+						rowData.add("" + list.get(i).getPtApplicable());
+						if (list.get(i).getPfStatus() == 1) {
+							rowData.add("Yes");
+						} else {
+							rowData.add("No");
+						}
+
+						if (list.get(i).getEsicStatus() == 1) {
+							rowData.add("Yes");
+						} else {
+							rowData.add("No");
+						}
+
+						rowData.add(list.get(i).getMlwfApplicable());
+
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getBasicCal(), amount_round)));
+
+						for (int k = 0; k < payRollDataForProcessing.getAllowancelist().size(); k++) {
+							int find = 0;
+							for (int j = 0; j < list.get(i).getPayrollAllownceList().size(); j++) {
+								if (list.get(i).getPayrollAllownceList().get(j)
+										.getAllowanceId() == payRollDataForProcessing.getAllowancelist().get(k)
+												.getAllowanceId()) {
+									rowData.add(String.format("%.2f",
+											ReportCostants.castNumber(
+													list.get(i).getPayrollAllownceList().get(j).getAllowanceValueCal(),
+													amount_round)));
+									find = 1;
+									break;
+
+								}
+							}
+							if (find == 0) {
+								rowData.add(String.format("%.2f", ReportCostants.castNumber(0, amount_round)));
+							}
+
+						}
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getGrossSalary(), amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getAdvanceDed(), amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getLoanDed(), amount_round)));
+
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getItded(), amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getPayDed(), amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getPtDed(), amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getEmployeePf(), amount_round)));
+
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getEsic(), amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getMlwf(), amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getSocietyContribution(), amount_round)));
+						double finalDed = list.get(i).getAdvanceDed() + list.get(i).getLoanDed()
+								+ list.get(i).getItded() + list.get(i).getPayDed() + list.get(i).getPtDed()
+								+ list.get(i).getEmployeePf() + list.get(i).getEsic() + list.get(i).getMlwf()
+								+ list.get(i).getSocietyContribution();
+
+						rowData.add("" + String.format("%.2f", ReportCostants.castNumber(finalDed, amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getMiscExpAdd(), amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getPerformanceBonus(), amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getOtWages(), amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getNetSalary(), amount_round)));
+
+						expoExcel.setRowData(rowData);
+						exportToExcelList.add(expoExcel);
+
+						cnt = cnt + 1;
+					}
+				}
+			}
+
+			XSSFWorkbook wb = null;
+			try {
+				// System.out.println("exportToExcelList" + exportToExcelList.toString());
+
+				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, " ", "", 'Z');
+
+				ExceUtil.autoSizeColumns(wb, 3);
+				response.setContentType("application/vnd.ms-excel");
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				response.setHeader("Content-disposition", "attachment; filename=" + reportName + "-" + date + ".xlsx");
+				wb.write(response.getOutputStream());
+
+			} catch (IOException ioe) {
+				throw new RuntimeException("Error writing spreadsheet to output stream");
+			} finally {
+				if (wb != null) {
+					wb.close();
+				}
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
 	}
 
 }
