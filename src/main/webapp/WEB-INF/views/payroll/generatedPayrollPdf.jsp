@@ -143,8 +143,8 @@ hr {
 								<h6 style="font-weight: bold; margin: 0px; font-size: 10px;"
 									align="center">S.NO. 22/3, Dindori Road, Mhasrul, Nasik -
 									422004</h6>
-								<h6 style="font-weight: bold; margin: 0px; font-size: 10px;"
-									align="center">Payslip for the month of November 2019</h6>
+								<h5 style="font-weight: bold; margin: 0px; font-size: 14px;"
+									align="center">Payslip for the month of November 2019</h5>
 							</td>
 
 							<td width="22.33%" valign="top"
