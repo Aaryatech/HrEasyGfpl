@@ -1,6 +1,7 @@
 package com.ats.hreasy.controller;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -22,10 +23,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.common.ReportCostants;
 import com.ats.hreasy.model.AccessRightModule;
+import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.Setting;
 import com.ats.hreasy.model.Bonus.BonusApplicable;
 import com.ats.hreasy.model.Bonus.BonusCalc;
 import com.ats.hreasy.model.Bonus.BonusMaster;
@@ -62,6 +66,11 @@ public class ExgratiaAdminController {
 
 			model.addAttribute("bonusId", bonusId);
 
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("limitKey", "ammount_format_show");
+			Setting getSettingByKey = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey", map,
+					Setting.class);
+			int amount_round = Integer.parseInt(getSettingByKey.getValue());
 			for (int i = 0; i < bonusList.size(); i++) {
 
 				if (bonusList.get(i).getBonusId() == Integer.parseInt(bonusId)) {
@@ -70,7 +79,7 @@ public class ExgratiaAdminController {
 
 			}
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map = new LinkedMultiValueMap<>();
 			map.add("bonusId", bonusId);
 			map.add("flag", 1);
 			GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
@@ -95,6 +104,16 @@ public class ExgratiaAdminController {
 						.setExVar1(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusCalcId())));
 				claimProofList1.get(i)
 						.setExVar2(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusId())));
+
+				claimProofList1.get(i).setTotalExgretiaWages(String.valueOf(
+						(ReportCostants.castNumber(claimProofList1.get(i).getTotalBonusWages(), amount_round))));
+				claimProofList1.get(i).setGrossExgretiaAmt(
+						(ReportCostants.castNumber(claimProofList1.get(i).getGrossExgretiaAmt(), amount_round)));
+				claimProofList1.get(i).setNetExgretiaAmt(
+						(ReportCostants.castNumber(claimProofList1.get(i).getNetExgretiaAmt(), amount_round)));
+
+				claimProofList1.get(i).setPaidExgretiaAmt(
+						(ReportCostants.castNumber(claimProofList1.get(i).getPaidExgretiaAmt(), amount_round)));
 			}
 
 			model.addAttribute("bonusId", bonusId);
@@ -323,20 +342,31 @@ public class ExgratiaAdminController {
 			 * String base64encodedString1 = request.getParameter("bonusId"); String bonusId
 			 * = FormValidation.DecodeKey(base64encodedString1);
 			 */
-
+			/*
+			 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
+			 * Object>(); map.add("limitKey", "ammount_format_show"); Setting
+			 * getSettingByKey = Constants.getRestTemplate().postForObject(Constants.url +
+			 * "/getSettingByKey", map, Setting.class); int amount_round =
+			 * Integer.parseInt(getSettingByKey.getValue());
+			 */
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("bonusCalcId", bonusCalcId);
 			editBonusCalc = Constants.getRestTemplate().postForObject(Constants.url + "/getBonusCalcByCalcId", map,
 					BonusCalc.class);
 			model.addObject("editBonusCalc", editBonusCalc);
 			model.addObject("bonusId", editBonusCalc.getBonusId());
-			
-		 map = new LinkedMultiValueMap<>();
+
+			map = new LinkedMultiValueMap<>();
 			map.add("bonusId", editBonusCalc.getBonusId());
 			BonusMaster editBonus = Constants.getRestTemplate().postForObject(Constants.url + "/getBonusById", map,
 					BonusMaster.class);
 			model.addObject("editBonus", editBonus);
 
+			map = new LinkedMultiValueMap<>();
+			map.add("empId", editBonusCalc.getEmpId());
+			EmployeeMaster editEmp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpInfoById", map,
+					EmployeeMaster.class);
+			model.addObject("editEmp", editEmp);
 			/* } */
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -358,19 +388,19 @@ public class ExgratiaAdminController {
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
 			int bonusId = Integer.parseInt(request.getParameter("bonusId"));
-			temp=request.getParameter("bonusId");
+			temp = request.getParameter("bonusId");
 			int bonusCalcId = Integer.parseInt(request.getParameter("bonusCalcId"));
 
 			System.err.println("bonusCalcId ****" + bonusCalcId);
 			double exPrcnt = Double.parseDouble(request.getParameter("exgratiaPrcnt"));
-		//	double exgratiaAmt = Double.parseDouble(request.getParameter("exgratiaAmt"));
+			// double exgratiaAmt = Double.parseDouble(request.getParameter("exgratiaAmt"));
 
 			map.add("bonusId", bonusId);
 			map.add("bonusCalcId", bonusCalcId);
 			map.add("exPrcnt", exPrcnt);
 			/*
 			 * map.add("exgratiaAmt1", exgratiaAmt);
-			 */			map.add("companyId", 1);
+			 */ map.add("companyId", 1);
 			map.add("dateTime", sf.format(date));
 			map.add("userId", userObj.getUserId());
 

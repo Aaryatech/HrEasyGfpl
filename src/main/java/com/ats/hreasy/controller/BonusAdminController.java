@@ -23,12 +23,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.common.ReportCostants;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.Setting;
 import com.ats.hreasy.model.ShiftMaster;
 import com.ats.hreasy.model.Bonus.BonusApplicable;
 import com.ats.hreasy.model.Bonus.BonusCalc;
@@ -252,12 +254,12 @@ public class BonusAdminController {
 					}
 					if (flag == 1) {
 						bonusList.get(i).setExInt2(1);
-						if(isExFinalized==2) {
+						if (isExFinalized == 2) {
 							bonusList.get(i).setBonusAppBelowAmount(1);
-						}else {
+						} else {
 							bonusList.get(i).setBonusAppBelowAmount(2);
 						}
-						
+
 					}
 
 					// chk isApp
@@ -533,7 +535,11 @@ public class BonusAdminController {
 			List<BonusMaster> bonusList = new ArrayList<BonusMaster>(Arrays.asList(location));
 			model.addAttribute("bonusList", bonusList);
 			model.addAttribute("bonusId", bonusId);
-
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("limitKey", "ammount_format_show");
+			Setting getSettingByKey = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey", map,
+					Setting.class);
+			int amount_round = Integer.parseInt(getSettingByKey.getValue());
 			for (int i = 0; i < bonusList.size(); i++) {
 
 				if (bonusList.get(i).getBonusId() == Integer.parseInt(bonusId)) {
@@ -559,6 +565,26 @@ public class BonusAdminController {
 						.setExVar1(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusCalcId())));
 				claimProofList1.get(i)
 						.setExVar2(FormValidation.Encrypt(String.valueOf(claimProofList1.get(i).getBonusId())));
+
+				// number formatting
+
+				claimProofList1.get(i).setTotalBonusWages(
+						(int) (ReportCostants.castNumber(claimProofList1.get(i).getTotalBonusWages(), amount_round)));
+				claimProofList1.get(i).setGrossBonusAmt(
+						(ReportCostants.castNumber(claimProofList1.get(i).getGrossBonusAmt(), amount_round)));
+				claimProofList1.get(i).setDedBonusPujaAmt(
+						(ReportCostants.castNumber(claimProofList1.get(i).getDedBonusPujaAmt(), amount_round)));
+
+				claimProofList1.get(i).setDedBonusAdvAmt(
+						(ReportCostants.castNumber(claimProofList1.get(i).getDedBonusAdvAmt(), amount_round)));
+				claimProofList1.get(i).setDedBonusLossAmt(
+						(ReportCostants.castNumber(claimProofList1.get(i).getDedBonusLossAmt(), amount_round)));
+
+				claimProofList1.get(i).setNetBonusAmt(
+						(ReportCostants.castNumber(claimProofList1.get(i).getNetBonusAmt(), amount_round)));
+				claimProofList1.get(i).setPaidBonusAmt(
+						(ReportCostants.castNumber(claimProofList1.get(i).getPaidBonusAmt(), amount_round)));
+
 			}
 
 			model.addAttribute("bonusId", bonusId);
