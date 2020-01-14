@@ -444,6 +444,8 @@
 										id="excel"
 										onclick="getProgReport(0,'excelForGeneratedPayroll')">
 										Excel</button>
+									<button type="button" class="btn bg-blue ml-3 legitRipple"
+										id="excel" onclick="commonPdf()">PDF</button>
 
 								</div>
 								<%
@@ -488,6 +490,20 @@
 
 		}
 	</script>
+
+	<script type="text/javascript">
+		function commonPdf() {
+
+			var list = [];
+
+			$("input:checkbox[name=selectEmp]:checked").each(function() {
+				list.push($(this).val());
+			});
+ 
+			window.open('pdfForReport?url=/pdf/generatedPayrollPdf/' + list);
+		}
+	</script>
+
 	<script type="text/javascript">
 		// Single picker
 		$(function() {
