@@ -1,13 +1,16 @@
 package com.ats.hreasy.controller;
 
 import java.math.BigInteger;
+
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +34,10 @@ import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
+import com.ats.hreasy.model.EmpShiftDetails;
 import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.Info;
+import com.ats.hreasy.model.InfoForUploadAttendance;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.ShiftMaster;
@@ -152,13 +158,13 @@ public class AdvanceAdminController {
 			SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 			String voucherNo = request.getParameter("voucherNo");
- 			String remark = request.getParameter("remark");
+			String remark = request.getParameter("remark");
 			String advanceAmt = request.getParameter("advanceAmt");
 			int empId = Integer.parseInt(request.getParameter("empId"));
-			
+
 			String month = request.getParameter("date");
 
-			String temp[]=month.split("-");
+			String temp[] = month.split("-");
 			Boolean ret = false;
 
 			if (FormValidation.Validaton(voucherNo, "") == true) {
@@ -474,8 +480,7 @@ public class AdvanceAdminController {
 				// System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
 
 				String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
-						.concat(empPersInfo.getSurname()).concat("-[")
-						.concat(empPersInfo.getEmpDesgn().concat("]"));
+						.concat(empPersInfo.getSurname()).concat("-[").concat(empPersInfo.getEmpDesgn().concat("]"));
 				model.addObject("empPersInfo", empPersInfo);
 				model.addObject("empPersInfoString", empPersInfoString);
 
@@ -551,17 +556,16 @@ public class AdvanceAdminController {
 				Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
 						Advance.class);
 
-				String  dedMonth=String.valueOf(advList.getDedMonth());
-				String dedYear=String.valueOf(advList.getDedYear());
-				
+				String dedMonth = String.valueOf(advList.getDedMonth());
+				String dedYear = String.valueOf(advList.getDedYear());
+
 				if (dedMonth.length() == 1) {
 					dedMonth = "0".concat(dedMonth);
-				}  
-				String tempDate="01-".concat(dedMonth).concat("-").concat(dedYear);
+				}
+				String tempDate = "01-".concat(dedMonth).concat("-").concat(dedYear);
 				LocalDate localDate = LocalDate.parse(DateConvertor.convertToYMD(tempDate));
- 				LocalDate oneMonthLater = localDate.plusMonths(1);
-				
-				
+				LocalDate oneMonthLater = localDate.plusMonths(1);
+
 				Boolean ret = false;
 
 				if (FormValidation.Validaton(remark, "") == true) {
@@ -718,6 +722,78 @@ public class AdvanceAdminController {
 		}
 
 		return "redirect:/changePass";
+	}
+
+	@RequestMapping(value = "/showEmpShiftDetails", method = RequestMethod.GET)
+	public String attendanceSelectMonth(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = null;
+		HttpSession session = request.getSession();
+
+		mav = "master/empShiftDetails";
+
+		try {
+			String date = null;
+			String empId = null;
+			int days=0;
+			try {
+				empId = request.getParameter("empId");
+			} catch (Exception e) {
+				empId = "0";
+				
+			}
+			try {
+				date = request.getParameter("date");
+				System.err.println("date"+date);
+
+				String[] a = date.split("-");
+				String year = a[0];
+				String month = a[1];
+				if (month.length() == 1) {
+					month = "0".concat(month);
+				}
+				
+				LocalDate date3 = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt("01"));
+				 System.err.println();
+				
+				
+				days = date3.lengthOfMonth();
+				  model.addAttribute("days", days);
+ 			} catch (Exception e) {
+				date = null;
+				 days=0;
+			}
+
+			GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+
+			List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+			System.err.println("days" + days);
+
+			model.addAttribute("employeeInfoList", empdetList);
+			model.addAttribute("date", date);
+			model.addAttribute("empId", empId);
+			
+			
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empRes", empId);
+			map.add("date1", date.concat("-01"));
+			map.add("companyId", 1);
+
+			EmpShiftDetails[] employeeInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpShiftDetails", map, EmpShiftDetails[].class);
+
+			ArrayList<EmpShiftDetails> daysList = new ArrayList<EmpShiftDetails>(Arrays.asList(employeeInfo));
+			
+			model.addAttribute("daysList", daysList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+
 	}
 
 }
