@@ -126,7 +126,7 @@ hr {
 
 
 		<table width="100%" border="0" cellpadding="0" cellspacing="0"
-			style="border-top: 1px solid #313131; border-right: 1px solid #313131;">
+			style="border-top: 1px solid #313131; border-right: 1px solid #313131; margin-left: 60px; margin-right: 60px; margin-top: 20px;">
 			<tr>
 				<td colspan="2"
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
@@ -401,10 +401,7 @@ hr {
 			COMPUTER GENERATED PAYSLIP, NOT REQUIRING SIGNATURE</p>
 		<!-- END Main Content -->
 		<br>
-		<br>
-		<br>
-		<br>
-
+		 
 		<c:if test="${index==2}">
 			<c:set value="0" var="index"></c:set>
 			<div style="page-break-after: always;"></div>
