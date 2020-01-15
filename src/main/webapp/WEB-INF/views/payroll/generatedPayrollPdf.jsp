@@ -115,16 +115,6 @@ hr {
 
 		<c:set value="${index+1}" var="index"></c:set>
 
-		<!--  -->
-
-		<%-- <p style="text-align: left; font-weight: normal;">
-			Original / Duplicate(Acnt)/Triplicate(Purch)/Stroes <span
-				style="float: right;">${documentBean.docIsoSerialNumber}</span>
-		</p> --%>
-		<!-- p -->
-
-
-
 		<table width="100%" border="0" cellpadding="0" cellspacing="0"
 			style="border-top: 1px solid #313131; border-right: 1px solid #313131; margin-left: 60px; margin-right: 60px; margin-top: 20px;">
 			<tr>
@@ -216,17 +206,6 @@ hr {
 								align="center">EARNINGS</td>
 						</tr>
 
-						<!-- <tr>
-							<td width="50%" valign="top"
-								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
-								align="left">PAY HEAD</td>
-
-							<td width="50%" valign="top"
-								style="color: #000; font-size: 12px; padding-right: 5px;"
-								align="right">EARNINGS</td>
-
-						</tr> -->
-
 						<tr>
 							<td width="50%" valign="top"
 								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
@@ -286,7 +265,7 @@ hr {
 				<td
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
 					align="center" valign="top">
-					<table width="100%"
+					<table width="1000%"
 						style="border-top: 1px solid #313131; border-right: 1px solid #313131; border-left: 1px solid #313131; border-bottom: 1px solid #313131;">
 						<tr>
 							<td width="50%" valign="top"
@@ -401,12 +380,12 @@ hr {
 			COMPUTER GENERATED PAYSLIP, NOT REQUIRING SIGNATURE</p>
 		<!-- END Main Content -->
 		<br>
-		 
+
 		<c:if test="${index==2}">
 			<c:set value="0" var="index"></c:set>
 			<div style="page-break-after: always;"></div>
 		</c:if>
-		<!-- <div style="page-break-after: always;"></div> -->
+
 	</c:forEach>
 </body>
 </html>
