@@ -49,6 +49,7 @@ import com.ats.hreasy.model.GetSalDynamicTempRecord;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.InfoForUploadAttendance;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.MstCompany;
 import com.ats.hreasy.model.PayRollDataForProcessing;
 
 @Controller
@@ -655,7 +656,19 @@ public class PayRollController {
 					Constants.url + "/getPayrollGenratedListByEmpIds", map, PayRollDataForProcessing.class);
 			List<GetPayrollGeneratedList> list = payRollDataForProcessing.getPayrollGeneratedList();
 			model.addObject("list", list);
-			//System.out.println(list);
+
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("companyId", 1);
+			MstCompany companyInfo = Constants.getRestTemplate().postForObject(Constants.url + "/getCompanyById", map,
+					MstCompany.class);
+			model.addObject("companyInfo", companyInfo);
+
+			String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August",
+					"September", "October", "November", "December" };
+			String monthName = monthNames[Integer.parseInt(monthyear[0]) - 1];
+			model.addObject("monthName", monthName);
+			model.addObject("year", monthyear[1]);
+			// System.out.println(list);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -664,6 +677,7 @@ public class PayRollController {
 		return model;
 	}
 
+	
 	private Dimension format = PD4Constants.A4;
 	private boolean landscapeValue = false;
 	private int topValue = 8;

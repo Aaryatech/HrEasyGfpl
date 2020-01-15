@@ -11,7 +11,7 @@
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>Generated Payroll</title>
+<title>Payment Slip</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -133,18 +133,17 @@ hr {
 					align="center"><table width="100%">
 						<tr>
 							<td width="22.33%"><img
-								src="${pageContext.request.contextPath}/resources/img/monginislogo.png"
-								width="95" height="60" /></td>
+								src="${pageContext.request.contextPath}/resources/global_assets/images/companyLogo.png"
+								width="80" height="50" /></td>
 
 							<td width="53.33%" valign="top"
 								style="font-weight: bold; margin: 0px;" align="center">
-								<h4 align="center" style="font-size: 16px;">METAFORGE
-									ENGINEERING (I) PVT. LTD.</h4>
+								<h4 align="center" style="font-size: 16px;">${companyInfo.companyName}</h4>
 								<h6 style="font-weight: bold; margin: 0px; font-size: 10px;"
-									align="center">S.NO. 22/3, Dindori Road, Mhasrul, Nasik -
-									422004</h6>
+									align="center">${companyInfo.longAdd1}</h6>
 								<h5 style="font-weight: bold; margin: 0px; font-size: 14px;"
-									align="center">Payslip for the month of November 2019</h5>
+									align="center">Payment Slip for the month of ${monthName}
+									${year}</h5>
 							</td>
 
 							<td width="22.33%" valign="top"
@@ -386,9 +385,8 @@ hr {
 					<table width="100%">
 						<tr>
 							<td width="80%"
-								style="color: #000; font-size: 12px; border-right: 1px solid #313131;"
-								align="center">THIS IS A COMPUTER GENERATED PAYSLIP, NOT
-								REQUIRING SIGNATURE</td>
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; text-transform: capitalize;">Amount
+								in word - Rs : ${list.moneyInword}</td>
 
 							<td width="20%" valign="top"
 								style="color: #000; font-size: 12px;" align="right">Net
@@ -399,6 +397,8 @@ hr {
 				</td>
 			</tr>
 		</table>
+		<p style="color: #000; font-size: 12px;" align="center">THIS IS A
+			COMPUTER GENERATED PAYSLIP, NOT REQUIRING SIGNATURE</p>
 		<!-- END Main Content -->
 		<br>
 		<br>
