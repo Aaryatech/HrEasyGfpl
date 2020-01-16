@@ -735,58 +735,101 @@ public class AdvanceAdminController {
 		try {
 			String date = null;
 			String empId = null;
-			int days=0;
+			int daysNext = 0;
+			int daysToday = 0;
+
+			String today = new String();
+			String nextMonthDay = new String();
+		 
+
 			try {
 				empId = request.getParameter("empId");
 			} catch (Exception e) {
 				empId = "0";
-				
-			}
-			try {
-				date = request.getParameter("date");
-				System.err.println("date"+date);
 
-				String[] a = date.split("-");
-				String year = a[0];
-				String month = a[1];
-				if (month.length() == 1) {
-					month = "0".concat(month);
+			}
+			LocalDate date3 = null;
+
+			Date dateToday = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			today = String.valueOf(sf.format(dateToday));
+			/// System.err.println("dateToday" + dateToday);
+			model.addAttribute("today", DateConvertor.convertToDMY(today));
+			LocalDate localDate = LocalDate.parse((today));
+			LocalDate oneMonthLater = localDate.plusMonths(1);
+			/// System.err.println("oneMonthLater" + oneMonthLater);
+
+			nextMonthDay = String.valueOf(oneMonthLater);
+			model.addAttribute("nextMonthDay", DateConvertor.convertToDMY(nextMonthDay));
+			// System.err.println("nextMonthDay" +
+			// DateConvertor.convertToDMY(nextMonthDay));
+ 			
+			String[] a = today.split("-");
+			String year = a[1];
+			String month = a[0];
+			if (month.length() == 1) {
+				month = "0".concat(month);
+			}
+			date3 = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt("01"));
+ 			daysToday = date3.lengthOfMonth();
+			
+			
+		  a = nextMonthDay.split("-");
+			  year = a[1];
+			  month = a[0];
+			if (month.length() == 1) {
+				month = "0".concat(month);
+			}
+			date3 = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt("01"));
+
+			daysNext = date3.lengthOfMonth();
+
+			try {
+ 				date = request.getParameter("date");
+				if (date.equals("1")) {
+ 					model.addAttribute("days", daysToday);
+ 					model.addAttribute("selDate", daysToday);
+ 				} else {
+ 					model.addAttribute("days", daysNext);
+ 					model.addAttribute("selDate", nextMonthDay);
 				}
-				
-				LocalDate date3 = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt("01"));
-				 System.err.println();
-				
-				
-				days = date3.lengthOfMonth();
-				  model.addAttribute("days", days);
- 			} catch (Exception e) {
+			 
+			} catch (Exception e) {
 				date = null;
-				 days=0;
+				model.addAttribute("days", 0);
+
 			}
 
 			GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
 
 			List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
-			System.err.println("days" + days);
 
 			model.addAttribute("employeeInfoList", empdetList);
 			model.addAttribute("date", date);
 			model.addAttribute("empId", empId);
-			
-			
-			
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("empRes", empId);
-			map.add("date1", date.concat("-01"));
+
+			map.add("nextMonthDay", nextMonthDay);
+			map.add("today", today);
 			map.add("companyId", 1);
+			map.add("empRes", empId);
+			map.add("daysNext", daysNext);
+			map.add("daysToday", daysToday);
 
 			EmpShiftDetails[] employeeInfo = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getEmpShiftDetails", map, EmpShiftDetails[].class);
 
 			ArrayList<EmpShiftDetails> daysList = new ArrayList<EmpShiftDetails>(Arrays.asList(employeeInfo));
-			
-			model.addAttribute("daysList", daysList);
+
+			model.addAttribute("daysList", daysList); // System.err.println("daysList" +
+			daysList.toString();
+			if (daysList != null) {
+				model.addAttribute("empList", daysList.get(0).getEmplist());
+
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

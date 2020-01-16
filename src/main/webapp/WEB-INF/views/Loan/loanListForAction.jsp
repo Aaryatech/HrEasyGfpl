@@ -158,7 +158,7 @@
 										<td>${empdetList.loanStatus}</td>
 										<td>
 										
-										 <c:if test="${empdetList.exInt1==2}">
+										 <c:if test="${empdetList.skipId==0}">
 											 <a
 											href="${pageContext.request.contextPath}/showSkipLoan?id=${empdetList.exVar1}&empId=${empdetList.exVar2}"
 											class="list-icons-item text-primary-600" data-popup="tooltip"

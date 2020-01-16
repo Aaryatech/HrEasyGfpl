@@ -1,4 +1,7 @@
 package com.ats.hreasy.model;
+
+import java.util.List;
+
  
 public class EmpShiftDetails {
 	
@@ -13,6 +16,7 @@ public class EmpShiftDetails {
 	private int shiftId;
 	
 	private int day;
+	private List<EmployeeMaster> emplist ;
 	
 	private String shiftName;
 
@@ -65,13 +69,23 @@ public class EmpShiftDetails {
 	public void setDay(int day) {
 		this.day = day;
 	}
+	
+	
+
+	public List<EmployeeMaster> getEmplist() {
+		return emplist;
+	}
+
+	public void setEmplist(List<EmployeeMaster> emplist) {
+		this.emplist = emplist;
+	}
 
 	@Override
 	public String toString() {
 		return "EmpShiftDetails [empId=" + empId + ", empName=" + empName + ", empCode=" + empCode + ", shiftId="
-				+ shiftId + ", day=" + day + ", shiftName=" + shiftName + "]";
+				+ shiftId + ", day=" + day + ", emplist=" + emplist + ", shiftName=" + shiftName + "]";
 	}
 
-	 
+ 
 	 
 }

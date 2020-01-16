@@ -113,16 +113,36 @@
 								</div>
 
 
-								<label class="col-form-label col-lg-2" for="date">Select
+
+								<label class="col-form-label col-lg-2" for="select2">Select
+									Date <span style="color: red">* </span> :
+								</label>
+								<div class="col-md-2">
+									<select name="empId" data-placeholder="Select Employee"
+										id="empId" class="form-control form-control-select2 "
+										tabindex="-1" aria-hidden="true">
+ 										<option value="1">${today}</option>
+										<option value="2">${nextMonthDay}</option>
+ 									</select> <span class="validation-invalid-label" id="error_empId"
+										style="display: none;">This field is required.</span>
+								</div>
+
+
+
+								<!-- 	<label class="col-form-label col-lg-2" for="date">Select
 									Date <span style="color: red">* </span> :
 								</label>
 								<div class="col-md-3">
 									<input type="text" class="form-control "
 										placeholder="Select Date " id="datepicker" name="date"
-										 autocomplete="off"> <span
+										autocomplete="off"> <span
 										class="validation-invalid-label" id="error_month"
 										style="display: none;">This field is required.</span>
-								</div>
+								</div> -->
+
+
+
+
 								<button type="submit" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn">
 									Search <i class="icon-paperplane ml-2"></i>
@@ -156,18 +176,20 @@
 
 						</form>
 
+
+
 						<table
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
-							id="printtable1">
+							id="bootstrap-data-table">
 							<thead>
 								<tr class="bg-blue">
 
 									<th width="10%">Sr.no</th>
 									<th>Employee Code</th>
 									<th>Employee Name</th>
-									<c:forEach items="${days}" var="days" varStatus="count">
- 										<th>${days}</th>
- 									</c:forEach>
+									<c:forEach begin="1" end="${days}" step="1" varStatus="count">
+										<th>${count.index}</th>
+									</c:forEach>
 
 
 
@@ -175,19 +197,30 @@
 							</thead>
 							<tbody>
 
+								<c:forEach items="${empList}" var="empList" varStatus="count1">
+									<tr>
+										<td>${count.index+1}</td>
+										<td>${empList.empCode}</td>
+										<td>${empList.firstName}</td>
+										<c:forEach begin="0" end="${days}" step="1" varStatus="count3">
+											<c:forEach items="${daysList}" var="daysList"
+												varStatus="count2">
+
+												<c:if
+													test="${daysList.empId==empList.empId && daysList.day==count3.index+1}">
+													<td>${daysList.shiftName}</td>
+												</c:if>
+											</c:forEach>
+										</c:forEach>
+									</tr>
+
+								</c:forEach>
 
 
 							</tbody>
 						</table>
-						<br> <span class="validation-invalid-label" id="error_chk"
-							style="display: none;">Please Select the Employee.</span>
+						<br>
 
-
-						<div style="text-align: center;">
-							<input type="submit" class="btn btn-primary" value="Assign Shift"
-								id="deleteId"
-								style="align-content: center; width: 113px; margin-left: 40px;">
-						</div>
 					</div>
 
 				</div>

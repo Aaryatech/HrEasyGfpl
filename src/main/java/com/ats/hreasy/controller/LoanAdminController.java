@@ -124,10 +124,12 @@ class LoanAdminController {
 
 				model.addObject("prevLoan", empPersInfo1);
 				System.out.println("  LoanMain Info-------" + empPersInfo1.toString());
-				LoanMain appNo = Constants.getRestTemplate().getForObject(Constants.url + "/getLastApplicationNumber",
-						LoanMain.class);
 
-				model.addObject("appNo", Integer.parseInt(appNo.getLoanApplNo()) + 1);
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("limitKey", "loan_number");
+				Setting getSettingByKey = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey",
+						map, Setting.class);
+				model.addObject("appNo", getSettingByKey.getValue());
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -195,6 +197,11 @@ class LoanAdminController {
 				String repayAmt = request.getParameter("repayAmt");
 				String appNo = request.getParameter("appNo");
 				int empId = Integer.parseInt(request.getParameter("empId"));
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("limitKey", "loan_number");
+				Setting getSettingByKey = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey",
+						map, Setting.class);
 
 				String startDate = request.getParameter("startDate");
 				String endDate = request.getParameter("endDate");
@@ -276,7 +283,7 @@ class LoanAdminController {
 					adv.setExInt2(0);
 					adv.setExVar1("NA");
 					adv.setExVar2("NA");
-					adv.setLoanApplNo(appNo);
+					adv.setLoanApplNo(getSettingByKey.getValue());
 
 					adv.setLoginName(String.valueOf(userObj.getEmpId()));
 					adv.setLoginTime(sf2.format(date2));
@@ -290,13 +297,20 @@ class LoanAdminController {
 							LoanMain.class);
 
 					if (res != null) {
-						session.setAttribute("successMsg", "Advance Inserted Successfully");
+						session.setAttribute("successMsg", "Loan Inserted Successfully");
+						map = new LinkedMultiValueMap<>();
+						map.add("settingId", getSettingByKey.getSettingId());
+						map.add("val", Integer.parseInt(getSettingByKey.getValue()) + 1);
+
+						Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSetting", map,
+								Info.class);
+
 					} else {
-						session.setAttribute("errorMsg", "Failed to Insert Record");
+						session.setAttribute("errorMsg", "Failed to Insert Loan");
 					}
 
 				} else {
-					session.setAttribute("errorMsg", "Failed to Insert Record");
+					session.setAttribute("errorMsg", "Failed to Insert Loan");
 				}
 
 			} catch (Exception e) {
@@ -367,7 +381,6 @@ class LoanAdminController {
 
 				employeeInfoList.get(i).setExVar3(FormValidation.Encrypt(calYrId));
 
-			 
 			}
 
 		} catch (Exception e) {
@@ -526,7 +539,7 @@ class LoanAdminController {
 					Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 							.parse(employeeInfoList.get(i).getSkipLoginTime());
 
-					System.out.println("date------" + sf.format(date));
+					//System.out.println("date------" + sf.format(date));
 					String a = sf.format(date1);
 
 					// System.out.println("a------" + a);
