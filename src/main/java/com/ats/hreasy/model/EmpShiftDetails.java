@@ -6,19 +6,56 @@ import java.util.List;
 public class EmpShiftDetails {
 	
 	private int empId;
-	
-	private String empName;
-	
-	
-	private String empCode;
-	
-	
-	private int shiftId;
-	
+ 	private int shiftId;
+
 	private int day;
-	private List<EmployeeMaster> emplist ;
-	
+
+	private int locationId;
+
 	private String shiftName;
+
+	private String dateOfMonth;
+	
+	private String fromDate;
+	
+	private String toDate;
+ 
+	private int month;
+	 
+	private int year;
+
+
+	public int getMonth() {
+		return month;
+	}
+
+	public void setMonth(int month) {
+		this.month = month;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public int getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(int locationId) {
+		this.locationId = locationId;
+	}
+
+	public String getDateOfMonth() {
+		return dateOfMonth;
+	}
+
+	public void setDateOfMonth(String dateOfMonth) {
+		this.dateOfMonth = dateOfMonth;
+	}
 
 	public int getEmpId() {
 		return empId;
@@ -27,23 +64,7 @@ public class EmpShiftDetails {
 	public void setEmpId(int empId) {
 		this.empId = empId;
 	}
-
-	public String getEmpName() {
-		return empName;
-	}
-
-	public void setEmpName(String empName) {
-		this.empName = empName;
-	}
-
-	public String getEmpCode() {
-		return empCode;
-	}
-
-	public void setEmpCode(String empCode) {
-		this.empCode = empCode;
-	}
-
+ 
 	public int getShiftId() {
 		return shiftId;
 	}
@@ -60,8 +81,6 @@ public class EmpShiftDetails {
 		this.shiftName = shiftName;
 	}
 
-	
-	
 	public int getDay() {
 		return day;
 	}
@@ -72,20 +91,30 @@ public class EmpShiftDetails {
 	
 	
 
-	public List<EmployeeMaster> getEmplist() {
-		return emplist;
+	public String getFromDate() {
+		return fromDate;
 	}
 
-	public void setEmplist(List<EmployeeMaster> emplist) {
-		this.emplist = emplist;
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public String getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
 	}
 
 	@Override
 	public String toString() {
-		return "EmpShiftDetails [empId=" + empId + ", empName=" + empName + ", empCode=" + empCode + ", shiftId="
-				+ shiftId + ", day=" + day + ", emplist=" + emplist + ", shiftName=" + shiftName + "]";
+		return "EmpShiftDetails [empId=" + empId + ", shiftId=" + shiftId + ", day=" + day + ", locationId="
+				+ locationId + ", shiftName=" + shiftName + ", dateOfMonth=" + dateOfMonth + ", fromDate=" + fromDate
+				+ ", toDate=" + toDate + ", month=" + month + ", year=" + year + "]";
 	}
 
+	 
  
 	 
 }

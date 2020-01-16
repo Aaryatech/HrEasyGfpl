@@ -102,11 +102,19 @@
 									<select name="empId" data-placeholder="Select Employee"
 										id="empId" class="form-control form-control-select2 "
 										tabindex="-1" aria-hidden="true">
-										<option value="">Select Employee</option>
 										<option value="-1">All</option>
 										<c:forEach items="${employeeInfoList}" var="empInfo">
-											<option value="${empInfo.empId}">${empInfo.surname}
-												${empInfo.firstName}</option>
+
+											<c:choose>
+												<c:when test="${empInfo.empId==empId}">
+													<option selected value="${empInfo.empId}">${empInfo.surname}
+														${empInfo.firstName} [${empInfo.empCode}] [${empInfo.empDesgn}] </option>
+												</c:when>
+												<c:otherwise>
+													<option value="${empInfo.empId}">${empInfo.surname}
+														${empInfo.firstName} [${empInfo.empCode}] [${empInfo.empDesgn}]</option>
+												</c:otherwise>
+											</c:choose>
 										</c:forEach>
 									</select> <span class="validation-invalid-label" id="error_empId"
 										style="display: none;">This field is required.</span>
@@ -118,12 +126,26 @@
 									Date <span style="color: red">* </span> :
 								</label>
 								<div class="col-md-2">
-									<select name="empId" data-placeholder="Select Employee"
-										id="empId" class="form-control form-control-select2 "
+									<select name="date" data-placeholder="Select Employee"
+										id="date" class="form-control form-control-select2 "
 										tabindex="-1" aria-hidden="true">
- 										<option value="1">${today}</option>
-										<option value="2">${nextMonthDay}</option>
- 									</select> <span class="validation-invalid-label" id="error_empId"
+										<c:set var="flag" value="0"></c:set>
+										<c:if test="${date==1}">
+											<option selected value="1">${today}</option>
+											<c:set var="flag" value="1"></c:set>
+										</c:if>
+										<c:set var="flag1" value="0"></c:set>
+										<c:if test="${date==2}">
+											<option selected value="2">${nextMonthDay}</option>
+											<c:set var="flag1" value="1"></c:set>
+										</c:if>
+										<c:if test="${flag==0}">
+											<option value="1">${today}</option>
+										</c:if>
+										<c:if test="${flag1==0}">
+											<option value="2">${nextMonthDay}</option>
+										</c:if>
+									</select> <span class="validation-invalid-label" id="error_empId"
 										style="display: none;">This field is required.</span>
 								</div>
 
@@ -176,51 +198,47 @@
 
 						</form>
 
+						<div class="table-responsive">
+							<table
+								class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
+								id="bootstrap-data-table">
+								<thead>
+									<tr class="bg-blue">
 
+										<th width="10%">Sr.no</th>
+										<th>Employee Code</th>
+										<th>Employee Name</th>
+										<c:forEach begin="1" end="${days}" step="1" varStatus="count">
+											<th>${count.index}</th>
+										</c:forEach>
+									</tr>
+								</thead>
+								<tbody>
 
-						<table
-							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
-							id="bootstrap-data-table">
-							<thead>
-								<tr class="bg-blue">
+									<c:forEach items="${empList}" var="empList" varStatus="count1">
+										<tr>
+											<td>${count1.index+1}</td>
+											<td>${empList.empCode}</td>
+											<td>${empList.firstName}${empList.surname}</td>
+											<c:forEach begin="0" end="${days}" step="1"
+												varStatus="count3">
+												<c:forEach items="${daysList}" var="daysList"
+													varStatus="count2">
 
-									<th width="10%">Sr.no</th>
-									<th>Employee Code</th>
-									<th>Employee Name</th>
-									<c:forEach begin="1" end="${days}" step="1" varStatus="count">
-										<th>${count.index}</th>
+													<c:if
+														test="${daysList.empId==empList.empId && daysList.day==count3.index+1  && monthVal==daysList.month}">
+														<td>${daysList.shiftName}</td>
+													</c:if>
+												</c:forEach>
+											</c:forEach>
+										</tr>
+
 									</c:forEach>
 
 
-
-								</tr>
-							</thead>
-							<tbody>
-
-								<c:forEach items="${empList}" var="empList" varStatus="count1">
-									<tr>
-										<td>${count.index+1}</td>
-										<td>${empList.empCode}</td>
-										<td>${empList.firstName}</td>
-										<c:forEach begin="0" end="${days}" step="1" varStatus="count3">
-											<c:forEach items="${daysList}" var="daysList"
-												varStatus="count2">
-
-												<c:if
-													test="${daysList.empId==empList.empId && daysList.day==count3.index+1}">
-													<td>${daysList.shiftName}</td>
-												</c:if>
-											</c:forEach>
-										</c:forEach>
-									</tr>
-
-								</c:forEach>
-
-
-							</tbody>
-						</table>
-						<br>
-
+								</tbody>
+							</table>
+						</div>
 					</div>
 
 				</div>
