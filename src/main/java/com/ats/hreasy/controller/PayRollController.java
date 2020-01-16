@@ -257,6 +257,7 @@ public class PayRollController {
 			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 			Info view = AcessController.checkAccess("selectMonthForPayRoll", "selectMonthForPayRoll", 1, 0, 0, 0,
 					newModuleList);
+
 			if (view.isError() == false) {
 
 				mav = "redirect:/selectMonthForPayRoll";
@@ -265,6 +266,19 @@ public class PayRollController {
 				List<EmpSalInfoDaiyInfoTempInfo> list = new ArrayList<>(Arrays.asList(getSalDynamicTempRecord));
 				Info info = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/insertFinalPayRollAndDeleteFroTemp", list, Info.class);
+
+				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+				String empIds = request.getParameter("empIds");
+				String searchDate = request.getParameter("searchDate");
+				String[] dt = searchDate.split("-");
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("userId", userObj.getUserId());
+				map.add("empIds", empIds);
+				map.add("month", Integer.parseInt(dt[0]));
+				map.add("year", Integer.parseInt(dt[1]));
+				info = Constants.getRestTemplate().postForObject(Constants.url + "/updateIsPaidInPaydeClaimAdvLoan",
+						map, Info.class);
 
 				if (info.isError() == false) {
 					session.setAttribute("successMsg", "Payroll Generated Successfully");
@@ -677,7 +691,6 @@ public class PayRollController {
 		return model;
 	}
 
-	
 	private Dimension format = PD4Constants.A4;
 	private boolean landscapeValue = false;
 	private int topValue = 8;
