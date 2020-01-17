@@ -52,8 +52,8 @@
 							<div class="card-header header-elements-inline">
 								<table width="100%">
 									<tr width="100%">
-										<td width="60%"><h5 class="card-title">Edit Employee Type
-												 </h5></td>
+										<td width="60%"><h5 class="card-title">Edit Employee
+												Type</h5></td>
 										<td width="40%" align="right">
 											<%-- <a
 									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
@@ -103,7 +103,7 @@
 								%>
 
 								<form
-									action="${pageContext.request.contextPath}/submitMstEmpTypeAdd"
+									action="${pageContext.request.contextPath}/submitEditMstEmpTypeAdd"
 									id="submitInsertWeeklyOff" method="post">
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="typeName">
@@ -112,12 +112,14 @@
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Type Name" id="typeName" name="typeName"
-												value="${employee.name}" autocomplete="off" onchange="trim(this)" maxlength="100">
-											<span class="validation-invalid-label" id="error_typeName"
+												value="${employee.name}" autocomplete="off"
+												onchange="trim(this)" maxlength="100"> <span
+												class="validation-invalid-label" id="error_typeName"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									<input type="hidden" value="${employee.minworkApplicable}" name="empTypeId" id="empTypeId">
+									<input type="hidden" value="${employee.empTypeId}"
+										name="empTypeId" id="empTypeId">
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="minWorkRule">
@@ -130,10 +132,10 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												tabindex="-1" aria-hidden="true">
 												<option value="">Please Select</option>
-												<option value="Yes"
-													${employee.minworkApplicable == 'Yes' ? 'selected' : ''}>Yes</option>
-												<option value="No"
-													${employee.minworkApplicable == 'No' ? 'selected' : ''}>No</option>
+												<option value="1"
+													${employee.minworkApplicable == '1' ? 'selected' : ''}>Yes</option>
+												<option value="0"
+													${employee.minworkApplicable == '0' ? 'selected' : ''}>No</option>
 
 											</select> <span class="validation-invalid-label"
 												id="error_minWorkRule" style="display: none;">This
@@ -149,10 +151,10 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												tabindex="-1" aria-hidden="true">
 												<option value="">Please Select</option>
-												<option value="Yes"
-													${employee.halfDay == 'Yes' ? 'selected' : ''}>Yes</option>
-												<option value="No"
-													${employee.halfDay == 'No' ? 'selected' : ''}>No</option>
+												<option value="1"
+													${employee.halfDay == '1' ? 'selected' : ''}>Yes</option>
+												<option value="0"
+													${employee.halfDay == '0' ? 'selected' : ''}>No</option>
 
 
 
@@ -172,42 +174,45 @@
 										</label>
 										<div class="col-lg-4">
 											<select name="otApplicable" data-placeholder="Please Select"
-												id="otApplicable"
+												id="otApplicable"  onchange="setDate()"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												tabindex="-1" aria-hidden="true">
 												<option value="">Please Select</option>
-												<option value="Yes"
-													${employee.otApplicable == 'Yes' ? 'selected' : ''}>Yes</option>
-												<option value="No"
-													${employee.otApplicable == 'No' ? 'selected' : ''}>No</option>
+												<option value="1"
+													${employee.otApplicable == '1' ? 'selected' : ''}>Yes</option>
+												<option value="0"
+													${employee.otApplicable == '0' ? 'selected' : ''}>No</option>
 
 
 											</select> <span class="validation-invalid-label"
 												id="error_otApplicable" style="display: none;">This
 												field is required.</span>
 										</div>
+									</div>
+									<div id="abc" style="display: none;">
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2" for="otType">
+												OT Type<span style="color: red">* </span>:
+											</label>
+											<div class="col-lg-4">
+												<select name="otType" data-placeholder="Please Select"
+													id="otType"
+													class="form-control form-control-select2 select2-hidden-accessible"
+													tabindex="-1" aria-hidden="true">
+													<option value="">Please Select</option>
+													<option value="1"
+														${employee.otType == '0' ? 'selected' : ''}>Yes</option>
+													<option value="0"
+														${employee.otType == '1' ? 'selected' : ''}>No</option>
+													<option value="1.5"
+														${employee.otType == '1.5' ? 'selected' : ''}>Yes1.5</option>
+													<option value="2"
+														${employee.otType == '2' ? 'selected' : ''}>Yes2</option>
 
-										<label class="col-form-label col-lg-2" for="otType">
-											OT Type<span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<select name="otType" data-placeholder="Please Select"
-												id="otType"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												tabindex="-1" aria-hidden="true">
-												<option value="">Please Select</option>
-												<option value="Yes"
-													${employee.otType == 'No' ? 'selected' : ''}>Yes</option>
-												<option value="No"
-													${employee.otType == 'Yes1' ? 'selected' : ''}>No</option>
-												<option value="Yes1.5"
-													${employee.otType == 'Yes1.5' ? 'selected' : ''}>Yes1.5</option>
-												<option value="Yes2"
-													${employee.otType == 'Yes2' ? 'selected' : ''}>Yes2</option>
 
-
-											</select> <span class="validation-invalid-label" id="error_otType"
-												style="display: none;">This field is required.</span>
+												</select> <span class="validation-invalid-label" id="error_otType"
+													style="display: none;">This field is required.</span>
+											</div>
 										</div>
 									</div>
 
@@ -244,10 +249,10 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												tabindex="-1" aria-hidden="true">
 												<option value="">Please Select</option>
-											<option value="Yes"
-													${employee.lmApplicable == 'Yes' ? 'selected' : ''}>Yes</option>
-												<option value="No"
-													${employee.lmApplicable == 'No' ? 'selected' : ''}>No</option>
+												<option value="1"
+													${employee.lmApplicable == '1' ? 'selected' : ''}>Yes</option>
+												<option value="0"
+													${employee.lmApplicable == '0' ? 'selected' : ''}>No</option>
 
 											</select> <span class="validation-invalid-label" id="error_lateMark"
 												style="display: none;">This field is required.</span>
@@ -259,13 +264,14 @@
 
 
 										<label class="col-form-label col-lg-2" for="minHr">
-											Minimum Work Hour<span style="color: red">* </span>:
+											Minimum Work Hour(in Min)<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
-												placeholder="Enter Min Hours" id="minHr" name="minHr" value="${employee.minWorkHr}"
-												autocomplete="off" onchange="trim(this)" maxlength="100">
-											<span class="validation-invalid-label" id="error_minHr"
+												placeholder="Enter Min Hours" id="minHr" name="minHr"
+												value="${employee.minWorkHr}" autocomplete="off"
+												onchange="trim(this)" maxlength="100"> <span
+												class="validation-invalid-label" id="error_minHr"
 												style="display: none;">This field is required.</span>
 										</div>
 
@@ -316,7 +322,22 @@
 
 	</div>
 	<!-- /page content -->
+	<script type="text/javascript">
+		function setDate() {
 
+			var value = document.getElementById("otApplicable").value;
+			//alert("Value " + value)
+			if (value == 1) {
+				//	document.getElementById("abc").style.display = "block";
+				$("#abc").show()
+			} else {
+
+				//	document.getElementById("abc").style.display = "none";
+				$("#abc").hide()
+			}
+
+		}
+	</script>
 	<script>
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
@@ -380,14 +401,17 @@
 					$("#error_otApplicable").hide()
 				}
 
-				if (!$("#otType").val()) {
+				if(parseInt($("#otApplicable").val())==1){
+					if (!$("#otType").val()) {
 
-					isError = true;
+						isError = true;
 
-					$("#error_otType").show()
+						$("#error_otType").show()
 
-				} else {
-					$("#error_otType").hide()
+					} else {
+						$("#error_otType").hide()
+					}
+
 				}
 
 				if (!$("#weekOffWork").val()) {

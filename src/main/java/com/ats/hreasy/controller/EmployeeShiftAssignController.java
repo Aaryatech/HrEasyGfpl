@@ -1,6 +1,7 @@
 package com.ats.hreasy.controller;
 
 import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
+import com.ats.hreasy.common.HoursConversion;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
@@ -39,6 +41,7 @@ public class EmployeeShiftAssignController {
 	Date now = new Date();
 	String curDate = dateFormat.format(new Date());
 	String dateTime = dateFormat.format(now);
+	MstEmpType editMstType = new MstEmpType();
 
 	@RequestMapping(value = "/showEmpListToAssignShift", method = RequestMethod.GET)
 	public ModelAndView showEmpListToAssignShift(HttpServletRequest request, HttpServletResponse response) {
@@ -88,7 +91,7 @@ public class EmployeeShiftAssignController {
 					model.addObject("locationId", locationId);
 				} catch (Exception e) {
 
-					//e.printStackTrace();
+					// e.printStackTrace();
 				}
 
 				// System.err.println("sh list"+shiftList.toString());
@@ -243,8 +246,6 @@ public class EmployeeShiftAssignController {
 
 	////
 
-	MstEmpType editMstType = new MstEmpType();
-
 	@RequestMapping(value = "/mstEmpTypeAdd", method = RequestMethod.GET)
 	public ModelAndView mstEmpTypeAdd(HttpServletRequest request, HttpServletResponse response) {
 
@@ -294,9 +295,14 @@ public class EmployeeShiftAssignController {
 
 				String lateMark = request.getParameter("lateMark");
 				String weekOffWork = request.getParameter("weekOffWork");
-				String otType = request.getParameter("otType");
+				String otType = null;
 				String minWorkHr = request.getParameter("minHr");
 				String otApplicable = request.getParameter("otApplicable");
+				if (otApplicable.equals("1")) {
+					otType = request.getParameter("otType");
+				} else {
+					otType = "0";
+				}
 				String typeName = request.getParameter("typeName");
 				String halfDayDed = request.getParameter("halfDayDed");
 				String minWorkRule = request.getParameter("minWorkRule");
@@ -314,11 +320,7 @@ public class EmployeeShiftAssignController {
 					ret = true;
 					System.out.println("weekOffWork" + ret);
 				}
-				if (FormValidation.Validaton(otType, "") == true) {
 
-					ret = true;
-					System.out.println("otType" + ret);
-				}
 				if (FormValidation.Validaton(minWorkHr, "") == true) {
 
 					ret = true;
@@ -349,9 +351,11 @@ public class EmployeeShiftAssignController {
 					ret = true;
 					System.out.println("woRemarks" + ret);
 				}
+				//System.err.println("minWorkHr"+minWorkHr);
 
 				if (ret == false) {
-
+					//String mnghr1 = HoursConversion.convertHoursToMin(minWorkHr);
+					//System.err.println("mnghr1"+mnghr1);
 					MstEmpType mstEmpType = new MstEmpType();
 
 					mstEmpType.setAttType("0");
@@ -437,6 +441,13 @@ public class EmployeeShiftAssignController {
 
 					locationList.get(i)
 							.setAttType(FormValidation.Encrypt(String.valueOf(locationList.get(i).getEmpTypeId())));
+					//editMstType.setMinWorkHr(HoursConversion.convertMinToHours(editMstType.getMinWorkHr()));
+
+					/*
+					 * locationList.get(i)
+					 * .setMinWorkHr(HoursConversion.convertMinToHours(locationList.get(i).
+					 * getMinWorkHr()));
+					 */
 				}
 
 				Info add = AcessController.checkAccess("showMstEmpTypeList", "showMstEmpTypeList", 0, 1, 0, 0,
@@ -536,6 +547,11 @@ public class EmployeeShiftAssignController {
 				map.add("empTypeId", empTypeId);
 				editMstType = Constants.getRestTemplate().postForObject(Constants.url + "/getMstEmpTypeById", map,
 						MstEmpType.class);
+
+				/*
+				 * editMstType.setMinWorkHr(HoursConversion.convertMinToHours(editMstType.
+				 * getMinWorkHr()));
+				 */
 				model.addObject("employee", editMstType);
 			}
 		} catch (Exception e) {
@@ -567,7 +583,7 @@ public class EmployeeShiftAssignController {
 
 				String lateMark = request.getParameter("lateMark");
 				String weekOffWork = request.getParameter("weekOffWork");
-				String otType = request.getParameter("otType");
+				String otType = null;
 				String minWorkHr = request.getParameter("minHr");
 				String otApplicable = request.getParameter("otApplicable");
 				String typeName = request.getParameter("typeName");
@@ -575,6 +591,13 @@ public class EmployeeShiftAssignController {
 				String minWorkRule = request.getParameter("minWorkRule");
 				String woRemarks = request.getParameter("woRemarks");
 				String empTypeId = request.getParameter("empTypeId");
+				if (otApplicable.equals("1")) {
+					otType = request.getParameter("otType");
+				} else {
+					otType = "0";
+				}
+
+				System.err.println("empTypeId" + empTypeId);
 
 				Boolean ret = false;
 
@@ -588,11 +611,7 @@ public class EmployeeShiftAssignController {
 					ret = true;
 					System.out.println("weekOffWork" + ret);
 				}
-				if (FormValidation.Validaton(otType, "") == true) {
 
-					ret = true;
-					System.out.println("otType" + ret);
-				}
 				if (FormValidation.Validaton(minWorkHr, "") == true) {
 
 					ret = true;
@@ -625,7 +644,7 @@ public class EmployeeShiftAssignController {
 				}
 
 				if (ret == false) {
-
+					//String mnghr1 = HoursConversion.convertHoursToMin(minWorkHr);
 					MstEmpType mstEmpType = new MstEmpType();
 
 					mstEmpType.setAttType("0");

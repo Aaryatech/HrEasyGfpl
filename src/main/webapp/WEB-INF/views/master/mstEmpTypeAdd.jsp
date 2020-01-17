@@ -52,8 +52,8 @@
 							<div class="card-header header-elements-inline">
 								<table width="100%">
 									<tr width="100%">
-										<td width="60%"><h5 class="card-title">Add Employee Type
-												 </h5></td>
+										<td width="60%"><h5 class="card-title">Add Employee
+												Type</h5></td>
 										<td width="40%" align="right">
 											<%-- <a
 									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
@@ -111,17 +111,17 @@
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Enter Type Name" id="typeName"
-												name="typeName" autocomplete="off" onchange="trim(this)"
-												maxlength="100"> <span
-												class="validation-invalid-label" id="error_typeName"
+												placeholder="Enter Type Name" id="typeName" name="typeName"
+												autocomplete="off" onchange="trim(this)" maxlength="100">
+											<span class="validation-invalid-label" id="error_typeName"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="minWorkRule">
-										Minimum Work Hour Rule Applicable <span style="color: red">* </span>:
+											Minimum Work Hour Rule Applicable <span style="color: red">*
+										</span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="minWorkRule" data-placeholder="Please Select"
@@ -129,16 +129,17 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												tabindex="-1" aria-hidden="true">
 												<option value="">Please Select</option>
-												<option value="Yes">Yes</option>
-												<option value="No">No</option>
+												<option value="1">Yes</option>
+												<option value="0">No</option>
 
 
 
-											</select> <span class="validation-invalid-label" id="error_minWorkRule"
-												style="display: none;">This field is required.</span>
+											</select> <span class="validation-invalid-label"
+												id="error_minWorkRule" style="display: none;">This
+												field is required.</span>
 										</div>
 
-									<label class="col-form-label col-lg-2" for="halfDayDed">
+										<label class="col-form-label col-lg-2" for="halfDayDed">
 											Half Day Deduction <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-4">
@@ -147,8 +148,8 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												tabindex="-1" aria-hidden="true">
 												<option value="">Please Select</option>
-												<option value="Yes">Yes</option>
-												<option value="No">No</option>
+												<option value="1">Yes</option>
+												<option value="0">No</option>
 
 
 
@@ -168,35 +169,40 @@
 										</label>
 										<div class="col-lg-4">
 											<select name="otApplicable" data-placeholder="Please Select"
-												id="otApplicable"
+												id="otApplicable" onchange="setDate()"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												tabindex="-1" aria-hidden="true">
 												<option value="">Please Select</option>
-												<option value="Yes">Yes</option>
-												<option value="No">No</option>
+												<option value="1">Yes</option>
+												<option value="0">No</option>
 
 
 
-											</select> <span class="validation-invalid-label" id="error_otApplicable"
-												style="display: none;">This field is required.</span>
+											</select> <span class="validation-invalid-label"
+												id="error_otApplicable" style="display: none;">This
+												field is required.</span>
 										</div>
+										</div>
+										<div id="abc" style="display: none;">
+									<div class="form-group row">
 
-										<label class="col-form-label col-lg-2" for="otType">
-											OT Type<span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<select name="otType" data-placeholder="Please Select"
-												id="otType"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												tabindex="-1" aria-hidden="true">
-												<option value="">Please Select</option>
-												<option value="No">No</option>
-												<option value="Yes1">Yes1</option>
-												<option value="Yes1.5">Yes1.5</option>
-												<option value="Yes2">Yes2</option>
+											<label class="col-form-label col-lg-2" for="otType">
+												OT Type<span style="color: red">* </span>:
+											</label>
+											<div class="col-lg-4">
+												<select name="otType" data-placeholder="Please Select"
+													id="otType"
+													class="form-control form-control-select2 select2-hidden-accessible"
+													tabindex="-1" aria-hidden="true">
+													<option value="">Please Select</option>
+													<option value="0">No</option>
+													<option value="1">Yes1</option>
+													<option value="1.5">Yes1.5</option>
+													<option value="2">Yes2</option>
 
-											</select> <span class="validation-invalid-label" id="error_otType"
-												style="display: none;">This field is required.</span>
+												</select> <span class="validation-invalid-label" id="error_otType"
+													style="display: none;">This field is required.</span>
+											</div>
 										</div>
 									</div>
 
@@ -216,8 +222,9 @@
 												<option value="OT">OT</option>
 												<option value="NA">NA</option>
 
-											</select> <span class="validation-invalid-label" id="error_weekOffWork"
-												style="display: none;">This field is required.</span>
+											</select> <span class="validation-invalid-label"
+												id="error_weekOffWork" style="display: none;">This
+												field is required.</span>
 										</div>
 
 										<label class="col-form-label col-lg-2" for="lateMark">
@@ -229,8 +236,8 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												tabindex="-1" aria-hidden="true">
 												<option value="">Please Select</option>
-												<option value="Yes">Yes</option>
-												<option value="No">No</option>
+												<option value="1">Yes</option>
+												<option value="0">No</option>
 
 											</select> <span class="validation-invalid-label" id="error_lateMark"
 												style="display: none;">This field is required.</span>
@@ -242,24 +249,24 @@
 
 
 										<label class="col-form-label col-lg-2" for="minHr">
-											Minimum Work Hour<span style="color: red">* </span>:
+											Minimum Work Hour(in Min)<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-4">
-										 <input type="text" class="form-control"
-												placeholder="Enter Min Hours" id="minHr"
-												name="minHr" autocomplete="off" onchange="trim(this)"
-												maxlength="100"> <span
-												class="validation-invalid-label" id="error_minHr"
+											<input type="text" class="form-control"
+												placeholder="Enter Min Hours" id="minHr" name="minHr"
+												autocomplete="off" onchange="trim(this)" maxlength="100">
+											<span class="validation-invalid-label" id="error_minHr"
 												style="display: none;">This field is required.</span>
 										</div>
 
 										<label class="col-form-label col-lg-2" for="woRemarks">Details
-											<span style="color: red">* </span>: </label>
+											<span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-4">
 											<textarea rows="3" cols="3" class="form-control"
 												placeholder="Any Remark" onchange="trim(this)"
-												id="woRemarks" name="woRemarks"></textarea> <span
-												class="validation-invalid-label" id="error_woRemarks"
+												id="woRemarks" name="woRemarks"></textarea>
+											<span class="validation-invalid-label" id="error_woRemarks"
 												style="display: none;">This field is required.</span>
 
 										</div>
@@ -299,7 +306,22 @@
 
 	</div>
 	<!-- /page content -->
+	<script type="text/javascript">
+		function setDate() {
 
+			var value = document.getElementById("otApplicable").value;
+			//alert("Value " + value)
+			if (value == 1) {
+				//	document.getElementById("abc").style.display = "block";
+				$("#abc").show()
+			} else {
+
+				//	document.getElementById("abc").style.display = "none";
+				$("#abc").hide()
+			}
+
+		}
+	</script>
 	<script>
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
@@ -308,7 +330,6 @@
 			return;
 		}
 
-		 
 		$(document).ready(function($) {
 
 			$("#submitInsertWeeklyOff").submit(function(e) {
@@ -354,7 +375,6 @@
 					$("#error_minWorkRule").hide()
 				}
 
-				
 				if (!$("#otApplicable").val()) {
 
 					isError = true;
@@ -365,16 +385,19 @@
 					$("#error_otApplicable").hide()
 				}
 
-				if (!$("#otType").val()) {
+				if(parseInt($("#otApplicable").val())==1){
+					if (!$("#otType").val()) {
 
-					isError = true;
+						isError = true;
 
-					$("#error_otType").show()
+						$("#error_otType").show()
 
-				} else {
-					$("#error_otType").hide()
+					} else {
+						$("#error_otType").hide()
+					}
+
 				}
-
+				
 				if (!$("#weekOffWork").val()) {
 
 					isError = true;
@@ -384,7 +407,7 @@
 				} else {
 					$("#error_weekOffWork").hide()
 				}
-				
+
 				if (!$("#lateMark").val()) {
 
 					isError = true;
@@ -403,7 +426,7 @@
 				} else {
 					$("#error_halfDayDed").hide()
 				}
-				
+
 				if (!$("#woRemarks").val()) {
 
 					isError = true;
@@ -413,7 +436,7 @@
 				} else {
 					$("#error_woRemarks").hide()
 				}
-							
+
 				if (!isError) {
 
 					var x = true;
