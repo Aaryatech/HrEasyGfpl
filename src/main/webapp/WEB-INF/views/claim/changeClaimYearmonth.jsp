@@ -117,7 +117,7 @@
 										<td>${claimList.claimTitle}</td>
 										<td>${claimList.exVar3}</td>
 										<td>${claimList.exVar1}</td>
-										<td>${claimList.cafromDt}to${claimList.caToDt}</td>
+										<td>${claimList.cafromDt} to ${claimList.caToDt}</td>
 										<td>${claimList.claimAmount}</td>
 										<td>${claimList.month}-${claimList.year}</td>
 
@@ -237,7 +237,7 @@
 			$('#empCode1').html(empCode);
 			$('#empName1').html(empName);
 			$('#claimTitle1').html(title);
-			$('#claimDate1').html(fromDate + "To" + toDate);
+			$('#claimDate1').html(fromDate + " To " + toDate);
 			$('#modal_scrollable').modal('show');
 
 		}

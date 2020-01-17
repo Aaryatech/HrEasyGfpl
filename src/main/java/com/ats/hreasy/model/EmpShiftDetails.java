@@ -5,6 +5,9 @@ import java.util.List;
  
 public class EmpShiftDetails {
 	
+
+	private int empShiftDetId;
+
 	private int empId;
  	private int shiftId;
 
@@ -24,6 +27,14 @@ public class EmpShiftDetails {
 	 
 	private int year;
 
+
+	public int getEmpShiftDetId() {
+		return empShiftDetId;
+	}
+
+	public void setEmpShiftDetId(int empShiftDetId) {
+		this.empShiftDetId = empShiftDetId;
+	}
 
 	public int getMonth() {
 		return month;
@@ -109,12 +120,10 @@ public class EmpShiftDetails {
 
 	@Override
 	public String toString() {
-		return "EmpShiftDetails [empId=" + empId + ", shiftId=" + shiftId + ", day=" + day + ", locationId="
-				+ locationId + ", shiftName=" + shiftName + ", dateOfMonth=" + dateOfMonth + ", fromDate=" + fromDate
-				+ ", toDate=" + toDate + ", month=" + month + ", year=" + year + "]";
+		return "EmpShiftDetails [empShiftDetId=" + empShiftDetId + ", empId=" + empId + ", shiftId=" + shiftId
+				+ ", day=" + day + ", locationId=" + locationId + ", shiftName=" + shiftName + ", dateOfMonth="
+				+ dateOfMonth + ", fromDate=" + fromDate + ", toDate=" + toDate + ", month=" + month + ", year=" + year
+				+ "]";
 	}
 
-	 
- 
-	 
 }

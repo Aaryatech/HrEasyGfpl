@@ -383,7 +383,11 @@ public class ClaimApplicationController {
 							.setCirculatedTo(FormValidation.Encrypt(String.valueOf(claimList.get(i).getCaHeadId())));
 					claimList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(claimList.get(i).getEmpId())));
 					// claimList.get(i).setClaimDate(DateConvertor.convertToDMY(claimList.get(i).getClaimDate()));
-
+					
+					claimList.get(i).setCaFromDt(DateConvertor.convertToDMY(claimList.get(i).getCaFromDt()));
+					claimList.get(i).setCaToDt(DateConvertor.convertToDMY(claimList.get(i).getCaToDt()));
+					
+				 
 				}
 
 				// for Info
@@ -403,6 +407,12 @@ public class ClaimApplicationController {
 							.setCirculatedTo(FormValidation.Encrypt(String.valueOf(claimList1.get(i).getCaHeadId())));
 					claimList1.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(claimList1.get(i).getEmpId())));
 					// claimList1.get(i).setClaimDate(DateConvertor.convertToDMY(claimList.get(i).getClaimDate()));
+					
+					claimList1.get(i).setCaFromDt(DateConvertor.convertToDMY(claimList1.get(i).getCaFromDt()));
+					claimList1.get(i).setCaToDt(DateConvertor.convertToDMY(claimList1.get(i).getCaToDt()));
+					
+					
+			 
 				}
 
 				model.addObject("list2Count", claimList1.size());
@@ -1428,6 +1438,9 @@ public class ClaimApplicationController {
 
 					claimList1.get(i)
 							.setExVar2(FormValidation.Encrypt(String.valueOf(claimList1.get(i).getCaHeadId())));
+					
+					claimList1.get(i).setCafromDt(DateConvertor.convertToDMY(claimList1.get(i).getCafromDt()));
+					claimList1.get(i).setCaToDt(DateConvertor.convertToDMY(claimList1.get(i).getCaToDt()));
 
 				}
 

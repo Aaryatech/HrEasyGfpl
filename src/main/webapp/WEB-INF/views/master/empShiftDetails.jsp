@@ -219,7 +219,7 @@
 										<tr>
 											<td>${count1.index+1}</td>
 											<td>${empList.empCode}</td>
-											<td>${empList.firstName}${empList.surname}</td>
+											<td>${empList.firstName} ${empList.surname}</td>
 											<c:forEach begin="0" end="${days}" step="1"
 												varStatus="count3">
 												<c:forEach items="${daysList}" var="daysList"
