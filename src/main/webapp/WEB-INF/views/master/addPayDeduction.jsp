@@ -26,10 +26,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
-
- 
-			</div>
+			<div class="page-header page-header-light"></div>
 			<!-- /page header -->
 
 
@@ -48,21 +45,21 @@
 
 
 						<div class="card">
-							 
-					<div class="card-header header-elements-inline">
- 						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Add Pay Deduction Type</h5></td>
-								<td width="40%" align="right">
-							  
-								 <%-- <a
+
+							<div class="card-header header-elements-inline">
+								<table width="100%">
+									<tr width="100%">
+										<td width="60%"><h5 class="card-title">${title}</h5></td>
+										<td width="40%" align="right">
+											<%-- <a
 									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">KRA List </button>
-								</a>  --%></td>
-							</tr>
-						</table>
-					</div>
+								</a>  --%>
+										</td>
+									</tr>
+								</table>
+							</div>
 							<div class="card-body">
 								<%
 									if (session.getAttribute("errorMsg") != null) {
@@ -103,41 +100,51 @@
 								<form
 									action="${pageContext.request.contextPath}/submitInsertPayDeductType"
 									id="submitInsertPayDeductType" method="post">
-									<input type="hidden" value="${pay.dedTypeId}" id="payDeductTypeId" name="payDeductTypeId">
+									<input type="hidden" value="${pay.dedTypeId}"
+										id="payDeductTypeId" name="payDeductTypeId">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="bank">Payment 
-											Deduction Type <span style="color:red">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="bank">Payment
+											Deduction Type <span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${pay.typeName}"
-												placeholder="Enter Payment Deduction Type" id="payDeductType"
-												name="payDeductType" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_payDeductType"
+											<input type="text" class="form-control"
+												value="${pay.typeName}"
+												placeholder="Enter Payment Deduction Type"
+												id="payDeductType" name="payDeductType" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_payDeductType"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="address">Deduction
-											 Rate<span style="color:red">* </span>:</label>
+											Rate<span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Enter Deduction Rate" id="deductRate" value="${pay.dedRate}"
-												name="deductRate" autocomplete="off" onchange="trim(this)"> <span
+												placeholder="Enter Deduction Rate" id="deductRate"
+												value="${pay.dedRate}" name="deductRate" autocomplete="off"
+												onchange="trim(this)"> <span
 												class="validation-invalid-label" id="error_deductRate"
 												style="display: none;">This field is required.</span>
-												
+
 										</div>
 									</div>
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
-										
+
 											<button type="submit" class="btn bg-blue ml-3 legitRipple"
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a href="${pageContext.request.contextPath}/showPayDeductionList"><button
-										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Back</button></a>
+											<a
+												href="${pageContext.request.contextPath}/showPayDeductionList"><button
+													type="button" class="btn btn-light">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Back
+												</button></a>
 										</div>
 									</div>
 								</form>
@@ -165,23 +172,21 @@
 	<!-- /page content -->
 
 	<script>
-	
-	function checkSame(){
-		x=document.getElementById("locName").value;
-		y=document.getElementById("locShortName").value;
-		//alert(x);
-		
-		if(x!== '' && y!== ''){
-			if(x==y){
-				$("#error_sameName").show()
-				document.getElementById("locShortName").value="";
+		function checkSame() {
+			x = document.getElementById("locName").value;
+			y = document.getElementById("locShortName").value;
+			//alert(x);
+
+			if (x !== '' && y !== '') {
+				if (x == y) {
+					$("#error_sameName").show()
+					document.getElementById("locShortName").value = "";
+				} else {
+					$("#error_sameName").hide()
+				}
 			}
-			else{
-				$("#error_sameName").hide()
-			}
-	}
-		
-	}
+
+		}
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
@@ -215,55 +220,48 @@
 			return true;
 
 		}
-		$(document)
-				.ready(
-						function($) {
+		$(document).ready(function($) {
 
-							$("#submitInsertPayDeductType")
-									.submit(
-											function(e) {
-												var isError = false;
-												var errMsg = "";
+			$("#submitInsertPayDeductType").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
 
-												if (!$("#payDeductType").val()) {
+				if (!$("#payDeductType").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_payDeductType").show()
-													//return false;
-												} else {
-													$("#error_payDeductType").hide()
-												}
+					$("#error_payDeductType").show()
+					//return false;
+				} else {
+					$("#error_payDeductType").hide()
+				}
 
-												if (!$("#deductRate").val()) {
+				if (!$("#deductRate").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_deductRate")
-															.show()
+					$("#error_deductRate").show()
 
-												} else {
-													$("#error_deductRate")
-															.hide()
-												}												
+				} else {
+					$("#error_deductRate").hide()
+				}
 
-												if (!isError) {
+				if (!isError) {
 
-													var x = true;
-													if (x == true) {
+					var x = true;
+					if (x == true) {
 
-														document
-																.getElementById("submtbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
-												}
-												return false;
-											});
-						});
+						document.getElementById("submtbtn").disabled = true;
+						return true;
+					}
+					//end ajax send this to php page
+				}
+				return false;
+			});
+		});
 		//
 	</script>
-	
+
 	<!-- <script type="text/javascript">
 	$('#submtbtn').on('click', function() {
         swalInit({

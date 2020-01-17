@@ -83,7 +83,7 @@
 								<div class="card-header header-elements-inline">
  						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Add Weekly Off</h5></td>
+								<td width="60%"><h5 class="card-title">Edit Weekly Off</h5></td>
 								<td width="40%" align="right">
 							 <%--  	<c:if test="${addAccess == 0}">
 								 <a

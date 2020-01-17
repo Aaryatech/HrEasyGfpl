@@ -213,6 +213,7 @@ public class PayDeductionController {
 
 				model = new ModelAndView("master/addPayDeduction");
 				model.addObject("pay", pay);
+				model.addObject("title", "Add Pay Deduction Type");
 
 			}
 		} catch (Exception e) {
@@ -300,6 +301,8 @@ public class PayDeductionController {
 				PayDeduction pay = Constants.getRestTemplate().postForObject(Constants.url + "/getPayDeductionById",
 						map, PayDeduction.class);
 				model.addObject("pay", pay);
+				model.addObject("title", "Edit Pay Deduction Type");
+
 
 			} catch (Exception e) {
 				e.printStackTrace();

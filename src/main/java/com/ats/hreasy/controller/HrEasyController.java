@@ -125,6 +125,7 @@ public class HrEasyController {
 
 				model = new ModelAndView("master/designationAdd");
 				model.addObject("desig", desig);
+				model.addObject("title", "Add Designation");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -207,6 +208,7 @@ public class HrEasyController {
 				desig = Constants.getRestTemplate().postForObject(Constants.url + "/getDesignationById", map,
 						Designation.class);
 				model.addObject("desig", desig);
+				model.addObject("title", "Edit Designation");
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -601,6 +603,8 @@ public class HrEasyController {
 
 				model = new ModelAndView("master/addDepartment");
 				model.addObject("dept", dept);
+				model.addObject("title", "Add Department");
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -679,6 +683,7 @@ public class HrEasyController {
 				dept = Constants.getRestTemplate().postForObject(Constants.url + "/getDepartmentById", map,
 						Department.class);
 				model.addObject("dept", dept);
+				model.addObject("title", "Edit Department");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -822,6 +827,7 @@ public class HrEasyController {
 
 				model = new ModelAndView("master/addBank");
 				model.addObject("bank", bank);
+				model.addObject("title", "Add Bank");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -903,6 +909,7 @@ public class HrEasyController {
 
 				bank = Constants.getRestTemplate().postForObject(Constants.url + "/getBankById", map, Bank.class);
 				model.addObject("bank", bank);
+				model.addObject("title", "Edit Bank");
 
 			} catch (Exception e) {
 				e.printStackTrace();

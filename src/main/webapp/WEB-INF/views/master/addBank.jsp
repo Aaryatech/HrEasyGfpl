@@ -52,7 +52,7 @@
 					<div class="card-header header-elements-inline">
  						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Add Bank</h5></td>
+								<td width="60%"><h5 class="card-title">${title}</h5></td>
 								<td width="40%" align="right">
 							  
 								 <%-- <a
@@ -173,7 +173,7 @@
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a href="${pageContext.request.contextPath}/showDesignationList"><button
+											<a href="${pageContext.request.contextPath}/showBankList"><button
 										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Back</button></a>
 										</div>
 									</div>

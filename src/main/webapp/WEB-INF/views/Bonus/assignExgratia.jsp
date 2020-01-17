@@ -360,6 +360,70 @@
 	<!-- /page content -->
 
 
+
+
+<script>
+		function submitForm() {
+			$('#modal_scrollable').modal('hide');
+			document.getElementById("deleteId").disabled = true;
+			document.getElementById("submitInsertEmp").submit();
+
+		}
+	</script>
+		<div id="modal_scrollable" class="modal fade" data-backdrop="false"
+		tabindex="-1">
+		<div class="modal-dialog modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header pb-3">
+
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body py-0">
+					<h5 class="modal-title">Are You Sure You Want  To Assign This Exgratia </h5>
+					<br>
+				 
+				</div>
+
+				<div class="modal-footer pt-3">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn bg-primary" onclick="submitForm()">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<script>
+		function submitForm1() {
+			$('#modal_scrollable').modal('hide');
+			document.getElementById("submtbtn").disabled = true;
+			document.getElementById("submitBonusApplicable").submit();
+
+		}
+	</script>
+		<div id="modal_scrollable1" class="modal fade" data-backdrop="false"
+		tabindex="-1">
+		<div class="modal-dialog modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header pb-3">
+
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body py-0">
+					<h5 class="modal-title">Are You Sure You Want  To Finalize Exgratia </h5>
+					<br>
+				 
+				</div>
+
+				<div class="modal-footer pt-3">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn bg-primary" onclick="submitForm1()">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script type="text/javascript">
 		$(document).ready(function($) {
 			$("#submitInsertEmp").submit(function(e) {
@@ -385,16 +449,12 @@
 				}
 
 				if (!isError) {
+					 
+					$('#modal_scrollable')
+					.modal('show');
 
-					var x = true;
-					if (x == true) {
-
-						document.getElementById("deleteId").disabled = true;
-
-						return true;
-					}
-					//end ajax send this to php page
-				}
+						return false;
+ 				}
 				return false;
 			});
 		});
@@ -461,16 +521,12 @@
 													}
 
 													if (!isError) {
+														 
+														$('#modal_scrollable1')
+														.modal('show');
 
-														var x = true;
-														if (x == true) {
-
-															document
-																	.getElementById("submtbtn").disabled = true;
-															return true;
-														}
-														//end ajax send this to php page
-													}
+															return false;
+									 				}
 												}
 												return false;
 											});
