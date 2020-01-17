@@ -1601,7 +1601,7 @@
 																<label class="control-label col-md-3"><img
 																	id="blah" src="${imgUrl}${docName}" alt="Emp Photo"
 																	width="300px" /></label>
-																<div class="col-md-4" style="padding-left: 200px">
+																<div class="col-md-9" style="padding-left: 200px">
 																	<input id="doc${empDocList.doctypeId}" type="file"
 																		name="doc" class="nocheck" onchange="show(this)">
 
