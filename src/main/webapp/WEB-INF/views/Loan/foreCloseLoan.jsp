@@ -243,7 +243,7 @@
 										<div class="col-lg-4">
 											<textarea class="form-control"
 												placeholder="Enter Reason / Remark" id="reason"
-												name="remark" autocomplete="off" onchange="trim(this)"> </textarea>
+												name="remark" autocomplete="off" onchange="trim(this)"></textarea>
 											<span class="validation-invalid-label" id="error_reason"
 												style="display: none;">This field is required.</span>
 										</div>

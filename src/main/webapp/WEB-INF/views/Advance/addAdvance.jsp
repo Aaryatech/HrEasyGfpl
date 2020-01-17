@@ -195,9 +195,9 @@
 										</label>
 										<div class="col-lg-4">
 											<textarea class="form-control"
-												placeholder="Enter Reason / Remark" id="reason"
-												name="remark" autocomplete="off" onchange="trim(this)"> </textarea>
-											<span class="validation-invalid-label" id="error_reason"
+												placeholder="Enter Reason / Remark" id="adv_reason"
+												name="remark" autocomplete="off" onchange="trim(this)"></textarea>
+											<span class="validation-invalid-label" id="error_advreason"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
@@ -304,15 +304,7 @@
 				} else {
 					$("#error_month").hide()
 				}
-				if (!$("#reason").val()) {
 
-					isError = true;
-
-					$("#error_reason").show()
-
-				} else {
-					$("#error_reason").hide()
-				}
 				if (!$("#advanceAmt").val()) {
 
 					isError = true;
@@ -321,6 +313,17 @@
 
 				} else {
 					$("#error_advanceAmt").hide()
+				}
+
+				if (!$("#adv_reason").val()) {
+
+					isError = true;
+
+					$("#error_advreason").show()
+
+				} else {
+
+					$("#error_advreason").hide()
 				}
 
 				if (!isError) {

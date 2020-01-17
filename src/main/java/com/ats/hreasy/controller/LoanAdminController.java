@@ -731,14 +731,14 @@ class LoanAdminController {
 				adv.setSkippAmoount(0);
 				adv.setSkippMonthYear("0000-00-00 00:00:00");
 				adv.setSkippRemark("");
-
+				adv.setDelStatus(1);
 				adv.setYears(Integer.parseInt(sf.format(date)));
 
 				LoanDetails res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLoanDetail", adv,
 						LoanDetails.class);
 
 				if (res != null) {
-					session.setAttribute("successMsg", "Advance Inserted Successfully");
+					session.setAttribute("successMsg", "Loan Closed Successfully");
 
 					map = new LinkedMultiValueMap<>();
 					map.add("dateTimeUpdate", sf2.format(date2));
@@ -752,14 +752,14 @@ class LoanAdminController {
 							.postForObject(Constants.url + "/updateLoanMainAfterForeclose", map, Info.class);
 
 				} else {
-					session.setAttribute("errorMsg", "Failed to Insert Record");
+					session.setAttribute("errorMsg", "Failed to Close Loan");
 				}
 
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			session.setAttribute("errorMsg", "Failed to Insert Record");
+			session.setAttribute("errorMsg", "Failed to Close Loan");
 		}
 
 		return "redirect:/showLoanListForAction?empId=" + empId;
@@ -785,6 +785,7 @@ class LoanAdminController {
 
 			String remark = request.getParameter("remark");
 			String closeDate = request.getParameter("joiningDate");
+			System.err.println("closeDate"+closeDate);
 			String partialAmt = request.getParameter("partialAmt");
 			int id = Integer.parseInt(request.getParameter("id"));
 
@@ -818,6 +819,7 @@ class LoanAdminController {
 				adv.setSkippAmoount(0);
 				adv.setSkippMonthYear("0000-00-00 00:00:00");
 				adv.setSkippRemark("");
+				adv.setDelStatus(1);
 
 				adv.setYears(Integer.parseInt(sf.format(date)));
 
@@ -825,7 +827,7 @@ class LoanAdminController {
 						LoanDetails.class);
 
 				if (res != null) {
-					session.setAttribute("successMsg", "Advance Inserted Successfully");
+					session.setAttribute("successMsg", "Loan Paid Successfully");
 
 					map = new LinkedMultiValueMap<>();
 					map.add("dateTimeUpdate", sf2.format(date2));
@@ -839,14 +841,14 @@ class LoanAdminController {
 							.postForObject(Constants.url + "/updateLoanMainAfterForeclose", map, Info.class);
 
 				} else {
-					session.setAttribute("errorMsg", "Failed to Insert Record");
+					session.setAttribute("errorMsg", "Failed to Pay Loan");
 				}
 
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			session.setAttribute("errorMsg", "Failed to Insert Record");
+			session.setAttribute("errorMsg", "Failed to Pay Loan");
 		}
 
 		return "redirect:/showLoanListForAction?empId=" + empId;
@@ -906,7 +908,7 @@ class LoanAdminController {
 						Info.class);
 
 				if (info != null) {
-					session.setAttribute("successMsg", "Advance Skipped  Successfully");
+					session.setAttribute("successMsg", "Loan Skipped  Successfully");
 				} else {
 					session.setAttribute("errorMsg", "Failed to Insert Record");
 				}

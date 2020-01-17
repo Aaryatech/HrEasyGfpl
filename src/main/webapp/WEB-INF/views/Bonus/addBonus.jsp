@@ -173,7 +173,7 @@
 										<div class="col-lg-10">
 											<textarea rows="3" cols="3" class="form-control"
 												placeholder="Remark" onchange="trim(this)" id="bonusRemark"
-												name="bonusRemark"> </textarea>
+												name="bonusRemark"></textarea>
 										</div>
 									</div>
 									<div class="form-group row mb-0">
