@@ -131,17 +131,15 @@
 									</tr>
 
 									<tr>
-										<td>Employee & Manager Performance</td>
+										<td>Employee Advance Skip Report</td>
 
-										<td class="text-center">
-											<!-- <a href="#" title="pdf"
-											onclick="getProgReport(1,'showEmpMngrPerformncRep')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp;  -->
-											<a href="#"
-											onclick="getProgReport(0,'showEmpMngrPerformncRep')"
+									<td class="text-center"><a href="#"
+											onclick="getProgReport(0,'showAdvanceSkipRep')"
 											title="excel"><i class="icon-file-spreadsheet  "
-												style="color: black;"></i></a>
-										</td>
+												style="color: black;"></i></a> <a href="#"
+											onclick="getProgReport(1,'showAdvanceSkipRep')"
+											title="PDF"><i class="icon-file-spreadsheet  "
+												style="color: black;"></i></a></td>
 									</tr>
 
 									<tr>
@@ -236,7 +234,7 @@
 		//use this function for all reports just get mapping form action name dynamically as like of prm from every report pdf,excel function	
 		function getProgReport(prm, mapping) {
 			var x = document.getElementById("datepicker").value;
-			alert(x);
+			//alert(x);
 			if (prm == 1) {
 
 				document.getElementById("p").value = "1";
@@ -247,7 +245,7 @@
 				$("#error_datepicker").show();
 
 			} else {
-				alert(0);
+			//	alert(0);
 				$("#error_datepicker").hide();
 
 				var form = document.getElementById("reportForm");

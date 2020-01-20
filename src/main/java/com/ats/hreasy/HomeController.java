@@ -29,6 +29,7 @@ import com.ats.hreasy.common.RandomString;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.EmpType;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.Setting;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -96,9 +97,15 @@ public class HomeController {
 						LoginResponse.class);
 
 				if (userObj.getIsError() == false) {
+					
+				  map = new LinkedMultiValueMap<String, Object>();
+					map.add("limitKey", "header_color");
+					Setting getSettingByKey = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey", map,
+							Setting.class);
 
 					mav = "redirect:/dashboard";
 					session.setAttribute("userInfo", userObj);
+					session.setAttribute("headerColor", getSettingByKey.getValue());
 
 					map = new LinkedMultiValueMap<>();
 					map.add("empTypeId", 1);

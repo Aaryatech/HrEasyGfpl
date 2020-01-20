@@ -20,6 +20,17 @@ public class GetYearlyAdvanceNew {
 	private String octCount;
 	private String novCount;
 	private String decCount;
+	
+	private double total;
+
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
 
 	public int getEmpId() {
 		return empId;
@@ -147,8 +158,8 @@ public class GetYearlyAdvanceNew {
 				+ janCount + ", febCount=" + febCount + ", marchCount=" + marchCount + ", aprCount=" + aprCount
 				+ ", mayCount=" + mayCount + ", junCount=" + junCount + ", julCount=" + julCount + ", augCount="
 				+ augCount + ", sepCount=" + sepCount + ", octCount=" + octCount + ", novCount=" + novCount
-				+ ", decCount=" + decCount + "]";
+				+ ", decCount=" + decCount + ", total=" + total + "]";
 	}
 
-	 
+ 
 }
