@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -690,7 +691,129 @@ public class EmployeeController {
 
 		return model;
 	}
+	
+	
 
+	@RequestMapping(value = "/employeeDetails", method = RequestMethod.GET)
+	public String  employeeEdit(HttpServletRequest request, HttpServletResponse response,Model model) {
+
+		HttpSession session = request.getSession();
+		String  mav = null;
+		MultiValueMap<String, Object> map = null;
+		try {
+
+			 
+				mav = "master/employeeDetails";
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+
+				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+						Location[].class);
+				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+				// System.out.println("Location List-------------"+locationList);
+
+				Department[] department = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllDepartments", map, Department[].class);
+				List<Department> departmentList = new ArrayList<Department>(Arrays.asList(department));
+				// System.out.println("DepartmentList List-------------"+departmentList);
+
+				Designation[] designation = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllDesignations", map, Designation[].class);
+				List<Designation> designationList = new ArrayList<Designation>(Arrays.asList(designation));
+				// System.out.println("DesignationList List-------------"+designationList);
+
+				Contractor[] contractor = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllContractors", map, Contractor[].class);
+				List<Contractor> contractorsList = new ArrayList<Contractor>(Arrays.asList(contractor));
+				// System.out.println("ContractorsList List-------------"+contractorsList);
+
+				Bank[] bank = Constants.getRestTemplate().postForObject(Constants.url + "/getAllBanks", map,
+						Bank[].class);
+				List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
+
+				Allowances[] allowanceArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllAllowances", Allowances[].class);
+				allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
+				System.out.println("allowanceList All-------------" + allowanceList);
+
+				EmpDoctype[] empDocArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmpDocTypes",
+						map, EmpDoctype[].class);
+				empDocList = new ArrayList<EmpDoctype>(Arrays.asList(empDocArr));
+
+			
+
+				model.addAttribute("locationList", locationList);
+				model.addAttribute("deptList", departmentList);
+				model.addAttribute("designationList", designationList);
+				model.addAttribute("contractorsList", contractorsList);
+				model.addAttribute("bankList", bankList);
+				model.addAttribute("allowanceList", allowanceList);
+				model.addAttribute("empDocList", empDocList);
+				model.addAttribute("imgUrl", Constants.imageSaveUrl);
+
+				/**************************************************
+				 * Edit
+				 ********************************************/
+
+				String base64encodedString = request.getParameter("empId");
+				String empId = FormValidation.DecodeKey(base64encodedString);
+
+				// System.out.println("Encrypt-----" + empId);
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", Integer.parseInt(empId));
+
+				EmployeeMaster emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map,
+						EmployeeMaster.class);
+				// System.out.println("Edit Emp-------" + emp);
+
+				TblEmpInfo empPersInfo = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getEmployeePersonalInfo", map, TblEmpInfo.class);
+				// System.out.println("Edit EmpPersonal Info-------" + empPersInfo);
+
+				TblEmpNominees empNom = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeNominee",
+						map, TblEmpNominees.class);
+				// System.out.println("Edit Emp Nominee Info-------" + empNom);
+
+				TblEmpBankInfo empBank = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getEmployeeBankInfo", map, TblEmpBankInfo.class);
+				// System.out.println("Edit Emp Bank Info-------" + empBank);
+
+				EmpSalaryInfo empSalInfo = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getEmployeeSalInfo", map, EmpSalaryInfo.class);
+				// System.out.println("Edit Emp Salary Info-------" + empSalInfo);
+
+				EmpSalAllowance[] empSalAllowance = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getEmployeeSalAllowances", map, EmpSalAllowance[].class);
+
+				empAllowncList = new ArrayList<EmpSalAllowance>(Arrays.asList(empSalAllowance));
+				// System.out.println("Edit Emp Salary EmpSalAllowance Info-------" +
+				// empAllowncList);
+
+				EmployeDoc[] docArr = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeDocs", map,
+						EmployeDoc[].class);
+				List<EmployeDoc> docList = new ArrayList<EmployeDoc>(Arrays.asList(docArr));
+
+				map = new LinkedMultiValueMap<>();
+				map.add("EmpId", Integer.parseInt(empId));
+				userRes = Constants.getRestTemplate().postForObject(Constants.url + "/findUserInfoByEmpId", map, User.class);
+				model.addAttribute("locationIds", userRes.getLocId().split(","));
+				
+				model.addAttribute("emp", emp);
+				model.addAttribute("empPersInfo", empPersInfo); // model.addObject("empPersInfo", empIdInfo);
+				model.addAttribute("empNom", empNom); // model.addObject("empNom", empIdNom);
+				model.addAttribute("empBank", empBank);
+
+				model.addAttribute("empAllowanceId", empSalInfo);
+				model.addAttribute("empAllowncList", empAllowncList);
+				model.addAttribute("docList", docList);
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+	
 	@RequestMapping(value = "/submitEmpOtherInfo", method = RequestMethod.POST)
 	public String submitEmpOtherInfo(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();

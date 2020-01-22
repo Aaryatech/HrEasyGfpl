@@ -133,7 +133,14 @@
 													data-uuid="${empList.exVar1}" data-popup="tooltip"
 													title="" data-original-title="Delete"><i
 													class="icon-trash"></i></a>
-											</c:if></td>
+											</c:if>
+											
+											
+												<a
+													href="${pageContext.request.contextPath}/employeeDetails?empId=${empList.exVar1}"
+													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
+													 ></i></a>
+													 </td>
 									</tr>
 								</c:forEach>
 
