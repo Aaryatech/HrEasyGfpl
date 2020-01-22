@@ -38,6 +38,7 @@ import com.ats.hreasy.common.ItextPageEvent;
 import com.ats.hreasy.common.ReportCostants;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.CalenderYear;
+import com.ats.hreasy.model.DailyAttendance;
 import com.ats.hreasy.model.EmpLeaveHistoryRep;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetDailyDailyRecord;
@@ -1352,6 +1353,292 @@ public class ReportAdminController {
 		}
 	}
 
+	@RequestMapping(value = "/showEmpLateMarkRep", method = RequestMethod.GET)
+	public void showEmpLateMarkRep(HttpServletRequest request, HttpServletResponse response) {
+
+		String reportName = "Employee Late Mark";
+
+		HttpSession session = request.getSession();
+
+		String leaveDateRange = request.getParameter("leaveDateRange");
+		String[] arrOfStr = leaveDateRange.split("to", 2);
+
+		Boolean ret = false;
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("companyId", 1);
+			map.add("fromDate", DateConvertor.convertToYMD(arrOfStr[0]));
+			map.add("toDate", DateConvertor.convertToYMD(arrOfStr[1]));
+			DailyAttendance[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "getEmpLateMarkReport", map, DailyAttendance[].class);
+			List<DailyAttendance> progList = new ArrayList<>(Arrays.asList(resArray));
+			System.err.println("data:" + progList.toString());
+			String header = "";
+			String title = "                 ";
+
+			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
+			String repDate = DF2.format(new Date());
+
+			Document document = new Document(PageSize.A4);
+			document.setMargins(5, 5, 2, 2);
+			document.setMarginMirroring(false);
+
+			String FILE_PATH = Constants.REPORT_SAVE;
+			File file = new File(FILE_PATH);
+
+			PdfWriter writer = null;
+
+			FileOutputStream out = new FileOutputStream(FILE_PATH);
+			try {
+				writer = PdfWriter.getInstance(document, out);
+			} catch (DocumentException e) {
+
+				e.printStackTrace();
+			}
+
+			ItextPageEvent event = new ItextPageEvent(header, title, "", "");
+
+			writer.setPageEvent(event);
+			// writer.add(new Paragraph("Curricular Aspects"));
+
+			PdfPTable table = new PdfPTable(8);
+
+			table.setHeaderRows(1);
+
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] { 1.5f, 2.2f, 4.0f, 2.5f, 4.0f, 2.0f ,2.0f,2.0f});
+			Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
+			// BaseColor.BLACK);
+			Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
+																	// BaseColor.BLACK);
+			tableHeaderFont.setColor(ReportCostants.tableHeaderFontBaseColor);
+
+			PdfPCell hcell = new PdfPCell();
+			hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+			hcell = new PdfPCell(new Phrase("Sr. No.", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employee Code", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employee Name", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Date", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Shift Name", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Late Min", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+			
+
+			hcell = new PdfPCell(new Phrase("In Time", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Out Time", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			int index = 0;
+			for (int i = 0; i < progList.size(); i++) {
+
+				DailyAttendance prog = progList.get(i);
+
+				index++;
+				PdfPCell cell;
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmpCode(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmpName(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" +DateConvertor.convertToDMY(prog.getAttDate()) , headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+
+				cell = new PdfPCell(new Phrase("" + prog.getCurrentShiftname(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getLateMin(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+
+				
+				cell = new PdfPCell(new Phrase("" + prog.getInTime(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getOutTime(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+
+			
+			}
+
+			document.open();
+			Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
+
+			Paragraph name = new Paragraph(reportName, hf);
+			name.setAlignment(Element.ALIGN_CENTER);
+			document.add(name);
+			document.add(new Paragraph("\n"));
+			document.add(new Paragraph("Date" + arrOfStr[0] + "To" + arrOfStr[1]));
+
+			document.add(new Paragraph("\n"));
+			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+
+			document.add(table);
+
+			int totalPages = writer.getPageNumber();
+
+			// System.out.println("Page no " + totalPages);
+
+			document.close();
+			int p = Integer.parseInt(request.getParameter("p"));
+			// System.err.println("p " + p);
+
+			if (p == 1) {
+
+				if (file != null) {
+
+					String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+					if (mimeType == null) {
+
+						mimeType = "application/pdf";
+
+					}
+
+					response.setContentType(mimeType);
+
+					response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+					response.setContentLength((int) file.length());
+
+					InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+					try {
+						FileCopyUtils.copy(inputStream, response.getOutputStream());
+					} catch (IOException e) {
+						// System.out.println("Excep in Opening a Pdf File");
+						e.printStackTrace();
+					}
+				}
+			} else {
+
+				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+				ExportToExcel expoExcel = new ExportToExcel();
+				List<String> rowData = new ArrayList<String>();
+				rowData.add("Sr.No.");
+				rowData.add("Employee Code");
+				rowData.add("Employee Name");
+				rowData.add("Date");
+				rowData.add("Shift Name");
+				rowData.add("Late Min");
+				rowData.add("In Time");
+				rowData.add("Out Time");
+ 
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				int cnt = 1;
+				for (int i = 0; i < progList.size(); i++) {
+					expoExcel = new ExportToExcel();
+					rowData = new ArrayList<String>();
+					cnt = cnt + i;
+					rowData.add("" + (i + 1));
+					rowData.add("" + progList.get(i).getEmpCode());
+					rowData.add("" + progList.get(i).getEmpName());
+					rowData.add("" + DateConvertor.convertToDMY(progList.get(i).getAttDate()));
+					rowData.add("" + progList.get(i).getCurrentShiftname());
+					rowData.add("" + progList.get(i).getLateMin());
+					rowData.add("" + progList.get(i).getInTime());
+					rowData.add("" + progList.get(i).getOutTime());
+ 					expoExcel.setRowData(rowData);
+					exportToExcelList.add(expoExcel);
+
+				}
+
+				XSSFWorkbook wb = null;
+				try {
+
+					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+							"Date:" + arrOfStr[0] + "To" + arrOfStr[1], "", 'H');
+
+					ExceUtil.autoSizeColumns(wb, 3);
+					response.setContentType("application/vnd.ms-excel");
+					String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+					response.setHeader("Content-disposition",
+							"attachment; filename=" + reportName + "-" + date + ".xlsx");
+					wb.write(response.getOutputStream());
+
+				} catch (IOException ioe) {
+					throw new RuntimeException("Error writing spreadsheet to output stream");
+				} finally {
+					if (wb != null) {
+						wb.close();
+					}
+				}
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+	}
+
 	@RequestMapping(value = "/showEmpAttendanceRep", method = RequestMethod.GET)
 	public void showEmpAttendanceRep(HttpServletRequest request, HttpServletResponse response) {
 
@@ -1361,7 +1648,7 @@ public class ReportAdminController {
 
 		String leaveDateRange = request.getParameter("leaveDateRange");
 		String[] arrOfStr = leaveDateRange.split("to", 2);
- 
+
 		Boolean ret = false;
 		try {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -1371,7 +1658,7 @@ public class ReportAdminController {
 			EmpAttendeanceRep[] resArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "getDailyAttendenceReport", map, EmpAttendeanceRep[].class);
 			List<EmpAttendeanceRep> progList = new ArrayList<>(Arrays.asList(resArray));
-
+			System.err.println("data:" + progList.toString());
 			String header = "";
 			String title = "                 ";
 
@@ -1446,15 +1733,10 @@ public class ReportAdminController {
 
 				index++;
 				PdfPCell cell;
-				cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
-				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + prog.getEmpPresent(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
 				table.addCell(cell);
 
@@ -1466,13 +1748,13 @@ public class ReportAdminController {
 
 				cell = new PdfPCell(new Phrase("" + prog.getUnpaidLeave(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + prog.getWeekOff(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
 				table.addCell(cell);
 
@@ -1560,7 +1842,8 @@ public class ReportAdminController {
 				XSSFWorkbook wb = null;
 				try {
 
-					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Date:" + arrOfStr[0]+"To"+arrOfStr[1], "", 'D');
+					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+							"Date:" + arrOfStr[0] + "To" + arrOfStr[1], "", 'D');
 
 					ExceUtil.autoSizeColumns(wb, 3);
 					response.setContentType("application/vnd.ms-excel");

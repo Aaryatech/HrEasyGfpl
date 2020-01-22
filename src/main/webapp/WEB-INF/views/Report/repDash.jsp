@@ -4,9 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
-
+ 
+ 
 <c:url var="empInfoHistoryList" value="/empInfoHistoryList" />
 <style type="text/css">
 .dataTables_wrapper {
@@ -14,6 +13,7 @@
 	margin-right: 15px;
 }
 </style>
+<jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -101,8 +101,6 @@
 											style="display: none;">Please Select Date. </span>
 									</div>
 									
-									
-									
 									<label class="col-form-label col-lg-2">Date Range<span
 											style="color: red">* </span>:
 										</label>
@@ -116,10 +114,10 @@
 												style="display: none;">Insufficient Leaves.</span>
 
 										</div>
-
-
+ 
 								</div>
-
+								
+									 
 								<div class="row">
 
 									<div class="col-sm-12 col-md-4">
@@ -133,7 +131,7 @@
 											<div class="card-body" align="left">
 
 
-												 Employee Advance Payment <a href="#"
+												Employee Advance Payment <a href="#"
 													onclick="getProgReport(0,'showAdvancePaymentRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
@@ -163,7 +161,7 @@
 										<div class="card">
 											<div
 												class="card-header bg-primary text-white header-elements-inline">
-												<h6 class="card-title">Attendence Reports</h6>
+												<h6 class="card-title">Attendance Reports</h6>
 												<div class="header-elements"></div>
 											</div>
 
@@ -176,19 +174,18 @@
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showEmpAttendRegisterRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <br /> DAILY ATTENDANCE REPORT <a
-													href="#"
+													style="color: black;"></i></a> <br /> Daily Attendance Report
+												<a href="#"
 													onclick="getProgReport(0,'showEmpAttendanceRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showEmpAttendanceRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br /> Employee Advance Skip
-												Report <a href="#"
-													onclick="getProgReport(0,'showAdvanceSkipRep')"
+													style="color: black;"></i></a><br /> Employee Late Mark <a
+													href="#" onclick="getProgReport(0,'showEmpLateMarkRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showAdvanceSkipRep')" title="PDF"><i
+													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 
 											</div>
@@ -274,7 +271,7 @@
 
 		}
 	</script>
-
+	
 	<script type="text/javascript">
 		// Single picker
 		$("#datepicker").datepicker({
@@ -283,11 +280,23 @@
 			yearRange : "-50:+50",
 			dateFormat : "mm-yy"
 		});
+	</script>
+		<script type="text/javascript">
+		// Single picker
+		$('.datepickerclass').daterangepicker({
+			singleDatePicker : true,
+			selectMonths : true,
+			selectYears : true,
+			locale : {
+				format : 'DD-MM-YYYY'
+			}
+		});
 
 		//daterange-basic_new
 		// Basic initialization
-			$('.daterange-basic_new').daterangepicker({
+		$('.daterange-basic_new').daterangepicker({
 			applyClass : 'bg-slate-600',
+
 			cancelClass : 'btn-light',
 			locale : {
 				format : 'DD-MM-YYYY',
@@ -295,10 +304,9 @@
 			}
 		});
 	</script>
+	
+ 
 
 
-	<!-- /page content -->
-
-	<!-- /full width modal -->
 </body>
 </html>
