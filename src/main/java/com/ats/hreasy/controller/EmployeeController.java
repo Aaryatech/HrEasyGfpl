@@ -62,13 +62,13 @@ public class EmployeeController {
 
 	EmployeeMaster empSave = null;
 	// TblEmpInfo empIdInfo = null;
-	TblEmpNominees empIdNom = null;
-	TblEmpBankInfo empIdBank = null;
-	EmpSalaryInfo empIdSal = null;
-	EmpSalAllowance empSalAllowanceId = null;
+	/*
+	 * TblEmpNominees empIdNom = null; TblEmpBankInfo empIdBank = null;
+	 * EmpSalaryInfo empIdSal = null; EmpSalAllowance empSalAllowanceId = null;
+	 */
 	List<Allowances> allowanceList = new ArrayList<Allowances>();
 	List<EmpDoctype> empDocList = new ArrayList<EmpDoctype>();
-	List<EmpSalAllowance> empAllowncList = new ArrayList<EmpSalAllowance>();
+	// List<EmpSalAllowance> empAllowncList = new ArrayList<EmpSalAllowance>();
 
 	/****************************** Employee *********************************/
 	@RequestMapping(value = "/showEmployeeList", method = RequestMethod.GET)
@@ -114,16 +114,16 @@ public class EmployeeController {
 						newModuleList);
 
 				if (add.isError() == false) {
-					System.out.println(" add   Accessable ");
+					//System.out.println(" add   Accessable ");
 					model.addObject("addAccess", 0);
 
 				}
 				if (edit.isError() == false) {
-					System.out.println(" edit   Accessable ");
+					//System.out.println(" edit   Accessable ");
 					model.addObject("editAccess", 0);
 				}
 				if (delete.isError() == false) {
-					System.out.println(" delete   Accessable ");
+					//System.out.println(" delete   Accessable ");
 					model.addObject("deleteAccess", 0);
 
 				}
@@ -236,7 +236,7 @@ public class EmployeeController {
 				model.addObject("allowanceList", allowanceList);
 				model.addObject("empDocList", empDocList);
 				model.addObject("emp", emp);
-				model.addObject("imgUrl", Constants.imageSaveUrl);
+				model.addObject("imgUrl", Constants.imageShowUrl);
 
 			}
 		} catch (Exception e) {
@@ -282,11 +282,11 @@ public class EmployeeController {
 				}
 
 				String mob2 = request.getParameter("mobile2");
-				System.out.println("Mobile-----" + mob2);
+
 				String landline = request.getParameter("landline");
 
 				if (empId > 0) {
-					System.out.println("In Edit");
+					// System.out.println("In Edit");
 
 					if (mob2 == "" || mob2 == null) {
 						emp.setMobileNo2("NA");
@@ -313,7 +313,7 @@ public class EmployeeController {
 					emp.setEarnLeaveOpeningBalance(0);
 					emp.setEmailId("NA");
 					emp.setEmpCategory(request.getParameter("empCat"));
-					emp.setEmpCode(request.getParameter("empCode"));
+					emp.setEmpCode(request.getParameter("empCode").toUpperCase());
 					emp.setEmpType(empType);
 					emp.setEsicNo(request.getParameter("esic"));
 					emp.setExgratiaPerc(0);
@@ -346,10 +346,10 @@ public class EmployeeController {
 
 					empSave = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployee", emp,
 							EmployeeMaster.class);
-					System.out.println("Edit Save = " + empSave);
+					// System.out.println("Edit Save = " + empSave);
 					empId = empSave.getEmpId();
 					if (empSave != null) {
-						 
+
 						StringBuilder sb = new StringBuilder();
 						String[] locIds = request.getParameterValues("locId_list");
 						for (int i = 0; i < locIds.length; i++) {
@@ -374,7 +374,7 @@ public class EmployeeController {
 					}
 				} else {
 
-					System.out.println("New Enrty");
+					// System.out.println("New Enrty");
 
 					if (mob2 == "" || mob2 == null) {
 						emp.setMobileNo2("NA");
@@ -478,7 +478,7 @@ public class EmployeeController {
 						uinfo.setMakerUserId(userObj.getEmpId());
 						uinfo.setMakerEnterDatetime(sf.format(date));
 
-						System.out.println(locIdList + "" + uinfo.getLocId());
+						//System.out.println(locIdList + "" + uinfo.getLocId());
 						User res1 = Constants.getRestTemplate().postForObject(Constants.url + "/saveUserInfo", uinfo,
 								User.class);
 
@@ -493,29 +493,29 @@ public class EmployeeController {
 						empBank.setDelStatus(1);
 						empBank.setEmpId(empSave.getEmpId());
 
-						empIdBank = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank",
-								empBank, TblEmpBankInfo.class);
+						TblEmpBankInfo empIdBank = Constants.getRestTemplate()
+								.postForObject(Constants.url + "/saveEmployeeIdBank", empBank, TblEmpBankInfo.class);
 
 						TblEmpNominees empNominee = new TblEmpNominees();
 						empNominee.setDelStatus(1);
 						empNominee.setEmpId(empSave.getEmpId());
 
-						empIdNom = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee",
-								empNominee, TblEmpNominees.class);
+						TblEmpNominees empIdNom = Constants.getRestTemplate().postForObject(
+								Constants.url + "/saveEmployeeIdNominee", empNominee, TblEmpNominees.class);
 
 						EmpSalaryInfo empSal = new EmpSalaryInfo();
 						empSal.setDelStatus(1);
 						empSal.setEmpId(empSave.getEmpId());
 
-						empIdSal = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary",
-								empSal, EmpSalaryInfo.class);
+						EmpSalaryInfo empIdSal = Constants.getRestTemplate()
+								.postForObject(Constants.url + "/saveEmployeeIdSalary", empSal, EmpSalaryInfo.class);
 
-						EmpSalAllowance allowance = new EmpSalAllowance();
+						/*EmpSalAllowance allowance = new EmpSalAllowance();
 						allowance.setDelStatus(1);
 						allowance.setEmpId(empSave.getEmpId());
 
-						empSalAllowanceId = Constants.getRestTemplate().postForObject(
-								Constants.url + "/saveEmpSalAllowanceIds", allowance, EmpSalAllowance.class);
+						EmpSalAllowance empSalAllowanceId = Constants.getRestTemplate().postForObject(
+								Constants.url + "/saveEmpSalAllowanceIds", allowance, EmpSalAllowance.class);*/
 
 						/*
 						 * User user = new User(); user.setEmpId(empSave.getEmpId());
@@ -526,7 +526,7 @@ public class EmployeeController {
 
 						String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
 
-						System.out.println("Emp Encrypt Id---" + empEncryptId);
+						//System.out.println("Emp Encrypt Id---" + empEncryptId);
 
 						session.setAttribute("successMsg", "Record Inserted Successfully");
 
@@ -540,7 +540,7 @@ public class EmployeeController {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Success----------------" + empSave);
+		//System.out.println("Success----------------" + empSave);
 		return redirect;
 
 	}
@@ -612,7 +612,7 @@ public class EmployeeController {
 				Allowances[] allowanceArr = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAllAllowances", Allowances[].class);
 				allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
-				System.out.println("allowanceList All-------------" + allowanceList);
+				//System.out.println("allowanceList All-------------" + allowanceList);
 
 				EmpDoctype[] empDocArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmpDocTypes",
 						map, EmpDoctype[].class);
@@ -627,7 +627,7 @@ public class EmployeeController {
 				model.addObject("bankList", bankList);
 				model.addObject("allowanceList", allowanceList);
 				model.addObject("empDocList", empDocList);
-				model.addObject("imgUrl", Constants.imageSaveUrl);
+				model.addObject("imgUrl", Constants.imageShowUrl);
 
 				/**************************************************
 				 * Edit
@@ -663,7 +663,7 @@ public class EmployeeController {
 				EmpSalAllowance[] empSalAllowance = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getEmployeeSalAllowances", map, EmpSalAllowance[].class);
 
-				empAllowncList = new ArrayList<EmpSalAllowance>(Arrays.asList(empSalAllowance));
+				List<EmpSalAllowance> empAllowncList = new ArrayList<EmpSalAllowance>(Arrays.asList(empSalAllowance));
 				// System.out.println("Edit Emp Salary EmpSalAllowance Info-------" +
 				// empAllowncList);
 
@@ -673,9 +673,10 @@ public class EmployeeController {
 
 				map = new LinkedMultiValueMap<>();
 				map.add("EmpId", Integer.parseInt(empId));
-				userRes = Constants.getRestTemplate().postForObject(Constants.url + "/findUserInfoByEmpId", map, User.class);
+				userRes = Constants.getRestTemplate().postForObject(Constants.url + "/findUserInfoByEmpId", map,
+						User.class);
 				model.addObject("locationIds", userRes.getLocId().split(","));
-				
+
 				model.addObject("emp", emp);
 				model.addObject("empPersInfo", empPersInfo); // model.addObject("empPersInfo", empIdInfo);
 				model.addObject("empNom", empNom); // model.addObject("empNom", empIdNom);
@@ -691,129 +692,124 @@ public class EmployeeController {
 
 		return model;
 	}
-	
-	
 
 	@RequestMapping(value = "/employeeDetails", method = RequestMethod.GET)
-	public String  employeeEdit(HttpServletRequest request, HttpServletResponse response,Model model) {
+	public String employeeEdit(HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		HttpSession session = request.getSession();
-		String  mav = null;
+		String mav = null;
 		MultiValueMap<String, Object> map = null;
 		try {
 
-			 
-				mav = "master/employeeDetails";
-				map = new LinkedMultiValueMap<>();
-				map.add("companyId", 1);
+			mav = "master/employeeDetails";
+			map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
 
-				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
-						Location[].class);
-				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
-				// System.out.println("Location List-------------"+locationList);
+			Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+					Location[].class);
+			List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+			// System.out.println("Location List-------------"+locationList);
 
-				Department[] department = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getAllDepartments", map, Department[].class);
-				List<Department> departmentList = new ArrayList<Department>(Arrays.asList(department));
-				// System.out.println("DepartmentList List-------------"+departmentList);
+			Department[] department = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDepartments",
+					map, Department[].class);
+			List<Department> departmentList = new ArrayList<Department>(Arrays.asList(department));
+			// System.out.println("DepartmentList List-------------"+departmentList);
 
-				Designation[] designation = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getAllDesignations", map, Designation[].class);
-				List<Designation> designationList = new ArrayList<Designation>(Arrays.asList(designation));
-				// System.out.println("DesignationList List-------------"+designationList);
+			Designation[] designation = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDesignations",
+					map, Designation[].class);
+			List<Designation> designationList = new ArrayList<Designation>(Arrays.asList(designation));
+			// System.out.println("DesignationList List-------------"+designationList);
 
-				Contractor[] contractor = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getAllContractors", map, Contractor[].class);
-				List<Contractor> contractorsList = new ArrayList<Contractor>(Arrays.asList(contractor));
-				// System.out.println("ContractorsList List-------------"+contractorsList);
+			Contractor[] contractor = Constants.getRestTemplate().postForObject(Constants.url + "/getAllContractors",
+					map, Contractor[].class);
+			List<Contractor> contractorsList = new ArrayList<Contractor>(Arrays.asList(contractor));
+			// System.out.println("ContractorsList List-------------"+contractorsList);
 
-				Bank[] bank = Constants.getRestTemplate().postForObject(Constants.url + "/getAllBanks", map,
-						Bank[].class);
-				List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
+			Bank[] bank = Constants.getRestTemplate().postForObject(Constants.url + "/getAllBanks", map, Bank[].class);
+			List<Bank> bankList = new ArrayList<Bank>(Arrays.asList(bank));
 
-				Allowances[] allowanceArr = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getAllAllowances", Allowances[].class);
-				allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
-				System.out.println("allowanceList All-------------" + allowanceList);
+			Allowances[] allowanceArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllAllowances",
+					Allowances[].class);
+			allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
+			//System.out.println("allowanceList All-------------" + allowanceList);
 
-				EmpDoctype[] empDocArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmpDocTypes",
-						map, EmpDoctype[].class);
-				empDocList = new ArrayList<EmpDoctype>(Arrays.asList(empDocArr));
+			EmpDoctype[] empDocArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmpDocTypes",
+					map, EmpDoctype[].class);
+			empDocList = new ArrayList<EmpDoctype>(Arrays.asList(empDocArr));
 
-			
+			model.addAttribute("locationList", locationList);
+			model.addAttribute("deptList", departmentList);
+			model.addAttribute("designationList", designationList);
+			model.addAttribute("contractorsList", contractorsList);
+			model.addAttribute("bankList", bankList);
+			model.addAttribute("allowanceList", allowanceList);
+			model.addAttribute("empDocList", empDocList);
+			model.addAttribute("imgUrl", Constants.imageShowUrl);
 
-				model.addAttribute("locationList", locationList);
-				model.addAttribute("deptList", departmentList);
-				model.addAttribute("designationList", designationList);
-				model.addAttribute("contractorsList", contractorsList);
-				model.addAttribute("bankList", bankList);
-				model.addAttribute("allowanceList", allowanceList);
-				model.addAttribute("empDocList", empDocList);
-				model.addAttribute("imgUrl", Constants.imageSaveUrl);
+			/**************************************************
+			 * Edit
+			 ********************************************/
 
-				/**************************************************
-				 * Edit
-				 ********************************************/
+			String base64encodedString = request.getParameter("empId");
+			String empId = FormValidation.DecodeKey(base64encodedString);
 
-				String base64encodedString = request.getParameter("empId");
-				String empId = FormValidation.DecodeKey(base64encodedString);
+			// System.out.println("Encrypt-----" + empId);
+			map = new LinkedMultiValueMap<>();
+			map.add("empId", Integer.parseInt(empId));
 
-				// System.out.println("Encrypt-----" + empId);
-				map = new LinkedMultiValueMap<>();
-				map.add("empId", Integer.parseInt(empId));
+			EmployeeMaster emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map,
+					EmployeeMaster.class);
+			// System.out.println("Edit Emp-------" + emp);
 
-				EmployeeMaster emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map,
-						EmployeeMaster.class);
-				// System.out.println("Edit Emp-------" + emp);
+			TblEmpInfo empPersInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmployeePersonalInfo", map, TblEmpInfo.class);
+			// System.out.println("Edit EmpPersonal Info-------" + empPersInfo);
 
-				TblEmpInfo empPersInfo = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getEmployeePersonalInfo", map, TblEmpInfo.class);
-				// System.out.println("Edit EmpPersonal Info-------" + empPersInfo);
+			TblEmpNominees empNom = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeNominee",
+					map, TblEmpNominees.class);
+			// System.out.println("Edit Emp Nominee Info-------" + empNom);
 
-				TblEmpNominees empNom = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeNominee",
-						map, TblEmpNominees.class);
-				// System.out.println("Edit Emp Nominee Info-------" + empNom);
+			TblEmpBankInfo empBank = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeBankInfo",
+					map, TblEmpBankInfo.class);
+			// System.out.println("Edit Emp Bank Info-------" + empBank);
 
-				TblEmpBankInfo empBank = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getEmployeeBankInfo", map, TblEmpBankInfo.class);
-				// System.out.println("Edit Emp Bank Info-------" + empBank);
+			EmpSalaryInfo empSalInfo = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeSalInfo",
+					map, EmpSalaryInfo.class);
+			// System.out.println("Edit Emp Salary Info-------" + empSalInfo);
 
-				EmpSalaryInfo empSalInfo = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getEmployeeSalInfo", map, EmpSalaryInfo.class);
-				// System.out.println("Edit Emp Salary Info-------" + empSalInfo);
+			EmpSalAllowance[] empSalAllowance = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmployeeSalAllowances", map, EmpSalAllowance[].class);
 
-				EmpSalAllowance[] empSalAllowance = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getEmployeeSalAllowances", map, EmpSalAllowance[].class);
+			List<EmpSalAllowance> empAllowncList = new ArrayList<EmpSalAllowance>(Arrays.asList(empSalAllowance));
+			// System.out.println("Edit Emp Salary EmpSalAllowance Info-------" +
+			// empAllowncList);
 
-				empAllowncList = new ArrayList<EmpSalAllowance>(Arrays.asList(empSalAllowance));
-				// System.out.println("Edit Emp Salary EmpSalAllowance Info-------" +
-				// empAllowncList);
+			EmployeDoc[] docArr = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeDocs", map,
+					EmployeDoc[].class);
+			List<EmployeDoc> docList = new ArrayList<EmployeDoc>(Arrays.asList(docArr));
 
-				EmployeDoc[] docArr = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeDocs", map,
-						EmployeDoc[].class);
-				List<EmployeDoc> docList = new ArrayList<EmployeDoc>(Arrays.asList(docArr));
+			map = new LinkedMultiValueMap<>();
+			map.add("EmpId", Integer.parseInt(empId));
+			userRes = Constants.getRestTemplate().postForObject(Constants.url + "/findUserInfoByEmpId", map,
+					User.class);
+			model.addAttribute("locationIds", userRes.getLocId().split(","));
 
-				map = new LinkedMultiValueMap<>();
-				map.add("EmpId", Integer.parseInt(empId));
-				userRes = Constants.getRestTemplate().postForObject(Constants.url + "/findUserInfoByEmpId", map, User.class);
-				model.addAttribute("locationIds", userRes.getLocId().split(","));
-				
-				model.addAttribute("emp", emp);
-				model.addAttribute("empPersInfo", empPersInfo); // model.addObject("empPersInfo", empIdInfo);
-				model.addAttribute("empNom", empNom); // model.addObject("empNom", empIdNom);
-				model.addAttribute("empBank", empBank);
+			model.addAttribute("emp", emp);
+			model.addAttribute("empPersInfo", empPersInfo); // model.addObject("empPersInfo", empIdInfo);
+			model.addAttribute("empNom", empNom); // model.addObject("empNom", empIdNom);
+			model.addAttribute("empBank", empBank);
 
-				model.addAttribute("empAllowanceId", empSalInfo);
-				model.addAttribute("empAllowncList", empAllowncList);
-				model.addAttribute("docList", docList);
-			 
+			model.addAttribute("empAllowanceId", empSalInfo);
+			model.addAttribute("empAllowncList", empAllowncList);
+			model.addAttribute("docList", docList);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/submitEmpOtherInfo", method = RequestMethod.POST)
 	public String submitEmpOtherInfo(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
@@ -856,19 +852,19 @@ public class EmployeeController {
 			empInfo.setExVar1("NA");
 			empInfo.setExVar2("NA");
 
-			System.out.println("TblEmpInfo----" + empInfo);
+			//System.out.println("TblEmpInfo----" + empInfo);
 			TblEmpInfo empIdInfo = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdInfo",
 					empInfo, TblEmpInfo.class);
 			if (empIdInfo != null) {
-				session.setAttribute("successMsg", "Record Inserted Successfully");
+				session.setAttribute("successMsg", "Record Updated Successfully");
 
 				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
-				System.out.println("Emp Encrypt Id---" + empEncryptId);
+				//System.out.println("Emp Encrypt Id---" + empEncryptId);
 
 				redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
 
 			} else {
-				session.setAttribute("errorMsg", "Failed to Insert Record");
+				session.setAttribute("errorMsg", "Failed to Update Record");
 				redirect = "redirect:/employeeAdd";
 			}
 
@@ -877,7 +873,7 @@ public class EmployeeController {
 			 */
 		} catch (Exception e) {
 			e.printStackTrace();
-			session.setAttribute("errorMsg", "Failed to Insert Record");
+			session.setAttribute("errorMsg", "Failed to Update Record");
 		}
 		return redirect;
 
@@ -939,17 +935,16 @@ public class EmployeeController {
 			empNominee.setExVar1("NA");
 			empNominee.setExVar2("NA");
 
-			System.out.println("TblEmpNominees----" + empNominee);
-			empIdNom = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee,
-					TblEmpNominees.class);
+			TblEmpNominees empIdNom = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/saveEmployeeIdNominee", empNominee, TblEmpNominees.class);
 			if (empIdNom != null) {
-				session.setAttribute("successMsg", "Record Inserted Successfully");
+				session.setAttribute("successMsg", "Record Updated Successfully");
 				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
-				System.out.println("Emp Encrypt Id---" + empEncryptId);
+				//System.out.println("Emp Encrypt Id---" + empEncryptId);
 
 				redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
 			} else {
-				session.setAttribute("errorMsg", "Failed to Insert Record");
+				session.setAttribute("errorMsg", "Failed to Update Record");
 				redirect = "redirect:/employeeAdd";
 			}
 
@@ -990,18 +985,18 @@ public class EmployeeController {
 			empBank.setExVar1("NA");
 			empBank.setExVar2("NA");
 
-			System.out.println("TblEmpBankInfo----" + empBank);
+			//System.out.println("TblEmpBankInfo----" + empBank);
 			TblEmpBankInfo empIdBank = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank",
 					empBank, TblEmpBankInfo.class);
 			if (empIdBank != null) {
-				session.setAttribute("successMsg", "Record Inserted Successfully");
+				session.setAttribute("successMsg", "Record Updated Successfully");
 
 				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
-				System.out.println("Emp Encrypt Id---" + empEncryptId);
+				//System.out.println("Emp Encrypt Id---" + empEncryptId);
 
 				redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
 			} else {
-				session.setAttribute("errorMsg", "Failed to Insert Record");
+				session.setAttribute("errorMsg", "Failed to Update Record");
 				redirect = "redirect:/employeeAdd";
 			}
 
@@ -1045,7 +1040,7 @@ public class EmployeeController {
 				basic = 0;
 				pfEmpPer = 0;
 				pfEmployerPer = 0;
-
+				empSalInfoId = 0;
 				empEsicPer = 0;
 				employerEsicPer = 0;
 			}
@@ -1079,19 +1074,17 @@ public class EmployeeController {
 			empSal.setExVar1("NA");
 			empSal.setExVar2("NA");
 
-			System.out.println("TblEmpBankInfo----" + empSal);
 			EmpSalaryInfo empIdSal = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary",
 					empSal, EmpSalaryInfo.class);
 
 			if (empIdSal != null) {
-				System.out.println("Sucess---------" + empIdSal);
+
 				int allwnSalId = 0;
 				List<EmpSalAllowance> allowncList = new ArrayList<EmpSalAllowance>();
+
 				for (int i = 0; i < allowanceList.size(); i++) {
 
-					System.out.println("--------------" + allowanceList);
 					EmpSalAllowance empSellAllwance = new EmpSalAllowance();
-
 					double allwncValue = 0;
 					try {
 						allwncValue = Double
@@ -1099,14 +1092,15 @@ public class EmployeeController {
 					} catch (Exception e) {
 						allwncValue = 0;
 					}
+					try {
+						allwnSalId = Integer.parseInt(
+								request.getParameter("empSalAllownaceId" + allowanceList.get(i).getAllowanceId()));
+					} catch (Exception e) {
+						allwnSalId = 0;
+					}
 
 					if (allwncValue >= 0) {
-						try {
-							allwnSalId = Integer.parseInt(
-									request.getParameter("empSalAllownaceId" + allowanceList.get(i).getAllowanceId()));
-						} catch (Exception e) {
-							allwnSalId = 0;
-						}
+
 						empSellAllwance.setEmpSalAllowanceId(allwnSalId);
 						empSellAllwance.setEmpId(Integer.parseInt(request.getParameter("empId")));
 						empSellAllwance.setAllowanceId(allowanceList.get(i).getAllowanceId());
@@ -1123,7 +1117,6 @@ public class EmployeeController {
 
 					}
 
-					System.out.println("allowncList------" + allowncList);
 				}
 
 				EmpSalAllowance[] allowance = Constants.getRestTemplate().postForObject(
@@ -1131,17 +1124,17 @@ public class EmployeeController {
 
 				if (allowance != null) {
 
-					session.setAttribute("successMsg", "Record Inserted Successfully");
+					session.setAttribute("successMsg", "Record Updated Successfully");
 					String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
-					System.out.println("Emp Encrypt Id---" + empEncryptId);
+					//System.out.println("Emp Encrypt Id---" + empEncryptId);
 
 					redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
 				} else {
-					session.setAttribute("errorMsg", "Failed to Insert Record");
+					session.setAttribute("errorMsg", "Failed to Update Record");
 					redirect = "redirect:/employeeAdd";
 				}
 			} else {
-				System.err.println("Fail----------" + empIdSal);
+				session.setAttribute("errorMsg", "Failed to Update Record");
 				redirect = "redirect:/employeeAdd";
 			}
 
@@ -1180,12 +1173,12 @@ public class EmployeeController {
 
 			List<EmployeDoc> list = new ArrayList<EmployeDoc>();
 			int docId = 0;
-			int empId = 0;
+			int empId = Integer.parseInt(request.getParameter("empId"));
 			int docTypeId = 0;
 			for (int j = 0; j < empDocList.size(); j++) {
 
 				docTypeId = Integer.parseInt(request.getParameter("docType" + empDocList.get(j).getDoctypeId()));
-				empId = Integer.parseInt(request.getParameter("empId"));
+				 
 				try {
 					docId = Integer.parseInt(request.getParameter("empDocId" + empDocList.get(j).getDoctypeId()));
 
@@ -1194,36 +1187,39 @@ public class EmployeeController {
 
 				}
 
-				System.out.println(docId + " - " + empId + " - " + docTypeId);
+				// System.out.println(docId + " - " + empId + " - " + docTypeId);
 				img = doc.get(j).getOriginalFilename();
-				imageName = empId + "_" + docTypeId + "_" + doc.get(j).getOriginalFilename() + "_" + sf.format(date);
+				imageName = empId + "_" + docTypeId + "_" + doc.get(j).getOriginalFilename() + "_" + dateTimeInGMT.format(date);
 
-				System.out.println(imageName);
+				System.out.println(img);
 
-				System.out.println("Image Upload");
+				// System.out.println("Image Upload");
 				try {
 
 					if (img != "" && img != null) {
 
-						upload.saveUploadedImge(doc.get(j), Constants.imageSaveUrl, imageName, Constants.allextension,
-								0, 0, 0, 0, 0);
+						Info info = upload.saveUploadedImge(doc.get(j), Constants.imageSaveUrl, imageName,
+								Constants.allextension, 0, 0, 0, 0, 0);
 
-						EmployeDoc employeDoc = new EmployeDoc();
-						employeDoc.setDocId(docId);
-						employeDoc.setEmpId(empId);
-						employeDoc.setDoctypeId(docTypeId);
-						employeDoc.setIsActive(1);
-						employeDoc.setDelStatus(1);
-						employeDoc.setMakerUserId(100);
-						employeDoc.setMakerEnterDatetime(sf.format(date));
-						employeDoc.setDocImage(imageName);
+						if (info.isError() == false) { 
+							
+							EmployeDoc employeDoc = new EmployeDoc();
+							employeDoc.setDocId(docId);
+							employeDoc.setEmpId(empId);
+							employeDoc.setDoctypeId(docTypeId);
+							employeDoc.setIsActive(1);
+							employeDoc.setDelStatus(1);
+							employeDoc.setMakerUserId(100);
+							employeDoc.setMakerEnterDatetime(sf.format(date));
+							employeDoc.setDocImage(imageName);
 
-						employeDoc.setExInt1(0);
-						employeDoc.setExInt2(0);
-						employeDoc.setExVar1("NA");
-						employeDoc.setExVar2("NA");
+							employeDoc.setExInt1(0);
+							employeDoc.setExInt2(0);
+							employeDoc.setExVar1("NA");
+							employeDoc.setExVar2("NA");
 
-						list.add(employeDoc);
+							list.add(employeDoc);
+						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1233,17 +1229,19 @@ public class EmployeeController {
 			EmployeDoc[] res = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpDocList", list,
 					EmployeDoc[].class);
 			if (res != null) {
-				session.setAttribute("successMsg", "Record Inserted Successfully");
-			} else {
-
-				session.setAttribute("errorMsg", "Failed to Insert Record");
+				session.setAttribute("successMsg", "Record Updated Successfully");
+				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId)); 
+				redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
+			} else { 
+				session.setAttribute("errorMsg", "Failed to Update Record");
+				redirect = "redirect:/employeeAdd";
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("errorMsg", "Failed to Insert Record");
 		}
-		return "redirect:/employeeAdd";
+		return redirect;
 	}
 
 	@RequestMapping(value = "/getUniqEmpCodeResp", method = RequestMethod.GET)

@@ -46,18 +46,12 @@
 						<div class="card">
 
 							<div class="card-header header-elements-inline">
-								<table width="100%">
-									<tr width="100%">
-										<td width="60%"><h5 class="card-title">Add Employee</h5></td>
-										<td width="40%" align="right">
-											<%-- <a
-									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
-									class="breadcrumb-elements-item">
-										<button type="button" class="btn btn-primary">KRA List </button>
-								</a>  --%>
-										</td>
-									</tr>
-								</table>
+								<h5 class="card-title">
+									<c:choose>
+										<c:when test="${emp.empId!=0}">Edit Employee</c:when>
+										<c:otherwise>Add Employee</c:otherwise>
+									</c:choose>
+								</h5>
 							</div>
 							<div class="card-body">
 								<%
@@ -102,28 +96,29 @@
 										href="#highlighted-tab1" class="nav-link active"
 										data-toggle="tab">Basic Information </br>Step 1
 									</a></li>
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab2" class="nav-link" data-toggle="tab">Personal
-											Information </br>Step 2
-									</a></a></li>
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab3" class="nav-link" data-toggle="tab">Relative
-											Information </br>Step 3
-									</a></li>
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab4" class="nav-link" data-toggle="tab">Employee
-											Bank Details </br>Step 4
-									</a></li>
+									<c:if test="${emp.empId!=0}">
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab2" class="nav-link" data-toggle="tab">Personal
+												Information </br>Step 2
+										</a></a></li>
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab3" class="nav-link" data-toggle="tab">Relative
+												Information </br>Step 3
+										</a></li>
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab4" class="nav-link" data-toggle="tab">Employee
+												Bank Details </br>Step 4
+										</a></li>
 
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab5" class="nav-link" data-toggle="tab">Employee
-											Salary Details </br>Step 5
-									</a></li>
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab6" class="nav-link" data-toggle="tab">Employee
-											Documents </br>Step 6
-									</a></li>
-
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab5" class="nav-link" data-toggle="tab">Employee
+												Salary Details </br>Step 5
+										</a></li>
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab6" class="nav-link" data-toggle="tab">Employee
+												Documents </br>Step 6
+										</a></li>
+									</c:if>
 								</ul>
 
 								<div class="tab-content">
@@ -497,7 +492,8 @@
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
-													<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+													<a
+														href="${pageContext.request.contextPath}/showEmployeeList"><button
 															type="button" class="btn btn-primary">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 															Cancel
@@ -799,7 +795,8 @@
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
-													<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+													<a
+														href="${pageContext.request.contextPath}/showEmployeeList"><button
 															type="button" class="btn btn-primary">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 															Cancel
@@ -1165,7 +1162,8 @@
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
-													<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+													<a
+														href="${pageContext.request.contextPath}/showEmployeeList"><button
 															type="button" class="btn btn-primary">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 															Cancel
@@ -1241,7 +1239,8 @@
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
-													<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+													<a
+														href="${pageContext.request.contextPath}/showEmployeeList"><button
 															type="button" class="btn btn-primary">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 															Cancel
@@ -1546,7 +1545,8 @@
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
-													<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+													<a
+														href="${pageContext.request.contextPath}/showEmployeeList"><button
 															type="button" class="btn btn-primary">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 															Cancel
@@ -1593,37 +1593,73 @@
 												</c:forEach>
 
 												<div class="form-body">
-													<h4 align="center">${empDocList.doctypeName}</h4>
 
-													<div class="row">
-														<div class="col-md-6">
-															<div class="form-group">
-																<label class="control-label col-md-3"><img
-																	id="blah" src="${imgUrl}${docName}" alt="Emp Photo"
-																	width="300px" /></label>
-																<div class="col-md-9" style="padding-left: 200px">
-																	<input id="doc${empDocList.doctypeId}" type="file"
-																		name="doc" class="nocheck" onchange="show(this)">
+													<%-- <div class="form-group">
+														<label class="control-label col-md-3"><img
+															id="blah" src="${imgUrl}${docName}" alt="Emp Photo"
+															width="300px" /></label>
+														<div class="col-md-2">${empDocList.doctypeName}</div>
+														<div class="col-md-7" style="padding-left: 200px">
+															<input id="doc${empDocList.doctypeId}" type="file"
+																name="doc" class="nocheck" onchange="show(this)">
 
 
-																	<input type="hidden"
-																		name="docType${empDocList.doctypeId}"
-																		id="docType${empDocList.doctypeId}"
-																		value="${empDocList.doctypeId}"> <input
-																		type="hidden" id="empDocId${empDocList.doctypeId}"
-																		name="empDocId${empDocList.doctypeId}"
-																		value="${docId}"> (only jpg,png,gif,pdf) <span
-																		style="display: none;"
-																		class="hidedefault  validation-invalid-label"
-																		id="error_img">Only these file types are
-																		accepted : jpg,png,gif,pdf</span>
+															<input type="hidden"
+																name="docType${empDocList.doctypeId}"
+																id="docType${empDocList.doctypeId}"
+																value="${empDocList.doctypeId}"> <input
+																type="hidden" id="empDocId${empDocList.doctypeId}"
+																name="empDocId${empDocList.doctypeId}" value="${docId}">
+															(only jpg,png,gif,pdf) <span style="display: none;"
+																class="hidedefault  validation-invalid-label"
+																id="error_img">Only these file types are accepted
+																: jpg,png,gif,pdf</span>
 
 
-																</div>
-															</div>
 														</div>
+													</div> --%>
 
+													<div class="form-group row">
+														<label class="col-form-label col-lg-2" for="doc0">
+															${empDocList.doctypeName} </label>
+														<div class="col-lg-5">
+
+															<input type="file" class="form-control"
+																id="doc${empDocList.doctypeId}" type="file" name="doc"
+																accept=".jpg,.png,.gif,.doc,.xls,.pdf"> <span
+																class="form-text text-muted">Only
+																.jpg,.png,.gif,.doc,.xls,.pdf</span> <span
+																class="validation-invalid-label" id="error_doc1"
+																style="display: none;">This field is required.</span>
+
+
+
+														</div>
+														<c:if test="${docName != ''}">
+															<div class="col-lg-5">
+																<a href="${imgUrl}${docName}" target="_blank"
+																	title="Open File"> <i
+																	class="far fa-file-alt mr-3 fa-2x"
+																	style="color: black;"></i>
+																</a>
+															</div>
+														</c:if>
+														<input type="hidden" name="docType${empDocList.doctypeId}"
+															id="docType${empDocList.doctypeId}"
+															value="${empDocList.doctypeId}"> <input
+															type="hidden" id="empDocId${empDocList.doctypeId}"
+															name="empDocId${empDocList.doctypeId}" value="${docId}">
+														<input type="hidden"
+															id="empDocName${empDocList.doctypeId}"
+															name="empDocName${empDocList.doctypeId}"
+															value="${docName}">
+														<!-- <span class="validation-invalid-label"
+															id="error_fileName0" style="display: none;">This
+															field is required.</span> -->
 													</div>
+
+
+
 
 												</div>
 
@@ -1636,7 +1672,8 @@
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
-													<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+													<a
+														href="${pageContext.request.contextPath}/showEmployeeList"><button
 															type="button" class="btn btn-primary">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 															Cancel
