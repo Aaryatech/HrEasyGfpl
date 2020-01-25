@@ -1,6 +1,6 @@
 package com.ats.hreasy.model;
  
- 
+
 public class LoginResponse {
 	
 	 
@@ -15,8 +15,9 @@ public class LoginResponse {
 	private String locationIds; 
 	private boolean isError;
 	
-	private String userPwd; 
-
+	private String userPwd;  
+	private int designType;  
+	private String hodDeptIds;
 
 	public String getUserPwd() {
 		return userPwd;
@@ -110,12 +111,28 @@ public class LoginResponse {
 		this.locationIds = locationIds;
 	}
 
+	public int getDesignType() {
+		return designType;
+	}
+
+	public void setDesignType(int designType) {
+		this.designType = designType;
+	}
+
+	public String getHodDeptIds() {
+		return hodDeptIds;
+	}
+
+	public void setHodDeptIds(String hodDeptIds) {
+		this.hodDeptIds = hodDeptIds;
+	}
+
 	@Override
 	public String toString() {
 		return "LoginResponse [empId=" + empId + ", empCode=" + empCode + ", firstName=" + firstName + ", middleName="
 				+ middleName + ", surname=" + surname + ", motherName=" + motherName + ", emailId=" + emailId
 				+ ", userId=" + userId + ", locationIds=" + locationIds + ", isError=" + isError + ", userPwd="
-				+ userPwd + "]";
+				+ userPwd + ", designType=" + designType + ", hodDeptIds=" + hodDeptIds + "]";
 	}
 
  

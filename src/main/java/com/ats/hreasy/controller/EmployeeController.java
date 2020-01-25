@@ -294,7 +294,7 @@ public class EmployeeController {
 					departmentHods = departmentHods.substring(0, departmentHods.length() - 1);
 					emp.setExVar1(departmentHods);
 				} else {
-					emp.setExVar1("");
+					emp.setExVar1("0");
 				}
 
 				String mob2 = request.getParameter("mobile2");

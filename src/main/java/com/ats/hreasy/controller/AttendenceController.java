@@ -668,4 +668,157 @@ public class AttendenceController {
 
 	}
 
+	@RequestMapping(value = "/attendaceSheetByHod", method = RequestMethod.GET)
+	public String attendaceSheetByHod(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = null;
+
+		HttpSession session = request.getSession();
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("attendaceSheetByHod", "attendaceSheetByHod", 1, 0, 0, 0,
+				newModuleList);
+
+		if (view.isError() == true) {
+
+			mav = "accessDenied";
+
+		} else {
+
+			mav = "attendence/attendaceSheetByHod";
+
+			try {
+
+				Info edit = AcessController.checkAccess("attendaceSheetByHod", "attendaceSheetByHod", 0, 0, 1, 0,
+						newModuleList);
+
+				if (edit.isError() == false) {
+					model.addAttribute("editAccess", 0);
+				}
+
+				String date = request.getParameter("date");
+
+				if (date != null) {
+					LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("date", DateConvertor.convertToYMD(date));
+					map.add("desgType", userObj.getDesignType());
+					map.add("departIds", userObj.getHodDeptIds());
+					DailyAttendance[] dailyAttendance = Constants.getRestTemplate().postForObject(
+							Constants.url + "/getEmployyeDailyDailyListByDeptIds", map, DailyAttendance[].class);
+					List<DailyAttendance> dailyDailyList = new ArrayList<DailyAttendance>(
+							Arrays.asList(dailyAttendance));
+					model.addAttribute("dailyDailyList", dailyDailyList);
+					model.addAttribute("date", date);
+					LvType[] lvType = Constants.getRestTemplate().getForObject(Constants.url + "/getLvTypeList",
+							LvType[].class);
+					List<LvType> lvTypeList = new ArrayList<LvType>(Arrays.asList(lvType));
+					model.addAttribute("lvTypeList", lvTypeList);
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return mav;
+
+	}
+
+	@RequestMapping(value = "/attendaceSheetByHr", method = RequestMethod.GET)
+	public String attendaceSheetByHr(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = null;
+
+		HttpSession session = request.getSession();
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("attendaceSheetByHr", "attendaceSheetByHr", 1, 0, 0, 0, newModuleList);
+
+		if (view.isError() == true) {
+
+			mav = "accessDenied";
+
+		} else {
+
+			mav = "attendence/attendaceSheetByHr";
+
+			try {
+
+				Info edit = AcessController.checkAccess("attendaceSheetByHr", "attendaceSheetByHr", 0, 0, 1, 0,
+						newModuleList);
+
+				if (edit.isError() == false) {
+					model.addAttribute("editAccess", 0);
+				}
+
+				String date = request.getParameter("date");
+
+				if (date != null) {
+					LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("date", DateConvertor.convertToYMD(date));
+					map.add("desgType", userObj.getDesignType());
+					map.add("departIds", userObj.getHodDeptIds());
+					DailyAttendance[] dailyAttendance = Constants.getRestTemplate().postForObject(
+							Constants.url + "/getEmployyeDailyDailyListByDeptIds", map, DailyAttendance[].class);
+					List<DailyAttendance> dailyDailyList = new ArrayList<DailyAttendance>(
+							Arrays.asList(dailyAttendance));
+					model.addAttribute("dailyDailyList", dailyDailyList);
+					model.addAttribute("date", date);
+					LvType[] lvType = Constants.getRestTemplate().getForObject(Constants.url + "/getLvTypeList",
+							LvType[].class);
+					List<LvType> lvTypeList = new ArrayList<LvType>(Arrays.asList(lvType));
+					model.addAttribute("lvTypeList", lvTypeList);
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return mav;
+
+	}
+
+	@RequestMapping(value = "/submitAttendanceDetailByHod", method = RequestMethod.POST)
+	@ResponseBody
+	public Info submitAttendanceDetailByHod(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		Info info = new Info();
+
+		try {
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			int dailyId = Integer.parseInt(request.getParameter("dailyId"));
+			int selectStatus = Integer.parseInt(request.getParameter("selectStatus"));
+			int lateMark = Integer.parseInt(request.getParameter("lateMark"));
+			String selectStatusText = request.getParameter("selectStatusText");
+			int flag = Integer.parseInt(request.getParameter("flag"));
+			String otHours = request.getParameter("otHours");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("dailyId", dailyId);
+			map.add("selectStatus", selectStatus);
+			map.add("lateMark", lateMark);
+			map.add("selectStatusText", selectStatusText);
+			map.add("userId", userObj.getUserId());
+			map.add("flag", flag);
+			map.add("otHours", otHours);
+			// System.out.println(map);
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/updateAttendaceRecordSingleByHod", map,
+					Info.class);
+			// System.out.println(info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+
+	}
+
 }
