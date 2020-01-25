@@ -401,7 +401,7 @@ public class EmployeeController {
 					emp.setEarnLeaveOpeningBalance(0);
 					emp.setEmailId("NA");
 					emp.setEmpCategory(request.getParameter("empCat"));
-					emp.setEmpCode(request.getParameter("empCode"));
+					emp.setEmpCode(request.getParameter("empCode").toUpperCase());
 					emp.setEmpType(empType);
 					emp.setEsicNo(request.getParameter("esic"));
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
