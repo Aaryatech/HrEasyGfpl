@@ -114,16 +114,16 @@ public class EmployeeController {
 						newModuleList);
 
 				if (add.isError() == false) {
-					//System.out.println(" add   Accessable ");
+					// System.out.println(" add Accessable ");
 					model.addObject("addAccess", 0);
 
 				}
 				if (edit.isError() == false) {
-					//System.out.println(" edit   Accessable ");
+					// System.out.println(" edit Accessable ");
 					model.addObject("editAccess", 0);
 				}
 				if (delete.isError() == false) {
-					//System.out.println(" delete   Accessable ");
+					// System.out.println(" delete Accessable ");
 					model.addObject("deleteAccess", 0);
 
 				}
@@ -280,6 +280,22 @@ public class EmployeeController {
 					empId = 0;
 					contract = 0;
 				}
+				int ishod = Integer.parseInt(request.getParameter("ishod"));
+				emp.setExInt1(ishod);
+
+				if (ishod == 1) {
+					String[] hoddeptId = request.getParameterValues("hoddeptId");
+					StringBuilder sb1 = new StringBuilder();
+					for (int i = 0; i < hoddeptId.length; i++) {
+						sb1 = sb1.append(hoddeptId[i] + ",");
+
+					}
+					String departmentHods = sb1.toString();
+					departmentHods = departmentHods.substring(0, departmentHods.length() - 1);
+					emp.setExVar1(departmentHods);
+				} else {
+					emp.setExVar1("");
+				}
 
 				String mob2 = request.getParameter("mobile2");
 
@@ -338,9 +354,9 @@ public class EmployeeController {
 					emp.setSalDedAtFullandfinal(0);
 					emp.setSocietySerialNo("NA");
 					emp.setUan(request.getParameter("uan"));
-					emp.setExInt1(0);
+					// emp.setExInt1(0);
 					emp.setExInt2(0);
-					emp.setExVar1("NA");
+					// emp.setExVar1("NA");
 					emp.setExVar2("NA");
 					emp.setDelStatus(1);
 
@@ -433,9 +449,9 @@ public class EmployeeController {
 					emp.setSalDedAtFullandfinal(0);
 					emp.setSocietySerialNo("NA");
 					emp.setUan(request.getParameter("uan"));
-					emp.setExInt1(0);
+					// emp.setExInt1(0);
 					emp.setExInt2(0);
-					emp.setExVar1("NA");
+					// emp.setExVar1("NA");
 					emp.setExVar2("NA");
 					emp.setDelStatus(1);
 
@@ -478,7 +494,7 @@ public class EmployeeController {
 						uinfo.setMakerUserId(userObj.getEmpId());
 						uinfo.setMakerEnterDatetime(sf.format(date));
 
-						//System.out.println(locIdList + "" + uinfo.getLocId());
+						// System.out.println(locIdList + "" + uinfo.getLocId());
 						User res1 = Constants.getRestTemplate().postForObject(Constants.url + "/saveUserInfo", uinfo,
 								User.class);
 
@@ -510,12 +526,14 @@ public class EmployeeController {
 						EmpSalaryInfo empIdSal = Constants.getRestTemplate()
 								.postForObject(Constants.url + "/saveEmployeeIdSalary", empSal, EmpSalaryInfo.class);
 
-						/*EmpSalAllowance allowance = new EmpSalAllowance();
-						allowance.setDelStatus(1);
-						allowance.setEmpId(empSave.getEmpId());
-
-						EmpSalAllowance empSalAllowanceId = Constants.getRestTemplate().postForObject(
-								Constants.url + "/saveEmpSalAllowanceIds", allowance, EmpSalAllowance.class);*/
+						/*
+						 * EmpSalAllowance allowance = new EmpSalAllowance(); allowance.setDelStatus(1);
+						 * allowance.setEmpId(empSave.getEmpId());
+						 * 
+						 * EmpSalAllowance empSalAllowanceId =
+						 * Constants.getRestTemplate().postForObject( Constants.url +
+						 * "/saveEmpSalAllowanceIds", allowance, EmpSalAllowance.class);
+						 */
 
 						/*
 						 * User user = new User(); user.setEmpId(empSave.getEmpId());
@@ -526,7 +544,7 @@ public class EmployeeController {
 
 						String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
 
-						//System.out.println("Emp Encrypt Id---" + empEncryptId);
+						// System.out.println("Emp Encrypt Id---" + empEncryptId);
 
 						session.setAttribute("successMsg", "Record Inserted Successfully");
 
@@ -540,7 +558,7 @@ public class EmployeeController {
 				e.printStackTrace();
 			}
 		}
-		//System.out.println("Success----------------" + empSave);
+		// System.out.println("Success----------------" + empSave);
 		return redirect;
 
 	}
@@ -612,7 +630,7 @@ public class EmployeeController {
 				Allowances[] allowanceArr = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAllAllowances", Allowances[].class);
 				allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
-				//System.out.println("allowanceList All-------------" + allowanceList);
+				// System.out.println("allowanceList All-------------" + allowanceList);
 
 				EmpDoctype[] empDocArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmpDocTypes",
 						map, EmpDoctype[].class);
@@ -676,7 +694,7 @@ public class EmployeeController {
 				userRes = Constants.getRestTemplate().postForObject(Constants.url + "/findUserInfoByEmpId", map,
 						User.class);
 				model.addObject("locationIds", userRes.getLocId().split(","));
-
+				model.addObject("hodDeptIds", emp.getExVar1().split(","));
 				model.addObject("emp", emp);
 				model.addObject("empPersInfo", empPersInfo); // model.addObject("empPersInfo", empIdInfo);
 				model.addObject("empNom", empNom); // model.addObject("empNom", empIdNom);
@@ -731,7 +749,7 @@ public class EmployeeController {
 			Allowances[] allowanceArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllAllowances",
 					Allowances[].class);
 			allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
-			//System.out.println("allowanceList All-------------" + allowanceList);
+			// System.out.println("allowanceList All-------------" + allowanceList);
 
 			EmpDoctype[] empDocArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmpDocTypes",
 					map, EmpDoctype[].class);
@@ -852,14 +870,14 @@ public class EmployeeController {
 			empInfo.setExVar1("NA");
 			empInfo.setExVar2("NA");
 
-			//System.out.println("TblEmpInfo----" + empInfo);
+			// System.out.println("TblEmpInfo----" + empInfo);
 			TblEmpInfo empIdInfo = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdInfo",
 					empInfo, TblEmpInfo.class);
 			if (empIdInfo != null) {
 				session.setAttribute("successMsg", "Record Updated Successfully");
 
 				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
-				//System.out.println("Emp Encrypt Id---" + empEncryptId);
+				// System.out.println("Emp Encrypt Id---" + empEncryptId);
 
 				redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
 
@@ -940,7 +958,7 @@ public class EmployeeController {
 			if (empIdNom != null) {
 				session.setAttribute("successMsg", "Record Updated Successfully");
 				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
-				//System.out.println("Emp Encrypt Id---" + empEncryptId);
+				// System.out.println("Emp Encrypt Id---" + empEncryptId);
 
 				redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
 			} else {
@@ -985,14 +1003,14 @@ public class EmployeeController {
 			empBank.setExVar1("NA");
 			empBank.setExVar2("NA");
 
-			//System.out.println("TblEmpBankInfo----" + empBank);
+			// System.out.println("TblEmpBankInfo----" + empBank);
 			TblEmpBankInfo empIdBank = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank",
 					empBank, TblEmpBankInfo.class);
 			if (empIdBank != null) {
 				session.setAttribute("successMsg", "Record Updated Successfully");
 
 				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
-				//System.out.println("Emp Encrypt Id---" + empEncryptId);
+				// System.out.println("Emp Encrypt Id---" + empEncryptId);
 
 				redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
 			} else {
@@ -1126,7 +1144,7 @@ public class EmployeeController {
 
 					session.setAttribute("successMsg", "Record Updated Successfully");
 					String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
-					//System.out.println("Emp Encrypt Id---" + empEncryptId);
+					// System.out.println("Emp Encrypt Id---" + empEncryptId);
 
 					redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
 				} else {
@@ -1178,7 +1196,7 @@ public class EmployeeController {
 			for (int j = 0; j < empDocList.size(); j++) {
 
 				docTypeId = Integer.parseInt(request.getParameter("docType" + empDocList.get(j).getDoctypeId()));
-				 
+
 				try {
 					docId = Integer.parseInt(request.getParameter("empDocId" + empDocList.get(j).getDoctypeId()));
 
@@ -1189,7 +1207,8 @@ public class EmployeeController {
 
 				// System.out.println(docId + " - " + empId + " - " + docTypeId);
 				img = doc.get(j).getOriginalFilename();
-				imageName = empId + "_" + docTypeId + "_" + doc.get(j).getOriginalFilename() + "_" + dateTimeInGMT.format(date);
+				imageName = empId + "_" + docTypeId + "_" + doc.get(j).getOriginalFilename() + "_"
+						+ dateTimeInGMT.format(date);
 
 				System.out.println(img);
 
@@ -1201,8 +1220,8 @@ public class EmployeeController {
 						Info info = upload.saveUploadedImge(doc.get(j), Constants.imageSaveUrl, imageName,
 								Constants.allextension, 0, 0, 0, 0, 0);
 
-						if (info.isError() == false) { 
-							
+						if (info.isError() == false) {
+
 							EmployeDoc employeDoc = new EmployeDoc();
 							employeDoc.setDocId(docId);
 							employeDoc.setEmpId(empId);
@@ -1230,9 +1249,9 @@ public class EmployeeController {
 					EmployeDoc[].class);
 			if (res != null) {
 				session.setAttribute("successMsg", "Record Updated Successfully");
-				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId)); 
+				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
 				redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
-			} else { 
+			} else {
 				session.setAttribute("errorMsg", "Failed to Update Record");
 				redirect = "redirect:/employeeAdd";
 			}

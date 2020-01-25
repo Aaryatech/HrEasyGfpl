@@ -481,8 +481,59 @@
 														style="display: none;" id="error_locId_list">This
 														field is required.</span>
 												</div>
-											</div>
 
+												<label class="col-form-label col-lg-2" for="deptId">
+													Designation Type <span style="color: red"></span>:
+												</label>
+												<div class="col-lg-4">
+													<select name="ishod" id="ishod"
+														class="form-control form-control-select2 select2-hidden-accessible"
+														onchange="opencloseDepthodDrop(this.value)">
+
+														<option value="0" ${emp.exInt1==0 ? 'selected' : ''}>Employee</option>
+														<option value="1" ${emp.exInt1==1 ? 'selected' : ''}>HOD</option>
+														<option value="2" ${emp.exInt1==2 ? 'selected' : ''}>HR</option>
+
+														<!-- <option value="0">Employee</option>
+														<option value="1">HOD</option>
+														<option value="2">HR</option> -->
+													</select> <span class="hidedefault   validation-invalid-label"
+														style="display: none;" id="error_ishod">This field
+														is required.</span>
+												</div>
+
+											</div>
+											<div id="hodDeptDiv" style="display: none;">
+												<div class="form-group row">
+
+													<label class="col-form-label col-lg-2" for="hoddeptId">
+														HOD of Department <span style="color: red"></span>:
+													</label>
+													<div class="col-lg-4">
+														<select name="hoddeptId"
+															data-placeholder="Select Department" id="hoddeptId"
+															multiple="multiple"
+															class="form-control form-control-sm select" data-fouc>
+															<c:forEach items="${deptList}" var="deptList">
+
+																<c:set value="0" var="find"></c:set>
+																<c:forEach items="${hodDeptIds}" var="hodDeptIds">
+																	<c:if test="${deptList.departId==hodDeptIds}">
+																		<option selected="selected"
+																			value="${deptList.departId}">${deptList.name}</option>
+																		<c:set value="1" var="find"></c:set>
+																	</c:if>
+																</c:forEach>
+																<c:if test="${find==0}">
+																	<option value="${deptList.departId}">${deptList.name}</option>
+																</c:if>
+															</c:forEach>
+														</select> <span class="hidedefault   validation-invalid-label"
+															style="display: none;" id="error_hoddeptId">This
+															field is required.</span>
+													</div>
+												</div>
+											</div>
 
 
 											<div class="form-group row mb-0">
@@ -1872,6 +1923,20 @@
 												} else {
 													$("#error_pan").hide()
 												}
+												if ($("#ishod").val() == 1) {
+													if ($("#hoddeptId").val() == "") {
+														isError = true;
+														$("#error_hoddeptId")
+																.show()
+													} else {
+														$("#error_hoddeptId")
+																.hide()
+													}
+												} else {
+													$("#error_hoddeptId")
+															.hide()
+												}
+
 												/* 	if (!$("#desigId").val()) {
 
 														isError = true;
@@ -2176,6 +2241,18 @@
 					}
 				}
 			} catch (err) {
+
+			}
+		}
+
+		function opencloseDepthodDrop(value) {
+
+			//alert(value);
+			if (value == 1) {
+				document.getElementById("hodDeptDiv").style.display = "block";
+
+			} else {
+				document.getElementById("hodDeptDiv").style.display = "none";
 
 			}
 		}
