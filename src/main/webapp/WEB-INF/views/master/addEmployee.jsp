@@ -250,7 +250,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="deptId">
-													Department <span style="color: red"></span>:
+													Department <span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="deptId" data-placeholder="Select Department"
@@ -279,7 +279,7 @@
 											<div class="form-group row">
 
 												<label class="col-form-label col-lg-2" for="contractor">Contractor
-													<span style="color: red"> </span>:
+													<span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="contractor"
@@ -344,7 +344,8 @@
 														Mobile No. is already exist.</span>
 												</div>
 
-
+												<label class="col-form-label col-lg-2" for="mobile1">Other
+													Mobile No. : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
 														value="${emp.mobileNo2}" placeholder="Other Mobile No."
@@ -411,7 +412,7 @@
 												</div>
 
 
-												<label class="col-form-label col-lg-2" for="aadhar">Aadhar
+												<label class="col-form-label col-lg-2" for="aadhar">Aadhaar
 													No. <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
@@ -557,8 +558,6 @@
 									</div>
 									<!-- ********************************************Step Two********************************************** -->
 									<div class="tab-pane fade" id="highlighted-tab2">
-										Step Two
-
 
 										<form
 											action="${pageContext.request.contextPath}/submitEmpOtherInfo"
@@ -1400,25 +1399,43 @@
 											</div>
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="pan">PF
+												<label class="col-form-label col-lg-2" for="pfApplicable">PF
 													Applicable <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<%-- <input type="text" class="form-control"
 														value="${empAllowanceId.pfApplicable}"
 														placeholder="PF Applicable" id="pfApplicable"
 														name="pfApplicable" autocomplete="off"
-														onchange="trim(this)">
+														onchange="trim(this)"> --%>
+													<select name="pfApplicable" id="pfApplicable"
+														data-rel="chosen" class="form-control">
+
+														<option value="no"
+															${empAllowanceId.pfApplicable == 'no' ? 'selected' : ''}>NO</option>
+														<option value="yes"
+															${empAllowanceId.pfApplicable == 'yes' ? 'selected' : ''}>YES</option>
+
+													</select>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="pfNo">PF
+												<label class="col-form-label col-lg-2" for="pfType">PF
 													Type <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<%-- <input type="text" class="form-control"
 														placeholder="PF Type" id="pfType" name="pfType"
 														autocomplete="off" value="${empAllowanceId.pfType}"
-														onchange="trim(this)">
+														onchange="trim(this)"> --%>
+													<select name="pfType" id="pfType" data-rel="chosen"
+														class="form-control">
+
+														<option value="no"
+															${empAllowanceId.pfType == 'no' ? 'selected' : ''}>NO</option>
+														<option value="yes"
+															${empAllowanceId.pfType == 'yes' ? 'selected' : ''}>YES</option>
+
+													</select>
 												</div>
 											</div>
 
@@ -1449,22 +1466,40 @@
 													Applicable <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<%-- <input type="text" class="form-control"
 														value="${empAllowanceId.esicApplicable}"
 														placeholder="ESIC Applicable" id="esicApplicable"
 														name="esicApplicable" autocomplete="off"
-														onchange="trim(this)">
+														onchange="trim(this)"> --%>
+													<select name="esicApplicable" id="esicApplicable"
+														data-rel="chosen" class="form-control">
+
+														<option value="no"
+															${empAllowanceId.esicApplicable == 'no' ? 'selected' : ''}>NO</option>
+														<option value="yes"
+															${empAllowanceId.esicApplicable == 'yes' ? 'selected' : ''}>YES</option>
+
+													</select>
 												</div>
 
 												<label class="col-form-label col-lg-2" for="mlwfApplicable">MLWF
 													Applicable <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<%-- <input type="text" class="form-control"
 														placeholder="MLWF Applicable" id="mlwfApplicable"
 														name="mlwfApplicable" autocomplete="off"
 														onchange="trim(this)"
-														value="${empAllowanceId.mlwfApplicable}">
+														value="${empAllowanceId.mlwfApplicable}"> --%>
+													<select name="mlwfApplicable" id="mlwfApplicable"
+														data-rel="chosen" class="form-control">
+
+														<option value="no"
+															${empAllowanceId.mlwfApplicable == 'no' ? 'selected' : ''}>NO</option>
+														<option value="yes"
+															${empAllowanceId.mlwfApplicable == 'yes' ? 'selected' : ''}>YES</option>
+
+													</select>
 												</div>
 											</div>
 
@@ -1497,11 +1532,20 @@
 													Applicable <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<%-- <input type="text" class="form-control"
 														value="${empAllowanceId.ptApplicable}"
 														placeholder="PT Applicable" id="ptApplicable"
 														name="ptApplicable" autocomplete="off"
-														onchange="trim(this)">
+														onchange="trim(this)"> --%>
+													<select name="ptApplicable" id="ptApplicable"
+														data-rel="chosen" class="form-control">
+
+														<option value="no"
+															${empAllowanceId.ptApplicable == 'no' ? 'selected' : ''}>NO</option>
+														<option value="yes"
+															${empAllowanceId.ptApplicable == 'yes' ? 'selected' : ''}>YES</option>
+
+													</select>
 												</div>
 
 												<label class="col-form-label col-lg-2" for="salBasis">Salary
@@ -1537,7 +1581,7 @@
 													Date <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control datepickerclass"
 														placeholder="Joining Date" id="joinDate" name="joinDate"
 														autocomplete="off" onchange="trim(this)"
 														value="${empAllowanceId.cmpJoiningDate}">
@@ -1549,7 +1593,7 @@
 													Date <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
+													<input type="text" class="form-control datepickerclass"
 														value="${empAllowanceId.cmpLeavingDate}"
 														placeholder="Leaving Date" id="leaveDate" name="leaveDate"
 														autocomplete="off" onchange="trim(this)">

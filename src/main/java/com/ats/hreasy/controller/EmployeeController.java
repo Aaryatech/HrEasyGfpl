@@ -1042,25 +1042,52 @@ public class EmployeeController {
 
 			double empEsicPer = 0;
 			double employerEsicPer = 0;
-
+			double societyContri = 0;
+			
 			try {
 				empId = Integer.parseInt(request.getParameter("empId"));
 				empSalInfoId = Integer.parseInt(request.getParameter("empSalId"));
-
+			} catch (Exception e) {
+				empSalInfoId = 0;
+			}
+			try {
 				basic = Double.parseDouble(request.getParameter("basic"));
-				pfEmpPer = Double.parseDouble(request.getParameter("pfEmpPer"));
-				pfEmployerPer = Double.parseDouble(request.getParameter("pfEmployerPer"));
-
-				empEsicPer = Double.parseDouble(request.getParameter("empEsicPer"));
-				employerEsicPer = Double.parseDouble(request.getParameter("employerEsicPer"));
-
 			} catch (Exception e) {
 				basic = 0;
+			}
+			try {
+				pfEmpPer = Double.parseDouble(request.getParameter("pfEmpPer"));
+			} catch (Exception e) {
 				pfEmpPer = 0;
-				pfEmployerPer = 0;
-				empSalInfoId = 0;
+			}
+			try {
+				empEsicPer = Double.parseDouble(request.getParameter("empEsicPer"));
+			} catch (Exception e) {
+
 				empEsicPer = 0;
+
+			}
+			try {
+				employerEsicPer = Double.parseDouble(request.getParameter("employerEsicPer"));
+			} catch (Exception e) {
 				employerEsicPer = 0;
+			}
+			try {
+
+				pfEmployerPer = Double.parseDouble(request.getParameter("pfEmployerPer"));
+
+			} catch (Exception e) {
+
+				pfEmployerPer = 0;
+			}
+
+			try {
+
+				societyContri = Double.parseDouble(request.getParameter("societyContri"));
+
+			} catch (Exception e) {
+
+				societyContri = 0;
 			}
 
 			/* if(empIdSal!=null) { */
@@ -1068,7 +1095,7 @@ public class EmployeeController {
 			empSal.setSalaryInfoId(empSalInfoId); // empSal.setSalaryInfoId(empIdSal.getSalaryInfoId());
 			empSal.setEmpId(empId); // empSal.setEmpId(empIdSal.getEmpId());
 			empSal.setBasic(basic);
-			empSal.setSocietyContribution(Double.parseDouble(request.getParameter("societyContri")));
+			empSal.setSocietyContribution(societyContri);
 			empSal.setPfApplicable(request.getParameter("pfApplicable"));
 			empSal.setPfType(request.getParameter("pfType"));
 			empSal.setPfEmpPer(pfEmpPer);
