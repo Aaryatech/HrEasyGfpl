@@ -144,7 +144,7 @@
 									
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="micrCode">MICR Code
-											Name <span style="color:red">* </span>:</label>
+											 <span style="color:red">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${bank.micrCode}"
 												placeholder="Enter MICR Code" id="micrCode"
@@ -156,7 +156,7 @@
 									
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="ifscCode">IFSC Code
-											Name <span style="color:red">* </span>:</label>
+											 <span style="color:red">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${bank.ifscCode}"
 												placeholder="Enter IFSC Code" id="ifscCode"

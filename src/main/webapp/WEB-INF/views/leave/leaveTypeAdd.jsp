@@ -129,7 +129,7 @@
 									
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="leaveTypeTitle">
-											 Title <span style="color:red">* </span>:</label>
+											 Leave Type <span style="color:red">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Leave Type" id="leaveTypeTitle"
@@ -141,10 +141,10 @@
 
 												<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="leaveShortTypeTitle">
-											Short Title <span style="color:red">* </span>:</label>
+											Short Name <span style="color:red">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Enter Leave Short Name " id="leaveShortTypeTitle" 
+												placeholder="Enter Leave Type Short Name " id="leaveShortTypeTitle" 
 												name="leaveShortTypeTitle" autocomplete="off" onchange="trim(this)" oninput="checkUniqueShortName(this.value)" >
 											<span class="validation-invalid-label" id="error_leaveScType"
 												style="display: none;">This field is required.</span>
@@ -238,6 +238,8 @@
 										</div>
 									</div>
 								</form>
+								<p class="desc text-danger fontsize11">Notice : * Fields are
+									mandatory.</p>
 							</div>
 						</div>
 

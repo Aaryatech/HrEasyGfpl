@@ -147,11 +147,11 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="prsnName">Person
+										<label class="col-form-label col-lg-2" for="prsnName">Contact Person
 											Name <span style="color:red">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Location HR Person Name" id="prsnName"
+												placeholder="Contact Person Name" id="prsnName"
 												name="prsnName" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_prsnName"
 												style="display: none;">This field is required.</span>
@@ -205,6 +205,8 @@
 										</div>
 									</div>
 								</form>
+									<p class="desc text-danger fontsize11">Notice : * Fields are
+									mandatory.</p>
 							</div>
 						</div>
 

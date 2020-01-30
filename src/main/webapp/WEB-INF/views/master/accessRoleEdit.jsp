@@ -319,9 +319,9 @@
 										</button>
 										<a
 											href="${pageContext.request.contextPath}/showAccessRoleList"><button
-												type="button" class="btn btn-primary">
+												type="button" class="btn btn-light">
 												<%-- <i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; --%>
-												Cancel
+												Back
 											</button></a>
 									</div>
 								</form>

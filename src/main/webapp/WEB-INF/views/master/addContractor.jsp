@@ -118,7 +118,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="organisation">Organisation
+										<label class="col-form-label col-lg-2" for="organisation">Organization
 											 <span style="color:red">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -309,23 +309,7 @@
 	<!-- /page content -->
 
 	<script>
-	
-	function checkSame(){
-		x=document.getElementById("locName").value;
-		y=document.getElementById("locShortName").value;
-		//alert(x);
-		
-		if(x!== '' && y!== ''){
-			if(x==y){
-				$("#error_sameName").show()
-				document.getElementById("locShortName").value="";
-			}
-			else{
-				$("#error_sameName").hide()
-			}
-	}
-		
-	}
+	 
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 

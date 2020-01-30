@@ -259,7 +259,7 @@
 												style="display: none;">This field is required.</span>
 										</div>
 
-										<label class="col-form-label col-lg-2" for="woRemarks">Details
+										<label class="col-form-label col-lg-2" for="woRemarks">Remark
 											<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-4">
@@ -282,10 +282,12 @@
 											</button>
 											<a
 												href="${pageContext.request.contextPath}/showMstEmpTypeList"><button
-													type="button" class="btn btn-light">Cancel</button></a>
+													type="button" class="btn btn-light">Back</button></a>
 										</div>
 									</div>
 								</form>
+									<p class="desc text-danger fontsize11">Notice : * Fields are
+									mandatory.</p>
 							</div>
 						</div>
 

@@ -17,6 +17,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.AcessController;
@@ -24,6 +25,7 @@ import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Info;
+import com.ats.hreasy.model.LeaveType;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.SelfGroup;
@@ -544,7 +546,7 @@ public class MasterController {
 							.setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getSelftGroupId())));
 				}
 				model.addObject("groupList", locationList);
-				 
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -688,6 +690,40 @@ public class MasterController {
 		}
 
 		return a;
+	}
+
+	@RequestMapping(value = "/checkUniqueField", method = RequestMethod.GET)
+	public @ResponseBody Info checkUniqueDept(HttpServletRequest request, HttpServletResponse response) {
+
+		Info info = new Info();
+		HttpSession session = request.getSession();
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			String valueType = request.getParameter("valueType");
+			String inputValue = request.getParameter("inputValue");
+			int primaryKey = Integer.parseInt(request.getParameter("primaryKey"));
+			int isEdit = Integer.parseInt(request.getParameter("isEdit"));
+			/*
+			 * System.err.println("compId:  " + userObj.getCompanyId());
+			 * System.err.println("valueType:  " + valueType);
+			 */
+			map.add("inputValue", inputValue);
+			map.add("valueType", valueType);
+			map.add("isEditCall", isEdit);
+			map.add("primaryKey", primaryKey);
+			map.add("compId", 1);
+
+			info = Constants.getRestTemplate().postForObject(Constants.url + "checkUniqueDeptDesgn", map, Info.class);
+
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMsg("1");
+			e.printStackTrace();
+		}
+
+		return info;
+
 	}
 
 }

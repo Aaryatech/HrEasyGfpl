@@ -140,8 +140,7 @@ public class HrEasyController {
 		String a = null;
 
 		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-		Info view = AcessController.checkAccess("dsesignationAdd", "showDesignationList", 0, 1, 0, 0,
-				newModuleList);
+		Info view = AcessController.checkAccess("dsesignationAdd", "showDesignationList", 0, 1, 0, 0, newModuleList);
 
 		if (view.isError() == true) {
 
@@ -372,12 +371,10 @@ public class HrEasyController {
 		Info view = AcessController.checkAccess("contractorAdd", "showContractorsList", 0, 1, 0, 0, newModuleList);
 
 		if (view.isError() == true) {
-
-			a = "redirect:/showContractorsList";
+			a = "redirect:/accessDenied";
 
 		} else {
-
-			a = "redirect:/accessDenied";
+			a = "redirect:/showContractorsList";
 
 			try {
 

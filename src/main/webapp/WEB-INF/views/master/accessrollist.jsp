@@ -126,7 +126,7 @@
 												<td>${empTypelist.empTypeRemarks}</td>
 											</c:otherwise>
 										</c:choose>
-										<td class="text-center"><c:if test="${editAccess == 0}">
+										<%-- <td class="text-center"><c:if test="${editAccess == 0}">
 												<a
 													href="${pageContext.request.contextPath}/editAccessRole?empTypeId=${empTypelist.exVar1}"
 													title="Edit"><i class="icon-pencil7"
@@ -137,6 +137,22 @@
 													onClick="return confirm('Are you sure want to delete this record');"
 													title="Delete"><i class="icon-trash"
 													style="color: black;"></i> </a>
+											</c:if></td> --%>
+
+										<td class="text-center"><c:if test="${editAccess == 0}">
+												<a
+													href="${pageContext.request.contextPath}/editAccessRole?empTypeId=${empTypelist.exVar1}"
+													class="list-icons-item text-primary-600"
+													data-popup="tooltip" title="" data-original-title="Edit"><i
+													class="icon-pencil7"></i></a>
+											</c:if> <c:if test="${deleteAccess == 0}">
+
+												<a
+													href="${pageContext.request.contextPath}/deleteAccessRole?empTypeId=${empTypelist.exVar1}"
+													onClick="return confirm('Are you sure want to delete this record');"
+													class="list-icons-item text-danger-600 bootbox_custom"
+													data-popup="tooltip" title="" data-original-title="Edit"><i
+													class="icon-trash"></i></a>
 											</c:if></td>
 									</tr>
 								</c:forEach>

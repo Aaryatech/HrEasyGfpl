@@ -111,7 +111,7 @@
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Employee Type Name" id="empTypeName"
+												placeholder="Role Name" id="empTypeName"
 												name="empTypeName" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_empTypeName"
 												style="display: none;">This field is required.</span>
@@ -124,7 +124,7 @@
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Employee Type Short Name" id="empShortName"
+												placeholder="Role Short Name" id="empShortName"
 												name="empShortName" autocomplete="off" onchange="trim(this)"
 												maxlength="5"> <span
 												class="validation-invalid-label" id="error_empShortName"
@@ -253,7 +253,7 @@
 										</button>
 										<a
 											href="${pageContext.request.contextPath}/showAccessRoleList"><button
-												type="button" class="btn btn-primary">Cancel</button></a>
+												type="button" class="btn btn-light">Back</button></a>
 
 									</div>
 								</form>

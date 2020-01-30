@@ -110,7 +110,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="leaveTypeTitle">
-											Title <span style="color: red">* </span>:
+											 Leave Type  <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -124,12 +124,12 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2"
-											for="leaveShortTypeTitle"> Short Title <span
+											for="leaveShortTypeTitle"> Short Name <span
 											style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Enter Leave Short Name "
+												placeholder="Enter Leave Type Short Name"
 												id="leaveShortTypeTitle" value="${editCompany.lvTitleShort}"
 												name="leaveShortTypeTitle" autocomplete="off"
 												onchange="trim(this)"
@@ -245,6 +245,8 @@
 										</div>
 									</div>
 								</form>
+								<p class="desc text-danger fontsize11">Notice : * Fields are
+									mandatory.</p>
 							</div>
 						</div>
 

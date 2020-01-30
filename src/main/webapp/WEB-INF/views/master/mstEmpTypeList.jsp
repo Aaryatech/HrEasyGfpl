@@ -42,12 +42,13 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">  Employee Type List</h5></td>
+								<td width="60%"><h5 class="card-title">Employee Type
+										List</h5></td>
 								<td width="40%" align="right"><a
 									href="${pageContext.request.contextPath}/mstEmpTypeAdd"
 									class="breadcrumb-elements-item">
-										<button type="button" class="btn btn-primary"> 
-											Add Employee Type</button>
+										<button type="button" class="btn btn-primary">Add
+											Employee Type</button>
 								</a></td>
 							</tr>
 						</table>
@@ -119,41 +120,41 @@
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${locationList.name}</td>
-										<td>${locationList.lmApplicable}</td>
-										<td>${locationList.halfDay}</td>
+										<td>${locationList.lmApplicable==1 ? 'Yes': locationList.lmApplicable==0 ? 'No'  : ''}</td>
+										<td>${locationList.halfDay==1 ? 'Yes': locationList.halfDay==0 ? 'No'  : ''}</td>
 										<td>${locationList.whWork}</td>
-										<td>${locationList.minworkApplicable}</td>
+										<td>${locationList.minworkApplicable==1 ? 'Yes': locationList.minworkApplicable==0 ? 'No'  : ''}</td>
 										<td>${locationList.minWorkHr}</td>
-										<td>${locationList.otApplicable}</td>
-										<td>${locationList.otType}</td>
-										
-											<td>${locationList.details}</td>
-										<%-- <td>${locationList.lmApplicable==1 ? 'Yes': locationList.lmApplicable==2 ? 'No'  : ''}</td>
-										<td>${locationList.halfDay==1 ? 'Yes': locationList.halfDay==2 ? 'No'  : ''}</td>
-										<td>${locationList.whWork==1 ? 'Yes': locationList.whWork==2 ? 'No'  : ''}</td>
-										<td>${locationList.minworkApplicable==1 ? 'Yes': locationList.minworkApplicable==2 ? 'No'  : ''}</td>
-										<td>${locationList.minWorkHr}</td>
-  										<td>${locationList.otApplicable==1 ? 'Yes': locationList.otApplicable==2 ? 'No'  : ''}</td>
-										<td>${locationList.otType==1 ? 'Yes': locationList.otType==2 ? 'No'  : ''}</td> --%>
-									
+										<td>${locationList.otApplicable==1 ? 'Yes': locationList.otApplicable==0 ? 'No'  : ''}</td>
+										<td>${locationList.otType==0 ? 'No': locationList.otType==1.5 ? 'Yes1'  :locationList.otType==1.5 ? 'Yes1.5'  :locationList.otType==2 ? 'Yes2'  : ''}</td>
+										<td>${locationList.details}</td>
+
+
 
 										<td class="text-center"><c:if test="${editAccess == 0}">
+												<%-- <a
+													href="${pageContext.request.contextPath}/editMstType?empTypeId=${locationList.attType}"
+													class="list-icons-item text-primary-600" title="Edit"><i class="icon-pencil7"
+													style="color: black;"></i></a>
+													 --%>
+
 												<a
 													href="${pageContext.request.contextPath}/editMstType?empTypeId=${locationList.attType}"
-													title="Edit"><i class="icon-pencil7"
-													style="color: black;"></i></a>
+													class="list-icons-item text-primary-600"
+													data-popup="tooltip" title="" data-original-title="Edit"><i
+													class="icon-pencil7"></i></a>
 											</c:if> <c:if test="${deleteAccess == 0}">
-											<%-- 	<a
+												<%-- 	<a
 													href="${pageContext.request.contextPath}/deleteLMstEmpType?empTypeId=${locationList.attType}"
 													onClick="return confirm('Are you sure want to delete this record');"
 													title="Delete"><i class="icon-trash"
 													style="color: black;"></i> </a> --%>
-													
-													<a href="javascript:void(0)"
-														class="list-icons-item text-danger-600 bootbox_custom"
-														data-uuid="${locationList.attType}" data-popup="tooltip"
-														title="" data-original-title="Delete"><i
-														class="icon-trash"></i></a>
+
+												<a href="javascript:void(0)"
+													class="list-icons-item text-danger-600 bootbox_custom"
+													data-uuid="${locationList.attType}" data-popup="tooltip"
+													title="" data-original-title="Delete"><i
+													class="icon-trash"></i></a>
 											</c:if></td>
 									</tr>
 								</c:forEach>

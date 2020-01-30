@@ -26,10 +26,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
-
- 
-			</div>
+			<div class="page-header page-header-light"></div>
 			<!-- /page header -->
 
 
@@ -48,21 +45,21 @@
 
 
 						<div class="card">
-							 
-					<div class="card-header header-elements-inline">
- 						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">${title}</h5></td>
-								<td width="40%" align="right">
-							  
-								 <%-- <a
+
+							<div class="card-header header-elements-inline">
+								<table width="100%">
+									<tr width="100%">
+										<td width="60%"><h5 class="card-title">${title}</h5></td>
+										<td width="40%" align="right">
+											<%-- <a
 									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">KRA List </button>
-								</a>  --%></td>
-							</tr>
-						</table>
-					</div>
+								</a>  --%>
+										</td>
+									</tr>
+								</table>
+							</div>
 							<div class="card-body">
 								<%
 									if (session.getAttribute("errorMsg") != null) {
@@ -103,36 +100,42 @@
 								<form
 									action="${pageContext.request.contextPath}/submitInsertDepartment"
 									id="submitInsertLocaion" method="post">
-									<input type="hidden" value="${dept.departId}" id="deptId" name="deptId">
+									<input type="hidden" value="${dept.departId}" id="deptId"
+										name="deptId">
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="desination">Department
-											Name <span style="color:red">* </span>:</label>
+											Name <span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${dept.name}"
 												placeholder="Enter Department" id="desigName"
 												name="deptName" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_designation"
 												style="display: none;">This field is required.</span>
+												
+													<span class="validation-invalid-label" id="error_unique"
+												style="display: none;">Department Name Already Exists.</span>
 										</div>
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="desigShortName">Short Name
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="desigShortName">Short
+											Name <span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Enter Short Name" id="desigShortName" value="${dept.nameSd}"
-												name="deptShortName" autocomplete="off" onchange="trim(this)"
-												maxlength="10"> <span
-												class="validation-invalid-label" id="error_desigShortName"
-												style="display: none;">This field is required.</span>
-												<span
-												class="validation-invalid-label" id="error_sameName"
-												style="display: none;">Department Short Name Can Not be same as Designation Name.</span>
-												
+												placeholder="Enter Short Name" id="desigShortName"
+												value="${dept.nameSd}" name="deptShortName"
+												autocomplete="off" onchange="trim(this)" maxlength="10">
+											<span class="validation-invalid-label"
+												id="error_desigShortName" style="display: none;">This
+												field is required.</span> <span class="validation-invalid-label"
+												id="error_sameName" style="display: none;">Department
+												Short Name Can Not be same as Designation Name.</span>
+
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="remark">Remark
 											: </label>
@@ -146,13 +149,17 @@
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
-										
+
 											<button type="submit" class="btn bg-blue ml-3 legitRipple"
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a href="${pageContext.request.contextPath}/showDepartmentList"><button
-										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Back</button></a>
+											<a
+												href="${pageContext.request.contextPath}/showDepartmentList"><button
+													type="button" class="btn btn-light">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Back
+												</button></a>
 										</div>
 									</div>
 								</form>
@@ -180,23 +187,61 @@
 	<!-- /page content -->
 
 	<script>
-	
-	function checkSame(){
-		x=document.getElementById("locName").value;
-		y=document.getElementById("locShortName").value;
-		//alert(x);
-		
-		if(x!== '' && y!== ''){
-			if(x==y){
-				$("#error_sameName").show()
-				document.getElementById("locShortName").value="";
+		function checkUnique(inputValue, valueType) {
+
+			//alert("Primary key"+primaryKey);
+			var isEdit = 0;
+			var primaryKey = 0;
+			//alert("Is Edit " +isEdit);
+			var valid = false;
+			if (inputValue == '' || inputValue == null) {
+				valid = true;
+			} else {
+				valid = false;
 			}
-			else{
-				$("#error_sameName").hide()
+
+			if (valid == true)
+				$.getJSON('${checkUniqueField}', {
+
+					inputValue : inputValue,
+					valueType : valueType,
+					primaryKey : primaryKey,
+					isEdit : isEdit,
+ 					ajax : 'true',
+
+				}, function(data) {
+
+					//alert("Data  " +JSON.stringify(data));
+					if (data.error == true) {
+
+						document.getElementById("desigName").value = "";
+
+						$("#error_unique").show()
+
+					} else {
+						$("#error_unique").hide()
+					}
+				});
+		}
+	</script>
+
+
+	<script>
+		function checkSame() {
+			x = document.getElementById("locName").value;
+			y = document.getElementById("locShortName").value;
+			//alert(x);
+
+			if (x !== '' && y !== '') {
+				if (x == y) {
+					$("#error_sameName").show()
+					document.getElementById("locShortName").value = "";
+				} else {
+					$("#error_sameName").hide()
+				}
 			}
-	}
-		
-	}
+
+		}
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
@@ -230,55 +275,48 @@
 			return true;
 
 		}
-		$(document)
-				.ready(
-						function($) {
+		$(document).ready(function($) {
 
-							$("#submitInsertLocaion")
-									.submit(
-											function(e) {
-												var isError = false;
-												var errMsg = "";
+			$("#submitInsertLocaion").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
 
-												if (!$("#desigName").val()) {
+				if (!$("#desigName").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_designation").show()
-													//return false;
-												} else {
-													$("#error_designation").hide()
-												}
+					$("#error_designation").show()
+					//return false;
+				} else {
+					$("#error_designation").hide()
+				}
 
-												if (!$("#desigShortName").val()) {
+				if (!$("#desigShortName").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_desigShortName")
-															.show()
+					$("#error_desigShortName").show()
 
-												} else {
-													$("#error_desigShortName")
-															.hide()
-												}
+				} else {
+					$("#error_desigShortName").hide()
+				}
 
-												if (!isError) {
+				if (!isError) {
 
-													var x = true;
-													if (x == true) {
+					var x = true;
+					if (x == true) {
 
-														document
-																.getElementById("submtbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
-												}
-												return false;
-											});
-						});
+						document.getElementById("submtbtn").disabled = true;
+						return true;
+					}
+					//end ajax send this to php page
+				}
+				return false;
+			});
+		});
 		//
 	</script>
-	
+
 	<!-- <script type="text/javascript">
 	$('#submtbtn').on('click', function() {
         swalInit({
