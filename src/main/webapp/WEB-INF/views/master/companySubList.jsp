@@ -109,8 +109,7 @@
 							<tbody>
 
 
-								<c:forEach items="${companyList}" var="list"
-									varStatus="count">
+								<c:forEach items="${companyList}" var="list" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${list.companyName}</td>
@@ -121,15 +120,26 @@
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a
 													href="${pageContext.request.contextPath}/editSubCompanyInfo?compId=${list.exVar1}"
-													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
-													 ></i></a>
-										 	</c:if> <%--<c:if test="${deleteAccess == 0}"
-													<a href="javascript:void(0)"
-													class="list-icons-item text-danger-600 bootbox_custom"
-													data-uuid="${list.exVar1}" data-popup="tooltip"
-													title="" data-original-title="Delete"><i
-													class="icon-trash"></i></a>
-											</c:if> --%></td>
+													class="list-icons-item text-primary-600"
+													data-popup="tooltip" title="" data-original-title="Edit"><i
+													class="icon-pencil7"></i></a>
+											</c:if> <a href="javascript:void(0)"
+											class="list-icons-item text-danger-600 bootbox_custom"
+											data-uuid="${list.exVar1}" data-popup="tooltip" title=""
+											data-original-title="Delete"><i class="icon-trash"></i></a> <c:choose>
+												<c:when test="${list.isActive==1}">
+													<a
+														href="${pageContext.request.contextPath}/activeDeactiveCompany?companyId=${list.exVar1}"><i
+														class="fas fa-toggle-on" title="Active"
+														style="color: green;"> </i> </a>
+												</c:when>
+												<c:otherwise>
+													<a
+														href="${pageContext.request.contextPath}/activeDeactiveCompany?companyId=${list.exVar1}"><i
+														class="fas fa-toggle-off" title="Deactive"
+														style="color: red;"></i> </a>
+												</c:otherwise>
+											</c:choose></td>
 									</tr>
 								</c:forEach>
 
@@ -161,7 +171,8 @@
 						'click',
 						function() {
 							var uuid = $(this).data("uuid") // will return the number 123
-										bootbox.confirm({
+							bootbox
+									.confirm({
 										title : 'Confirm ',
 										message : 'Are you sure you want to delete selected records ?',
 										buttons : {

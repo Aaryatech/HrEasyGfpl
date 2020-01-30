@@ -20,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.common.VpsImageUpload;
+import com.ats.hreasy.model.AccessRightModule;
+import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.MstCompanySub;
 
 @Controller
@@ -97,6 +100,64 @@ public class CompanySubController {
 		return model;
 	}
 
+	@RequestMapping(value = "/deleteSubCompany", method = RequestMethod.GET)
+	public String deleteSubCompany(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String a = null;
+
+		a = "redirect:/showSubCompanyList";
+		try {
+			String base64encodedString = request.getParameter("companyId");
+			String companyId = FormValidation.DecodeKey(base64encodedString);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", companyId);
+
+			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteSubCompany", map, Info.class);
+
+			if (res.isError()) {
+				session.setAttribute("errorMsg", "Failed to Delete");
+			} else {
+				session.setAttribute("successMsg", "Deleted Successfully");
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+
+		return a;
+	}
+
+	@RequestMapping(value = "/activeDeactiveCompany", method = RequestMethod.GET)
+	public String activeDeactiveCompany(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String a = null;
+
+		a = "redirect:/showSubCompanyList";
+		try {
+			String base64encodedString = request.getParameter("companyId");
+			String companyId = FormValidation.DecodeKey(base64encodedString);
+			System.err.println("id is"+companyId);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("compId", Integer.parseInt(companyId));
+			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/changeCompActive", map, Info.class);
+
+			if (res.isError()) {
+				session.setAttribute("errorMsg", "Failed to Update");
+			} else {
+				session.setAttribute("successMsg", "Updated Successfully");
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+
+		return a;
+	}
+
 	@RequestMapping(value = "/companySubAdd", method = RequestMethod.GET)
 	public ModelAndView locationAdd(HttpServletRequest request, HttpServletResponse response) {
 
@@ -159,7 +220,7 @@ public class CompanySubController {
 			company.setPanNo(request.getParameter("pan"));
 
 			company.setIsParentCompany("yes");
-			if (comp != null) {
+			if (compId != 0) {
 
 				company.setLogo(comp.getLogo());
 				company.setLetterHead(comp.getLetterHead());
@@ -234,11 +295,11 @@ public class CompanySubController {
 
 			MstCompanySub company = Constants.getRestTemplate().postForObject(Constants.url + "/getSubCompanyById", map,
 					MstCompanySub.class);
-			
-			
 
 			model = new ModelAndView("master/companySubAdd");
 			model.addObject("company", company);
+
+			System.out.println(" company : " + company.toString());
 		} catch (Exception e) {
 			System.out.println("Exception in addCompanyInfo : " + e.getMessage());
 			e.printStackTrace();
@@ -268,9 +329,9 @@ public class CompanySubController {
 					MstCompanySub.class);
 
 			company.setCompanyId(compId);
- 			company.setIsParentCompany("yes");
-			if (comp != null) {
-				
+			company.setIsParentCompany("yes");
+			if (compId != 0) {
+
 				company.setCompanyName(comp.getCompanyName());
 				company.setNameSd(comp.getNameSd());
 				company.setLongAdd1(comp.getLongAdd1());
@@ -286,7 +347,6 @@ public class CompanySubController {
 				company.setReportHeader(comp.getReportHeader());
 				company.setReportFooter(comp.getReportFooter());
 
-				
 				company.setCpName(comp.getCpName());
 				company.setCpDesignation(comp.getCpDesignation());
 				company.setCpMobile(comp.getCpMobile());
@@ -299,7 +359,7 @@ public class CompanySubController {
 				company.setIsActive(comp.getIsActive());
 
 			}
-			
+
 			company.setTanNo(request.getParameter("tanNo"));
 			company.setPtNo(request.getParameter("ptNo"));
 			company.setServiceTaxNo(request.getParameter("serviceTaxNo"));
@@ -364,7 +424,7 @@ public class CompanySubController {
 			MstCompanySub comp = Constants.getRestTemplate().postForObject(Constants.url + "/getSubCompanyById", map,
 					MstCompanySub.class);
 			company.setCompanyId(compId);
-			if (comp != null) {
+			if (compId != 0) {
 
 				company.setCompanyName(comp.getCompanyName());
 				company.setNameSd(comp.getNameSd());
@@ -377,7 +437,6 @@ public class CompanySubController {
 				company.setFaxNo(comp.getFaxNo());
 				company.setPanNo(comp.getPanNo());
 
-				
 				company.setLogo(comp.getLogo());
 				company.setLetterHead(comp.getLetterHead());
 				company.setReportHeader(comp.getReportHeader());
@@ -460,50 +519,50 @@ public class CompanySubController {
 					MstCompanySub.class);
 
 			company.setCompanyId(compId);
-			if (comp != null) {
-			company.setCompanyName(comp.getCompanyName());
-			company.setNameSd(comp.getNameSd());
-			company.setLongAdd1(comp.getLongAdd1());
-			company.setLongAdd2(comp.getLongAdd2());
-			company.setLongAdd3(comp.getLongAdd3());
-			company.setShortAddress(comp.getShortAddress());
-			company.setLandline1(comp.getLandline1());
-			company.setLandline2(comp.getLandline2());
-			company.setFaxNo(comp.getFaxNo());
-			company.setPanNo(comp.getPanNo());
+			if (compId != 0) {
+				company.setCompanyName(comp.getCompanyName());
+				company.setNameSd(comp.getNameSd());
+				company.setLongAdd1(comp.getLongAdd1());
+				company.setLongAdd2(comp.getLongAdd2());
+				company.setLongAdd3(comp.getLongAdd3());
+				company.setShortAddress(comp.getShortAddress());
+				company.setLandline1(comp.getLandline1());
+				company.setLandline2(comp.getLandline2());
+				company.setFaxNo(comp.getFaxNo());
+				company.setPanNo(comp.getPanNo());
 
-			company.setIsParentCompany("yes");
-			company.setLogo(comp.getLogo());
-			company.setLetterHead(comp.getLetterHead());
-			company.setReportHeader(comp.getReportHeader());
-			company.setReportFooter(comp.getReportFooter());
+				company.setIsParentCompany("yes");
+				company.setLogo(comp.getLogo());
+				company.setLetterHead(comp.getLetterHead());
+				company.setReportHeader(comp.getReportHeader());
+				company.setReportFooter(comp.getReportFooter());
 
-			company.setTanNo(comp.getTanNo());
-			company.setPtNo(comp.getPtNo());
-			company.setServiceTaxNo(comp.getServiceTaxNo());
-			company.setVatNo(comp.getVatNo());
-			company.setCstNo(comp.getCstNo());
-			company.setGstNo(comp.getGstNo());
-			company.setIsPfApplicable(comp.getIsPfApplicable());
-			company.setPfNo(comp.getPfNo());
-			company.setPfCoverageDate(comp.getPfCoverageDate());
-			company.setPfSignatory1(comp.getPfSignatory1());
-			company.setPfSignatory2(comp.getPfSignatory2());
-			company.setPfSignatory3(comp.getPfSignatory3());
-			company.setIsEsicApplicable(comp.getIsEsicApplicable());
-			company.setEsicNo(comp.getEsicNo());
-			company.setEsicCoverageDate(comp.getEsicCoverageDate());
-			company.setEsicSignatory1(comp.getEsicSignatory1());
-			company.setEsicSignatory2(comp.getEsicSignatory2());
-			company.setEsicSignatory3(comp.getEsicSignatory3());
+				company.setTanNo(comp.getTanNo());
+				company.setPtNo(comp.getPtNo());
+				company.setServiceTaxNo(comp.getServiceTaxNo());
+				company.setVatNo(comp.getVatNo());
+				company.setCstNo(comp.getCstNo());
+				company.setGstNo(comp.getGstNo());
+				company.setIsPfApplicable(comp.getIsPfApplicable());
+				company.setPfNo(comp.getPfNo());
+				company.setPfCoverageDate(comp.getPfCoverageDate());
+				company.setPfSignatory1(comp.getPfSignatory1());
+				company.setPfSignatory2(comp.getPfSignatory2());
+				company.setPfSignatory3(comp.getPfSignatory3());
+				company.setIsEsicApplicable(comp.getIsEsicApplicable());
+				company.setEsicNo(comp.getEsicNo());
+				company.setEsicCoverageDate(comp.getEsicCoverageDate());
+				company.setEsicSignatory1(comp.getEsicSignatory1());
+				company.setEsicSignatory2(comp.getEsicSignatory2());
+				company.setEsicSignatory3(comp.getEsicSignatory3());
 
-			company.setCpName(comp.getCpName());
-			company.setCpDesignation(comp.getCpDesignation());
-			company.setCpMobile(comp.getCpMobile());
-			company.setCmpBankAccount(comp.getCmpBankAccount());
-			company.setCpEmail1(comp.getCpEmail1());
-			company.setCpEmail2(comp.getCpEmail2());
-			company.setIsActive(comp.getIsActive());
+				company.setCpName(comp.getCpName());
+				company.setCpDesignation(comp.getCpDesignation());
+				company.setCpMobile(comp.getCpMobile());
+				company.setCmpBankAccount(comp.getCmpBankAccount());
+				company.setCpEmail1(comp.getCpEmail1());
+				company.setCpEmail2(comp.getCpEmail2());
+				company.setIsActive(comp.getIsActive());
 			}
 
 			company.setManagerUnderAct(request.getParameter("manager"));
@@ -515,7 +574,7 @@ public class CompanySubController {
 			company.setExVar1("NA");
 			company.setExVar2("NA");
 			company.setMakerEnterDdatetime(currDate);
-		
+
 			MstCompanySub saveComp = Constants.getRestTemplate().postForObject(Constants.url + "/saveSubNewCompany",
 					company, MstCompanySub.class);
 
@@ -560,53 +619,52 @@ public class CompanySubController {
 
 			company.setCompanyId(compId);
 
-			
-			if (comp != null) {
-			company.setCompanyName(comp.getCompanyName());
-			company.setNameSd(comp.getNameSd());
-			company.setLongAdd1(comp.getLongAdd1());
-			company.setLongAdd2(comp.getLongAdd2());
-			company.setLongAdd3(comp.getLongAdd3());
-			company.setShortAddress(comp.getShortAddress());
-			company.setLandline1(comp.getLandline1());
-			company.setLandline2(comp.getLandline2());
-			company.setFaxNo(comp.getFaxNo());
-			company.setPanNo(comp.getPanNo());
+			if (compId != 0) {
+				company.setCompanyName(comp.getCompanyName());
+				company.setNameSd(comp.getNameSd());
+				company.setLongAdd1(comp.getLongAdd1());
+				company.setLongAdd2(comp.getLongAdd2());
+				company.setLongAdd3(comp.getLongAdd3());
+				company.setShortAddress(comp.getShortAddress());
+				company.setLandline1(comp.getLandline1());
+				company.setLandline2(comp.getLandline2());
+				company.setFaxNo(comp.getFaxNo());
+				company.setPanNo(comp.getPanNo());
 
-			company.setIsParentCompany("yes");
-			company.setLetterHead(comp.getLetterHead());
-			company.setReportHeader(comp.getReportHeader());
-			company.setReportFooter(comp.getReportFooter());
+				company.setIsParentCompany("yes");
+				company.setLetterHead(comp.getLetterHead());
+				company.setReportHeader(comp.getReportHeader());
+				company.setReportFooter(comp.getReportFooter());
 
-			company.setTanNo(comp.getTanNo());
-			company.setPtNo(comp.getPtNo());
-			company.setServiceTaxNo(comp.getServiceTaxNo());
-			company.setVatNo(comp.getVatNo());
-			company.setCstNo(comp.getCstNo());
-			company.setGstNo(comp.getGstNo());
-			company.setIsPfApplicable(comp.getIsPfApplicable());
-			company.setPfNo(comp.getPfNo());
-			company.setPfCoverageDate(comp.getPfCoverageDate());
-			company.setPfSignatory1(comp.getPfSignatory1());
-			company.setPfSignatory2(comp.getPfSignatory2());
-			company.setPfSignatory3(comp.getPfSignatory3());
-			company.setIsEsicApplicable(comp.getIsEsicApplicable());
-			company.setEsicNo(comp.getEsicNo());
-			company.setEsicCoverageDate(comp.getEsicCoverageDate());
-			company.setEsicSignatory1(comp.getEsicSignatory1());
-			company.setEsicSignatory2(comp.getEsicSignatory2());
-			company.setEsicSignatory3(comp.getEsicSignatory3());
+				company.setTanNo(comp.getTanNo());
+				company.setPtNo(comp.getPtNo());
+				company.setServiceTaxNo(comp.getServiceTaxNo());
+				company.setVatNo(comp.getVatNo());
+				company.setCstNo(comp.getCstNo());
+				company.setGstNo(comp.getGstNo());
+				company.setIsPfApplicable(comp.getIsPfApplicable());
+				company.setPfNo(comp.getPfNo());
+				company.setPfCoverageDate(comp.getPfCoverageDate());
+				company.setPfSignatory1(comp.getPfSignatory1());
+				company.setPfSignatory2(comp.getPfSignatory2());
+				company.setPfSignatory3(comp.getPfSignatory3());
+				company.setIsEsicApplicable(comp.getIsEsicApplicable());
+				company.setEsicNo(comp.getEsicNo());
+				company.setEsicCoverageDate(comp.getEsicCoverageDate());
+				company.setEsicSignatory1(comp.getEsicSignatory1());
+				company.setEsicSignatory2(comp.getEsicSignatory2());
+				company.setEsicSignatory3(comp.getEsicSignatory3());
 
-			company.setCpName(comp.getCpName());
-			company.setCpDesignation(comp.getCpDesignation());
-			company.setCpMobile(comp.getCpMobile());
-			company.setCmpBankAccount(comp.getCmpBankAccount());
-			company.setCpEmail1(comp.getCpEmail1());
-			company.setCpEmail2(comp.getCpEmail2());
+				company.setCpName(comp.getCpName());
+				company.setCpDesignation(comp.getCpDesignation());
+				company.setCpMobile(comp.getCpMobile());
+				company.setCmpBankAccount(comp.getCmpBankAccount());
+				company.setCpEmail1(comp.getCpEmail1());
+				company.setCpEmail2(comp.getCpEmail2());
 
-			company.setManagerUnderAct(comp.getManagerUnderAct());
-			company.setManagerAddress(comp.getManagerAddress());
-			company.setIsActive(comp.getIsActive());
+				company.setManagerUnderAct(comp.getManagerUnderAct());
+				company.setManagerAddress(comp.getManagerAddress());
+				company.setIsActive(comp.getIsActive());
 			}
 			String img = logo.get(0).getOriginalFilename();
 			// logo = request.getParameter("logo");
@@ -647,4 +705,5 @@ public class CompanySubController {
 		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId;
 
 	}
+
 }
