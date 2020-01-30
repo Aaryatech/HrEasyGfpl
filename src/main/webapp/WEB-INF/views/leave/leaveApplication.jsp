@@ -1167,8 +1167,10 @@
 													$("#error_noOfDaysExclude")
 															.hide()
 												}
-
-												if ($("#leaveLimit").val() == 1) {
+												 
+												if ($("#leaveLimit").val() == 1
+														&& $("#leaveTypeId")
+																.val() != 2) {
 													//alert("Hii..");
 													if (checkDays(parseFloat($(
 															"#noOfDays").val())) == true) {
@@ -1182,6 +1184,8 @@
 														$("#error_insuf")
 																.hide()
 													}
+												} else {
+													$("#error_insuf").hide()
 												}
 
 												if (!$("#leaveRemark").val()) {

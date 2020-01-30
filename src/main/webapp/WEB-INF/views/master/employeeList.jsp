@@ -136,11 +136,11 @@
 											</c:if>
 											
 											
-												<a
+												<%-- <a
 													href="${pageContext.request.contextPath}/employeeDetails?empId=${empList.exVar1}"
 													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
 													 ></i></a>
-													 </td>
+													 </td> --%>
 									</tr>
 								</c:forEach>
 

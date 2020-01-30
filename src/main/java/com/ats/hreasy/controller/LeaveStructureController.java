@@ -132,7 +132,8 @@ public class LeaveStructureController {
 				if (ret == false) {
 
 					LeaveStructureHeader head = new LeaveStructureHeader();
-
+					List<LeaveStructureDetails> detailList = new ArrayList<>();
+					
 					head.setCompanyId(1);
 					head.setDelStatus(1);
 					head.setIsActive(1);
@@ -140,7 +141,32 @@ public class LeaveStructureController {
 					head.setMakerDatetime(dateTime);
 					head.setMakerUserId(1);
 
-					List<LeaveStructureDetails> detailList = new ArrayList<>();
+					LeaveStructureDetails detail = new LeaveStructureDetails();
+					detail.setDelStatus(1);
+					detail.setExInt1(0);
+					detail.setExInt2(0);
+					detail.setExVar1("NA");
+					detail.setExVar2("NA");
+					detail.setIsActive(1); 
+					detail.setLvsAllotedLeaves(0); 
+					detail.setLvTypeId(1);
+					detail.setMakerUserId(userObj.getUserId());
+					detail.setMakerDatetime(dateTime);
+					detailList.add(detail);
+					
+					detail = new LeaveStructureDetails();
+					detail.setDelStatus(1);
+					detail.setExInt1(0);
+					detail.setExInt2(0);
+					detail.setExVar1("NA");
+					detail.setExVar2("NA");
+					detail.setIsActive(1); 
+					detail.setLvsAllotedLeaves(0); 
+					detail.setLvTypeId(2);
+					detail.setMakerUserId(userObj.getUserId());
+					detail.setMakerDatetime(dateTime);
+					detailList.add(detail);
+					
 					for (int i = 0; i < leaveTypeList.size(); i++) {
 
 						int noOfLeaves = 0;
@@ -152,7 +178,7 @@ public class LeaveStructureController {
 						}
 
 						/* if (noOfLeaves > 0) { */
-						LeaveStructureDetails detail = new LeaveStructureDetails();
+						detail = new LeaveStructureDetails();
 						detail.setDelStatus(1);
 						detail.setExInt1(0);
 						detail.setExInt2(0);
@@ -160,8 +186,7 @@ public class LeaveStructureController {
 						detail.setExVar2("NA");
 						detail.setIsActive(1);
 
-						detail.setLvsAllotedLeaves(Integer
-								.parseInt(request.getParameter("noOfLeaves" + leaveTypeList.get(i).getLvTypeId())));
+						detail.setLvsAllotedLeaves(noOfLeaves);
 
 						detail.setLvTypeId(leaveTypeList.get(i).getLvTypeId());
 						detail.setMakerUserId(userObj.getUserId());

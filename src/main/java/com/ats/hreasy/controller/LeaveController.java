@@ -63,6 +63,7 @@ import com.ats.hreasy.model.LeaveSummary;
 import com.ats.hreasy.model.LeaveTrail;
 import com.ats.hreasy.model.LeaveType;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.PayableDayAndPresentDays;
 import com.ats.hreasy.model.Setting;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -676,6 +677,23 @@ public class LeaveController {
 				model.addObject("lvsId", leaveHistoryList.get(0).getLvsId());
 			}
 
+			map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			map.add("fromDate",calculateYear.getCalYrFromDate());
+			map.add("toDate",calculateYear.getCalYrToDate());
+			PayableDayAndPresentDays payableDayAndPresentDays = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getPayableDayandPresentDayByEmpId", map, PayableDayAndPresentDays.class);
+			
+			if(payableDayAndPresentDays.isError()==false) {
+				for(int i=0 ; i<leaveHistoryList.size() ; i++) {
+					if(leaveHistoryList.get(i).getLvTypeId()==1) {
+						
+						leaveHistoryList.get(i).setLvsAllotedLeaves((int) (payableDayAndPresentDays.getPayableDays()/24));
+						break;
+					}
+				}
+			}
+			
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empId", empId);
 

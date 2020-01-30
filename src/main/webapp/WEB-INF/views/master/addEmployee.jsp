@@ -1671,7 +1671,8 @@
 													</div> --%>
 
 													<div class="form-group row">
-														<label class="col-form-label col-lg-2" for="doc0">
+														<label class="col-form-label col-lg-2"
+															for="doc${empDocList.doctypeId}">
 															${empDocList.doctypeName} </label>
 														<div class="col-lg-5">
 
