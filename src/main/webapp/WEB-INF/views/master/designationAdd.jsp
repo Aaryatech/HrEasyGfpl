@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +10,7 @@
 </head>
 
 <body>
+	<c:url var="checkUniqueField" value="/checkUniqueField"></c:url>
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -110,9 +113,12 @@
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${desig.name}"
 												placeholder="Enter Designation" id="desigName"
-												name="desigName" autocomplete="off" onchange="trim(this)">
+												name="desigName" autocomplete="off"  onchange="checkUnique(this.value,2)">
 											<span class="validation-invalid-label" id="error_designation"
 												style="display: none;">This field is required.</span>
+												
+												<span class="validation-invalid-label" id="error_unique"
+												style="display: none;">Designation Name Already Exists.</span>
 										</div>
 									</div>
 
@@ -178,6 +184,54 @@
 
 	</div>
 	<!-- /page content -->
+	
+	
+	<script>
+		function checkUnique(inputValue, valueType) {
+ 
+			var primaryKey = ${desig.desigId};
+		//	alert("Primary key"+primaryKey);
+			var isEdit = 0;
+			if (primaryKey > 0) {
+				isEdit = 1;
+			}
+		//	alert("Is Edit " +isEdit);
+			var valid = false;
+			if (inputValue == '' || inputValue == null) {
+				valid = false;
+			} else {
+				valid = true;
+			}
+			//alert(valid);
+			if (valid == true){
+				
+				
+				$.getJSON('${checkUniqueField}', {
+
+					inputValue : inputValue,
+					valueType : valueType,
+					primaryKey : primaryKey,
+					isEdit : isEdit,
+ 					ajax : 'true',
+
+				}, function(data) {
+
+					//alert("Data  " +JSON.stringify(data));
+					if (data.error == true) {
+
+						document.getElementById("desigName").value = "";
+
+						$("#error_unique").show()
+
+					} else {
+						$("#error_unique").hide()
+					}
+				});
+			}
+		}
+	</script>
+
+
 
 	<script>
 	

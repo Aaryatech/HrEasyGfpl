@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +10,7 @@
 </head>
 
 <body>
+	<c:url var="checkUniqueField" value="/checkUniqueField"></c:url>
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -109,7 +112,7 @@
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${dept.name}"
 												placeholder="Enter Department" id="desigName"
-												name="deptName" autocomplete="off" onchange="trim(this)">
+												name="deptName" autocomplete="off" onchange="checkUnique(this.value,1)">
 											<span class="validation-invalid-label" id="error_designation"
 												style="display: none;">This field is required.</span>
 												
@@ -188,19 +191,24 @@
 
 	<script>
 		function checkUnique(inputValue, valueType) {
-
-			//alert("Primary key"+primaryKey);
+ 
+			var primaryKey = ${dept.departId};
+		//	alert("Primary key"+primaryKey);
 			var isEdit = 0;
-			var primaryKey = 0;
-			//alert("Is Edit " +isEdit);
+			if (primaryKey > 0) {
+				isEdit = 1;
+			}
+		//	alert("Is Edit " +isEdit);
 			var valid = false;
 			if (inputValue == '' || inputValue == null) {
-				valid = true;
-			} else {
 				valid = false;
+			} else {
+				valid = true;
 			}
-
-			if (valid == true)
+			//alert(valid);
+			if (valid == true){
+				
+				
 				$.getJSON('${checkUniqueField}', {
 
 					inputValue : inputValue,
@@ -222,6 +230,7 @@
 						$("#error_unique").hide()
 					}
 				});
+			}
 		}
 	</script>
 
