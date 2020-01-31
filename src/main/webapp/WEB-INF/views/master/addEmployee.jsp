@@ -131,8 +131,8 @@
 											<input type="hidden" id="empId" name="empId"
 												value="${emp.empId}">
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="empCode">Emp
-													Code <span style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="empCode">Emp
+													Code <span  class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -314,11 +314,24 @@
 													<select name="empType"
 														data-placeholder="Select Employee Type" id="empType"
 														class="form-control form-control-select2 select2-hidden-accessible">
-														<option value="1" ${emp.empType==1 ? selected : ''}>Weekly
+
+														<c:forEach items="${empTypeList}" var="empTypeList">
+															<c:choose>
+																<c:when test="${empTypeList.empTypeId==emp.empType}">
+																	<option selected="selected"
+																		value="${empTypeList.empTypeId}">${empTypeList.name}</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="${empTypeList.empTypeId}">${empTypeList.name}</option>
+																</c:otherwise>
+															</c:choose>
+
+														</c:forEach>
+														<%-- <option value="1" ${emp.empType==1 ? selected : ''}>Weekly
 															Co Off</option>
 														<option value="2" ${emp.empType==2 ? selected : ''}>OT
 															Applicable</option>
-														<option value="3" ${emp.empType==3 ? selected : ''}>Other</option>
+														<option value="3" ${emp.empType==3 ? selected : ''}>Other</option> --%>
 													</select> <span class="hidedefault   validation-invalid-label"
 														style="display: none;" id="error_empType">This
 														field is required.</span>
@@ -1780,7 +1793,8 @@
 
 											</div>
 
-											<<!-- div class="form-group text-center">
+											<
+											<!-- div class="form-group text-center">
 												<div class="col-lg-12">
 													<button type="reset" class="btn btn-light legitRipple">Reset</button>
 													<button type="button"
