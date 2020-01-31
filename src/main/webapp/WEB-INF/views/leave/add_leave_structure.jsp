@@ -156,7 +156,7 @@
 										<div class="form-group row">
 											<label class="col-md-2" for="prsnName">${leaveType.lvTitle} <span style="color:red">* </span>: </label>
 											<div class="col-md-6">
-												<input type="text" class="form-control"
+												<input type="text" class="form-control numbersOnly"
 													placeholder="No.of Leaves Peryear"
 													id="noOfLeaves${leaveType.lvTypeId}" value="0"
 													name="noOfLeaves${leaveType.lvTypeId}" autocomplete="off"
