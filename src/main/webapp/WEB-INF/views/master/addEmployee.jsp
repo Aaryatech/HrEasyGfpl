@@ -578,9 +578,19 @@
 											</div>
 
 
+											<!-- <div class="form-group text-center">
+												<div class="col-lg-12">
+													<button type="reset" class="btn btn-light legitRipple">Reset</button>
 
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
+													<button type="button"
+														class=" btn btn-info next   btn_go_next_tab "
+														id="btn_go_next_tab">
+														Next Step <i class="icon-arrow-right8 ml-2 "></i>
+													</button>
+												</div>
+											</div> -->
+											<div class="form-group text-center">
+												<div class="col-lg-12">
 													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 													<button type="submit" class="btn bg-blue ml-3 legitRipple"
 														id="submtbtn">
@@ -877,9 +887,26 @@
 												</div>
 											</div>
 
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
+											<!-- <div class="form-group text-center">
+												<div class="col-lg-12">
+													<button type="reset" class="btn btn-light legitRipple">Reset</button>
+													<button type="button"
+														class=" btn btn-info prev text-center  btn_go_prev_tab "
+														id="btn_go_prev_tab2">
+														<i class="icon-arrow-left8  mr-2 "></i> Previous Step
+													</button>
+													<button type="button"
+														class=" btn btn-info next   btn_go_next_tab "
+														id="btn_go_next_tab">
+														Next Step <i class="icon-arrow-right8 ml-2 "></i>
+													</button>
+												</div>
+											</div> -->
+
+											<div class="form-group text-center">
+												<div class="col-lg-12">
 													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+
 													<button type="submit" class="btn bg-blue ml-3 legitRipple"
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
@@ -889,6 +916,7 @@
 															type="button" class="btn btn-light">Back</button></a> <input
 														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
 														type="hidden" id="emailExist" name="emailExist">
+
 												</div>
 											</div>
 										</form>
@@ -1241,8 +1269,23 @@
 												</div>
 											</div>
 
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
+											<!-- <div class="form-group text-center">
+												<div class="col-lg-12">
+													<button type="reset" class="btn btn-light legitRipple">Reset</button>
+													<button type="button"
+														class=" btn btn-info prev text-center  btn_go_prev_tab "
+														id="btn_go_prev_tab2">
+														<i class="icon-arrow-left8  mr-2 "></i> Previous Step
+													</button>
+													<button type="button"
+														class=" btn btn-info next   btn_go_next_tab "
+														id="btn_go_next_tab">
+														Next Step <i class="icon-arrow-right8 ml-2 "></i>
+													</button>
+												</div>
+											</div> -->
+											<div class="form-group text-center">
+												<div class="col-lg-12">
 													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 													<button type="submit" class="btn bg-blue ml-3 legitRipple"
 														id="submtbtn">
@@ -1253,6 +1296,7 @@
 															type="button" class="btn btn-light">Back</button></a> <input
 														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
 														type="hidden" id="emailExist" name="emailExist">
+
 												</div>
 											</div>
 										</form>
@@ -1315,8 +1359,23 @@
 												</div>
 											</div>
 
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
+											<!-- <div class="form-group text-center">
+												<div class="col-lg-12">
+													<button type="reset" class="btn btn-light legitRipple">Reset</button>
+													<button type="button"
+														class=" btn btn-info prev text-center  btn_go_prev_tab "
+														id="btn_go_prev_tab2">
+														<i class="icon-arrow-left8  mr-2 "></i> Previous Step
+													</button>
+													<button type="button"
+														class=" btn btn-info next   btn_go_next_tab "
+														id="btn_go_next_tab">
+														Next Step <i class="icon-arrow-right8 ml-2 "></i>
+													</button>
+												</div>
+											</div> -->
+											<div class="form-group text-center">
+												<div class="col-lg-12">
 													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 													<button type="submit" class="btn bg-blue ml-3 legitRipple"
 														id="submtbtn">
@@ -1327,6 +1386,7 @@
 															type="button" class="btn btn-light">Back</button></a> <input
 														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
 														type="hidden" id="emailExist" name="emailExist">
+
 												</div>
 											</div>
 										</form>
@@ -1651,35 +1711,44 @@
 														class="form-control form-control-select2 select2-hidden-accessible">
 
 														<option value="0"
-															${empAllowanceId.leavingReasonEsic=='0' ? 'selected' : ''}>0-Without Reason</option>
+															${empAllowanceId.leavingReasonEsic=='0' ? 'selected' : ''}>0-Without
+															Reason</option>
 														<option value="1"
-															${empAllowanceId.leavingReasonEsic=='1' ? 'selected' : ''}>1-On Leave</option>
+															${empAllowanceId.leavingReasonEsic=='1' ? 'selected' : ''}>1-On
+															Leave</option>
 														<option value="2"
-															${empAllowanceId.leavingReasonEsic=='2' ? 'selected' : ''}>2-Self Service</option>
+															${empAllowanceId.leavingReasonEsic=='2' ? 'selected' : ''}>2-Self
+															Service</option>
 														<option value="3"
 															${empAllowanceId.leavingReasonEsic=='3' ? 'selected' : ''}>3-Retired</option>
 														<option value="4"
-															${empAllowanceId.leavingReasonEsic=='4' ? 'selected' : ''}>4-Out of coverage</option>
- 
+															${empAllowanceId.leavingReasonEsic=='4' ? 'selected' : ''}>4-Out
+															of coverage</option>
+
 														<option value="5"
 															${empAllowanceId.leavingReasonEsic=='5' ? 'selected' : ''}>5-Expired</option>
 														<option value="6"
-															${empAllowanceId.leavingReasonEsic=='6' ? 'selected' : ''}>6-Non Implemented Area</option>
+															${empAllowanceId.leavingReasonEsic=='6' ? 'selected' : ''}>6-Non
+															Implemented Area</option>
 														<option value="7"
-															${empAllowanceId.leavingReasonEsic=='7' ? 'selected' : ''}>7-Compliance by immediate Employer</option>
+															${empAllowanceId.leavingReasonEsic=='7' ? 'selected' : ''}>7-Compliance
+															by immediate Employer</option>
 														<option value="8"
-															${empAllowanceId.leavingReasonEsic=='8' ? 'selected' : ''}>8-Suspension of work</option>
+															${empAllowanceId.leavingReasonEsic=='8' ? 'selected' : ''}>8-Suspension
+															of work</option>
 														<option value="9"
 															${empAllowanceId.leavingReasonEsic=='9' ? 'selected' : ''}>9-Strike/Lockout</option>
 
 														<option value="10"
 															${empAllowanceId.leavingReasonEsic=='10' ? 'selected' : ''}>10-Retrenchment</option>
 														<option value="11"
-															${empAllowanceId.leavingReasonEsic=='11' ? 'selected' : ''}>11-No Work</option>
+															${empAllowanceId.leavingReasonEsic=='11' ? 'selected' : ''}>11-No
+															Work</option>
 														<option value="12"
-															${empAllowanceId.leavingReasonEsic=='12' ? 'selected' : ''}>12-Does not belong to this Employer</option>
+															${empAllowanceId.leavingReasonEsic=='12' ? 'selected' : ''}>12-Does
+															not belong to this Employer</option>
 
- 
+
 													</select>
 												</div>
 
@@ -1687,7 +1756,7 @@
 												<label class="col-form-label col-lg-2" for="lrForPF">LR
 													For PF <span style="color: red"></span>:
 												</label>
-												  
+
 												<div class="col-lg-4">
 													<select name="lrForPF"
 														data-placeholder="Select Uniform Size" id="lrForPF"
@@ -1700,20 +1769,34 @@
 														<option value="2"
 															${empAllowanceId.leavingReasonPf=='3' ? 'selected' : ''}>R-Retirement</option>
 														<option value="3"
-															${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>D-Death in Service</option>
+															${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>D-Death
+															in Service</option>
 														<option value="4"
-															${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>P-Permanent Disablement</option>
- 
+															${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>P-Permanent
+															Disablement</option>
+
 													</select>
 												</div>
-												
+
 											</div>
 
-
-
-
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
+											<<!-- div class="form-group text-center">
+												<div class="col-lg-12">
+													<button type="reset" class="btn btn-light legitRipple">Reset</button>
+													<button type="button"
+														class=" btn btn-info prev text-center  btn_go_prev_tab "
+														id="btn_go_prev_tab2">
+														<i class="icon-arrow-left8  mr-2 "></i> Previous Step
+													</button>
+													<button type="button"
+														class=" btn btn-info next   btn_go_next_tab "
+														id="btn_go_next_tab">
+														Next Step <i class="icon-arrow-right8 ml-2 "></i>
+													</button>
+												</div>
+											</div> -->
+											<div class="form-group text-center">
+												<div class="col-lg-12">
 													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 													<button type="submit" class="btn bg-blue ml-3 legitRipple"
 														id="submtbtn">
@@ -1724,6 +1807,7 @@
 															type="button" class="btn btn-light">Back</button></a> <input
 														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
 														type="hidden" id="emailExist" name="emailExist">
+
 												</div>
 											</div>
 										</form>
@@ -1836,9 +1920,18 @@
 												</div>
 
 											</c:forEach>
-
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
+											<!-- <div class="form-group text-center">
+												<div class="col-lg-12">
+													<button type="reset" class="btn btn-light legitRipple">Reset</button>
+													<button type="button"
+														class=" btn btn-info prev text-center  btn_go_prev_tab "
+														id="btn_go_prev_tab2">
+														<i class="icon-arrow-left8  mr-2 "></i> Previous Step
+													</button>
+												</div>
+											</div> -->
+											<div class="form-group text-center">
+												<div class="col-lg-12">
 													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 													<button type="submit" class="btn bg-blue ml-3 legitRipple"
 														id="submtbtn">
@@ -2332,6 +2425,24 @@
 	
 	</script> -->
 	<script type="text/javascript">
+		$(document).ready(
+				function($) {
+
+					//btn_go_next_tab
+					$(".btn_go_next_tab").click(
+							function(e) {
+								$('.nav-tabs > .nav-item > .active').parent()
+										.next('li').find('a').trigger('click');
+
+							});
+					$(".btn_go_prev_tab").click(
+							function(e) {
+								$('.nav-tabs > .nav-item > .active').parent()
+										.prev('li').find('a').trigger('click');
+
+							});
+
+				});
 		// Single picker
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
