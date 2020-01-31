@@ -102,7 +102,7 @@
 										href="#highlighted-tab1" class="nav-link active"
 										data-toggle="tab">Company Information </br>Step 1
 									</a></li>
-									<!-- <li class="nav-item text-center"><a
+									<li class="nav-item text-center"><a
 										href="#highlighted-tab2" class="nav-link" data-toggle="tab">Company
 											Logo </br>Step 2
 									</a></a></li>
@@ -118,7 +118,7 @@
 									<li class="nav-item text-center"><a
 										href="#highlighted-tab5" class="nav-link" data-toggle="tab">Manager
 											Details</br>Step 5
-									</a></li> -->
+									</a></li>
 									<!-- <li class="nav-item text-center"><a
 										href="#highlighted-tab6" class="nav-link" data-toggle="tab">Employee Documents
 											</br>Step 6

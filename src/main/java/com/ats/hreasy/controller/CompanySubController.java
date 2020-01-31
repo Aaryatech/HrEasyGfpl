@@ -137,7 +137,7 @@ public class CompanySubController {
 		try {
 			String base64encodedString = request.getParameter("companyId");
 			String companyId = FormValidation.DecodeKey(base64encodedString);
-			System.err.println("id is"+companyId);
+			System.err.println("id is" + companyId);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("compId", Integer.parseInt(companyId));
@@ -189,15 +189,26 @@ public class CompanySubController {
 
 	@RequestMapping(value = "/insertSubCompanyInfo", method = RequestMethod.POST)
 	public String insertSubCompanyInfo(HttpServletRequest request, HttpServletResponse response) {
+
+		String a = new String();
 		try {
+
 			HttpSession session = request.getSession();
 			MstCompanySub company = new MstCompanySub();
 			int compId = 0;
 			try {
 				compId = Integer.parseInt(request.getParameter("companyId"));
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				compId = 0;
+				
+			}
+			
+			if(compId!=0) {
+				a = "redirect:/editSubCompanyInfo?compId=" + encryptCompId;
+			}else {
+				a = "redirect:/showSubCompanyList";
 			}
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -278,7 +289,7 @@ public class CompanySubController {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId;
+		return a;
 
 	}
 
@@ -296,7 +307,7 @@ public class CompanySubController {
 			MstCompanySub company = Constants.getRestTemplate().postForObject(Constants.url + "/getSubCompanyById", map,
 					MstCompanySub.class);
 
-			model = new ModelAndView("master/companySubAdd");
+			model = new ModelAndView("master/companySubEdit");
 			model.addObject("company", company);
 
 			System.out.println(" company : " + company.toString());
