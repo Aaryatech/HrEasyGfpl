@@ -47,7 +47,7 @@
 							<div class="card-header header-elements-inline">
 								<table width="100%">
 									<tr width="100%">
-										<td width="60%"><h5 class="card-title">Sub Company
+										<td width="60%"><h5 class="card-title">Company
 												Details</h5></td>
 										<td width="40%" align="right">
 											<%-- <a
@@ -102,27 +102,25 @@
 										href="#highlighted-tab1" class="nav-link active"
 										data-toggle="tab">Company Information </br>Step 1
 									</a></li>
-									<!-- <li class="nav-item text-center"><a
-										href="#highlighted-tab2" class="nav-link" data-toggle="tab">Company
-											Logo </br>Step 2
-									</a></a></li>
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab3" class="nav-link" data-toggle="tab">Other
-											Information </br>Step 3
-									</a></li>
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab4" class="nav-link" data-toggle="tab">Bank
-											Details </br>Step 4
-									</a></li>
+									<c:if test="${company.companyId!=0}">
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab2" class="nav-link" data-toggle="tab">Company
+												Logo </br>Step 2
+										</a></a></li>
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab3" class="nav-link" data-toggle="tab">Other
+												Information </br>Step 3
+										</a></li>
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab4" class="nav-link" data-toggle="tab">Bank
+												Details </br>Step 4
+										</a></li>
 
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab5" class="nav-link" data-toggle="tab">Manager
-											Details</br>Step 5
-									</a></li> -->
-									<!-- <li class="nav-item text-center"><a
-										href="#highlighted-tab6" class="nav-link" data-toggle="tab">Employee Documents
-											</br>Step 6
-									</a></li> -->
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab5" class="nav-link" data-toggle="tab">Manager
+												Details</br>Step 5
+										</a></li>
+									</c:if>
 
 								</ul>
 
@@ -220,7 +218,8 @@
 
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="landline1">Landine No. 1 <span style="color: red">* </span>:
+												<label class="col-form-label col-lg-2" for="landline1">Landine
+													No. 1 <span style="color: red">* </span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
@@ -233,7 +232,8 @@
 												</div>
 
 
-												<label class="col-form-label col-lg-2" for="landline2">Landine No. 2 <span style="color: red"></span>:
+												<label class="col-form-label col-lg-2" for="landline2">Landine
+													No. 2 <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
@@ -256,7 +256,8 @@
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${company.faxNo}" placeholder="Fax" id="fax"
-														name="fax" autocomplete="off" onchange="trim(this)">
+														maxlength="6" name="fax" autocomplete="off"
+														onchange="trim(this)">
 												</div>
 
 												<label class="col-form-label col-lg-2" for="pan">PAN
@@ -308,12 +309,11 @@
 
 
 												<label class="col-form-label col-lg-2" for="pan">Logo
-													 <span style="color: red">*</span>:
+													<span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="file" id="logo" name="logo"
-														style="padding-bottom: 8px"
-														class="form-control"
+														style="padding-bottom: 8px" class="form-control"
 														onchange="readURL(this); return Upload(logo)"
 														title="Only jpg,png,gif">${company.logo}
 												</div>
@@ -348,7 +348,7 @@
 									</div>
 									<!-- ********************************************Step 3********************************************** -->
 									<div class="tab-pane fade" id="highlighted-tab3">
-										
+
 
 										<form
 											action="${pageContext.request.contextPath}/insertSubCompanyFundsInfo"
@@ -448,84 +448,96 @@
 												</label>
 												<div class="col-lg-4">
 													<select name="isPfApplicable"
+														onchange="setDate()"
 														data-placeholder="Select Designation" id="isPfApplicable"
 														class="form-control form-control-select21 select2-hidden-accessible1">
+
+														<option value="2"
+															${company.isPfApplicable==2 ? 'selected' : ''}>Please
+															Select</option>
 														<option value="1"
 															${company.isPfApplicable==1 ? 'selected' : ''}>Yes</option>
 														<option value="0"
 															${company.isPfApplicable==0 ? 'selected' : ''}>No</option>
-													</select>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="pfNo">PF
-													No. <span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.pfNo}" id="pfNo" autocomplete="off"
-														onchange="trim(this)" placeholder="PF No." name="pfNo">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_pfNo">This field
-														is required.</span>
-												</div>
-											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="pfCoveregDate">PF
-													Coverage Date<span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control datepickerclass"
-														value="${company.pfCoverageDate}" id="pfCoveregDate"
-														onchange="trim(this)" placeholder="PF Coverage Date"
-														name="pfCoveregDate" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_pfCoveregDate">This
+													</select> <span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_isPfApplicable">This
 														field is required.</span>
-												</div>
 
-												<label class="col-form-label col-lg-2" for="ptNo">PF
-													Signatory 1 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.pfSignatory1}" id="pfSignatory1"
-														autocomplete="off" onchange="trim(this)"
-														placeholder="PF Signatory1" name="pfSignatory1"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
 												</div>
 											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="pfSignatory2">PF
-													Signatory2 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.pfSignatory2}" id="pfSignatory2"
-														onchange="trim(this)" placeholder="PF Signatory2"
-														name="pfSignatory2" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_tanNo">This field
-														is required.</span>
+											<div id="abc" style="display: none;">
+												<div class="form-group row">
+													<label class="col-form-label col-lg-2" for="pfNo">PF
+														No. <span style="color: red">*</span>:
+													</label>
+													<div class="col-lg-4">
+														<input type="text" class="form-control"
+															value="${company.pfNo}" id="pfNo" autocomplete="off"
+															onchange="trim(this)" placeholder="PF No." name="pfNo">
+														<span class="hidedefault  validation-invalid-label"
+															style="display: none;" id="error_pfNo">This field
+															is required.</span>
+													</div>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="pfSignatory3">PF
-													Signatory3 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.pfSignatory3}" id="pfSignatory3"
-														autocomplete="off" onchange="trim(this)"
-														placeholder="PF Signatory3" name="pfSignatory3"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
+												<div class="form-group row">
+
+													<label class="col-form-label col-lg-2" for="pfCoveregDate">PF
+														Coverage Date<span style="color: red">*</span>:
+													</label>
+													<div class="col-lg-4">
+														<input type="text" class="form-control datepickerclass"
+															value="${company.pfCoverageDate}" id="pfCoveregDate"
+															onchange="trim(this)" placeholder="PF Coverage Date"
+															name="pfCoveregDate" autocomplete="off"> <span
+															class="hidedefault  validation-invalid-label"
+															style="display: none;" id="error_pfCoveregDate">This
+															field is required.</span>
+													</div>
+
+													<label class="col-form-label col-lg-2" for="ptNo">PF
+														Signatory 1 <span style="color: red"></span>:
+													</label>
+													<div class="col-lg-4">
+														<input type="text" class="form-control"
+															value="${company.pfSignatory1}" id="pfSignatory1"
+															autocomplete="off" onchange="trim(this)"
+															placeholder="PF Signatory1" name="pfSignatory1">
+														<span class="hidedefault  validation-invalid-label"
+															style="display: none;" id="error_ptNo">This field
+															is required.</span>
+													</div>
 												</div>
+
+												<div class="form-group row">
+
+													<label class="col-form-label col-lg-2" for="pfSignatory2">PF
+														Signatory2 <span style="color: red"></span>:
+													</label>
+													<div class="col-lg-4">
+														<input type="text" class="form-control"
+															value="${company.pfSignatory2}" id="pfSignatory2"
+															onchange="trim(this)" placeholder="PF Signatory2"
+															name="pfSignatory2" autocomplete="off"> <span
+															class="hidedefault  validation-invalid-label"
+															style="display: none;" id="error_tanNo">This field
+															is required.</span>
+													</div>
+
+													<label class="col-form-label col-lg-2" for="pfSignatory3">PF
+														Signatory3 <span style="color: red"></span>:
+													</label>
+													<div class="col-lg-4">
+														<input type="text" class="form-control"
+															value="${company.pfSignatory3}" id="pfSignatory3"
+															autocomplete="off" onchange="trim(this)"
+															placeholder="PF Signatory3" name="pfSignatory3">
+														<span class="hidedefault  validation-invalid-label"
+															style="display: none;" id="error_ptNo">This field
+															is required.</span>
+													</div>
+												</div>
+
 											</div>
 
 											<div class="form-group row">
@@ -537,87 +549,101 @@
 												<div class="col-lg-4">
 													<select name="isEsicApplicable"
 														data-placeholder="Select Designation"
-														id="isEsicApplicable"
+														id="isEsicApplicable" onchange="setDateEsic()"
 														class="form-control form-control-select21 select2-hidden-accessible1">
+
+														<option value="2"
+															${company.isEsicApplicable==2 ? 'selected' : ''}>Please
+															Select</option>
 														<option value="1"
 															${company.isEsicApplicable==1 ? 'selected' : ''}>Yes</option>
 														<option value="0"
-															${company.isEsicApplicable==1 ? 'selected' : ''}>No</option>
-													</select>
+															${company.isEsicApplicable==0 ? 'selected' : ''}>No</option>
+													</select> <span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_isEsicApplicable">This
+														field is required.</span>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="esicNo">ESIC
-													No. <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.esicNo}" id="esicNo" autocomplete="off"
-														onchange="trim(this)" placeholder="ESIC No." name="esicNo">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
-												</div>
+
 											</div>
 
-											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2"
-													for="esicCoverageDate">ESIC Coverage Date <span
-													style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control datepickerclass"
-														value="${company.esicCoverageDate}" id="esicCoverageDate"
-														 placeholder="PF Signatory2"
-														name="esicCoverageDate"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_tanNo">This field
-														is required.</span>
+											<div id="xyz" style="display: none;">
+
+												<div class="form-group row">
+
+													<label class="col-form-label col-lg-2" for="esicNo">ESIC
+														No. <span style="color: red">*</span>:
+													</label>
+													<div class="col-lg-4">
+														<input type="text" class="form-control"
+															value="${company.esicNo}" id="esicNo" autocomplete="off"
+															onchange="trim(this)" placeholder="ESIC No."
+															name="esicNo"> <span
+															class="hidedefault  validation-invalid-label"
+															style="display: none;" id="error_esicNo">This
+															field is required.</span>
+													</div>
 												</div>
-												
-												 
-										
+												<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="esicSignatory1">ESIC
-													Signatory 1 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.esicSignatory1}" id="esicSignatory1"
-														autocomplete="off" onchange="trim(this)"
-														placeholder="ESIC Signatory1" name="esicSignatory1">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
+													<label class="col-form-label col-lg-2"
+														for="esicCoverageDate">ESIC Coverage Date <span
+														style="color: red">*</span>:
+													</label>
+													<div class="col-lg-4">
+														<input type="text" class="form-control datepickerclass"
+															value="${company.esicCoverageDate}" id="esicCoverageDate"
+															placeholder="PF Signatory2" name="esicCoverageDate">
+														<span class="hidedefault  validation-invalid-label"
+															style="display: none;" id="error_esicCoverageDate">This
+															field is required.</span>
+													</div>
+
+
+
+
+													<label class="col-form-label col-lg-2" for="esicSignatory1">ESIC
+														Signatory 1 <span style="color: red"></span>:
+													</label>
+													<div class="col-lg-4">
+														<input type="text" class="form-control"
+															value="${company.esicSignatory1}" id="esicSignatory1"
+															autocomplete="off" onchange="trim(this)"
+															placeholder="ESIC Signatory1" name="esicSignatory1">
+														<span class="hidedefault  validation-invalid-label"
+															style="display: none;" id="error_ptNo">This field
+															is required.</span>
+													</div>
 												</div>
-											</div>
 
-											<div class="form-group row">
+												<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="esicSignatory2">ESIC
-													Signatory2 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.esicSignatory2}" id="esicSignatory2"
-														onchange="trim(this)" placeholder="ESIC Signatory2"
-														name="esicSignatory2" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_tanNo">This field
-														is required.</span>
-												</div>
+													<label class="col-form-label col-lg-2" for="esicSignatory2">ESIC
+														Signatory2 <span style="color: red"></span>:
+													</label>
+													<div class="col-lg-4">
+														<input type="text" class="form-control"
+															value="${company.esicSignatory2}" id="esicSignatory2"
+															onchange="trim(this)" placeholder="ESIC Signatory2"
+															name="esicSignatory2" autocomplete="off"> <span
+															class="hidedefault  validation-invalid-label"
+															style="display: none;" id="error_tanNo">This field
+															is required.</span>
+													</div>
 
-												<label class="col-form-label col-lg-2" for="esicSignatory3">ESIC
-													Signatory3 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.esicSignatory3}" id="esicSignatory1"
-														autocomplete="off" onchange="trim(this)"
-														placeholder="ESIC Signatory3" name="esicSignatory1">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
+													<label class="col-form-label col-lg-2" for="esicSignatory3">ESIC
+														Signatory3 <span style="color: red"></span>:
+													</label>
+													<div class="col-lg-4">
+														<input type="text" class="form-control"
+															value="${company.esicSignatory3}" id="esicSignatory1"
+															autocomplete="off" onchange="trim(this)"
+															placeholder="ESIC Signatory3" name="esicSignatory1">
+														<span class="hidedefault  validation-invalid-label"
+															style="display: none;" id="error_ptNo">This field
+															is required.</span>
+													</div>
 												</div>
 											</div>
 
@@ -849,10 +875,79 @@
 	<!-- /page content -->
 
 
+
+	<script type="text/javascript">
+		function setDate() {
+
+			alert("hii");
+
+				var value = document.getElementById("isPfApplicable").value;
+
+			if (value == 1) {
+
+				$("#abc").show()
+			} else {
+
+				$("#abc").hide()
+			}
+
+		}
+	</script>
+
+
+	<script type="text/javascript">
+		function setDateEsic() {
+
+			var value = document.getElementById("isEsicApplicable").value;
+
+			if (value == 1) {
+
+				$("#xyz").show()
+			} else {
+
+				$("#xyz").hide()
+			}
+
+		}
+	</script>
+
+	<script type="text/javascript">
+		function setDateEsicOnload() {
+
+			var isEsicApplicable = $
+			{
+				company.isEsicApplicable
+			}
+			;
+			var isPfApplicable = $
+			{
+				company.isPfApplicable
+			}
+			;
+			//alert("Value " + value)
+			if (isEsicApplicable == 1) {
+
+				$("#xyz").show()
+			} else {
+
+				$("#xyz").hide()
+			}
+
+			if (isPfApplicable == 1) {
+
+				$("#abc").show()
+			} else {
+
+				$("#abc").hide()
+			}
+
+		}
+	</script>
+
 	<script
 		src="${pageContext.request.contextPath}/resources/global_assets/js/footercommonjs.js"></script>
-		
-		<script type="text/javascript">
+
+	<script type="text/javascript">
 		// Single picker
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
@@ -992,24 +1087,72 @@
 					$("#error_tanNo").hide()
 				}
 
-				if (!$("#pfNo").val()) {
+				var x = document.getElementById("isPfApplicable").value;
+
+				if (!$("#isPfApplicable").val() || parseInt(x) == 2) {
 
 					isError = true;
 
-					$("#error_pfNo").show()
+					$("#error_isPfApplicable").show()
 
 				} else {
-					$("#error_pfNo").hide()
+					$("#error_isPfApplicable").hide()
 				}
 
-				if (!$("#pfCoveregDate").val()) {
+				if ($("#isPfApplicable").val() == 1) {
+					if (!$("#pfNo").val()) {
+
+						isError = true;
+
+						$("#error_pfNo").show()
+
+					} else {
+						$("#error_pfNo").hide()
+					}
+
+					if (!$("#pfCoveregDate").val()) {
+
+						isError = true;
+
+						$("#error_pfCoveregDate").show()
+
+					} else {
+						$("#error_pfCoveregDate").hide()
+					}
+				}
+
+				var y = document.getElementById("isEsicApplicable").value;
+
+				if (!$("#isEsicApplicable").val() || parseInt(y) == 2) {
 
 					isError = true;
 
-					$("#error_pfCoveregDate").show()
+					$("#error_isEsicApplicable").show()
 
 				} else {
-					$("#error_pfCoveregDate").hide()
+					$("#error_isEsicApplicable").hide()
+				}
+
+				if ($("#isEsicApplicable").val() == 1) {
+					if (!$("#esicNo").val()) {
+
+						isError = true;
+
+						$("#error_esicNo").show()
+
+					} else {
+						$("#error_esicNo").hide()
+					}
+
+					if (!$("#esicCoverageDate").val()) {
+
+						isError = true;
+
+						$("#error_esicCoverageDate").show()
+
+					} else {
+						$("#error_esicCoverageDate").hide()
+					}
 				}
 
 				if (!isError) {
@@ -1117,8 +1260,8 @@
 		});
 	</script>
 
-	
-	 
+
+
 
 	<script type="text/javascript">
 		function show(input) {

@@ -1,6 +1,7 @@
 package com.ats.hreasy.controller;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
@@ -101,6 +103,8 @@ public class CompanySubController {
 		return model;
 	}
 
+	
+			
 	@RequestMapping(value = "/deleteSubCompany", method = RequestMethod.GET)
 	public String deleteSubCompany(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String a = null;
@@ -111,14 +115,17 @@ public class CompanySubController {
 			String companyId = FormValidation.DecodeKey(base64encodedString);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("companyId", companyId);
+			map.add("compId", companyId);
+			map.add("companyId", 1);
+			
+			
 
 			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteSubCompany", map, Info.class);
 
 			if (res.isError()) {
-				session.setAttribute("errorMsg", "Failed to Delete");
+				session.setAttribute("errorMsg", res.getMsg());
 			} else {
-				session.setAttribute("successMsg", "Deleted Successfully");
+				session.setAttribute("successMsg", res.getMsg());
 
 			}
 
@@ -142,12 +149,14 @@ public class CompanySubController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("compId", Integer.parseInt(companyId));
+ 			map.add("companyId", 1);
+			
 			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/changeCompActive", map, Info.class);
 
 			if (res.isError()) {
-				session.setAttribute("errorMsg", "Failed to Update");
+				session.setAttribute("errorMsg",res.getMsg());
 			} else {
-				session.setAttribute("successMsg", "Updated Successfully");
+				session.setAttribute("successMsg", res.getMsg());
 
 			}
 
@@ -308,7 +317,7 @@ public class CompanySubController {
 			MstCompanySub company = Constants.getRestTemplate().postForObject(Constants.url + "/getSubCompanyById", map,
 					MstCompanySub.class);
 
-			model = new ModelAndView("master/companySubEdit");
+			model = new ModelAndView("master/companySubAdd");
 			model.addObject("company", company);
 
 			System.out.println(" company : " + company.toString());
@@ -379,18 +388,24 @@ public class CompanySubController {
 			company.setCstNo(request.getParameter("cstNo"));
 			company.setGstNo(request.getParameter("gstNo"));
 			company.setIsPfApplicable(request.getParameter("isPfApplicable"));
-			company.setPfNo(request.getParameter("pfNo"));
-			company.setPfCoverageDate(request.getParameter("pfCoveregDate"));
-			company.setPfSignatory1(request.getParameter("pfSignatory1"));
-			company.setPfSignatory2(request.getParameter("pfSignatory2"));
-			company.setPfSignatory3(request.getParameter("pfSignatory3"));
+			
+			if(Integer.parseInt(request.getParameter("isPfApplicable"))==1) {
+				company.setPfNo(request.getParameter("pfNo"));
+				company.setPfCoverageDate(request.getParameter("pfCoveregDate"));
+				company.setPfSignatory1(request.getParameter("pfSignatory1"));
+				company.setPfSignatory2(request.getParameter("pfSignatory2"));
+				company.setPfSignatory3(request.getParameter("pfSignatory3"));
+			}
+			
 			company.setIsEsicApplicable(Integer.parseInt(request.getParameter("isEsicApplicable")));
+			if(Integer.parseInt(request.getParameter("isEsicApplicable"))==1) {
+			
 			company.setEsicNo(request.getParameter("esicNo"));
 			company.setEsicCoverageDate(request.getParameter("esicCoverageDate"));
 			company.setEsicSignatory1(request.getParameter("esicSignatory1"));
 			company.setEsicSignatory2(request.getParameter("esicSignatory2"));
 			company.setEsicSignatory3(request.getParameter("esicSignatory3"));
-
+			}
 			company.setDelStatus(1);
 			company.setExInt1(0);
 			company.setExInt2(0);
@@ -413,7 +428,7 @@ public class CompanySubController {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/editCompanyInfo?compId=" + encryptCompId;
+		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId;
 
 	}
 

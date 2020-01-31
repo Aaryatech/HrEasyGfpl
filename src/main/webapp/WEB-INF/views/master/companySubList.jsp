@@ -42,13 +42,13 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Sub Company
+								<td width="60%"><h5 class="card-title">Company
 										List</h5></td>
 								<td width="40%" align="right"><c:if test="${addAccess==0}">
 										<a href="${pageContext.request.contextPath}/companySubAdd"
 											class="breadcrumb-elements-item">
 											<button type="button" class="btn btn-primary">Add
-												Sub Company</button>
+												  Company</button>
 										</a>
 									</c:if></td>
 							</tr>
@@ -187,7 +187,7 @@
 										},
 										callback : function(result) {
 											if (result) {
-												location.href = "${pageContext.request.contextPath}/deleteDepartment?deptId="
+												location.href = "${pageContext.request.contextPath}/deleteSubCompany?companyId="
 														+ uuid;
 
 											}
