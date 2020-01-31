@@ -126,7 +126,7 @@
 										<td>${locationList.minworkApplicable==1 ? 'Yes': locationList.minworkApplicable==0 ? 'No'  : ''}</td>
 										<td>${locationList.minWorkHr}</td>
 										<td>${locationList.otApplicable==1 ? 'Yes': locationList.otApplicable==0 ? 'No'  : ''}</td>
-										<td>${locationList.otType==0 ? 'No': locationList.otType==1.5 ? 'Yes1'  :locationList.otType==1.5 ? 'Yes1.5'  :locationList.otType==2 ? 'Yes2'  : ''}</td>
+										<td>${locationList.otType==0 ? 'No': locationList.otType==1 ? 'Yes1'  :locationList.otType==1.5 ? 'Yes1.5'  :locationList.otType==2 ? 'Yes2'  : ''}</td>
 										<td>${locationList.details}</td>
 
 

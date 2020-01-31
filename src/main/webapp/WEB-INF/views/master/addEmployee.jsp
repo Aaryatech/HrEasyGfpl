@@ -192,7 +192,7 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control "
-														readonly="readonly" value="GFPL">
+														readonly="readonly" value="${comp.companyName}">
 												</div>
 
 												<label class="col-form-label col-lg-2" for="locId">Location
@@ -455,7 +455,7 @@
 
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="pan">Accessable
+												<label class="col-form-label col-lg-2" for="pan">Accessible
 													Location<span style="color: red">*</span>:
 												</label>
 												<div class="col-lg-4">
@@ -508,7 +508,7 @@
 												<div class="form-group row">
 
 													<label class="col-form-label col-lg-2" for="hoddeptId">
-														HOD of Department <span style="color: red"></span>:
+														Department <span style="color: red"></span>:
 													</label>
 													<div class="col-lg-4">
 														<select name="hoddeptId"
@@ -537,6 +537,48 @@
 											</div>
 
 
+
+											<div class="form-group row">
+												<label class="col-form-label col-lg-2" for="subCmpId">
+													Sub Company <span style="color: red">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<select name="subCmpId"
+														data-placeholder="Select Sub Company" id="subCmpId"
+														class="form-control form-control-select2 select2-hidden-accessible">
+
+														<c:forEach items="${companySubList}" var="companySubList">
+															<c:choose>
+																<c:when test="${companySubList.companyId==emp.subCmpId}">
+																	<option selected="selected"
+																		value="${companySubList.companyId}">${companySubList.companyName}</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="${companySubList.companyId}">${companySubList.companyName}</option>
+																</c:otherwise>
+															</c:choose>
+														</c:forEach>
+													</select> <span class="hidedefault   validation-invalid-label"
+														style="display: none;" id="error_subCmpId">This
+														field is required.</span>
+												</div>
+
+												<label class="col-form-label col-lg-2" for="plCalcBase">Basic
+													Day <span style="color: red">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control"
+														placeholder="Basic Day" id="plCalcBase" name="plCalcBase"
+														autocomplete="off" value="${emp.plCalcBase}"
+														onchange="trim(this)"> <span
+														class="hidedefault   validation-invalid-label"
+														id="error_plCalcBase" style="display: none;">This
+														field is required.</span>
+												</div>
+											</div>
+
+
+
 											<div class="form-group row mb-0">
 												<div class="col-lg-10 ml-lg-auto">
 													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
@@ -546,12 +588,9 @@
 													</button>
 													<a
 														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-primary">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
-														</button></a> <input type="hidden" id="mobile1Exist"
-														name="mobile1Exist"><input type="hidden"
-														id="emailExist" name="emailExist">
+															type="button" class="btn btn-light">Back</button></a> <input
+														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+														type="hidden" id="emailExist" name="emailExist">
 												</div>
 											</div>
 										</form>
@@ -847,12 +886,9 @@
 													</button>
 													<a
 														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-primary">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
-														</button></a> <input type="hidden" id="mobile1Exist"
-														name="mobile1Exist"><input type="hidden"
-														id="emailExist" name="emailExist">
+															type="button" class="btn btn-light">Back</button></a> <input
+														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+														type="hidden" id="emailExist" name="emailExist">
 												</div>
 											</div>
 										</form>
@@ -1214,12 +1250,9 @@
 													</button>
 													<a
 														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-primary">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
-														</button></a> <input type="hidden" id="mobile1Exist"
-														name="mobile1Exist"><input type="hidden"
-														id="emailExist" name="emailExist">
+															type="button" class="btn btn-light">Back</button></a> <input
+														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+														type="hidden" id="emailExist" name="emailExist">
 												</div>
 											</div>
 										</form>
@@ -1291,12 +1324,9 @@
 													</button>
 													<a
 														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-primary">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
-														</button></a> <input type="hidden" id="mobile1Exist"
-														name="mobile1Exist"><input type="hidden"
-														id="emailExist" name="emailExist">
+															type="button" class="btn btn-light">Back</button></a> <input
+														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+														type="hidden" id="emailExist" name="emailExist">
 												</div>
 											</div>
 										</form>
@@ -1612,26 +1642,75 @@
 											</div>
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="salBasis">LR
+												<label class="col-form-label col-lg-2" for="lrEsic">LR
 													For ESIC <span style="color: red"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${empAllowanceId.leavingReasonEsic}"
-														placeholder="LR For ESIC" id="lrEsic" name="lrEsic"
-														autocomplete="off" onchange="trim(this)">
+													<select name="lrEsic"
+														data-placeholder="Select Uniform Size" id="lrEsic"
+														class="form-control form-control-select2 select2-hidden-accessible">
+
+														<option value="0"
+															${empAllowanceId.leavingReasonEsic=='0' ? 'selected' : ''}>0-Without Reason</option>
+														<option value="1"
+															${empAllowanceId.leavingReasonEsic=='1' ? 'selected' : ''}>1-On Leave</option>
+														<option value="2"
+															${empAllowanceId.leavingReasonEsic=='2' ? 'selected' : ''}>2-Self Service</option>
+														<option value="3"
+															${empAllowanceId.leavingReasonEsic=='3' ? 'selected' : ''}>3-Retired</option>
+														<option value="4"
+															${empAllowanceId.leavingReasonEsic=='4' ? 'selected' : ''}>4-Out of coverage</option>
+ 
+														<option value="5"
+															${empAllowanceId.leavingReasonEsic=='5' ? 'selected' : ''}>5-Expired</option>
+														<option value="6"
+															${empAllowanceId.leavingReasonEsic=='6' ? 'selected' : ''}>6-Non Implemented Area</option>
+														<option value="7"
+															${empAllowanceId.leavingReasonEsic=='7' ? 'selected' : ''}>7-Compliance by immediate Employer</option>
+														<option value="8"
+															${empAllowanceId.leavingReasonEsic=='8' ? 'selected' : ''}>8-Suspension of work</option>
+														<option value="9"
+															${empAllowanceId.leavingReasonEsic=='9' ? 'selected' : ''}>9-Strike/Lockout</option>
+
+														<option value="10"
+															${empAllowanceId.leavingReasonEsic=='10' ? 'selected' : ''}>10-Retrenchment</option>
+														<option value="11"
+															${empAllowanceId.leavingReasonEsic=='11' ? 'selected' : ''}>11-No Work</option>
+														<option value="12"
+															${empAllowanceId.leavingReasonEsic=='12' ? 'selected' : ''}>12-Does not belong to this Employer</option>
+
+ 
+													</select>
 												</div>
+
 
 												<label class="col-form-label col-lg-2" for="lrForPF">LR
 													For PF <span style="color: red"></span>:
 												</label>
+												  
 												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														placeholder="LR For PF" id="lrForPF" name="lrForPF"
-														autocomplete="off" onchange="trim(this)"
-														value="${empAllowanceId.leavingReasonPf}">
+													<select name="lrForPF"
+														data-placeholder="Select Uniform Size" id="lrForPF"
+														class="form-control form-control-select2 select2-hidden-accessible">
+
+														<option value="0"
+															${empAllowanceId.leavingReasonPf=='1' ? 'selected' : ''}>C-Cessation</option>
+														<option value="1"
+															${empAllowanceId.leavingReasonPf=='2' ? 'selected' : ''}>S-Superannuation</option>
+														<option value="2"
+															${empAllowanceId.leavingReasonPf=='3' ? 'selected' : ''}>R-Retirement</option>
+														<option value="3"
+															${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>D-Death in Service</option>
+														<option value="4"
+															${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>P-Permanent Disablement</option>
+ 
+													</select>
 												</div>
+												
 											</div>
+
+
+
 
 											<div class="form-group row mb-0">
 												<div class="col-lg-10 ml-lg-auto">
@@ -1642,12 +1721,9 @@
 													</button>
 													<a
 														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-primary">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
-														</button></a> <input type="hidden" id="mobile1Exist"
-														name="mobile1Exist"><input type="hidden"
-														id="emailExist" name="emailExist">
+															type="button" class="btn btn-light">Back</button></a> <input
+														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+														type="hidden" id="emailExist" name="emailExist">
 												</div>
 											</div>
 										</form>
@@ -1770,12 +1846,9 @@
 													</button>
 													<a
 														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-primary">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
-														</button></a> <input type="hidden" id="mobile1Exist"
-														name="mobile1Exist"><input type="hidden"
-														id="emailExist" name="emailExist">
+															type="button" class="btn btn-light">Back</button></a> <input
+														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+														type="hidden" id="emailExist" name="emailExist">
 												</div>
 											</div>
 										</form>
@@ -1866,6 +1939,28 @@
 											function(e) {
 												var isError = false;
 												var errMsg = "";
+
+												if (!$("#plCalcBase").val()) {
+
+													isError = true;
+
+													$("#error_plCalcBase")
+															.show()
+
+												} else {
+													$("#error_plCalcBase")
+															.hide()
+												}
+
+												if (!$("#subCmpId").val()) {
+
+													isError = true;
+
+													$("#error_subCmpId").show()
+
+												} else {
+													$("#error_subCmpId").hide()
+												}
 
 												if (!$("#empCode").val()) {
 

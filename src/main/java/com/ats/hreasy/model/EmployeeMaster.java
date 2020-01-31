@@ -6,6 +6,8 @@ public class EmployeeMaster {
 	 
 	private int empId ; 
 	private String empCode ; 
+	
+	private int subCmpId;
 	private int cmpCode; 
 	private int empType; 
 	private String mobileNo1; 
@@ -51,6 +53,15 @@ public class EmployeeMaster {
 	private String exVar1;
 	private String exVar2;
 	
+	
+	
+	
+	public int getSubCmpId() {
+		return subCmpId;
+	}
+	public void setSubCmpId(int subCmpId) {
+		this.subCmpId = subCmpId;
+	}
 	public int getEmpId() {
 		return empId;
 	}
@@ -330,14 +341,14 @@ public class EmployeeMaster {
 	}
 	@Override
 	public String toString() {
-		return "EmployeeMaster [empId=" + empId + ", empCode=" + empCode + ", cmpCode=" + cmpCode + ", empType="
-				+ empType + ", mobileNo1=" + mobileNo1 + ", mobileNo2=" + mobileNo2 + ", residenceLandNo="
-				+ residenceLandNo + ", contractorId=" + contractorId + ", departId=" + departId + ", designationId="
-				+ designationId + ", locationId=" + locationId + ", firstName=" + firstName + ", middleName="
-				+ middleName + ", surname=" + surname + ", motherName=" + motherName + ", societySerialNo="
-				+ societySerialNo + ", panCardNo=" + panCardNo + ", pfNo=" + pfNo + ", esicNo=" + esicNo + ", aadharNo="
-				+ aadharNo + ", uan=" + uan + ", leavingReason=" + leavingReason + ", isEmp=" + isEmp
-				+ ", currentShiftid=" + currentShiftid + ", nextShiftid=" + nextShiftid + ", grossSalaryEst="
+		return "EmployeeMaster [empId=" + empId + ", empCode=" + empCode + ", subCmpId=" + subCmpId + ", cmpCode="
+				+ cmpCode + ", empType=" + empType + ", mobileNo1=" + mobileNo1 + ", mobileNo2=" + mobileNo2
+				+ ", residenceLandNo=" + residenceLandNo + ", contractorId=" + contractorId + ", departId=" + departId
+				+ ", designationId=" + designationId + ", locationId=" + locationId + ", firstName=" + firstName
+				+ ", middleName=" + middleName + ", surname=" + surname + ", motherName=" + motherName
+				+ ", societySerialNo=" + societySerialNo + ", panCardNo=" + panCardNo + ", pfNo=" + pfNo + ", esicNo="
+				+ esicNo + ", aadharNo=" + aadharNo + ", uan=" + uan + ", leavingReason=" + leavingReason + ", isEmp="
+				+ isEmp + ", currentShiftid=" + currentShiftid + ", nextShiftid=" + nextShiftid + ", grossSalaryEst="
 				+ grossSalaryEst + ", emailId=" + emailId + ", noticePayAmount=" + noticePayAmount
 				+ ", salDedAtFullandfinal=" + salDedAtFullandfinal + ", addedFrom=" + addedFrom + ", rawData=" + rawData
 				+ ", addedBySupervisorId=" + addedBySupervisorId + ", loginName=" + loginName + ", loginTime="
@@ -346,5 +357,5 @@ public class EmployeeMaster {
 				+ ", newHraRate=" + newHraRate + ", newDaRate=" + newDaRate + ", delStatus=" + delStatus + ", exInt1="
 				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
 	}
-
+	 
 }

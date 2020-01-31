@@ -100,6 +100,7 @@
 									<th width="10%">Sr. No.</th>
 									<th>Emp Code </th>
 									<th>Employee Name</th>
+									<th>Location</th>
 									<!-- <th>MICR Code</th>
 									<th>IFSC_Code</th> -->
 									<th width="10%" class="text-center">Actions</th>
@@ -114,6 +115,7 @@
 										 <td>${count.index+1}</td>
 										<td>${empList.empCode}</td>
 										<td>${empList.firstName} ${empList.middleName} ${empList.surname}</td>
+											<td>${empList.locName}</td>
 										<%-- <td>${empList.micrCode}</td>
 										<td>${empList.ifscCode}</td>  --%>
 										

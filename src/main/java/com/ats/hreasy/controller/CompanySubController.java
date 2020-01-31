@@ -70,11 +70,12 @@ public class CompanySubController {
 
 				companyList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(companyList.get(i).getCompanyId())));
 			}
+			model.addObject("companyList", companyList);
 
 			model.addObject("addAccess", 0);
 			model.addObject("editAccess", 0);
 			model.addObject("deleteAccess", 0);
-			model.addObject("companyList", companyList);
+		
 
 			/*
 			 * Info add = AcessController.checkAccess("showCompanyList", "showCompanyList",

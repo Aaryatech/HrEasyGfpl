@@ -40,9 +40,13 @@ import com.ats.hreasy.model.EmpSalAllowance;
 import com.ats.hreasy.model.EmpSalaryInfo;
 import com.ats.hreasy.model.EmployeDoc;
 import com.ats.hreasy.model.EmployeeMaster;
+import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.MstCompany;
+import com.ats.hreasy.model.MstCompanySub;
+import com.ats.hreasy.model.MstEmpType;
 import com.ats.hreasy.model.Setting;
 import com.ats.hreasy.model.TblEmpBankInfo;
 import com.ats.hreasy.model.TblEmpInfo;
@@ -95,16 +99,27 @@ public class EmployeeController {
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("companyId", 1);
 
-				EmployeeMaster[] empArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmployee",
-						map, EmployeeMaster[].class);
-				List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>(Arrays.asList(empArr));
+				/*
+				 * EmployeeMaster[] empArr =
+				 * Constants.getRestTemplate().postForObject(Constants.url + "/getAllEmployee",
+				 * map, EmployeeMaster[].class); List<EmployeeMaster> empList = new
+				 * ArrayList<EmployeeMaster>(Arrays.asList(empArr));
+				 */
+				
+				
+				
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
 
-				for (int i = 0; i < empList.size(); i++) {
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+				model.addObject("empdetList", empdetList);
 
-					empList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empList.get(i).getEmpId())));
+				for (int i = 0; i < empdetList.size(); i++) {
+
+					empdetList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empdetList.get(i).getEmpId())));
 				}
 
-				model.addObject("empList", empList);
+				model.addObject("empList", empdetList);
 
 				Info add = AcessController.checkAccess("showEmployeeList", "showEmployeeList", 0, 1, 0, 0,
 						newModuleList);
@@ -226,8 +241,29 @@ public class EmployeeController {
 						map, EmpDoctype[].class);
 				empDocList = new ArrayList<EmpDoctype>(Arrays.asList(empDocArr));
 
+				MstCompanySub[] company = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllSubCompanies", MstCompanySub[].class);
+
+				List<MstCompanySub> companyList = new ArrayList<MstCompanySub>(Arrays.asList(company));
+
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+
+				MstCompany comp = Constants.getRestTemplate().postForObject(Constants.url + "/getCompanyById", map,
+						MstCompany.class);
+
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				MstEmpType[] empTypeList = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getMstEmpTypeList", map, MstEmpType[].class);
+
+				List<MstEmpType> empTypeList1 = new ArrayList<MstEmpType>(Arrays.asList(empTypeList));
+
 				model = new ModelAndView("master/addEmployee");
 
+				model.addObject("empTypeList", empTypeList1);
+				model.addObject("comp", comp);
+				model.addObject("companySubList", companyList);
 				model.addObject("locationList", locationList);
 				model.addObject("deptList", departmentList);
 				model.addObject("designationList", designationList);
@@ -315,6 +351,8 @@ public class EmployeeController {
 					emp.setFirstName(request.getParameter("fname"));
 					emp.setMiddleName(request.getParameter("mname"));
 					emp.setSurname(request.getParameter("sname"));
+					emp.setSubCmpId(Integer.parseInt(request.getParameter("subCmpId")));
+					emp.setPlCalcBase(Integer.parseInt(request.getParameter("plCalcBase")));
 
 					emp.setMobileNo1(request.getParameter("mobile1"));
 					emp.setResidenceLandNo("NA");
@@ -403,6 +441,9 @@ public class EmployeeController {
 					emp.setFirstName(request.getParameter("fname"));
 					emp.setMiddleName(request.getParameter("mname"));
 					emp.setSurname(request.getParameter("sname"));
+					emp.setSubCmpId(Integer.parseInt(request.getParameter("subCmpId")));
+					emp.setPlCalcBase(Integer.parseInt(request.getParameter("plCalcBase")));
+
 
 					emp.setMobileNo1(request.getParameter("mobile1"));
 					emp.setResidenceLandNo("NA");
@@ -636,8 +677,30 @@ public class EmployeeController {
 						map, EmpDoctype[].class);
 				empDocList = new ArrayList<EmpDoctype>(Arrays.asList(empDocArr));
 
+				MstCompanySub[] company = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllSubCompanies", MstCompanySub[].class);
+
+				List<MstCompanySub> companyList = new ArrayList<MstCompanySub>(Arrays.asList(company));
+
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+
+				MstCompany comp = Constants.getRestTemplate().postForObject(Constants.url + "/getCompanyById", map,
+						MstCompany.class);
+
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				MstEmpType[] empTypeList = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getMstEmpTypeList", map, MstEmpType[].class);
+
+				List<MstEmpType> empTypeList1 = new ArrayList<MstEmpType>(Arrays.asList(empTypeList));
+
 				model = new ModelAndView("master/addEmployee");
 
+				model.addObject("companySubList", companyList);
+
+				model.addObject("empTypeList", empTypeList1);
+				model.addObject("comp", comp);
 				model.addObject("locationList", locationList);
 				model.addObject("deptList", departmentList);
 				model.addObject("designationList", designationList);
@@ -1043,7 +1106,7 @@ public class EmployeeController {
 			double empEsicPer = 0;
 			double employerEsicPer = 0;
 			double societyContri = 0;
-			
+
 			try {
 				empId = Integer.parseInt(request.getParameter("empId"));
 				empSalInfoId = Integer.parseInt(request.getParameter("empSalId"));
