@@ -84,7 +84,7 @@ public class EmployeeController {
 		ModelAndView model = null;
 
 		try {
-
+			session.setAttribute("empTab", 1);
 			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 			Info view = AcessController.checkAccess("showEmployeeList", "showEmployeeList", 1, 0, 0, 0, newModuleList);
 
@@ -273,6 +273,7 @@ public class EmployeeController {
 				model.addObject("empDocList", empDocList);
 				model.addObject("emp", emp);
 				model.addObject("imgUrl", Constants.imageShowUrl);
+				session.setAttribute("empTab", 1);
 
 			}
 		} catch (Exception e) {
@@ -285,6 +286,7 @@ public class EmployeeController {
 	public String submitInsertEmployeeUserInfo(HttpServletRequest request, HttpServletResponse response) {
 		empSave = new EmployeeMaster();
 		HttpSession session = request.getSession();
+		session.setAttribute("empTab", 1);
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 		EmployeeMaster emp = new EmployeeMaster();
@@ -627,7 +629,7 @@ public class EmployeeController {
 	@RequestMapping(value = "/employeeEdit", method = RequestMethod.GET)
 	public ModelAndView employeeEdit(HttpServletRequest request, HttpServletResponse response) {
 
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(); 
 		ModelAndView model = null;
 		MultiValueMap<String, Object> map = null;
 		try {
@@ -894,6 +896,7 @@ public class EmployeeController {
 	@RequestMapping(value = "/submitEmpOtherInfo", method = RequestMethod.POST)
 	public String submitEmpOtherInfo(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
+		session.setAttribute("empTab", 2);
 		try {
 
 			int empId = 0;
@@ -965,6 +968,7 @@ public class EmployeeController {
 
 		try {
 			HttpSession session = request.getSession();
+			session.setAttribute("empTab", 3);
 			int empId = 0;
 			int empNomineeId = 0;
 			try {
@@ -1042,7 +1046,7 @@ public class EmployeeController {
 
 		try {
 			HttpSession session = request.getSession();
-
+			session.setAttribute("empTab", 4);
 			int empId = 0;
 			int empBankId = 0;
 			try {
@@ -1095,7 +1099,8 @@ public class EmployeeController {
 		try {
 			HttpSession session = request.getSession();
 			EmpSalaryInfo empSal = new EmpSalaryInfo();
-
+			session.setAttribute("empTab", 5);
+			
 			int empId = 0;
 			int empSalInfoId = 0;
 
@@ -1263,7 +1268,7 @@ public class EmployeeController {
 			HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
-
+		session.setAttribute("empTab", 6);
 		try {
 			String imageName = new String();
 			String img = new String();

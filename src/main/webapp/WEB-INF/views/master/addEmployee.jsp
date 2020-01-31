@@ -89,40 +89,112 @@
 									session.removeAttribute("successMsg");
 									}
 								%>
-
+							<%-- <c:set  var="empTab" value="<%out.println(session.getAttribute("empTab"));%>"></c:set> --%>
 								<!-- Highlighted tabs -->
 								<ul class="nav nav-tabs nav-tabs-highlight">
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab1" class="nav-link active"
-										data-toggle="tab">Basic Information </br>Step 1
-									</a></li>
-									<c:if test="${emp.empId!=0}">
-										<li class="nav-item text-center"><a
-											href="#highlighted-tab2" class="nav-link" data-toggle="tab">Personal
-												Information </br>Step 2
-										</a></a></li>
-										<li class="nav-item text-center"><a
-											href="#highlighted-tab3" class="nav-link" data-toggle="tab">Relative
-												Information </br>Step 3
-										</a></li>
-										<li class="nav-item text-center"><a
-											href="#highlighted-tab4" class="nav-link" data-toggle="tab">Employee
-												Bank Details </br>Step 4
-										</a></li>
+									<c:choose>
+										<c:when test="${empTab==1}">
+											<li class="nav-item text-center"><a
+												href="#highlighted-tab1" class="nav-link active"
+												data-toggle="tab">Basic Information </br>Step 1
+											</a></li>
+										</c:when>
+										<c:otherwise>
+											<li class="nav-item text-center"><a
+												href="#highlighted-tab1" class="nav-link" data-toggle="tab">Basic
+													Information </br>Step 1
+											</a></li>
+										</c:otherwise>
+									</c:choose>
 
-										<li class="nav-item text-center"><a
-											href="#highlighted-tab5" class="nav-link" data-toggle="tab">Employee
-												Salary Details </br>Step 5
-										</a></li>
-										<li class="nav-item text-center"><a
-											href="#highlighted-tab6" class="nav-link" data-toggle="tab">Employee
-												Documents </br>Step 6
-										</a></li>
+									<c:if test="${emp.empId!=0}">
+
+										<c:choose>
+											<c:when test="${empTab==2}">
+												<li class="nav-item text-center"><a
+													href="#highlighted-tab2" class="nav-link active"
+													data-toggle="tab">Personal Information </br>Step 2
+												</a></a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="nav-item text-center"><a
+													href="#highlighted-tab2" class="nav-link" data-toggle="tab">Personal
+														Information </br>Step 2
+												</a></a></li>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${empTab==3}">
+												<li class="nav-item text-center"><a
+													href="#highlighted-tab3" class="nav-link active"
+													data-toggle="tab">Relative Information </br>Step 3
+												</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="nav-item text-center"><a
+													href="#highlighted-tab3" class="nav-link" data-toggle="tab">Relative
+														Information </br>Step 3
+												</a></li>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${empTab==4}">
+												<li class="nav-item text-center"><a
+													href="#highlighted-tab4" class="nav-link active"
+													data-toggle="tab">Employee Bank Details </br>Step 4
+												</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="nav-item text-center"><a
+													href="#highlighted-tab4" class="nav-link" data-toggle="tab">Employee
+														Bank Details </br>Step 4
+												</a></li>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${empTab==5}">
+												<li class="nav-item text-center"><a
+													href="#highlighted-tab5" class="nav-link active"
+													data-toggle="tab">Employee Salary Details </br>Step 5
+												</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="nav-item text-center"><a
+													href="#highlighted-tab5" class="nav-link" data-toggle="tab">Employee
+														Salary Details </br>Step 5
+												</a></li>
+											</c:otherwise>
+										</c:choose>
+										<c:choose>
+											<c:when test="${empTab==6}">
+												<li class="nav-item text-center"><a
+													href="#highlighted-tab6" class="nav-link active"
+													data-toggle="tab">Employee Documents </br>Step 6
+												</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="nav-item text-center"><a
+													href="#highlighted-tab6" class="nav-link" data-toggle="tab">Employee
+														Documents </br>Step 6
+												</a></li>
+											</c:otherwise>
+										</c:choose>
+
 									</c:if>
 								</ul>
 
 								<div class="tab-content">
-									<div class="tab-pane fade show active" id="highlighted-tab1">
+
+									<c:choose>
+										<c:when test="${empTab==1}">
+										<div class="tab-pane fade show active" id="highlighted-tab1">
+										</c:when>
+										<c:otherwise>
+										<div class="tab-pane fade" id="highlighted-tab1">
+										</c:otherwise>
+
+									</c:choose>
+									
 
 										<form
 											action="${pageContext.request.contextPath}/insertEmployeeBasicInfo"
@@ -131,8 +203,9 @@
 											<input type="hidden" id="empId" name="empId"
 												value="${emp.empId}">
 											<div class="form-group row">
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="empCode">Emp
-													Code <span  class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="empCode">Emp Code <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -147,8 +220,10 @@
 											</div>
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="fname">
-													Employee Name <span style="color: red">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="fname"> Employee Name <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-3">
 													<input type="text" class="form-control"
@@ -188,15 +263,15 @@
 											<div class="form-group row">
 
 												<label class="col-form-label col-lg-2" for="company">Company
-													<span style="color: red"> </span>:
-												</label>
+													: </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control "
 														readonly="readonly" value="${comp.companyName}">
 												</div>
 
-												<label class="col-form-label col-lg-2" for="locId">Location
-													<span style="color: red">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="locId">Location <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="locId" data-placeholder="Select Location"
@@ -223,8 +298,10 @@
 
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="desigId">
-													Designation <span style="color: red"></span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="desigId"> Designation <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="desigId"
@@ -249,8 +326,9 @@
 														field is required.</span>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="deptId">
-													Department <span style="color: red">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="deptId"> Department <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="deptId" data-placeholder="Select Department"
@@ -278,8 +356,10 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="contractor">Contractor
-													<span style="color: red">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="contractor">Contractor <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="contractor"
@@ -307,8 +387,9 @@
 														field is required.</span>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="empType">Emp
-													Type <span style="color: red">* </span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="empType">Emp Type <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="empType"
@@ -341,8 +422,9 @@
 
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="mobile1">Contact
-													No. <span style="color: red">* </span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="mobile1">Contact No. <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
@@ -357,7 +439,7 @@
 														Mobile No. is already exist.</span>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="mobile1">Other
+												<label class="col-form-label col-lg-2" for="mobile2">Other
 													Mobile No. : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
@@ -373,8 +455,9 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="empCat">Emp
-													Category <span style="color: red">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="empCat">Emp Category <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="empCat"
@@ -399,8 +482,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="uan">UAN
-													No. <span style="color: red"></span>:
-												</label>
+													No. : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="UAN"
 														id="uan" name="uan" autocomplete="off" value="${emp.uan}"
@@ -413,8 +495,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="esic">ESIC
-													No. <span style="color: red"></span>:
-												</label>
+													No. : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${emp.esicNo}" placeholder="ESIC No." id="esic"
@@ -426,8 +507,7 @@
 
 
 												<label class="col-form-label col-lg-2" for="aadhar">Aadhaar
-													No. <span style="color: red"></span>:
-												</label>
+													No. : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${emp.aadharNo}" placeholder="Aadhar Card No."
@@ -441,8 +521,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="pan">PAN
-													No. <span style="color: red"></span>:
-												</label>
+													No. : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" maxlength="10"
 														placeholder="PAN No." id="pan" name="pan"
@@ -454,8 +533,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="pfNo">PF
-													No. <span style="color: red"></span>:
-												</label>
+													No. : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="PF No"
 														id="pfNo" name="pfNo" autocomplete="off"
@@ -468,9 +546,8 @@
 
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="pan">Accessible
-													Location<span style="color: red">*</span>:
-												</label>
+												<label class="col-form-label col-lg-2" for="locId_list">Accessible
+													Location : </label>
 												<div class="col-lg-4">
 													<select name="locId_list"
 														data-placeholder="Select Location" id="locId_list"
@@ -496,9 +573,8 @@
 														field is required.</span>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="deptId">
-													Designation Type <span style="color: red"></span>:
-												</label>
+												<label class="col-form-label col-lg-2" for="ishod">
+													Designation Type : </label>
 												<div class="col-lg-4">
 													<select name="ishod" id="ishod"
 														class="form-control form-control-select2 select2-hidden-accessible"
@@ -521,8 +597,7 @@
 												<div class="form-group row">
 
 													<label class="col-form-label col-lg-2" for="hoddeptId">
-														Department <span style="color: red"></span>:
-													</label>
+														Department : </label>
 													<div class="col-lg-4">
 														<select name="hoddeptId"
 															data-placeholder="Select Department" id="hoddeptId"
@@ -552,8 +627,10 @@
 
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="subCmpId">
-													Sub Company <span style="color: red">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="subCmpId"> Sub Company <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="subCmpId"
@@ -576,8 +653,10 @@
 														field is required.</span>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="plCalcBase">Basic
-													Day <span style="color: red">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="plCalcBase">Basic Day <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -619,7 +698,16 @@
 										</form>
 									</div>
 									<!-- ********************************************Step Two********************************************** -->
-									<div class="tab-pane fade" id="highlighted-tab2">
+									
+									<c:choose>
+										<c:when test="${empTab==2}">
+										<div class="tab-pane fade show active" id="highlighted-tab2">
+										</c:when>
+										<c:otherwise>
+										<div class="tab-pane fade" id="highlighted-tab2">
+										</c:otherwise>
+
+									</c:choose>
 
 										<form
 											action="${pageContext.request.contextPath}/submitEmpOtherInfo"
@@ -636,9 +724,8 @@
 											</div>
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="desigId">Middle
-													Name <span style="color: red"></span>:
-												</label>
+												<label class="col-form-label col-lg-2" for="midname">Middle
+													Name : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${empPersInfo.middleName}"
@@ -651,8 +738,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="relation">
-													Relation <span style="color: red"></span>:
-												</label>
+													Relation : </label>
 												<div class="col-lg-4">
 													<select name="relation" data-placeholder="Select Relation"
 														id="relation"
@@ -669,8 +755,9 @@
 											</div>
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="dob">Date
-													of Birth <span style="color: red">* </span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="dob">Date of Birth <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control datepickerclass"
@@ -683,8 +770,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="gender">Gender
-													<span style="color: red"></span>:
-												</label>
+													: </label>
 												<div class="col-lg-4">
 													<select name="gender" data-placeholder="Gender" id="gender"
 														class="form-control form-control-select2 select2-hidden-accessible">
@@ -702,8 +788,7 @@
 											<div class="form-group row">
 
 												<label class="col-form-label col-lg-2" for="maritalstatus">Marital
-													Status <span style="color: red"></span>:
-												</label>
+													Status : </label>
 												<div class="col-lg-4">
 													<select name="maritalstatus"
 														data-placeholder="Select Marital Status"
@@ -727,8 +812,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="email">Email
-													<span style="color: red"></span>:
-												</label>
+													: </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" placeholder="Email"
 														id="email" name="email" value="${empPersInfo.email}"
@@ -741,9 +825,8 @@
 											</div>
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="caddress">Current
-													Address <span style="color: red"></span>:
-												</label>
+												<label class="col-form-label col-lg-2" for="address">Current
+													Address : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${empPersInfo.address}"
@@ -756,8 +839,7 @@
 
 
 												<label class="col-form-label col-lg-2" for="paddress">Parmanent
-													Address <span style="color: red"></span>:
-												</label>
+													Address : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														placeholder="Parmanent Address" id="paddress"
@@ -771,8 +853,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="qualification">Qualification
-													<span style="color: red"></span>:
-												</label>
+													: </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${empPersInfo.empQualification}"
@@ -785,8 +866,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="emergencyPerson">Name
-													<span style="color: red"></span>:
-												</label>
+													: </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${empPersInfo.emerName}"
@@ -801,8 +881,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="contact1">Emergency
-													Contact 1 <span style="color: red"></span>:
-												</label>
+													Contact 1 : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
 														value="${empPersInfo.emerContactNo1}"
@@ -815,8 +894,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="contact2">Emergency
-													Contact 2 <span style="color: red"></span>:
-												</label>
+													Contact 2 : </label>
 												<div class="col-lg-4">
 
 													<input type="text" class="form-control numbersOnly"
@@ -833,8 +911,7 @@
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2"
 													for="emergencyPersonAddress">Emergency Person
-													Address <span style="color: red"> </span>:
-												</label>
+													Address : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${empPersInfo.emerContactAddr}"
@@ -847,8 +924,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="bloodgroup">Blood
-													Group <span style="color: red"></span>:
-												</label>
+													Group : </label>
 												<div class="col-lg-4">
 													<select name="bloodgroup"
 														data-placeholder="Select Blood Group" id="bloodgroup"
@@ -879,8 +955,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="uniformsize">Uniform
-													Size <span style="color: red"></span>:
-												</label>
+													Size : </label>
 												<div class="col-lg-4">
 													<select name="uniformsize"
 														data-placeholder="Select Uniform Size" id="uniformsize"
@@ -936,7 +1011,16 @@
 
 									</div>
 									<!--***************************************** tab 3 *************************************-->
-									<div class="tab-pane fade" id="highlighted-tab3">
+									<c:choose>
+										<c:when test="${empTab==3}">
+										<div class="tab-pane fade show active" id="highlighted-tab3">
+										</c:when>
+										<c:otherwise>
+										<div class="tab-pane fade" id="highlighted-tab3">
+										</c:otherwise>
+
+									</c:choose>
+									
 
 										<form
 											action="${pageContext.request.contextPath}/submitEmpRelationInfo"
@@ -1315,7 +1399,15 @@
 										</form>
 									</div>
 									<!-- *****************************************Tab 4******************************************* -->
-									<div class="tab-pane fade" id="highlighted-tab4">
+									<c:choose>
+										<c:when test="${empTab==4}">
+										<div class="tab-pane fade show active" id="highlighted-tab4">
+										</c:when>
+										<c:otherwise>
+										<div class="tab-pane fade" id="highlighted-tab4">
+										</c:otherwise>
+
+									</c:choose>
 
 										<form
 											action="${pageContext.request.contextPath}/submitEmpBankInfo"
@@ -1333,8 +1425,9 @@
 											</div>
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="accNo">Account
-													No: <span style="color: red">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="accNo">Account No: <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -1350,8 +1443,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="bankId">Bank
-													<span style="color: red"></span>:
-												</label>
+													: </label>
 												<div class="col-lg-4">
 													<select name="bankId" data-placeholder="Select Bank"
 														id="bankId"
@@ -1406,7 +1498,16 @@
 									</div>
 
 									<!--********************************* Tab 5 *********************************-->
-									<div class="tab-pane fade" id="highlighted-tab5">
+									<c:choose>
+										<c:when test="${empTab==5}">
+										<div class="tab-pane fade show active" id="highlighted-tab5">
+										</c:when>
+										<c:otherwise>
+										<div class="tab-pane fade" id="highlighted-tab5">
+										</c:otherwise>
+
+									</c:choose>
+									 
 
 										<form
 											action="${pageContext.request.contextPath}/insertEmployeeAllowancesInfo"
@@ -1428,8 +1529,9 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="company">Basic
-													Rs.<span style="color: red">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="basic">Basic Rs.<span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
@@ -1441,8 +1543,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="societyContri">Society
-													Contribution Rs. <span style="color: red"></span>:
-												</label>
+													Contribution Rs. : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
 														value="${empAllowanceId.societyContribution}"
@@ -1479,9 +1580,9 @@
 													</c:forEach>
 													<div class=" col-lg-6">
 														<div class="form-group row">
-															<label class="col-form-label col-lg-2" for="allownces">${allowanceList.shortName}
-																<span style="color: red"></span>:
-															</label>
+															<label class="col-form-label col-lg-2"
+																for="allownces${allowanceList.allowanceId}">${allowanceList.shortName}
+																: </label>
 															<div class="col-lg-10">
 																<input type="text" class="form-control numbersOnly"
 																	value="${allowanceValue}"
@@ -1503,8 +1604,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="pfApplicable">PF
-													Applicable <span style="color: red"></span>:
-												</label>
+													Applicable : </label>
 												<div class="col-lg-4">
 													<%-- <input type="text" class="form-control"
 														value="${empAllowanceId.pfApplicable}"
@@ -1523,8 +1623,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="pfType">PF
-													Type <span style="color: red"></span>:
-												</label>
+													Type : </label>
 												<div class="col-lg-4">
 													<%-- <input type="text" class="form-control"
 														placeholder="PF Type" id="pfType" name="pfType"
@@ -1544,8 +1643,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="pfEmpPer">PF
-													Employee Per <span style="color: red"></span>:
-												</label>
+													Employee Per : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
 														value="${empAllowanceId.pfEmpPer}"
@@ -1553,9 +1651,8 @@
 														name="pfEmpPer" autocomplete="off" onchange="trim(this)">
 												</div>
 
-												<label class="col-form-label col-lg-2" for="pfNo">PF
-													Employer Per <span style="color: red"></span>:
-												</label>
+												<label class="col-form-label col-lg-2" for="pfEmployerPer">PF
+													Employer Per : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
 														placeholder="PF Employer Per" id="pfEmployerPer"
@@ -1566,8 +1663,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="esicApplicable">ESIC
-													Applicable <span style="color: red"></span>:
-												</label>
+													Applicable : </label>
 												<div class="col-lg-4">
 													<%-- <input type="text" class="form-control"
 														value="${empAllowanceId.esicApplicable}"
@@ -1586,8 +1682,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="mlwfApplicable">MLWF
-													Applicable <span style="color: red"></span>:
-												</label>
+													Applicable : </label>
 												<div class="col-lg-4">
 													<%-- <input type="text" class="form-control"
 														placeholder="MLWF Applicable" id="mlwfApplicable"
@@ -1608,8 +1703,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="empEsicPer">Employee
-													Esic Percentage <span style="color: red"></span>:
-												</label>
+													Esic Percentage : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
 														value="${empAllowanceId.employeeEsicPercentage}"
@@ -1618,8 +1712,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="employerEsicPer">Employer
-													Esic Percentage <span style="color: red"></span>:
-												</label>
+													Esic Percentage : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
 														placeholder="Employer Esic Percentage"
@@ -1632,8 +1725,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="ptApplicable">PT
-													Applicable <span style="color: red"></span>:
-												</label>
+													Applicable : </label>
 												<div class="col-lg-4">
 													<%-- <input type="text" class="form-control"
 														value="${empAllowanceId.ptApplicable}"
@@ -1652,8 +1744,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="salBasis">Salary
-													Basis <span style="color: red"></span>:
-												</label>
+													Basis : </label>
 												<div class="col-lg-4">
 													<select name="salBasis"
 														data-placeholder="Select Designation" id="salBasis"
@@ -1669,8 +1760,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="epfJoinDate">EPF
-													Joining Date <span style="color: red"></span>:
-												</label>
+													Joining Date : </label>
 												<div class="col-lg-4">
 
 													<input type="text" class="form-control datepickerclass"
@@ -1681,8 +1771,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="joinDate">Joining
-													Date <span style="color: red"></span>:
-												</label>
+													Date : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control datepickerclass"
 														placeholder="Joining Date" id="joinDate" name="joinDate"
@@ -1693,8 +1782,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="leaveDate">Leaving
-													Date <span style="color: red"></span>:
-												</label>
+													Date : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control datepickerclass"
 														value="${empAllowanceId.cmpLeavingDate}"
@@ -1703,8 +1791,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="leaveReason">Leaving
-													Reason <span style="color: red"></span>:
-												</label>
+													Reason : </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														placeholder="Leaving Reason" id="leaveReason"
@@ -1716,8 +1803,7 @@
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="lrEsic">LR
-													For ESIC <span style="color: red"></span>:
-												</label>
+													For ESIC : </label>
 												<div class="col-lg-4">
 													<select name="lrEsic"
 														data-placeholder="Select Uniform Size" id="lrEsic"
@@ -1767,8 +1853,7 @@
 
 
 												<label class="col-form-label col-lg-2" for="lrForPF">LR
-													For PF <span style="color: red"></span>:
-												</label>
+													For PF : </label>
 
 												<div class="col-lg-4">
 													<select name="lrForPF"
@@ -1827,7 +1912,16 @@
 										</form>
 									</div>
 									<!-- *****************************************Tab 6******************************************* -->
-									<div class="tab-pane fade" id="highlighted-tab6">
+									<c:choose>
+										<c:when test="${empTab==6}">
+										<div class="tab-pane fade show active" id="highlighted-tab6">
+										</c:when>
+										<c:otherwise>
+										<div class="tab-pane fade" id="highlighted-tab6">
+										</c:otherwise>
+
+									</c:choose>
+									 
 
 										<form
 											action="${pageContext.request.contextPath}/submitInsertEmpDoc"
