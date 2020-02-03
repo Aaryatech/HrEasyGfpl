@@ -26,10 +26,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
-
- 
-			</div>
+			<div class="page-header page-header-light"></div>
 			<!-- /page header -->
 
 
@@ -48,21 +45,21 @@
 
 
 						<div class="card">
-							 
-					<div class="card-header header-elements-inline">
- 						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">${title}</h5></td>
-								<td width="40%" align="right">
-							  
-								 <%-- <a
+
+							<div class="card-header header-elements-inline">
+								<table width="100%">
+									<tr width="100%">
+										<td width="60%"><h5 class="card-title">${title}</h5></td>
+										<td width="40%" align="right">
+											<%-- <a
 									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">KRA List </button>
-								</a>  --%></td>
-							</tr>
-						</table>
-					</div>
+								</a>  --%>
+										</td>
+									</tr>
+								</table>
+							</div>
 							<div class="card-body">
 								<%
 									if (session.getAttribute("errorMsg") != null) {
@@ -103,78 +100,91 @@
 								<form
 									action="${pageContext.request.contextPath}/submitInsertBank"
 									id="submitInsertLocaion" method="post">
-									<input type="hidden" value="${bank.bankId}" id="bankId" name="bankId">
+									<input type="hidden" value="${bank.bankId}" id="bankId"
+										name="bankId">
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="bank">Bank
-											Name <span style="color:red">* </span>:</label>
+											Name <span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${bank.name}"
-												placeholder="Enter Bank" id="bankName"
-												name="bankName" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_bank"
+												placeholder="Enter Bank" id="bankName" name="bankName"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_bank"
 												style="display: none;">This field is required.</span>
-										</div>
-									</div>
-									
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="address">Address
-											 <span style="color:red">* </span>:</label>
-										<div class="col-lg-10">
-											<input type="text" class="form-control"
-												placeholder="Enter Address" id="address" value="${bank.address}"
-												name="address" autocomplete="off" onchange="trim(this)"> <span
-												class="validation-invalid-label" id="error_address"
-												style="display: none;">This field is required.</span>
-												
 										</div>
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="branchName">Branch Name
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="address">Address
+											<span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Enter Branch Name" id="branchName" value="${bank.branchName}"
-												name="branchName" autocomplete="off" onchange="trim(this)"> <span
+												placeholder="Enter Address" id="address"
+												value="${bank.address}" name="address" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_address"
+												style="display: none;">This field is required.</span>
+
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="branchName">Branch
+											Name <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control"
+												placeholder="Enter Branch Name" id="branchName"
+												value="${bank.branchName}" name="branchName"
+												autocomplete="off" onchange="trim(this)"> <span
 												class="validation-invalid-label" id="error_branchName"
 												style="display: none;">This field is required.</span>
-												
+
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="micrCode">MICR Code
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="micrCode">MICR
+											Code <span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${bank.micrCode}"
-												placeholder="Enter MICR Code" id="micrCode"
-												name="micrCode" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_micrCode"
+											<input type="text" class="form-control"
+												value="${bank.micrCode}" placeholder="Enter MICR Code"
+												id="micrCode" maxlength="9" name="micrCode"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_micrCode"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="ifscCode">IFSC Code
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="ifscCode">IFSC
+											Code <span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${bank.ifscCode}"
-												placeholder="Enter IFSC Code" id="ifscCode"
-												name="ifscCode" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_ifscCode"
+											<input type="text" class="form-control"
+												value="${bank.ifscCode}" placeholder="Enter IFSC Code"
+												id="ifscCode" maxlength="11" name="ifscCode"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_ifscCode"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
-										
+
 											<button type="submit" class="btn bg-blue ml-3 legitRipple"
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a href="${pageContext.request.contextPath}/showBankList"><button
-										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Back</button></a>
+													type="button" class="btn btn-light">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Back
+												</button></a>
 										</div>
 									</div>
 								</form>
@@ -202,23 +212,6 @@
 	<!-- /page content -->
 
 	<script>
-	
-	function checkSame(){
-		x=document.getElementById("locName").value;
-		y=document.getElementById("locShortName").value;
-		//alert(x);
-		
-		if(x!== '' && y!== ''){
-			if(x==y){
-				$("#error_sameName").show()
-				document.getElementById("locShortName").value="";
-			}
-			else{
-				$("#error_sameName").hide()
-			}
-	}
-		
-	}
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
@@ -227,11 +220,11 @@
 			return;
 		}
 
-		function validateEmail(email) {
+		function validateIfsc(temp) {
 
-			var eml = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+			var eml = /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/;
 
-			if (eml.test($.trim(email)) == false) {
+			if (eml.test($.trim(temp)) == false) {
 
 				return false;
 
@@ -240,18 +233,21 @@
 			return true;
 
 		}
-		function validateMobile(mobile) {
-			var mob = /^[1-9]{1}[0-9]{9}$/;
 
-			if (mob.test($.trim(mobile)) == false) {
+		function validateMicr(temp) {
 
-				//alert("Please enter a valid email address .");
+			var eml = /^\d{9}$/;
+
+			if (eml.test($.trim(temp)) == false) {
+
 				return false;
 
 			}
+
 			return true;
 
 		}
+
 		$(document)
 				.ready(
 						function($) {
@@ -276,12 +272,10 @@
 
 													isError = true;
 
-													$("#error_address")
-															.show()
+													$("#error_address").show()
 
 												} else {
-													$("#error_address")
-															.hide()
+													$("#error_address").hide()
 												}
 												if (!$("#branchName").val()) {
 
@@ -294,27 +288,29 @@
 													$("#error_branchName")
 															.hide()
 												}
-												if (!$("#micrCode").val()) {
+												if (!$("#micrCode").val()
+														|| !validateMicr($(
+																"#micrCode")
+																.val())) {
 
 													isError = true;
 
-													$("#error_micrCode")
-															.show()
+													$("#error_micrCode").show()
 
 												} else {
-													$("#error_micrCode")
-															.hide()
+													$("#error_micrCode").hide()
 												}
-												if (!$("#ifscCode").val()) {
+												if (!$("#ifscCode").val()
+														|| !validateIfsc($(
+																"#ifscCode")
+																.val())) {
 
 													isError = true;
 
-													$("#error_ifscCode")
-															.show()
+													$("#error_ifscCode").show()
 
 												} else {
-													$("#error_ifscCode")
-															.hide()
+													$("#error_ifscCode").hide()
 												}
 
 												if (!isError) {
@@ -333,38 +329,7 @@
 						});
 		//
 	</script>
-	
-	<!-- <script type="text/javascript">
-	$('#submtbtn').on('click', function() {
-        swalInit({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-            buttonsStyling: false
-        }).then(function(result) {
-            if(result.value) {
-                swalInit(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                );
-            }
-            else if(result.dismiss === swal.DismissReason.cancel) {
-                swalInit(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
-                    'error'
-                );
-            }
-        });
-    });
-	
-	</script> -->
+
 
 </body>
 </html>
