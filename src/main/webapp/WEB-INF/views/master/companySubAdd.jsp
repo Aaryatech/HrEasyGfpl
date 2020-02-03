@@ -8,7 +8,7 @@
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
-<body>
+<body onload="setDateEsicOnload()">
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -713,7 +713,7 @@
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
-														value="${company.cpMobile}" id="mobile"
+														value="${companyshowMstEmpTypeList.cpMobile}" id="mobile"
 														onchange="trim(this)" placeholder="Mobile No."
 														name="mobile" autocomplete="off" maxlength="10"">
 													<span class="hidedefault  validation-invalid-label"
@@ -878,9 +878,7 @@
 
 	<script type="text/javascript">
 		function setDate() {
-
-			alert("hii");
-
+ 
 				var value = document.getElementById("isPfApplicable").value;
 
 			if (value == 1) {
@@ -913,18 +911,11 @@
 
 	<script type="text/javascript">
 		function setDateEsicOnload() {
-
-			var isEsicApplicable = $
-			{
-				company.isEsicApplicable
-			}
-			;
-			var isPfApplicable = $
-			{
-				company.isPfApplicable
-			}
-			;
-			//alert("Value " + value)
+ 
+			var isEsicApplicable = ${company.isEsicApplicable};
+			var isPfApplicable = ${company.isPfApplicable};
+			 
+			 
 			if (isEsicApplicable == 1) {
 
 				$("#xyz").show()
