@@ -22,7 +22,11 @@
 <link
 	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.min.css"
 	rel="stylesheet" type="text/css">
-<link
+	<link
+	href="${pageContext.request.contextPath}/resources/assets/css/loginstyle.css"
+	rel="stylesheet" type="text/css">
+  
+ <link
 	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap_limitless.min.css"
 	rel="stylesheet" type="text/css">
 <link
@@ -33,9 +37,9 @@
 	rel="stylesheet" type="text/css">
 <link
 	href="${pageContext.request.contextPath}/resources/assets/css/colors.min.css"
-	rel="stylesheet" type="text/css">
+	rel="stylesheet" type="text/css"> 
 <!-- /global stylesheets -->
-
+ 
 <!-- Core JS files -->
 <script
 	src="${pageContext.request.contextPath}/resources/global_assets/js/main/jquery.min.js"></script>
@@ -45,16 +49,11 @@
 	src="${pageContext.request.contextPath}/resources/global_assets/js/plugins/loaders/blockui.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/global_assets/js/plugins/ui/ripple.min.js"></script>
-<!-- /core JS files -->
-
-<!-- Theme JS files -->
-<script
-	src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
-<!-- /theme JS files -->
+<!-- /core JS files --> 
 
 </head>
 <style>
-body {
+body1 {
 	/* background-image:
 		url("${pageContext.request.contextPath}/resources/global_assets/images/bg3.jpeg"); */
 	background-position: center;
@@ -63,78 +62,61 @@ body {
 	position: relative;
 }
 
-.no-background {
+.no-background1 {
 	background-image:
 		url("${pageContext.request.contextPath}/resources/global_assets/images/bg2.jpg");
 }
 </style>
 <body>
+<div class="page_loader"></div>
 
-	<!-- Main navbar -->
-	<div
-		class="navbar navbar-expand-md navbar-dark bg-indigo navbar-static">
-		<div class="navbar-brand">
-			<%-- <a href="index.html" class="d-inline-block">  <img
-				src="${pageContext.request.contextPath}/resources/global_assets/images/logo_light.png"
-				alt="">
-			</a> --%>
-			<img
-				src="${pageContext.request.contextPath}/resources/global_assets/images/companylogo.png"
-				alt="" style="height: 50px; width: 150px;">
-		</div>
-
-		<div class="d-md-none">
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbar-mobile">
-				<i class="icon-tree5"></i>
-			</button>
-		</div>
-
-		<div class="collapse navbar-collapse" id="navbar-mobile">
-			<ul class="navbar-nav">
-			</ul>
-
-
-
-		</div>
-	</div>
-	<!-- /main navbar -->
-
-
-	<!-- Page content -->
-	<div class="page-content">
-
-		<!-- Main content -->
-		<div class="content-wrapper">
-
-			<!-- Content area -->
-			<div class="content d-flex justify-content-center align-items-center">
-
-				<!-- Login form -->
-				<form class="login-form"
-					action="${pageContext.request.contextPath}/loginProcess"
-					id="submitInsertEmpType" method="post">
-					<div class="card mb-0">
-						<div class="card-body">
-							<div class="text-center mb-3">
-							<c:if test="${msg=null}">
-									<span style="color: red;">${msg}</span>
+<!-- Login 17 start -->
+<div class="login-17">
+    <div class="container">
+        <div class="col-md-12 pad-0">
+            <div class="row login-box-6">
+                <div class="col-lg-5 col-md-12 col-sm-12 col-pad-0 bg-img align-self-center none-992">
+                    <a href="http://aaryatechindia.in/" target="_blank">
+                        <img src="${pageContext.request.contextPath}/resources/global_assets/images/companylogo.png" class="logo" alt="logo">
+                    </a>
+                    <p><span class="navbar-text"> &copy; 2019 - 2022. <a href="#">Powered
+					</a> by <a href="http://aaryatechindia.in/" class="navbar-text" target="_blank">AARYA
+							TECH SOLUTIONS</a></p>
+                    <a href="http://aaryatechindia.in/" target="_blank" ><img
+						src="${pageContext.request.contextPath}/resources/global_assets/images/powerdBy.png"
+						width="60" height="50" alt=""></a>
+                    
+                </div>
+                <div class="col-lg-7 col-md-12 col-sm-12 col-pad-0 align-self-center">
+                    <div class="login-inner-form">
+                        <div class="details">
+                        <img
+						src="${pageContext.request.contextPath}/resources/global_assets/images/companylogo.png"
+						  alt="">
+                            <h3>Sign into your account</h3>
+                           <c:if test="${msg=null}">
+									<div class="alert alert-danger" >${msg}</div>
 									 
 								</c:if>
 								<c:if test="${sessionScope.errorPassMsg!=null}">
-								<span style="color: red;">${sessionScope.errorPassMsg}</span>
+								<div class="alert alert-danger" >${sessionScope.errorPassMsg}</div>
+								 
 								<%
 									session.removeAttribute("errorPassMsg");
 								%>
 							</c:if>
-								<i
-									class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i>
-								<h5 class="mb-0">Login to your account</h5>
-								<span class="d-block text-muted">Enter your credentials
-									below</span>
-							</div>
-
-							<div
+						
+                            <form class="login-form"
+					action="${pageContext.request.contextPath}/loginProcess"
+					id="submitInsertEmpType" method="post">
+						<c:if test="${sessionScope.errorMsg!=null}">
+							<div class="alert alert-danger" >${sessionScope.errorMsg}</div>
+									 
+									<%
+										session.removeAttribute("errorMsg");
+									%>
+								</c:if>
+                                 <div
 								class="form-group form-group-feedback form-group-feedback-left">
 								<input type="text" id="username" name="username"
 									class="form-control" placeholder="Username">
@@ -142,69 +124,42 @@ body {
 									<i class="icon-user text-muted"></i>
 								</div>
 							</div>
-
-							<div
+                               <div
 								class="form-group form-group-feedback form-group-feedback-left">
 								<input type="password" id="password" name="password"
 									class="form-control" placeholder="Password">
 								<div class="form-control-feedback">
 									<i class="icon-lock2 text-muted"></i>
 								</div>
-								<c:if test="${sessionScope.errorMsg!=null}">
-									<span style="color: red;">${sessionScope.errorMsg}</span>
-									<%
-										session.removeAttribute("errorMsg");
-									%>
-								</c:if>
+								
 							</div>
-
-							<div class="form-group">
-								<button type="submit" class="btn btn-primary btn-block">
-									Sign in <i class="icon-circle-right2 ml-2"></i>
-								</button>
-							</div>
-
-							<div class="text-center">
- 								<a href="${pageContext.request.contextPath}/showForgotPass">Forgot password?</a>
-<%--  								<a href="${pageContext.request.contextPath}/showForgotPass">sdfsdf</a>
- --%> 							</div>
-						</div>
-					</div>
-				</form>
-				<!-- /login form -->
-
-			</div>
-			<!-- /content area -->
-
-
-			<!-- Footer -->
-			<div class="navbar navbar-expand-lg navbar-light">
-				<!-- <div class="text-center d-lg-none w-100">
-					<button type="button" class="navbar-toggler dropdown-toggle"
-						data-toggle="collapse" data-target="#navbar-footer">
-						<i class="icon-unfold mr-2"></i> Footer
-					</button>
-				</div> -->
-
-				<div class="navbar-collapse1 collapse1 text-center w-100"
-					id="navbar-footer">
-					<span class="navbar-text"> &copy; 2019 - 2022. <a href="#">Powered
-					</a> by <a href="http://aaryatechindia.in/atsuc/" target="_blank">AARYA
-							TECH SOLUTIONS</a>
-					</span>&nbsp; <img
+                                <div class="checkbox clearfix">
+                                     
+                                    <a href="${pageContext.request.contextPath}/showForgotPass">Forgot Password?</a>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn-md btn-theme btn-block">Login</button>
+                                </div>
+                                	<div class="d-lg-none">
+                                	<span class="navbar-text"> &copy; 2019 - 2022. <a href="#">Powered
+					</a> by <a href="http://aaryatechindia.in/" class="navbar-text" target="_blank">AARYA
+							TECH SOLUTIONS</a></p>
+                    <a href="http://aaryatechindia.in/" target="_blank" ><img
 						src="${pageContext.request.contextPath}/resources/global_assets/images/powerdBy.png"
-						width="60" height="50" alt="">
+						width="60" height="50" alt=""></a>
+                                	</div>
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Login 17 end -->
 
-
-				</div>
-			</div>
-			<!-- /footer -->
-
-		</div>
-		<!-- /main content -->
-
-	</div>
-	<!-- /page content -->
+	 
 
 </body>
 </html>
