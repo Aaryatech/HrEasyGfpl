@@ -38,6 +38,7 @@ import com.ats.hreasy.model.Designation;
 import com.ats.hreasy.model.EmpDoctype;
 import com.ats.hreasy.model.EmpSalAllowance;
 import com.ats.hreasy.model.EmpSalaryInfo;
+import com.ats.hreasy.model.EmpType;
 import com.ats.hreasy.model.EmployeDoc;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
@@ -274,6 +275,13 @@ public class EmployeeController {
 				model.addObject("emp", emp);
 				model.addObject("imgUrl", Constants.imageShowUrl);
 				session.setAttribute("empTab", 1);
+				
+				map = new LinkedMultiValueMap<>();
+				map.add("compId", 1);
+				EmpType[] EmpType = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpTypeList", map,
+						EmpType[].class); 
+				List<EmpType> empTypelist = new ArrayList<EmpType>(Arrays.asList(EmpType));
+				model.addObject("accessRoleList", empTypelist);
 
 			}
 		} catch (Exception e) {
@@ -712,6 +720,13 @@ public class EmployeeController {
 				model.addObject("empDocList", empDocList);
 				model.addObject("imgUrl", Constants.imageShowUrl);
 
+				map = new LinkedMultiValueMap<>();
+				map.add("compId", 1);
+				EmpType[] EmpType = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpTypeList", map,
+						EmpType[].class);
+
+				List<EmpType> empTypelist = new ArrayList<EmpType>(Arrays.asList(EmpType));
+				model.addObject("accessRoleList", empTypelist);
 				/**************************************************
 				 * Edit
 				 ********************************************/

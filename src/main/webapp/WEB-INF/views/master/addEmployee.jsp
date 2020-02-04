@@ -89,7 +89,7 @@
 									session.removeAttribute("successMsg");
 									}
 								%>
-							<%-- <c:set  var="empTab" value="<%out.println(session.getAttribute("empTab"));%>"></c:set> --%>
+								<%-- <c:set  var="empTab" value="<%out.println(session.getAttribute("empTab"));%>"></c:set> --%>
 								<!-- Highlighted tabs -->
 								<ul class="nav nav-tabs nav-tabs-highlight">
 									<c:choose>
@@ -187,1699 +187,1681 @@
 
 									<c:choose>
 										<c:when test="${empTab==1}">
-										<div class="tab-pane fade show active" id="highlighted-tab1">
+											<div class="tab-pane fade show active" id="highlighted-tab1">
 										</c:when>
 										<c:otherwise>
-										<div class="tab-pane fade" id="highlighted-tab1">
+											<div class="tab-pane fade" id="highlighted-tab1">
 										</c:otherwise>
 
 									</c:choose>
-									
 
-										<form
-											action="${pageContext.request.contextPath}/insertEmployeeBasicInfo"
-											id="submitInsertEmp" method="post">
 
-											<input type="hidden" id="empId" name="empId"
-												value="${emp.empId}">
-											<div class="form-group row">
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="empCode">Emp Code <span class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${emp.empCode}" placeholder="Employee Code."
-														id="empCode" name="empCode"
-														style="text-transform: uppercase;" autocomplete="off"
-														onchange="trim(this)" maxlength="5"> <span
-														class="hidedefault   validation-invalid-label"
-														style="display: none;" id="unique_user">Employee
-														Code Already Exist.</span>
-												</div>
+									<form
+										action="${pageContext.request.contextPath}/insertEmployeeBasicInfo"
+										id="submitInsertEmp" method="post">
+
+										<input type="hidden" id="empId" name="empId"
+											value="${emp.empId}">
+										<div class="form-group row">
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="empCode">Emp Code <span class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-4">
+												<input type="text" class="form-control"
+													value="${emp.empCode}" placeholder="Employee Code."
+													id="empCode" name="empCode"
+													style="text-transform: uppercase;" autocomplete="off"
+													onchange="trim(this)" maxlength="5"> <span
+													class="hidedefault   validation-invalid-label"
+													style="display: none;" id="unique_user">Employee
+													Code Already Exist.</span>
 											</div>
+										</div>
 
-											<div class="form-group row">
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="fname"> Employee Name <span
-													class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-3">
-													<input type="text" class="form-control"
-														value="${emp.firstName}" placeholder="First Name"
-														id="fname" name="fname" autocomplete="off"
-														onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_fname">This field
-														is required.</span>
-												</div>
-
-
-												<div class="col-lg-3">
-													<input type="text" class="form-control"
-														value="${emp.middleName}" placeholder="Middle Name"
-														id="mname" name="mname" autocomplete="off"
-														onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_mname">This field
-														is required.</span>
-												</div>
-
-
-
-
-												<div class="col-lg-3">
-													<input type="text" class="form-control"
-														value="${emp.surname}" placeholder="Last Name" id="sname"
-														name="sname" autocomplete="off" onchange="trim(this)">
-													<span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_sname">This field
-														is required.</span>
-												</div>
+										<div class="form-group row">
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="fname"> Employee Name <span class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-3">
+												<input type="text" class="form-control"
+													value="${emp.firstName}" placeholder="First Name"
+													id="fname" name="fname" autocomplete="off"
+													onchange="trim(this)"> <span
+													class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_fname">This field
+													is required.</span>
 											</div>
 
 
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="company">Company
-													: </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control "
-														readonly="readonly" value="${comp.companyName}">
-												</div>
-
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="locId">Location <span class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="locId" data-placeholder="Select Location"
-														id="locId"
-														class="form-control form-control-select2 select2-hidden-accessible">
-
-
-														<c:forEach items="${locationList}" var="locationList">
-															<c:choose>
-																<c:when test="${locationList.locId==emp.locationId}">
-																	<option selected="selected"
-																		value="${locationList.locId}">${locationList.locName}</option>
-																</c:when>
-																<c:otherwise>
-																	<option value="${locationList.locId}">${locationList.locName}</option>
-																</c:otherwise>
-															</c:choose>
-														</c:forEach>
-													</select> <span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_locId">This field
-														is required.</span>
-												</div>
+											<div class="col-lg-3">
+												<input type="text" class="form-control"
+													value="${emp.middleName}" placeholder="Middle Name"
+													id="mname" name="mname" autocomplete="off"
+													onchange="trim(this)"> <span
+													class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_mname">This field
+													is required.</span>
 											</div>
 
 
-											<div class="form-group row">
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="desigId"> Designation <span
-													class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="desigId"
-														data-placeholder="Select Designation" id="desigId"
-														class="form-control form-control-select2 select2-hidden-accessible">
-
-														<c:forEach items="${designationList}"
-															var="designationList">
-															<c:choose>
-																<c:when
-																	test="${designationList.desigId==emp.designationId}">
-																	<option selected="selected"
-																		value="${designationList.desigId}">${designationList.name}</option>
-																</c:when>
-																<c:otherwise>
-																	<option value="${designationList.desigId}">${designationList.name}</option>
-																</c:otherwise>
-															</c:choose>
-														</c:forEach>
-													</select> <span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_desigId">This
-														field is required.</span>
-												</div>
-
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="deptId"> Department <span class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="deptId" data-placeholder="Select Department"
-														id="deptId"
-														class="form-control form-control-select2 select2-hidden-accessible">
 
 
-														<c:forEach items="${deptList}" var="deptList">
-															<c:choose>
-																<c:when test="${deptList.departId==emp.departId}">
-																	<option selected="selected"
-																		value="${deptList.departId}">${deptList.name}</option>
-																</c:when>
-																<c:otherwise>
-																	<option value="${deptList.departId}">${deptList.name}</option>
-																</c:otherwise>
-															</c:choose>
+											<div class="col-lg-3">
+												<input type="text" class="form-control"
+													value="${emp.surname}" placeholder="Last Name" id="sname"
+													name="sname" autocomplete="off" onchange="trim(this)">
+												<span class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_sname">This field
+													is required.</span>
+											</div>
+										</div>
 
-														</c:forEach>
-													</select> <span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_deptId">This field
-														is required.</span>
-												</div>
+
+										<div class="form-group row">
+
+											<label class="col-form-label col-lg-2" for="company">Company
+												: </label>
+											<div class="col-lg-4">
+												<input type="text" class="form-control " readonly="readonly"
+													value="${comp.companyName}">
 											</div>
 
-											<div class="form-group row">
-
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="contractor">Contractor <span
-													class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="contractor"
-														data-placeholder="Select Contractor" id="contractor"
-														class="form-control form-control-select2 select2-hidden-accessible">
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="locId">Location <span class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-4">
+												<select name="locId" data-placeholder="Select Location"
+													id="locId"
+													class="form-control form-control-select2 select2-hidden-accessible">
 
 
-														<c:forEach items="${contractorsList}"
-															var="contractorsList">
-															<c:choose>
-																<c:when
-																	test="${contractorsList.contractorId==emp.contractorId}">
-																	<option selected="selected"
-																		value="${contractorsList.contractorId}">${contractorsList.orgName}</option>
-																</c:when>
-																<c:otherwise>
-																	<option value="${contractorsList.contractorId}">${contractorsList.orgName}</option>
-																</c:otherwise>
-															</c:choose>
+													<c:forEach items="${locationList}" var="locationList">
+														<c:choose>
+															<c:when test="${locationList.locId==emp.locationId}">
+																<option selected="selected"
+																	value="${locationList.locId}">${locationList.locName}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${locationList.locId}">${locationList.locName}</option>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												</select> <span class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_locId">This field
+													is required.</span>
+											</div>
+										</div>
 
-														</c:forEach>
 
-													</select> <span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_contractor">This
-														field is required.</span>
-												</div>
+										<div class="form-group row">
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="desigId"> Designation <span class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-4">
+												<select name="desigId" data-placeholder="Select Designation"
+													id="desigId"
+													class="form-control form-control-select2 select2-hidden-accessible">
 
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="empType">Emp Type <span class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="empType"
-														data-placeholder="Select Employee Type" id="empType"
-														class="form-control form-control-select2 select2-hidden-accessible">
+													<c:forEach items="${designationList}" var="designationList">
+														<c:choose>
+															<c:when
+																test="${designationList.desigId==emp.designationId}">
+																<option selected="selected"
+																	value="${designationList.desigId}">${designationList.name}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${designationList.desigId}">${designationList.name}</option>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												</select> <span class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_desigId">This field
+													is required.</span>
+											</div>
 
-														<c:forEach items="${empTypeList}" var="empTypeList">
-															<c:choose>
-																<c:when test="${empTypeList.empTypeId==emp.empType}">
-																	<option selected="selected"
-																		value="${empTypeList.empTypeId}">${empTypeList.name}</option>
-																</c:when>
-																<c:otherwise>
-																	<option value="${empTypeList.empTypeId}">${empTypeList.name}</option>
-																</c:otherwise>
-															</c:choose>
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="deptId"> Department <span class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-4">
+												<select name="deptId" data-placeholder="Select Department"
+													id="deptId"
+													class="form-control form-control-select2 select2-hidden-accessible">
 
-														</c:forEach>
-														<%-- <option value="1" ${emp.empType==1 ? selected : ''}>Weekly
+
+													<c:forEach items="${deptList}" var="deptList">
+														<c:choose>
+															<c:when test="${deptList.departId==emp.departId}">
+																<option selected="selected" value="${deptList.departId}">${deptList.name}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${deptList.departId}">${deptList.name}</option>
+															</c:otherwise>
+														</c:choose>
+
+													</c:forEach>
+												</select> <span class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_deptId">This field
+													is required.</span>
+											</div>
+										</div>
+
+										<div class="form-group row">
+
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="contractor">Contractor <span
+												class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-4">
+												<select name="contractor"
+													data-placeholder="Select Contractor" id="contractor"
+													class="form-control form-control-select2 select2-hidden-accessible">
+
+
+													<c:forEach items="${contractorsList}" var="contractorsList">
+														<c:choose>
+															<c:when
+																test="${contractorsList.contractorId==emp.contractorId}">
+																<option selected="selected"
+																	value="${contractorsList.contractorId}">${contractorsList.orgName}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${contractorsList.contractorId}">${contractorsList.orgName}</option>
+															</c:otherwise>
+														</c:choose>
+
+													</c:forEach>
+
+												</select> <span class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_contractor">This
+													field is required.</span>
+											</div>
+
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="empType">Emp Type <span class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-4">
+												<select name="empType"
+													data-placeholder="Select Employee Type" id="empType"
+													class="form-control form-control-select2 select2-hidden-accessible">
+
+													<c:forEach items="${empTypeList}" var="empTypeList">
+														<c:choose>
+															<c:when test="${empTypeList.empTypeId==emp.empType}">
+																<option selected="selected"
+																	value="${empTypeList.empTypeId}">${empTypeList.name}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${empTypeList.empTypeId}">${empTypeList.name}</option>
+															</c:otherwise>
+														</c:choose>
+
+													</c:forEach>
+													<%-- <option value="1" ${emp.empType==1 ? selected : ''}>Weekly
 															Co Off</option>
 														<option value="2" ${emp.empType==2 ? selected : ''}>OT
 															Applicable</option>
 														<option value="3" ${emp.empType==3 ? selected : ''}>Other</option> --%>
-													</select> <span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_empType">This
-														field is required.</span>
-												</div>
+												</select> <span class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_empType">This field
+													is required.</span>
+											</div>
+										</div>
+
+
+
+										<div class="form-group row">
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="mobile1">Contact No. <span class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-4">
+												<input type="text" class="form-control numbersOnly"
+													value="${emp.mobileNo1}" placeholder="Mobile No."
+													id="mobile1" name="mobile1" autocomplete="off"
+													onchange="trim(this)" maxlength="10"> <span
+													style="display: none;"
+													class="hidedefault   validation-invalid-label"
+													id="error_mobile1">This field is required.</span> <span
+													class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_mobile1_unique">This
+													Mobile No. is already exist.</span>
+											</div>
+
+											<label class="col-form-label col-lg-2" for="mobile2">Other
+												Mobile No. : </label>
+											<div class="col-lg-4">
+												<input type="text" class="form-control numbersOnly"
+													value="${emp.mobileNo2}" placeholder="Other Mobile No."
+													id="mobile2" name="mobile2" autocomplete="off"
+													onchange="trim(this)" maxlength="10"> <span
+													class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_emgContNo2_alt">This
+													field is required.</span>
+											</div>
+
+										</div>
+
+										<div class="form-group row">
+
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="empCat">Emp Category (Access Role) <span
+												class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-4">
+
+												<select name="empCat" data-placeholder="Select Emp Category"
+													id="empCat"
+													class="form-control form-control-select2 select2-hidden-accessible">
+													<option value="">Select Category</option>
+													<c:forEach items="${accessRoleList}" var="accessRoleList">
+														<c:choose>
+															<c:when
+																test="${accessRoleList.empTypeId==emp.empCategory}">
+																<option selected="selected"
+																	value="${accessRoleList.empTypeId}">${accessRoleList.empTypeName}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${accessRoleList.empTypeId}">${accessRoleList.empTypeName}</option>
+															</c:otherwise>
+														</c:choose>
+
+													</c:forEach>
+
+												</select> <span class="hidedefault   validation-invalid-label"
+													id="error_empCat" style="display: none;">This field
+													is required.</span>
+											</div>
+
+											<label class="col-form-label col-lg-2" for="uan">UAN
+												No. : </label>
+											<div class="col-lg-4">
+												<input type="text" class="form-control" placeholder="UAN"
+													id="uan" name="uan" autocomplete="off" value="${emp.uan}"
+													onchange="trim(this)"><span
+													class="hidedefault   validation-invalid-label"
+													id="error_uan" style="display: none;">This field is
+													required.</span>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2" for="esic">ESIC
+												No. : </label>
+											<div class="col-lg-4">
+												<input type="text" class="form-control"
+													value="${emp.esicNo}" placeholder="ESIC No." id="esic"
+													name="esic" autocomplete="off" onchange="trim(this)">
+												<span class="hidedefault   validation-invalid-label"
+													id="error_esic" style="display: none;">This field is
+													required.</span>
 											</div>
 
 
+											<label class="col-form-label col-lg-2" for="aadhar">Aadhaar
+												No. : </label>
+											<div class="col-lg-4">
+												<input type="text" class="form-control"
+													value="${emp.aadharNo}" placeholder="Aadhar Card No."
+													id="aadhar" maxlength="12" name="aadhar" autocomplete="off"
+													onchange="trim(this)"> <span
+													class="hidedefault   validation-invalid-label"
+													id="error_aadhar" style="display: none;">This field
+													is required.</span>
+											</div>
+										</div>
 
-											<div class="form-group row">
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="mobile1">Contact No. <span class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														value="${emp.mobileNo1}" placeholder="Mobile No."
-														id="mobile1" name="mobile1" autocomplete="off"
-														onchange="trim(this)" maxlength="10"> <span
-														style="display: none;"
-														class="hidedefault   validation-invalid-label"
-														id="error_mobile1">This field is required.</span> <span
-														class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_mobile1_unique">This
-														Mobile No. is already exist.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="mobile2">Other
-													Mobile No. : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														value="${emp.mobileNo2}" placeholder="Other Mobile No."
-														id="mobile2" name="mobile2" autocomplete="off"
-														onchange="trim(this)" maxlength="10"> <span
-														class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_emgContNo2_alt">This
-														field is required.</span>
-												</div>
-
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2" for="pan">PAN
+												No. : </label>
+											<div class="col-lg-4">
+												<input type="text" class="form-control" maxlength="10"
+													placeholder="PAN No." id="pan" name="pan"
+													value="${emp.panCardNo}" autocomplete="off"
+													onchange="trim(this)"><span
+													class="hidedefault  validation-invalid-label"
+													id="error_pan" style="display: none;">Please enter
+													correct PAN No.</span>
 											</div>
 
-											<div class="form-group row">
+											<label class="col-form-label col-lg-2" for="pfNo">PF
+												No. : </label>
+											<div class="col-lg-4">
+												<input type="text" class="form-control" placeholder="PF No"
+													id="pfNo" name="pfNo" autocomplete="off"
+													value="${emp.pfNo}" onchange="trim(this)"> <span
+													class="hidedefault   validation-invalid-label"
+													id="error_pfNo" style="display: none;">This field is
+													required.</span>
+											</div>
+										</div>
 
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="empCat">Emp Category <span class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="empCat"
-														data-placeholder="Select Emp Category" id="empCat"
-														class="form-control form-control-select2 select2-hidden-accessible">
 
-														<option value="">Select Category</option>
-														<option value="Muster"
-															${emp.empCategory=='Muster' ? 'selected' : ''}>Muster</option>
-														<option value="Voucher"
-															${emp.empCategory=='Voucher' ? 'selected' : ''}>Voucher</option>
-														<option value="Contract"
-															${emp.empCategory=='Contract' ? 'selected' : ''}>Contract</option>
-														<option value="Trainee"
-															${emp.empCategory=='Trainee' ? 'selected' : ''}>Trainee</option>
-														<option value="Job"
-															${emp.empCategory=='Job' ? 'selected' : ''}>Job</option>
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2" for="locId_list">Accessible
+												Location : </label>
+											<div class="col-lg-4">
+												<select name="locId_list" data-placeholder="Select Location"
+													id="locId_list" multiple="multiple"
+													class="form-control form-control-sm select"
+													data-container-css-class="select-sm" data-fouc>
 
-													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_empCat" style="display: none;">This field
-														is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="uan">UAN
-													No. : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" placeholder="UAN"
-														id="uan" name="uan" autocomplete="off" value="${emp.uan}"
-														onchange="trim(this)"><span
-														class="hidedefault   validation-invalid-label"
-														id="error_uan" style="display: none;">This field is
-														required.</span>
-												</div>
+													<c:forEach items="${locationList}" var="locationList">
+														<c:set value="0" var="find"></c:set>
+														<c:forEach items="${locationIds}" var="locationIds">
+															<c:if test="${locationList.locId==locationIds}">
+																<option selected="selected"
+																	value="${locationList.locId}">${locationList.locName}</option>
+																<c:set value="1" var="find"></c:set>
+															</c:if>
+														</c:forEach>
+														<c:if test="${find==0}">
+															<option value="${locationList.locId}">${locationList.locName}</option>
+														</c:if>
+													</c:forEach>
+												</select> <span class="hidedefault  validation-invalid-label"
+													style="display: none;" id="error_locId_list">This
+													field is required.</span>
 											</div>
 
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="esic">ESIC
-													No. : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${emp.esicNo}" placeholder="ESIC No." id="esic"
-														name="esic" autocomplete="off" onchange="trim(this)">
-													<span class="hidedefault   validation-invalid-label"
-														id="error_esic" style="display: none;">This field
-														is required.</span>
-												</div>
+											<label class="col-form-label col-lg-2" for="ishod">
+												Designation Type : </label>
+											<div class="col-lg-4">
+												<select name="ishod" id="ishod"
+													class="form-control form-control-select2 select2-hidden-accessible"
+													onchange="opencloseDepthodDrop(this.value)">
 
+													<option value="0" ${emp.exInt1==0 ? 'selected' : ''}>Employee</option>
+													<option value="1" ${emp.exInt1==1 ? 'selected' : ''}>HOD</option>
+													<option value="2" ${emp.exInt1==2 ? 'selected' : ''}>HR</option>
 
-												<label class="col-form-label col-lg-2" for="aadhar">Aadhaar
-													No. : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${emp.aadharNo}" placeholder="Aadhar Card No."
-														id="aadhar" maxlength="12" name="aadhar"
-														autocomplete="off" onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
-														id="error_aadhar" style="display: none;">This field
-														is required.</span>
-												</div>
+													<!-- <option value="0">Employee</option>
+														<option value="1">HOD</option>
+														<option value="2">HR</option> -->
+												</select> <span class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_ishod">This field
+													is required.</span>
 											</div>
 
+										</div>
+										<div id="hodDeptDiv" style="display: none;">
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="pan">PAN
-													No. : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" maxlength="10"
-														placeholder="PAN No." id="pan" name="pan"
-														value="${emp.panCardNo}" autocomplete="off"
-														onchange="trim(this)"><span
-														class="hidedefault  validation-invalid-label"
-														id="error_pan" style="display: none;">Please enter
-														correct PAN No.</span>
-												</div>
 
-												<label class="col-form-label col-lg-2" for="pfNo">PF
-													No. : </label>
+												<label class="col-form-label col-lg-2" for="hoddeptId">
+													Department : </label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control" placeholder="PF No"
-														id="pfNo" name="pfNo" autocomplete="off"
-														value="${emp.pfNo}" onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
-														id="error_pfNo" style="display: none;">This field
-														is required.</span>
-												</div>
-											</div>
-
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="locId_list">Accessible
-													Location : </label>
-												<div class="col-lg-4">
-													<select name="locId_list"
-														data-placeholder="Select Location" id="locId_list"
+													<select name="hoddeptId"
+														data-placeholder="Select Department" id="hoddeptId"
 														multiple="multiple"
-														class="form-control form-control-sm select"
-														data-container-css-class="select-sm" data-fouc>
+														class="form-control form-control-sm select" data-fouc>
+														<c:forEach items="${deptList}" var="deptList">
 
-														<c:forEach items="${locationList}" var="locationList">
 															<c:set value="0" var="find"></c:set>
-															<c:forEach items="${locationIds}" var="locationIds">
-																<c:if test="${locationList.locId==locationIds}">
+															<c:forEach items="${hodDeptIds}" var="hodDeptIds">
+																<c:if test="${deptList.departId==hodDeptIds}">
 																	<option selected="selected"
-																		value="${locationList.locId}">${locationList.locName}</option>
+																		value="${deptList.departId}">${deptList.name}</option>
 																	<c:set value="1" var="find"></c:set>
 																</c:if>
 															</c:forEach>
 															<c:if test="${find==0}">
-																<option value="${locationList.locId}">${locationList.locName}</option>
+																<option value="${deptList.departId}">${deptList.name}</option>
 															</c:if>
 														</c:forEach>
-													</select> <span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_locId_list">This
-														field is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="ishod">
-													Designation Type : </label>
-												<div class="col-lg-4">
-													<select name="ishod" id="ishod"
-														class="form-control form-control-select2 select2-hidden-accessible"
-														onchange="opencloseDepthodDrop(this.value)">
-
-														<option value="0" ${emp.exInt1==0 ? 'selected' : ''}>Employee</option>
-														<option value="1" ${emp.exInt1==1 ? 'selected' : ''}>HOD</option>
-														<option value="2" ${emp.exInt1==2 ? 'selected' : ''}>HR</option>
-
-														<!-- <option value="0">Employee</option>
-														<option value="1">HOD</option>
-														<option value="2">HR</option> -->
 													</select> <span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_ishod">This field
-														is required.</span>
-												</div>
-
-											</div>
-											<div id="hodDeptDiv" style="display: none;">
-												<div class="form-group row">
-
-													<label class="col-form-label col-lg-2" for="hoddeptId">
-														Department : </label>
-													<div class="col-lg-4">
-														<select name="hoddeptId"
-															data-placeholder="Select Department" id="hoddeptId"
-															multiple="multiple"
-															class="form-control form-control-sm select" data-fouc>
-															<c:forEach items="${deptList}" var="deptList">
-
-																<c:set value="0" var="find"></c:set>
-																<c:forEach items="${hodDeptIds}" var="hodDeptIds">
-																	<c:if test="${deptList.departId==hodDeptIds}">
-																		<option selected="selected"
-																			value="${deptList.departId}">${deptList.name}</option>
-																		<c:set value="1" var="find"></c:set>
-																	</c:if>
-																</c:forEach>
-																<c:if test="${find==0}">
-																	<option value="${deptList.departId}">${deptList.name}</option>
-																</c:if>
-															</c:forEach>
-														</select> <span class="hidedefault   validation-invalid-label"
-															style="display: none;" id="error_hoddeptId">This
-															field is required.</span>
-													</div>
-												</div>
-											</div>
-
-
-
-											<div class="form-group row">
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="subCmpId"> Sub Company <span
-													class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="subCmpId"
-														data-placeholder="Select Sub Company" id="subCmpId"
-														class="form-control form-control-select2 select2-hidden-accessible">
-
-														<c:forEach items="${companySubList}" var="companySubList">
-															<c:choose>
-																<c:when test="${companySubList.companyId==emp.subCmpId}">
-																	<option selected="selected"
-																		value="${companySubList.companyId}">${companySubList.companyName}</option>
-																</c:when>
-																<c:otherwise>
-																	<option value="${companySubList.companyId}">${companySubList.companyName}</option>
-																</c:otherwise>
-															</c:choose>
-														</c:forEach>
-													</select> <span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_subCmpId">This
-														field is required.</span>
-												</div>
-
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="plCalcBase">Basic Day <span
-													class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														placeholder="Basic Day" id="plCalcBase" name="plCalcBase"
-														autocomplete="off" value="${emp.plCalcBase}"
-														onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
-														id="error_plCalcBase" style="display: none;">This
+														style="display: none;" id="error_hoddeptId">This
 														field is required.</span>
 												</div>
 											</div>
+										</div>
 
 
-											<!-- <div class="form-group text-center">
-												<div class="col-lg-12">
-													<button type="reset" class="btn btn-light legitRipple">Reset</button>
 
-													<button type="button"
-														class=" btn btn-info next   btn_go_next_tab "
-														id="btn_go_next_tab">
-														Next Step <i class="icon-arrow-right8 ml-2 "></i>
-													</button>
-												</div>
-											</div> -->
-											<div class="form-group text-center">
-												<div class="col-lg-12">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-light">Back</button></a> <input
-														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
-														type="hidden" id="emailExist" name="emailExist">
-												</div>
-											</div>
-										</form>
-									</div>
-									<!-- ********************************************Step Two********************************************** -->
-									
-									<c:choose>
-										<c:when test="${empTab==2}">
-										<div class="tab-pane fade show active" id="highlighted-tab2">
-										</c:when>
-										<c:otherwise>
-										<div class="tab-pane fade" id="highlighted-tab2">
-										</c:otherwise>
+										<div class="form-group row">
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="subCmpId"> Sub Company <span
+												class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-4">
+												<select name="subCmpId"
+													data-placeholder="Select Sub Company" id="subCmpId"
+													class="form-control form-control-select2 select2-hidden-accessible">
 
-									</c:choose>
-
-										<form
-											action="${pageContext.request.contextPath}/submitEmpOtherInfo"
-											id="submitEmpOtherInfo" method="post">
-											<div class="form-group row">
-												<div class="col-lg-6">
-													<input type="hidden" id="empId" name="empId"
-														value="${emp.empId}">
-												</div>
-												<div class="col-lg-6">
-													<input type="hidden" id="empOtherInfoId"
-														name="empOtherInfoId" value="${empPersInfo.empInfoId}">
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="midname">Middle
-													Name : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${empPersInfo.middleName}"
-														placeholder="Middle Name" id="midname" name="midname"
-														autocomplete="off" onchange="trim(this)"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_midname">This
-														field is required.</span>
-
-												</div>
-
-												<label class="col-form-label col-lg-2" for="relation">
-													Relation : </label>
-												<div class="col-lg-4">
-													<select name="relation" data-placeholder="Select Relation"
-														id="relation"
-														class="form-control form-control-select2 select2-hidden-accessible">
-
-														<option value="father"
-															${empPersInfo.middleNameRelation=='father' ? 'selected' : ''}>Father</option>
-														<option value="husband"
-															${empPersInfo.middleNameRelation=='husband' ? 'selected' : ''}>Husband</option>
-													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_relation" style="display: none;">This
-														field is required.</span>
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="dob">Date of Birth <span class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control datepickerclass"
-														placeholder="Date of Birth" id="dob" name="dob"
-														value="${empPersInfo.dob}" autocomplete="off"
-														onchange="trim(this)"> <span
-														class="hidedefault  validation-invalid-label"
-														id="error_empDob" style="display: none;">This field
-														is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="gender">Gender
-													: </label>
-												<div class="col-lg-4">
-													<select name="gender" data-placeholder="Gender" id="gender"
-														class="form-control form-control-select2 select2-hidden-accessible">
-														<!-- <option>Select Gender</option> -->
-														<option value="m"
-															${empPersInfo.gender=='m' ? 'selected' : ''}>Male</option>
-														<option value="f"
-															${empPersInfo.gender=='f' ? 'selected' : ''}>Female</option>
-													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_gender" style="display: none;">This field
-														is required.</span>
-												</div>
-											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="maritalstatus">Marital
-													Status : </label>
-												<div class="col-lg-4">
-													<select name="maritalstatus"
-														data-placeholder="Select Marital Status"
-														id="maritalstatus"
-														class="form-control form-control-select2 select2-hidden-accessible">
-
-														<option value="Single"
-															${empPersInfo.maritalStatus=='Single' ? 'selected' : ''}>Single</option>
-														<option value="Married"
-															${empPersInfo.maritalStatus=='Married' ? 'selected' : ''}>Married</option>
-														<option value="Widowed"
-															${empPersInfo.maritalStatus=='Widowed' ? 'selected' : ''}>Widowed</option>
-														<option value="Divorced"
-															${empPersInfo.maritalStatus=='Divorced' ? 'selected' : ''}>Divorced</option>
-														<option value="Separated"
-															${empPersInfo.maritalStatus=='Separated' ? 'selected' : ''}>Separated</option>
-
-													</select> <span class="hidedefault   validation-invalid-label"
-														id="error_maritalstatus" style="display: none;">This
-														field is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="email">Email
-													: </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" placeholder="Email"
-														id="email" name="email" value="${empPersInfo.email}"
-														autocomplete="off" onchange="trim(this)"> <span
-														class="hidedefault  validation-invalid-label"
-														id="error_persnlInfoEmail" style="display: none;">Please
-														enter correct email.</span>
-
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="address">Current
-													Address : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${empPersInfo.address}"
-														placeholder="Current Address" id="address" name="caddress"
-														autocomplete="off" onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
-														id="error_caddress" style="display: none;">This
-														field is required.</span>
-												</div>
-
-
-												<label class="col-form-label col-lg-2" for="paddress">Parmanent
-													Address : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														placeholder="Parmanent Address" id="paddress"
-														value="${empPersInfo.permanentAddress}" name="paddress"
-														autocomplete="off" onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
-														id="error_paddress" style="display: none;">This
-														field is required.</span>
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="qualification">Qualification
-													: </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${empPersInfo.empQualification}"
-														placeholder="Qualification" id="qualification"
-														name="qualification" autocomplete="off"
-														onchange="trim(this)"> <span
-														class="hidedefault  validation-invalid-label"
-														id="error_qualification" style="display: none;">This
-														field is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="emergencyPerson">Name
-													: </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${empPersInfo.emerName}"
-														placeholder="Emergency Person Name" id="emergencyPerson"
-														name="emergencyPerson" autocomplete="off"
-														onchange="trim(this)"> <span
-														style="display: none;"
-														class="hidedefault   validation-invalid-label"
-														id="error_emergencyPerson">This field is required.</span>
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="contact1">Emergency
-													Contact 1 : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														value="${empPersInfo.emerContactNo1}"
-														placeholder="Emergency Contact No. 1" id="contact1"
-														maxlength="10" name="contact1" autocomplete="off"
-														onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
-														id="error_contact1" style="display: none;">This
-														field is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="contact2">Emergency
-													Contact 2 : </label>
-												<div class="col-lg-4">
-
-													<input type="text" class="form-control numbersOnly"
-														value="${empPersInfo.emerContactNo2}"
-														placeholder="Emergency Contact No. 2" id="contact2"
-														maxlength="10" name="contact2" autocomplete="off"
-														onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
-														id="error_contact2" style="display: none;">This
-														field is required.</span>
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2"
-													for="emergencyPersonAddress">Emergency Person
-													Address : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${empPersInfo.emerContactAddr}"
-														placeholder="Emergency Person Address"
-														id="emergencyPersonAddress" name="emergencyPersonAddress"
-														autocomplete="off" onchange="trim(this)"> <span
-														style="display: none;"
-														class="hidedefault   validation-invalid-label">This
-														field is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="bloodgroup">Blood
-													Group : </label>
-												<div class="col-lg-4">
-													<select name="bloodgroup"
-														data-placeholder="Select Blood Group" id="bloodgroup"
-														class="form-control form-control-select2 select2-hidden-accessible">
-
-														<option value="A+"
-															${empPersInfo.bloodGroup=='A+' ? 'selected' : ''}>A+</option>
-														<option value="A-"
-															${empPersInfo.bloodGroup=='A-' ? 'selected' : ''}>A-</option>
-														<option value="B+"
-															${empPersInfo.bloodGroup=='B+' ? 'selected' : ''}>B+</option>
-														<option value="B-"
-															${empPersInfo.bloodGroup=='B-' ? 'selected' : ''}>B-</option>
-														<option value="AB+"
-															${empPersInfo.bloodGroup=='AB+' ? 'selected' : ''}>AB+</option>
-														<option value="AB-"
-															${empPersInfo.bloodGroup=='AB-' ? 'selected' : ''}>AB-</option>
-														<option value="O+"
-															${empPersInfo.bloodGroup=='O+' ? 'selected' : ''}>O+</option>
-														<option value="O-"
-															${empPersInfo.bloodGroup=='O-' ? 'selected' : ''}>O-</option>
-
-													</select> <span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_bloodgroup">This
-														field is required.</span>
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="uniformsize">Uniform
-													Size : </label>
-												<div class="col-lg-4">
-													<select name="uniformsize"
-														data-placeholder="Select Uniform Size" id="uniformsize"
-														class="form-control form-control-select2 select2-hidden-accessible">
-
-														<option value="medium"
-															${empPersInfo.uniformSize=='medium' ? 'selected' : ''}>MEDIUM</option>
-														<option value="large"
-															${empPersInfo.uniformSize=='large' ? 'selected' : ''}>LARGE</option>
-														<option value="xl"
-															${empPersInfo.uniformSize=='xl' ? 'selected' : ''}>XL</option>
-														<option value="xxl"
-															${empPersInfo.uniformSize=='xxl' ? 'selected' : ''}>XXL</option>
-														<option value="xxxl"
-															${empPersInfo.uniformSize=='xxxl' ? 'selected' : ''}>XXXL</option>
-													</select>
-												</div>
-											</div>
-
-											<!-- <div class="form-group text-center">
-												<div class="col-lg-12">
-													<button type="reset" class="btn btn-light legitRipple">Reset</button>
-													<button type="button"
-														class=" btn btn-info prev text-center  btn_go_prev_tab "
-														id="btn_go_prev_tab2">
-														<i class="icon-arrow-left8  mr-2 "></i> Previous Step
-													</button>
-													<button type="button"
-														class=" btn btn-info next   btn_go_next_tab "
-														id="btn_go_next_tab">
-														Next Step <i class="icon-arrow-right8 ml-2 "></i>
-													</button>
-												</div>
-											</div> -->
-
-											<div class="form-group text-center">
-												<div class="col-lg-12">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-light">Back</button></a> <input
-														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
-														type="hidden" id="emailExist" name="emailExist">
-
-												</div>
-											</div>
-										</form>
-
-									</div>
-									<!--***************************************** tab 3 *************************************-->
-									<c:choose>
-										<c:when test="${empTab==3}">
-										<div class="tab-pane fade show active" id="highlighted-tab3">
-										</c:when>
-										<c:otherwise>
-										<div class="tab-pane fade" id="highlighted-tab3">
-										</c:otherwise>
-
-									</c:choose>
-									
-
-										<form
-											action="${pageContext.request.contextPath}/submitEmpRelationInfo"
-											id="submitInsertRelationEmp" method="post">
-
-											<div class="form-group row">
-												<div class="col-lg-6">
-													<input type="hidden" id="empId" name="empId"
-														value="${emp.empId}">
-												</div>
-												<div class="col-lg-6">
-													<input type="hidden" id="empNomId" name="empNomId"
-														value="${empNom.nomineeId}">
-												</div>
-											</div>
-
-											<div class="row ">
-												<div class="col-md-3">
-													<div class="form-group">
-														<label class="control-label ">Person Name </label>
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<label class="control-label ">Date of Birth</label>
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<label class="control-label ">Relation</label>
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<label class="control-label">Occupation</label>
-														<div class="col-md-3"></div>
-													</div>
-												</div>
-
-
-											</div>
-											<!--/row-->
-											<div class="form-group row">
-												<div class="col-md-3">
-
-													<input type="text" name="name" value="${empNom.name}"
-														class="form-control" style="width: 200px;"
-														placeholder="Enter Person Name" />
-
-												</div>
-												<div class="col-md-3">
-
-													<input type="text" class="form-control datepickerclass"
-														placeholder="Date of Birth" id="dob" name="dob"
-														value="${empNom.dob}" autocomplete="off"
-														onchange="trim(this)">
-
-												</div>
-												<div class="col-md-3">
-
-													<select name="relation" id="relation" data-rel="chosen"
-														style="width: 180px;" class="form-control">
-														<option>Please Select</option>
-														<option value="f"
-															${empNom.relation == 'f' ? 'selected' : ''}>Father</option>
-														<option value="m"
-															${empNom.relation == 'm' ? 'selected' : ''}>Mother</option>
-														<option value="s1"
-															${empNom.relation == 's1' ? 'selected' : ''}>Spouse</option>
-														<option value="b"
-															${empNom.relation == 'b' ? 'selected' : ''}>Brother</option>
-														<option value="s2"
-															${empNom.relation == 's2' ? 'selected' : ''}>Sister</option>
-														<option value="s3"
-															${empNom.relation == 's3' ?'selected' : ''}>Son</option>
-														<option value="d"
-															${empNom.relation == 'd' ? 'selected' : ''}>Daughter</option>
-													</select>
-
-												</div>
-												<div class="col-md-3">
-
-													<input type="text" name="occupation" id="occupation"
-														value="${empNom.occupation1}" class="form-control"
-														placeholder="Enter Occupation" />
-													<div class="col-md-3"></div>
-
-												</div>
-											</div>
-											<!--/row-->
-											<div class="row">
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" name="name2" value="${empNom.name2}"
-															class="form-control" style="width: 200px;"
-															placeholder="Enter Person Name" />
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" class="form-control datepickerclass"
-															placeholder="Date of Birth" id="dob2" name="dob2"
-															value="${empNom.dob2}" autocomplete="off"
-															onchange="trim(this)">
-														<!-- <span
-														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span> -->
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<select name="relation2" id="relation2" data-rel="chosen"
-															style="width: 180px;" class="form-control">
-															<option>Please Select</option>
-															<option value="f"
-																${empNom.relation2 == 'f' ? 'selected' : ''}>Father</option>
-															<option value="m"
-																${empNom.relation2 == 'm' ? 'selected' : ''}>Mother</option>
-															<option value="s1"
-																${empNom.relation2 == 's1' ? 'selected' : ''}>Spouse</option>
-															<option value="b"
-																${empNom.relation2 == 'b' ? 'selected' : ''}>Brother</option>
-															<option value="s2"
-																${empNom.relation2 == 's2' ? 'selected' : ''}>Sister</option>
-															<option value="s3"
-																${empNom.relation2 == 's3' ?'selected' : ''}>Son</option>
-															<option value="d"
-																${empNom.relation2 == 'd' ? 'selected' : ''}>Daughter</option>
-														</select>
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" name="occupation2" id="occupation2"
-															value="${empNom.occupation2}" class="form-control"
-															placeholder="Enter Occupation" />
-														<div class="col-md-3"></div>
-													</div>
-												</div>
-											</div>
-											<!--/row-->
-											<div class="row">
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" name="name3" value="${empNom.name3}"
-															class="form-control" style="width: 200px;"
-															placeholder="Enter Person Name" />
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" class="form-control datepickerclass"
-															placeholder="Date of Birth" id="dob3" name="dob3"
-															value="${empNom.dob3}" autocomplete="off"
-															onchange="trim(this)">
-														<!-- <span
-														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span> -->
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<select name="relation3" id="relation3" data-rel="chosen"
-															style="width: 180px;" class="form-control">
-															<option>Please Select</option>
-															<option value="f"
-																${empNom.relation3 == 'f' ? 'selected' : ''}>Father</option>
-															<option value="m"
-																${empNom.relation3 == 'm' ? 'selected' : ''}>Mother</option>
-															<option value="s1"
-																${empNom.relation3 == 's1' ? 'selected' : ''}>Spouse</option>
-															<option value="b"
-																${empNom.relation3 == 'b' ? 'selected' : ''}>Brother</option>
-															<option value="s2"
-																${empNom.relation3 == 's2' ? 'selected' : ''}>Sister</option>
-															<option value="s3"
-																${empNom.relation3 == 's3' ? 'selected' : ''}>Son</option>
-															<option value="d"
-																${empNom.relation3 == 'd' ? 'selected' : ''}>Daughter</option>
-														</select>
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" name="occupation3" id="occupation3"
-															value="${empNom.occupation3}" class="form-control"
-															placeholder="Enter Occupation" />
-														<div class="col-md-3"></div>
-													</div>
-												</div>
-											</div>
-											<!--/row-->
-											<div class="row">
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" name="name4" value="${empNom.name4}"
-															class="form-control" style="width: 200px;"
-															placeholder="Enter Person Name" />
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" class="form-control datepickerclass"
-															placeholder="Date of Birth" id="dob4" name="dob4"
-															value="${empNom.dob4}" autocomplete="off"
-															onchange="trim(this)">
-														<!--  <span
-														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span> -->
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<select name="relation4" id="relation4" data-rel="chosen"
-															style="width: 180px;" class="form-control">
-															<option>Please Select</option>
-															<option value="f"
-																${empNom.relation4 == 'f' ? 'selected' : ''}>Father</option>
-															<option value="m"
-																${empNom.relation4 == 'm' ? 'selected' : ''}>Mother</option>
-															<option value="s1"
-																${empNom.relation4 == 's1' ? 'selected' : ''}>Spouse</option>
-															<option value="b"
-																${empNom.relation4 == 'b' ? 'selected' : ''}>Brother</option>
-															<option value="s2"
-																${empNom.relation4 == 's2' ? 'selected' : ''}>Sister</option>
-															<option value="s3"
-																${empNom.relation4 == 's3' ?'selected' : ''}>Son</option>
-															<option value="d"
-																${empNom.relation4 == 'd' ? 'selected' : ''}>Daughter</option>
-														</select>
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" name="occupation4" id="occupation4"
-															value="${empNom.occupation4}" class="form-control"
-															placeholder="Enter Occupation" />
-														<div class="col-md-3"></div>
-													</div>
-												</div>
-											</div>
-											<!--/row-->
-											<div class="row">
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" name="name5" value="${empNom.name5}"
-															class="form-control" style="width: 200px;"
-															placeholder="Enter Person Name" />
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" class="form-control datepickerclass"
-															placeholder="Date of Birth" id="dob5" name="dob5"
-															value="${empNom.dob5}" autocomplete="off"
-															onchange="trim(this)">
-														<!-- <span
-														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span> -->
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<select name="relation5" id="relation5" data-rel="chosen"
-															style="width: 180px;" class="form-control">
-															<option>Please Select</option>
-															<option value="f"
-																${empNom.relation5 == 'f' ? 'selected' : ''}>Father</option>
-															<option value="m"
-																${empNom.relation5 == 'm' ? 'selected' : ''}>Mother</option>
-															<option value="s1"
-																${empNom.relation5 == 's1' ? 'selected' : ''}>Spouse</option>
-															<option value="b"
-																${empNom.relation5 == 'b' ? 'selected' : ''}>Brother</option>
-															<option value="s2"
-																${empNom.relation5 == 's2' ? 'selected' : ''}>Sister</option>
-															<option value="s3"
-																${empNom.relation5 == 's3' ?'selected' : ''}>Son</option>
-															<option value="d"
-																${empNom.relation5 == 'd' ? 'selected' : ''}>Daughter</option>
-														</select>
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" name="occupation5" id="occupation5"
-															value="${empNom.occupation5}" class="form-control"
-															placeholder="Enter Occupation" />
-														<div class="col-md-3"></div>
-													</div>
-												</div>
-											</div>
-											<!--/row-->
-											<div class="row">
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" name="name6" value="${empNom.name6}"
-															class="form-control" style="width: 200px;"
-															placeholder="Enter Person Name" />
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" class="form-control datepickerclass"
-															placeholder="Date of Birth" id="dob6" name="dob6"
-															value="${empNom.dob6}" autocomplete="off"
-															onchange="trim(this)">
-														<!-- <span
-														class="hidedefault  validation-invalid-label"
-														id="error_dob">This field is required.</span> -->
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<select name="relation6" id="relation6" data-rel="chosen"
-															style="width: 180px;" class="form-control">
-															<option>Please Select</option>
-															<option value="f"
-																${empNom.relation6 == 'f' ? 'selected' : ''}>Father</option>
-															<option value="m"
-																${empNom.relation6 == 'm' ? 'selected' : ''}>Mother</option>
-															<option value="s1"
-																${empNom.relation6 == 's1' ? 'selected' : ''}>Spouse</option>
-															<option value="b"
-																${empNom.relation6 == 'b' ? 'selected' : ''}>Brother</option>
-															<option value="s2"
-																${empNom.relation6 == 's2' ? 'selected' : ''}>Sister</option>
-															<option value="s3"
-																${empNom.relation6 == 's3' ?'selected' : ''}>Son</option>
-															<option value="d"
-																${empNom.relation6 == 'd' ? 'selected' : ''}>Daughter</option>
-														</select>
-													</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group">
-														<input type="text" name="occupation6" id="occupation6"
-															class="form-control" value="${empNom.occupation6}"
-															placeholder="Enter Occupation" />
-														<div class="col-md-3"></div>
-													</div>
-												</div>
-											</div>
-
-											<!-- <div class="form-group text-center">
-												<div class="col-lg-12">
-													<button type="reset" class="btn btn-light legitRipple">Reset</button>
-													<button type="button"
-														class=" btn btn-info prev text-center  btn_go_prev_tab "
-														id="btn_go_prev_tab2">
-														<i class="icon-arrow-left8  mr-2 "></i> Previous Step
-													</button>
-													<button type="button"
-														class=" btn btn-info next   btn_go_next_tab "
-														id="btn_go_next_tab">
-														Next Step <i class="icon-arrow-right8 ml-2 "></i>
-													</button>
-												</div>
-											</div> -->
-											<div class="form-group text-center">
-												<div class="col-lg-12">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-light">Back</button></a> <input
-														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
-														type="hidden" id="emailExist" name="emailExist">
-
-												</div>
-											</div>
-										</form>
-									</div>
-									<!-- *****************************************Tab 4******************************************* -->
-									<c:choose>
-										<c:when test="${empTab==4}">
-										<div class="tab-pane fade show active" id="highlighted-tab4">
-										</c:when>
-										<c:otherwise>
-										<div class="tab-pane fade" id="highlighted-tab4">
-										</c:otherwise>
-
-									</c:choose>
-
-										<form
-											action="${pageContext.request.contextPath}/submitEmpBankInfo"
-											id="submitEmpBankInfo" method="post">
-
-											<div class="form-group row">
-												<div class="col-lg-6">
-													<input type="hidden" id="empId" name="empId"
-														value="${emp.empId}">
-												</div>
-												<div class="col-lg-6">
-													<input type="hidden" id="empBankId" name="empBankId"
-														value="${empBank.bankInfoId}">
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="accNo">Account No: <span class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${empBank.accNo}" placeholder="Account No"
-														id="accNo" maxlength="17" name="accNo" autocomplete="off"
-														onchange="trim(this)"> <span
-														class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_accNo">This field
-														is required.</span> <span
-														class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_accNoDigit">Invalid
-														Account No.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="bankId">Bank
-													: </label>
-												<div class="col-lg-4">
-													<select name="bankId" data-placeholder="Select Bank"
-														id="bankId"
-														class="form-control form-control-select2 select2-hidden-accessible">
-
-
-														<c:forEach items="${bankList}" var="bankList">
-															<c:choose>
-																<c:when test="${bankList.bankId==empBank.bankId}">
-																	<option selected value="${bankList.bankId}">${bankList.name}</option>
-																</c:when>
-																<c:otherwise>
-																	<option value="${bankList.bankId}">${bankList.name}</option>
-																</c:otherwise>
-															</c:choose>
-														</c:forEach>
-													</select>
-												</div>
-											</div>
-
-											<!-- <div class="form-group text-center">
-												<div class="col-lg-12">
-													<button type="reset" class="btn btn-light legitRipple">Reset</button>
-													<button type="button"
-														class=" btn btn-info prev text-center  btn_go_prev_tab "
-														id="btn_go_prev_tab2">
-														<i class="icon-arrow-left8  mr-2 "></i> Previous Step
-													</button>
-													<button type="button"
-														class=" btn btn-info next   btn_go_next_tab "
-														id="btn_go_next_tab">
-														Next Step <i class="icon-arrow-right8 ml-2 "></i>
-													</button>
-												</div>
-											</div> -->
-											<div class="form-group text-center">
-												<div class="col-lg-12">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-light">Back</button></a> <input
-														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
-														type="hidden" id="emailExist" name="emailExist">
-
-												</div>
-											</div>
-										</form>
-									</div>
-
-									<!--********************************* Tab 5 *********************************-->
-									<c:choose>
-										<c:when test="${empTab==5}">
-										<div class="tab-pane fade show active" id="highlighted-tab5">
-										</c:when>
-										<c:otherwise>
-										<div class="tab-pane fade" id="highlighted-tab5">
-										</c:otherwise>
-
-									</c:choose>
-									 
-
-										<form
-											action="${pageContext.request.contextPath}/insertEmployeeAllowancesInfo"
-											id="insertEmployeeAllowancesInfo" method="post"
-											enctype="multipart/form-data">
-
-
-											<div class="form-group row">
-												<div class="col-lg-4">
-													<input type="hidden" id="empId" name="empId"
-														value="${emp.empId}">
-												</div>
-
-												<div class="col-lg-4">
-													<input type="hidden" id="empSalId" name="empSalId"
-														value="${empAllowanceId.salaryInfoId}">
-												</div>
-											</div>
-
-											<div class="form-group row">
-
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="basic">Basic Rs.<span class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														placeholder="Basic Rs." name="basic" id="basic"
-														onchange="trim(this)" value="${empAllowanceId.basic}">
-													<span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_salBasis">This
-														field is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="societyContri">Society
-													Contribution Rs. : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														value="${empAllowanceId.societyContribution}"
-														placeholder="Society Contribution Rs." id="societyContri"
-														name="societyContri" autocomplete="off"
-														onchange="trim(this)">
-
-												</div>
-
-											</div>
-
-
-											<div class="row">
-
-												<c:forEach items="${allowanceList}" var="allowanceList">
-													<c:set var="allowanceValue" value="0"></c:set>
-													<c:set var="empSalAlwncId" value="0"></c:set>
-
-													<c:forEach items="${empAllowncList}" var="empAllowncList">
-
+													<c:forEach items="${companySubList}" var="companySubList">
 														<c:choose>
-															<c:when
-																test="${empAllowncList.allowanceId==allowanceList.allowanceId}">
-																<c:set var="allowanceValue"
-																	value="${empAllowncList.allowanceValue}"></c:set>
-																<c:set var="empSalAlwncId"
-																	value="${empAllowncList.empSalAllowanceId}"></c:set>
+															<c:when test="${companySubList.companyId==emp.subCmpId}">
+																<option selected="selected"
+																	value="${companySubList.companyId}">${companySubList.companyName}</option>
 															</c:when>
-															<%-- 	<c:otherwise>
+															<c:otherwise>
+																<option value="${companySubList.companyId}">${companySubList.companyName}</option>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												</select> <span class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_subCmpId">This
+													field is required.</span>
+											</div>
+
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="plCalcBase">Basic Day <span class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-4">
+												<input type="text" class="form-control"
+													placeholder="Basic Day" id="plCalcBase" name="plCalcBase"
+													autocomplete="off" value="${emp.plCalcBase}"
+													onchange="trim(this)"> <span
+													class="hidedefault   validation-invalid-label"
+													id="error_plCalcBase" style="display: none;">This
+													field is required.</span>
+											</div>
+										</div>
+
+
+										<!-- <div class="form-group text-center">
+												<div class="col-lg-12">
+													<button type="reset" class="btn btn-light legitRipple">Reset</button>
+
+													<button type="button"
+														class=" btn btn-info next   btn_go_next_tab "
+														id="btn_go_next_tab">
+														Next Step <i class="icon-arrow-right8 ml-2 "></i>
+													</button>
+												</div>
+											</div> -->
+										<div class="form-group text-center">
+											<div class="col-lg-12">
+												<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+												<button type="submit" class="btn bg-blue ml-3 legitRipple"
+													id="submtbtn">
+													Submit <i class="icon-paperplane ml-2"></i>
+												</button>
+												<a
+													href="${pageContext.request.contextPath}/showEmployeeList"><button
+														type="button" class="btn btn-light">Back</button></a> <input
+													type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+													type="hidden" id="emailExist" name="emailExist">
+											</div>
+										</div>
+									</form>
+								</div>
+								<!-- ********************************************Step Two********************************************** -->
+
+								<c:choose>
+									<c:when test="${empTab==2}">
+										<div class="tab-pane fade show active" id="highlighted-tab2">
+									</c:when>
+									<c:otherwise>
+										<div class="tab-pane fade" id="highlighted-tab2">
+									</c:otherwise>
+
+								</c:choose>
+
+								<form
+									action="${pageContext.request.contextPath}/submitEmpOtherInfo"
+									id="submitEmpOtherInfo" method="post">
+									<div class="form-group row">
+										<div class="col-lg-6">
+											<input type="hidden" id="empId" name="empId"
+												value="${emp.empId}">
+										</div>
+										<div class="col-lg-6">
+											<input type="hidden" id="empOtherInfoId"
+												name="empOtherInfoId" value="${empPersInfo.empInfoId}">
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="midname">Middle
+											Name : </label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												value="${empPersInfo.middleName}" placeholder="Middle Name"
+												id="midname" name="midname" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="hidedefault  validation-invalid-label"
+												style="display: none;" id="error_midname">This field
+												is required.</span>
+
+										</div>
+
+										<label class="col-form-label col-lg-2" for="relation">
+											Relation : </label>
+										<div class="col-lg-4">
+											<select name="relation" data-placeholder="Select Relation"
+												id="relation"
+												class="form-control form-control-select2 select2-hidden-accessible">
+
+												<option value="father"
+													${empPersInfo.middleNameRelation=='father' ? 'selected' : ''}>Father</option>
+												<option value="husband"
+													${empPersInfo.middleNameRelation=='husband' ? 'selected' : ''}>Husband</option>
+											</select> <span class="hidedefault   validation-invalid-label"
+												id="error_relation" style="display: none;">This field
+												is required.</span>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="dob">Date of Birth <span class="text-danger">*</span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control datepickerclass"
+												placeholder="Date of Birth" id="dob" name="dob"
+												value="${empPersInfo.dob}" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="hidedefault  validation-invalid-label"
+												id="error_empDob" style="display: none;">This field
+												is required.</span>
+										</div>
+
+										<label class="col-form-label col-lg-2" for="gender">Gender
+											: </label>
+										<div class="col-lg-4">
+											<select name="gender" data-placeholder="Gender" id="gender"
+												class="form-control form-control-select2 select2-hidden-accessible">
+												<!-- <option>Select Gender</option> -->
+												<option value="m"
+													${empPersInfo.gender=='m' ? 'selected' : ''}>Male</option>
+												<option value="f"
+													${empPersInfo.gender=='f' ? 'selected' : ''}>Female</option>
+											</select> <span class="hidedefault   validation-invalid-label"
+												id="error_gender" style="display: none;">This field
+												is required.</span>
+										</div>
+									</div>
+
+									<div class="form-group row">
+
+										<label class="col-form-label col-lg-2" for="maritalstatus">Marital
+											Status : </label>
+										<div class="col-lg-4">
+											<select name="maritalstatus"
+												data-placeholder="Select Marital Status" id="maritalstatus"
+												class="form-control form-control-select2 select2-hidden-accessible">
+
+												<option value="Single"
+													${empPersInfo.maritalStatus=='Single' ? 'selected' : ''}>Single</option>
+												<option value="Married"
+													${empPersInfo.maritalStatus=='Married' ? 'selected' : ''}>Married</option>
+												<option value="Widowed"
+													${empPersInfo.maritalStatus=='Widowed' ? 'selected' : ''}>Widowed</option>
+												<option value="Divorced"
+													${empPersInfo.maritalStatus=='Divorced' ? 'selected' : ''}>Divorced</option>
+												<option value="Separated"
+													${empPersInfo.maritalStatus=='Separated' ? 'selected' : ''}>Separated</option>
+
+											</select> <span class="hidedefault   validation-invalid-label"
+												id="error_maritalstatus" style="display: none;">This
+												field is required.</span>
+										</div>
+
+										<label class="col-form-label col-lg-2" for="email">Email
+											: </label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control" placeholder="Email"
+												id="email" name="email" value="${empPersInfo.email}"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="hidedefault  validation-invalid-label"
+												id="error_persnlInfoEmail" style="display: none;">Please
+												enter correct email.</span>
+
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="address">Current
+											Address : </label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												value="${empPersInfo.address}" placeholder="Current Address"
+												id="address" name="caddress" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="hidedefault   validation-invalid-label"
+												id="error_caddress" style="display: none;">This field
+												is required.</span>
+										</div>
+
+
+										<label class="col-form-label col-lg-2" for="paddress">Parmanent
+											Address : </label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												placeholder="Parmanent Address" id="paddress"
+												value="${empPersInfo.permanentAddress}" name="paddress"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="hidedefault   validation-invalid-label"
+												id="error_paddress" style="display: none;">This field
+												is required.</span>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="qualification">Qualification
+											: </label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												value="${empPersInfo.empQualification}"
+												placeholder="Qualification" id="qualification"
+												name="qualification" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="hidedefault  validation-invalid-label"
+												id="error_qualification" style="display: none;">This
+												field is required.</span>
+										</div>
+
+										<label class="col-form-label col-lg-2" for="emergencyPerson">Name
+											: </label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												value="${empPersInfo.emerName}"
+												placeholder="Emergency Person Name" id="emergencyPerson"
+												name="emergencyPerson" autocomplete="off"
+												onchange="trim(this)"> <span style="display: none;"
+												class="hidedefault   validation-invalid-label"
+												id="error_emergencyPerson">This field is required.</span>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="contact1">Emergency
+											Contact 1 : </label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control numbersOnly"
+												value="${empPersInfo.emerContactNo1}"
+												placeholder="Emergency Contact No. 1" id="contact1"
+												maxlength="10" name="contact1" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="hidedefault   validation-invalid-label"
+												id="error_contact1" style="display: none;">This field
+												is required.</span>
+										</div>
+
+										<label class="col-form-label col-lg-2" for="contact2">Emergency
+											Contact 2 : </label>
+										<div class="col-lg-4">
+
+											<input type="text" class="form-control numbersOnly"
+												value="${empPersInfo.emerContactNo2}"
+												placeholder="Emergency Contact No. 2" id="contact2"
+												maxlength="10" name="contact2" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="hidedefault   validation-invalid-label"
+												id="error_contact2" style="display: none;">This field
+												is required.</span>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2"
+											for="emergencyPersonAddress">Emergency Person Address
+											: </label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												value="${empPersInfo.emerContactAddr}"
+												placeholder="Emergency Person Address"
+												id="emergencyPersonAddress" name="emergencyPersonAddress"
+												autocomplete="off" onchange="trim(this)"> <span
+												style="display: none;"
+												class="hidedefault   validation-invalid-label">This
+												field is required.</span>
+										</div>
+
+										<label class="col-form-label col-lg-2" for="bloodgroup">Blood
+											Group : </label>
+										<div class="col-lg-4">
+											<select name="bloodgroup"
+												data-placeholder="Select Blood Group" id="bloodgroup"
+												class="form-control form-control-select2 select2-hidden-accessible">
+
+												<option value="A+"
+													${empPersInfo.bloodGroup=='A+' ? 'selected' : ''}>A+</option>
+												<option value="A-"
+													${empPersInfo.bloodGroup=='A-' ? 'selected' : ''}>A-</option>
+												<option value="B+"
+													${empPersInfo.bloodGroup=='B+' ? 'selected' : ''}>B+</option>
+												<option value="B-"
+													${empPersInfo.bloodGroup=='B-' ? 'selected' : ''}>B-</option>
+												<option value="AB+"
+													${empPersInfo.bloodGroup=='AB+' ? 'selected' : ''}>AB+</option>
+												<option value="AB-"
+													${empPersInfo.bloodGroup=='AB-' ? 'selected' : ''}>AB-</option>
+												<option value="O+"
+													${empPersInfo.bloodGroup=='O+' ? 'selected' : ''}>O+</option>
+												<option value="O-"
+													${empPersInfo.bloodGroup=='O-' ? 'selected' : ''}>O-</option>
+
+											</select> <span class="hidedefault   validation-invalid-label"
+												style="display: none;" id="error_bloodgroup">This
+												field is required.</span>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="uniformsize">Uniform
+											Size : </label>
+										<div class="col-lg-4">
+											<select name="uniformsize"
+												data-placeholder="Select Uniform Size" id="uniformsize"
+												class="form-control form-control-select2 select2-hidden-accessible">
+
+												<option value="medium"
+													${empPersInfo.uniformSize=='medium' ? 'selected' : ''}>MEDIUM</option>
+												<option value="large"
+													${empPersInfo.uniformSize=='large' ? 'selected' : ''}>LARGE</option>
+												<option value="xl"
+													${empPersInfo.uniformSize=='xl' ? 'selected' : ''}>XL</option>
+												<option value="xxl"
+													${empPersInfo.uniformSize=='xxl' ? 'selected' : ''}>XXL</option>
+												<option value="xxxl"
+													${empPersInfo.uniformSize=='xxxl' ? 'selected' : ''}>XXXL</option>
+											</select>
+										</div>
+									</div>
+
+									<!-- <div class="form-group text-center">
+												<div class="col-lg-12">
+													<button type="reset" class="btn btn-light legitRipple">Reset</button>
+													<button type="button"
+														class=" btn btn-info prev text-center  btn_go_prev_tab "
+														id="btn_go_prev_tab2">
+														<i class="icon-arrow-left8  mr-2 "></i> Previous Step
+													</button>
+													<button type="button"
+														class=" btn btn-info next   btn_go_next_tab "
+														id="btn_go_next_tab">
+														Next Step <i class="icon-arrow-right8 ml-2 "></i>
+													</button>
+												</div>
+											</div> -->
+
+									<div class="form-group text-center">
+										<div class="col-lg-12">
+											<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+
+											<button type="submit" class="btn bg-blue ml-3 legitRipple"
+												id="submtbtn">
+												Submit <i class="icon-paperplane ml-2"></i>
+											</button>
+											<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+													type="button" class="btn btn-light">Back</button></a> <input
+												type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+												type="hidden" id="emailExist" name="emailExist">
+
+										</div>
+									</div>
+								</form>
+
+							</div>
+							<!--***************************************** tab 3 *************************************-->
+							<c:choose>
+								<c:when test="${empTab==3}">
+									<div class="tab-pane fade show active" id="highlighted-tab3">
+								</c:when>
+								<c:otherwise>
+									<div class="tab-pane fade" id="highlighted-tab3">
+								</c:otherwise>
+
+							</c:choose>
+
+
+							<form
+								action="${pageContext.request.contextPath}/submitEmpRelationInfo"
+								id="submitInsertRelationEmp" method="post">
+
+								<div class="form-group row">
+									<div class="col-lg-6">
+										<input type="hidden" id="empId" name="empId"
+											value="${emp.empId}">
+									</div>
+									<div class="col-lg-6">
+										<input type="hidden" id="empNomId" name="empNomId"
+											value="${empNom.nomineeId}">
+									</div>
+								</div>
+
+								<div class="row ">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label ">Person Name </label>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label ">Date of Birth</label>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label ">Relation</label>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label">Occupation</label>
+											<div class="col-md-3"></div>
+										</div>
+									</div>
+
+
+								</div>
+								<!--/row-->
+								<div class="form-group row">
+									<div class="col-md-3">
+
+										<input type="text" name="name" value="${empNom.name}"
+											class="form-control" style="width: 200px;"
+											placeholder="Enter Person Name" />
+
+									</div>
+									<div class="col-md-3">
+
+										<input type="text" class="form-control datepickerclass"
+											placeholder="Date of Birth" id="dob" name="dob"
+											value="${empNom.dob}" autocomplete="off"
+											onchange="trim(this)">
+
+									</div>
+									<div class="col-md-3">
+
+										<select name="relation" id="relation" data-rel="chosen"
+											style="width: 180px;" class="form-control">
+											<option>Please Select</option>
+											<option value="f" ${empNom.relation == 'f' ? 'selected' : ''}>Father</option>
+											<option value="m" ${empNom.relation == 'm' ? 'selected' : ''}>Mother</option>
+											<option value="s1"
+												${empNom.relation == 's1' ? 'selected' : ''}>Spouse</option>
+											<option value="b" ${empNom.relation == 'b' ? 'selected' : ''}>Brother</option>
+											<option value="s2"
+												${empNom.relation == 's2' ? 'selected' : ''}>Sister</option>
+											<option value="s3"
+												${empNom.relation == 's3' ?'selected' : ''}>Son</option>
+											<option value="d" ${empNom.relation == 'd' ? 'selected' : ''}>Daughter</option>
+										</select>
+
+									</div>
+									<div class="col-md-3">
+
+										<input type="text" name="occupation" id="occupation"
+											value="${empNom.occupation1}" class="form-control"
+											placeholder="Enter Occupation" />
+										<div class="col-md-3"></div>
+
+									</div>
+								</div>
+								<!--/row-->
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" name="name2" value="${empNom.name2}"
+												class="form-control" style="width: 200px;"
+												placeholder="Enter Person Name" />
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" class="form-control datepickerclass"
+												placeholder="Date of Birth" id="dob2" name="dob2"
+												value="${empNom.dob2}" autocomplete="off"
+												onchange="trim(this)">
+											<!-- <span
+														class="hidedefault  validation-invalid-label"
+														id="error_dob">This field is required.</span> -->
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<select name="relation2" id="relation2" data-rel="chosen"
+												style="width: 180px;" class="form-control">
+												<option>Please Select</option>
+												<option value="f"
+													${empNom.relation2 == 'f' ? 'selected' : ''}>Father</option>
+												<option value="m"
+													${empNom.relation2 == 'm' ? 'selected' : ''}>Mother</option>
+												<option value="s1"
+													${empNom.relation2 == 's1' ? 'selected' : ''}>Spouse</option>
+												<option value="b"
+													${empNom.relation2 == 'b' ? 'selected' : ''}>Brother</option>
+												<option value="s2"
+													${empNom.relation2 == 's2' ? 'selected' : ''}>Sister</option>
+												<option value="s3"
+													${empNom.relation2 == 's3' ?'selected' : ''}>Son</option>
+												<option value="d"
+													${empNom.relation2 == 'd' ? 'selected' : ''}>Daughter</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" name="occupation2" id="occupation2"
+												value="${empNom.occupation2}" class="form-control"
+												placeholder="Enter Occupation" />
+											<div class="col-md-3"></div>
+										</div>
+									</div>
+								</div>
+								<!--/row-->
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" name="name3" value="${empNom.name3}"
+												class="form-control" style="width: 200px;"
+												placeholder="Enter Person Name" />
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" class="form-control datepickerclass"
+												placeholder="Date of Birth" id="dob3" name="dob3"
+												value="${empNom.dob3}" autocomplete="off"
+												onchange="trim(this)">
+											<!-- <span
+														class="hidedefault  validation-invalid-label"
+														id="error_dob">This field is required.</span> -->
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<select name="relation3" id="relation3" data-rel="chosen"
+												style="width: 180px;" class="form-control">
+												<option>Please Select</option>
+												<option value="f"
+													${empNom.relation3 == 'f' ? 'selected' : ''}>Father</option>
+												<option value="m"
+													${empNom.relation3 == 'm' ? 'selected' : ''}>Mother</option>
+												<option value="s1"
+													${empNom.relation3 == 's1' ? 'selected' : ''}>Spouse</option>
+												<option value="b"
+													${empNom.relation3 == 'b' ? 'selected' : ''}>Brother</option>
+												<option value="s2"
+													${empNom.relation3 == 's2' ? 'selected' : ''}>Sister</option>
+												<option value="s3"
+													${empNom.relation3 == 's3' ? 'selected' : ''}>Son</option>
+												<option value="d"
+													${empNom.relation3 == 'd' ? 'selected' : ''}>Daughter</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" name="occupation3" id="occupation3"
+												value="${empNom.occupation3}" class="form-control"
+												placeholder="Enter Occupation" />
+											<div class="col-md-3"></div>
+										</div>
+									</div>
+								</div>
+								<!--/row-->
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" name="name4" value="${empNom.name4}"
+												class="form-control" style="width: 200px;"
+												placeholder="Enter Person Name" />
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" class="form-control datepickerclass"
+												placeholder="Date of Birth" id="dob4" name="dob4"
+												value="${empNom.dob4}" autocomplete="off"
+												onchange="trim(this)">
+											<!--  <span
+														class="hidedefault  validation-invalid-label"
+														id="error_dob">This field is required.</span> -->
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<select name="relation4" id="relation4" data-rel="chosen"
+												style="width: 180px;" class="form-control">
+												<option>Please Select</option>
+												<option value="f"
+													${empNom.relation4 == 'f' ? 'selected' : ''}>Father</option>
+												<option value="m"
+													${empNom.relation4 == 'm' ? 'selected' : ''}>Mother</option>
+												<option value="s1"
+													${empNom.relation4 == 's1' ? 'selected' : ''}>Spouse</option>
+												<option value="b"
+													${empNom.relation4 == 'b' ? 'selected' : ''}>Brother</option>
+												<option value="s2"
+													${empNom.relation4 == 's2' ? 'selected' : ''}>Sister</option>
+												<option value="s3"
+													${empNom.relation4 == 's3' ?'selected' : ''}>Son</option>
+												<option value="d"
+													${empNom.relation4 == 'd' ? 'selected' : ''}>Daughter</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" name="occupation4" id="occupation4"
+												value="${empNom.occupation4}" class="form-control"
+												placeholder="Enter Occupation" />
+											<div class="col-md-3"></div>
+										</div>
+									</div>
+								</div>
+								<!--/row-->
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" name="name5" value="${empNom.name5}"
+												class="form-control" style="width: 200px;"
+												placeholder="Enter Person Name" />
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" class="form-control datepickerclass"
+												placeholder="Date of Birth" id="dob5" name="dob5"
+												value="${empNom.dob5}" autocomplete="off"
+												onchange="trim(this)">
+											<!-- <span
+														class="hidedefault  validation-invalid-label"
+														id="error_dob">This field is required.</span> -->
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<select name="relation5" id="relation5" data-rel="chosen"
+												style="width: 180px;" class="form-control">
+												<option>Please Select</option>
+												<option value="f"
+													${empNom.relation5 == 'f' ? 'selected' : ''}>Father</option>
+												<option value="m"
+													${empNom.relation5 == 'm' ? 'selected' : ''}>Mother</option>
+												<option value="s1"
+													${empNom.relation5 == 's1' ? 'selected' : ''}>Spouse</option>
+												<option value="b"
+													${empNom.relation5 == 'b' ? 'selected' : ''}>Brother</option>
+												<option value="s2"
+													${empNom.relation5 == 's2' ? 'selected' : ''}>Sister</option>
+												<option value="s3"
+													${empNom.relation5 == 's3' ?'selected' : ''}>Son</option>
+												<option value="d"
+													${empNom.relation5 == 'd' ? 'selected' : ''}>Daughter</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" name="occupation5" id="occupation5"
+												value="${empNom.occupation5}" class="form-control"
+												placeholder="Enter Occupation" />
+											<div class="col-md-3"></div>
+										</div>
+									</div>
+								</div>
+								<!--/row-->
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" name="name6" value="${empNom.name6}"
+												class="form-control" style="width: 200px;"
+												placeholder="Enter Person Name" />
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" class="form-control datepickerclass"
+												placeholder="Date of Birth" id="dob6" name="dob6"
+												value="${empNom.dob6}" autocomplete="off"
+												onchange="trim(this)">
+											<!-- <span
+														class="hidedefault  validation-invalid-label"
+														id="error_dob">This field is required.</span> -->
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<select name="relation6" id="relation6" data-rel="chosen"
+												style="width: 180px;" class="form-control">
+												<option>Please Select</option>
+												<option value="f"
+													${empNom.relation6 == 'f' ? 'selected' : ''}>Father</option>
+												<option value="m"
+													${empNom.relation6 == 'm' ? 'selected' : ''}>Mother</option>
+												<option value="s1"
+													${empNom.relation6 == 's1' ? 'selected' : ''}>Spouse</option>
+												<option value="b"
+													${empNom.relation6 == 'b' ? 'selected' : ''}>Brother</option>
+												<option value="s2"
+													${empNom.relation6 == 's2' ? 'selected' : ''}>Sister</option>
+												<option value="s3"
+													${empNom.relation6 == 's3' ?'selected' : ''}>Son</option>
+												<option value="d"
+													${empNom.relation6 == 'd' ? 'selected' : ''}>Daughter</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<input type="text" name="occupation6" id="occupation6"
+												class="form-control" value="${empNom.occupation6}"
+												placeholder="Enter Occupation" />
+											<div class="col-md-3"></div>
+										</div>
+									</div>
+								</div>
+
+								<!-- <div class="form-group text-center">
+												<div class="col-lg-12">
+													<button type="reset" class="btn btn-light legitRipple">Reset</button>
+													<button type="button"
+														class=" btn btn-info prev text-center  btn_go_prev_tab "
+														id="btn_go_prev_tab2">
+														<i class="icon-arrow-left8  mr-2 "></i> Previous Step
+													</button>
+													<button type="button"
+														class=" btn btn-info next   btn_go_next_tab "
+														id="btn_go_next_tab">
+														Next Step <i class="icon-arrow-right8 ml-2 "></i>
+													</button>
+												</div>
+											</div> -->
+								<div class="form-group text-center">
+									<div class="col-lg-12">
+										<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+										<button type="submit" class="btn bg-blue ml-3 legitRipple"
+											id="submtbtn">
+											Submit <i class="icon-paperplane ml-2"></i>
+										</button>
+										<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+												type="button" class="btn btn-light">Back</button></a> <input
+											type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+											type="hidden" id="emailExist" name="emailExist">
+
+									</div>
+								</div>
+							</form>
+						</div>
+						<!-- *****************************************Tab 4******************************************* -->
+						<c:choose>
+							<c:when test="${empTab==4}">
+								<div class="tab-pane fade show active" id="highlighted-tab4">
+							</c:when>
+							<c:otherwise>
+								<div class="tab-pane fade" id="highlighted-tab4">
+							</c:otherwise>
+
+						</c:choose>
+
+						<form
+							action="${pageContext.request.contextPath}/submitEmpBankInfo"
+							id="submitEmpBankInfo" method="post">
+
+							<div class="form-group row">
+								<div class="col-lg-6">
+									<input type="hidden" id="empId" name="empId"
+										value="${emp.empId}">
+								</div>
+								<div class="col-lg-6">
+									<input type="hidden" id="empBankId" name="empBankId"
+										value="${empBank.bankInfoId}">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="accNo">Account No: <span class="text-danger">*</span>:
+								</label>
+								<div class="col-lg-4">
+									<input type="text" class="form-control"
+										value="${empBank.accNo}" placeholder="Account No" id="accNo"
+										maxlength="17" name="accNo" autocomplete="off"
+										onchange="trim(this)"> <span
+										class="hidedefault   validation-invalid-label"
+										style="display: none;" id="error_accNo">This field is
+										required.</span> <span class="hidedefault   validation-invalid-label"
+										style="display: none;" id="error_accNoDigit">Invalid
+										Account No.</span>
+								</div>
+
+								<label class="col-form-label col-lg-2" for="bankId">Bank
+									: </label>
+								<div class="col-lg-4">
+									<select name="bankId" data-placeholder="Select Bank"
+										id="bankId"
+										class="form-control form-control-select2 select2-hidden-accessible">
+
+
+										<c:forEach items="${bankList}" var="bankList">
+											<c:choose>
+												<c:when test="${bankList.bankId==empBank.bankId}">
+													<option selected value="${bankList.bankId}">${bankList.name}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${bankList.bankId}">${bankList.name}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</select>
+								</div>
+							</div>
+
+							<!-- <div class="form-group text-center">
+												<div class="col-lg-12">
+													<button type="reset" class="btn btn-light legitRipple">Reset</button>
+													<button type="button"
+														class=" btn btn-info prev text-center  btn_go_prev_tab "
+														id="btn_go_prev_tab2">
+														<i class="icon-arrow-left8  mr-2 "></i> Previous Step
+													</button>
+													<button type="button"
+														class=" btn btn-info next   btn_go_next_tab "
+														id="btn_go_next_tab">
+														Next Step <i class="icon-arrow-right8 ml-2 "></i>
+													</button>
+												</div>
+											</div> -->
+							<div class="form-group text-center">
+								<div class="col-lg-12">
+									<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+									<button type="submit" class="btn bg-blue ml-3 legitRipple"
+										id="submtbtn">
+										Submit <i class="icon-paperplane ml-2"></i>
+									</button>
+									<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+											type="button" class="btn btn-light">Back</button></a> <input
+										type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+										type="hidden" id="emailExist" name="emailExist">
+
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<!--********************************* Tab 5 *********************************-->
+					<c:choose>
+						<c:when test="${empTab==5}">
+							<div class="tab-pane fade show active" id="highlighted-tab5">
+						</c:when>
+						<c:otherwise>
+							<div class="tab-pane fade" id="highlighted-tab5">
+						</c:otherwise>
+
+					</c:choose>
+
+
+					<form
+						action="${pageContext.request.contextPath}/insertEmployeeAllowancesInfo"
+						id="insertEmployeeAllowancesInfo" method="post"
+						enctype="multipart/form-data">
+
+
+						<div class="form-group row">
+							<div class="col-lg-4">
+								<input type="hidden" id="empId" name="empId"
+									value="${emp.empId}">
+							</div>
+
+							<div class="col-lg-4">
+								<input type="hidden" id="empSalId" name="empSalId"
+									value="${empAllowanceId.salaryInfoId}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+
+							<label class="col-form-label text-info font-weight-bold col-lg-2"
+								for="basic">Basic Rs.<span class="text-danger">*</span>:
+							</label>
+							<div class="col-lg-4">
+								<input type="text" class="form-control numbersOnly"
+									placeholder="Basic Rs." name="basic" id="basic"
+									onchange="trim(this)" value="${empAllowanceId.basic}">
+								<span class="hidedefault   validation-invalid-label"
+									style="display: none;" id="error_salBasis">This field is
+									required.</span>
+							</div>
+
+							<label class="col-form-label col-lg-2" for="societyContri">Society
+								Contribution Rs. : </label>
+							<div class="col-lg-4">
+								<input type="text" class="form-control numbersOnly"
+									value="${empAllowanceId.societyContribution}"
+									placeholder="Society Contribution Rs." id="societyContri"
+									name="societyContri" autocomplete="off" onchange="trim(this)">
+
+							</div>
+
+						</div>
+
+
+						<div class="row">
+
+							<c:forEach items="${allowanceList}" var="allowanceList">
+								<c:set var="allowanceValue" value="0"></c:set>
+								<c:set var="empSalAlwncId" value="0"></c:set>
+
+								<c:forEach items="${empAllowncList}" var="empAllowncList">
+
+									<c:choose>
+										<c:when
+											test="${empAllowncList.allowanceId==allowanceList.allowanceId}">
+											<c:set var="allowanceValue"
+												value="${empAllowncList.allowanceValue}"></c:set>
+											<c:set var="empSalAlwncId"
+												value="${empAllowncList.empSalAllowanceId}"></c:set>
+										</c:when>
+										<%-- 	<c:otherwise>
 											 		<c:set var="allowanceValue" value="0"></c:set>
 											 	</c:otherwise> --%>
 
-														</c:choose>
-													</c:forEach>
-													<div class=" col-lg-6">
-														<div class="form-group row">
-															<label class="col-form-label col-lg-2"
-																for="allownces${allowanceList.allowanceId}">${allowanceList.shortName}
-																: </label>
-															<div class="col-lg-10">
-																<input type="text" class="form-control numbersOnly"
-																	value="${allowanceValue}"
-																	placeholder="${allowanceList.name}"
-																	id="allownces${allowanceList.allowanceId}"
-																	name="allownces${allowanceList.allowanceId}"
-																	autocomplete="off" onchange="trim(this)"> <input
-																	type="hidden"
-																	id="empSalAllownaceId${allowanceList.allowanceId}"
-																	name="empSalAllownaceId${allowanceList.allowanceId}"
-																	value="${empSalAlwncId}">
-															</div>
+									</c:choose>
+								</c:forEach>
+								<div class=" col-lg-6">
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2"
+											for="allownces${allowanceList.allowanceId}">${allowanceList.shortName}
+											: </label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control numbersOnly"
+												value="${allowanceValue}"
+												placeholder="${allowanceList.name}"
+												id="allownces${allowanceList.allowanceId}"
+												name="allownces${allowanceList.allowanceId}"
+												autocomplete="off" onchange="trim(this)"> <input
+												type="hidden"
+												id="empSalAllownaceId${allowanceList.allowanceId}"
+												name="empSalAllownaceId${allowanceList.allowanceId}"
+												value="${empSalAlwncId}">
+										</div>
 
-														</div>
-													</div>
+									</div>
+								</div>
 
-												</c:forEach>
-											</div>
+							</c:forEach>
+						</div>
 
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="pfApplicable">PF
-													Applicable : </label>
-												<div class="col-lg-4">
-													<%-- <input type="text" class="form-control"
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="pfApplicable">PF
+								Applicable : </label>
+							<div class="col-lg-4">
+								<%-- <input type="text" class="form-control"
 														value="${empAllowanceId.pfApplicable}"
 														placeholder="PF Applicable" id="pfApplicable"
 														name="pfApplicable" autocomplete="off"
 														onchange="trim(this)"> --%>
-													<select name="pfApplicable" id="pfApplicable"
-														data-rel="chosen" class="form-control">
+								<select name="pfApplicable" id="pfApplicable" data-rel="chosen"
+									class="form-control">
 
-														<option value="no"
-															${empAllowanceId.pfApplicable == 'no' ? 'selected' : ''}>NO</option>
-														<option value="yes"
-															${empAllowanceId.pfApplicable == 'yes' ? 'selected' : ''}>YES</option>
+									<option value="no"
+										${empAllowanceId.pfApplicable == 'no' ? 'selected' : ''}>NO</option>
+									<option value="yes"
+										${empAllowanceId.pfApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-													</select>
-												</div>
+								</select>
+							</div>
 
-												<label class="col-form-label col-lg-2" for="pfType">PF
-													Type : </label>
-												<div class="col-lg-4">
-													<%-- <input type="text" class="form-control"
+							<label class="col-form-label col-lg-2" for="pfType">PF
+								Type : </label>
+							<div class="col-lg-4">
+								<%-- <input type="text" class="form-control"
 														placeholder="PF Type" id="pfType" name="pfType"
 														autocomplete="off" value="${empAllowanceId.pfType}"
 														onchange="trim(this)"> --%>
-													<select name="pfType" id="pfType" data-rel="chosen"
-														class="form-control">
+								<select name="pfType" id="pfType" data-rel="chosen"
+									class="form-control">
 
-														<option value="no"
-															${empAllowanceId.pfType == 'no' ? 'selected' : ''}>NO</option>
-														<option value="yes"
-															${empAllowanceId.pfType == 'yes' ? 'selected' : ''}>YES</option>
+									<option value="no"
+										${empAllowanceId.pfType == 'no' ? 'selected' : ''}>NO</option>
+									<option value="yes"
+										${empAllowanceId.pfType == 'yes' ? 'selected' : ''}>YES</option>
 
-													</select>
-												</div>
-											</div>
+								</select>
+							</div>
+						</div>
 
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="pfEmpPer">PF
-													Employee Per : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														value="${empAllowanceId.pfEmpPer}"
-														placeholder="PF Employee Per" id="pfEmpPer"
-														name="pfEmpPer" autocomplete="off" onchange="trim(this)">
-												</div>
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="pfEmpPer">PF
+								Employee Per : </label>
+							<div class="col-lg-4">
+								<input type="text" class="form-control numbersOnly"
+									value="${empAllowanceId.pfEmpPer}"
+									placeholder="PF Employee Per" id="pfEmpPer" name="pfEmpPer"
+									autocomplete="off" onchange="trim(this)">
+							</div>
 
-												<label class="col-form-label col-lg-2" for="pfEmployerPer">PF
-													Employer Per : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														placeholder="PF Employer Per" id="pfEmployerPer"
-														name="pfEmployerPer" autocomplete="off"
-														onchange="trim(this)" value="${empAllowanceId.pfEmplrPer}">
-												</div>
-											</div>
+							<label class="col-form-label col-lg-2" for="pfEmployerPer">PF
+								Employer Per : </label>
+							<div class="col-lg-4">
+								<input type="text" class="form-control numbersOnly"
+									placeholder="PF Employer Per" id="pfEmployerPer"
+									name="pfEmployerPer" autocomplete="off" onchange="trim(this)"
+									value="${empAllowanceId.pfEmplrPer}">
+							</div>
+						</div>
 
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="esicApplicable">ESIC
-													Applicable : </label>
-												<div class="col-lg-4">
-													<%-- <input type="text" class="form-control"
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="esicApplicable">ESIC
+								Applicable : </label>
+							<div class="col-lg-4">
+								<%-- <input type="text" class="form-control"
 														value="${empAllowanceId.esicApplicable}"
 														placeholder="ESIC Applicable" id="esicApplicable"
 														name="esicApplicable" autocomplete="off"
 														onchange="trim(this)"> --%>
-													<select name="esicApplicable" id="esicApplicable"
-														data-rel="chosen" class="form-control">
+								<select name="esicApplicable" id="esicApplicable"
+									data-rel="chosen" class="form-control">
 
-														<option value="no"
-															${empAllowanceId.esicApplicable == 'no' ? 'selected' : ''}>NO</option>
-														<option value="yes"
-															${empAllowanceId.esicApplicable == 'yes' ? 'selected' : ''}>YES</option>
+									<option value="no"
+										${empAllowanceId.esicApplicable == 'no' ? 'selected' : ''}>NO</option>
+									<option value="yes"
+										${empAllowanceId.esicApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-													</select>
-												</div>
+								</select>
+							</div>
 
-												<label class="col-form-label col-lg-2" for="mlwfApplicable">MLWF
-													Applicable : </label>
-												<div class="col-lg-4">
-													<%-- <input type="text" class="form-control"
+							<label class="col-form-label col-lg-2" for="mlwfApplicable">MLWF
+								Applicable : </label>
+							<div class="col-lg-4">
+								<%-- <input type="text" class="form-control"
 														placeholder="MLWF Applicable" id="mlwfApplicable"
 														name="mlwfApplicable" autocomplete="off"
 														onchange="trim(this)"
 														value="${empAllowanceId.mlwfApplicable}"> --%>
-													<select name="mlwfApplicable" id="mlwfApplicable"
-														data-rel="chosen" class="form-control">
+								<select name="mlwfApplicable" id="mlwfApplicable"
+									data-rel="chosen" class="form-control">
 
-														<option value="no"
-															${empAllowanceId.mlwfApplicable == 'no' ? 'selected' : ''}>NO</option>
-														<option value="yes"
-															${empAllowanceId.mlwfApplicable == 'yes' ? 'selected' : ''}>YES</option>
+									<option value="no"
+										${empAllowanceId.mlwfApplicable == 'no' ? 'selected' : ''}>NO</option>
+									<option value="yes"
+										${empAllowanceId.mlwfApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-													</select>
-												</div>
-											</div>
+								</select>
+							</div>
+						</div>
 
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="empEsicPer">Employee
-													Esic Percentage : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														value="${empAllowanceId.employeeEsicPercentage}"
-														placeholder="Employee Esic Percentage" id="empEsicPer"
-														name="empEsicPer" autocomplete="off" onchange="trim(this)">
-												</div>
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="empEsicPer">Employee
+								Esic Percentage : </label>
+							<div class="col-lg-4">
+								<input type="text" class="form-control numbersOnly"
+									value="${empAllowanceId.employeeEsicPercentage}"
+									placeholder="Employee Esic Percentage" id="empEsicPer"
+									name="empEsicPer" autocomplete="off" onchange="trim(this)">
+							</div>
 
-												<label class="col-form-label col-lg-2" for="employerEsicPer">Employer
-													Esic Percentage : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														placeholder="Employer Esic Percentage"
-														id="employerEsicPer" name="employerEsicPer"
-														autocomplete="off" onchange="trim(this)"
-														value="${empAllowanceId.employerEsicPercentage}">
-												</div>
-											</div>
+							<label class="col-form-label col-lg-2" for="employerEsicPer">Employer
+								Esic Percentage : </label>
+							<div class="col-lg-4">
+								<input type="text" class="form-control numbersOnly"
+									placeholder="Employer Esic Percentage" id="employerEsicPer"
+									name="employerEsicPer" autocomplete="off" onchange="trim(this)"
+									value="${empAllowanceId.employerEsicPercentage}">
+							</div>
+						</div>
 
 
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="ptApplicable">PT
-													Applicable : </label>
-												<div class="col-lg-4">
-													<%-- <input type="text" class="form-control"
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="ptApplicable">PT
+								Applicable : </label>
+							<div class="col-lg-4">
+								<%-- <input type="text" class="form-control"
 														value="${empAllowanceId.ptApplicable}"
 														placeholder="PT Applicable" id="ptApplicable"
 														name="ptApplicable" autocomplete="off"
 														onchange="trim(this)"> --%>
-													<select name="ptApplicable" id="ptApplicable"
-														data-rel="chosen" class="form-control">
+								<select name="ptApplicable" id="ptApplicable" data-rel="chosen"
+									class="form-control">
 
-														<option value="no"
-															${empAllowanceId.ptApplicable == 'no' ? 'selected' : ''}>NO</option>
-														<option value="yes"
-															${empAllowanceId.ptApplicable == 'yes' ? 'selected' : ''}>YES</option>
+									<option value="no"
+										${empAllowanceId.ptApplicable == 'no' ? 'selected' : ''}>NO</option>
+									<option value="yes"
+										${empAllowanceId.ptApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-													</select>
-												</div>
+								</select>
+							</div>
 
-												<label class="col-form-label col-lg-2" for="salBasis">Salary
-													Basis : </label>
-												<div class="col-lg-4">
-													<select name="salBasis"
-														data-placeholder="Select Designation" id="salBasis"
-														class="form-control form-control-select2 select2-hidden-accessible">
-														<option value="monthly"
-															${empAllowanceId.salBasis=='monthly' ? 'selected' : ''}>Monthly</option>
-														<option value="daily"
-															${empAllowanceId.salBasis=='daily' ? 'selected' : ''}>Daily</option>
-													</select>
-												</div>
-											</div>
-
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="epfJoinDate">EPF
-													Joining Date : </label>
-												<div class="col-lg-4">
-
-													<input type="text" class="form-control datepickerclass"
-														placeholder="EPF Joining Date" id="epfJoinDate"
-														name="epfJoinDate" autocomplete="off"
-														onchange="trim(this)"
-														value="${empAllowanceId.epfJoiningDate}">
-												</div>
-
-												<label class="col-form-label col-lg-2" for="joinDate">Joining
-													Date : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control datepickerclass"
-														placeholder="Joining Date" id="joinDate" name="joinDate"
-														autocomplete="off" onchange="trim(this)"
-														value="${empAllowanceId.cmpJoiningDate}">
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="leaveDate">Leaving
-													Date : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control datepickerclass"
-														value="${empAllowanceId.cmpLeavingDate}"
-														placeholder="Leaving Date" id="leaveDate" name="leaveDate"
-														autocomplete="off" onchange="trim(this)">
-												</div>
-
-												<label class="col-form-label col-lg-2" for="leaveReason">Leaving
-													Reason : </label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														placeholder="Leaving Reason" id="leaveReason"
-														name="leaveReason" autocomplete="off"
-														onchange="trim(this)"
-														value="${empAllowanceId.leavingReason}">
-												</div>
-											</div>
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="lrEsic">LR
-													For ESIC : </label>
-												<div class="col-lg-4">
-													<select name="lrEsic"
-														data-placeholder="Select Uniform Size" id="lrEsic"
-														class="form-control form-control-select2 select2-hidden-accessible">
-
-														<option value="0"
-															${empAllowanceId.leavingReasonEsic=='0' ? 'selected' : ''}>0-Without
-															Reason</option>
-														<option value="1"
-															${empAllowanceId.leavingReasonEsic=='1' ? 'selected' : ''}>1-On
-															Leave</option>
-														<option value="2"
-															${empAllowanceId.leavingReasonEsic=='2' ? 'selected' : ''}>2-Self
-															Service</option>
-														<option value="3"
-															${empAllowanceId.leavingReasonEsic=='3' ? 'selected' : ''}>3-Retired</option>
-														<option value="4"
-															${empAllowanceId.leavingReasonEsic=='4' ? 'selected' : ''}>4-Out
-															of coverage</option>
-
-														<option value="5"
-															${empAllowanceId.leavingReasonEsic=='5' ? 'selected' : ''}>5-Expired</option>
-														<option value="6"
-															${empAllowanceId.leavingReasonEsic=='6' ? 'selected' : ''}>6-Non
-															Implemented Area</option>
-														<option value="7"
-															${empAllowanceId.leavingReasonEsic=='7' ? 'selected' : ''}>7-Compliance
-															by immediate Employer</option>
-														<option value="8"
-															${empAllowanceId.leavingReasonEsic=='8' ? 'selected' : ''}>8-Suspension
-															of work</option>
-														<option value="9"
-															${empAllowanceId.leavingReasonEsic=='9' ? 'selected' : ''}>9-Strike/Lockout</option>
-
-														<option value="10"
-															${empAllowanceId.leavingReasonEsic=='10' ? 'selected' : ''}>10-Retrenchment</option>
-														<option value="11"
-															${empAllowanceId.leavingReasonEsic=='11' ? 'selected' : ''}>11-No
-															Work</option>
-														<option value="12"
-															${empAllowanceId.leavingReasonEsic=='12' ? 'selected' : ''}>12-Does
-															not belong to this Employer</option>
+							<label class="col-form-label col-lg-2" for="salBasis">Salary
+								Basis : </label>
+							<div class="col-lg-4">
+								<select name="salBasis" data-placeholder="Select Designation"
+									id="salBasis"
+									class="form-control form-control-select2 select2-hidden-accessible">
+									<option value="monthly"
+										${empAllowanceId.salBasis=='monthly' ? 'selected' : ''}>Monthly</option>
+									<option value="daily"
+										${empAllowanceId.salBasis=='daily' ? 'selected' : ''}>Daily</option>
+								</select>
+							</div>
+						</div>
 
 
-													</select>
-												</div>
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="epfJoinDate">EPF
+								Joining Date : </label>
+							<div class="col-lg-4">
+
+								<input type="text" class="form-control datepickerclass"
+									placeholder="EPF Joining Date" id="epfJoinDate"
+									name="epfJoinDate" autocomplete="off" onchange="trim(this)"
+									value="${empAllowanceId.epfJoiningDate}">
+							</div>
+
+							<label class="col-form-label col-lg-2" for="joinDate">Joining
+								Date : </label>
+							<div class="col-lg-4">
+								<input type="text" class="form-control datepickerclass"
+									placeholder="Joining Date" id="joinDate" name="joinDate"
+									autocomplete="off" onchange="trim(this)"
+									value="${empAllowanceId.cmpJoiningDate}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="leaveDate">Leaving
+								Date : </label>
+							<div class="col-lg-4">
+								<input type="text" class="form-control datepickerclass"
+									value="${empAllowanceId.cmpLeavingDate}"
+									placeholder="Leaving Date" id="leaveDate" name="leaveDate"
+									autocomplete="off" onchange="trim(this)">
+							</div>
+
+							<label class="col-form-label col-lg-2" for="leaveReason">Leaving
+								Reason : </label>
+							<div class="col-lg-4">
+								<input type="text" class="form-control"
+									placeholder="Leaving Reason" id="leaveReason"
+									name="leaveReason" autocomplete="off" onchange="trim(this)"
+									value="${empAllowanceId.leavingReason}">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="lrEsic">LR
+								For ESIC : </label>
+							<div class="col-lg-4">
+								<select name="lrEsic" data-placeholder="Select Uniform Size"
+									id="lrEsic"
+									class="form-control form-control-select2 select2-hidden-accessible">
+
+									<option value="0"
+										${empAllowanceId.leavingReasonEsic=='0' ? 'selected' : ''}>0-Without
+										Reason</option>
+									<option value="1"
+										${empAllowanceId.leavingReasonEsic=='1' ? 'selected' : ''}>1-On
+										Leave</option>
+									<option value="2"
+										${empAllowanceId.leavingReasonEsic=='2' ? 'selected' : ''}>2-Self
+										Service</option>
+									<option value="3"
+										${empAllowanceId.leavingReasonEsic=='3' ? 'selected' : ''}>3-Retired</option>
+									<option value="4"
+										${empAllowanceId.leavingReasonEsic=='4' ? 'selected' : ''}>4-Out
+										of coverage</option>
+
+									<option value="5"
+										${empAllowanceId.leavingReasonEsic=='5' ? 'selected' : ''}>5-Expired</option>
+									<option value="6"
+										${empAllowanceId.leavingReasonEsic=='6' ? 'selected' : ''}>6-Non
+										Implemented Area</option>
+									<option value="7"
+										${empAllowanceId.leavingReasonEsic=='7' ? 'selected' : ''}>7-Compliance
+										by immediate Employer</option>
+									<option value="8"
+										${empAllowanceId.leavingReasonEsic=='8' ? 'selected' : ''}>8-Suspension
+										of work</option>
+									<option value="9"
+										${empAllowanceId.leavingReasonEsic=='9' ? 'selected' : ''}>9-Strike/Lockout</option>
+
+									<option value="10"
+										${empAllowanceId.leavingReasonEsic=='10' ? 'selected' : ''}>10-Retrenchment</option>
+									<option value="11"
+										${empAllowanceId.leavingReasonEsic=='11' ? 'selected' : ''}>11-No
+										Work</option>
+									<option value="12"
+										${empAllowanceId.leavingReasonEsic=='12' ? 'selected' : ''}>12-Does
+										not belong to this Employer</option>
 
 
-												<label class="col-form-label col-lg-2" for="lrForPF">LR
-													For PF : </label>
+								</select>
+							</div>
 
-												<div class="col-lg-4">
-													<select name="lrForPF"
-														data-placeholder="Select Uniform Size" id="lrForPF"
-														class="form-control form-control-select2 select2-hidden-accessible">
 
-														<option value="0"
-															${empAllowanceId.leavingReasonPf=='1' ? 'selected' : ''}>C-Cessation</option>
-														<option value="1"
-															${empAllowanceId.leavingReasonPf=='2' ? 'selected' : ''}>S-Superannuation</option>
-														<option value="2"
-															${empAllowanceId.leavingReasonPf=='3' ? 'selected' : ''}>R-Retirement</option>
-														<option value="3"
-															${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>D-Death
-															in Service</option>
-														<option value="4"
-															${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>P-Permanent
-															Disablement</option>
+							<label class="col-form-label col-lg-2" for="lrForPF">LR
+								For PF : </label>
 
-													</select>
-												</div>
+							<div class="col-lg-4">
+								<select name="lrForPF" data-placeholder="Select Uniform Size"
+									id="lrForPF"
+									class="form-control form-control-select2 select2-hidden-accessible">
 
-											</div>
+									<option value="0"
+										${empAllowanceId.leavingReasonPf=='1' ? 'selected' : ''}>C-Cessation</option>
+									<option value="1"
+										${empAllowanceId.leavingReasonPf=='2' ? 'selected' : ''}>S-Superannuation</option>
+									<option value="2"
+										${empAllowanceId.leavingReasonPf=='3' ? 'selected' : ''}>R-Retirement</option>
+									<option value="3"
+										${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>D-Death
+										in Service</option>
+									<option value="4"
+										${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>P-Permanent
+										Disablement</option>
 
-											<
-											<!-- div class="form-group text-center">
+								</select>
+							</div>
+
+						</div>
+
+						<
+						<!-- div class="form-group text-center">
 												<div class="col-lg-12">
 													<button type="reset" class="btn btn-light legitRipple">Reset</button>
 													<button type="button"
@@ -1894,70 +1876,67 @@
 													</button>
 												</div>
 											</div> -->
-											<div class="form-group text-center">
-												<div class="col-lg-12">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-light">Back</button></a> <input
-														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
-														type="hidden" id="emailExist" name="emailExist">
+						<div class="form-group text-center">
+							<div class="col-lg-12">
+								<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+								<button type="submit" class="btn bg-blue ml-3 legitRipple"
+									id="submtbtn">
+									Submit <i class="icon-paperplane ml-2"></i>
+								</button>
+								<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+										type="button" class="btn btn-light">Back</button></a> <input
+									type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+									type="hidden" id="emailExist" name="emailExist">
 
-												</div>
-											</div>
-										</form>
-									</div>
-									<!-- *****************************************Tab 6******************************************* -->
-									<c:choose>
-										<c:when test="${empTab==6}">
-										<div class="tab-pane fade show active" id="highlighted-tab6">
-										</c:when>
-										<c:otherwise>
-										<div class="tab-pane fade" id="highlighted-tab6">
-										</c:otherwise>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- *****************************************Tab 6******************************************* -->
+				<c:choose>
+					<c:when test="${empTab==6}">
+						<div class="tab-pane fade show active" id="highlighted-tab6">
+					</c:when>
+					<c:otherwise>
+						<div class="tab-pane fade" id="highlighted-tab6">
+					</c:otherwise>
 
-									</c:choose>
-									 
+				</c:choose>
 
-										<form
-											action="${pageContext.request.contextPath}/submitInsertEmpDoc"
-											id="submitInsertRelationEmp" method="post"
-											enctype="multipart/form-data">
 
-											<div class="form-group row">
-												<div class="col-lg-6">
-													<input type="hidden" id="empId" name="empId"
-														value="${emp.empId}">
-												</div>
-												<!-- <div class="col-lg-6">
+				<form action="${pageContext.request.contextPath}/submitInsertEmpDoc"
+					id="submitInsertRelationEmp" method="post"
+					enctype="multipart/form-data">
+
+					<div class="form-group row">
+						<div class="col-lg-6">
+							<input type="hidden" id="empId" name="empId" value="${emp.empId}">
+						</div>
+						<!-- <div class="col-lg-6">
 													<input type="text" id="empDocId"
 														name="empDocId">
 												</div> -->
-											</div>
+					</div>
 
-											<c:forEach items="${empDocList}" var="empDocList">
+					<c:forEach items="${empDocList}" var="empDocList">
 
-												<c:set var="docName" value=""></c:set>
-												<c:set var="docId" value="0"></c:set>
+						<c:set var="docName" value=""></c:set>
+						<c:set var="docId" value="0"></c:set>
 
-												<c:forEach items="${docList}" var="docList">
+						<c:forEach items="${docList}" var="docList">
 
-													<c:choose>
-														<c:when test="${empDocList.doctypeId==docList.doctypeId}">
-															<c:set var="docName" value="${docList.docImage}"></c:set>
-															<c:set var="docId" value="${docList.docId}"></c:set>
+							<c:choose>
+								<c:when test="${empDocList.doctypeId==docList.doctypeId}">
+									<c:set var="docName" value="${docList.docImage}"></c:set>
+									<c:set var="docId" value="${docList.docId}"></c:set>
 
-														</c:when>
-													</c:choose>
-												</c:forEach>
+								</c:when>
+							</c:choose>
+						</c:forEach>
 
-												<div class="form-body">
+						<div class="form-body">
 
-													<%-- <div class="form-group">
+							<%-- <div class="form-group">
 														<label class="control-label col-md-3"><img
 															id="blah" src="${imgUrl}${docName}" alt="Emp Photo"
 															width="300px" /></label>
@@ -1982,53 +1961,50 @@
 														</div>
 													</div> --%>
 
-													<div class="form-group row">
-														<label class="col-form-label col-lg-2"
-															for="doc${empDocList.doctypeId}">
-															${empDocList.doctypeName} </label>
-														<div class="col-lg-5">
+							<div class="form-group row">
+								<label class="col-form-label col-lg-2"
+									for="doc${empDocList.doctypeId}">
+									${empDocList.doctypeName} </label>
+								<div class="col-lg-5">
 
-															<input type="file" class="form-control"
-																id="doc${empDocList.doctypeId}" type="file" name="doc"
-																accept=".jpg,.png,.gif,.doc,.xls,.pdf"> <span
-																class="form-text text-muted">Only
-																.jpg,.png,.gif,.doc,.xls,.pdf</span> <span
-																class="validation-invalid-label" id="error_doc1"
-																style="display: none;">This field is required.</span>
+									<input type="file" class="form-control"
+										id="doc${empDocList.doctypeId}" type="file" name="doc"
+										accept=".jpg,.png,.gif,.doc,.xls,.pdf"> <span
+										class="form-text text-muted">Only
+										.jpg,.png,.gif,.doc,.xls,.pdf</span> <span
+										class="validation-invalid-label" id="error_doc1"
+										style="display: none;">This field is required.</span>
 
 
 
-														</div>
-														<c:if test="${docName != ''}">
-															<div class="col-lg-5">
-																<a href="${imgUrl}${docName}" target="_blank"
-																	title="Open File"> <i
-																	class="far fa-file-alt mr-3 fa-2x"
-																	style="color: black;"></i>
-																</a>
-															</div>
-														</c:if>
-														<input type="hidden" name="docType${empDocList.doctypeId}"
-															id="docType${empDocList.doctypeId}"
-															value="${empDocList.doctypeId}"> <input
-															type="hidden" id="empDocId${empDocList.doctypeId}"
-															name="empDocId${empDocList.doctypeId}" value="${docId}">
-														<input type="hidden"
-															id="empDocName${empDocList.doctypeId}"
-															name="empDocName${empDocList.doctypeId}"
-															value="${docName}">
-														<!-- <span class="validation-invalid-label"
+								</div>
+								<c:if test="${docName != ''}">
+									<div class="col-lg-5">
+										<a href="${imgUrl}${docName}" target="_blank"
+											title="Open File"> <i class="far fa-file-alt mr-3 fa-2x"
+											style="color: black;"></i>
+										</a>
+									</div>
+								</c:if>
+								<input type="hidden" name="docType${empDocList.doctypeId}"
+									id="docType${empDocList.doctypeId}"
+									value="${empDocList.doctypeId}"> <input type="hidden"
+									id="empDocId${empDocList.doctypeId}"
+									name="empDocId${empDocList.doctypeId}" value="${docId}">
+								<input type="hidden" id="empDocName${empDocList.doctypeId}"
+									name="empDocName${empDocList.doctypeId}" value="${docName}">
+								<!-- <span class="validation-invalid-label"
 															id="error_fileName0" style="display: none;">This
 															field is required.</span> -->
-													</div>
+							</div>
 
 
 
 
-												</div>
+						</div>
 
-											</c:forEach>
-											<!-- <div class="form-group text-center">
+					</c:forEach>
+					<!-- <div class="form-group text-center">
 												<div class="col-lg-12">
 													<button type="reset" class="btn btn-light legitRipple">Reset</button>
 													<button type="button"
@@ -2038,46 +2014,45 @@
 													</button>
 												</div>
 											</div> -->
-											<div class="form-group text-center">
-												<div class="col-lg-12">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showEmployeeList"><button
-															type="button" class="btn btn-light">Back</button></a> <input
-														type="hidden" id="mobile1Exist" name="mobile1Exist"><input
-														type="hidden" id="emailExist" name="emailExist">
-												</div>
-											</div>
-										</form>
-									</div>
-
-
-								</div>
-								<!-- /highlighted tabs -->
-
-								<p class="desc text-danger fontsize11">Notice : * Fields are
-									mandatory.</p>
-							</div>
+					<div class="form-group text-center">
+						<div class="col-lg-12">
+							<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+							<button type="submit" class="btn bg-blue ml-3 legitRipple"
+								id="submtbtn">
+								Submit <i class="icon-paperplane ml-2"></i>
+							</button>
+							<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+									type="button" class="btn btn-light">Back</button></a> <input
+								type="hidden" id="mobile1Exist" name="mobile1Exist"><input
+								type="hidden" id="emailExist" name="emailExist">
 						</div>
-
-
 					</div>
-				</div>
-
+				</form>
 			</div>
-			<!-- /content area -->
 
-
-			<!-- Footer -->
-			<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
-			<!-- /footer -->
 
 		</div>
-		<!-- /main content -->
+		<!-- /highlighted tabs -->
+
+		<p class="desc text-danger fontsize11">Notice : * Fields are
+			mandatory.</p>
+	</div>
+	</div>
+
+
+	</div>
+	</div>
+
+	</div>
+	<!-- /content area -->
+
+
+	<!-- Footer -->
+	<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+	<!-- /footer -->
+
+	</div>
+	<!-- /main content -->
 
 	</div>
 	<!-- /page content -->
