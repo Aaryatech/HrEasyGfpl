@@ -119,7 +119,7 @@
 
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a
-													href="${pageContext.request.contextPath}/editSubCompanyInfo?compId=${list.exVar1}"
+													href="${pageContext.request.contextPath}/editSubCompanyInfo?compId=${list.exVar1}&redirectFlag=2"
 													class="list-icons-item text-primary-600"
 													data-popup="tooltip" title="" data-original-title="Edit"><i
 													class="icon-pencil7"></i></a>

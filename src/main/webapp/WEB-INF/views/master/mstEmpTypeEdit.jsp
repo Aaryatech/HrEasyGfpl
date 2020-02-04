@@ -267,10 +267,10 @@
 											Minimum Work Hour(in Min)<span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control numbersOnly"
 												placeholder="Enter Min Hours" id="minHr" name="minHr"
 												value="${employee.minWorkHr}" autocomplete="off"
-												onchange="trim(this)" maxlength="100"> <span
+												onchange="trim(this)" maxlength="20"> <span
 												class="validation-invalid-label" id="error_minHr"
 												style="display: none;">This field is required.</span>
 										</div>

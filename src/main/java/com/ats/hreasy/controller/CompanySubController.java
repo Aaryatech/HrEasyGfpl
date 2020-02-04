@@ -190,6 +190,9 @@ public class CompanySubController {
 			 */
 			model = new ModelAndView("master/companySubAdd");
 			model.addObject("company", company);
+			session.setAttribute("tabFlag", 0);
+		 
+			  
 			// }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -200,23 +203,30 @@ public class CompanySubController {
 	@RequestMapping(value = "/insertSubCompanyInfo", method = RequestMethod.POST)
 	public String insertSubCompanyInfo(HttpServletRequest request, HttpServletResponse response) {
 
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("tabFlag", 0);
+		 
 		String a = new String();
 		try {
 
-			HttpSession session = request.getSession();
+		
 			MstCompanySub company = new MstCompanySub();
 			int compId = 0;
 			try {
 				compId = Integer.parseInt(request.getParameter("companyId"));
-				
+				System.err.println("compId**"+compId);
 			} catch (Exception e) {
 				e.printStackTrace();
 				compId = 0;
 				
 			}
-			
+		 
 			if(compId!=0) {
-				a = "redirect:/editSubCompanyInfo?compId=" + encryptCompId;
+				
+				encryptCompId = FormValidation.Encrypt(String.valueOf(compId));
+				System.out.println("Set CompId 1: " + encryptCompId);
+				a = "redirect:/editSubCompanyInfo?compId=" + encryptCompId+"&redirectFlag=1";
 			}else {
 				a = "redirect:/showSubCompanyList";
 			}
@@ -293,12 +303,14 @@ public class CompanySubController {
 			} else {
 				session.setAttribute("errorMsg", "Failed to Update Record");
 			}
-			encryptCompId = FormValidation.Encrypt(String.valueOf(compId));
-			System.out.println("Set CompId 1: " + encryptCompId);
+			
 		} catch (Exception e) {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
+		
+		
+		
 		return a;
 
 	}
@@ -306,11 +318,19 @@ public class CompanySubController {
 	@RequestMapping(value = "/editSubCompanyInfo", method = RequestMethod.GET)
 	public ModelAndView addCompanyInfo(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView model = null;
+		HttpSession session = request.getSession();
 		try {
+			
+			String redirectFlag =request.getParameter("redirectFlag");
+			if(Integer.parseInt(redirectFlag)==2) {
+				session.setAttribute("tabFlag", 0);
+			}
+
 			String base64encodedString = request.getParameter("compId");
 			String companyId = FormValidation.DecodeKey(base64encodedString);
 			System.out.println("Get CompId : " + companyId);
-
+			
+		
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("companyId", companyId);
 
@@ -332,8 +352,10 @@ public class CompanySubController {
 
 	@RequestMapping(value = "/insertSubCompanyFundsInfo", method = RequestMethod.POST)
 	public String insertSubCompanyFundsInfo(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		session.setAttribute("tabFlag", 2);
 		try {
-			HttpSession session = request.getSession();
+		
 			MstCompanySub company = new MstCompanySub();
 			int compId = 0;
 			try {
@@ -397,7 +419,7 @@ public class CompanySubController {
 				company.setPfSignatory3(request.getParameter("pfSignatory3"));
 			}
 			
-			company.setIsEsicApplicable(Integer.parseInt(request.getParameter("isEsicApplicable")));
+			company.setIsEsicApplicable(request.getParameter("isEsicApplicable"));
 			if(Integer.parseInt(request.getParameter("isEsicApplicable"))==1) {
 			
 			company.setEsicNo(request.getParameter("esicNo"));
@@ -428,14 +450,16 @@ public class CompanySubController {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId;
+		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId+"&redirectFlag=1";
 
 	}
 
 	@RequestMapping(value = "/insertSubCompanyBankInfo", method = RequestMethod.POST)
 	public String insertCompanyBankInfo(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		session.setAttribute("tabFlag", 3);
 		try {
-			HttpSession session = request.getSession();
+			
 			MstCompanySub company = new MstCompanySub();
 			int compId = 0;
 			try {
@@ -491,6 +515,8 @@ public class CompanySubController {
 				company.setManagerAddress(comp.getManagerAddress());
 				company.setIsActive(comp.getIsActive());
 			}
+			
+			System.err.println("mobile"+request.getParameter("mobile"));
 			company.setIsParentCompany("yes");
 			company.setCpName(request.getParameter("person"));
 			company.setCpDesignation(request.getParameter("designation"));
@@ -520,17 +546,19 @@ public class CompanySubController {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId;
+		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId+"&redirectFlag=1";
 
 	}
 
 	@RequestMapping(value = "/insertSubCompanyManagerInfo", method = RequestMethod.POST)
 	public String insertCompanyManagerInfo(HttpServletRequest request, HttpServletResponse response) {
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("tabFlag", 4);
 		try {
 
 			MstCompanySub company = new MstCompanySub();
-			HttpSession session = request.getSession();
-
+ 
 			int compId = 0;
 			try {
 				compId = Integer.parseInt(request.getParameter("companyId"));
@@ -617,16 +645,17 @@ public class CompanySubController {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId;
+		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId+"&redirectFlag=1";
 
 	}
 
 	@RequestMapping(value = "/insertSubCompanyLogo", method = RequestMethod.POST)
 	public String insertSubCompanyLogo(@RequestParam("logo") List<MultipartFile> logo, HttpServletRequest request,
 			HttpServletResponse response) {
-
+		HttpSession session = request.getSession();
+		session.setAttribute("tabFlag", 1);
 		try {
-			HttpSession session = request.getSession();
+			
 			VpsImageUpload upload = new VpsImageUpload();
 
 			MstCompanySub company = new MstCompanySub();
@@ -729,7 +758,7 @@ public class CompanySubController {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId;
+		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId+"&redirectFlag=1";
 
 	}
 

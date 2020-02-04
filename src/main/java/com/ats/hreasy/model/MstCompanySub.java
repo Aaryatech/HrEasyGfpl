@@ -25,7 +25,7 @@ public class MstCompanySub {
 	private String pfSignatory1;
 	private String pfSignatory2;
 	private String pfSignatory3;
-	private int isEsicApplicable;
+	private String isEsicApplicable;
 	private String esicNo;
 	private String esicCoverageDate;
 	private String esicSignatory1;
@@ -248,12 +248,13 @@ public class MstCompanySub {
 	public void setPfSignatory3(String pfSignatory3) {
 		this.pfSignatory3 = pfSignatory3;
 	}
+ 
 
-	public int getIsEsicApplicable() {
+	public String getIsEsicApplicable() {
 		return isEsicApplicable;
 	}
 
-	public void setIsEsicApplicable(int isEsicApplicable) {
+	public void setIsEsicApplicable(String isEsicApplicable) {
 		this.isEsicApplicable = isEsicApplicable;
 	}
 

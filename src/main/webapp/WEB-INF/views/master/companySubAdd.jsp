@@ -95,37 +95,39 @@
 									session.removeAttribute("successMsg");
 									}
 								%>
-
+								<%-- <%int flagNew=(int)session.getAttribute("tabFlag");
+System.out.println("val**"+flagNew);%> --%>
 								<!-- Highlighted tabs -->
-								<ul class="nav nav-tabs nav-tabs-highlight">
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab1" class="nav-link active"
-										data-toggle="tab">Company Information </br>
-									</a></li>
-									<c:if test="${company.companyId!=0}">
+								<c:set var="flag" value="${sessionScope.tabFlag}"></c:set>
+								
+								 
+									<ul class="nav nav-tabs nav-tabs-highlight">
 										<li class="nav-item text-center"><a
-											href="#highlighted-tab2" class="nav-link" data-toggle="tab">Company
-												Logo </br>
-										</a></a></li>
-										<li class="nav-item text-center"><a
-											href="#highlighted-tab3" class="nav-link" data-toggle="tab">Other
-												Information </br>
-										</a></li>
-										<li class="nav-item text-center"><a
-											href="#highlighted-tab4" class="nav-link" data-toggle="tab">Bank
-												Details </br>
-										</a></li>
+											href="#highlighted-tab1" class="${flag==0 ? 'nav-link active' : 'nav-link'}"
+											data-toggle="tab">Company Information </a></li>
+										<c:if test="${company.companyId!=0}">
+											<li class="nav-item text-center"><a
+												href="#highlighted-tab2" class="${flag==1 ? 'nav-link active' : 'nav-link'}" data-toggle="tab">Company
+													Logo </a></li>
+											<li class="nav-item text-center"><a
+												href="#highlighted-tab3" class="${flag==2 ? 'nav-link active' : 'nav-link'}"  data-toggle="tab">Other
+													Information </a></li>
+											<li class="nav-item text-center"><a
+												href="#highlighted-tab4" class="${flag==3 ? 'nav-link active' : 'nav-link'}" data-toggle="tab">Bank
+													Details </a></li>
 
-										<li class="nav-item text-center"><a
-											href="#highlighted-tab5" class="nav-link" data-toggle="tab">Manager
-												Details</br>
-										</a></li>
-									</c:if>
+											<li class="nav-item text-center"><a
+												href="#highlighted-tab5" class="${flag==4 ? 'nav-link active' : 'nav-link'}" data-toggle="tab">Manager
+													Details </a></li>
+										</c:if>
 
-								</ul>
-
+									</ul>
+							 
+ 
 								<div class="tab-content">
-									<div class="tab-pane fade show active" id="highlighted-tab1">
+									<div
+										class="${flag==0 ? 'tab-pane fade show active' : 'tab-pane fade'}"
+										id="highlighted-tab1">
 
 										<form
 											action="${pageContext.request.contextPath}/insertSubCompanyInfo"
@@ -136,8 +138,10 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="companyName">Company
-													Name <span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="companyName">Company Name <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -149,8 +153,10 @@
 														field is required.</span>
 												</div>
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2"
-													for="companyShortName">Company Short Name<span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="companyShortName">Company Short Name<span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -165,8 +171,10 @@
 
 
 											<div class="form-group row">
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="companyAddress1">Address1
-													<span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="companyAddress1">Address1 <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -217,8 +225,10 @@
 
 
 											<div class="form-group row">
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="landline1">Landine
-													No. 1 <span class="text-danger">* </span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="landline1">Landine No. 1 <span
+													class="text-danger">* </span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
@@ -259,8 +269,9 @@
 														onchange="trim(this)">
 												</div>
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="pan">PAN
-													No. <span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="pan">PAN No. <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" maxlength="10"
@@ -277,14 +288,14 @@
 												<div class="col-lg-10 ml-lg-auto">
 													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
+														id="submtbtn1">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
 													<a
 														href="${pageContext.request.contextPath}/showSubCompanyList"><button
-															type="button" class="btn btn-primary">
+															type="button" class="btn btn-light">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
+															Back
 														</button></a> <input type="hidden" id="mobile1Exist"
 														name="mobile1Exist"><input type="hidden"
 														id="emailExist" name="emailExist">
@@ -294,7 +305,11 @@
 									</div>
 
 									<!--***************************************** tab 2 *************************************-->
-									<div class="tab-pane fade" id="highlighted-tab2">
+
+									<div
+										class="${flag==1 ? 'tab-pane fade show active' : 'tab-pane fade'}"
+										id="highlighted-tab2">
+
 										<form
 											action="${pageContext.request.contextPath}/insertSubCompanyLogo"
 											id="insertCompanyLogo" method="post"
@@ -307,16 +322,17 @@
 
 
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="pan">Logo
-													<span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="pan">Logo <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="file" id="logo" name="logo"
 														style="padding-bottom: 8px" class="form-control"
-														onchange="readURL(this); return Upload(logo)"
+														
 														title="Only jpg,png,gif">${company.logo}
 												</div>
-
+<!-- onchange="readURL(this); return Upload(logo)" -->
 											</div>
 											<div class="form-group col-lg-4">
 												<img
@@ -335,9 +351,9 @@
 													</button>
 													<a
 														href="${pageContext.request.contextPath}/showSubCompanyList"><button
-															type="button" class="btn btn-primary">
+															type="button" class="btn btn-light">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
+															Back
 														</button></a> <input type="hidden" id="mobile1Exist"
 														name="mobile1Exist"><input type="hidden"
 														id="emailExist" name="emailExist">
@@ -346,7 +362,9 @@
 										</form>
 									</div>
 									<!-- ********************************************Step 3********************************************** -->
-									<div class="tab-pane fade" id="highlighted-tab3">
+									<div
+										class="${flag==2 ? 'tab-pane fade show active' : 'tab-pane fade'}"
+										id="highlighted-tab3">
 
 
 										<form
@@ -358,8 +376,9 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="taxNo">TAN
-													No. <span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="taxNo">TAN No. <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -442,11 +461,12 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="pf">PF <span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="pf">PF <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
-													<select name="isPfApplicable"
-														onchange="setDate()"
+													<select name="isPfApplicable" onchange="setDate()"
 														data-placeholder="Select Designation" id="isPfApplicable"
 														class="form-control form-control-select21 select2-hidden-accessible1">
 
@@ -465,8 +485,9 @@
 											</div>
 											<div id="abc" style="display: none;">
 												<div class="form-group row">
-													<label class="col-form-label text-info font-weight-bold col-lg-2" for="pfNo">PF
-														No. <span class="text-danger">*</span>:
+													<label
+														class="col-form-label text-info font-weight-bold col-lg-2"
+														for="pfNo">PF No. <span class="text-danger">*</span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control"
@@ -480,8 +501,10 @@
 
 												<div class="form-group row">
 
-													<label class="col-form-label text-info font-weight-bold col-lg-2" for="pfCoveregDate">PF
-														Coverage Date<span class="text-danger">*</span>:
+													<label
+														class="col-form-label text-info font-weight-bold col-lg-2"
+														for="pfCoveregDate">PF Coverage Date<span
+														class="text-danger">*</span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control datepickerclass"
@@ -540,8 +563,10 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2"
-													for="isEsicApplicable">ESIC Applicable <span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="isEsicApplicable">ESIC Applicable <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="isEsicApplicable"
@@ -569,8 +594,9 @@
 
 												<div class="form-group row">
 
-													<label class="col-form-label text-info font-weight-bold col-lg-2" for="esicNo">ESIC
-														No. <span class="text-danger">*</span>:
+													<label
+														class="col-form-label text-info font-weight-bold col-lg-2"
+														for="esicNo">ESIC No. <span class="text-danger">*</span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control"
@@ -584,8 +610,10 @@
 												</div>
 												<div class="form-group row">
 
-													<label class="col-form-label text-info font-weight-bold col-lg-2"
-														for="esicCoverageDate">ESIC Coverage Date <span class="text-danger">*</span>:
+													<label
+														class="col-form-label text-info font-weight-bold col-lg-2"
+														for="esicCoverageDate">ESIC Coverage Date <span
+														class="text-danger">*</span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control datepickerclass"
@@ -652,9 +680,9 @@
 													</button>
 													<a
 														href="${pageContext.request.contextPath}/showSubCompanyList"><button
-															type="button" class="btn btn-primary">
+															type="button" class="btn btn-light">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
+															Back
 														</button></a> <input type="hidden" id="mobile1Exist"
 														name="mobile1Exist"><input type="hidden"
 														id="emailExist" name="emailExist">
@@ -664,7 +692,12 @@
 
 									</div>
 									<!--***************************************** tab 4 *************************************-->
-									<div class="tab-pane fade" id="highlighted-tab4">
+
+
+									<div
+										class="${flag==3 ? 'tab-pane fade show active' : 'tab-pane fade'}"
+										id="highlighted-tab4">
+
 
 										<form
 											action="${pageContext.request.contextPath}/insertSubCompanyBankInfo"
@@ -675,8 +708,9 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="person">Person
-													Name <span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="person">Person Name <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -704,12 +738,13 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="mobile">Mobile
-													No. <span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="mobile">Mobile No. <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
-														value="${companyshowMstEmpTypeList.cpMobile}" id="mobile"
+														value="${company.cpMobile}" id="mobile"
 														onchange="trim(this)" placeholder="Mobile No."
 														name="mobile" autocomplete="off" maxlength="10"">
 													<span class="hidedefault  validation-invalid-label"
@@ -717,8 +752,10 @@
 														is required.</span>
 												</div>
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="designation">Bank
-													Account No <span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="designation">Bank Account No <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -733,8 +770,9 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="email1">Email
-													1 <span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="email1">Email 1 <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -768,9 +806,9 @@
 													</button>
 													<a
 														href="${pageContext.request.contextPath}/showSubCompanyList"><button
-															type="button" class="btn btn-primary">
+															type="button" class="btn btn-light">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
+															Back
 														</button></a> <input type="hidden" id="mobile1Exist"
 														name="mobile1Exist"><input type="hidden"
 														id="emailExist" name="emailExist">
@@ -780,7 +818,11 @@
 
 									</div>
 									<!-- *****************************************Tab 5******************************************* -->
-									<div class="tab-pane fade" id="highlighted-tab5">
+
+									<div
+										class="${flag==4 ? 'tab-pane fade show active' : 'tab-pane fade'}"
+										id="highlighted-tab5">
+
 										<form
 											action="${pageContext.request.contextPath}/insertSubCompanyManagerInfo"
 											id="insertCompanyManagerInfo" method="post">
@@ -790,8 +832,10 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="manager">Managers
-													Under Shop Act <span class="text-danger">*</span>:
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="manager">Managers Under Shop Act <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -826,9 +870,9 @@
 													</button>
 													<a
 														href="${pageContext.request.contextPath}/showSubCompanyList"><button
-															type="button" class="btn btn-primary">
+															type="button" class="btn btn-light">
 															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
+															Back
 														</button></a> <input type="hidden" id="mobile1Exist"
 														name="mobile1Exist"><input type="hidden"
 														id="emailExist" name="emailExist">
@@ -874,8 +918,8 @@
 
 	<script type="text/javascript">
 		function setDate() {
- 
-				var value = document.getElementById("isPfApplicable").value;
+
+			var value = document.getElementById("isPfApplicable").value;
 
 			if (value == 1) {
 
@@ -907,11 +951,12 @@
 
 	<script type="text/javascript">
 		function setDateEsicOnload() {
- 
+
 			var isEsicApplicable = ${company.isEsicApplicable};
+			
 			var isPfApplicable = ${company.isPfApplicable};
-			 
-			 
+			
+
 			if (isEsicApplicable == 1) {
 
 				$("#xyz").show()
@@ -1048,7 +1093,7 @@
 					var x = true;
 					if (x == true) {
 
-						//document.getElementById("submtbtn").disabled = true;
+					document.getElementById("submtbtn1").disabled = true;
 						return true;
 					}
 					//
