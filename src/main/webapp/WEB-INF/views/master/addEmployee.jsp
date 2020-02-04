@@ -277,7 +277,7 @@
 													id="locId"
 													class="form-control form-control-select2 select2-hidden-accessible">
 
-
+													<option value="">Select Location</option>
 													<c:forEach items="${locationList}" var="locationList">
 														<c:choose>
 															<c:when test="${locationList.locId==emp.locationId}">
@@ -305,7 +305,7 @@
 												<select name="desigId" data-placeholder="Select Designation"
 													id="desigId"
 													class="form-control form-control-select2 select2-hidden-accessible">
-
+													<option value="">Select Designation</option>
 													<c:forEach items="${designationList}" var="designationList">
 														<c:choose>
 															<c:when
@@ -332,7 +332,7 @@
 													id="deptId"
 													class="form-control form-control-select2 select2-hidden-accessible">
 
-
+													<option value="">Select Department</option>
 													<c:forEach items="${deptList}" var="deptList">
 														<c:choose>
 															<c:when test="${deptList.departId==emp.departId}">
@@ -361,8 +361,7 @@
 												<select name="contractor"
 													data-placeholder="Select Contractor" id="contractor"
 													class="form-control form-control-select2 select2-hidden-accessible">
-
-
+													<option value="">Select Contractor</option>
 													<c:forEach items="${contractorsList}" var="contractorsList">
 														<c:choose>
 															<c:when
@@ -390,7 +389,7 @@
 												<select name="empType"
 													data-placeholder="Select Employee Type" id="empType"
 													class="form-control form-control-select2 select2-hidden-accessible">
-
+													<option value="">Select Employee Type</option>
 													<c:forEach items="${empTypeList}" var="empTypeList">
 														<c:choose>
 															<c:when test="${empTypeList.empTypeId==emp.empType}">
@@ -577,7 +576,7 @@
 												<select name="ishod" id="ishod"
 													class="form-control form-control-select2 select2-hidden-accessible"
 													onchange="opencloseDepthodDrop(this.value)">
-
+													<option value="" selected>Select Designation Type</option>
 													<option value="0" ${emp.exInt1==0 ? 'selected' : ''}>Employee</option>
 													<option value="1" ${emp.exInt1==1 ? 'selected' : ''}>HOD</option>
 													<option value="2" ${emp.exInt1==2 ? 'selected' : ''}>HR</option>
@@ -634,7 +633,7 @@
 												<select name="subCmpId"
 													data-placeholder="Select Sub Company" id="subCmpId"
 													class="form-control form-control-select2 select2-hidden-accessible">
-
+													<option value="">Select Sub Company</option>
 													<c:forEach items="${companySubList}" var="companySubList">
 														<c:choose>
 															<c:when test="${companySubList.companyId==emp.subCmpId}">
@@ -2184,6 +2183,15 @@
 												} else {
 													$("#error_locId").hide()
 												}
+												if (!$("#deptId").val()) {
+
+													isError = true;
+
+													$("#error_deptId").show()
+
+												} else {
+													$("#error_deptId").hide()
+												}
 
 												if ($("#locId_list").val() == "") {
 
@@ -2253,37 +2261,37 @@
 															.hide()
 												}
 
-												/* 	if (!$("#desigId").val()) {
-
-														isError = true;
-
-														$("#error_desigId")
-																.show()
-
-													} else {
-														$("#error_desigId")
-																.hide()
-													} */
-
-												/* if (!$("#empStatus").val()) {
+												if (!$("#desigId").val()) {
 
 													isError = true;
 
-													$("#error_empStatus").show()
+													$("#error_desigId").show()
 
 												} else {
-													$("#error_empStatus").hide()
-												} */
+													$("#error_desigId").hide()
+												}
 
-												/* if (!$("#mobile2").val()) {
+												if (!$("#contractor").val()) {
 
 													isError = true;
 
-													$("#error_emgContNo2_alt").show()
+													$("#error_contractor")
+															.show()
 
 												} else {
-													$("#error_emgContNo2_alt").hide()
-												} */
+													$("#error_contractor")
+															.hide()
+												}
+
+												if (!$("#ishod").val()) {
+
+													isError = true;
+
+													$("#error_ishod").show()
+
+												} else {
+													$("#error_ishod").hide()
+												}
 
 												/* if (!$("#landline").val()) {
 
