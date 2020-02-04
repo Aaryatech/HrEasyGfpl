@@ -943,11 +943,11 @@ public class HrEasyController {
 
 				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteBank", map, Info.class);
 
-				if (res.isError()) {
-					session.setAttribute("errorMsg", "Failed to Delete");
+				System.err.println("errorMsg"+res.getMsg());
+				if (res.isError() == false) {
+					session.setAttribute("successMsg", res.getMsg());
 				} else {
-					session.setAttribute("successMsg", "Deleted Successfully");
-
+					session.setAttribute("errorMsg", res.getMsg());
 				}
 
 			} catch (Exception e) {
