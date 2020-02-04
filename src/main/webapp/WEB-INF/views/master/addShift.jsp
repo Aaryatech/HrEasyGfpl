@@ -136,20 +136,19 @@
 											Time<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-											<input type="time" class="form-control" id="intime"
+											<input type="time" class="form-control" id="intime" data-mask="99:99"
 												name="intime" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_intime"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-
-
+									 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="outtime">Out
 											Time<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-											<input type="time" class="form-control" id="outtime"
+											<input type="time" class="form-control" id="outtime" data-mask="99:99"
 												name="outtime" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_outtime"
 												style="display: none;">This field is required.</span>
@@ -161,7 +160,7 @@
 											Half Day Hour<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-											<input type="time" class="form-control" id="hfdayhour"
+											<input type="time" class="form-control" id="hfdayhour" data-mask="99:99"
 												name="hfdayhour" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_hfdayhour"
 												style="display: none;">This field is required.</span>
@@ -173,7 +172,7 @@
 											OT Hour<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-											<input type="time" class="form-control" id="othour"
+											<input type="time" class="form-control" id="othour" data-mask="99:99"
 												name="othour" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_othour"
 												style="display: none;">This field is required.</span>
@@ -327,7 +326,7 @@
 				$("#error_hfdayhour").hide();
 				$("#error_othour").hide();
 				$("#error_lateMin").hide();
-				$("#groupId").hide();
+				$("#error_groupId").hide();
 
 				if (!$("#locId").val()) {
 

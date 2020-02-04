@@ -100,25 +100,25 @@
 								<ul class="nav nav-tabs nav-tabs-highlight">
 									<li class="nav-item text-center"><a
 										href="#highlighted-tab1" class="nav-link active"
-										data-toggle="tab">Company Information </br>Step 1
+										data-toggle="tab">Company Information </br>
 									</a></li>
 									<c:if test="${company.companyId!=0}">
 										<li class="nav-item text-center"><a
 											href="#highlighted-tab2" class="nav-link" data-toggle="tab">Company
-												Logo </br>Step 2
+												Logo </br>
 										</a></a></li>
 										<li class="nav-item text-center"><a
 											href="#highlighted-tab3" class="nav-link" data-toggle="tab">Other
-												Information </br>Step 3
+												Information </br>
 										</a></li>
 										<li class="nav-item text-center"><a
 											href="#highlighted-tab4" class="nav-link" data-toggle="tab">Bank
-												Details </br>Step 4
+												Details </br>
 										</a></li>
 
 										<li class="nav-item text-center"><a
 											href="#highlighted-tab5" class="nav-link" data-toggle="tab">Manager
-												Details</br>Step 5
+												Details</br>
 										</a></li>
 									</c:if>
 
