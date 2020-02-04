@@ -476,7 +476,7 @@ public class MasterController {
 							SelfGroup.class);
 
 					if (res != null) {
-						session.setAttribute("successMsg", "Location Inserted Successfully");
+						session.setAttribute("successMsg", "Record Inserted Successfully");
 					} else {
 						session.setAttribute("errorMsg", "Failed to Insert Record");
 					}
@@ -674,7 +674,7 @@ public class MasterController {
 							SelfGroup.class);
 
 					if (res != null) {
-						session.setAttribute("successMsg", "Location Inserted Successfully");
+						session.setAttribute("successMsg", "Record Inserted Successfully");
 					} else {
 						session.setAttribute("errorMsg", "Failed to Insert Record");
 					}

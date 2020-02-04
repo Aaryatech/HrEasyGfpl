@@ -278,7 +278,7 @@
 										<div class="col-lg-10">
 											<textarea rows="3" cols="3" class="form-control"
 												placeholder="Any Remark" onchange="trim(this)"
-												id="woRemarks" name="woRemarks"></textarea>
+												id="woRemarks" name="woRemarks">${editWeeklyOff.woRemarks}</textarea>
 
 										</div>
 									</div>

@@ -119,7 +119,7 @@
 													<span class="validation-invalid-label" id="error_unique"
 												style="display: none;">Department Name Already Exists.</span>
 										</div>
-									</div>
+									</div>/editWeeklyOff
 
 									<div class="form-group row">
 										<label class="col-form-label text-info font-weight-bold col-lg-2" for="desigShortName">Short
@@ -145,7 +145,7 @@
 										<div class="col-lg-10">
 											<textarea rows="3" cols="3" class="form-control"
 												placeholder="Any Remark" onchange="trim(this)" id="remark"
-												name="remark">${desig.remarks}</textarea>
+												name="remark">${dept.remarks}</textarea>
 
 										</div>
 									</div>

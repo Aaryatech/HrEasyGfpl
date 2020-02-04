@@ -267,17 +267,7 @@
 			dateFormat : "mm-yy"
 		});
 
-		//daterange-basic_new
-		// Basic initialization
-		$('.daterange-basic_new').daterangepicker({
-			applyClass : 'bg-slate-600',
-
-			cancelClass : 'btn-light',
-			locale : {
-				format : 'DD-MM-YYYY',
-				separator : ' to '
-			}
-		});
+		 
 	</script>
 	<script type="text/javascript">
 		$(document).ready(function($) {
