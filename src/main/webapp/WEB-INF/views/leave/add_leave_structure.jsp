@@ -135,8 +135,8 @@
 									action="${pageContext.request.contextPath}/insertLeaveStructure"
 									id="insertLeaveStructure" method="post">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="lvsName">Leave
-											Structure Name <span style="color:red">* </span>: </label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="lvsName">Leave
+											Structure Name <span class="text-danger">* </span>: </label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Leave Structure Name" id="lvsName"
@@ -154,7 +154,7 @@
 									<c:forEach items="${leaveTypeList}" var="leaveType">
 
 										<div class="form-group row">
-											<label class="col-md-2" for="prsnName">${leaveType.lvTitle} <span style="color:red">* </span>: </label>
+											<label class="col-form-label text-info font-weight-bold col-lg-2" for="prsnName">${leaveType.lvTitle} <span class="text-danger">* </span>: </label>
 											<div class="col-md-6">
 												<input type="text" class="form-control numbersOnly"
 													placeholder="No.of Leaves Peryear"

@@ -127,8 +127,8 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="locShortName">Holiday
-											Title <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="locShortName">Holiday
+											Title <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -142,7 +142,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="select2">Select
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
 											Location <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">

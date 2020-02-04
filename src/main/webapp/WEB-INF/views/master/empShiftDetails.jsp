@@ -95,8 +95,8 @@
 							id="showEmpListToAssignShift" method="get">
 
 							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="select2">Select
-									Employee <span style="color: red">* </span> :
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
+									Employee <span class="text-danger">* </span> :
 								</label>
 								<div class="col-md-2">
 									<select name="empId" data-placeholder="Select Employee"
@@ -122,8 +122,8 @@
 
 
 
-								<label class="col-form-label col-lg-2" for="select2">Select
-									Date <span style="color: red">* </span> :
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
+									Date <span class="text-danger">* </span> :
 								</label>
 								<div class="col-md-2">
 									<select name="date" data-placeholder="Select Employee"

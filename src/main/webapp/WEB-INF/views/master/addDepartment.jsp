@@ -106,8 +106,8 @@
 									<input type="hidden" value="${dept.departId}" id="deptId"
 										name="deptId">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="desination">Department
-											Name <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="desination">Department
+											Name <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${dept.name}"
@@ -122,8 +122,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="desigShortName">Short
-											Name <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="desigShortName">Short
+											Name <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"

@@ -91,8 +91,8 @@
 							id="submitInsertEmp" method="post">
 
 							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="locId">
-									Select Sal Structure To Assign <span style="color: red">*
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="locId">
+									Select Sal Structure To Assign <span class="text-danger">*
 								</span>:
 								</label>
 								<div class="col-lg-10">

@@ -108,8 +108,8 @@
 									id="submitInsertLocaion" method="post">
 									<input type="hidden" value="${desig.desigId}" id="desigId" name="desigId">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="desination">Designation
-											Name <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="desination">Designation
+											Name <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${desig.name}"
 												placeholder="Enter Designation" id="desigName"
@@ -123,8 +123,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="desigShortName">Short Name
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="desigShortName">Short Name
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Short Name" id="desigShortName" value="${desig.nameSd}"

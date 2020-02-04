@@ -95,8 +95,7 @@
 
 						<div class="form-group row">
 
-							<label class="col-form-label col-lg-2" for="locId"> Year<span
-								style="color: red">* </span>:
+							<label class="col-form-label text-info font-weight-bold col-lg-2" for="locId"> Year<span class="text-danger">* </span>:
 							</label>
 							<div class="col-lg-4">
 								<select name="calYrId" data-placeholder="Select  " id="calYrId"

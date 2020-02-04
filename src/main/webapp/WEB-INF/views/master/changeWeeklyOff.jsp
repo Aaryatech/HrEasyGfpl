@@ -93,8 +93,10 @@
 
 
 							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="locId">Select
-									Location <span style="color: red">* </span>:
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="locId">Select Location <span class="text-danger">*
+								</span>:
 								</label>
 								<div class="col-lg-10">
 									<select name="locId" data-placeholder="Select Location"
@@ -121,8 +123,9 @@
 							</div>
 
 							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="month">
-									Month <span style="color: red"> </span>:
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="month"> Month <span class="text-danger">*</span>:
 								</label>
 								<div class="col-lg-4">
 									<select name="month" data-placeholder="Select Deduction Type"
@@ -147,8 +150,9 @@
 
 
 
-								<label class="col-form-label col-lg-2" for="month"> Year
-									<span style="color: red"> </span>:
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="month"> Year <span class="text-danger">*</span>:
 								</label>
 								<div class="col-lg-4">
 									<select name="year" data-placeholder="Select Year" id="year"
@@ -204,8 +208,8 @@
 												<tr>
 													<td>${count.index+1}</td>
 													<td><input type="radio" name="dateFrom"
-														onchange="setValue(this.value)" value="${dateList}"
-														id="dateFrom${count.index+1}" id="dateFrom" />${dateList}
+														onchange="setValue(this.value,${count.index+1})" value="${dateList}"
+														id="dateFrom${count.index+1}" />${dateList}
 
 													</td>
 
@@ -214,13 +218,20 @@
 
 										</tbody>
 									</table>
+
+
+									<span class="validation-invalid-label" id="error_tempDate"
+										style="display: none;">No Date Selected For Change</span>
+
 								</div>
 							</div>
 							<div class="form-group row"></div>
 
 							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="changeDate">
-									Date <span style="color: red">* </span>:
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="changeDate"> Date <span class="text-danger">*
+								</span>:
 								</label>
 								<div class="col-lg-4">
 									<input type="text" class="form-control datepickerclass "
@@ -232,8 +243,9 @@
 
 
 							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="remark">
-									Reason <span style="color: red">*</span>:
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="remark"> Reason <span class="text-danger">*</span>:
 								</label>
 								<div class="col-lg-4">
 									<textarea class="form-control"
@@ -275,10 +287,12 @@
 	</div>
 	<!-- /page content -->
 	<script type="text/javascript">
-		function setValue(datexy) {
-			//alert(datexy);
-
-			document.getElementById("tempDate").value = datexy;
+		function setValue(datexy,count) {
+		//alert(datexy);
+			if (document.getElementById('dateFrom'+count).checked) {
+				//alert(1);
+				document.getElementById("tempDate").value = datexy;
+			}
 
 		}
 	</script>
@@ -286,7 +300,7 @@
 	<script type="text/javascript">
 		function search() {
 			var count = $('#printtable2 tr').length;
-			alert(count);
+			//alert(count);
 			if (parseInt(count) > 0) {
 				document.getElementById("submtbtn").disabled = false;
 
@@ -322,6 +336,16 @@
 				} else {
 					$("#error_remark").hide()
 				}
+ 
+				if (!$("#tempDate").val() || $("#tempDate").val() == 0) {
+
+					isError = true;
+
+					$("#error_tempDate").show()
+
+				} else {
+					$("#error_tempDate").hide()
+				}
 
 				if (!isError) {
 
@@ -338,7 +362,7 @@
 		});
 		//
 	</script>
-	<!-- 
+
 	<script type="text/javascript">
 		$(document).ready(function($) {
 			$("#getWeeklyOffs").submit(function(e) {
@@ -388,7 +412,7 @@
 				return false;
 			});
 		});
-	</script> -->
+	</script>
 
 
 	<!-- 

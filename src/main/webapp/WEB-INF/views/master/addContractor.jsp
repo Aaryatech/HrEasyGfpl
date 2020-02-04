@@ -106,8 +106,8 @@
 									<input type="hidden" value="${contract.contractorId}" id="contractorId" name="contractorId">
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="service">Service
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="service">Service
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.service}"
 												placeholder="Enter Service" id="service"
@@ -118,8 +118,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="organisation">Organization
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="organisation">Organization
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Organisation Name" id="organisation" value="${contract.orgName}"
@@ -131,8 +131,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="desination">Licence No.
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="desination">Licence No.
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.licenceNo}"
 												placeholder="Enter Licence No." id="licenceNo"
@@ -143,8 +143,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="vat">VAT No.
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="vat">VAT No.
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.vatNo}"
 												placeholder="Enter VAT" id="vat"
@@ -155,8 +155,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="pan">PAN No.
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="pan">PAN No.
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.panNo}"
 												placeholder="Enter PAN No." id="panNo" maxlength="10" style="text-transform: uppercase;"
@@ -167,8 +167,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="pf">PF.No.
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="pf">PF.No.
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.pfNo}"
 												placeholder="Enter PF. No." id="pf"
@@ -179,8 +179,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="esic">ESIC No.
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="esic">ESIC No.
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.esicNo}"
 												placeholder="Enter ESIC No." id="esic"
@@ -191,8 +191,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="address">Address
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="address">Address
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.address}"
 												placeholder="Enter Address" id="address"
@@ -203,8 +203,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="officeNo">Office No.
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="officeNo">Office No.
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.officeNo}"
 												placeholder="Enter Office No." id="officeNo"
@@ -215,8 +215,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="email">Email
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="email">Email
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.email}"
 												placeholder="Enter Email" id="email"
@@ -227,8 +227,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="owner">Owner
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="owner">Owner
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.owner}"
 												placeholder="Enter Owner" id="owner"
@@ -239,8 +239,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="mobileNo">Mob No.
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="mobileNo">Mob No.
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.mobileNo}"
 												placeholder="Enter Mobile No." id="mobileNo" maxlength="10"
@@ -251,8 +251,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="desination">Duration
-											 <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="desination">Duration
+											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.duration}"
 												placeholder="Enter Duration" id="duration"

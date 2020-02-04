@@ -127,8 +127,8 @@
 									id="submitInsertHoli" method="post">
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="holidayTitle">Holiday
-											Title <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="holidayTitle">Holiday
+											Title <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Holiday Title" id="holidayTitle"
@@ -142,8 +142,8 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="locId">Select
-											Location <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="locId">Select
+											Location <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<select name="locId" data-placeholder="Select Location"
 												id="locId" multiple="multiple"
@@ -179,7 +179,7 @@
 									</div>
  --%>
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2">Date Range <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2">Date Range <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control daterange-basic_new "
 												value="21-04-2019 @ 21-05-2019" name="dateRange"

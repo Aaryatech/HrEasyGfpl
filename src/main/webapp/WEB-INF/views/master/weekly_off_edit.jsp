@@ -137,8 +137,8 @@
 									action="${pageContext.request.contextPath}/submitEditInsertWeeklyOff"
 									id="submitInsertWeeklyOff" method="post">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="select2">Select
-											Location <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
+											Location <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<select name="locId" data-placeholder="Select Location"
@@ -167,8 +167,8 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="select2">Select
-											Weekly Off Type <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
+											Weekly Off Type <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<select name="woType" data-placeholder="Please Select"
@@ -209,7 +209,7 @@
 
 									<%-- <div class="form-group row">
 										<label class="col-form-label col-lg-2" for="select2">Select
-											Weekly Off Presently <span style="color: red">* </span>:
+											Weekly Off Presently <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<select name="woPresently" data-placeholder="Please Select"
@@ -236,8 +236,8 @@
 									</div> --%>
 										<input type="hidden" value="1" name="woPresently">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="select2">Select
-											Weekly Off Day <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
+											Weekly Off Day <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<select name="woDay" data-placeholder="Please Select"

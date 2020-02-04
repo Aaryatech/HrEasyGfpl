@@ -101,8 +101,8 @@
 									action="${pageContext.request.contextPath}/submitInsertSelfGrp"
 									id="submitInsertLocaion" method="post">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="locName">Self Group
-											Name <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="locName">Self Group
+											Name <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
