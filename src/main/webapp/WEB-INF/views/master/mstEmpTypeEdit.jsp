@@ -106,8 +106,8 @@
 									action="${pageContext.request.contextPath}/submitEditMstEmpTypeAdd"
 									id="submitInsertWeeklyOff" method="post">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="typeName">
-											Type Name<span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="typeName">
+											Type Name<span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -122,8 +122,8 @@
 										name="empTypeId" id="empTypeId">
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="minWorkRule">
-											Minimum Work Hour Rule Applicable <span style="color: red">*
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="minWorkRule">
+											Minimum Work Hour Rule Applicable <span class="text-danger">*
 										</span>:
 										</label>
 										<div class="col-lg-4">
@@ -142,8 +142,8 @@
 												field is required.</span>
 										</div>
 
-										<label class="col-form-label col-lg-2" for="halfDayDed">
-											Half Day Deduction <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="halfDayDed">
+											Half Day Deduction <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="halfDayDed" data-placeholder="Please Select"
@@ -168,9 +168,9 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="otApplicable">
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="otApplicable">
 
-											OT Applicable <span style="color: red">* </span>:
+											OT Applicable <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="otApplicable" data-placeholder="Please Select"
@@ -191,8 +191,8 @@
 									</div>
 									<div id="abc" style="display: none;">
 										<div class="form-group row">
-											<label class="col-form-label col-lg-2" for="otType">
-												OT Type<span style="color: red">* </span>:
+											<label class="col-form-label text-info font-weight-bold col-lg-2" for="otType">
+												OT Type<span class="text-danger">* </span>:
 											</label>
 											<div class="col-lg-4">
 												<select name="otType" data-placeholder="Please Select"
@@ -218,9 +218,9 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="weekOffWork">
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="weekOffWork">
 
-											Weekly off Holiday Work <span style="color: red">* </span>:
+											Weekly off Holiday Work <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="weekOffWork" data-placeholder="Please Select"
@@ -240,8 +240,8 @@
 												field is required.</span>
 										</div>
 
-										<label class="col-form-label col-lg-2" for="lateMark">
-											Late Mark Entry<span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="lateMark">
+											Late Mark Entry<span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="lateMark" data-placeholder="Please Select"
@@ -263,8 +263,8 @@
 									<div class="form-group row">
 
 
-										<label class="col-form-label col-lg-2" for="minHr">
-											Minimum Work Hour(in Min)<span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="minHr">
+											Minimum Work Hour(in Min)<span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
@@ -275,8 +275,8 @@
 												style="display: none;">This field is required.</span>
 										</div>
 
-										<label class="col-form-label col-lg-2" for="woRemarks">Remark
-											<span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="woRemarks">Remark
+											<span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<textarea rows="3" cols="3" class="form-control"

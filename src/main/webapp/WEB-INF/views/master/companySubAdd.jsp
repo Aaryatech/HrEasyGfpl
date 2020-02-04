@@ -136,8 +136,8 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="companyName">Company
-													Name<span style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="companyName">Company
+													Name <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -149,9 +149,8 @@
 														field is required.</span>
 												</div>
 
-												<label class="col-form-label col-lg-2"
-													for="companyShortName">Company Short Name<span
-													style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2"
+													for="companyShortName">Company Short Name<span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -166,8 +165,8 @@
 
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="companyAddress1">Address1
-													<span style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="companyAddress1">Address1
+													<span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -180,7 +179,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="companyAddress2">Address2
-													<span style="color: red"></span>:
+													<span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -195,7 +194,7 @@
 											<div class="form-group row">
 
 												<label class="col-form-label col-lg-2" for="companyAddress3">Address3
-													<span style="color: red"> </span>:
+													<span class="text-danger"> </span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -205,7 +204,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="empType">Short
-													Address<span style="color: red"></span>:
+													Address<span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -218,8 +217,8 @@
 
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="landline1">Landine
-													No. 1 <span style="color: red">* </span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="landline1">Landine
+													No. 1 <span class="text-danger">* </span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
@@ -233,7 +232,7 @@
 
 
 												<label class="col-form-label col-lg-2" for="landline2">Landine
-													No. 2 <span style="color: red"></span>:
+													No. 2 <span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
@@ -251,7 +250,7 @@
 											<div class="form-group row">
 
 												<label class="col-form-label col-lg-2" for="fac">FAX
-													No. <span style="color: red"></span>:
+													No. <span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -260,8 +259,8 @@
 														onchange="trim(this)">
 												</div>
 
-												<label class="col-form-label col-lg-2" for="pan">PAN
-													No. <span style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="pan">PAN
+													No. <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control" maxlength="10"
@@ -308,8 +307,8 @@
 
 
 
-												<label class="col-form-label col-lg-2" for="pan">Logo
-													<span style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="pan">Logo
+													<span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="file" id="logo" name="logo"
@@ -359,8 +358,8 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="taxNo">TAN
-													No. <span style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="taxNo">TAN
+													No. <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -373,7 +372,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="ptNo">PT
-													No. <span style="color: red"></span>:
+													No. <span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -388,7 +387,7 @@
 											<div class="form-group row">
 
 												<label class="col-form-label col-lg-2" for="serviceTaxNo">Service
-													Tax No. <span style="color: red"></span>:
+													Tax No. <span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -401,7 +400,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="vatNo">VAT
-													No. <span style="color: red"></span>:
+													No. <span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
@@ -416,7 +415,7 @@
 											<div class="form-group row">
 
 												<label class="col-form-label col-lg-2" for="cstNo">CST
-													No. <span style="color: red"></span>:
+													No. <span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -428,7 +427,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="gstNo">GST
-													No. <span style="color: red"></span>:
+													No. <span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -443,8 +442,7 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="pf">PF <span
-													style="color: red"></span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="pf">PF <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="isPfApplicable"
@@ -467,8 +465,8 @@
 											</div>
 											<div id="abc" style="display: none;">
 												<div class="form-group row">
-													<label class="col-form-label col-lg-2" for="pfNo">PF
-														No. <span style="color: red">*</span>:
+													<label class="col-form-label text-info font-weight-bold col-lg-2" for="pfNo">PF
+														No. <span class="text-danger">*</span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control"
@@ -482,8 +480,8 @@
 
 												<div class="form-group row">
 
-													<label class="col-form-label col-lg-2" for="pfCoveregDate">PF
-														Coverage Date<span style="color: red">*</span>:
+													<label class="col-form-label text-info font-weight-bold col-lg-2" for="pfCoveregDate">PF
+														Coverage Date<span class="text-danger">*</span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control datepickerclass"
@@ -496,7 +494,7 @@
 													</div>
 
 													<label class="col-form-label col-lg-2" for="ptNo">PF
-														Signatory 1 <span style="color: red"></span>:
+														Signatory 1 <span class="text-danger"></span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control"
@@ -512,7 +510,7 @@
 												<div class="form-group row">
 
 													<label class="col-form-label col-lg-2" for="pfSignatory2">PF
-														Signatory2 <span style="color: red"></span>:
+														Signatory2 <span class="text-danger"></span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control"
@@ -525,7 +523,7 @@
 													</div>
 
 													<label class="col-form-label col-lg-2" for="pfSignatory3">PF
-														Signatory3 <span style="color: red"></span>:
+														Signatory3 <span class="text-danger"></span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control"
@@ -542,9 +540,8 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2"
-													for="isEsicApplicable">ESIC Applicable <span
-													style="color: red"></span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2"
+													for="isEsicApplicable">ESIC Applicable <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="isEsicApplicable"
@@ -572,8 +569,8 @@
 
 												<div class="form-group row">
 
-													<label class="col-form-label col-lg-2" for="esicNo">ESIC
-														No. <span style="color: red">*</span>:
+													<label class="col-form-label text-info font-weight-bold col-lg-2" for="esicNo">ESIC
+														No. <span class="text-danger">*</span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control"
@@ -587,9 +584,8 @@
 												</div>
 												<div class="form-group row">
 
-													<label class="col-form-label col-lg-2"
-														for="esicCoverageDate">ESIC Coverage Date <span
-														style="color: red">*</span>:
+													<label class="col-form-label text-info font-weight-bold col-lg-2"
+														for="esicCoverageDate">ESIC Coverage Date <span class="text-danger">*</span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control datepickerclass"
@@ -604,7 +600,7 @@
 
 
 													<label class="col-form-label col-lg-2" for="esicSignatory1">ESIC
-														Signatory 1 <span style="color: red"></span>:
+														Signatory 1<span class="text-danger"></span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control"
@@ -620,7 +616,7 @@
 												<div class="form-group row">
 
 													<label class="col-form-label col-lg-2" for="esicSignatory2">ESIC
-														Signatory2 <span style="color: red"></span>:
+														Signatory2<span class="text-danger"></span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control"
@@ -633,7 +629,7 @@
 													</div>
 
 													<label class="col-form-label col-lg-2" for="esicSignatory3">ESIC
-														Signatory3 <span style="color: red"></span>:
+														Signatory3 <span class="text-danger"></span>:
 													</label>
 													<div class="col-lg-4">
 														<input type="text" class="form-control"
@@ -679,8 +675,8 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="person">Person
-													Name <span style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="person">Person
+													Name <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -693,7 +689,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="designation">Designation
-													<span style="color: red"></span>:
+													<span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -708,8 +704,8 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="mobile">Mobile
-													No. <span style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="mobile">Mobile
+													No. <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
@@ -721,8 +717,8 @@
 														is required.</span>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="designation">Bank
-													Account No <span style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="designation">Bank
+													Account No <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -737,8 +733,8 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="email1">Email
-													1 <span style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="email1">Email
+													1 <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -751,7 +747,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="email2">Email
-													2 <span style="color: red"></span>:
+													2 <span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -794,8 +790,8 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="manager">Managers
-													Under Shop Act <span style="color: red">*</span>:
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="manager">Managers
+													Under Shop Act <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -809,7 +805,7 @@
 												</div>
 
 												<label class="col-form-label col-lg-2" for="managerAddress">Manager
-													Address <span style="color: red"></span>:
+													Address <span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"

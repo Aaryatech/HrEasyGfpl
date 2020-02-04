@@ -104,8 +104,8 @@
 									action="${pageContext.request.contextPath}/submitInsertLocation"
 									id="submitInsertLocaion" method="post">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="locName">Location
-											Name <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="locName">Location
+											Name <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Location Name" id="locName"
@@ -116,8 +116,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="locShortName">Location
-											Short Name <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="locShortName">Location
+											Short Name <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Location Short Name" id="locShortName"
@@ -135,8 +135,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="add">Location
-											Short Address <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="add">Location
+											Short Address <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<textarea rows="3" cols="3" class="form-control"
 												placeholder="Location Short Address" onchange="trim(this)"
@@ -147,8 +147,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="prsnName">Contact Person
-											Name <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="prsnName">Contact Person
+											Name <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Contact Person Name" id="prsnName"
@@ -159,8 +159,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="contactNo">Contact
-											No <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="contactNo">Contact
+											No <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Contact No." id="contactNo"
@@ -172,7 +172,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="email">Email <span style="color:red">* </span>:</label>
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="email">Email <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Email" id="email"

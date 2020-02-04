@@ -109,7 +109,7 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="leaveTypeTitle">
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="leaveTypeTitle">
 											 Leave Type  <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -123,7 +123,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2"
+										<label class="col-form-label text-info font-weight-bold col-lg-2"
 											for="leaveShortTypeTitle"> Short Name <span
 											style="color: red">* </span>:
 										</label>
@@ -150,7 +150,7 @@
 
 									<%-- <div class="form-group row">
 										<label class="col-form-label col-lg-2" for="leaveWorlHrs">Working
-											Hours <span style="color:red">* </span>:</label>
+											Hours <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Leave Working Hours " id="leaveWorlHrs"
@@ -236,12 +236,8 @@
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a
-												href="${pageContext.request.contextPath}/showLeaveTypeList"><button
-													type="button" class="btn btn-primary">
-													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-													Cancel
-												</button></a>
+										<a href="${pageContext.request.contextPath}/showLeaveTypeList"><button
+										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Back</button></a>
 										</div>
 									</div>
 								</form>

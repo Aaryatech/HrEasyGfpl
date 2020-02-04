@@ -101,7 +101,7 @@
 									<th>Name </th>
 									<th>Branch Name</th>
 									<th>MICR Code</th>
-									<th>IFSC_Code</th>
+									<th>IFSC Code</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>

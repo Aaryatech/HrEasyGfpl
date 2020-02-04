@@ -103,8 +103,8 @@
 									<input type="hidden" value="${bank.bankId}" id="bankId"
 										name="bankId">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="bank">Bank
-											Name <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="bank">Bank
+											Name <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${bank.name}"
@@ -116,8 +116,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="address">Address
-											<span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="address">Address
+											<span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -131,8 +131,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="branchName">Branch
-											Name <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="branchName">Branch
+											Name <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -146,8 +146,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="micrCode">MICR
-											Code <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="micrCode">MICR
+											Code <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -160,8 +160,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="ifscCode">IFSC
-											Code <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="ifscCode">IFSC
+											Code <span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
