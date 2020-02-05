@@ -351,7 +351,7 @@ public class EmployeeController {
 					// System.out.println("In Edit");
 
 					if (mob2 == "" || mob2 == null) {
-						emp.setMobileNo2("NA");
+						emp.setMobileNo2("");
 					} else {
 						emp.setMobileNo2(mob2);
 					}
@@ -441,7 +441,7 @@ public class EmployeeController {
 					// System.out.println("New Enrty");
 
 					if (mob2 == "" || mob2 == null) {
-						emp.setMobileNo2("NA");
+						emp.setMobileNo2("");
 					} else {
 						emp.setMobileNo2(mob2);
 					}
@@ -1180,13 +1180,31 @@ public class EmployeeController {
 			empSal.setBasic(basic);
 			empSal.setSocietyContribution(societyContri);
 			empSal.setPfApplicable(request.getParameter("pfApplicable"));
-			empSal.setPfType(request.getParameter("pfType"));
-			empSal.setPfEmpPer(pfEmpPer);
-			empSal.setPfEmplrPer(pfEmployerPer);
+			
+		
+			if(request.getParameter("pfApplicable").equals("yes")) {
+				
+				System.err.println("pfApplicable"+request.getParameter("pfApplicable")+request.getParameter("pfType")+request.getParameter("pfEmployerPer"));
+				empSal.setPfType(request.getParameter("pfType"));
+				empSal.setPfEmpPer(Double.parseDouble(request.getParameter("pfEmpPer")));
+				empSal.setPfEmplrPer(Double.parseDouble(request.getParameter("pfEmployerPer")));
+			}else {
+				empSal.setPfType("0");
+			}
 			empSal.setEsicApplicable(request.getParameter("esicApplicable"));
-			empSal.setMlwfApplicable(request.getParameter("mlwfApplicable"));
-			empSal.setEmployeeEsicPercentage(empEsicPer);
-			empSal.setEmployerEsicPercentage(employerEsicPer);
+		
+
+			if(request.getParameter("esicApplicable").equals("yes")) {
+				
+				System.err.println("esicApplicable"+request.getParameter("esicApplicable"));
+				empSal.setMlwfApplicable(request.getParameter("mlwfApplicable"));
+				empSal.setEmployeeEsicPercentage( Double.parseDouble(request.getParameter("empEsicPer")));
+				empSal.setEmployerEsicPercentage(Double.parseDouble(request.getParameter("employerEsicPer")));
+			}else {
+				empSal.setMlwfApplicable("0");
+			}
+			
+		
 			empSal.setPtApplicable(request.getParameter("ptApplicable"));
 			empSal.setEpfJoiningDate(request.getParameter("epfJoinDate"));
 			empSal.setSalBasis(request.getParameter("salBasis"));

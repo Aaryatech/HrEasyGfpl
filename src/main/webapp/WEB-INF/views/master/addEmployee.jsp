@@ -8,7 +8,7 @@
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
-<body>
+<body onload="setDateEsicOnload()">
 	<c:url var="getUniqEmpCodeResp" value="/getUniqEmpCodeResp"></c:url>
 
 	<!-- Main navbar -->
@@ -208,36 +208,19 @@
 												for="empCode">Emp Code <span class="text-danger">*</span>:
 											</label>
 											<div class="col-lg-4">
-												<c:choose>
-													<c:when test="${emp.empId!=0}">
-														<input type="text" class="form-control"
-															value="${emp.empCode}" placeholder="Employee Code."
-															id="empCode" name="empCode"
-															style="text-transform: uppercase;" autocomplete="off"
-															onchange="trim(this)" maxlength="5" readonly>
-														<span class="hidedefault   validation-invalid-label"
-															style="display: none;" id="unique_user">Employee
-															Code Already Exist.</span>
-													</c:when>
-													<c:otherwise>
-														<input type="text" class="form-control"
-															value="${emp.empCode}" placeholder="Employee Code."
-															id="empCode" name="empCode"
-															style="text-transform: uppercase;" autocomplete="off"
-															onchange="trim(this)" maxlength="5">
-														<span class="hidedefault   validation-invalid-label"
-															style="display: none;" id="unique_user">Employee
-															Code Already Exist.</span>
-													</c:otherwise>
-												</c:choose> 
-												<%-- <input type="text" class="form-control"
+												<input type="text" class="form-control"
 													value="${emp.empCode}" placeholder="Employee Code."
 													id="empCode" name="empCode"
 													style="text-transform: uppercase;" autocomplete="off"
 													onchange="trim(this)" maxlength="5"> <span
 													class="hidedefault   validation-invalid-label"
 													style="display: none;" id="unique_user">Employee
-													Code Already Exist.</span> --%>
+													Code Already Exist.</span>
+													
+													<span
+													class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_empCode">This field
+													is required.</span>
 											</div>
 										</div>
 
@@ -463,7 +446,7 @@
 													id="mobile2" name="mobile2" autocomplete="off"
 													onchange="trim(this)" maxlength="10"> <span
 													class="hidedefault   validation-invalid-label"
-													style="display: none;" id="error_emgContNo2_alt">This
+													style="display: none;" id="error_mobile2">This
 													field is required.</span>
 											</div>
 
@@ -504,7 +487,7 @@
 											<label class="col-form-label col-lg-2" for="uan">UAN
 												No. : </label>
 											<div class="col-lg-4">
-												<input type="text" class="form-control" placeholder="UAN"
+												<input type="text" class="form-control" placeholder="UAN" maxlength="12"
 													id="uan" name="uan" autocomplete="off" value="${emp.uan}"
 													onchange="trim(this)"><span
 													class="hidedefault   validation-invalid-label"
@@ -518,7 +501,7 @@
 												No. : </label>
 											<div class="col-lg-4">
 												<input type="text" class="form-control"
-													value="${emp.esicNo}" placeholder="ESIC No." id="esic"
+													value="${emp.esicNo}" placeholder="ESIC No." id="esic" maxlength="17"
 													name="esic" autocomplete="off" onchange="trim(this)">
 												<span class="hidedefault   validation-invalid-label"
 													id="error_esic" style="display: none;">This field is
@@ -529,13 +512,13 @@
 											<label class="col-form-label col-lg-2" for="aadhar">Aadhaar
 												No. : </label>
 											<div class="col-lg-4">
-												<input type="text" class="form-control"
+												<input type="text" class="form-control numbersOnly"
 													value="${emp.aadharNo}" placeholder="Aadhar Card No."
 													id="aadhar" maxlength="12" name="aadhar" autocomplete="off"
 													onchange="trim(this)"> <span
 													class="hidedefault   validation-invalid-label"
-													id="error_aadhar" style="display: none;">This field
-													is required.</span>
+													id="error_aadhar" style="display: none;">Enter Valid Aadhaar Number
+													</span>
 											</div>
 										</div>
 
@@ -556,7 +539,7 @@
 												No. : </label>
 											<div class="col-lg-4">
 												<input type="text" class="form-control" placeholder="PF No"
-													id="pfNo" name="pfNo" autocomplete="off"
+													id="pfNo" name="pfNo" autocomplete="off" maxlength="20"
 													value="${emp.pfNo}" onchange="trim(this)"> <span
 													class="hidedefault   validation-invalid-label"
 													id="error_pfNo" style="display: none;">This field is
@@ -905,8 +888,7 @@
 												maxlength="10" name="contact1" autocomplete="off"
 												onchange="trim(this)"> <span
 												class="hidedefault   validation-invalid-label"
-												id="error_contact1" style="display: none;">This field
-												is required.</span>
+												id="error_contact1" style="display: none;">Enter Valid Contact Number.</span>
 										</div>
 
 										<label class="col-form-label col-lg-2" for="contact2">Emergency
@@ -919,8 +901,7 @@
 												maxlength="10" name="contact2" autocomplete="off"
 												onchange="trim(this)"> <span
 												class="hidedefault   validation-invalid-label"
-												id="error_contact2" style="display: none;">This field
-												is required.</span>
+												id="error_contact2" style="display: none;">Enter Valid Contact Number.</span>
 										</div>
 									</div>
 
@@ -1445,21 +1426,19 @@
 										maxlength="17" name="accNo" autocomplete="off"
 										onchange="trim(this)"> <span
 										class="hidedefault   validation-invalid-label"
-										style="display: none;" id="error_accNo">This field is
-										required.</span> <span class="hidedefault   validation-invalid-label"
+										style="display: none;" id="error_accNo">Enter Valid Bank Account Number.</span> <!-- <span class="hidedefault   validation-invalid-label"
 										style="display: none;" id="error_accNoDigit">Invalid
-										Account No.</span>
+										Account No.</span> -->
 								</div>
 
-								<label
-									class="col-form-label text-info font-weight-bold col-lg-2"
-									for="bankId">Bank : </label>
+								<label class="col-form-label col-lg-2" for="bankId">Bank
+									: </label>
 								<div class="col-lg-4">
 									<select name="bankId" data-placeholder="Select Bank"
 										id="bankId"
 										class="form-control form-control-select2 select2-hidden-accessible">
 
-										<option value="">Select Bank</option>
+
 										<c:forEach items="${bankList}" var="bankList">
 											<c:choose>
 												<c:when test="${bankList.bankId==empBank.bankId}">
@@ -1470,9 +1449,7 @@
 												</c:otherwise>
 											</c:choose>
 										</c:forEach>
-									</select> <span class="hidedefault   validation-invalid-label"
-										style="display: none;" id="error_bankId">This field is
-										required.</span>
+									</select>
 								</div>
 							</div>
 
@@ -1612,134 +1589,148 @@
 						</div>
 
 						<div class="form-group row">
-							<label class="col-form-label col-lg-2" for="pfApplicable">PF
-								Applicable : </label>
+							<label class="col-form-label text-info font-weight-bold col-lg-2" for="pfApplicable">PF
+								Applicable <span class="text-danger">*</span>: </label>
+								 
 							<div class="col-lg-4">
-								<%-- <input type="text" class="form-control"
-														value="${empAllowanceId.pfApplicable}"
-														placeholder="PF Applicable" id="pfApplicable"
-														name="pfApplicable" autocomplete="off"
-														onchange="trim(this)"> --%>
-								<select name="pfApplicable" id="pfApplicable" data-rel="chosen"
+ 								<select name="pfApplicable" id="pfApplicable" data-rel="chosen" onchange="setDate()"
 									class="form-control">
+									<option value="0"
+										${empAllowanceId.pfApplicable == '0' ? 'selected' : ''}>Please Select</option>
 
-									<option value="">Select</option>
 									<option value="no"
 										${empAllowanceId.pfApplicable == 'no' ? 'selected' : ''}>NO</option>
 									<option value="yes"
 										${empAllowanceId.pfApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-								</select> <span class="hidedefault   validation-invalid-label"
-									style="display: none;" id="error_pfApplicable">This
-									field is required.</span>
+								</select>
+ 								<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_pfApplicable">This
+														field is required.</span>
 							</div>
-
-							<label class="col-form-label col-lg-2" for="pfType">PF
-								Type : </label>
+</div>
+	<div id="abc" style="display: none;">
+						<div class="form-group row">
+							<label class="col-form-label text-info font-weight-bold col-lg-2" for="pfType">PF
+								Type <span class="text-danger">*</span>: </label>
 							<div class="col-lg-4">
-								<%-- <input type="text" class="form-control"
-														placeholder="PF Type" id="pfType" name="pfType"
-														autocomplete="off" value="${empAllowanceId.pfType}"
-														onchange="trim(this)"> --%>
-								<select name="pfType" id="pfType" data-rel="chosen"
+ 								<select name="pfType" id="pfType" data-rel="chosen"
 									class="form-control">
-									<option value="">Select</option>
-									<option value="no"
-										${empAllowanceId.pfType == 'no' ? 'selected' : ''}>NO</option>
-									<option value="yes"
-										${empAllowanceId.pfType == 'yes' ? 'selected' : ''}>YES</option>
+									<option value="0"
+										${empAllowanceId.pfType == '0' ? 'selected' : ''}>Please Select</option>
+ 									<option value="statutory"
+										${empAllowanceId.pfType == 'statutory' ? 'statutory' : ''}>statutory</option>
+									<option value="voluntary"
+										${empAllowanceId.pfType == 'voluntary' ? 'selected' : ''}>voluntary</option>
 
-								</select> <span class="hidedefault   validation-invalid-label"
-									style="display: none;" id="error_pfType">This field is
-									required.</span>
+								</select>
+ 									<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_pfType">This
+														field is required.</span>
 							</div>
 						</div>
 
 						<div class="form-group row">
-							<label class="col-form-label col-lg-2" for="pfEmpPer">PF
-								Employee Per : </label>
+							<label class="col-form-label text-info font-weight-bold col-lg-2" for="pfEmpPer">PF
+								Employee Per <span class="text-danger">*</span>: </label>
 							<div class="col-lg-4">
 								<input type="text" class="form-control numbersOnly"
 									value="${empAllowanceId.pfEmpPer}"
 									placeholder="PF Employee Per" id="pfEmpPer" name="pfEmpPer"
 									autocomplete="off" onchange="trim(this)">
+									
+										<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_pfEmpPer">This
+														field is required.</span>
 							</div>
 
-							<label class="col-form-label col-lg-2" for="pfEmployerPer">PF
-								Employer Per : </label>
+							<label class="col-form-label text-info font-weight-bold col-lg-2" for="pfEmployerPer">PF
+								Employer Per <span class="text-danger">*</span>: </label>
 							<div class="col-lg-4">
 								<input type="text" class="form-control numbersOnly"
 									placeholder="PF Employer Per" id="pfEmployerPer"
 									name="pfEmployerPer" autocomplete="off" onchange="trim(this)"
 									value="${empAllowanceId.pfEmplrPer}">
+									
+									<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_pfEmployerPer">This
+														field is required.</span>
 							</div>
+						</div>
+						
 						</div>
 
 						<div class="form-group row">
-							<label class="col-form-label col-lg-2" for="esicApplicable">ESIC
-								Applicable : </label>
+							<label class="col-form-label text-info font-weight-bold col-lg-2" for="esicApplicable">ESIC
+								Applicable <span class="text-danger">*</span>: </label>
 							<div class="col-lg-4">
-								<%-- <input type="text" class="form-control"
-														value="${empAllowanceId.esicApplicable}"
-														placeholder="ESIC Applicable" id="esicApplicable"
-														name="esicApplicable" autocomplete="off"
-														onchange="trim(this)"> --%>
-
-								<select name="esicApplicable" id="esicApplicable"
+							
+								<select name="esicApplicable" id="esicApplicable" onchange="setDateEsic()"
 									data-rel="chosen" class="form-control">
-									<option value="">Select</option>
-									<option value="no"
+									<option value="0"
+										${empAllowanceId.pfApplicable == '0' ? 'selected' : ''}>Please Select</option>
+ 									<option value="no"
 										${empAllowanceId.esicApplicable == 'no' ? 'selected' : ''}>NO</option>
 									<option value="yes"
 										${empAllowanceId.esicApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-								</select> <span class="hidedefault   validation-invalid-label"
-									style="display: none;" id="error_esicApplicable">This
-									field is required.</span>
+								</select>
+								
+								<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_esicApplicable">This
+														field is required.</span>
 							</div>
+</div>
+<div id="xyz" style="display: none;">
 
-							<label class="col-form-label col-lg-2" for="mlwfApplicable">MLWF
-								Applicable : </label>
+						<div class="form-group row">
+							<label class="col-form-label text-info font-weight-bold col-lg-2" for="mlwfApplicable">MLWF
+								Applicable <span class="text-danger">*</span>: </label>
 							<div class="col-lg-4">
-								<%-- <input type="text" class="form-control"
-														placeholder="MLWF Applicable" id="mlwfApplicable"
-														name="mlwfApplicable" autocomplete="off"
-														onchange="trim(this)"
-														value="${empAllowanceId.mlwfApplicable}"> --%>
+							
 								<select name="mlwfApplicable" id="mlwfApplicable"
 									data-rel="chosen" class="form-control">
-									<option value="">Select</option>
+<option value="0"
+										${empAllowanceId.mlwfApplicable == '0' ? 'selected' : ''}>Please Select</option>
 									<option value="no"
 										${empAllowanceId.mlwfApplicable == 'no' ? 'selected' : ''}>NO</option>
 									<option value="yes"
 										${empAllowanceId.mlwfApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-								</select> <span class="hidedefault   validation-invalid-label"
-									style="display: none;" id="error_mlwfApplicable">This
-									field is required.</span>
+								</select>
+								
+								<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_mlwfApplicable">This
+														field is required.</span>
 							</div>
 						</div>
 
 						<div class="form-group row">
-							<label class="col-form-label col-lg-2" for="empEsicPer">Employee
-								Esic Percentage : </label>
+							<label class="col-form-label text-info font-weight-bold col-lg-2" for="empEsicPer">Employee
+								Esic Percentage <span class="text-danger">*</span>:</label>
 							<div class="col-lg-4">
 								<input type="text" class="form-control numbersOnly"
 									value="${empAllowanceId.employeeEsicPercentage}"
 									placeholder="Employee Esic Percentage" id="empEsicPer"
 									name="empEsicPer" autocomplete="off" onchange="trim(this)">
+										<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_empEsicPer">This
+														field is required.</span>
 							</div>
 
-							<label class="col-form-label col-lg-2" for="employerEsicPer">Employer
-								Esic Percentage : </label>
+							<label class="col-form-label text-info font-weight-bold col-lg-2" for="employerEsicPer">Employer
+								Esic Percentage <span class="text-danger">*</span>: </label>
 							<div class="col-lg-4">
 								<input type="text" class="form-control numbersOnly"
 									placeholder="Employer Esic Percentage" id="employerEsicPer"
 									name="employerEsicPer" autocomplete="off" onchange="trim(this)"
 									value="${empAllowanceId.employerEsicPercentage}">
+										<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_employerEsicPer">This
+														field is required.</span>
 							</div>
 						</div>
-
+</div>
 
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2" for="ptApplicable">PT
@@ -1752,30 +1743,26 @@
 														onchange="trim(this)"> --%>
 								<select name="ptApplicable" id="ptApplicable" data-rel="chosen"
 									class="form-control">
-									<option value="">Select</option>
+
 									<option value="no"
 										${empAllowanceId.ptApplicable == 'no' ? 'selected' : ''}>NO</option>
 									<option value="yes"
 										${empAllowanceId.ptApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-								</select> <span class="hidedefault   validation-invalid-label"
-									style="display: none;" id="error_ptApplicable">This
-									field is required.</span>
+								</select>
 							</div>
 
 							<label class="col-form-label col-lg-2" for="salBasis">Salary
 								Basis : </label>
 							<div class="col-lg-4">
-								<select name="salBasis" id="salBasis"
+								<select name="salBasis" data-placeholder="Select Designation"
+									id="salBasis"
 									class="form-control form-control-select2 select2-hidden-accessible">
-									<option value="">Select</option>
 									<option value="monthly"
 										${empAllowanceId.salBasis=='monthly' ? 'selected' : ''}>Monthly</option>
 									<option value="daily"
 										${empAllowanceId.salBasis=='daily' ? 'selected' : ''}>Daily</option>
-								</select> <span class="hidedefault   validation-invalid-label"
-									style="display: none;" id="error_salBasisType">This
-									field is required.</span>
+								</select>
 							</div>
 						</div>
 
@@ -1898,7 +1885,7 @@
 
 						</div>
 
-						<
+					
 						<!-- div class="form-group text-center">
 												<div class="col-lg-12">
 													<button type="reset" class="btn btn-light legitRipple">Reset</button>
@@ -2098,6 +2085,71 @@
 
 	<script
 		src="${pageContext.request.contextPath}/resources/global_assets/js/footercommonjs.js"></script>
+		
+		
+		
+		
+	<script type="text/javascript">
+		function setDate() {
+
+			
+			 
+			var value = document.getElementById("pfApplicable").value;
+
+			if (value == 'yes' ) {
+
+				$("#abc").show()
+			} else {
+
+				$("#abc").hide()
+			}
+
+		}
+	</script>
+
+
+	<script type="text/javascript">
+		function setDateEsic() {
+
+			var value = document.getElementById("esicApplicable").value;
+
+			if (value == 'yes') {
+
+				$("#xyz").show()
+			} else {
+
+				$("#xyz").hide()
+			}
+
+		}
+	</script>
+
+	<script type="text/javascript">
+		function setDateEsicOnload() {
+
+			var isEsicApplicable = ${empAllowanceId.esicApplicable};
+			
+			var isPfApplicable = ${empAllowanceId.pfApplicable};
+			
+
+			if (isEsicApplicable == 'yes') {
+
+				$("#xyz").show()
+			} else {
+
+				$("#xyz").hide()
+			}
+
+			if (isPfApplicable == 'yes') {
+
+				$("#abc").show()
+			} else {
+
+				$("#abc").hide()
+			}
+
+		}
+	</script>
 
 	<script>
 		function trim(el) {
@@ -2276,6 +2328,40 @@
 												} else {
 													$("#error_mobile1").hide()
 												}
+												
+												if($("#mobile2").val().trim() >0){
+													if (!$("#mobile2").val()
+															|| !validateMobile($(
+																	"#mobile2")
+																	.val())) {
+
+														isError = true;
+
+														$("#error_mobile2").show()
+
+													} else {
+														$("#error_mobile2").hide()
+													}
+												}
+												
+												
+												if($("#aadhar").val().trim() >0){
+													if (!$("#aadhar").val()
+															|| $("#aadhar").val().length !=12) {
+
+														isError = true;
+
+														$("#error_aadhar").show()
+
+													} else {
+														$("#error_aadhar").hide()
+													}
+												}
+												
+												
+												
+												
+												
 
 												if (validatePAN($("#pan").val())) {
 
@@ -2418,7 +2504,7 @@
 				var errMsg = "";
 				var acc = $("#accNo").val();
 
-				if (!$("#accNo").val()) {
+				if (!$("#accNo").val() || acc.length<8 || acc.length>17) {
 
 					isError = true;
 
@@ -2428,7 +2514,8 @@
 					$("#error_accNo").hide()
 				}
 
-				if (acc.length<8 || acc.length>17) {
+			/* 	alert(acc.length);
+				if (acc.length!=0 || acc.length<8 || acc.length>17) {
 
 					isError = true;
 
@@ -2436,17 +2523,7 @@
 
 				} else {
 					$("#error_accNoDigit").hide()
-				}
-				if (!$("#bankId").val()) {
-
-					isError = true;
-
-					$("#error_bankId").show()
-
-				} else {
-					$("#error_bankId").hide()
-				}
-
+				} */
 				if (!isError) {
 
 					var x = true;
@@ -2476,7 +2553,11 @@
 				} else {
 					$("#error_salBasis").hide()
 				}
-				if (!$("#pfApplicable").val()) {
+				
+				
+				var x = document.getElementById("pfApplicable").value;
+				 
+				if (!$("#pfApplicable").val() || parseInt(x) == 0) {
 
 					isError = true;
 
@@ -2485,7 +2566,14 @@
 				} else {
 					$("#error_pfApplicable").hide()
 				}
-				if (!$("#pfType").val()) {
+				
+				
+				if($("#pfApplicable").val()=='yes'){
+					
+					
+					var a = document.getElementById("pfType").value;
+					  
+				if (!$("#pfType").val() || parseInt(a) == 0) {
 
 					isError = true;
 
@@ -2494,16 +2582,30 @@
 				} else {
 					$("#error_pfType").hide()
 				}
-				if (!$("#mlwfApplicable").val()) {
+				
+				if (!$("#pfEmpPer").val()) {
 
 					isError = true;
 
-					$("#error_mlwfApplicable").show()
+					$("#error_pfEmpPer").show()
 					//return false;
 				} else {
-					$("#error_mlwfApplicable").hide()
+					$("#error_pfEmpPer").hide()
 				}
-				if (!$("#esicApplicable").val()) {
+				
+				if (!$("#pfEmployerPer").val()) {
+
+					isError = true;
+
+					$("#error_pfEmployerPer").show()
+					//return false;
+				} else {
+					$("#error_pfEmployerPer").hide()
+				}
+				}
+				var y = document.getElementById("esicApplicable").value;
+			 
+				if (!$("#esicApplicable").val()  || parseInt(y) == 0) {
 
 					isError = true;
 
@@ -2512,24 +2614,43 @@
 				} else {
 					$("#error_esicApplicable").hide()
 				}
-
-				if (!$("#salBasis").val()) {
+				
+				
+				if($("#esicApplicable").val()=='yes'){
+					
+					var b = document.getElementById("mlwfApplicable").value;
+					 
+				if (!$("#mlwfApplicable").val() || parseInt(b) == 0) {
 
 					isError = true;
 
-					$("#error_salBasisType").show()
+					$("#error_mlwfApplicable").show()
 					//return false;
 				} else {
-					$("#error_salBasisType").hide()
+					$("#error_mlwfApplicable").hide()
 				}
-				if (!$("#ptApplicable").val()) {
+				
+				if (!$("#empEsicPer").val()) {
 
 					isError = true;
 
-					$("#error_ptApplicable").show()
+					$("#error_empEsicPer").show()
 					//return false;
 				} else {
-					$("#error_ptApplicable").hide()
+					$("#error_empEsicPer").hide()
+				}
+				
+				 
+				if (!$("#employerEsicPer").val()) {
+
+					isError = true;
+
+					$("#error_employerEsicPer").show()
+					//return false;
+				} else {
+					$("#error_employerEsicPer").hide()
+				}
+				
 				}
 
 				if (!isError) {
@@ -2563,15 +2684,48 @@
 					$("#error_empDob").hide()
 				}
 
-				if (validateEmail($("#email").val())) {
 
-					isError = true;
-
-					$("#error_persnlInfoEmail").show()
-					//return false;
-				} else {
-					$("#error_persnlInfoEmail").hide()
+				if($("#contact2").val().length > 0){
+					if ( !validateMobile($(
+					"#contact2")
+					.val())) {
+						//alert($("#email").val());
+						isError = true;
+	 					$("#error_contact2").show()
+						 
+					} else {
+						$("#error_contact2").hide()
+					}
 				}
+				
+				
+				if($("#contact1").val().length > 0){
+					if ( !validateMobile($(
+					"#contact1")
+					.val())) {
+						//alert($("#email").val());
+						isError = true;
+	 					$("#error_contact1").show()
+						 
+					} else {
+						$("#error_contact1").hide()
+					}
+				}
+				
+				
+			
+				
+				if($("#email").val().length > 0){
+					if (!validateEmail($("#email").val())) {
+						//alert($("#email").val());
+						isError = true;
+	 					$("#error_persnlInfoEmail").show()
+						 
+					} else {
+						$("#error_persnlInfoEmail").hide()
+					}
+				}
+				
 
 				if (!isError) {
 
@@ -2587,6 +2741,37 @@
 			});
 		});
 	</script>
+	
+	<script>
+	
+		function validateEmail(email) {
+			
+		//	alert(111);
+
+			var eml = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+			if (eml.test($.trim(email)) == false) {
+
+				return false;
+
+			}
+
+			return true;
+
+		}
+		function validateMobile(mobile) {
+			var mob = /^[1-9]{1}[0-9]{9}$/;
+
+			if (mob.test($.trim(mobile)) == false) {
+
+				//alert("Please enter a valid email address .");
+				return false;
+
+			}
+			return true;
+
+		}
+		</script>
 
 	<!-- <script type="text/javascript">
 	$('#submtbtn').on('click', function() {

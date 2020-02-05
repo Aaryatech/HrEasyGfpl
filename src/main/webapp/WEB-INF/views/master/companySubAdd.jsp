@@ -251,8 +251,8 @@ System.out.println("val**"+flagNew);%> --%>
 														name="landline2" autocomplete="off" onchange="trim(this)"
 														maxlength="10"> <span
 														class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_landline2">This
-														field is required.</span>
+														style="display: none;" id="error_landline2">Enter Valid 
+														Landine No. .</span>
 												</div>
 
 											</div>
@@ -395,7 +395,7 @@ System.out.println("val**"+flagNew);%> --%>
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
-														value="${company.ptNo}" id="ptNo" autocomplete="off"
+														value="${company.ptNo}" id="ptNo" autocomplete="off" maxlength="20"
 														onchange="trim(this)" placeholder="PT No." name="ptNo">
 													<span class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_ptNo">This field
@@ -411,7 +411,7 @@ System.out.println("val**"+flagNew);%> --%>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${company.serviceTaxNo}" id="serviceTaxNo"
-														onchange="trim(this)" placeholder="Service Tax No."
+														onchange="trim(this)" placeholder="Service Tax No." maxlength="20"
 														name="serviceTaxNo" autocomplete="off"> <span
 														class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_serviceTaxNo">This
@@ -422,7 +422,7 @@ System.out.println("val**"+flagNew);%> --%>
 													No. <span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
+													<input type="text" class="form-control numbersOnly" maxlength="20"
 														value="${company.vatNo}" id="vatNo" autocomplete="off"
 														onchange="trim(this)" placeholder="VAT No." name="vatNo">
 													<span class="hidedefault  validation-invalid-label"
@@ -438,7 +438,7 @@ System.out.println("val**"+flagNew);%> --%>
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
-														value="${company.cstNo}" id="cstNo" onchange="trim(this)"
+														value="${company.cstNo}" id="cstNo" onchange="trim(this)" maxlength="20"
 														placeholder="CST No" name="cstNo" autocomplete="off">
 													<span class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_tanNo">This field
@@ -792,8 +792,7 @@ System.out.println("val**"+flagNew);%> --%>
 														value="${company.cpEmail2}" id="email2" autocomplete="off"
 														onchange="trim(this)" placeholder="Email 2" name="email2">
 													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
+														style="display: none;" id="error_email2">Enter Valid Email ID.</span>
 												</div>
 											</div>
 
@@ -1077,6 +1076,21 @@ System.out.println("val**"+flagNew);%> --%>
 				} else {
 					$("#error_landline1").hide()
 				}
+				if ($("#landline2").val().length > 0) {
+				 
+					if ( !validateMobile($(
+					"#landline2")
+					.val())) {
+
+					isError = true;
+
+					$("#error_landline2").show()
+
+				} else {
+					$("#error_landline2").hide()
+				}
+				}
+				
 
 				if (!$("#pan").val() || !validatePAN($("#pan").val())) {
 
@@ -1235,6 +1249,22 @@ System.out.println("val**"+flagNew);%> --%>
 				} else {
 					$("#error_email1").hide()
 				}
+				
+				
+				
+				if ( $("#email2").val().length>0) {
+				if ( !validateEmail($("#email2").val())) {
+
+					isError = true;
+
+					$("#error_email2").show()
+					//return false;
+				} else {
+					$("#error_email2").hide()
+				}
+ 				
+				}
+				
 
 				if (acc.length<8 || acc.length>17) {
 
