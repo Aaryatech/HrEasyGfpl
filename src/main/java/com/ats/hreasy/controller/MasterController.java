@@ -584,9 +584,9 @@ public class MasterController {
 						Info.class);
 
 				if (info.isError() == false) {
-					session.setAttribute("successMsg", "Deleted Successfully");
+					session.setAttribute("successMsg", info.getMsg());
 				} else {
-					session.setAttribute("errorMsg", "Failed to Delete");
+					session.setAttribute("errorMsg", info.getMsg());
 				}
 			}
 		} catch (Exception e) {
