@@ -208,14 +208,36 @@
 												for="empCode">Emp Code <span class="text-danger">*</span>:
 											</label>
 											<div class="col-lg-4">
-												<input type="text" class="form-control"
+												<c:choose>
+													<c:when test="${emp.empId!=0}">
+														<input type="text" class="form-control"
+															value="${emp.empCode}" placeholder="Employee Code."
+															id="empCode" name="empCode"
+															style="text-transform: uppercase;" autocomplete="off"
+															onchange="trim(this)" maxlength="5" readonly>
+														<span class="hidedefault   validation-invalid-label"
+															style="display: none;" id="unique_user">Employee
+															Code Already Exist.</span>
+													</c:when>
+													<c:otherwise>
+														<input type="text" class="form-control"
+															value="${emp.empCode}" placeholder="Employee Code."
+															id="empCode" name="empCode"
+															style="text-transform: uppercase;" autocomplete="off"
+															onchange="trim(this)" maxlength="5">
+														<span class="hidedefault   validation-invalid-label"
+															style="display: none;" id="unique_user">Employee
+															Code Already Exist.</span>
+													</c:otherwise>
+												</c:choose> 
+												<%-- <input type="text" class="form-control"
 													value="${emp.empCode}" placeholder="Employee Code."
 													id="empCode" name="empCode"
 													style="text-transform: uppercase;" autocomplete="off"
 													onchange="trim(this)" maxlength="5"> <span
 													class="hidedefault   validation-invalid-label"
 													style="display: none;" id="unique_user">Employee
-													Code Already Exist.</span>
+													Code Already Exist.</span> --%>
 											</div>
 										</div>
 
@@ -1429,14 +1451,15 @@
 										Account No.</span>
 								</div>
 
-								<label class="col-form-label col-lg-2" for="bankId">Bank
-									: </label>
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="bankId">Bank : </label>
 								<div class="col-lg-4">
 									<select name="bankId" data-placeholder="Select Bank"
 										id="bankId"
 										class="form-control form-control-select2 select2-hidden-accessible">
 
-
+										<option value="">Select Bank</option>
 										<c:forEach items="${bankList}" var="bankList">
 											<c:choose>
 												<c:when test="${bankList.bankId==empBank.bankId}">
@@ -1447,7 +1470,9 @@
 												</c:otherwise>
 											</c:choose>
 										</c:forEach>
-									</select>
+									</select> <span class="hidedefault   validation-invalid-label"
+										style="display: none;" id="error_bankId">This field is
+										required.</span>
 								</div>
 							</div>
 
@@ -1598,12 +1623,15 @@
 								<select name="pfApplicable" id="pfApplicable" data-rel="chosen"
 									class="form-control">
 
+									<option value="">Select</option>
 									<option value="no"
 										${empAllowanceId.pfApplicable == 'no' ? 'selected' : ''}>NO</option>
 									<option value="yes"
 										${empAllowanceId.pfApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-								</select>
+								</select> <span class="hidedefault   validation-invalid-label"
+									style="display: none;" id="error_pfApplicable">This
+									field is required.</span>
 							</div>
 
 							<label class="col-form-label col-lg-2" for="pfType">PF
@@ -1615,13 +1643,15 @@
 														onchange="trim(this)"> --%>
 								<select name="pfType" id="pfType" data-rel="chosen"
 									class="form-control">
-
+									<option value="">Select</option>
 									<option value="no"
 										${empAllowanceId.pfType == 'no' ? 'selected' : ''}>NO</option>
 									<option value="yes"
 										${empAllowanceId.pfType == 'yes' ? 'selected' : ''}>YES</option>
 
-								</select>
+								</select> <span class="hidedefault   validation-invalid-label"
+									style="display: none;" id="error_pfType">This field is
+									required.</span>
 							</div>
 						</div>
 
@@ -1654,15 +1684,18 @@
 														placeholder="ESIC Applicable" id="esicApplicable"
 														name="esicApplicable" autocomplete="off"
 														onchange="trim(this)"> --%>
+
 								<select name="esicApplicable" id="esicApplicable"
 									data-rel="chosen" class="form-control">
-
+									<option value="">Select</option>
 									<option value="no"
 										${empAllowanceId.esicApplicable == 'no' ? 'selected' : ''}>NO</option>
 									<option value="yes"
 										${empAllowanceId.esicApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-								</select>
+								</select> <span class="hidedefault   validation-invalid-label"
+									style="display: none;" id="error_esicApplicable">This
+									field is required.</span>
 							</div>
 
 							<label class="col-form-label col-lg-2" for="mlwfApplicable">MLWF
@@ -1675,13 +1708,15 @@
 														value="${empAllowanceId.mlwfApplicable}"> --%>
 								<select name="mlwfApplicable" id="mlwfApplicable"
 									data-rel="chosen" class="form-control">
-
+									<option value="">Select</option>
 									<option value="no"
 										${empAllowanceId.mlwfApplicable == 'no' ? 'selected' : ''}>NO</option>
 									<option value="yes"
 										${empAllowanceId.mlwfApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-								</select>
+								</select> <span class="hidedefault   validation-invalid-label"
+									style="display: none;" id="error_mlwfApplicable">This
+									field is required.</span>
 							</div>
 						</div>
 
@@ -1717,26 +1752,30 @@
 														onchange="trim(this)"> --%>
 								<select name="ptApplicable" id="ptApplicable" data-rel="chosen"
 									class="form-control">
-
+									<option value="">Select</option>
 									<option value="no"
 										${empAllowanceId.ptApplicable == 'no' ? 'selected' : ''}>NO</option>
 									<option value="yes"
 										${empAllowanceId.ptApplicable == 'yes' ? 'selected' : ''}>YES</option>
 
-								</select>
+								</select> <span class="hidedefault   validation-invalid-label"
+									style="display: none;" id="error_ptApplicable">This
+									field is required.</span>
 							</div>
 
 							<label class="col-form-label col-lg-2" for="salBasis">Salary
 								Basis : </label>
 							<div class="col-lg-4">
-								<select name="salBasis" data-placeholder="Select Designation"
-									id="salBasis"
+								<select name="salBasis" id="salBasis"
 									class="form-control form-control-select2 select2-hidden-accessible">
+									<option value="">Select</option>
 									<option value="monthly"
 										${empAllowanceId.salBasis=='monthly' ? 'selected' : ''}>Monthly</option>
 									<option value="daily"
 										${empAllowanceId.salBasis=='daily' ? 'selected' : ''}>Daily</option>
-								</select>
+								</select> <span class="hidedefault   validation-invalid-label"
+									style="display: none;" id="error_salBasisType">This
+									field is required.</span>
 							</div>
 						</div>
 
@@ -2398,6 +2437,16 @@
 				} else {
 					$("#error_accNoDigit").hide()
 				}
+				if (!$("#bankId").val()) {
+
+					isError = true;
+
+					$("#error_bankId").show()
+
+				} else {
+					$("#error_bankId").hide()
+				}
+
 				if (!isError) {
 
 					var x = true;
@@ -2426,6 +2475,61 @@
 					//return false;
 				} else {
 					$("#error_salBasis").hide()
+				}
+				if (!$("#pfApplicable").val()) {
+
+					isError = true;
+
+					$("#error_pfApplicable").show()
+					//return false;
+				} else {
+					$("#error_pfApplicable").hide()
+				}
+				if (!$("#pfType").val()) {
+
+					isError = true;
+
+					$("#error_pfType").show()
+					//return false;
+				} else {
+					$("#error_pfType").hide()
+				}
+				if (!$("#mlwfApplicable").val()) {
+
+					isError = true;
+
+					$("#error_mlwfApplicable").show()
+					//return false;
+				} else {
+					$("#error_mlwfApplicable").hide()
+				}
+				if (!$("#esicApplicable").val()) {
+
+					isError = true;
+
+					$("#error_esicApplicable").show()
+					//return false;
+				} else {
+					$("#error_esicApplicable").hide()
+				}
+
+				if (!$("#salBasis").val()) {
+
+					isError = true;
+
+					$("#error_salBasisType").show()
+					//return false;
+				} else {
+					$("#error_salBasisType").hide()
+				}
+				if (!$("#ptApplicable").val()) {
+
+					isError = true;
+
+					$("#error_ptApplicable").show()
+					//return false;
+				} else {
+					$("#error_ptApplicable").hide()
 				}
 
 				if (!isError) {
