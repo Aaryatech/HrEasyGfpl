@@ -1,1149 +1,1703 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html class=" ">
 <head>
+<c:url var="getGraph" value="/getGraph"></c:url>
+<c:url var="getTotStudentPassedAndAppearInFinYrGraphForHod"
+	value="/getTotStudentPassedAndAppearInFinYrGraphForHod"></c:url>
+<c:url var="getAllProgTypStudPlacedGraph"
+	value="/getAllProgTypStudPlacedGraph"></c:url>
+<c:url var="sanctioinalIntakeandNostudentAdmitedproramwise"
+	value="/sanctioinalIntakeandNostudentAdmitedproramwise"></c:url>
+<c:url var="getTotSancIntakeProgramwiseGraph"
+	value="/getTotSancIntakeProgramwiseGraph"></c:url>
+<c:url var="getAllStudSupprtSchemGraph"
+	value="/getAllStudSupprtSchemGraph"></c:url>
+<c:url var="getGraphForNoofTeacherStudUsingLib"
+	value="/getGraphForNoofTeacherStudUsingLib"></c:url>
+<c:url var="getStudpassAppearedTaughByFacGraph"
+	value="/getStudpassAppearedTaughByFacGraph"></c:url>
+<c:url var="getNoOfResearchPubGraphDean"
+	value="/getNoOfResearchPubGraphDean"></c:url>
+<c:url var="getBudgetInfrastructureDetail"
+	value="/getBudgetInfrastructureDetail"></c:url>
+<c:url var="getBudgetInfrastructureDetailCurr"
+	value="/getBudgetInfrastructureDetailCurr"></c:url>
+<c:url var="getAllBugetsGraph" value="/getAllBugetsGraph"></c:url>
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<!-- CORE CSS TEMPLATE - END -->
+<style type="text/css">
+#faculty_type{
+font-size: 130%;
+font-weight: bold;
+text-decoration: underline;
+color: #075423;
+}
+</style>
 
-<jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
+<!-- END HEAD -->
 
-<body>
+<!-- BEGIN BODY -->
+<body class="" onload="">
+	<!-- START TOPBAR -->
+	 
+	<!-- END TOPBAR -->
+	<!-- START CONTAINER -->
+	<div class="page-container row-fluid container-fluid">
 
-	<!-- Main navbar -->
-	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-	<!-- /main navbar -->
+		<!-- SIDEBAR - START -->
 
-
-	<!-- Page content -->
-	<div class="page-content">
-
-		<!-- Main sidebar -->
 		<jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include>
-		<!-- /main sidebar -->
+		<!--  SIDEBAR - END -->
+		<!-- START CONTENT -->
+		<section id="main-content" class=" ">
+			<section class="wrapper main-wrapper row" style=''>
 
+				<div class='col-xs-12'>
+					<div class="page-title">
 
-		<!-- Main content -->
-		<div class="content-wrapper">
+						<div class="content-wrapper">
+							<!-- Content Header (Page header) -->
+							<section class="content-header">
+								<h1>Dashboard</h1>
 
-			<!-- Page header -->
-			<div class="page-header page-header-light"></div>
-			<!-- /page header -->
-
-
-			<!-- Content area -->
-			<div class="content">
-
-				<!-- Form validation -->
-				<div class="row">
-					<div class="col-md-12">
-						<!-- Title -->
-
-						<!-- /title -->
-
-
-						<div class="card">
-
-							<div class="card-header header-elements-inline">
-								<table width="100%">
-									<tr width="100%">
-										<td width="60%"><h5 class="card-title">Sub Company
-												Details</h5></td>
-										<td width="40%" align="right">
-											<%-- <a
-									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
-									class="breadcrumb-elements-item">
-										<button type="button" class="btn btn-primary">KRA List </button>
-								</a>  --%>
-										</td>
-									</tr>
-								</table>
-							</div>
-							<div class="card-body">
-								<%
-									if (session.getAttribute("errorMsg") != null) {
-								%>
-								<div
-									class="alert bg-danger text-white alert-styled-left alert-dismissible">
-									<button type="button" class="close" data-dismiss="alert">
-										<span>×</span>
-									</button>
-									<span class="font-weight-semibold">Oh snap!</span>
-									<%
-										out.println(session.getAttribute("errorMsg"));
-									%>
-								</div>
-
-								<%
-									session.removeAttribute("errorMsg");
-									}
-								%>
-								<%
-									if (session.getAttribute("successMsg") != null) {
-								%>
-								<div
-									class="alert bg-success text-white alert-styled-left alert-dismissible">
-									<button type="button" class="close" data-dismiss="alert">
-										<span>×</span>
-									</button>
-									<span class="font-weight-semibold">Well done!</span>
-									<%
-										out.println(session.getAttribute("successMsg"));
-									%>
-								</div>
-								<%
-									session.removeAttribute("successMsg");
-									}
-								%>
-
-								<!-- Highlighted tabs -->
-								<ul class="nav nav-tabs nav-tabs-highlight">
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab1" class="nav-link active"
-										data-toggle="tab">Company Information </br>Step 1
-									</a></li>
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab2" class="nav-link" data-toggle="tab">Company
-											Logo </br>Step 2
-									</a></a></li>
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab3" class="nav-link" data-toggle="tab">Other
-											Information </br>Step 3
-									</a></li>
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab4" class="nav-link" data-toggle="tab">Bank
-											Details </br>Step 4
-									</a></li>
-
-									<li class="nav-item text-center"><a
-										href="#highlighted-tab5" class="nav-link" data-toggle="tab">Manager
-											Details</br>Step 5
-									</a></li>
-									<!-- <li class="nav-item text-center"><a
-										href="#highlighted-tab6" class="nav-link" data-toggle="tab">Employee Documents
-											</br>Step 6
-									</a></li> -->
-
-								</ul>
-
-								<div class="tab-content">
-									<div class="tab-pane fade show active" id="highlighted-tab1">
-
-										<form
-											action="${pageContext.request.contextPath}/insertSubCompanyInfo"
-											id="insertCompanyInfo" method="post">
-
-											<input type="hidden" id="companyId" name="companyId"
-												value="${company.companyId}">
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="companyName">Company
-													Name<span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.companyName}" id="companyName"
-														onchange="trim(this)" placeholder="Company Name"
-														name="companyName" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_company">This
-														field is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2"
-													for="companyShortName">Company Short Name<span
-													style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.nameSd}" id="companyShortName"
-														onchange="trim(this)" placeholder="Company Short Name"
-														name="companyShortName" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_companyShortName">This
-														field is required.</span>
-												</div>
-											</div>
-
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="companyAddress1">Address1
-													<span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.longAdd1}" id="companyAddress1"
-														onchange="trim(this)" placeholder="Address1"
-														name="companyAddress1" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_companyAddress1">This
-														field is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="companyAddress2">Address2
-													<span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.longAdd2}" id="companyAddress2"
-														onchange="trim(this)" placeholder="Address2"
-														name="companyAddress2" autocomplete="off">
-												</div>
-
-
-											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="companyAddress3">Address3
-													<span style="color: red"> </span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.longAdd3}" id="companyAddress3"
-														onchange="trim(this)" placeholder="Address3"
-														name="companyAddress3" autocomplete="off">
-												</div>
-
-												<label class="col-form-label col-lg-2" for="empType">Short
-													Address<span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.shortAddress}" id="shortAddress"
-														onchange="trim(this)" placeholder="Short Address"
-														name="shortAddress" autocomplete="off">
-												</div>
-											</div>
-
-
-
-											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="landline1">Landine No. 1 <span style="color: red">* </span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														value="${company.landline1}" placeholder="Landline No."
-														id="landline1" name="landline1" autocomplete="off"
-														onchange="trim(this)" maxlength="10"> <span
-														style="display: none;"
-														class="hidedefault   validation-invalid-label"
-														id="error_landline1">This field is required.</span>
-												</div>
-
-
-												<label class="col-form-label col-lg-2" for="landline2">Landine No. 2 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														value="${company.landline2}"
-														placeholder="Other Landline No." id="landline2"
-														name="landline2" autocomplete="off" onchange="trim(this)"
-														maxlength="10"> <span
-														class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_landline2">This
-														field is required.</span>
-												</div>
-
-											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="fac">FAX
-													No. <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.faxNo}" placeholder="Fax" id="fax"
-														name="fax" autocomplete="off" onchange="trim(this)">
-												</div>
-
-												<label class="col-form-label col-lg-2" for="pan">PAN
-													No. <span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control" maxlength="10"
-														placeholder="PAN No." id="pan" name="pan"
-														value="${company.panNo}" autocomplete="off"
-														onchange="trim(this)"><span
-														class="hidedefault  validation-invalid-label"
-														id="error_pan" style="display: none;">Please enter
-														correct PAN No.</span>
-												</div>
-											</div>
-
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showSubCompanyList"><button
-															type="button" class="btn btn-primary">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
-														</button></a> <input type="hidden" id="mobile1Exist"
-														name="mobile1Exist"><input type="hidden"
-														id="emailExist" name="emailExist">
-												</div>
-											</div>
-										</form>
+								<!-- <div class="top_slt_bx">
+									<div class="slt_one">
+										<div class="select-style">
+											<select>
+												<option value="All">Academic Year</option>
+												<option value="All">2015</option>
+												<option value="All">2016</option>
+												<option value="All">2017</option>
+											</select>
+										</div>
 									</div>
-
-									<!--***************************************** tab 2 *************************************-->
-									<div class="tab-pane fade" id="highlighted-tab2">
-										<form
-											action="${pageContext.request.contextPath}/insertSubCompanyLogo"
-											id="insertCompanyLogo" method="post"
-											enctype="multipart/form-data">
-
-											<input type="hidden" id="companyId" name="companyId"
-												value="${company.companyId}">
-
-											<div class="form-group row">
-
-
-
-												<label class="col-form-label col-lg-2" for="pan">Logo
-													 <span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="file" id="logo" name="logo"
-														style="padding-bottom: 8px"
-														class="form-control"
-														onchange="readURL(this); return Upload(logo)"
-														title="Only jpg,png,gif">${company.logo}
-												</div>
-
-											</div>
-											<div class="form-group col-lg-4">
-												<img
-													src="http://gfpl.aaryatechindia.in/uploads/steps/0d41EOj5stMETA LOGO2.png"
-													height="150px" width="200px">
-
-											</div>
-
-
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showSubCompanyList"><button
-															type="button" class="btn btn-primary">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
-														</button></a> <input type="hidden" id="mobile1Exist"
-														name="mobile1Exist"><input type="hidden"
-														id="emailExist" name="emailExist">
-												</div>
-											</div>
-										</form>
+									<div class="slt_one">
+										<div class="select-style">
+											<select>
+												<option value="All">Financial Year</option>
+												<option value="All">2015</option>
+												<option value="All">2016</option>
+												<option value="All">2017</option>
+											</select>
+										</div>
 									</div>
-									<!-- ********************************************Step 3********************************************** -->
-									<div class="tab-pane fade" id="highlighted-tab3">
+								</div> -->
+
+
+								<!-- <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+      </ol>-->
+							</section>
+
+							<!-- Main content -->
+							<section class="content">
+								<div class="row">
+								
+								<div class="row">								
+									<div class="col-md-12" align="center"><span id="faculty_type">Principal & IQAC</span></div>
+								</div>
+								
+									<div class="dashboard_list">
+										<c:if
+											test="${sessionScope.userObj.staff.isPrincipal==1 || sessionScope.userObj.staff.isIqac==1}">
+
+
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Total Faculties</h2>
+													<span class="count_num">${dashBoardCounts.totalfaculties}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Total Faculties With PHD.</h2>
+													<span class="count_num">${dashBoardCounts.totalfacultieswithPHD}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Total Students</h2>
+													<span class="count_num">${dashBoardCounts.totalstudent}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">No of Programs Available</h2>
+													<span class="count_num">${dashBoardCounts.noofprogram}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Student Teacher Ratio</h2>
+													<span class="count_num">${dashBoardCounts.ratio}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">No of Research Publication</h2>
+													<span class="count_num">${dashBoardCounts.noOfreserchpub}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">No of Book Publication</h2>
+													<span class="count_num">${dashBoardCounts.noofbookpub}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Current Financial Year Budget</h2>
+													<span class="count_num">${dashBoardCounts.currfinyearbudget}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+
+
+
+										</c:if>
+										</div>
+
+										<c:if test="${sessionScope.userObj.staff.isHod==1}">
+										<div class="row">								
+											<div class="col-md-12" align="center"><span id="faculty_type">HOD</span></div>
+										</div>
 										
+										<div class="dashboard_list">
 
-										<form
-											action="${pageContext.request.contextPath}/insertSubCompanyFundsInfo"
-											id="insertCompanyFundsInfo" method="post">
-
-											<input type="hidden" id="companyId" name="companyId"
-												value="${company.companyId}">
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="taxNo">TAN
-													No. <span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.tanNo}" id="tanNo" onchange="trim(this)"
-														placeholder="TAN No" name="tanNo" autocomplete="off"
-														maxlength="10"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_tanNo">This field
-														is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="ptNo">PT
-													No. <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.ptNo}" id="ptNo" autocomplete="off"
-														onchange="trim(this)" placeholder="PT No." name="ptNo">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Total Programs Added by HOD</h2>
+													<span class="count_num">${dashBoardCounts.noofprogramForHOD}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
 												</div>
 											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="serviceTaxNo">Service
-													Tax No. <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.serviceTaxNo}" id="serviceTaxNo"
-														onchange="trim(this)" placeholder="Service Tax No."
-														name="serviceTaxNo" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_serviceTaxNo">This
-														field is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="vatNo">VAT
-													No. <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														value="${company.vatNo}" id="vatNo" autocomplete="off"
-														onchange="trim(this)" placeholder="VAT No." name="vatNo">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Total Faculty Available</h2>
+													<span class="count_num">${dashBoardCounts.totalfacultiesforHOD}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
 												</div>
 											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="cstNo">CST
-													No. <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.cstNo}" id="cstNo" onchange="trim(this)"
-														placeholder="CST No" name="cstNo" autocomplete="off">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_tanNo">This field
-														is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="gstNo">GST
-													No. <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.gstNo}" id="gstNo" autocomplete="off"
-														onchange="trim(this)" placeholder="GST No." name="gstNo"
-														maxlength="15"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Total Students Admitted</h2>
+													<span class="count_num">${dashBoardCounts.totalstudentForHOD}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
 												</div>
 											</div>
+										</div>
+										</c:if>
 
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="pf">PF <span
-													style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="isPfApplicable"
-														data-placeholder="Select Designation" id="isPfApplicable"
-														class="form-control form-control-select21 select2-hidden-accessible1">
-														<option value="1"
-															${company.isPfApplicable==1 ? 'selected' : ''}>Yes</option>
-														<option value="0"
-															${company.isPfApplicable==0 ? 'selected' : ''}>No</option>
-													</select>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="pfNo">PF
-													No. <span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.pfNo}" id="pfNo" autocomplete="off"
-														onchange="trim(this)" placeholder="PF No." name="pfNo">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_pfNo">This field
-														is required.</span>
-												</div>
-											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="pfCoveregDate">PF
-													Coverage Date<span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control datepickerclass"
-														value="${company.pfCoverageDate}" id="pfCoveregDate"
-														onchange="trim(this)" placeholder="PF Coverage Date"
-														name="pfCoveregDate" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_pfCoveregDate">This
-														field is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="ptNo">PF
-													Signatory 1 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.pfSignatory1}" id="pfSignatory1"
-														autocomplete="off" onchange="trim(this)"
-														placeholder="PF Signatory1" name="pfSignatory1"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
-												</div>
-											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="pfSignatory2">PF
-													Signatory2 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.pfSignatory2}" id="pfSignatory2"
-														onchange="trim(this)" placeholder="PF Signatory2"
-														name="pfSignatory2" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_tanNo">This field
-														is required.</span>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="pfSignatory3">PF
-													Signatory3 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.pfSignatory3}" id="pfSignatory3"
-														autocomplete="off" onchange="trim(this)"
-														placeholder="PF Signatory3" name="pfSignatory3"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
-												</div>
-											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2"
-													for="isEsicApplicable">ESIC Applicable <span
-													style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="isEsicApplicable"
-														data-placeholder="Select Designation"
-														id="isEsicApplicable"
-														class="form-control form-control-select21 select2-hidden-accessible1">
-														<option value="1"
-															${company.isEsicApplicable==1 ? 'selected' : ''}>Yes</option>
-														<option value="0"
-															${company.isEsicApplicable==1 ? 'selected' : ''}>No</option>
-													</select>
-												</div>
-
-												<label class="col-form-label col-lg-2" for="esicNo">ESIC
-													No. <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.esicNo}" id="esicNo" autocomplete="off"
-														onchange="trim(this)" placeholder="ESIC No." name="esicNo">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
-												</div>
-											</div>
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2"
-													for="esicCoverageDate">ESIC Coverage Date <span
-													style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control datepickerclass"
-														value="${company.esicCoverageDate}" id="esicCoverageDate"
-														 placeholder="PF Signatory2"
-														name="esicCoverageDate"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_tanNo">This field
-														is required.</span>
-												</div>
-												
-												 
+										<c:if test="${sessionScope.userObj.staff.isFaculty==1}">
+										<div class="row">								
+											<div class="col-md-12" align="center"><span id="faculty_type">Faculty</span></div>
+										</div>
 										
-
-												<label class="col-form-label col-lg-2" for="esicSignatory1">ESIC
-													Signatory 1 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.esicSignatory1}" id="esicSignatory1"
-														autocomplete="off" onchange="trim(this)"
-														placeholder="ESIC Signatory1" name="esicSignatory1">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
+										<div class="dashboard_list">
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">No. of Research Project</h2>
+													<span class="count_num"> <c:choose>
+															<c:when
+																test="${not empty dashBoardCounts.researchprojecttitle}">
+																${dashBoardCounts.researchprojecttitle}	<!-- No. of Project Showed -->
+															</c:when>
+															<c:otherwise>
+															<!-- 0 -->
+															</c:otherwise>
+														</c:choose>
+													</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">No of Research Publication</h2>
+													<span class="count_num">${dashBoardCounts.noOfreserchpubforFaculty}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">No of Book Publication</h2>
+													<span class="count_num">${dashBoardCounts.noofbookpubForFaculty}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
 												</div>
 											</div>
 
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="esicSignatory2">ESIC
-													Signatory2 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.esicSignatory2}" id="esicSignatory2"
-														onchange="trim(this)" placeholder="ESIC Signatory2"
-														name="esicSignatory2" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_tanNo">This field
-														is required.</span>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">No of Patents Filled</h2>
+													<span class="count_num">${dashBoardCounts.noofpatentsfilled}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
 												</div>
+											</div>
+										</div>
+										</c:if>
 
-												<label class="col-form-label col-lg-2" for="esicSignatory3">ESIC
-													Signatory3 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.esicSignatory3}" id="esicSignatory1"
-														autocomplete="off" onchange="trim(this)"
-														placeholder="ESIC Signatory3" name="esicSignatory1">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
+										<c:if test="${sessionScope.userObj.staff.isLibrarian==1}">										
+										<div class="row">								
+											<div class="col-md-12" align="center"><span id="faculty_type">Librarian</span></div>
+										</div>
+										
+										<div class="dashboard_list">
+
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Library usage Per day Faculty</h2>
+													<span class="count_num">${dashBoardCounts.libraryusageperdayfaculty}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Library usage Per day Students</h2>
+													<span class="count_num">${dashBoardCounts.libraryusageperdaystudents}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">No of Books In Library</h2>
+													<span class="count_num">${dashBoardCounts.noofbooksinlibrary}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
 												</div>
 											</div>
 
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showSubCompanyList"><button
-															type="button" class="btn btn-primary">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
-														</button></a> <input type="hidden" id="mobile1Exist"
-														name="mobile1Exist"><input type="hidden"
-														id="emailExist" name="emailExist">
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">LMS software Name</h2>
+													<span class="count_num" style="font-size: 19px;">${dashBoardCounts.LMSsoftwarename}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
 												</div>
 											</div>
-										</form>
 
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">No of LMS software Users</h2>
+													<span class="count_num">${dashBoardCounts.noofLMSsoftwareusers}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+										</div>
+										</c:if>
+
+										<c:if test="${sessionScope.userObj.staff.isDean==1}">
+										<div class="row">								
+											<div class="col-md-12" align="center"><span id="faculty_type">Dean</span></div>
+										</div>
+										
+										<div class="dashboard_list">
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Total Research Projects</h2>
+													<span class="count_num">${dashBoardCounts.totalresearchprojects}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Total No. of MoUs</h2>
+													<span class="count_num">${dashBoardCounts.totalnoofMOUs}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Total Linkages</h2>
+													<span class="count_num">${dashBoardCounts.totallinkages}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+
+											<div class="col-md-3">
+												<div class="dash_one">
+													<h2 class="desig_nm">Funding From GOVT/Non GOVT</h2>
+													<span class="count_num">${dashBoardCounts.fundingfrom}</span>
+													<!--<a href="#" class="dash_button">Button</a>-->
+													<!-- 						<p class="dash_note"><span>Note :</span> Some Note Write Here</p>
+ -->
+												</div>
+											</div>
+										</div>
+										</c:if>
 									</div>
-									<!--***************************************** tab 4 *************************************-->
-									<div class="tab-pane fade" id="highlighted-tab4">
+								
+								<input name="isPrincipal" id="isPrincipal"
+									value="${sessionScope.userObj.staff.isPrincipal}" type="hidden">
+								<input name="isIqac" id="isIqac"
+									value="${sessionScope.userObj.staff.isIqac}" type="hidden">
+								<input name="isHod" id="isHod"
+									value="${sessionScope.userObj.staff.isHod}" type="hidden">
+								<input name="isFaculty" id="isFaculty"
+									value="${sessionScope.userObj.staff.isFaculty}" type="hidden">
+								<input name="isAccOff" id="isAccOff"
+									value="${sessionScope.userObj.staff.isAccOff}" type="hidden">
+								<input name="isDean" id="isDean"
+									value="${sessionScope.userObj.staff.isDean}" type="hidden">
+								<input name="isLibrarian" id="isLibrarian"
+									value="${sessionScope.userObj.staff.isLibrarian}" type="hidden">
+								<input name="isStudent" id="isStudent"
+									value="${sessionScope.userObj.staff.isStudent}" type="hidden">
+								<input name="isTpo" id="isTpo"
+									value="${sessionScope.userObj.staff.isTpo}" type="hidden">
+								<input name="isExtActOff" id="isExtActOff"
+									value="${sessionScope.userObj.staff.isExtActOff}" type="hidden">
+								<div class="row">
+									<c:if
+										test="${sessionScope.userObj.staff.isPrincipal==1 || sessionScope.userObj.staff.isIqac==1}">
 
-										<form
-											action="${pageContext.request.contextPath}/insertSubCompanyBankInfo"
-											id="insertCompanyBankInfo" method="post">
 
-											<input type="hidden" id="companyId" name="companyId"
-												value="${company.companyId}">
+										<!-- left boxes -->
+										<div class="col-md-6">
 
-											<div class="form-group row">
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Sanctioned Intake and No. of
+														Students Admitted</h3>
 
-												<label class="col-form-label col-lg-2" for="person">Person
-													Name <span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.cpName}" id="person"
-														onchange="trim(this)" placeholder="Person Name"
-														name="person" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_person">This field
-														is required.</span>
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="intake_chart" style="height: 300px;"></div>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="designation">Designation
-													<span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.cpDesignation}" id="designation"
-														autocomplete="off" onchange="trim(this)"
-														placeholder="Designation" name="designation"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
-												</div>
 											</div>
 
-											<div class="form-group row">
+										</div>
 
-												<label class="col-form-label col-lg-2" for="mobile">Mobile
-													No. <span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
-														value="${company.cpMobile}" id="mobile"
-														onchange="trim(this)" placeholder="Mobile No."
-														name="mobile" autocomplete="off" maxlength="10"">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_mobile">This field
-														is required.</span>
+										<!-- end left boxes -->
+
+										<!-- right boxes -->
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Sanctioned Intake and No. of
+														Students Admitted Program Wise</h3>
+
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="intake_chart_byprogram"
+														style="height: 300px;"></div>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="designation">Bank
-													Account No <span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.cmpBankAccount}" id="accno"
-														autocomplete="off" onchange="trim(this)"
-														placeholder="Bank Account No " name="accno" maxlength="17">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_accNoDigit">TInvalid
-														Account No.</span>
-												</div>
 											</div>
 
-											<div class="form-group row">
+										</div>
 
-												<label class="col-form-label col-lg-2" for="email1">Email
-													1 <span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.cpEmail1}" id="email1"
-														onchange="trim(this)" placeholder="Email 1" name="email1"
-														autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_email1">This field
-														is required.</span>
-												</div>
+										<c:if test="${sessionScope.userObj.staff.isIqac==1}">
+											<div class="col-md-6">
+												<div class="box box-primary">
+													<div class="box-header with-border">
+														<h3 class="box-title">Student Support Schemes</h3>
 
-												<label class="col-form-label col-lg-2" for="email2">Email
-													2 <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.cpEmail2}" id="email2" autocomplete="off"
-														onchange="trim(this)" placeholder="Email 2" name="email2">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
+													</div>
+													<div class="box-body chart-responsive">
+														<div class="chart" id="student_support_scheme"
+															style="height: 300px;"></div>
+													</div>
+
 												</div>
 											</div>
+										</c:if>
+										<!-- end right boxes -->
 
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showSubCompanyList"><button
-															type="button" class="btn btn-primary">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
-														</button></a> <input type="hidden" id="mobile1Exist"
-														name="mobile1Exist"><input type="hidden"
-														id="emailExist" name="emailExist">
+										<!-- /.row -->
+									</c:if>
+
+									<c:if test="${sessionScope.userObj.staff.isHod==1}">
+
+
+										<!-- left boxes -->
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Total Sanctioned Intake and No
+														of Students Admitted Programwise</h3>
+
 												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="hodgraph1" style="height: 300px;"></div>
+												</div>
+
 											</div>
-										</form>
 
-									</div>
-									<!-- *****************************************Tab 5******************************************* -->
-									<div class="tab-pane fade" id="highlighted-tab5">
-										<form
-											action="${pageContext.request.contextPath}/insertSubCompanyManagerInfo"
-											id="insertCompanyManagerInfo" method="post">
+										</div>
+										<div class="col-md-6">
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Total Students Passed And
+														Student Placed In Final Year</h3>
 
-											<input type="hidden" id="companyId" name="companyId"
-												value="${company.companyId}">
-
-											<div class="form-group row">
-
-												<label class="col-form-label col-lg-2" for="manager">Managers
-													Under Shop Act <span style="color: red">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.managerUnderAct}" id="manager"
-														onchange="trim(this)"
-														placeholder="Managers Under Shop Act " name="manager"
-														autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_manager">This
-														field is required.</span>
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="hodgraph3" style="height: 300px;"></div>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="managerAddress">Manager
-													Address <span style="color: red"></span>:
-												</label>
-												<div class="col-lg-4">
-													<input type="text" class="form-control"
-														value="${company.managerAddress}" id="managerAddress"
-														autocomplete="off" onchange="trim(this)"
-														placeholder="Manager Address" name="managerAddress">
-													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_ptNo">This field
-														is required.</span>
-												</div>
 											</div>
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showSubCompanyList"><button
-															type="button" class="btn btn-primary">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Cancel
-														</button></a> <input type="hidden" id="mobile1Exist"
-														name="mobile1Exist"><input type="hidden"
-														id="emailExist" name="emailExist">
+										</div>
+										<!-- end left boxes -->
+
+										<!-- right boxes -->
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Total Students Passed And
+														Appeared for Final Year</h3>
+
 												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="hodgraph2" style="height: 300px;"></div>
+												</div>
+
 											</div>
-										</form>
 
-									</div>
+										</div>
+										<!-- end right boxes -->
 
-									<!--********************************* Tab 5 *********************************-->
-									<div class="tab-pane fade" id="highlighted-tab0"></div>
-									<!-- *****************************************Tab 0******************************************* -->
-									<div class="tab-pane fade" id="highlighted-tab0"></div>
+										<!-- /.row -->
+									</c:if>
+
+									<c:if test="${sessionScope.userObj.staff.isFaculty==1}">
 
 
+										<!-- left boxes -->
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Total Students Passed And
+														Student Appeared For Subjects Taughted by Faculty</h3>
+
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="facultyGraph" style="height: 300px;"></div>
+												</div>
+
+											</div>
+
+										</div>
+										<!-- end left boxes -->
+
+
+										<!-- /.row -->
+									</c:if>
+
+									<c:if test="${sessionScope.userObj.staff.isLibrarian==1}">
+
+
+										<!-- left boxes -->
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Total Students And Faculty using
+														Library Resources</h3>
+
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="librariangraph"
+														style="height: 300px;"></div>
+												</div>
+
+											</div>
+
+										</div>
+										<!-- end left boxes -->
+
+
+										<!-- /.row -->
+									</c:if>
+
+									<c:if test="${sessionScope.userObj.staff.isDean==1}">
+
+
+										<!-- left boxes -->
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Last Five Years :No of Research
+														Publications</h3>
+
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="deanGraph" style="height: 300px;"></div>
+												</div>
+
+											</div>
+
+										</div>
+										<!-- end left boxes -->
+
+
+										<!-- /.row -->
+									</c:if>
+
+									<c:if test="${sessionScope.userObj.staff.isAccOff==1}">
+
+
+										<!-- left boxes -->
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Consolidated Last Five Financial
+														Year Budget (All Budget Sources)</h3>
+
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="accgraph1" style="height: 300px;"></div>
+												</div>
+
+											</div>
+
+										</div>
+
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Current Financial Year Budget
+														(All Budget Title)</h3>
+
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="accgraph2" style="height: 300px;"></div>
+												</div>
+
+											</div>
+
+										</div>
+
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Infrastructure Budget: Last Five
+														Financial Year  </h3>
+
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="accgraph3" style="height: 300px;"></div>
+												</div>
+
+											</div>
+
+										</div>
+
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Library Budget: Last Five
+														Financial Year  </h3>
+
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="accgraph4" style="height: 300px;"></div>
+												</div>
+
+											</div>
+
+										</div>
+
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Academic Facilities Budget: Last
+														Five Financial Year  </h3>
+
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="accgraph5" style="height: 300px;"></div>
+												</div>
+
+											</div>
+
+										</div>
+
+										<div class="col-md-6">
+
+											<div class="box box-primary">
+												<div class="box-header with-border">
+													<h3 class="box-title">Books Budget: Last Five
+														Financial Year  </h3>
+
+												</div>
+												<div class="box-body chart-responsive">
+													<div class="chart" id="accgraph6" style="height: 300px;"></div>
+												</div>
+
+											</div>
+
+										</div>
+
+										<!-- end left boxes -->
+
+
+										<!-- /.row -->
+									</c:if>
 								</div>
-								<!-- /highlighted tabs -->
+								<!-- <div class="row">
 
-								<p class="desc text-danger fontsize11">Notice : * Fields are
-									mandatory.</p>
-							</div>
-						</div>
+									left boxes
+									<div class="col-md-6">
+
+										<div class="box box-primary">
+											<div class="box-header with-border">
+												<h3 class="box-title">Sanctioned Intake and No. of
+													Students Admitted</h3>
+
+											</div>
+											<div class="box-body chart-responsive">
+												<div class="chart" id="intake_chart" style="height: 300px;"></div>
+											</div>
+
+										</div>
 
 
-					</div>
-				</div>
 
-			</div>
-			<!-- /content area -->
+										<div class="box box-primary">
+											<div class="box-header with-border">
+												<h3 class="box-title">No of Programs</h3>
+
+											</div>
+											<div class="box-body chart-responsive">
+												<div class="chart" id="sales-chart"
+													style="height: 300px; position: relative;"></div>
+											</div>
+
+										</div>
 
 
-			<!-- Footer -->
-			<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
-			<!-- /footer -->
+									</div>
+									end left boxes
 
-		</div>
-		<!-- /main content -->
+									right boxes
+									<div class="col-md-6">
+
+										<div class="box box-primary">
+											<div class="box-header with-border">
+												<h3 class="box-title">Sanctioned Intake and No. of
+													Students Admitted Program Wise</h3>
+
+											</div>
+											<div class="box-body chart-responsive">
+												<div class="chart" id="line-chart" style="height: 300px;"></div>
+											</div>
+
+										</div>
+
+										<div class="box box-primary">
+											<div class="box-header with-border">
+												<h3 class="box-title">Sanctioned Intake and No. of
+													Students Admitted</h3>
+
+											</div>
+											<div class="box-body chart-responsive">
+												<div class="chart" id="intake_chart1" style="height: 300px;"></div>
+											</div>
+
+										</div>
+
+									</div>
+									end right boxes
+								</div> -->
+								<!-- /.row -->
+
+							</section>
+							<!-- /.content -->
+						
+
+					
+				
+				<div class="clearfix"></div>
+				<!-- MAIN CONTENT AREA STARTS -->
+
+
+
+
+
+</div>
+</div>
+</div>
+				<!-- MAIN CONTENT AREA ENDS -->
+			</section>
+		</section>
+		<!-- END CONTENT -->
+
+
 
 	</div>
-	<!-- /page content -->
+	<!-- END CONTAINER -->
+	<!-- LOAD FILES AT PAGE END FOR FASTER LOADING -->
 
+	<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 
+	<script type="text/javascript"
+		src="https://www.gstatic.com/charts/loader.js"></script>
+	<!-- Morris.js charts -->
 	<script
-		src="${pageContext.request.contextPath}/resources/global_assets/js/footercommonjs.js"></script>
-		
-		<script type="text/javascript">
-		// Single picker
-		$('.datepickerclass').daterangepicker({
-			singleDatePicker : true,
-			selectMonths : true,
-			selectYears : true,
-			locale : {
-				format : 'DD-MM-YYYY'
-			}
-		});
-
-		//daterange-basic_new
-		// Basic initialization
-		$('.daterange-basic_new').daterangepicker({
-			applyClass : 'bg-slate-600',
-
-			cancelClass : 'btn-light',
-			locale : {
-				format : 'DD-MM-YYYY',
-				separator : ' to '
-			}
-		});
-	</script>
-
+		src="${pageContext.request.contextPath}/resources/dashb/raphael.min.js"
+		type="text/javascript"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/dashb/morris.min.js"
+		type="text/javascript"></script>
 	<script>
-		$(document).ready(function() {
-			$("#pan").change(function() {
-				var pan = $("#pan").val();
+		$(function() {
+			"use strict";
 
-				var regex1 = /^[A-Z]{5}\d{4}[A-Z]{1}$/;
-				if (regex1.test($.trim(pan)) == false) {
-					$("#error_pan").show()
-					return false;
-				}
-				$("#error_pan").hide()
-				return true;
-			});
-		});
+			// AREA CHART
+			/*   var area = new Morris.Area({
+			    element: 'revenue-chart',
+			    resize: true,
+			    data: [
+			      {y: '2011 Q1', item1: 2666, item2: 2666},
+			      {y: '2011 Q2', item1: 2778, item2: 2294},
+			      {y: '2011 Q3', item1: 4912, item2: 1969},
+			      {y: '2011 Q4', item1: 3767, item2: 3597},
+			      {y: '2012 Q1', item1: 6810, item2: 1914},
+			      {y: '2012 Q2', item1: 5670, item2: 4293},
+			      {y: '2012 Q3', item1: 4820, item2: 3795},
+			      {y: '2012 Q4', item1: 15073, item2: 5967},
+			      {y: '2013 Q1', item1: 10687, item2: 4460},
+			      {y: '2013 Q2', item1: 8432, item2: 5713}
+			    ],
+			    xkey: 'y',
+			    ykeys: ['item1', 'item2'],
+			    labels: ['Item 1', 'Item 2'],
+			    lineColors: ['#a0d0e0', '#3c8dbc'],
+			    hideHover: 'auto'
+			  });
 
-		/* $('#sbtbtn4').click(function() {
+			  // LINE CHART
+			  var line = new Morris.Line({
+			    element: 'line-chart',
+			    resize: true,
+			    data: [
+			      {y: '2011 Q1', item1: 2666},
+			      {y: '2011 Q2', item1: 2778},
+			      {y: '2011 Q3', item1: 4912},
+			      {y: '2011 Q4', item1: 3767},
+			      {y: '2012 Q1', item1: 6810},
+			      {y: '2012 Q2', item1: 5670},
+			      {y: '2012 Q3', item1: 4820},
+			      {y: '2012 Q4', item1: 15073},
+			      {y: '2013 Q1', item1: 10687},
+			      {y: '2013 Q2', item1: 8432}
+			    ],
+			    xkey: 'y',
+			    ykeys: ['item1'],
+			    labels: ['Item 1'],
+			    lineColors: ['#3c8dbc'],
+			    hideHover: 'auto'
+			  });
 
-			$.ajax({
-				type : "POST",
-				url : "${pageContext.request.contextPath}/postIssueData",
-				data : $("#modalfrm4").serialize(),
-				dataType : 'json',
-				success : function(data) {
+			  //DONUT CHART
+			  var donut = new Morris.Donut({
+			    element: 'sales-chart',
+			    resize: true,
+			    colors: ["#3c8dbc", "#f56954", "#00a65a"],
+			    data: [
+			      {label: "UG", value: 12},
+			      {label: "PG", value: 30},
+			      {label: "Diploma", value: 20}
+			    ],
+			    hideHover: 'auto'
+			  }); */
+			//BAR CHART
+			var isPrincipal = document.getElementById("isPrincipal").value;
+			var isIqac = document.getElementById("isIqac").value;
+			var isHod = document.getElementById("isHod").value;
+			var isLibrarian = document.getElementById("isLibrarian").value;
+			var isFaculty = document.getElementById("isFaculty").value;
+			var isDean = document.getElementById("isDean").value;
+			var isAccOff = document.getElementById("isAccOff").value;
+			//alert(isPrincipal);
 
-				}
-			}).done(function() {
-				setTimeout(function() {
-				}, 500);
-			});
-		}); */
+			if (isPrincipal == 1 || isIqac == 1) {
 
-		$(document).ready(function($) {
+				$.getJSON('${getGraph}',
 
-			$("#insertCompanyInfo").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
+				{
 
-				if (!$("#companyName").val()) {
+					ajax : 'true'
 
-					isError = true;
+				}, function(data) {
 
-					$("#error_company").show()
-					//return false;
-				} else {
-					$("#error_company").hide()
-				}
+					google.charts.load('current', {
+						'packages' : [ 'corechart' ]
+					});
+					google.charts.setOnLoadCallback(drawChart);
 
-				if (!$("#companyShortName").val()) {
+					function drawChart() {
 
-					isError = true;
+						var dataTable = new google.visualization.DataTable();
 
-					$("#error_companyShortName").show()
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
 
-				} else {
-					$("#error_companyShortName").hide()
-				}
-				if (!$("#companyAddress1").val()) {
+						dataTable.addColumn('number', 'Sanctioned Intake');
+						dataTable.addColumn('number', 'Admitted Student');
+						$.each(data, function(key, dt) {
 
-					isError = true;
+							dataTable.addRows([
 
-					$("#error_companyAddress1").show()
+							[ dt.academicYear, dt.totalSancIntake,
+									dt.noCurrentAdmitedStnt ]
 
-				} else {
-					$("#error_companyAddress1").hide()
-				}
-				if (!$("#landline1").val()) {
+							]);
 
-					isError = true;
+						})
+						/* slantedTextAngle: 60 */
+						var options = {
+							hAxis : {
+								title : "YEAR",
+								textPosition : 'out',
+								slantedText : true
+							},
+							vAxis : {
+								title : 'VALUE',
+								minValue : 0,
+								viewWindow : {
+									min : 0
+								},
+								format : '0',
+							},
+							colors : [ 'orange', 'blue' ],
+							theme : 'material'
+						};
+						var chart = new google.visualization.ColumnChart(
+								document.getElementById('intake_chart'));
 
-					$("#error_landline1").show()
-
-				} else {
-					$("#error_landline1").hide()
-				}
-
-				if (!$("#pan").val() || !validatePAN($("#pan").val())) {
-
-					isError = true;
-
-					$("#error_pan").show()
-
-				} else {
-					$("#error_pan").hide()
-				}
-
-				if (!isError) {
-
-					var x = true;
-					if (x == true) {
-
-						//document.getElementById("submtbtn").disabled = true;
-						return true;
+						chart.draw(dataTable, options);
 					}
-					//
-				}
-				return false;
-			});
-		});
-		//
-		/* 2 Funds */
-		$(document).ready(function($) {
+				});
 
-			$("#insertCompanyFundsInfo").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
+				$
+						.getJSON(
+								'${getTotSancIntakeProgramwiseGraph}',
 
-				if (!$("#tanNo").val()) {
+								{
 
-					isError = true;
+									ajax : 'true'
 
-					$("#error_tanNo").show()
+								},
+								function(data) {
 
-				} else {
-					$("#error_tanNo").hide()
-				}
+									google.charts.load('current', {
+										'packages' : [ 'corechart' ]
+									});
+									google.charts.setOnLoadCallback(drawChart);
 
-				if (!$("#pfNo").val()) {
+									function drawChart() {
 
-					isError = true;
+										var dataTable = new google.visualization.DataTable();
 
-					$("#error_pfNo").show()
+										dataTable.addColumn('string',
+												'academic year'); // Implicit domain column.
 
-				} else {
-					$("#error_pfNo").hide()
-				}
+										dataTable.addColumn('number',
+												'Sanctioned Intake');
+										dataTable.addColumn('number',
+												'Admitted Student');
+										$.each(data, function(key, dt) {
 
-				if (!$("#pfCoveregDate").val()) {
+											var pName = dt.programName + "-"
+													+ dt.nameOfProgram;
 
-					isError = true;
+											dataTable.addRows([
 
-					$("#error_pfCoveregDate").show()
+											[ pName, dt.sancIntake,
+													dt.totalAdmitted ]
 
-				} else {
-					$("#error_pfCoveregDate").hide()
-				}
+											]);
 
-				if (!isError) {
+										})
 
-					var x = true;
-					if (x == true) {
+										/* slantedTextAngle: 60 */
+										var options = {
+											hAxis : {
+												title : "PROGRAM",
+												textPosition : 'out',
+												slantedText : true
+											},
+											vAxis : {
+												title : 'VALUE',
+												minValue : 0,
+												viewWindow : {
+													min : 0
+												},
+												format : '0',
+											},
+											colors : [ 'orange', 'blue' ],
+											theme : 'material'
+										};
+										var chart = new google.visualization.ColumnChart(
+												document
+														.getElementById('intake_chart_byprogram'));
 
-						//document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//
-				}
-				return false;
-			});
-		});
-		/* Bank */
-		$(document).ready(function($) {
+										chart.draw(dataTable, options);
+									}
+								});
 
-			$("#insertCompanyBankInfo").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
-				var acc = $("#accno").val();
+				if (isIqac == 1) {
 
-				if (!$("#person").val()) {
+					$
+							.getJSON(
+									'${getAllStudSupprtSchemGraph}',
 
-					isError = true;
+									{
 
-					$("#error_person").show()
-					//return false;
-				} else {
-					$("#error_person").hide()
-				}
-				if (!$("#mobile").val()) {
+										ajax : 'true'
 
-					isError = true;
+									},
+									function(data) {
 
-					$("#error_mobile").show()
-					//return false;
-				} else {
-					$("#error_mobile").hide()
-				}
-				if (!$("#email1").val() || !validateEmail($("#email1").val())) {
+										google.charts.load('current', {
+											'packages' : [ 'corechart' ]
+										});
+										google.charts
+												.setOnLoadCallback(drawChart);
 
-					isError = true;
+										function drawChart() {
 
-					$("#error_email1").show()
-					//return false;
-				} else {
-					$("#error_email1").hide()
-				}
+											var dataTable = new google.visualization.DataTable();
 
-				if (acc.length<8 || acc.length>17) {
+											dataTable.addColumn('string',
+													'academic year'); // Implicit domain column.
 
-					isError = true;
+											dataTable.addColumn('number',
+													'Total Student');
+											dataTable.addColumn('number',
+													'Benifited Student');
+											$
+													.each(
+															data,
+															function(key, dt) {
 
-					$("#error_accNoDigit").show()
+																dataTable
+																		.addRows([
 
-				} else {
-					$("#error_accNoDigit").hide()
-				}
+																		[
+																				dt.schemeName,
+																				dt.noCurrentAdmitedStnt,
+																				dt.noStudentBenifited ]
 
-				if (!isError) {
+																		]);
 
-					var x = true;
-					if (x == true) {
+															})
 
-						//document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//
-				}
-				return false;
-			});
-		});
+											/* slantedTextAngle: 60 */
+											var options = {
+												hAxis : {
+													title : "SCHEME NAME",
+													textPosition : 'out',
+													slantedText : true
+												},
+												vAxis : {
+													title : 'VALUE',
+													minValue : 0,
+													viewWindow : {
+														min : 0
+													},
+													format : '0',
+												},
+												colors : [ 'orange', 'blue' ],
+												theme : 'material'
+											};
+											var chart = new google.visualization.ColumnChart(
+													document
+															.getElementById('student_support_scheme'));
 
-		/* Manager */
-		$(document).ready(function($) {
+											chart.draw(dataTable, options);
+										}
 
-			$("#insertCompanyManagerInfo").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
-
-				if (!$("#manager").val()) {
-
-					isError = true;
-
-					$("#error_manager").show()
-					//return false;
-				} else {
-					$("#error_manager").hide()
-				}
-
-				if (!isError) {
-
-					var x = true;
-					if (x == true) {
-
-						//document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//
-				}
-				return false;
-			});
-		});
-	</script>
-
-	
-	 
-
-	<script type="text/javascript">
-		function show(input) {
-			debugger;
-			var validExtensions = [ 'jpg', 'png', 'jpeg', 'pdf' ]; //array of valid extensions
-			var fileName = input.files[0].name;
-			var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
-			if ($.inArray(fileNameExt, validExtensions) == -1) {
-				input.type = ''
-				input.type = 'file'
-				$('#user_img').attr('src', "");
-				alert("Only these file types are accepted : "
-						+ validExtensions.join(', '));
-				//$('#error_img').show()
-			} else {
-				//$('#error_img').hide()
-				if (input.files && input.files[0]) {
-					var filerdr = new FileReader();
-					filerdr.onload = function(e) {
-						$('#user_img').attr('src', e.target.result);
-					}
-					filerdr.readAsDataURL(input.files[0]);
+									});
 				}
 			}
-		}
+
+			if (isHod == 1) {
+
+				$.getJSON('${getTotStudentPassedAndAppearInFinYrGraphForHod}',
+
+				{
+
+					ajax : 'true'
+
+				}, function(data) {
+
+					google.charts.load('current', {
+						'packages' : [ 'corechart' ]
+					});
+					google.charts.setOnLoadCallback(drawChart);
+
+					function drawChart() {
+
+						var dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+						dataTable.addColumn('number', 'Student Appeared');
+						dataTable.addColumn('number', 'Student Passed');
+						
+						$.each(data,
+								function(key, dt) {
+
+									var pName = dt.programName + "-"
+											+ dt.nameOfProgram;
+
+									dataTable.addRows([
+
+									[ pName, dt.noStudAppear, dt.noStudPass ]
+
+									]);
+
+								})
+						/* slantedTextAngle: 60 */
+						var options = {
+							hAxis : {
+								title : "PROGRAM NAME",
+								textPosition : 'out',
+								slantedText : true
+							},
+							vAxis : {
+								title : 'VALUE',
+								minValue : 0,
+								viewWindow : {
+									min : 0
+								},
+								format : '0',
+							},
+							colors : [ 'orange', 'blue' ],
+							theme : 'material'
+						};
+						var chart = new google.visualization.ColumnChart(
+								document.getElementById('hodgraph2'));
+
+						chart.draw(dataTable, options);
+					}
+				});
+
+				$.getJSON('${sanctioinalIntakeandNostudentAdmitedproramwise}',
+
+				{
+
+					ajax : 'true'
+
+				}, function(data) {
+
+					google.charts.load('current', {
+						'packages' : [ 'corechart' ]
+					});
+					google.charts.setOnLoadCallback(drawChart);
+
+					function drawChart() {
+
+						var dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+
+						dataTable.addColumn('number', 'Sanctioned Intake');
+						dataTable.addColumn('number', 'Admitted Student');
+						$.each(data, function(key, dt) {
+
+							dataTable.addRows([
+
+							[ dt.programName, dt.sancIntake, dt.totalAdmitted ]
+
+							]);
+
+						})
+
+						/* slantedTextAngle: 60 */
+						var options = {
+							hAxis : {
+								title : "PROGRAM NAME",
+								textPosition : 'out',
+								slantedText : true
+							},
+							vAxis : {
+								title : 'VALUE',
+								minValue : 0,
+								viewWindow : {
+									min : 0
+								},
+								format : '0',
+							},
+							colors : [ 'orange', 'blue' ],
+							theme : 'material'
+						};
+						var chart = new google.visualization.ColumnChart(
+								document.getElementById('hodgraph1'));
+
+						chart.draw(dataTable, options);
+					}
+				});
+
+				$.getJSON('${getAllProgTypStudPlacedGraph}',
+
+				{
+
+					ajax : 'true'
+
+				}, function(data) {
+
+					google.charts.load('current', {
+						'packages' : [ 'corechart' ]
+					});
+					google.charts.setOnLoadCallback(drawChart);
+
+					function drawChart() {
+
+						var dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+
+						dataTable.addColumn('number', 'Student Passed');
+						dataTable.addColumn('number', 'Student Placed');
+						$.each(data, function(key, dt) {
+
+							dataTable
+									.addRows([
+
+									[ dt.programName, dt.noStudPass,
+											dt.noStudentPlaced ]
+
+									]);
+
+						})
+
+						/* slantedTextAngle: 60 */
+						var options = {
+							hAxis : {
+								title : "PROGRAM NAME",
+								textPosition : 'out',
+								slantedText : true
+							},
+							vAxis : {
+								title : 'VALUE',
+								minValue : 0,
+								viewWindow : {
+									min : 0
+								},
+								format : '0',
+							},
+							colors : [ 'orange', 'blue' ],
+							theme : 'material'
+						};
+						var chart = new google.visualization.ColumnChart(
+								document.getElementById('hodgraph3'));
+
+						chart.draw(dataTable, options);
+					}
+				});
+			}
+
+			if (isLibrarian == 1) {
+
+				$.getJSON('${getGraphForNoofTeacherStudUsingLib}',
+
+				{
+
+					ajax : 'true'
+
+				}, function(data) {
+
+					google.charts.load('current', {
+						'packages' : [ 'corechart' ]
+					});
+					google.charts.setOnLoadCallback(drawChart);
+
+					function drawChart() {
+
+						var dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+						dataTable.addColumn('number', 'No. of Student');
+						dataTable.addColumn('number', 'No. of Faculty');
+						
+						$.each(data, function(key, dt) {
+
+							dataTable.addRows([
+
+							[ dt.acYear, dt.avgStudent, dt.avgTeacher ]
+
+							]);
+
+						})
+
+						/* slantedTextAngle: 60 */
+						var options = {
+							hAxis : {
+								title : "ACADEMIC YEAR",
+								textPosition : 'out',
+								slantedText : true
+							},
+							vAxis : {
+								title : 'VALUE',
+								minValue : 0,
+								viewWindow : {
+									min : 0
+								},
+								format : '0',
+							},
+							colors : [ 'orange', 'blue' ],
+							theme : 'material'
+						};
+						var chart = new google.visualization.ColumnChart(
+								document.getElementById('librariangraph'));
+
+						chart.draw(dataTable, options);
+					}
+				});
+			}
+
+			if (isFaculty == 1) {
+
+				$.getJSON('${getStudpassAppearedTaughByFacGraph}',
+
+				{
+
+					ajax : 'true'
+
+				}, function(data) {
+
+					google.charts.load('current', {
+						'packages' : [ 'corechart' ]
+					});
+					google.charts.setOnLoadCallback(drawChart);
+
+					function drawChart() {
+
+						var dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+						dataTable.addColumn('number', 'Students Appeared');
+						dataTable.addColumn('number', 'Students Passed');
+						
+						$.each(data, function(key, dt) {
+
+							dataTable.addRows([
+
+							[ dt.subName, dt.subStuAppear, dt.subStuPassed ]
+
+							]);
+
+						})
+
+						/* slantedTextAngle: 60 */
+						var options = {
+							hAxis : {
+								title : "SUB NAME",
+								textPosition : 'out',
+								slantedText : true
+							},
+							vAxis : {
+								title : 'VALUE',
+								minValue : 0,
+								viewWindow : {
+									min : 0
+								},
+								format : '0',
+							},
+							colors : [ 'orange', 'blue' ],
+							theme : 'material'
+						};
+						var chart = new google.visualization.ColumnChart(
+								document.getElementById('facultyGraph'));
+
+						chart.draw(dataTable, options);
+					}
+				});
+			}
+
+			if (isDean == 1) {
+
+				$.getJSON('${getNoOfResearchPubGraphDean}',
+
+				{
+
+					ajax : 'true'
+
+				}, function(data) {
+
+					google.charts.load('current', {
+						'packages' : [ 'corechart' ]
+					});
+					google.charts.setOnLoadCallback(drawChart);
+
+					function drawChart() {
+
+						var dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+
+						dataTable.addColumn('number',
+								'No of Research Publications');
+						$.each(data, function(key, dt) {
+
+							dataTable.addRows([
+
+							[ dt.academicYear, dt.noOfPublication ]
+
+							]);
+
+						})
+
+						/* slantedTextAngle: 60 */
+						var options = {
+							hAxis : {
+								title : "ACADEMIC YEAR",
+								textPosition : 'out',
+								slantedText : true
+							},
+							vAxis : {
+								title : 'VALUE',
+								minValue : 0,
+								viewWindow : {
+									min : 0
+								},
+								format : '0',
+							},
+							colors : [ 'blue' ],
+							theme : 'material'
+						};
+						var chart = new google.visualization.ColumnChart(
+								document.getElementById('deanGraph'));
+
+						chart.draw(dataTable, options);
+					}
+
+				});
+			}
+
+			if (isAccOff == 1) {
+
+				$.getJSON('${getBudgetInfrastructureDetail}',
+
+				{
+
+					ajax : 'true'
+
+				}, function(data) {
+
+					google.charts.load('current', {
+						'packages' : [ 'corechart' ]
+					});
+					google.charts.setOnLoadCallback(drawChart);
+
+					function drawChart() {
+
+						var dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+
+						dataTable.addColumn('number', 'Budget Allocated');
+						dataTable.addColumn('number', 'Budget Utilized');
+						$.each(data, function(key, dt) {
+
+							dataTable.addRows([
+
+							[ dt.budgetTitle, dt.allocAmt, dt.utilAmt ]
+
+							]);
+
+						})
+
+						/* slantedTextAngle: 60 */
+						var options = {
+							hAxis : {
+								title : "BUDGET TITLE",
+								textPosition : 'out',
+								slantedText : true
+							},
+							vAxis : {
+								title : 'VALUE',
+								minValue : 0,
+								viewWindow : {
+									min : 0
+								},
+								format : '0',
+							},
+							colors : [ 'orange', 'blue' ],
+							theme : 'material'
+						};
+						var chart = new google.visualization.ColumnChart(
+								document.getElementById('accgraph1'));
+
+						chart.draw(dataTable, options);
+					}
+
+				});
+
+				$.getJSON('${getBudgetInfrastructureDetailCurr}',
+
+				{
+
+					ajax : 'true'
+
+				}, function(data) {
+
+					google.charts.load('current', {
+						'packages' : [ 'corechart' ]
+					});
+					google.charts.setOnLoadCallback(drawChart);
+
+					function drawChart() {
+
+						var dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+
+						dataTable.addColumn('number', 'Budget Allocated');
+						dataTable.addColumn('number', 'Budget Utilized');
+						$.each(data, function(key, dt) {
+
+							dataTable.addRows([
+
+							[ dt.budgetTitle, dt.allocAmt, dt.utilAmt ]
+
+							]);
+
+						})
+
+						/* slantedTextAngle: 60 */
+						var options = {
+							hAxis : {
+								title : "BUDGET TITLE",
+								textPosition : 'out',
+								slantedText : true
+							},
+							vAxis : {
+								title : 'VALUE',
+								minValue : 0,
+								viewWindow : {
+									min : 0
+								},
+								format : '0',
+							},
+							colors : [ 'orange', 'blue' ],
+							theme : 'material'
+						};
+						var chart = new google.visualization.ColumnChart(
+								document.getElementById('accgraph2'));
+
+						chart.draw(dataTable, options);
+					}
+
+				});
+
+				$.getJSON('${getAllBugetsGraph}',
+
+				{
+
+					ajax : 'true'
+
+				}, function(data) {
+
+					google.charts.load('current', {
+						'packages' : [ 'corechart' ]
+					});
+					google.charts.setOnLoadCallback(drawChart);
+
+					function drawChart() {
+
+						var dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+
+						dataTable.addColumn('number', 'Budget Allocated');
+						dataTable.addColumn('number', 'Budget Utilized');
+
+						$.each(data.infraRes, function(key, dt) {
+
+							dataTable
+									.addRows([
+
+									[ dt.finYear, dt.budgetAllocated,
+											dt.budgetUtilized ]
+
+									]);
+
+						})
+
+						/* slantedTextAngle: 60 */
+						var options = {
+							hAxis : {
+								title : "YEAR",
+								textPosition : 'out',
+								slantedText : true
+							},
+							vAxis : {
+								title : 'VALUE',
+								minValue : 0,
+								viewWindow : {
+									min : 0
+								},
+								format : '0',
+							},
+							colors : [ 'orange', 'blue' ],
+							theme : 'material'
+						};
+						var chart = new google.visualization.ColumnChart(
+								document.getElementById('accgraph3'));
+
+						chart.draw(dataTable, options);
+
+						//2nd graph
+
+						dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+
+						dataTable.addColumn('number', 'Budget Allocated');
+						dataTable.addColumn('number', 'Budget Utilized');
+
+						$.each(data.libRes, function(key, dt) {
+
+							dataTable
+									.addRows([
+
+									[ dt.finYear, dt.budgetAllocated,
+											dt.budgetUtilized ]
+
+									]);
+
+						})
+
+						chart = new google.visualization.ColumnChart(document
+								.getElementById('accgraph4'));
+
+						chart.draw(dataTable, options);
+						
+						//3rd graph
+
+						dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+
+						dataTable.addColumn('number', 'Budget Allocated');
+						dataTable.addColumn('number', 'Budget Utilized');
+
+						$.each(data.academicRes, function(key, dt) {
+
+							dataTable
+									.addRows([
+
+									[ dt.finYear, dt.budgetAllocated,
+											dt.budgetUtilized ]
+
+									]);
+
+						})
+
+						chart = new google.visualization.ColumnChart(document
+								.getElementById('accgraph5'));
+
+						chart.draw(dataTable, options);
+						
+						//4th graph
+
+						dataTable = new google.visualization.DataTable();
+
+						dataTable.addColumn('string', 'academic year'); // Implicit domain column.
+
+						dataTable.addColumn('number', 'Budget Allocated');
+						dataTable.addColumn('number', 'Budget Utilized');
+
+						$.each(data.bookRes, function(key, dt) {
+
+							dataTable
+									.addRows([
+
+									[ dt.finYear, dt.budgetAllocated,
+											dt.budgetUtilized ]
+
+									]);
+
+						})
+
+						chart = new google.visualization.ColumnChart(document
+								.getElementById('accgraph6'));
+
+						chart.draw(dataTable, options);
+					}
+
+				});
+			}
+
+		});
 	</script>
 </body>
 </html>
+
+
+
