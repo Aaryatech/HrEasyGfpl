@@ -8,13 +8,17 @@
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
+
+
+<c:url var="getEmpAttnGraph" value="/getEmpAttnGraph" />
+
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" href="/resources/demos/style.css">
 
-<body>
+<body onload="getGraphs(1)">
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -154,7 +158,7 @@
 
 											</div>
 											
-											
+											<input type="hidden" id="empId" name="empId" value="${empId}">
 											
 											<div class="col-md-6">
 												<div class="box box-primary">
@@ -322,15 +326,21 @@
 		type="text/javascript"></script>
 	
 	<script type="text/javascript">
-	$(function() {
+ 
+	function getGraphs(flag) {
+		
+		var empId = document.getElementById("empId").value;
 		 
+		
+		
 
 					$
 							.getJSON(
 									'${getEmpAttnGraph}',
 
 									{
-
+										empId : empId,
+										flag:flag,
 										ajax : 'true'
 
 									},
@@ -410,8 +420,8 @@
 
 									});
 					
-					
-				});
+	}
+			 
 				 
 		</script>
 
