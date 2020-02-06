@@ -119,14 +119,14 @@
 									varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
-										<td>${locationList.name}</td>
-										<td>${locationList.lmApplicable==1 ? 'Yes': locationList.lmApplicable==0 ? 'No'  : ''}</td>
-										<td>${locationList.halfDay==1 ? 'Yes': locationList.halfDay==0 ? 'No'  : ''}</td>
-										<td>${locationList.whWork}</td>
-										<td>${locationList.minworkApplicable==1 ? 'Yes': locationList.minworkApplicable==0 ? 'No'  : ''}</td>
-										<td>${locationList.minWorkHr}</td>
-										<td>${locationList.otApplicable==1 ? 'Yes': locationList.otApplicable==0 ? 'No'  : ''}</td>
-										<td>${locationList.otType=='0' ? 'No': locationList.otType=='1' ? 'Yes1'  :locationList.otType=='1.5' ? 'Yes1.5'  :locationList.otType=='2' ? 'Yes2'  : ''}</td>
+										<td  class="text-left">${locationList.name}</td>
+										<td class="text-left">${locationList.lmApplicable==1 ? 'Yes': locationList.lmApplicable==0 ? 'No'  : ''}</td>
+										<td class="text-left">${locationList.halfDay==1 ? 'Yes': locationList.halfDay==0 ? 'No'  : ''}</td>
+										<td class="text-left">${locationList.whWork}</td>
+										<td class="text-left">${locationList.minworkApplicable==1 ? 'Yes': locationList.minworkApplicable==0 ? 'No'  : ''}</td>
+										<td class="text-right">${locationList.minWorkHr}</td>
+										<td class="text-left">${locationList.otApplicable==1 ? 'Yes': locationList.otApplicable==0 ? 'No'  : ''}</td>
+										<td class="text-left">${locationList.otType=='0' ? 'No': locationList.otType=='1' ? 'Yes1'  :locationList.otType=='1.5' ? 'Yes1.5'  :locationList.otType=='2' ? 'Yes2'  : ''}</td>
 									<%-- 	<td>${locationList.details}</td> --%>
 
 

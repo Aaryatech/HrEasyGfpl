@@ -744,7 +744,8 @@
 											<select name="relation" data-placeholder="Select Relation"
 												id="relation"
 												class="form-control form-control-select2 select2-hidden-accessible">
-
+<option value="0"
+													${empPersInfo.middleNameRelation=='0' ? 'selected' : ''}>Please Select</option>
 												<option value="father"
 													${empPersInfo.middleNameRelation=='father' ? 'selected' : ''}>Father</option>
 												<option value="husband"
@@ -776,6 +777,10 @@
 											<select name="gender" data-placeholder="Gender" id="gender"
 												class="form-control form-control-select2 select2-hidden-accessible">
 												<!-- <option>Select Gender</option> -->
+												
+												
+												<option value="0"
+													${empPersInfo.gender=='0' ? 'selected' : ''}>Please Select</option>
 												<option value="m"
 													${empPersInfo.gender=='m' ? 'selected' : ''}>Male</option>
 												<option value="f"
@@ -794,7 +799,8 @@
 											<select name="maritalstatus"
 												data-placeholder="Select Marital Status" id="maritalstatus"
 												class="form-control form-control-select2 select2-hidden-accessible">
-
+<option value="0"
+													${empPersInfo.maritalStatus=='0' ? 'selected' : ''}>Please Select</option>
 												<option value="Single"
 													${empPersInfo.maritalStatus=='Single' ? 'selected' : ''}>Single</option>
 												<option value="Married"
@@ -926,7 +932,8 @@
 											<select name="bloodgroup"
 												data-placeholder="Select Blood Group" id="bloodgroup"
 												class="form-control form-control-select2 select2-hidden-accessible">
-
+												<option value="0"
+													${empPersInfo.bloodGroup=='0' ? 'selected' : ''}>Please Select</option>
 												<option value="A+"
 													${empPersInfo.bloodGroup=='A+' ? 'selected' : ''}>A+</option>
 												<option value="A-"
@@ -957,7 +964,8 @@
 											<select name="uniformsize"
 												data-placeholder="Select Uniform Size" id="uniformsize"
 												class="form-control form-control-select2 select2-hidden-accessible">
-
+												<option value="0"
+													${empPersInfo.uniformSize=='0' ? 'selected' : ''}>Please Select</option>
 												<option value="medium"
 													${empPersInfo.uniformSize=='medium' ? 'selected' : ''}>MEDIUM</option>
 												<option value="large"
@@ -1437,7 +1445,7 @@
 									<select name="bankId" data-placeholder="Select Bank"
 										id="bankId"
 										class="form-control form-control-select2 select2-hidden-accessible">
-
+										<option value="0"${empBank.bankId=='0' ? 'selected' : ''}>Please Select</option>
 
 										<c:forEach items="${bankList}" var="bankList">
 											<c:choose>
@@ -1743,7 +1751,7 @@
 														onchange="trim(this)"> --%>
 								<select name="ptApplicable" id="ptApplicable" data-rel="chosen"
 									class="form-control">
-
+<option value="0" ${empAllowanceId.ptApplicable == '0' ? 'selected' : ''}>Please Select</option>
 									<option value="no"
 										${empAllowanceId.ptApplicable == 'no' ? 'selected' : ''}>NO</option>
 									<option value="yes"
@@ -1758,6 +1766,7 @@
 								<select name="salBasis" data-placeholder="Select Designation"
 									id="salBasis"
 									class="form-control form-control-select2 select2-hidden-accessible">
+									<option value="0" ${empAllowanceId.salBasis == '0' ? 'selected' : ''}>Please Select</option>
 									<option value="monthly"
 										${empAllowanceId.salBasis=='monthly' ? 'selected' : ''}>Monthly</option>
 									<option value="daily"
@@ -1815,7 +1824,7 @@
 								<select name="lrEsic" data-placeholder="Select Uniform Size"
 									id="lrEsic"
 									class="form-control form-control-select2 select2-hidden-accessible">
-
+<option value="-1" ${empAllowanceId.leavingReasonEsic == '-1' ? 'selected' : ''}>Please Select</option>
 									<option value="0"
 										${empAllowanceId.leavingReasonEsic=='0' ? 'selected' : ''}>0-Without
 										Reason</option>
@@ -1866,18 +1875,19 @@
 								<select name="lrForPF" data-placeholder="Select Uniform Size"
 									id="lrForPF"
 									class="form-control form-control-select2 select2-hidden-accessible">
-
-									<option value="0"
-										${empAllowanceId.leavingReasonPf=='1' ? 'selected' : ''}>C-Cessation</option>
+							<option value="0" ${empAllowanceId.leavingReasonPf == '0' ? 'selected' : ''}>Please Select</option>
+								  
 									<option value="1"
-										${empAllowanceId.leavingReasonPf=='2' ? 'selected' : ''}>S-Superannuation</option>
+										${empAllowanceId.leavingReasonPf=='1' ? 'selected' : ''}>C-Cessation</option>
 									<option value="2"
-										${empAllowanceId.leavingReasonPf=='3' ? 'selected' : ''}>R-Retirement</option>
+										${empAllowanceId.leavingReasonPf=='2' ? 'selected' : ''}>S-Superannuation</option>
 									<option value="3"
+										${empAllowanceId.leavingReasonPf=='3' ? 'selected' : ''}>R-Retirement</option>
+									<option value="4"
 										${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>D-Death
 										in Service</option>
-									<option value="4"
-										${empAllowanceId.leavingReasonPf=='4' ? 'selected' : ''}>P-Permanent
+									<option value="5"
+										${empAllowanceId.leavingReasonPf=='5' ? 'selected' : ''}>P-Permanent
 										Disablement</option>
 
 								</select>

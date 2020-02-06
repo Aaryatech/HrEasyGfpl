@@ -112,7 +112,7 @@
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${payList.typeName}</td>
-										<td>${payList.dedRate}</td> 	 						
+										<td class="text-right">${payList.dedRate}</td> 	 						
 										
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a

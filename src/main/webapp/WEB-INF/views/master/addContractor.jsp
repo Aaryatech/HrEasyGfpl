@@ -147,7 +147,7 @@
 											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.vatNo}"
-												placeholder="Enter VAT" id="vat"
+												placeholder="Enter VAT" id="vat"  maxlength="25"
 												name="vat" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_vat"
 												style="display: none;">This field is required.</span>
@@ -171,7 +171,7 @@
 											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.pfNo}"
-												placeholder="Enter PF. No." id="pf"
+												placeholder="Enter PF. No." id="pf" maxlength="25"
 												name="pf" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_pf"
 												style="display: none;">This field is required.</span>
@@ -183,7 +183,7 @@
 											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.esicNo}"
-												placeholder="Enter ESIC No." id="esic"
+												placeholder="Enter ESIC No." id="esic"  maxlength="25"
 												name="esic" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_esic"
 												style="display: none;">This field is required.</span>
@@ -207,7 +207,7 @@
 											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.officeNo}"
-												placeholder="Enter Office No." id="officeNo"
+												placeholder="Enter Office No." id="officeNo"  maxlength="25"
 												name="officeNo" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_officeNo"
 												style="display: none;">This field is required.</span>

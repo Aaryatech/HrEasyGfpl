@@ -204,7 +204,7 @@
 											<select name="summId" data-placeholder="Select a Summary" id="summId"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												required data-fouc="" tabindex="-1" aria-hidden="true">
-										
+											<option value="0" >Please Select</option>
 											<c:forEach items="${sumList}" var="sumList">
 																		
 											<option value="${sumList.lvSumupId}">${sumList.lvSumupTitle}</option>

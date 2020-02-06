@@ -112,12 +112,12 @@
 								<c:forEach items="${locationList}" var="locationList"
 									varStatus="count">
 									<tr>
-										<td>${count.index+1}</td>
-										<td>${locationList.locName}</td>
-										<td>${locationList.locNameShort}</td>
+										<td class="text-left">${count.index+1}</td>
+										<td class="text-left">${locationList.locName}</td>
+										<td class="text-left">${locationList.locNameShort}</td>
 										<td>${locationList.locHrContactPerson}</td>
 										<td>${locationList.locHrContactNumber}</td>
-										<td>${locationList.locHrContactEmail}</td>
+										<td class="text-left">${locationList.locHrContactEmail}</td>
 
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a

@@ -119,7 +119,7 @@
 													<span class="validation-invalid-label" id="error_unique"
 												style="display: none;">Department Name Already Exists.</span>
 										</div>
-									</div>/editWeeklyOff
+									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label text-info font-weight-bold col-lg-2" for="desigShortName">Short

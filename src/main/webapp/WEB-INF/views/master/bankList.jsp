@@ -112,8 +112,8 @@
 									varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
-										<td>${bankList.name}</td>
-										<td>${bankList.branchName}</td>
+										<td class="text-left">${bankList.name}</td>
+										<td class="text-left">${bankList.branchName}</td>
 										<td>${bankList.micrCode}</td>
 										<td>${bankList.ifscCode}</td>
 										

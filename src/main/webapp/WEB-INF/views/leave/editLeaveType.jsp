@@ -200,6 +200,7 @@
 												id="summId"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												required data-fouc="" tabindex="-1" aria-hidden="true">
+											<option value="0" ${editCompany.lvSumupId == '0' ? 'selected' : ''}>Please Select</option>
 
 												<c:forEach items="${sumList}" var="sumList">
 													<c:choose>

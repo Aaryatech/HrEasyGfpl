@@ -145,9 +145,9 @@
 										<td>${count.index+1}</td>
 										<td>${holiday.exVar2}</td>
 										<td>${holiday.locName}</td>
-										<td>${holiday.calYrFromDate}_${holiday.calYrToDate}</td>
-										<td>${holiday.holidayFromdt}</td>
-										<td>${holiday.holidayTodt}</td>
+										<td class="text-center">${holiday.calYrFromDate}_${holiday.calYrToDate}</td>
+										<td class="text-center">${holiday.holidayFromdt}</td>
+										<td class="text-center">${holiday.holidayTodt}</td>
 
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a
