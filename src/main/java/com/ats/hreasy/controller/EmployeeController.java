@@ -783,6 +783,8 @@ public class EmployeeController {
 				model.addObject("empAllowanceId", empSalInfo);
 				model.addObject("empAllowncList", empAllowncList);
 				model.addObject("docList", docList);
+				
+				model.addObject("userRes", userRes);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1089,6 +1091,54 @@ public class EmployeeController {
 			TblEmpBankInfo empIdBank = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdBank",
 					empBank, TblEmpBankInfo.class);
 			if (empIdBank != null) {
+				session.setAttribute("successMsg", "Record Updated Successfully");
+
+				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
+				// System.out.println("Emp Encrypt Id---" + empEncryptId);
+
+				redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
+			} else {
+				session.setAttribute("errorMsg", "Failed to Update Record");
+				redirect = "redirect:/employeeAdd";
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return redirect;
+
+	}
+	
+	
+	
+	@RequestMapping(value = "/submitEmpLogDetails", method = RequestMethod.POST)
+	public String submitEmpLogDetails(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			HttpSession session = request.getSession();
+			session.setAttribute("empTab", 7);
+			int empId = 0;
+			int userInfoId = 0;
+			try {
+				userInfoId = Integer.parseInt(request.getParameter("userInfoId"));
+				empId = Integer.parseInt(request.getParameter("empId"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				userInfoId = 0;
+			}
+ 
+			String password = request.getParameter("upass");
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] messageDigest = md.digest(password.getBytes());
+			BigInteger number = new BigInteger(1, messageDigest);
+			String hashtext = number.toString(16);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			map.add("password", hashtext);
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateUserPass", map,
+					Info.class);
+			if (info.isError()== false) {
 				session.setAttribute("successMsg", "Record Updated Successfully");
 
 				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));

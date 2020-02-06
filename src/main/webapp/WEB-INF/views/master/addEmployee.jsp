@@ -179,6 +179,22 @@
 												</a></li>
 											</c:otherwise>
 										</c:choose>
+										
+										
+										<c:choose>
+										<c:when test="${empTab==7}">
+											<li class="nav-item text-center"><a
+												href="#highlighted-tab7" class="nav-link active"
+												data-toggle="tab">Login Details </br>Step 7
+											</a></li>
+										</c:when>
+										<c:otherwise>
+											<li class="nav-item text-center"><a
+												href="#highlighted-tab7" class="nav-link" data-toggle="tab">Login Details </br>Step 7
+											</a></li>
+										</c:otherwise>
+									</c:choose>
+										
 
 									</c:if>
 								</ul>
@@ -2064,6 +2080,78 @@
 					</div>
 				</form>
 			</div>
+			
+				<!-- *****************************************Tab 7******************************************* -->
+			<c:choose>
+							<c:when test="${empTab==7}">
+								<div class="tab-pane fade show active" id="highlighted-tab7">
+							</c:when>
+							<c:otherwise>
+								<div class="tab-pane fade" id="highlighted-tab7">
+							</c:otherwise>
+
+						</c:choose>
+
+						<form
+							action="${pageContext.request.contextPath}/submitEmpLogDetails"
+							id="submitEmpLogDetails" method="post">
+
+							<div class="form-group row">
+								<div class="col-lg-6">
+									<input type="hidden" id="empId" name="empId"
+										value="${emp.empId}">
+								</div>
+								<div class="col-lg-6">
+									<input type="hidden" id="userInfoId" name="userInfoId"
+										value="${userRes.user_id}">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-form-label col-lg-2"
+								
+									for="accNo">User Name  <span class="text-danger"></span>:
+								</label>
+								<div class="col-lg-4">
+									<input type="text" class="form-control" readonly="readonly"
+										value="${userRes.userName}"  id="uname"
+										  name="uname" autocomplete="off"
+										 > 
+								</div>
+								 
+								
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="upass">User Password : <span class="text-danger">*</span>:
+								</label>
+								<div class="col-lg-4">
+									<input type="text" class="form-control"
+									 placeholder="User Password" id="upass"
+										 name="upass" autocomplete="off"
+										onchange="trim(this)"> <span
+										class="hidedefault   validation-invalid-label"
+										style="display: none;" id="error_upass">This Field is Required.</span>  
+								</div>
+ 
+							</div>
+ 
+							<div class="form-group text-center">
+								<div class="col-lg-12">
+									<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+									<button type="submit" class="btn bg-blue ml-3 legitRipple"
+										id="submtbtnUser">
+										Submit <i class="icon-paperplane ml-2"></i>
+									</button>
+									<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+											type="button" class="btn btn-light">Back</button></a> 
+
+								</div>
+							</div>
+						</form>
+					</div>
+			
+			
+			
 
 
 		</div>
@@ -2506,7 +2594,7 @@
 											});
 						});
 		//
-		/* Bank */
+		/* Bank  */
 		$(document).ready(function($) {
 
 			$("#submitEmpBankInfo").submit(function(e) {
@@ -2743,6 +2831,45 @@
 					if (x == true) {
 
 						//document.getElementById("submtbtn").disabled = true;
+						return true;
+					}
+					//
+				}
+				return false;
+			});
+		});
+		
+		
+		
+		
+		
+		//************Personal Info****************//
+		
+		
+		$(document).ready(function($) {
+
+			$("#submitEmpLogDetails").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
+				 
+
+				if (!$("#upass").val()) {
+
+					isError = true;
+
+					$("#error_upass").show()
+
+				} else {
+					$("#error_upass").hide()
+				}
+
+			 
+				if (!isError) {
+
+					var x = true;
+					if (x == true) {
+
+						document.getElementById("submtbtnUser").disabled = true;
 						return true;
 					}
 					//
