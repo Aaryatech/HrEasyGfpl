@@ -336,15 +336,27 @@
 				} else {
 					$("#error_remark").hide()
 				}
- 
-				if (!$("#tempDate").val() || $("#tempDate").val() == 0) {
+				
+				
+				if (!$("#remark").val()) {
 
 					isError = true;
 
-					$("#error_tempDate").show()
+					$("#error_remark").show()
 
 				} else {
-					$("#error_tempDate").hide()
+					$("#error_remark").hide()
+				}
+				
+ 
+				if (!$("#changeDate").val()) {
+
+					isError = true;
+
+					$("#error_changeDate").show()
+
+				} else {
+					$("#error_changeDate").hide()
 				}
 
 				if (!isError) {
@@ -456,12 +468,15 @@
 	<script type="text/javascript">
 		// Single picker
 		$('.datepickerclass').daterangepicker({
+		    "autoUpdateInput": false,
 			singleDatePicker : true,
 			selectMonths : true,
 			selectYears : true,
 			locale : {
 				format : 'DD-MM-YYYY'
 			}
+		}, function (start_date) {
+		    $(this.element).val(start_date.format('DD-MM-YYYY'));
 		});
 
 		//daterange-basic_new

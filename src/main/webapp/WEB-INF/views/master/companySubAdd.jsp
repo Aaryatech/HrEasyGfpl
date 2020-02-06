@@ -980,13 +980,17 @@ System.out.println("val**"+flagNew);%> --%>
 
 	<script type="text/javascript">
 		// Single picker
+		  
 		$('.datepickerclass').daterangepicker({
+		    "autoUpdateInput": false,
 			singleDatePicker : true,
 			selectMonths : true,
 			selectYears : true,
 			locale : {
 				format : 'DD-MM-YYYY'
 			}
+		}, function (start_date) {
+		    $(this.element).val(start_date.format('DD-MM-YYYY'));
 		});
 
 		//daterange-basic_new

@@ -238,6 +238,34 @@
 													style="display: none;" id="error_empCode">This field
 													is required.</span>
 											</div>
+											
+											
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="subCmpId"> Sub Company <span
+												class="text-danger">*</span>:
+											</label>
+											<div class="col-lg-4">
+												<select name="subCmpId"
+													data-placeholder="Select Sub Company" id="subCmpId"
+													class="form-control form-control-select2 select2-hidden-accessible">
+													<option value="">Select Sub Company</option>
+													<c:forEach items="${companySubList}" var="companySubList">
+														<c:choose>
+															<c:when test="${companySubList.companyId==emp.subCmpId}">
+																<option selected="selected"
+																	value="${companySubList.companyId}">${companySubList.companyName}</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${companySubList.companyId}">${companySubList.companyName}</option>
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+												</select> <span class="hidedefault   validation-invalid-label"
+													style="display: none;" id="error_subCmpId">This
+													field is required.</span>
+											</div>
+											
 										</div>
 
 										<div class="form-group row">
@@ -645,45 +673,20 @@
 
 
 										<div class="form-group row">
-											<label
-												class="col-form-label text-info font-weight-bold col-lg-2"
-												for="subCmpId"> Sub Company <span
-												class="text-danger">*</span>:
-											</label>
-											<div class="col-lg-4">
-												<select name="subCmpId"
-													data-placeholder="Select Sub Company" id="subCmpId"
-													class="form-control form-control-select2 select2-hidden-accessible">
-													<option value="">Select Sub Company</option>
-													<c:forEach items="${companySubList}" var="companySubList">
-														<c:choose>
-															<c:when test="${companySubList.companyId==emp.subCmpId}">
-																<option selected="selected"
-																	value="${companySubList.companyId}">${companySubList.companyName}</option>
-															</c:when>
-															<c:otherwise>
-																<option value="${companySubList.companyId}">${companySubList.companyName}</option>
-															</c:otherwise>
-														</c:choose>
-													</c:forEach>
-												</select> <span class="hidedefault   validation-invalid-label"
-													style="display: none;" id="error_subCmpId">This
-													field is required.</span>
-											</div>
-
-											<label
+											
+											<!-- <label
 												class="col-form-label text-info font-weight-bold col-lg-2"
 												for="plCalcBase">Basic Day <span class="text-danger">*</span>:
 											</label>
-											<div class="col-lg-4">
-												<input type="text" class="form-control"
+											<div class="col-lg-4"> -->
+												<input type="hidden" class="form-control"
 													placeholder="Basic Day" id="plCalcBase" name="plCalcBase"
-													autocomplete="off" value="${emp.plCalcBase}"
+													autocomplete="off" value="24"
 													onchange="trim(this)"> <span
 													class="hidedefault   validation-invalid-label"
 													id="error_plCalcBase" style="display: none;">This
 													field is required.</span>
-											</div>
+										<!-- 	</div> -->
 										</div>
 
 
@@ -1776,10 +1779,11 @@
 								</select>
 							</div>
 
-							<label class="col-form-label col-lg-2" for="salBasis">Salary
-								Basis : </label>
+						 
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="salBasis">Salary
+								Basis <span class="text-danger">*</span>: </label>
 							<div class="col-lg-4">
-								<select name="salBasis" data-placeholder="Select Designation"
+								<select name="salBasis" data-placeholder="Select "
 									id="salBasis"
 									class="form-control form-control-select2 select2-hidden-accessible">
 									<option value="0" ${empAllowanceId.salBasis == '0' ? 'selected' : ''}>Please Select</option>
@@ -1788,6 +1792,10 @@
 									<option value="daily"
 										${empAllowanceId.salBasis=='daily' ? 'selected' : ''}>Daily</option>
 								</select>
+								
+								<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_salBasis1">This
+														field is required.</span>
 							</div>
 						</div>
 
@@ -1803,13 +1811,19 @@
 									value="${empAllowanceId.epfJoiningDate}">
 							</div>
 
-							<label class="col-form-label col-lg-2" for="joinDate">Joining
-								Date : </label>
+						 
+								
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="joinDate">Joining
+								Date <span class="text-danger">*</span>: </label>
 							<div class="col-lg-4">
 								<input type="text" class="form-control datepickerclass"
 									placeholder="Joining Date" id="joinDate" name="joinDate"
 									autocomplete="off" onchange="trim(this)"
 									value="${empAllowanceId.cmpJoiningDate}">
+									
+									<span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_joinDate">This
+														field is required.</span>
 							</div>
 						</div>
 
@@ -1820,7 +1834,7 @@
 								<input type="text" class="form-control datepickerclass"
 									value="${empAllowanceId.cmpLeavingDate}"
 									placeholder="Leaving Date" id="leaveDate" name="leaveDate"
-									autocomplete="off" onchange="trim(this)">
+									autocomplete="off" onchange1="trim(this)">
 							</div>
 
 							<label class="col-form-label col-lg-2" for="leaveReason">Leaving
@@ -2112,19 +2126,21 @@
 								
 									for="accNo">User Name  <span class="text-danger"></span>:
 								</label>
-								<div class="col-lg-4">
+								<div class="col-lg-5">
 									<input type="text" class="form-control" readonly="readonly"
 										value="${userRes.userName}"  id="uname"
 										  name="uname" autocomplete="off"
 										 > 
 								</div>
-								 
+								 </div>
+
+							<div class="form-group row">
 								
 								<label
 									class="col-form-label text-info font-weight-bold col-lg-2"
-									for="upass">User Password : <span class="text-danger">*</span>:
+									for="upass">Update User Password : <span class="text-danger">*</span>:
 								</label>
-								<div class="col-lg-4">
+								<div class="col-lg-5">
 									<input type="text" class="form-control"
 									 placeholder="User Password" id="upass"
 										 name="upass" autocomplete="off"
@@ -2642,7 +2658,7 @@
 				var isError = false;
 				var errMsg = "";
 
-				if (!$("#basic").val()) {
+				if (!$("#basic").val()   || parseInt($("#basic").val())<=0) {
 
 					isError = true;
 
@@ -2681,7 +2697,7 @@
 					$("#error_pfType").hide()
 				}
 				
-				if (!$("#pfEmpPer").val()) {
+				if (!$("#pfEmpPer").val()  || parseInt($("#pfEmpPer").val())<=0) {
 
 					isError = true;
 
@@ -2691,7 +2707,7 @@
 					$("#error_pfEmpPer").hide()
 				}
 				
-				if (!$("#pfEmployerPer").val()) {
+				if (!$("#pfEmployerPer").val()   || parseInt($("#pfEmployerPer").val())<=0) {
 
 					isError = true;
 
@@ -2728,7 +2744,7 @@
 					$("#error_mlwfApplicable").hide()
 				}
 				
-				if (!$("#empEsicPer").val()) {
+				if (!$("#empEsicPer").val()  || parseInt($("#empEsicPer").val())<=0) {
 
 					isError = true;
 
@@ -2739,7 +2755,7 @@
 				}
 				
 				 
-				if (!$("#employerEsicPer").val()) {
+				if (!$("#employerEsicPer").val()   || parseInt($("#employerEsicPer").val())<=0) {
 
 					isError = true;
 
@@ -2750,6 +2766,30 @@
 				}
 				
 				}
+				
+				var j = document.getElementById("salBasis").value;
+				
+				if (!$("#salBasis").val() || parseInt(j) == 0  ) {
+
+					isError = true;
+
+					$("#error_salBasis1").show()
+					//return false;
+				} else {
+					$("#error_salBasis1").hide()
+				}
+				
+				if (!$("#joinDate").val()) {
+
+					isError = true;
+
+					$("#error_joinDate").show()
+					//return false;
+				} else {
+					$("#error_joinDate").hide()
+				}
+				
+				
 
 				if (!isError) {
 
@@ -2961,15 +3001,30 @@
 
 				});
 		// Single picker
-		$('.datepickerclass').daterangepicker({
+		/* $('#leaveDate').daterangepicker({
+		    "autoUpdateInput": false,
 			singleDatePicker : true,
 			selectMonths : true,
 			selectYears : true,
 			locale : {
 				format : 'DD-MM-YYYY'
 			}
+		}, function (start_date) {
+		    $('#leaveDate').val(start_date.format('DD-MM-YYYY'));
+		}); */
+		$('.datepickerclass').daterangepicker({
+		    "autoUpdateInput": false,
+			singleDatePicker : true,
+			selectMonths : true,
+			selectYears : true,
+			locale : {
+				format : 'DD-MM-YYYY'
+			}
+		}, function (start_date) {
+		    $(this.element).val(start_date.format('DD-MM-YYYY'));
 		});
-
+		
+		
 		//daterange-basic_new
 		// Basic initialization
 		$('.daterange-basic_new').daterangepicker({
