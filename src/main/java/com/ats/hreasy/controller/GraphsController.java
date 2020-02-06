@@ -95,12 +95,15 @@ public class GraphsController {
 			 
 			fromDate =request.getParameter("fromDate");
 			toDate =request.getParameter("toDate");
+			
+			System.err.println("fromDate"+fromDate);
+			System.err.println("toDate"+toDate);
 		   
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
  			map.add("companyId", 1);
- 			map.add("fromDate", fromDate);
- 			map.add("toDate", toDate);
+ 		//	map.add("fromDate", "01-".concat(fromDate));
+ 			//map.add("toDate", "30-".concat(toDate));
 
 			EmpDailyAttendanceGraph[] employeeInfo = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getEmpAttendanceGraphNew", map, EmpDailyAttendanceGraph[].class);

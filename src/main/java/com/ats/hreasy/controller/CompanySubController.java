@@ -339,6 +339,9 @@ public class CompanySubController {
 
 			model = new ModelAndView("master/companySubAdd");
 			model.addObject("company", company);
+			
+			model.addObject("viewUrl", Constants.imageShowUrl);
+
 
 			System.out.println(" company : " + company.toString());
 		} catch (Exception e) {

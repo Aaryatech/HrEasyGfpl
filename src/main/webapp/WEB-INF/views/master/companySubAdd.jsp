@@ -336,7 +336,7 @@ System.out.println("val**"+flagNew);%> --%>
 											</div>
 											<div class="form-group col-lg-4">
 												<img
-													src="http://gfpl.aaryatechindia.in/uploads/steps/0d41EOj5stMETA LOGO2.png"
+													src="${viewUrl}/${company.logo}"
 													height="150px" width="200px">
 
 											</div>

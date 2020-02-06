@@ -141,7 +141,7 @@
 													From <span style="color: red">* </span> :
 												</label>
 												<div class="col-md-3">
-													<input type="text" class="form-control "
+													<input type="text" class="form-control " value="${fromDate}"
 														placeholder="Select Date " id="datepickerFrom"
 														name="datepickerFrom" autocomplete="off">
 												</div>
@@ -152,7 +152,7 @@
 												</label>
 												<div class="col-md-3">
 													<input type="text" class="form-control "
-														placeholder="Select Date " id="datepickerTo"
+														placeholder="Select Date " id="datepickerTo" value="${toDate}"
 														name="datepickerTo" autocomplete="off">
 												</div>
 
@@ -330,6 +330,8 @@
 	function getGraphs(flag) {
 		
 		var empId = document.getElementById("empId").value;
+		var fromDate = document.getElementById("datepickerFromRep").value;
+		var toDate = document.getElementById("datepickerToRep").value;
 		 
 		
 		
@@ -340,7 +342,8 @@
 
 									{
 										empId : empId,
-										flag:flag,
+										toDate:toDate,
+										fromDate:fromDate,
 										ajax : 'true'
 
 									},
