@@ -43,7 +43,9 @@ import com.ats.hreasy.model.TblEmpInfo;
 import com.ats.hreasy.model.TblEmpNominees;
 import com.ats.hreasy.model.User;
 import com.ats.hreasy.model.Advance.GetAdvance;
+import com.ats.hreasy.model.graph.EmpAdvanceGraph;
 import com.ats.hreasy.model.graph.EmpDailyAttendanceGraph;
+import com.ats.hreasy.model.graph.EmpLoanGraph;
 
 @Controller
 @Scope("session")
@@ -102,13 +104,88 @@ public class GraphsController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
  			map.add("companyId", 1);
- 		//	map.add("fromDate", "01-".concat(fromDate));
- 			//map.add("toDate", "30-".concat(toDate));
+ 			map.add("fromDate", "01-".concat(fromDate));
+ 		    map.add("toDate", "30-".concat(toDate));
 
 			EmpDailyAttendanceGraph[] employeeInfo = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getEmpAttendanceGraphNew", map, EmpDailyAttendanceGraph[].class);
 
 			employeeInfoList = new ArrayList<EmpDailyAttendanceGraph>(Arrays.asList(employeeInfo));
+			 
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		
+				return employeeInfoList;
+		
+	}
+	
+	
+	
+	@RequestMapping(value = "/getEmpAdvanceGraph", method = RequestMethod.GET)
+	public @ResponseBody List<EmpAdvanceGraph>  getEmpAdvanceGraph(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		List<EmpAdvanceGraph> employeeInfoList=new ArrayList<>();
+		 String fromDate=new String();
+		 String toDate=new String();
+		try {
+			int empId = Integer.parseInt(request.getParameter("empId"));
+			 
+			fromDate =request.getParameter("fromDate");
+			toDate =request.getParameter("toDate");
+			
+			System.err.println("fromDate"+fromDate);
+			System.err.println("toDate"+toDate);
+		   
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+ 			map.add("companyId", 1);
+ 			map.add("fromDate", "01-".concat(fromDate));
+ 		    map.add("toDate", "30-".concat(toDate));
+
+ 		   EmpAdvanceGraph[] employeeInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpAdvanceGraphNew", map, EmpAdvanceGraph[].class);
+
+			employeeInfoList = new ArrayList<EmpAdvanceGraph>(Arrays.asList(employeeInfo));
+			 
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		
+				return employeeInfoList;
+		
+	}
+	
+	
+	@RequestMapping(value = "/getEmpLoanGraph", method = RequestMethod.GET)
+	public @ResponseBody List<EmpLoanGraph>  getEmpLoanGraph(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		List<EmpLoanGraph> employeeInfoList=new ArrayList<>();
+		 String fromDate=new String();
+		 String toDate=new String();
+		try {
+			int empId = Integer.parseInt(request.getParameter("empId"));
+			 
+			fromDate =request.getParameter("fromDate");
+			toDate =request.getParameter("toDate");
+			
+			System.err.println("fromDate"+fromDate);
+			System.err.println("toDate"+toDate);
+		   
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+ 			map.add("companyId", 1);
+ 			map.add("fromDate", "01-".concat(fromDate));
+ 		    map.add("toDate", "30-".concat(toDate));
+
+ 		   EmpLoanGraph[] employeeInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmpLoanGraph", map, EmpLoanGraph[].class);
+
+			employeeInfoList = new ArrayList<EmpLoanGraph>(Arrays.asList(employeeInfo));
 			 
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block

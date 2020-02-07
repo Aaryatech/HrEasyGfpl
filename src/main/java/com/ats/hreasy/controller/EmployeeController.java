@@ -1247,13 +1247,11 @@ public class EmployeeController {
 			if(request.getParameter("esicApplicable").equals("yes")) {
 				
 				System.err.println("esicApplicable"+request.getParameter("esicApplicable"));
-				empSal.setMlwfApplicable(request.getParameter("mlwfApplicable"));
+			
 				empSal.setEmployeeEsicPercentage( Double.parseDouble(request.getParameter("empEsicPer")));
 				empSal.setEmployerEsicPercentage(Double.parseDouble(request.getParameter("employerEsicPer")));
-			}else {
-				empSal.setMlwfApplicable("0");
-			}
-			
+			} 
+			empSal.setMlwfApplicable(request.getParameter("mlwfApplicable"));
 		
 			empSal.setPtApplicable(request.getParameter("ptApplicable"));
 			empSal.setEpfJoiningDate(request.getParameter("epfJoinDate"));
