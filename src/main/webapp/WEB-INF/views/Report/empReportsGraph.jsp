@@ -11,6 +11,10 @@
 
 
 <c:url var="getEmpAttnGraph" value="/getEmpAttnGraph" />
+<c:url var="getEmpAdvanceGraph" value="/getEmpAdvanceGraph" />
+<c:url var="getEmpLoanGraph" value="/getEmpLoanGraph" />
+
+
 
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -141,7 +145,7 @@
 													From <span style="color: red">* </span> :
 												</label>
 												<div class="col-md-3">
-													<input type="text" class="form-control " value="${fromDate}"
+													<input type="text" class="form-control datepickerclass" value="${fromDate}"
 														placeholder="Select Date " id="datepickerFrom"
 														name="datepickerFrom" autocomplete="off">
 												</div>
@@ -151,7 +155,7 @@
 													To <span style="color: red">* </span> :
 												</label>
 												<div class="col-md-3">
-													<input type="text" class="form-control "
+													<input type="text" class="form-control datepickerclass "
 														placeholder="Select Date " id="datepickerTo" value="${toDate}"
 														name="datepickerTo" autocomplete="off">
 												</div>
@@ -159,8 +163,21 @@
 											</div>
 											
 											<input type="hidden" id="empId" name="empId" value="${empId}">
+											 
+											 
+											<div class="form-group row mb-0">
+												<div class="col-lg-10 ml-lg-auto">
+													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+													<button type="button" class="btn bg-blue ml-3 legitRipple" onclick="getGraphs()"
+														id="submtbtn">
+														Submit <i class="icon-paperplane ml-2"></i>
+													</button>
+													 
+												</div>
+											</div>
+											<div class="row">
 											
-											<div class="col-md-6">
+											<div class="col-md-6" id="attn_div">
 												<div class="box box-primary">
 													<div class="box-header with-border">
 														<h3 class="box-title">Employee Attendance Graph</h3>
@@ -175,20 +192,37 @@
 											</div>
 
 
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
-														id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
-													<a
-														href="${pageContext.request.contextPath}/showSubCompanyList"><button
-															type="button" class="btn btn-light">
-															<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-															Back
-														</button></a>
+
+
+<div class="col-md-6">
+												<div class="box box-primary">
+													<div class="box-header with-border">
+														<h3 class="box-title">Employee Advance Graph</h3>
+
+													</div>
+													<div class="box-body chart-responsive">
+														<div class="chart" id="emp_adv_graph"
+															style="height: 300px;"></div>
+													</div>
+
 												</div>
+											</div>
+											
+											
+											
+<div class="col-md-6">
+												<div class="box box-primary">
+													<div class="box-header with-border">
+														<h3 class="box-title">Employee Loan Graph</h3>
+
+													</div>
+													<div class="box-body chart-responsive">
+														<div class="chart" id="emp_loan_graph"
+															style="height: 300px;"></div>
+													</div>
+
+												</div>
+											</div>
 											</div>
 
 
@@ -214,7 +248,7 @@
 													From <span style="color: red">* </span> :
 												</label>
 												<div class="col-md-3">
-													<input type="text" class="form-control "
+													<input type="text" class="form-control datepickerclass "
 														placeholder="Select Date " id="datepickerFromRep"
 														name="datepickerFromRep" autocomplete="off">
 												</div>
@@ -224,18 +258,47 @@
 													To <span style="color: red">* </span> :
 												</label>
 												<div class="col-md-3">
-													<input type="text" class="form-control "
+													<input type="text" class="form-control datepickerclass"
 														placeholder="Select Date " id="datepickerToRep"
 														name="datepickerToRep" autocomplete="off">
 												</div>
 
 											</div>
+											
+											<table
+							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+							id="printtable1">
+							<thead>
+								<tr class="bg-blue">
 
+									<th width="10%">Sr. No.</th>
+									<th>Report Name </th>
+									 
+									<th width="10%" class="text-center">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+ 									<tr>
+										 <td>1</td>
+										<td>Employee Attendance Report</td>
+ 										<td class="text-center"><a href="#"
+													onclick="getProgReport(0,'showEmployeeAttnRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmployeeAttnRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a>
+												 </td>
+									</tr>
+							 
+							</tbody>
+						</table>
+<input type="hidden" id="p" name="p" value="0">
 
 											<div class="form-group row mb-0">
 												<div class="col-lg-10 ml-lg-auto">
 													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="submit" class="btn bg-blue ml-3 legitRipple"
+													<button type="button" class="btn bg-blue ml-3 legitRipple" onclick="getGraphs()"
 														id="submtbtn">
 														Submit <i class="icon-paperplane ml-2"></i>
 													</button>
@@ -276,25 +339,16 @@
 	<!-- /page content -->
 	<script type="text/javascript">
 		// Single picker
-		$("#datepickerFrom").datepicker({
+		$(".datepickerclass").datepicker({
 			
-			changeMonth : true,
-			changeYear : true,
-			yearRange : "-50:+50",
-			dateFormat : "dd-mm-yy"
-		});
-
-		//daterange-basic_new
-		// Basic initialization
-		$("#datepickerTo").datepicker({
 			changeMonth : true,
 			changeYear : true,
 			yearRange : "-50:+50",
 			dateFormat : "mm-yy"
 		});
+ 
 	</script>
-	
-	
+ <!-- 
 		<script type="text/javascript">
 		// Single picker
 		$("#datepickerFromRep").datepicker({
@@ -312,7 +366,7 @@
 			yearRange : "-50:+50",
 			dateFormat : "mm-yy"
 		});
-	</script>
+	</script> -->
 	
 	
 	<script type="text/javascript"
@@ -324,18 +378,38 @@
 	<script
 		src="${pageContext.request.contextPath}/resources/dashb/morris.min.js"
 		type="text/javascript"></script>
+		
+		
+		
+	<script type="text/javascript">
+		//use this function for all reports just get mapping form action name dynamically as like of prm from every report pdf,excel function	
+		function getProgReport(prm, mapping) {
+		  
+			//alert(x);
+			if (prm == 1) {
+
+				document.getElementById("p").value = "1";
+			}
+ 
+				var form = document.getElementById("reportForm");
+
+				form.setAttribute("target", "_blank");
+				form.setAttribute("method", "get");
+				form.action = ("${pageContext.request.contextPath}/" + mapping + "/");
+				form.submit();
+				document.getElementById("p").value = "0";
+			 
+		}
+	</script>
 	
 	<script type="text/javascript">
  
-	function getGraphs(flag) {
+	function getGraphs() {
 		
 		var empId = document.getElementById("empId").value;
-		var fromDate = document.getElementById("datepickerFromRep").value;
-		var toDate = document.getElementById("datepickerToRep").value;
-		 
-		
-		
-
+		var fromDate = document.getElementById("datepickerFrom").value;
+		var toDate = document.getElementById("datepickerTo").value;
+	 
 					$
 							.getJSON(
 									'${getEmpAttnGraph}',
@@ -348,6 +422,16 @@
 
 									},
 									function(data) {
+										
+										
+									
+										if(data.length >6){
+											
+										//	alert(data.length);
+											$('#attn_div').removeClass().addClass( "col-md-12" );
+										}else{
+											$('#attn_div').removeClass().addClass( "col-md-6" );
+										}
 
 										google.charts.load('current', {
 											'packages' : [ 'corechart' ]
@@ -422,6 +506,161 @@
 										}
 
 									});
+					
+					
+					
+					
+					$
+					.getJSON(
+							'${getEmpAdvanceGraph}',
+
+							{
+								empId : empId,
+								toDate:toDate,
+								fromDate:fromDate,
+								ajax : 'true'
+
+							},
+							function(data) {
+
+								google.charts.load('current', {
+									'packages' : [ 'corechart' ]
+								});
+								google.charts
+										.setOnLoadCallback(drawChart);
+
+								function drawChart() {
+									 
+									var dataTable = new google.visualization.DataTable();
+
+									dataTable.addColumn('string',
+											'Month-Year'); // Implicit domain column.
+
+									dataTable.addColumn('number',
+											'Advance Amt');
+									 
+									
+									
+
+									$
+											.each(
+													data,
+													function(key, dt) {
+
+														dataTable
+																.addRows([
+
+																[
+																		dt.date,
+																		dt.advanceAmt,
+																		]
+
+																]);
+
+													})
+
+									/* slantedTextAngle: 60 */
+									var options = {
+										hAxis : {
+											title : "Month Year",
+											textPosition : 'out',
+											slantedText : true
+										},
+										vAxis : {
+											title : 'Advance Amt',
+											minValue : 0,
+											viewWindow : {
+												min : 0
+											},
+											format : '0',
+										},
+										colors : [ 'blue' ],
+										theme : 'material'
+									};
+									var chart = new google.visualization.ColumnChart(
+											document
+													.getElementById('emp_adv_graph'));
+
+									chart.draw(dataTable, options);
+								}
+
+							});
+					
+					
+					
+					$
+					.getJSON(
+							'${getEmpLoanGraph}',
+
+							{
+								empId : empId,
+								toDate:toDate,
+								fromDate:fromDate,
+								ajax : 'true'
+
+							},
+							function(data) {
+
+								google.charts.load('current', {
+									'packages' : [ 'corechart' ]
+								});
+								google.charts
+										.setOnLoadCallback(drawChart);
+
+								function drawChart() {
+									 
+									var dataTable = new google.visualization.DataTable();
+
+									dataTable.addColumn('string',
+											'Month-Year'); // Implicit domain column.
+
+									dataTable.addColumn('number',
+											'Loan Amt');
+									  
+
+									$
+											.each(
+													data,
+													function(key, dt) {
+
+														dataTable
+																.addRows([
+
+																[
+																		dt.date,
+																		dt.loanAmt,
+																		]
+
+																]);
+
+													})
+
+									/* slantedTextAngle: 60 */
+									var options = {
+										hAxis : {
+											title : "Month Year",
+											textPosition : 'out',
+											slantedText : true
+										},
+										vAxis : {
+											title : 'Loan Amount',
+											minValue : 0,
+											viewWindow : {
+												min : 0
+											},
+											format : '0',
+										},
+										colors : [ 'blue' ],
+										theme : 'material'
+									};
+									var chart = new google.visualization.ColumnChart(
+											document
+													.getElementById('emp_loan_graph'));
+
+									chart.draw(dataTable, options);
+								}
+
+							});
 					
 	}
 			 

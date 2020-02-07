@@ -92,6 +92,7 @@ public class GraphsController {
 		List<EmpDailyAttendanceGraph> employeeInfoList=new ArrayList<>();
 		 String fromDate=new String();
 		 String toDate=new String();
+		 HttpSession session =request.getSession();
 		try {
 			int empId = Integer.parseInt(request.getParameter("empId"));
 			 
@@ -111,6 +112,7 @@ public class GraphsController {
 					.postForObject(Constants.url + "/getEmpAttendanceGraphNew", map, EmpDailyAttendanceGraph[].class);
 
 			employeeInfoList = new ArrayList<EmpDailyAttendanceGraph>(Arrays.asList(employeeInfo));
+		 
 			 
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block

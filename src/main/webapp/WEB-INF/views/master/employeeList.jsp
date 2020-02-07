@@ -132,9 +132,9 @@
 													title="" data-original-title="Delete"><i
 													class="icon-trash"></i></a>
 											</c:if>
-											<%-- <a	href="${pageContext.request.contextPath}/showEmpGraphs?empId=${empList.exVar1}"
+											<a	href="${pageContext.request.contextPath}/showEmpGraphs?empId=${empList.exVar1}"
 													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Graphs & Reports"><i class="icon-pencil7"
-													 ></i></a> --%></td>
+													 ></i></a></td>
 									</tr>
 								</c:forEach>
 

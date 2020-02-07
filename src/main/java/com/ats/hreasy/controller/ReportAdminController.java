@@ -236,7 +236,7 @@ public class ReportAdminController {
 			name.setAlignment(Element.ALIGN_CENTER);
 			document.add(name);
 			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("Month-Year" + month));
+			document.add(new Paragraph("Month-Year: " + month));
 
 			document.add(new Paragraph("\n"));
 			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -367,7 +367,7 @@ public class ReportAdminController {
 			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
 			String repDate = DF2.format(new Date());
 
-			Document document = new Document(PageSize.A4);
+			Document document = new Document(PageSize._11X17);
 			document.setMargins(5, 5, 0, 0);
 			document.setMarginMirroring(false);
 
@@ -394,7 +394,7 @@ public class ReportAdminController {
 			table.setHeaderRows(1);
 
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.0f, 3.0f, 5.5f, 3.0f, 3.0f, 3.0f, 3.0f, 3.5f, 3.5f });
+			table.setWidths(new float[] { 2.0f, 3.0f, 5.5f, 3.0f, 3.0f, 2.0f, 3.0f, 3.5f, 3.5f });
 			Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
 			// BaseColor.BLACK);
 			Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
@@ -498,7 +498,7 @@ public class ReportAdminController {
 
 				cell = new PdfPCell(new Phrase("" + prog.getSkipId(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 
@@ -991,7 +991,7 @@ public class ReportAdminController {
 			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
 			String repDate = DF2.format(new Date());
 
-			Document document = new Document(PageSize.A4);
+			Document document = new Document(PageSize._11X17);
 			document.setMargins(5, 5, 0, 0);
 			document.setMarginMirroring(false);
 
@@ -1149,7 +1149,7 @@ public class ReportAdminController {
 
 				cell = new PdfPCell(new Phrase("" + prog.getJanCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 
@@ -1161,58 +1161,58 @@ public class ReportAdminController {
 
 				cell = new PdfPCell(new Phrase("" + prog.getMarchCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + prog.getMayCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 				cell = new PdfPCell(new Phrase("" + prog.getMarchCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 				cell = new PdfPCell(new Phrase("" + prog.getJunCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 				cell = new PdfPCell(new Phrase("" + prog.getJulCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 				cell = new PdfPCell(new Phrase("" + prog.getAugCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 				cell = new PdfPCell(new Phrase("" + prog.getSepCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 				cell = new PdfPCell(new Phrase("" + prog.getOctCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + prog.getNovCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + prog.getDecCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + prog.getTotal(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				table.addCell(cell);
 
 			}
@@ -1736,25 +1736,25 @@ public class ReportAdminController {
 
 				cell = new PdfPCell(new Phrase("" + prog.getEmpPresent(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + prog.getPaidLeave(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + prog.getUnpaidLeave(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + prog.getWeekOff(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 
@@ -1767,7 +1767,7 @@ public class ReportAdminController {
 			name.setAlignment(Element.ALIGN_CENTER);
 			document.add(name);
 			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("Date" + arrOfStr[0] + "To" + arrOfStr[1]));
+			document.add(new Paragraph("Date: " + arrOfStr[0] + "To" + arrOfStr[1]));
 
 			document.add(new Paragraph("\n"));
 			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
