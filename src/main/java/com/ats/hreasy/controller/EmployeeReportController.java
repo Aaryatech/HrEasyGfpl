@@ -61,7 +61,7 @@ public class EmployeeReportController {
 		 String fromDate=new String();
 		 String toDate=new String();
 		
-		int empId = Integer.parseInt(request.getParameter("empId"));
+		int empId = Integer.parseInt(request.getParameter("empId1"));
 		 
 		fromDate =request.getParameter("datepickerFromRep");
 		toDate =request.getParameter("datepickerToRep");
@@ -111,7 +111,7 @@ public class EmployeeReportController {
 			table.setHeaderRows(1);
 
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.0f, 4.0f, 3.0f, 3.0f, 3.0f, 3.0f,3.0f, 3.0f, 3.0f, 3.0f });
+			table.setWidths(new float[] { 2.0f, 5.5f, 3.0f, 3.0f, 3.0f, 3.0f,3.0f, 3.0f, 3.0f, 3.0f });
 			Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
 			// BaseColor.BLACK);
 			Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
@@ -200,7 +200,7 @@ public class EmployeeReportController {
 
 				cell = new PdfPCell(new Phrase("" + prog.getDate(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 				table.addCell(cell);
 
@@ -341,10 +341,7 @@ public class EmployeeReportController {
 					rowData.add("" + employeeInfoList.get(i).getUnpaidLeave());
 					rowData.add("" + employeeInfoList.get(i).getLateMarks());
 					rowData.add("" + employeeInfoList.get(i).getMonthDays());
-
-
-					
-
+ 
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
 
@@ -353,7 +350,7 @@ public class EmployeeReportController {
 				XSSFWorkbook wb = null;
 				try {
 
-					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Duration" + fromDate+"To"+toDate, "", 'J');
+					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Duration:" + fromDate+" To "+toDate, "", 'J');
 
 					ExceUtil.autoSizeColumns(wb, 3);
 					response.setContentType("application/vnd.ms-excel");

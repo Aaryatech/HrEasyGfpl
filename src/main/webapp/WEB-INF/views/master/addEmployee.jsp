@@ -156,10 +156,13 @@
 													class="col-form-label text-info font-weight-bold col-lg-2"
 													for="empCode">Emp Code <span class="text-danger">*</span>:
 												</label>
+												
+												
+												 
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${emp.empCode}" placeholder="Employee Code."
-														id="empCode" name="empCode"
+														id="empCode" name="empCode"  ${emp.empId!=0 ? 'readonly' : ''}
 														style="text-transform: uppercase;" autocomplete="off"
 														onchange="trim(this)" maxlength="5"> <span
 														class="hidedefault   validation-invalid-label"
@@ -171,31 +174,7 @@
 												</div>
 
 
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="subCmpId"> Sub Company <span
-													class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="subCmpId"
-														data-placeholder="Select Sub Company" id="subCmpId"
-														class="form-control form-control-select2 select2-hidden-accessible">
-														<option value="">Select Sub Company</option>
-														<c:forEach items="${companySubList}" var="companySubList">
-															<c:choose>
-																<c:when test="${companySubList.companyId==emp.subCmpId}">
-																	<option selected="selected"
-																		value="${companySubList.companyId}">${companySubList.companyName}</option>
-																</c:when>
-																<c:otherwise>
-																	<option value="${companySubList.companyId}">${companySubList.companyName}</option>
-																</c:otherwise>
-															</c:choose>
-														</c:forEach>
-													</select> <span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_subCmpId">This
-														field is required.</span>
-												</div>
+
 
 											</div>
 
@@ -242,13 +221,40 @@
 
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="company">Company
+
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="subCmpId"> Sub Company <span
+													class="text-danger">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<select name="subCmpId"
+														data-placeholder="Select Sub Company" id="subCmpId"
+														class="form-control form-control-select2 select2-hidden-accessible">
+														<option value="">Select Sub Company</option>
+														<c:forEach items="${companySubList}" var="companySubList">
+															<c:choose>
+																<c:when test="${companySubList.companyId==emp.subCmpId}">
+																	<option selected="selected"
+																		value="${companySubList.companyId}">${companySubList.companyName}</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="${companySubList.companyId}">${companySubList.companyName}</option>
+																</c:otherwise>
+															</c:choose>
+														</c:forEach>
+													</select> <span class="hidedefault   validation-invalid-label"
+														style="display: none;" id="error_subCmpId">This
+														field is required.</span>
+												</div>
+
+												<%-- <label class="col-form-label col-lg-2" for="company">Company
 													: </label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control "
 														readonly="readonly" value="${comp.companyName}">
 												</div>
-
+ --%>
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
 													for="locId">Location <span class="text-danger">*</span>:
@@ -530,8 +536,12 @@
 
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2" for="locId_list">Accessible
-													Location : </label>
+
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="locId_list"> Accessible Location : <span
+													class="text-danger">*</span>
+												</label>
 												<div class="col-lg-4">
 													<select name="locId_list"
 														data-placeholder="Select Location" id="locId_list"
@@ -557,20 +567,21 @@
 														field is required.</span>
 												</div>
 
-												<label class="col-form-label col-lg-2" for="ishod">
-													Designation Type : </label>
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="ishod"> Designation Type : <span
+													class="text-danger">*</span>
+												</label>
 												<div class="col-lg-4">
 													<select name="ishod" id="ishod"
 														class="form-control form-control-select2 select2-hidden-accessible"
 														onchange="opencloseDepthodDrop(this.value)">
-														<option value="" selected>Select Designation Type</option>
+														<option value="99"  ${emp.exInt1==99 ? 'selected' : ''}>Please Select</option>
 														<option value="0" ${emp.exInt1==0 ? 'selected' : ''}>Employee</option>
 														<option value="1" ${emp.exInt1==1 ? 'selected' : ''}>HOD</option>
 														<option value="2" ${emp.exInt1==2 ? 'selected' : ''}>HR</option>
 
-														<!-- <option value="0">Employee</option>
-														<option value="1">HOD</option>
-														<option value="2">HR</option> -->
+														 
 													</select> <span class="hidedefault   validation-invalid-label"
 														style="display: none;" id="error_ishod">This field
 														is required.</span>
@@ -1388,11 +1399,16 @@
 														class="hidedefault   validation-invalid-label"
 														style="display: none;" id="error_accNo">Enter Valid
 														Bank Account Number.</span>
-													 
+
 												</div>
 
-												<label class="col-form-label col-lg-2" for="bankId">Bank
-													: </label>
+												 
+													
+													<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="bankId">Bank : <span
+													class="text-danger">*</span>
+												</label>
 												<div class="col-lg-4">
 													<select name="bankId" data-placeholder="Select Bank"
 														id="bankId"
@@ -1410,11 +1426,9 @@
 																</c:otherwise>
 															</c:choose>
 														</c:forEach>
-													</select>
-													
-													<span
-														class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_bankId">This Field is Required</span>
+													</select> <span class="hidedefault   validation-invalid-label"
+														style="display: none;" id="error_bankId">This Field
+														is Required</span>
 												</div>
 											</div>
 
@@ -1574,7 +1588,7 @@
 														style="display: none;" id="error_pfApplicable">This
 														field is required.</span>
 												</div>
- 
+
 												<label
 													class="pf_block col-form-label text-info font-weight-bold col-lg-2"
 													for="pfType">PF Type <span class="text-danger">*</span>:
@@ -1745,30 +1759,30 @@
 														field is required.</span>
 												</div>
 
-											
 
-											<label
-												class="col-form-label text-info font-weight-bold col-lg-2"
-												for="salBasis">Salary Basis <span
-												class="text-danger">*</span>:
-											</label>
-											<div class="col-lg-4">
-												<select name="salBasis" data-placeholder="Select "
-													id="salBasis"
-													class="form-control form-control-select2 select2-hidden-accessible">
-													<option value="0"
-														${empAllowanceId.salBasis == '0' ? 'selected' : ''}>Please
-														Select</option>
-													<option value="monthly"
-														${empAllowanceId.salBasis=='monthly' ? 'selected' : ''}>Monthly</option>
-													<option value="daily"
-														${empAllowanceId.salBasis=='daily' ? 'selected' : ''}>Daily</option>
-												</select> <span class="hidedefault  validation-invalid-label"
-													style="display: none;" id="error_salBasis1">This
-													field is required.</span>
+
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="salBasis">Salary Basis <span
+													class="text-danger">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<select name="salBasis" data-placeholder="Select "
+														id="salBasis"
+														class="form-control form-control-select2 select2-hidden-accessible">
+														<option value="0"
+															${empAllowanceId.salBasis == '0' ? 'selected' : ''}>Please
+															Select</option>
+														<option value="monthly"
+															${empAllowanceId.salBasis=='monthly' ? 'selected' : ''}>Monthly</option>
+														<option value="daily"
+															${empAllowanceId.salBasis=='daily' ? 'selected' : ''}>Daily</option>
+													</select> <span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_salBasis1">This
+														field is required.</span>
+												</div>
+
 											</div>
-
-</div>
 
 
 											<div class="form-group row">
@@ -2224,6 +2238,8 @@
 			return;
 		}
 		$(document).ready(function() {
+			
+			 
 
 			var isEsicApplicable = '${empAllowanceId.esicApplicable}';
 
@@ -2313,6 +2329,15 @@
 												} else {
 													$("#error_subCmpId").hide()
 												}
+												
+												var isVisible = $('#unique_user').is(':visible');
+												 
+												if (isVisible == true) {
+													  
+													isError = true;
+											    } else {
+											    	 isError = false;
+											    }
 
 												if (!$("#empCode").val()) {
 
@@ -2381,7 +2406,19 @@
 													$("#error_locId_list")
 															.hide()
 												}
+												 
+												if (!$("#ishod").val() || parseInt($("#ishod").val())==99) {
+													 
+													isError = true;
 
+													$("#error_ishod")
+															.show();
+
+												} else {
+													$("#error_ishod")
+															.hide();
+												}
+												 
 												if (!$("#empCat").val()) {
 
 													isError = true;
@@ -2493,7 +2530,7 @@
 															.hide()
 												}
 
-												if (!$("#ishod").val()) {
+												/* if (!$("#ishod").val()) {
 
 													isError = true;
 
@@ -2501,7 +2538,7 @@
 
 												} else {
 													$("#error_ishod").hide()
-												}
+												} */
 
 												/* if (!$("#landline").val()) {
 
@@ -2598,15 +2635,10 @@
 				} else {
 					$("#error_accNo").hide()
 				}
-				
-				
-				
-				var bank1 = document
-				.getElementById("bankId").value;
- 
-		if (!$("#bankId").val()
-				|| parseInt(bank1) == 0) {
-				 
+
+				var bank1 = document.getElementById("bankId").value;
+
+				if (!$("#bankId").val() || parseInt(bank1) == 0) {
 
 					isError = true;
 
@@ -2615,7 +2647,7 @@
 				} else {
 					$("#error_bankId").hide()
 				}
- 
+
 				if (!isError) {
 
 					var x = true;

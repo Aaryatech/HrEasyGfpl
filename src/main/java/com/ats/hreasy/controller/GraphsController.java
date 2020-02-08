@@ -36,6 +36,7 @@ import com.ats.hreasy.model.EmpSalAllowance;
 import com.ats.hreasy.model.EmpSalaryInfo;
 import com.ats.hreasy.model.EmployeDoc;
 import com.ats.hreasy.model.EmployeeMaster;
+import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.TblEmpBankInfo;
@@ -75,6 +76,13 @@ public class GraphsController {
 				model.addAttribute("empId",empId);
 				model.addAttribute("fromDate","01-".concat(curDate));
 				model.addAttribute("toDate","12-".concat(curDate));
+				
+				
+				 map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+				GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
+				model.addAttribute("empDeatil",empPersInfo);
  			 
 		} catch (Exception e) {
 			e.printStackTrace();

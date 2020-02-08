@@ -18,10 +18,7 @@ public class EmpDailyAttendanceGraph {
 	
 	private int  lateMarks;
 	
-	
-	
-	
-
+	 
 	public int getLateMarks() {
 		return lateMarks;
 	}
