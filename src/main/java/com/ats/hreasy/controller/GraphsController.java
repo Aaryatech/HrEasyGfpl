@@ -107,8 +107,8 @@ public class GraphsController {
 			fromDate =request.getParameter("fromDate");
 			toDate =request.getParameter("toDate");
 			
-			System.err.println("fromDate"+fromDate);
-			System.err.println("toDate"+toDate);
+			//System.err.println("fromDate"+fromDate);
+		//	System.err.println("toDate"+toDate);
 		   
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
@@ -145,9 +145,7 @@ public class GraphsController {
 			 
 			fromDate =request.getParameter("fromDate");
 			toDate =request.getParameter("toDate");
-			
-			System.err.println("fromDate"+fromDate);
-			System.err.println("toDate"+toDate);
+		 
 		   
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
@@ -182,10 +180,7 @@ public class GraphsController {
 			 
 			fromDate =request.getParameter("fromDate");
 			toDate =request.getParameter("toDate");
-			
-			System.err.println("fromDate"+fromDate);
-			System.err.println("toDate"+toDate);
-		   
+		 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
  			map.add("companyId", 1);

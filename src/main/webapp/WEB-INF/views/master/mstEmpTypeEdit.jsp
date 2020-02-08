@@ -200,14 +200,14 @@
 													class="form-control form-control-select2 select2-hidden-accessible"
 													tabindex="-1" aria-hidden="true">
 													<option value="">Please Select</option>
-													<option value="1"
-														${employee.otType == '0' ? 'selected' : ''}>Yes</option>
 													<option value="0"
-														${employee.otType == '1' ? 'selected' : ''}>No</option>
+														${employee.otType == '0' ? 'selected' : ''}>No</option>
+													<option value="1"
+														${employee.otType == '1' ? 'selected' : ''}> 1 HR of Gross Salary x 1</option>
 													<option value="1.5"
-														${employee.otType == '1.5' ? 'selected' : ''}>Yes1.5</option>
+														${employee.otType == '1.5' ? 'selected' : ''}>1 HR of Gross Salary x 1.5</option>
 													<option value="2"
-														${employee.otType == '2' ? 'selected' : ''}>Yes2</option>
+														${employee.otType == '2' ? 'selected' : ''}> 1 HR of Gross Salary x 2</option>
 
 
 												</select> <span class="validation-invalid-label" id="error_otType"

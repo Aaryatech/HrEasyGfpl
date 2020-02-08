@@ -105,7 +105,7 @@
 									id="submitInsertLocaion" method="post">
 									<input type="hidden" value="${contract.contractorId}" id="contractorId" name="contractorId">
 									
-									<div class="form-group row">
+									<%-- <div class="form-group row">
 										<label class="col-form-label text-info font-weight-bold col-lg-2" for="service">Service
 											 <span class="text-danger">* </span>:</label>
 										<div class="col-lg-10">
@@ -115,7 +115,7 @@
 											<span class="validation-invalid-label" id="error_service"
 												style="display: none;">This field is required.</span>
 										</div>
-									</div>
+									</div> --%>
 
 									<div class="form-group row">
 										<label class="col-form-label text-info font-weight-bold col-lg-2" for="organisation">Organization
@@ -131,8 +131,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="desination">Licence No.
-											 <span class="text-danger">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="desination">Licence No.
+											 <span class="text-danger"> </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.licenceNo}"
 												placeholder="Enter Licence No." id="licenceNo"
@@ -143,11 +143,11 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="vat">VAT No.
-											 <span class="text-danger">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="vat">GST No.
+											 <span class="text-danger"></span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.vatNo}"
-												placeholder="Enter VAT" id="vat"  maxlength="25"
+												placeholder="Enter GST No." id="vat"  maxlength="25"
 												name="vat" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_vat"
 												style="display: none;">This field is required.</span>
@@ -155,8 +155,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="pan">PAN No.
-											 <span class="text-danger">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="pan">PAN No.
+											 <span class="text-danger"> </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.panNo}"
 												placeholder="Enter PAN No." id="panNo" maxlength="10" style="text-transform: uppercase;"
@@ -167,8 +167,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="pf">PF.No.
-											 <span class="text-danger">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="pf">PF.No.
+											 <span class="text-danger"> </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.pfNo}"
 												placeholder="Enter PF. No." id="pf" maxlength="25"
@@ -179,8 +179,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="esic">ESIC No.
-											 <span class="text-danger">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="esic">ESIC No.
+											 <span class="text-danger"> </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.esicNo}"
 												placeholder="Enter ESIC No." id="esic"  maxlength="25"
@@ -191,8 +191,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="address">Address
-											 <span class="text-danger">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="address">Address
+											 <span class="text-danger"></span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.address}"
 												placeholder="Enter Address" id="address"
@@ -203,8 +203,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="officeNo">Office No.
-											 <span class="text-danger">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="officeNo">Office No.
+											 <span class="text-danger"> </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.officeNo}"
 												placeholder="Enter Office No." id="officeNo"  maxlength="25"
@@ -215,8 +215,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="email">Email
-											 <span class="text-danger">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="email">Email
+											 <span class="text-danger"> </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.email}"
 												placeholder="Enter Email" id="email"
@@ -227,8 +227,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="owner">Owner
-											 <span class="text-danger">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="owner">Owner Name
+											 <span class="text-danger"></span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.owner}"
 												placeholder="Enter Owner" id="owner"
@@ -239,8 +239,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="mobileNo">Mob No.
-											 <span class="text-danger">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="mobileNo">Mob No.
+											 <span class="text-danger"> </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.mobileNo}"
 												placeholder="Enter Mobile No." id="mobileNo" maxlength="10"
@@ -251,8 +251,8 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="desination">Duration
-											 <span class="text-danger">* </span>:</label>
+										<label class="col-form-label col-lg-2" for="desination">Duration
+											 <span class="text-danger"> </span>:</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" value="${contract.duration}"
 												placeholder="Enter Duration" id="duration"
@@ -359,17 +359,7 @@
 											function(e) {
 												var isError = false;
 												var errMsg = "";
-
-												if (!$("#service").val()) {
-
-													isError = true;
-
-													$("#error_service").show()
-													//return false;
-												} else {
-													$("#error_service").hide()  
-												}
-
+ 
 												 if (!$("#organisation").val()) { 
 
 													isError = true;
@@ -382,7 +372,7 @@
 															.hide()
 												}
 												
-												 if (!$("#licenceNo").val()) { 
+												/*  if (!$("#licenceNo").val()) { 
 
 													isError = true;
 
@@ -392,8 +382,8 @@
 												} else {
 													$("#error_licenceNo")
 															.hide()
-												}
-												
+												} */
+												/* 
 												if (!$("#vat").val()) { 
 
 													isError = true;
@@ -405,48 +395,41 @@
 													$("#error_vat")
 															.hide()
 												}
+												 */
+											 if($("#panNo").val().length >0 ){
+												 if (!$("#panNo").val()	|| !validatePAN($(
+													"#panNo")
+													.val())) {
+														
+														isError = true;													
+														$("#error_pan").show()
+													} else {
+														$("#error_pan").hide()
+													}
+											 }
 												
-												/* if (!$("#panNo").val()) { 
+												
+												/* if (!$("#pf").val()) { 
 													isError = true;
 
-													$("#error_pan")
+													$("#error_pf")
+															.show()
+												} else {
+													$("#error_pf")
+															.hide()
+												}
+												 */
+												/* if (!$("#esic").val()) { 
+													isError = true;
+
+													$("#error_esic")
 															.show()
 
 												} else {
-													$("#error_pan")
+													$("#error_esic")
 															.hide()
 												} */
-												if (!$("#panNo").val()	|| !validatePAN($(
-												"#panNo")
-												.val())) {
-													
-													isError = true;													
-													$("#error_pan").show()
-												} else {
-													$("#error_pan").hide()
-												}
-												
-												if (!$("#pf").val()) { 
-													isError = true;
-
-													$("#error_pf")
-															.show()
-												} else {
-													$("#error_pf")
-															.hide()
-												}
-												
-												if (!$("#esic").val()) { 
-													isError = true;
-
-													$("#error_esic")
-															.show()
-
-												} else {
-													$("#error_esic")
-															.hide()
-												}
-												if (!$("#address").val()) { 
+												/* if (!$("#address").val()) { 
 													isError = true;
 
 													$("#error_address")
@@ -455,8 +438,8 @@
 												} else {
 													$("#error_address")
 															.hide()
-												}
-												if (!$("#officeNo").val()) { 
+												} */
+												/* if (!$("#officeNo").val()) { 
 													isError = true;
 
 													$("#error_officeNo")
@@ -466,7 +449,9 @@
 													$("#error_officeNo")
 															.hide()
 												}
+												 */
 												
+												if($("#mobileNo").val().length>0){
 												if (!$("#mobileNo").val()
 														|| !validateMobile($(
 																"#mobileNo")
@@ -480,20 +465,25 @@
 													$("#error_mobileNo")
 															.hide()
 												}
+												}
 												
-												if (!$("#email").val()
-														|| !validateEmail($(
-																"#email").val())) {
+												if($("#email").val().length > 0){
+													if (!$("#email").val()
+															|| !validateEmail($(
+																	"#email").val())) {
 
-													isError = true;
+														isError = true;
 
 
-													$("#error_email").show()
+														$("#error_email").show()
 
-												} else {
-													$("#error_email").hide()
+													} else {
+														$("#error_email").hide()
+													}
 												}
-											if (!$("#owner").val()) { 
+												
+											
+										/* 	if (!$("#owner").val()) { 
 													isError = true;
 
 													$("#error_owner")
@@ -502,8 +492,8 @@
 												} else {
 													$("#error_owner")
 															.hide()
-												}
-											if (!$("#duration").val()) { 
+												} */
+										/* 	if (!$("#duration").val()) { 
 													isError = true;
 
 													$("#error_duration")
@@ -512,7 +502,7 @@
 												} else {
 													$("#error_duration")
 															.hide()
-												} 
+												}  */
 												
 
 												if (!isError) {

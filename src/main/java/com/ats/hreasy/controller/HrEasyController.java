@@ -397,7 +397,7 @@ public class HrEasyController {
 				contract.setPanNo(request.getParameter("panNo"));
 				contract.setPfNo(request.getParameter("pf"));
 				contract.setRemark(request.getParameter("remark"));
-				contract.setService(request.getParameter("service"));
+				contract.setService("NA");
 				contract.setVatNo(request.getParameter("vat"));
 				contract.setExInt1(0);
 				contract.setExInt2(0);

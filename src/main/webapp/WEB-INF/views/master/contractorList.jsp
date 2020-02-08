@@ -98,7 +98,7 @@
 								<tr class="bg-blue">
 
 									<th width="10%">Sr. No.</th>
-									<th>Service </th>
+								<!-- 	<th>Service </th> -->
 									<th>Organisation</th>									
 									<th>Licence No.</th>									
 									<th>Office No.</th>
@@ -115,7 +115,7 @@
 									varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
-										<td>${contractorsList.service}</td>
+										<%-- <td>${contractorsList.service}</td> --%>
 										<td>${contractorsList.orgName}</td>
 										<td>${contractorsList.licenceNo}</td>
 										<td>${contractorsList.officeNo}</td>

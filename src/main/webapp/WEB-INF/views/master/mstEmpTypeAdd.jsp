@@ -196,9 +196,9 @@
 													tabindex="-1" aria-hidden="true">
 													<option value="">Please Select</option>
 													<option value="0">No</option>
-													<option value="1">Yes1</option>
-													<option value="1.5">Yes1.5</option>
-													<option value="2">Yes2</option>
+													<option value="1">1 HR of Gross Salary x 1</option>
+													<option value="1.5"> 1 HR of Gross Salary x 1.5</option>
+													<option value="2"> 1 HR of Gross Salary x 2</option>
 
 												</select> <span class="validation-invalid-label" id="error_otType"
 													style="display: none;">This field is required.</span>

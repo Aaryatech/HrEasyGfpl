@@ -224,12 +224,12 @@
 
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="subCmpId"> Sub Company <span
+													for="subCmpId">Company <span
 													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="subCmpId"
-														data-placeholder="Select Sub Company" id="subCmpId"
+														data-placeholder="Select Company" id="subCmpId"
 														class="form-control form-control-select2 select2-hidden-accessible">
 														<option value="">Select Sub Company</option>
 														<c:forEach items="${companySubList}" var="companySubList">
@@ -343,9 +343,9 @@
 											<div class="form-group row">
 
 												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
+													class="col-form-label col-lg-2"
 													for="contractor">Contractor <span
-													class="text-danger">*</span>:
+													class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="contractor"
@@ -2517,7 +2517,7 @@
 												} else {
 													$("#error_desigId").hide()
 												}
-
+/* 
 												if (!$("#contractor").val()) {
 
 													isError = true;
@@ -2528,7 +2528,7 @@
 												} else {
 													$("#error_contractor")
 															.hide()
-												}
+												} */
 
 												/* if (!$("#ishod").val()) {
 

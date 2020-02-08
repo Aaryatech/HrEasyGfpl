@@ -111,35 +111,33 @@
 								%>
 
 								<!-- Highlighted tabs -->
-								
+
 								<div class="form-group row">
 
-							<label class="col-form-label col-lg-2" for="locId"> Emp
-								Code: </label> <label class="col-form-label col-lg-2" for="locId"
-								style="color: red;"> ${empDeatil.empCode}</label> <label
-								class="col-form-label col-lg-2" for="locId"> Emp Name: </label>
-							<label class="col-form-label col-lg-2" for="locId"
-								style="color: red;">${empDeatil.surname}&nbsp;${empDeatil.middleName}&nbsp;${empDeatil.firstName}
-							</label> <label class="col-form-label col-lg-2" for="locId"> Emp
-								Designation: </label> <label class="col-form-label col-lg-2" for="locId"
-								style="color: red;"> ${empDeatil.designation} </label>
-
-						</div>
+									<label class="col-form-label col-lg-2" for="locId"> Emp
+										Code: </label> <label class="col-form-label col-lg-2" for="locId"
+										style="color: red;"> ${empDeatil.empCode}</label> <label
+										class="col-form-label col-lg-2" for="locId"> Emp Name:
+									</label> <label class="col-form-label col-lg-5" for="locId"
+										style="color: red;">${empDeatil.surname}&nbsp;${empDeatil.middleName}&nbsp;${empDeatil.firstName}
+									</label>
+								</div>
 
 
-						<div class="form-group row">
+								<div class="form-group row">
 
-							<label class="col-form-label col-lg-2" for="locId"> Loan
-								Amount: </label> <label class="col-form-label col-lg-2" for="locId"
-								style="color: red;">${empDeatil.loanAmt} </label> <label
-								class="col-form-label col-lg-2" for="locId"> Loan Repay
-								Amount: </label> <label class="col-form-label col-lg-2" for="locId"
-								style="color: red;"> ${empDeatil.loanRepayAmt} </label> <label
-								class="col-form-label col-lg-2" for="locId"> EMI Amount:
-							</label> <label class="col-form-label col-lg-2" for="locId"
-								style="color: red;"> ${empDeatil.loanEmi} </label>
+									<label class="col-form-label col-lg-2" for="locId"> Emp
+										Designation: </label> <label class="col-form-label col-lg-2"
+										for="locId" style="color: red;"> ${empDeatil.empDesgn}
+									</label> <label class="col-form-label col-lg-2" for="locId">
+										Emp Type Amount: </label> <label class="col-form-label col-lg-2"
+										for="locId" style="color: red;">
+										${empDeatil.empTypeName} </label> <label
+										class="col-form-label col-lg-2" for="locId"> Location:
+									</label> <label class="col-form-label col-lg-2" for="locId"
+										style="color: red;"> ${empDeatil.locName} </label>
 
-						</div>
+								</div>
 								<c:set var="flag" value="${sessionScope.tabEmpFlag}"></c:set>
 
 
@@ -190,21 +188,23 @@
 														value="${toDate}" name="datepickerTo" autocomplete="off">
 												</div>
 
+
+
+												<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+												<button type="button" class="btn bg-blue ml-3 legitRipple"
+													onclick="getGraphs()" id="submtbtn">
+													Submit <i class="icon-paperplane ml-2"></i>
+												</button>
+
+
 											</div>
 
 											<input type="hidden" id="empId" name="empId" value="${empId}">
 
 
-											<div class="form-group row mb-0">
-												<div class="col-lg-10 ml-lg-auto">
-													<!-- <button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-													<button type="button" class="btn bg-blue ml-3 legitRipple"
-														onclick="getGraphs()" id="submtbtn">
-														Submit <i class="icon-paperplane ml-2"></i>
-													</button>
 
-												</div>
-											</div>
+
+
 											<div class="row">
 
 												<div class="col-md-6" id="attn_div">
@@ -224,7 +224,7 @@
 
 
 
-												<div class="col-md-6">
+												<div class="col-md-10">
 													<div class="box box-primary">
 														<div class="box-header with-border">
 															<h3 class="box-title">Employee Advance Graph</h3>
@@ -240,7 +240,7 @@
 
 
 
-												<div class="col-md-6">
+												<div class="col-md-10">
 													<div class="box box-primary">
 														<div class="box-header with-border">
 															<h3 class="box-title">Employee Loan Graph</h3>
@@ -269,16 +269,18 @@
 											action="${pageContext.request.contextPath}/insertSubCompanyLogo"
 											id="reportForm" method="post">
 
-											<input type="hidden" id="empId1" name="empId1" value="${empId}">
+											<input type="hidden" id="empId1" name="empId1"
+												value="${empId}">
 
 											<div class="form-group row">
 												<label class="col-form-label col-lg-2" for="date">Select
 													From <span style="color: red">* </span> :
 												</label>
 												<div class="col-md-3">
-													<input type="text" class="form-control datepickerclass " value="${fromDate}"
-														placeholder="Select Date " id="datepickerFromRep"
-														name="datepickerFromRep" autocomplete="off">
+													<input type="text" class="form-control datepickerclass "
+														value="${fromDate}" placeholder="Select Date "
+														id="datepickerFromRep" name="datepickerFromRep"
+														autocomplete="off">
 												</div>
 
 
@@ -287,8 +289,9 @@
 												</label>
 												<div class="col-md-3">
 													<input type="text" class="form-control datepickerclass"
-														placeholder="Select Date " id="datepickerToRep" value="${toDate}"
-														name="datepickerToRep" autocomplete="off">
+														placeholder="Select Date " id="datepickerToRep"
+														value="${toDate}" name="datepickerToRep"
+														autocomplete="off">
 												</div>
 
 											</div>
@@ -322,7 +325,7 @@
 											</table>
 											<input type="hidden" id="p" name="p" value="0">
 
-											 
+
 										</form>
 									</div>
 
@@ -396,7 +399,7 @@
 	<script type="text/javascript">
 		//use this function for all reports just get mapping form action name dynamically as like of prm from every report pdf,excel function	
 		function getProgReport(prm, mapping) {
- 
+
 			if (prm == 1) {
 
 				document.getElementById("p").value = "1";
@@ -433,7 +436,7 @@
 				if (data.length > 6) {
 
 					//	alert(data.length);
-					$('#attn_div').removeClass().addClass("col-md-12");
+					$('#attn_div').removeClass().addClass("col-md-10");
 				} else {
 					$('#attn_div').removeClass().addClass("col-md-6");
 				}
@@ -449,21 +452,14 @@
 
 					dataTable.addColumn('string', 'month Year'); // Implicit domain column.
 
-					dataTable.addColumn('number', 'Working Days');
-					dataTable.addColumn('number', 'Present days');
-					dataTable.addColumn('number', 'Paid Holiday');
-					dataTable.addColumn('number', 'Unpaid Holiday');
-					dataTable.addColumn('number', 'Paid Leave');
-					dataTable.addColumn('number', 'Unpaid Leave');
-					dataTable.addColumn('number', 'Month Days');
+					dataTable.addColumn('number', 'Present Days');
+					dataTable.addColumn('number', 'Payable Days');
 
 					$.each(data, function(key, dt) {
 
 						dataTable.addRows([
 
-						[ dt.date, dt.workingDays, dt.presentdays,
-								dt.paidHoliday, dt.unpaidHoliday, dt.paidLeave,
-								dt.unpaidLeave, dt.monthDays ]
+						[ dt.date, dt.presentdays, dt.payableDaysDays ]
 
 						]);
 
@@ -484,8 +480,7 @@
 							},
 							format : '0',
 						},
-						colors : [ 'orange', 'blue', 'gray', 'pink', 'black',
-								'red', 'green' ],
+						colors : [ 'orange', 'blue' ],
 						theme : 'material'
 					};
 					var chart = new google.visualization.ColumnChart(document
