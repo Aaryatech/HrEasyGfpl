@@ -2320,7 +2320,8 @@
 															.hide()
 												}
 												
-											 
+												alert($("#subCmpId").val());
+
 												if (!$("#subCmpId").val()) {
 
 													isError = true;
@@ -2673,7 +2674,7 @@
 											 
 
 												if (!$("#basic").val()
-														|| parseInt($("#basic")
+														|| parseFloat($("#basic")
 																.val()) <= 0) {
 
 													isError = true;
@@ -2719,7 +2720,7 @@
 													}
 
 													if (!$("#pfEmpPer").val()
-															|| parseInt($(
+															|| parseFloat($(
 																	"#pfEmpPer")
 																	.val()) <= 0) {
 
@@ -2735,7 +2736,7 @@
 
 													if (!$("#pfEmployerPer")
 															.val()
-															|| parseInt($(
+															|| parseFloat($(
 																	"#pfEmployerPer")
 																	.val()) <= 0) {
 
@@ -2770,7 +2771,7 @@
 												if ($("#esicApplicable").val() == 'yes') {
 
 													if (!$("#empEsicPer").val()
-															|| parseInt($(
+															|| parseFloat($(
 																	"#empEsicPer")
 																	.val()) <= 0) {
 
@@ -2786,7 +2787,7 @@
 
 													if (!$("#employerEsicPer")
 															.val()
-															|| parseInt($(
+															|| parseFloat($(
 																	"#employerEsicPer")
 																	.val()) <= 0) {
 
