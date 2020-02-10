@@ -42,12 +42,14 @@ import com.ats.hreasy.model.EmpType;
 import com.ats.hreasy.model.EmployeDoc;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
+import com.ats.hreasy.model.HolidayCategory;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.MstCompany;
 import com.ats.hreasy.model.MstCompanySub;
 import com.ats.hreasy.model.MstEmpType;
+import com.ats.hreasy.model.SalaryTypesMaster;
 import com.ats.hreasy.model.Setting;
 import com.ats.hreasy.model.TblEmpBankInfo;
 import com.ats.hreasy.model.TblEmpInfo;
@@ -106,9 +108,7 @@ public class EmployeeController {
 				 * map, EmployeeMaster[].class); List<EmployeeMaster> empList = new
 				 * ArrayList<EmployeeMaster>(Arrays.asList(empArr));
 				 */
-				
-				
-				
+
 				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
 
@@ -275,11 +275,11 @@ public class EmployeeController {
 				model.addObject("emp", emp);
 				model.addObject("imgUrl", Constants.imageShowUrl);
 				session.setAttribute("empTab", 1);
-				
+
 				map = new LinkedMultiValueMap<>();
 				map.add("compId", 1);
 				EmpType[] EmpType = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpTypeList", map,
-						EmpType[].class); 
+						EmpType[].class);
 				List<EmpType> empTypelist = new ArrayList<EmpType>(Arrays.asList(EmpType));
 				model.addObject("accessRoleList", empTypelist);
 
@@ -453,7 +453,6 @@ public class EmployeeController {
 					emp.setSurname(request.getParameter("sname"));
 					emp.setSubCmpId(Integer.parseInt(request.getParameter("subCmpId")));
 					emp.setPlCalcBase(Integer.parseInt(request.getParameter("plCalcBase")));
-
 
 					emp.setMobileNo1(request.getParameter("mobile1"));
 					emp.setResidenceLandNo("NA");
@@ -637,7 +636,7 @@ public class EmployeeController {
 	@RequestMapping(value = "/employeeEdit", method = RequestMethod.GET)
 	public ModelAndView employeeEdit(HttpServletRequest request, HttpServletResponse response) {
 
-		HttpSession session = request.getSession(); 
+		HttpSession session = request.getSession();
 		ModelAndView model = null;
 		MultiValueMap<String, Object> map = null;
 		try {
@@ -783,7 +782,7 @@ public class EmployeeController {
 				model.addObject("empAllowanceId", empSalInfo);
 				model.addObject("empAllowncList", empAllowncList);
 				model.addObject("docList", docList);
-				
+
 				model.addObject("userRes", userRes);
 			}
 		} catch (Exception e) {
@@ -1109,9 +1108,7 @@ public class EmployeeController {
 		return redirect;
 
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/submitEmpLogDetails", method = RequestMethod.POST)
 	public String submitEmpLogDetails(HttpServletRequest request, HttpServletResponse response) {
 
@@ -1127,7 +1124,7 @@ public class EmployeeController {
 				e.printStackTrace();
 				userInfoId = 0;
 			}
- 
+
 			String password = request.getParameter("upass");
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			byte[] messageDigest = md.digest(password.getBytes());
@@ -1136,9 +1133,8 @@ public class EmployeeController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
 			map.add("password", hashtext);
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateUserPass", map,
-					Info.class);
-			if (info.isError()== false) {
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateUserPass", map, Info.class);
+			if (info.isError() == false) {
 				session.setAttribute("successMsg", "Record Updated Successfully");
 
 				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
@@ -1165,7 +1161,7 @@ public class EmployeeController {
 			HttpSession session = request.getSession();
 			EmpSalaryInfo empSal = new EmpSalaryInfo();
 			session.setAttribute("empTab", 5);
-			
+
 			int empId = 0;
 			int empSalInfoId = 0;
 
@@ -1230,29 +1226,28 @@ public class EmployeeController {
 			empSal.setBasic(basic);
 			empSal.setSocietyContribution(societyContri);
 			empSal.setPfApplicable(request.getParameter("pfApplicable"));
-			
-		
-			if(request.getParameter("pfApplicable").equals("yes")) {
-				
-				System.err.println("pfApplicable"+request.getParameter("pfApplicable")+request.getParameter("pfType")+request.getParameter("pfEmployerPer"));
+
+			if (request.getParameter("pfApplicable").equals("yes")) {
+
+				System.err.println("pfApplicable" + request.getParameter("pfApplicable")
+						+ request.getParameter("pfType") + request.getParameter("pfEmployerPer"));
 				empSal.setPfType(request.getParameter("pfType"));
 				empSal.setPfEmpPer(Double.parseDouble(request.getParameter("pfEmpPer")));
 				empSal.setPfEmplrPer(Double.parseDouble(request.getParameter("pfEmployerPer")));
-			}else {
+			} else {
 				empSal.setPfType("0");
 			}
 			empSal.setEsicApplicable(request.getParameter("esicApplicable"));
-		
 
-			if(request.getParameter("esicApplicable").equals("yes")) {
-				
-				System.err.println("esicApplicable"+request.getParameter("esicApplicable"));
-			
-				empSal.setEmployeeEsicPercentage( Double.parseDouble(request.getParameter("empEsicPer")));
+			if (request.getParameter("esicApplicable").equals("yes")) {
+
+				System.err.println("esicApplicable" + request.getParameter("esicApplicable"));
+
+				empSal.setEmployeeEsicPercentage(Double.parseDouble(request.getParameter("empEsicPer")));
 				empSal.setEmployerEsicPercentage(Double.parseDouble(request.getParameter("employerEsicPer")));
-			} 
+			}
 			empSal.setMlwfApplicable(request.getParameter("mlwfApplicable"));
-		
+
 			empSal.setPtApplicable(request.getParameter("ptApplicable"));
 			empSal.setEpfJoiningDate(request.getParameter("epfJoinDate"));
 			empSal.setSalBasis(request.getParameter("salBasis"));
@@ -1462,5 +1457,45 @@ public class EmployeeController {
 
 		return flag;
 
+	}
+
+	@RequestMapping(value = "/assignHolidayCategory", method = RequestMethod.GET)
+	public String assignHolidayCategory(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+		String ret = new String();
+		/*
+		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+		 * session.getAttribute("moduleJsonList"); Info view =
+		 * AcessController.checkAccess("showEmpListToAssignSalStruct",
+		 * "showEmpListToAssignSalStruct", 1, 0, 0, 0, newModuleList);
+		 * 
+		 * if (view.isError() == true) {
+		 * 
+		 * model = new ModelAndView("accessDenied");
+		 * 
+		 * } else {
+		 */
+		ret = "master/assignHolidayCategory";
+
+		try {
+
+			GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllEmplistForHolidayCatAssign", GetEmployeeDetails[].class);
+
+			List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+			model.addAttribute("empdetList", empdetList);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			HolidayCategory[] holi = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getHolidayCategoryList", map, HolidayCategory[].class);
+			List<HolidayCategory> holiList = new ArrayList<HolidayCategory>(Arrays.asList(holi));
+			model.addAttribute("holiList", holiList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// }
+		return ret;
 	}
 }
