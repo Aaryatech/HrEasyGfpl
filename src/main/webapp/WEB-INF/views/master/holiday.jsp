@@ -29,7 +29,7 @@
 			<!-- Page header -->
 			<div class="page-header page-header-light">
 
-<%-- 
+				<%-- 
 				<div
 					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
@@ -70,21 +70,22 @@
 
 
 						<div class="card">
-							 
+
 							<div class="card-header header-elements-inline">
- 						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Add Holiday</h5></td>
-								<td width="40%" align="right">
-							  <%-- 
+								<table width="100%">
+									<tr width="100%">
+										<td width="60%"><h5 class="card-title">Add Holiday</h5></td>
+										<td width="40%" align="right">
+											<%-- 
 								 <a
 									href="${pageContext.request.contextPath}/holidayAdd"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">Add Holiday</button>
-								</a> --%> </td>
-							</tr>
-						</table>
-					</div>
+								</a> --%>
+										</td>
+									</tr>
+								</table>
+							</div>
 							<div class="card-body">
 								<%
 									if (session.getAttribute("errorMsg") != null) {
@@ -127,8 +128,11 @@
 									id="submitInsertHoli" method="post">
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="holidayTitle">Holiday
-											Title <span class="text-danger">* </span>:</label>
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="holidayTitle">Holiday Title <span
+											class="text-danger">* </span>:
+										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Holiday Title" id="holidayTitle"
@@ -139,17 +143,40 @@
 										</div>
 									</div>
 
+									<div class="form-group row">
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="hoCatId">Select Holiday Category <span
+											class="text-danger">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<select name="hoCatId" data-placeholder="Select "
+												id="hoCatId"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
 
+												<option value="0">Select</option>
+
+												<c:forEach items="${holiList}" var="holiList">
+													<option value="${holiList.hoCatId}">${holiList.hoCatName}</option>
+												</c:forEach>
+											</select> <span class="validation-invalid-label" id="error_hoCatId"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="locId">Select
-											Location <span class="text-danger">* </span>:</label>
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="locId">Select Location <span class="text-danger">*
+										</span>:
+										</label>
 										<div class="col-lg-10">
 											<select name="locId" data-placeholder="Select Location"
 												id="locId" multiple="multiple"
 												class="form-control form-control-sm select"
 												data-container-css-class="select-sm" data-fouc>
-											<option value="">Select Location</option>
+												<option value="">Select Location</option>
 												<c:forEach items="${locationList}" var="location">
 													<option value="${location.locId}">${location.locName}</option>
 												</c:forEach>
@@ -179,7 +206,10 @@
 									</div>
  --%>
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2">Date Range <span class="text-danger">* </span>:</label>
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2">Date
+											Range <span class="text-danger">* </span>:
+										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control daterange-basic_new "
 												value="21-04-2019 @ 21-05-2019" name="dateRange"
@@ -209,7 +239,7 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a href="${pageContext.request.contextPath}/showHolidayList"><button
-										type="button" class="btn btn-light"> Back</button></a>
+													type="button" class="btn btn-light">Back</button></a>
 										</div>
 									</div>
 								</form>
@@ -267,56 +297,77 @@
 			return true;
 
 		}
-		$(document).ready(function($) {
+		$(document)
+				.ready(
+						function($) {
 
-			$("#submitInsertHoli").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
+							$("#submitInsertHoli")
+									.submit(
+											function(e) {
+												var isError = false;
+												var errMsg = "";
 
-				if (!$("#holidayTitle").val()) {
+												if (!$("#holidayTitle").val()) {
 
-					isError = true;
+													isError = true;
 
-					$("#error_holidayTitle").show()
+													$("#error_holidayTitle")
+															.show()
 
-				} else {
-					$("#error_holidayTitle").hide()
-				}
+												} else {
+													$("#error_holidayTitle")
+															.hide()
+												}
 
-				if ($("#locId").val()=="") {
+												if ($("#locId").val() == "") {
 
-					isError = true;
+													isError = true;
 
-					$("#error_locationId").show()
+													$("#error_locationId")
+															.show()
 
-				} else {
-					$("#error_locationId").hide()
-				}
+												} else {
+													$("#error_locationId")
+															.hide()
+												}
 
-			
-				if (!$("#dateRange").val()) {
+												if (!$("#hoCatId").val()
+														|| parseInt($(
+																"#hoCatId")
+																.val()) == 0) {
 
-					isError = true;
+													isError = true;
 
-					$("#error_Range").show()
+													$("#error_hoCatId").show()
 
-				} else {
-					$("#error_Range").hide()
-				}
+												} else {
+													$("#error_hoCatId").hide()
+												}
 
-				if (!isError) {
+												if (!$("#dateRange").val()) {
 
-					var x =true ;
-					if (x == true) {
+													isError = true;
 
-						document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//end ajax send this to php page
-				}
-				return false;
-			});
-		});
+													$("#error_Range").show()
+
+												} else {
+													$("#error_Range").hide()
+												}
+
+												if (!isError) {
+
+													var x = true;
+													if (x == true) {
+
+														document
+																.getElementById("submtbtn").disabled = true;
+														return true;
+													}
+													//end ajax send this to php page
+												}
+												return false;
+											});
+						});
 		//
 	</script>
 

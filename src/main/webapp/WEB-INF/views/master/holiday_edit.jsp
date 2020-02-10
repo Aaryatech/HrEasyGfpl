@@ -127,8 +127,10 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="locShortName">Holiday
-											Title <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="locShortName">Holiday Title <span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -141,9 +143,43 @@
 										</div>
 									</div>
 
+
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
-											Location <span style="color: red">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="hoCatId">Select Holiday Category <span
+											class="text-danger">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<select name="hoCatId" data-placeholder="Select "
+												id="hoCatId"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+												<option value="0">Select</option>
+
+												<c:forEach items="${holiList}" var="holiList">
+
+
+													<c:choose>
+														<c:when test="${editHoliday.exInt1==holiList.hoCatId}">
+															<option selected value="${holiList.hoCatId}">${holiList.hoCatName}</option>
+														</c:when>
+														<c:otherwise>
+															<option value="${holiList.hoCatId}">${holiList.hoCatName}</option>
+														</c:otherwise>
+													</c:choose>
+												</c:forEach>
+											</select> <span class="validation-invalid-label" id="error_hoCatId"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="select2">Select Location <span
+											style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<select name="locId" data-placeholder="Select Location"
@@ -308,55 +344,75 @@
 			return true;
 
 		}
-		$(document).ready(function($) {
+		$(document)
+				.ready(
+						function($) {
 
-			$("#submitInsertHoliday").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
+							$("#submitInsertHoliday")
+									.submit(
+											function(e) {
+												var isError = false;
+												var errMsg = "";
 
-				if (!$("#holidayTitle").val()) {
+												if (!$("#holidayTitle").val()) {
 
-					isError = true;
+													isError = true;
 
-					$("#error_holidayTitle").show()
+													$("#error_holidayTitle")
+															.show()
 
-				} else {
-					$("#error_holidayTitle").hide()
-				}
+												} else {
+													$("#error_holidayTitle")
+															.hide()
+												}
 
-				if ($("#locId").val() == "") {
+												if ($("#locId").val() == "") {
 
-					isError = true;
+													isError = true;
 
-					$("#error_locId").show()
+													$("#error_locId").show()
 
-				} else {
-					$("#error_locId").hide()
-				}
+												} else {
+													$("#error_locId").hide()
+												}
 
-				if (!$("#dateRange").val()) {
+												if (!$("#dateRange").val()) {
 
-					isError = true;
+													isError = true;
 
-					$("#error_Range").show()
+													$("#error_Range").show()
 
-				} else {
-					$("#error_Range").hide()
-				}
+												} else {
+													$("#error_Range").hide()
+												}
 
-				if (!isError) {
+												if (!$("#hoCatId").val()
+														|| parseInt($(
+																"#hoCatId")
+																.val()) == 0) {
 
-					var x = true;
-					if (x == true) {
+													isError = true;
 
-						document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//end ajax send this to php page
-				}
-				return false;
-			});
-		});
+													$("#error_hoCatId").show()
+
+												} else {
+													$("#error_hoCatId").hide()
+												}
+
+												if (!isError) {
+
+													var x = true;
+													if (x == true) {
+
+														document
+																.getElementById("submtbtn").disabled = true;
+														return true;
+													}
+													//end ajax send this to php page
+												}
+												return false;
+											});
+						});
 		//
 	</script>
 	<script type="text/javascript">

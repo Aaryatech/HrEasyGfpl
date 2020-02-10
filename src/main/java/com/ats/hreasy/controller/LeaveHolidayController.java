@@ -33,6 +33,7 @@ import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.CalenderYear;
 import com.ats.hreasy.model.GetHoliday;
 import com.ats.hreasy.model.Holiday;
+import com.ats.hreasy.model.HolidayCategory;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
@@ -82,6 +83,16 @@ public class LeaveHolidayController {
 				}
 
 				model.addObject("locationList", locationList);
+				
+				
+			 map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				HolidayCategory[] holi = Constants.getRestTemplate().postForObject(Constants.url + "/getHolidayCategoryList", map,
+						HolidayCategory[].class);
+
+				List<HolidayCategory> holiList = new ArrayList<HolidayCategory>(Arrays.asList(holi));
+				
+				model.addObject("holiList", holiList);
 
 			}
 
@@ -135,6 +146,8 @@ public class LeaveHolidayController {
 					holidayId = 0;
 				}
 
+				
+			
 				Boolean ret = false;
 
 				if (FormValidation.Validaton(dateRange, "") == true) {
@@ -168,7 +181,8 @@ public class LeaveHolidayController {
 					holiday.setLocId(locIdList);
 					holiday.setMakerEnterDatetime(dateTime);
 					holiday.setMakerUserId(userObj.getUserId());
-
+					holiday.setExInt1( Integer.parseInt(request.getParameter("hoCatId")));
+					
 					Holiday res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHoliday", holiday,
 							Holiday.class);
 
@@ -227,6 +241,15 @@ public class LeaveHolidayController {
 
 				model.addObject("locationList", locationList);
 
+				
+				 map = new LinkedMultiValueMap<>();
+					map.add("companyId", 1);
+					HolidayCategory[] holi = Constants.getRestTemplate().postForObject(Constants.url + "/getHolidayCategoryList", map,
+							HolidayCategory[].class);
+
+					List<HolidayCategory> holiList = new ArrayList<HolidayCategory>(Arrays.asList(holi));
+					
+					model.addObject("holiList", holiList);
 				// getCalculateYearList
 
 				/*
@@ -377,6 +400,8 @@ public class LeaveHolidayController {
 					editHoliday.setHolidayRemark(holidayRemark);
 					editHoliday.setLocId(locIdList);
 					editHoliday.setExVar2(holidayTitle);
+					
+					editHoliday.setExInt1( Integer.parseInt(request.getParameter("hoCatId")));
 					Holiday res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHoliday", editHoliday,
 							Holiday.class);
 
