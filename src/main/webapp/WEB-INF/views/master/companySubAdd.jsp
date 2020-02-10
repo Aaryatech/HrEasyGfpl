@@ -99,31 +99,36 @@
 System.out.println("val**"+flagNew);%> --%>
 								<!-- Highlighted tabs -->
 								<c:set var="flag" value="${sessionScope.tabFlag}"></c:set>
-								
-								 
-									<ul class="nav nav-tabs nav-tabs-highlight">
+
+
+								<ul class="nav nav-tabs nav-tabs-highlight">
+									<li class="nav-item text-center"><a
+										href="#highlighted-tab1"
+										class="${flag==0 ? 'nav-link active' : 'nav-link'}"
+										data-toggle="tab">Company Information </a></li>
+									<c:if test="${company.companyId!=0}">
 										<li class="nav-item text-center"><a
-											href="#highlighted-tab1" class="${flag==0 ? 'nav-link active' : 'nav-link'}"
-											data-toggle="tab">Company Information </a></li>
-										<c:if test="${company.companyId!=0}">
-											<li class="nav-item text-center"><a
-												href="#highlighted-tab2" class="${flag==1 ? 'nav-link active' : 'nav-link'}" data-toggle="tab">Company
-													Logo </a></li>
-											<li class="nav-item text-center"><a
-												href="#highlighted-tab3" class="${flag==2 ? 'nav-link active' : 'nav-link'}"  data-toggle="tab">Other
-													Information </a></li>
-											<li class="nav-item text-center"><a
-												href="#highlighted-tab4" class="${flag==3 ? 'nav-link active' : 'nav-link'}" data-toggle="tab">Bank
-													Details </a></li>
+											href="#highlighted-tab2"
+											class="${flag==1 ? 'nav-link active' : 'nav-link'}"
+											data-toggle="tab">Company Logo </a></li>
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab3"
+											class="${flag==2 ? 'nav-link active' : 'nav-link'}"
+											data-toggle="tab">Other Information </a></li>
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab4"
+											class="${flag==3 ? 'nav-link active' : 'nav-link'}"
+											data-toggle="tab">Bank Details </a></li>
 
-											<li class="nav-item text-center"><a
-												href="#highlighted-tab5" class="${flag==4 ? 'nav-link active' : 'nav-link'}" data-toggle="tab">Manager
-													Details </a></li>
-										</c:if>
+										<li class="nav-item text-center"><a
+											href="#highlighted-tab5"
+											class="${flag==4 ? 'nav-link active' : 'nav-link'}"
+											data-toggle="tab">Manager Details </a></li>
+									</c:if>
 
-									</ul>
-							 
- 
+								</ul>
+
+
 								<div class="tab-content">
 									<div
 										class="${flag==0 ? 'tab-pane fade show active' : 'tab-pane fade'}"
@@ -251,8 +256,8 @@ System.out.println("val**"+flagNew);%> --%>
 														name="landline2" autocomplete="off" onchange="trim(this)"
 														maxlength="10"> <span
 														class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_landline2">Enter Valid 
-														Landine No. .</span>
+														style="display: none;" id="error_landline2">Enter
+														Valid Landine No. .</span>
 												</div>
 
 											</div>
@@ -322,24 +327,23 @@ System.out.println("val**"+flagNew);%> --%>
 
 
 
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="pan">Logo <span class="text-danger">*</span>:
-												</label>
+												<label class="col-form-label  col-lg-2" for="pan">Logo
+													: </label>
 												<div class="col-lg-4">
 													<input type="file" id="logo" name="logo"
 														style="padding-bottom: 8px" class="form-control"
-														
 														title="Only jpg,png,gif">${company.logo}
 												</div>
-<!-- onchange="readURL(this); return Upload(logo)" -->
+												<!-- onchange="readURL(this); return Upload(logo)" -->
 											</div>
-											<div class="form-group col-lg-4">
-												<img
-													src="${viewUrl}/${company.logo}"
-													height="150px" width="200px">
+											<c:if test="${not empty company.logo}">
+												<div class="form-group col-lg-4">
+													<img src="${viewUrl}/${company.logo}" height="150px"
+														width="200px">
 
-											</div>
+												</div>
+											</c:if>
+
 
 
 											<div class="form-group row mb-0">
@@ -395,9 +399,10 @@ System.out.println("val**"+flagNew);%> --%>
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
-														value="${company.ptNo}" id="ptNo" autocomplete="off" maxlength="20"
-														onchange="trim(this)" placeholder="PT No." name="ptNo">
-													<span class="hidedefault  validation-invalid-label"
+														value="${company.ptNo}" id="ptNo" autocomplete="off"
+														maxlength="20" onchange="trim(this)" placeholder="PT No."
+														name="ptNo"> <span
+														class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_ptNo">This field
 														is required.</span>
 												</div>
@@ -411,9 +416,9 @@ System.out.println("val**"+flagNew);%> --%>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${company.serviceTaxNo}" id="serviceTaxNo"
-														onchange="trim(this)" placeholder="Service Tax No." maxlength="20"
-														name="serviceTaxNo" autocomplete="off"> <span
-														class="hidedefault  validation-invalid-label"
+														onchange="trim(this)" placeholder="Service Tax No."
+														maxlength="20" name="serviceTaxNo" autocomplete="off">
+													<span class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_serviceTaxNo">This
 														field is required.</span>
 												</div>
@@ -422,10 +427,11 @@ System.out.println("val**"+flagNew);%> --%>
 													No. <span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly" maxlength="20"
-														value="${company.vatNo}" id="vatNo" autocomplete="off"
-														onchange="trim(this)" placeholder="VAT No." name="vatNo">
-													<span class="hidedefault  validation-invalid-label"
+													<input type="text" class="form-control numbersOnly"
+														maxlength="20" value="${company.vatNo}" id="vatNo"
+														autocomplete="off" onchange="trim(this)"
+														placeholder="VAT No." name="vatNo"> <span
+														class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_ptNo">This field
 														is required.</span>
 												</div>
@@ -438,9 +444,10 @@ System.out.println("val**"+flagNew);%> --%>
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
-														value="${company.cstNo}" id="cstNo" onchange="trim(this)" maxlength="20"
-														placeholder="CST No" name="cstNo" autocomplete="off">
-													<span class="hidedefault  validation-invalid-label"
+														value="${company.cstNo}" id="cstNo" onchange="trim(this)"
+														maxlength="20" placeholder="CST No" name="cstNo"
+														autocomplete="off"> <span
+														class="hidedefault  validation-invalid-label"
 														style="display: none;" id="error_tanNo">This field
 														is required.</span>
 												</div>
@@ -792,7 +799,8 @@ System.out.println("val**"+flagNew);%> --%>
 														value="${company.cpEmail2}" id="email2" autocomplete="off"
 														onchange="trim(this)" placeholder="Email 2" name="email2">
 													<span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_email2">Enter Valid Email ID.</span>
+														style="display: none;" id="error_email2">Enter
+														Valid Email ID.</span>
 												</div>
 											</div>
 
@@ -951,10 +959,17 @@ System.out.println("val**"+flagNew);%> --%>
 	<script type="text/javascript">
 		function setDateEsicOnload() {
 
-			var isEsicApplicable = ${company.isEsicApplicable};
-			
-			var isPfApplicable = ${company.isPfApplicable};
-			
+			var isEsicApplicable = $
+			{
+				company.isEsicApplicable
+			}
+			;
+
+			var isPfApplicable = $
+			{
+				company.isPfApplicable
+			}
+			;
 
 			if (isEsicApplicable == 1) {
 
@@ -980,17 +995,17 @@ System.out.println("val**"+flagNew);%> --%>
 
 	<script type="text/javascript">
 		// Single picker
-		  
+
 		$('.datepickerclass').daterangepicker({
-		    "autoUpdateInput": false,
+			"autoUpdateInput" : false,
 			singleDatePicker : true,
 			selectMonths : true,
 			selectYears : true,
 			locale : {
 				format : 'DD-MM-YYYY'
 			}
-		}, function (start_date) {
-		    $(this.element).val(start_date.format('DD-MM-YYYY'));
+		}, function(start_date) {
+			$(this.element).val(start_date.format('DD-MM-YYYY'));
 		});
 
 		//daterange-basic_new
@@ -1081,20 +1096,17 @@ System.out.println("val**"+flagNew);%> --%>
 					$("#error_landline1").hide()
 				}
 				if ($("#landline2").val().length > 0) {
-				 
-					if ( !validateMobile($(
-					"#landline2")
-					.val())) {
 
-					isError = true;
+					if (!validateMobile($("#landline2").val())) {
 
-					$("#error_landline2").show()
+						isError = true;
 
-				} else {
-					$("#error_landline2").hide()
+						$("#error_landline2").show()
+
+					} else {
+						$("#error_landline2").hide()
+					}
 				}
-				}
-				
 
 				if (!$("#pan").val() || !validatePAN($("#pan").val())) {
 
@@ -1111,7 +1123,7 @@ System.out.println("val**"+flagNew);%> --%>
 					var x = true;
 					if (x == true) {
 
-					document.getElementById("submtbtn1").disabled = true;
+						document.getElementById("submtbtn1").disabled = true;
 						return true;
 					}
 					//
@@ -1253,22 +1265,19 @@ System.out.println("val**"+flagNew);%> --%>
 				} else {
 					$("#error_email1").hide()
 				}
-				
-				
-				
-				if ( $("#email2").val().length>0) {
-				if ( !validateEmail($("#email2").val())) {
 
-					isError = true;
+				if ($("#email2").val().length > 0) {
+					if (!validateEmail($("#email2").val())) {
 
-					$("#error_email2").show()
-					//return false;
-				} else {
-					$("#error_email2").hide()
+						isError = true;
+
+						$("#error_email2").show()
+						//return false;
+					} else {
+						$("#error_email2").hide()
+					}
+
 				}
- 				
-				}
-				
 
 				if (acc.length<8 || acc.length>17) {
 

@@ -77,7 +77,6 @@ public class CompanySubController {
 			model.addObject("addAccess", 0);
 			model.addObject("editAccess", 0);
 			model.addObject("deleteAccess", 0);
-		
 
 			/*
 			 * Info add = AcessController.checkAccess("showCompanyList", "showCompanyList",
@@ -103,8 +102,6 @@ public class CompanySubController {
 		return model;
 	}
 
-	
-			
 	@RequestMapping(value = "/deleteSubCompany", method = RequestMethod.GET)
 	public String deleteSubCompany(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String a = null;
@@ -117,8 +114,6 @@ public class CompanySubController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("compId", companyId);
 			map.add("companyId", 1);
-			
-			
 
 			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteSubCompany", map, Info.class);
 
@@ -149,12 +144,12 @@ public class CompanySubController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("compId", Integer.parseInt(companyId));
- 			map.add("companyId", 1);
-			
+			map.add("companyId", 1);
+
 			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/changeCompActive", map, Info.class);
 
 			if (res.isError()) {
-				session.setAttribute("errorMsg",res.getMsg());
+				session.setAttribute("errorMsg", res.getMsg());
 			} else {
 				session.setAttribute("successMsg", res.getMsg());
 
@@ -191,8 +186,7 @@ public class CompanySubController {
 			model = new ModelAndView("master/companySubAdd");
 			model.addObject("company", company);
 			session.setAttribute("tabFlag", 0);
-		 
-			  
+
 			// }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -203,31 +197,29 @@ public class CompanySubController {
 	@RequestMapping(value = "/insertSubCompanyInfo", method = RequestMethod.POST)
 	public String insertSubCompanyInfo(HttpServletRequest request, HttpServletResponse response) {
 
-		
 		HttpSession session = request.getSession();
 		session.setAttribute("tabFlag", 0);
-		 
+
 		String a = new String();
 		try {
 
-		
 			MstCompanySub company = new MstCompanySub();
 			int compId = 0;
 			try {
 				compId = Integer.parseInt(request.getParameter("companyId"));
-				System.err.println("compId**"+compId);
+				System.err.println("compId**" + compId);
 			} catch (Exception e) {
 				e.printStackTrace();
 				compId = 0;
-				
+
 			}
-		 
-			if(compId!=0) {
-				
+
+			if (compId != 0) {
+
 				encryptCompId = FormValidation.Encrypt(String.valueOf(compId));
 				System.out.println("Set CompId 1: " + encryptCompId);
-				a = "redirect:/editSubCompanyInfo?compId=" + encryptCompId+"&redirectFlag=1";
-			}else {
+				a = "redirect:/editSubCompanyInfo?compId=" + encryptCompId + "&redirectFlag=1";
+			} else {
 				a = "redirect:/showSubCompanyList";
 			}
 
@@ -303,14 +295,12 @@ public class CompanySubController {
 			} else {
 				session.setAttribute("errorMsg", "Failed to Update Record");
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
-		
-		
-		
+
 		return a;
 
 	}
@@ -320,17 +310,16 @@ public class CompanySubController {
 		ModelAndView model = null;
 		HttpSession session = request.getSession();
 		try {
-			
-			String redirectFlag =request.getParameter("redirectFlag");
-			if(Integer.parseInt(redirectFlag)==2) {
+
+			String redirectFlag = request.getParameter("redirectFlag");
+			if (Integer.parseInt(redirectFlag) == 2) {
 				session.setAttribute("tabFlag", 0);
 			}
 
 			String base64encodedString = request.getParameter("compId");
 			String companyId = FormValidation.DecodeKey(base64encodedString);
 			System.out.println("Get CompId : " + companyId);
-			
-		
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("companyId", companyId);
 
@@ -339,9 +328,8 @@ public class CompanySubController {
 
 			model = new ModelAndView("master/companySubAdd");
 			model.addObject("company", company);
-			
-			model.addObject("viewUrl", Constants.imageShowUrl);
 
+			model.addObject("viewUrl", Constants.imageShowUrl);
 
 			System.out.println(" company : " + company.toString());
 		} catch (Exception e) {
@@ -358,7 +346,7 @@ public class CompanySubController {
 		HttpSession session = request.getSession();
 		session.setAttribute("tabFlag", 2);
 		try {
-		
+
 			MstCompanySub company = new MstCompanySub();
 			int compId = 0;
 			try {
@@ -413,23 +401,23 @@ public class CompanySubController {
 			company.setCstNo(request.getParameter("cstNo"));
 			company.setGstNo(request.getParameter("gstNo"));
 			company.setIsPfApplicable(request.getParameter("isPfApplicable"));
-			
-			if(Integer.parseInt(request.getParameter("isPfApplicable"))==1) {
+
+			if (Integer.parseInt(request.getParameter("isPfApplicable")) == 1) {
 				company.setPfNo(request.getParameter("pfNo"));
 				company.setPfCoverageDate(request.getParameter("pfCoveregDate"));
 				company.setPfSignatory1(request.getParameter("pfSignatory1"));
 				company.setPfSignatory2(request.getParameter("pfSignatory2"));
 				company.setPfSignatory3(request.getParameter("pfSignatory3"));
 			}
-			
+
 			company.setIsEsicApplicable(request.getParameter("isEsicApplicable"));
-			if(Integer.parseInt(request.getParameter("isEsicApplicable"))==1) {
-			
-			company.setEsicNo(request.getParameter("esicNo"));
-			company.setEsicCoverageDate(request.getParameter("esicCoverageDate"));
-			company.setEsicSignatory1(request.getParameter("esicSignatory1"));
-			company.setEsicSignatory2(request.getParameter("esicSignatory2"));
-			company.setEsicSignatory3(request.getParameter("esicSignatory3"));
+			if (Integer.parseInt(request.getParameter("isEsicApplicable")) == 1) {
+
+				company.setEsicNo(request.getParameter("esicNo"));
+				company.setEsicCoverageDate(request.getParameter("esicCoverageDate"));
+				company.setEsicSignatory1(request.getParameter("esicSignatory1"));
+				company.setEsicSignatory2(request.getParameter("esicSignatory2"));
+				company.setEsicSignatory3(request.getParameter("esicSignatory3"));
 			}
 			company.setDelStatus(1);
 			company.setExInt1(0);
@@ -453,7 +441,7 @@ public class CompanySubController {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId+"&redirectFlag=1";
+		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId + "&redirectFlag=1";
 
 	}
 
@@ -462,7 +450,7 @@ public class CompanySubController {
 		HttpSession session = request.getSession();
 		session.setAttribute("tabFlag", 3);
 		try {
-			
+
 			MstCompanySub company = new MstCompanySub();
 			int compId = 0;
 			try {
@@ -518,8 +506,8 @@ public class CompanySubController {
 				company.setManagerAddress(comp.getManagerAddress());
 				company.setIsActive(comp.getIsActive());
 			}
-			
-			System.err.println("mobile"+request.getParameter("mobile"));
+
+			System.err.println("mobile" + request.getParameter("mobile"));
 			company.setIsParentCompany("yes");
 			company.setCpName(request.getParameter("person"));
 			company.setCpDesignation(request.getParameter("designation"));
@@ -549,19 +537,19 @@ public class CompanySubController {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId+"&redirectFlag=1";
+		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId + "&redirectFlag=1";
 
 	}
 
 	@RequestMapping(value = "/insertSubCompanyManagerInfo", method = RequestMethod.POST)
 	public String insertCompanyManagerInfo(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		HttpSession session = request.getSession();
 		session.setAttribute("tabFlag", 4);
 		try {
 
 			MstCompanySub company = new MstCompanySub();
- 
+
 			int compId = 0;
 			try {
 				compId = Integer.parseInt(request.getParameter("companyId"));
@@ -648,7 +636,7 @@ public class CompanySubController {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId+"&redirectFlag=1";
+		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId + "&redirectFlag=1";
 
 	}
 
@@ -658,10 +646,9 @@ public class CompanySubController {
 		HttpSession session = request.getSession();
 		session.setAttribute("tabFlag", 1);
 		try {
-			
+
 			VpsImageUpload upload = new VpsImageUpload();
 
-			MstCompanySub company = new MstCompanySub();
 			int compId = 0;
 			try {
 				compId = Integer.parseInt(request.getParameter("companyId"));
@@ -676,78 +663,27 @@ public class CompanySubController {
 			MstCompanySub comp = Constants.getRestTemplate().postForObject(Constants.url + "/getSubCompanyById", map,
 					MstCompanySub.class);
 
-			company.setCompanyId(compId);
-
-			if (compId != 0) {
-				company.setCompanyName(comp.getCompanyName());
-				company.setNameSd(comp.getNameSd());
-				company.setLongAdd1(comp.getLongAdd1());
-				company.setLongAdd2(comp.getLongAdd2());
-				company.setLongAdd3(comp.getLongAdd3());
-				company.setShortAddress(comp.getShortAddress());
-				company.setLandline1(comp.getLandline1());
-				company.setLandline2(comp.getLandline2());
-				company.setFaxNo(comp.getFaxNo());
-				company.setPanNo(comp.getPanNo());
-
-				company.setIsParentCompany("yes");
-				company.setLetterHead(comp.getLetterHead());
-				company.setReportHeader(comp.getReportHeader());
-				company.setReportFooter(comp.getReportFooter());
-
-				company.setTanNo(comp.getTanNo());
-				company.setPtNo(comp.getPtNo());
-				company.setServiceTaxNo(comp.getServiceTaxNo());
-				company.setVatNo(comp.getVatNo());
-				company.setCstNo(comp.getCstNo());
-				company.setGstNo(comp.getGstNo());
-				company.setIsPfApplicable(comp.getIsPfApplicable());
-				company.setPfNo(comp.getPfNo());
-				company.setPfCoverageDate(comp.getPfCoverageDate());
-				company.setPfSignatory1(comp.getPfSignatory1());
-				company.setPfSignatory2(comp.getPfSignatory2());
-				company.setPfSignatory3(comp.getPfSignatory3());
-				company.setIsEsicApplicable(comp.getIsEsicApplicable());
-				company.setEsicNo(comp.getEsicNo());
-				company.setEsicCoverageDate(comp.getEsicCoverageDate());
-				company.setEsicSignatory1(comp.getEsicSignatory1());
-				company.setEsicSignatory2(comp.getEsicSignatory2());
-				company.setEsicSignatory3(comp.getEsicSignatory3());
-
-				company.setCpName(comp.getCpName());
-				company.setCpDesignation(comp.getCpDesignation());
-				company.setCpMobile(comp.getCpMobile());
-				company.setCmpBankAccount(comp.getCmpBankAccount());
-				company.setCpEmail1(comp.getCpEmail1());
-				company.setCpEmail2(comp.getCpEmail2());
-
-				company.setManagerUnderAct(comp.getManagerUnderAct());
-				company.setManagerAddress(comp.getManagerAddress());
-				company.setIsActive(comp.getIsActive());
-			}
 			String img = logo.get(0).getOriginalFilename();
+			System.out.println("img " + img);
 			// logo = request.getParameter("logo");
 			try {
 
-				if (img != "" && img != null) {
+				if (img.trim() != "") {
 
-					upload.saveUploadedImge(logo.get(0), Constants.imageSaveUrl, img, Constants.allextension, 0, 0, 0,
-							0, 0);
+					Info info = upload.saveUploadedImge(logo.get(0), Constants.imageSaveUrl, img, Constants.values, 0,
+							0, 0, 0, 0);
 
-					company.setLogo(img);
+					if (info.isError() == false) {
+						comp.setLogo(img);
+					}
+
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
-			company.setDelStatus(1);
-			company.setExInt1(0);
-			company.setExInt2(0);
-			company.setExVar1("NA");
-			company.setExVar2("NA");
-			company.setMakerEnterDdatetime(currDate);
 			MstCompanySub saveComp = Constants.getRestTemplate().postForObject(Constants.url + "/saveSubNewCompany",
-					company, MstCompanySub.class);
+					comp, MstCompanySub.class);
 
 			if (saveComp != null) {
 				session.setAttribute("successMsg", "Record Updated Successfully");
@@ -761,7 +697,7 @@ public class CompanySubController {
 			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId+"&redirectFlag=1";
+		return "redirect:/editSubCompanyInfo?compId=" + encryptCompId + "&redirectFlag=1";
 
 	}
 
