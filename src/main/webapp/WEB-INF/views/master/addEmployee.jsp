@@ -2671,6 +2671,8 @@
 											function(e) {
 												var isError = false;
 												var errMsg = "";
+												
+											 
 
 												if (!$("#basic").val()
 														|| parseInt($("#basic")

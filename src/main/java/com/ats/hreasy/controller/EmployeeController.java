@@ -1498,4 +1498,58 @@ public class EmployeeController {
 		// }
 		return ret;
 	}
+	
+	
+	@RequestMapping(value = "/submitAssignHolidayCatToEmp", method = RequestMethod.POST)
+	public String submitAssignHolidayCatToEmp(HttpServletRequest request, HttpServletResponse response) {
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+
+			String shiftId = null;
+			try {
+				shiftId = request.getParameter("shiftId");
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+			// System.out.println("work date**" + workDate);
+
+			String[] empId = request.getParameterValues("empId");
+
+			StringBuilder sb = new StringBuilder();
+
+			List<Integer> empIdList = new ArrayList<>();
+
+			for (int i = 0; i < empId.length; i++) {
+				sb = sb.append(empId[i] + ",");
+				empIdList.add(Integer.parseInt(empId[i]));
+
+				// System.out.println("empId id are**" + empId[i]);
+
+			}
+
+			String items = sb.toString();
+
+			items = items.substring(0, items.length() - 1);
+
+			StringBuilder sbEmp = new StringBuilder();
+
+			// System.out.println("empId id are**" + empIdList.toString());
+			// System.out.println("shiftId id are**" + shiftId);
+
+			map.add("empIdList", items);
+			map.add("structId", shiftId);
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/salStructAssignmentUpdate", map,
+					Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "redirect:/showEmpListToAssignSalStruct";
+	}
+
 }

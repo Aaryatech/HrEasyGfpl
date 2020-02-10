@@ -97,8 +97,8 @@
 									class="text-danger">* </span>:
 								</label>
 								<div class="col-lg-10">
-									<select name="shiftId"
-										data-placeholder="Select Holiday Category" id="shiftId"
+									<select name="holiCatId"
+										data-placeholder="Select Holiday Category" id="holiCatId"
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
 										<option value="">Select Holiday Category</option>
@@ -120,11 +120,11 @@
 										<th><input type="checkbox" name="selAll" id="selAll" /></th>
 										<th>Employee Code</th>
 										<th>Employee Name</th>
-										<th>Emp Type</th>
+										<th>Employee Type</th>
 										<th>Department</th>
 										<th>Designation</th>
 										<th>Location</th>
-										<th>Salary Structure</th>
+										<th>Holiday Category</th>
 
 
 									</tr>

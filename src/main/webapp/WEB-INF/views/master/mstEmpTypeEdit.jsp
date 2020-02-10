@@ -106,8 +106,10 @@
 									action="${pageContext.request.contextPath}/submitEditMstEmpTypeAdd"
 									id="submitInsertWeeklyOff" method="post">
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="typeName">
-											Type Name<span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="typeName"> Type Name<span class="text-danger">*
+										</span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -122,9 +124,10 @@
 										name="empTypeId" id="empTypeId">
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="minWorkRule">
-											Minimum Work Hour Rule Applicable <span class="text-danger">*
-										</span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="minWorkRule"> Minimum Work Hour Rule Applicable
+											<span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="minWorkRule" data-placeholder="Please Select"
@@ -142,8 +145,10 @@
 												field is required.</span>
 										</div>
 
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="halfDayDed">
-											Half Day Deduction <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="halfDayDed"> Half Day Deduction <span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="halfDayDed" data-placeholder="Please Select"
@@ -168,13 +173,14 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="otApplicable">
-
-											OT Applicable <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="otApplicable"> OT Applicable <span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="otApplicable" data-placeholder="Please Select"
-												id="otApplicable"  onchange="setDate()"
+												id="otApplicable" onchange="setDate()"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												tabindex="-1" aria-hidden="true">
 												<option value="">Please Select</option>
@@ -191,8 +197,10 @@
 									</div>
 									<div id="abc" style="display: none;">
 										<div class="form-group row">
-											<label class="col-form-label text-info font-weight-bold col-lg-2" for="otType">
-												OT Type<span class="text-danger">* </span>:
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="otType"> OT Type<span class="text-danger">*
+											</span>:
 											</label>
 											<div class="col-lg-4">
 												<select name="otType" data-placeholder="Please Select"
@@ -203,11 +211,14 @@
 													<option value="0"
 														${employee.otType == '0' ? 'selected' : ''}>No</option>
 													<option value="1"
-														${employee.otType == '1' ? 'selected' : ''}> 1 HR of Gross Salary x 1</option>
+														${employee.otType == '1' ? 'selected' : ''}>1 HR
+														of Gross Salary x 1</option>
 													<option value="1.5"
-														${employee.otType == '1.5' ? 'selected' : ''}>1 HR of Gross Salary x 1.5</option>
+														${employee.otType == '1.5' ? 'selected' : ''}>1
+														HR of Gross Salary x 1.5</option>
 													<option value="2"
-														${employee.otType == '2' ? 'selected' : ''}> 1 HR of Gross Salary x 2</option>
+														${employee.otType == '2' ? 'selected' : ''}>1 HR
+														of Gross Salary x 2</option>
 
 
 												</select> <span class="validation-invalid-label" id="error_otType"
@@ -218,9 +229,10 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="weekOffWork">
-
-											Weekly off Holiday Work <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="weekOffWork"> Weekly off Holiday Work <span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="weekOffWork" data-placeholder="Please Select"
@@ -240,8 +252,10 @@
 												field is required.</span>
 										</div>
 
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="lateMark">
-											Late Mark Entry<span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="lateMark"> Late Mark Entry<span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="lateMark" data-placeholder="Please Select"
@@ -259,24 +273,23 @@
 										</div>
 									</div>
 
-
+									<input type="hidden" id="minHr" name="minHr" value="0">
 									<div class="form-group row">
 
 
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="minHr">
+										<!-- <label class="col-form-label text-info font-weight-bold col-lg-2" for="minHr">
 											Minimum Work Hour(in Min)<span class="text-danger">* </span>:
-										</label>
+										</label> 
 										<div class="col-lg-4">
-											<input type="text" class="form-control numbersOnly"
-												placeholder="Enter Min Hours" id="minHr" name="minHr"
-												value="${employee.minWorkHr}" autocomplete="off"
-												onchange="trim(this)" maxlength="20"> <span
+											 <span
 												class="validation-invalid-label" id="error_minHr"
 												style="display: none;">This field is required.</span>
-										</div>
+										</div>  -->
 
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="woRemarks">Remark
-											<span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="woRemarks">Remark <span class="text-danger">*
+										</span>:
 										</label>
 										<div class="col-lg-4">
 											<textarea rows="3" cols="3" class="form-control"
@@ -302,7 +315,7 @@
 										</div>
 									</div>
 								</form>
-									<p class="desc text-danger fontsize11">Notice : * Fields are
+								<p class="desc text-danger fontsize11">Notice : * Fields are
 									mandatory.</p>
 							</div>
 						</div>
@@ -373,16 +386,16 @@
 				} else {
 					$("#error_typeName").hide()
 				}
+				/* 
+				 if (!$("#minHr").val()) {
 
-				if (!$("#minHr").val()) {
+				 isError = true;
 
-					isError = true;
+				 $("#error_minHr").show()
 
-					$("#error_minHr").show()
-
-				} else {
-					$("#error_minHr").hide()
-				}
+				 } else {
+				 $("#error_minHr").hide()
+				 } */
 				if (!$("#minWorkRule").val()) {
 
 					isError = true;
@@ -403,7 +416,7 @@
 					$("#error_otApplicable").hide()
 				}
 
-				if(parseInt($("#otApplicable").val())==1){
+				if (parseInt($("#otApplicable").val()) == 1) {
 					if (!$("#otType").val()) {
 
 						isError = true;

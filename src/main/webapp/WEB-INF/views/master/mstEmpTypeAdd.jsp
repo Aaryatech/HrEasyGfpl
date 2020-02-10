@@ -243,22 +243,23 @@
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
+									<input type="hidden" id="minHr" name="minHr" value="0">
 
 
 									<div class="form-group row">
 
 
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="minHr">
+									<!-- 	<label class="col-form-label text-info font-weight-bold col-lg-2" for="minHr">
 											Minimum Work Hour(in Min)<span class="text-danger">* </span>:
-										</label>
+										</label> 
 										<div class="col-lg-4">
-											<input type="text" class="form-control numbersOnly"
-												placeholder="Enter Min Hours" id="minHr" name="minHr"
+											<input type="hidden" class="form-control numbersOnly"
+												placeholder="Enter Min Hours" id="minHr" name="minHr" value="0"
 												autocomplete="off" onchange="trim(this)" maxlength="20">
 											<span class="validation-invalid-label" id="error_minHr"
 												style="display: none;">This field is required.</span>
 										</div>
-
+-->
 										<label class="col-form-label text-info font-weight-bold col-lg-2" for="woRemarks">Remark
 											<span style="color: red">* </span>:
 										</label>
@@ -358,7 +359,7 @@
 					$("#error_typeName").hide()
 				}
 
-				if (!$("#minHr").val()) {
+				/* if (!$("#minHr").val()) {
 
 					isError = true;
 
@@ -366,7 +367,7 @@
 
 				} else {
 					$("#error_minHr").hide()
-				}
+				} */
 				if (!$("#minWorkRule").val()) {
 
 					isError = true;

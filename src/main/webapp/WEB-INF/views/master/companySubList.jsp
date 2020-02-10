@@ -99,7 +99,7 @@
 								<tr class="bg-blue">
 
 									<th width="10%">Sr. No.</th>
-									<th>Sub Company</th>
+									<th>Company Name</th>
 									<th>Short Name</th>
 									<th>Address</th>
 									<th>Contact</th>

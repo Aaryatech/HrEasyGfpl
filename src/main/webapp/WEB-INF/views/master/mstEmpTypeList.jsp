@@ -103,7 +103,7 @@
 									<th>Half Day Deduction</th>
 									<th>Weekly off Holiday Work</th>
 									<th>Minimum Work Hour Rule Applicable</th>
-									<th>Minimum Work Hour</th>
+								<!-- 	<th>Minimum Work Hour</th> -->
 									<th>OT Applicable</th>
 									<th>OT Type</th>
 									<!-- <th>Remarks</th> -->
@@ -124,7 +124,7 @@
 										<td class="text-left">${locationList.halfDay==1 ? 'Yes': locationList.halfDay==0 ? 'No'  : ''}</td>
 										<td class="text-left">${locationList.whWork}</td>
 										<td class="text-left">${locationList.minworkApplicable==1 ? 'Yes': locationList.minworkApplicable==0 ? 'No'  : ''}</td>
-										<td class="text-right">${locationList.minWorkHr}</td>
+								<%-- 		<td class="text-right">${locationList.minWorkHr}</td> --%>
 										<td class="text-left">${locationList.otApplicable==1 ? 'Yes': locationList.otApplicable==0 ? 'No'  : ''}</td>
 										<td class="text-left">${locationList.otType=='0' ? 'No': locationList.otType=='1' ? 'Yes1'  :locationList.otType=='1.5' ? 'Yes1.5'  :locationList.otType=='2' ? 'Yes2'  : ''}</td>
 									<%-- 	<td>${locationList.details}</td> --%>
