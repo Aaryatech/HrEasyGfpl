@@ -25,7 +25,8 @@ public class GetHoliday {
 	private String exVar1;
 	
 	private String exVar2;
-
+	private String hoCatName;
+	
 	public int getHolidayId() {
 		return holidayId;
 	}
@@ -131,12 +132,21 @@ public class GetHoliday {
 		this.exVar2 = exVar2;
 	}
 
+	public String getHoCatName() {
+		return hoCatName;
+	}
+
+	public void setHoCatName(String hoCatName) {
+		this.hoCatName = hoCatName;
+	}
+
 	@Override
 	public String toString() {
 		return "GetHoliday [holidayId=" + holidayId + ", calYrId=" + calYrId + ", companyId=" + companyId + ", locId="
 				+ locId + ", holidayFromdt=" + holidayFromdt + ", holidayTodt=" + holidayTodt + ", holidayRemark="
 				+ holidayRemark + ", companyName=" + companyName + ", locName=" + locName + ", calYrFromDate="
-				+ calYrFromDate + ", calYrToDate=" + calYrToDate + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
+				+ calYrFromDate + ", calYrToDate=" + calYrToDate + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ ", hoCatName=" + hoCatName + "]";
 	}
 
 }

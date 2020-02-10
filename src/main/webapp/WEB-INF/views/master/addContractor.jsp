@@ -26,10 +26,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
-
- 
-			</div>
+			<div class="page-header page-header-light"></div>
 			<!-- /page header -->
 
 
@@ -48,21 +45,22 @@
 
 
 						<div class="card">
-							 
-	<div class="card-header header-elements-inline">
- 						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Add Contractor</h5></td>
-								<td width="40%" align="right">
-							  
-								 <%-- <a
+
+							<div class="card-header header-elements-inline">
+								<table width="100%">
+									<tr width="100%">
+										<td width="60%"><h5 class="card-title">Add
+												Contractor</h5></td>
+										<td width="40%" align="right">
+											<%-- <a
 									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">KRA List </button>
-								</a>  --%></td>
-							</tr>
-						</table>
-					</div>
+								</a>  --%>
+										</td>
+									</tr>
+								</table>
+							</div>
 							<div class="card-body">
 								<%
 									if (session.getAttribute("errorMsg") != null) {
@@ -103,8 +101,9 @@
 								<form
 									action="${pageContext.request.contextPath}/insertContractor"
 									id="submitInsertLocaion" method="post">
-									<input type="hidden" value="${contract.contractorId}" id="contractorId" name="contractorId">
-									
+									<input type="hidden" value="${contract.contractorId}"
+										id="contractorId" name="contractorId">
+
 									<%-- <div class="form-group row">
 										<label class="col-form-label text-info font-weight-bold col-lg-2" for="service">Service
 											 <span class="text-danger">* </span>:</label>
@@ -118,150 +117,176 @@
 									</div> --%>
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="organisation">Organization
-											 <span class="text-danger">* </span>:</label>
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="organisation">Organization <span
+											class="text-danger">* </span>:
+										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Enter Organisation Name" id="organisation" value="${contract.orgName}"
-												name="organisation" autocomplete="off" onchange="trim(this)"
-												maxlength="10"> <span
-												class="validation-invalid-label" id="error_organisation"
-												style="display: none;">This field is required.</span>
+												placeholder="Enter Organisation Name" id="organisation"
+												value="${contract.orgName}" name="organisation"
+												autocomplete="off" onchange="trim(this)">
+											<span class="validation-invalid-label"
+												id="error_organisation" style="display: none;">This
+												field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="desination">Licence No.
-											 <span class="text-danger"> </span>:</label>
+										<label class="col-form-label col-lg-2" for="desination">Licence
+											No. <span class="text-danger"> </span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${contract.licenceNo}"
+											<input type="text" class="form-control"
+												value="${contract.licenceNo}"
 												placeholder="Enter Licence No." id="licenceNo"
 												name="licenceNo" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_licenceNo"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="vat">GST No.
-											 <span class="text-danger"></span>:</label>
+										<label class="col-form-label col-lg-2" for="vat">GST
+											No. <span class="text-danger"></span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${contract.vatNo}"
-												placeholder="Enter GST No." id="vat"  maxlength="25"
-												name="vat" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_vat"
+											<input type="text" class="form-control"
+												value="${contract.vatNo}" placeholder="Enter GST No."
+												id="vat" maxlength="25" name="vat" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_vat"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="pan">PAN No.
-											 <span class="text-danger"> </span>:</label>
+										<label class="col-form-label col-lg-2" for="pan">PAN
+											No. <span class="text-danger"> </span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${contract.panNo}"
-												placeholder="Enter PAN No." id="panNo" maxlength="10" style="text-transform: uppercase;"
+											<input type="text" class="form-control"
+												value="${contract.panNo}" placeholder="Enter PAN No."
+												id="panNo" maxlength="10" style="text-transform: uppercase;"
 												name="panNo" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_pan"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="pf">PF.No.
-											 <span class="text-danger"> </span>:</label>
+											<span class="text-danger"> </span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${contract.pfNo}"
-												placeholder="Enter PF. No." id="pf" maxlength="25"
-												name="pf" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_pf"
+											<input type="text" class="form-control"
+												value="${contract.pfNo}" placeholder="Enter PF. No." id="pf"
+												maxlength="25" name="pf" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_pf"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="esic">ESIC No.
-											 <span class="text-danger"> </span>:</label>
+										<label class="col-form-label col-lg-2" for="esic">ESIC
+											No. <span class="text-danger"> </span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${contract.esicNo}"
-												placeholder="Enter ESIC No." id="esic"  maxlength="25"
-												name="esic" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_esic"
+											<input type="text" class="form-control"
+												value="${contract.esicNo}" placeholder="Enter ESIC No."
+												id="esic" maxlength="25" name="esic" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_esic"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="address">Address
-											 <span class="text-danger"></span>:</label>
+											<span class="text-danger"></span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${contract.address}"
-												placeholder="Enter Address" id="address"
-												name="address" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_address"
+											<input type="text" class="form-control"
+												value="${contract.address}" placeholder="Enter Address"
+												id="address" name="address" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_address"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="officeNo">Office No.
-											 <span class="text-danger"> </span>:</label>
+										<label class="col-form-label col-lg-2" for="officeNo">Office
+											No. <span class="text-danger"> </span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${contract.officeNo}"
-												placeholder="Enter Office No." id="officeNo"  maxlength="25"
-												name="officeNo" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_officeNo"
+											<input type="text" class="form-control"
+												value="${contract.officeNo}" placeholder="Enter Office No."
+												id="officeNo" maxlength="25" name="officeNo"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_officeNo"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="email">Email
-											 <span class="text-danger"> </span>:</label>
+											<span class="text-danger"> </span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${contract.email}"
-												placeholder="Enter Email" id="email"
-												name="email" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_email"
+											<input type="text" class="form-control"
+												value="${contract.email}" placeholder="Enter Email"
+												id="email" name="email" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_email"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="owner">Owner Name
-											 <span class="text-danger"></span>:</label>
+										<label class="col-form-label col-lg-2" for="owner">Owner
+											Name <span class="text-danger"></span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${contract.owner}"
-												placeholder="Enter Owner" id="owner"
-												name="owner" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_owner"
+											<input type="text" class="form-control"
+												value="${contract.owner}" placeholder="Enter Owner"
+												id="owner" name="owner" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_owner"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="mobileNo">Mob No.
-											 <span class="text-danger"> </span>:</label>
+										<label class="col-form-label col-lg-2" for="mobileNo">Mob
+											No. <span class="text-danger"> </span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${contract.mobileNo}"
-												placeholder="Enter Mobile No." id="mobileNo" maxlength="10"
-												name="mobileNo" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_mobileNo"
+											<input type="text" class="form-control"
+												value="${contract.mobileNo}" placeholder="Enter Mobile No."
+												id="mobileNo" maxlength="10" name="mobileNo"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_mobileNo"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="desination">Duration
-											 <span class="text-danger"> </span>:</label>
+											<span class="text-danger"> </span>:
+										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control" value="${contract.duration}"
-												placeholder="Enter Duration" id="duration"
-												name="duration" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_duration"
+											<input type="text" class="form-control"
+												value="${contract.duration}" placeholder="Enter Duration"
+												id="duration" name="duration" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_duration"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="remark">Remark
 											: </label>
@@ -275,13 +300,17 @@
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
-										
+
 											<button type="submit" class="btn bg-blue ml-3 legitRipple"
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a href="${pageContext.request.contextPath}/showContractorsList"><button
-										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Back</button></a>
+											<a
+												href="${pageContext.request.contextPath}/showContractorsList"><button
+													type="button" class="btn btn-light">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Back
+												</button></a>
 										</div>
 									</div>
 								</form>
@@ -309,12 +338,11 @@
 	<!-- /page content -->
 
 	<script>
-	 
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
 			replace(/\n +/, "\n"); // Removes spaces after newlines
-		//	checkSame();
+			//	checkSame();
 			return;
 		}
 
@@ -344,13 +372,13 @@
 
 		}
 		function validatePAN(pan) {
-			 var regex1=/^[A-Z]{5}\d{4}[A-Z]{1}$/;
+			var regex1 = /^[A-Z]{5}\d{4}[A-Z]{1}$/;
 			if (regex1.test($.trim(pan)) == false) {
 				return false;
 			}
 			return true;
 		}
-	 $(document)
+		$(document)
 				.ready(
 						function($) {
 
@@ -359,8 +387,8 @@
 											function(e) {
 												var isError = false;
 												var errMsg = "";
- 
-												 if (!$("#organisation").val()) { 
+
+												if (!$("#organisation").val()) {
 
 													isError = true;
 
@@ -371,7 +399,7 @@
 													$("#error_organisation")
 															.hide()
 												}
-												
+
 												/*  if (!$("#licenceNo").val()) { 
 
 													isError = true;
@@ -396,19 +424,19 @@
 															.hide()
 												}
 												 */
-											 if($("#panNo").val().length >0 ){
-												 if (!$("#panNo").val()	|| !validatePAN($(
-													"#panNo")
-													.val())) {
-														
-														isError = true;													
+												if ($("#panNo").val().length > 0) {
+													if (!$("#panNo").val()
+															|| !validatePAN($(
+																	"#panNo")
+																	.val())) {
+
+														isError = true;
 														$("#error_pan").show()
 													} else {
 														$("#error_pan").hide()
 													}
-											 }
-												
-												
+												}
+
 												/* if (!$("#pf").val()) { 
 													isError = true;
 
@@ -450,60 +478,60 @@
 															.hide()
 												}
 												 */
-												
-												if($("#mobileNo").val().length>0){
-												if (!$("#mobileNo").val()
-														|| !validateMobile($(
-																"#mobileNo")
-																.val())) {
 
-													isError = true;
-													$("#error_mobileNo")
-															.show()
+												if ($("#mobileNo").val().length > 0) {
+													if (!$("#mobileNo").val()
+															|| !validateMobile($(
+																	"#mobileNo")
+																	.val())) {
 
-												} else {
-													$("#error_mobileNo")
-															.hide()
+														isError = true;
+														$("#error_mobileNo")
+																.show()
+
+													} else {
+														$("#error_mobileNo")
+																.hide()
+													}
 												}
-												}
-												
-												if($("#email").val().length > 0){
+
+												if ($("#email").val().length > 0) {
 													if (!$("#email").val()
 															|| !validateEmail($(
-																	"#email").val())) {
+																	"#email")
+																	.val())) {
 
 														isError = true;
 
-
-														$("#error_email").show()
+														$("#error_email")
+																.show()
 
 													} else {
-														$("#error_email").hide()
+														$("#error_email")
+																.hide()
 													}
 												}
-												
-											
-										/* 	if (!$("#owner").val()) { 
-													isError = true;
 
-													$("#error_owner")
-															.show()
+												/* 	if (!$("#owner").val()) { 
+															isError = true;
 
-												} else {
-													$("#error_owner")
-															.hide()
-												} */
-										/* 	if (!$("#duration").val()) { 
-													isError = true;
+															$("#error_owner")
+																	.show()
 
-													$("#error_duration")
-															.show()
+														} else {
+															$("#error_owner")
+																	.hide()
+														} */
+												/* 	if (!$("#duration").val()) { 
+															isError = true;
 
-												} else {
-													$("#error_duration")
-															.hide()
-												}  */
-												
+															$("#error_duration")
+																	.show()
+
+														} else {
+															$("#error_duration")
+																	.hide()
+														}  */
 
 												if (!isError) {
 
@@ -521,7 +549,7 @@
 						});
 		//
 	</script>
-	
+
 	<!-- <script type="text/javascript">
 	$('#submtbtn').on('click', function() {
         swalInit({

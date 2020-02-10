@@ -286,11 +286,8 @@
 												style="display: none;">This field is required.</span>
 										</div>  -->
 
-										<label
-											class="col-form-label text-info font-weight-bold col-lg-2"
-											for="woRemarks">Remark <span class="text-danger">*
-										</span>:
-										</label>
+										<label class="col-form-label col-lg-2" for="woRemarks">Remark
+											: </label>
 										<div class="col-lg-4">
 											<textarea rows="3" cols="3" class="form-control"
 												placeholder="Any Remark" onchange="trim(this)"
@@ -456,16 +453,6 @@
 
 				} else {
 					$("#error_halfDayDed").hide()
-				}
-
-				if (!$("#woRemarks").val()) {
-
-					isError = true;
-
-					$("#error_woRemarks").show()
-
-				} else {
-					$("#error_woRemarks").hide()
 				}
 
 				if (!isError) {

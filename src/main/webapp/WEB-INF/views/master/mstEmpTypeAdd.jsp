@@ -106,8 +106,10 @@
 									action="${pageContext.request.contextPath}/submitMstEmpTypeAdd"
 									id="submitInsertWeeklyOff" method="post">
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="typeName">
-											Type Name<span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="typeName"> Type Name<span class="text-danger">*
+										</span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -119,9 +121,10 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="minWorkRule">
-											Minimum Work Hour Rule Applicable <span class="text-danger">*
-										</span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="minWorkRule"> Minimum Work Hour Rule Applicable
+											<span class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="minWorkRule" data-placeholder="Please Select"
@@ -139,8 +142,10 @@
 												field is required.</span>
 										</div>
 
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="halfDayDed">
-											Half Day Deduction <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="halfDayDed"> Half Day Deduction <span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="halfDayDed" data-placeholder="Please Select"
@@ -163,9 +168,10 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="otApplicable">
-
-											OT Applicable <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="otApplicable"> OT Applicable <span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="otApplicable" data-placeholder="Please Select"
@@ -182,12 +188,14 @@
 												id="error_otApplicable" style="display: none;">This
 												field is required.</span>
 										</div>
-										</div>
-										<div id="abc" style="display: none;">
-									<div class="form-group row">
+									</div>
+									<div id="abc" style="display: none;">
+										<div class="form-group row">
 
-											<label class="col-form-label text-info font-weight-bold col-lg-2" for="otType">
-												OT Type<span class="text-danger">* </span>:
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="otType"> OT Type<span class="text-danger">*
+											</span>:
 											</label>
 											<div class="col-lg-4">
 												<select name="otType" data-placeholder="Please Select"
@@ -197,8 +205,8 @@
 													<option value="">Please Select</option>
 													<option value="0">No</option>
 													<option value="1">1 HR of Gross Salary x 1</option>
-													<option value="1.5"> 1 HR of Gross Salary x 1.5</option>
-													<option value="2"> 1 HR of Gross Salary x 2</option>
+													<option value="1.5">1 HR of Gross Salary x 1.5</option>
+													<option value="2">1 HR of Gross Salary x 2</option>
 
 												</select> <span class="validation-invalid-label" id="error_otType"
 													style="display: none;">This field is required.</span>
@@ -208,9 +216,10 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="weekOffWork">
-
-											Weekly off Holiday Work <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="weekOffWork"> Weekly off Holiday Work <span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="weekOffWork" data-placeholder="Please Select"
@@ -227,8 +236,10 @@
 												field is required.</span>
 										</div>
 
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="lateMark">
-											Late Mark Entry<span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="lateMark"> Late Mark Entry<span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="lateMark" data-placeholder="Please Select"
@@ -249,7 +260,7 @@
 									<div class="form-group row">
 
 
-									<!-- 	<label class="col-form-label text-info font-weight-bold col-lg-2" for="minHr">
+										<!-- 	<label class="col-form-label text-info font-weight-bold col-lg-2" for="minHr">
 											Minimum Work Hour(in Min)<span class="text-danger">* </span>:
 										</label> 
 										<div class="col-lg-4">
@@ -260,9 +271,8 @@
 												style="display: none;">This field is required.</span>
 										</div>
 -->
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="woRemarks">Remark
-											<span style="color: red">* </span>:
-										</label>
+										<label class="col-form-label  col-lg-2" for="woRemarks">Remark
+											: </label>
 										<div class="col-lg-4">
 											<textarea rows="3" cols="3" class="form-control"
 												placeholder="Any Remark" onchange="trim(this)"
@@ -287,7 +297,7 @@
 										</div>
 									</div>
 								</form>
-									<p class="desc text-danger fontsize11">Notice : * Fields are
+								<p class="desc text-danger fontsize11">Notice : * Fields are
 									mandatory.</p>
 							</div>
 						</div>
@@ -388,7 +398,7 @@
 					$("#error_otApplicable").hide()
 				}
 
-				if(parseInt($("#otApplicable").val())==1){
+				if (parseInt($("#otApplicable").val()) == 1) {
 					if (!$("#otType").val()) {
 
 						isError = true;
@@ -400,7 +410,7 @@
 					}
 
 				}
-				
+
 				if (!$("#weekOffWork").val()) {
 
 					isError = true;
@@ -430,15 +440,7 @@
 					$("#error_halfDayDed").hide()
 				}
 
-				if (!$("#woRemarks").val()) {
-
-					isError = true;
-
-					$("#error_woRemarks").show()
-
-				} else {
-					$("#error_woRemarks").hide()
-				}
+				 
 
 				if (!isError) {
 
