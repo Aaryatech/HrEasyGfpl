@@ -307,9 +307,9 @@ public class EmployeeController {
 			redirect = "redirect:/accessDenied";
 
 		} else {
-
+			int empId = Integer.parseInt(request.getParameter("empId"));
 			try {
-				int empId = 0;
+				 
 				int contract = 0;
 				int deptId = 0;
 				int desigId = 0;
@@ -606,9 +606,12 @@ public class EmployeeController {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				String empEncryptId = FormValidation.Encrypt(String.valueOf(empId)); 
+				redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
 			}
 		}
 		// System.out.println("Success----------------" + empSave);
+		
 		return redirect;
 
 	}

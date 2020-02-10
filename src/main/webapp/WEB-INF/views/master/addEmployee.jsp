@@ -2319,7 +2319,8 @@
 													$("#error_plCalcBase")
 															.hide()
 												}
-
+												
+											 
 												if (!$("#subCmpId").val()) {
 
 													isError = true;
@@ -2335,10 +2336,7 @@
 												if (isVisible == true) {
 													  
 													isError = true;
-											    } else {
-											    	 isError = false;
-											    }
-
+											    }  
 												if (!$("#empCode").val()) {
 
 													isError = true;
