@@ -95,7 +95,7 @@
 									action="${pageContext.request.contextPath}/submitShiftTiming"
 									id="submitShiftTiming" method="post">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="locId">Select
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="locId">Select
 											Location <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -119,7 +119,7 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="shiftName">Shift
+										<label class="col-form-label text-info font-weight-bold  col-lg-2" for="shiftName">Shift
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -132,7 +132,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="intime">In
+										<label class="col-form-label text-info font-weight-bold  col-lg-2" for="intime">In
 											Time<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -144,7 +144,7 @@
 									</div>
 									 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="outtime">Out
+										<label class="col-form-label text-info font-weight-bold  col-lg-2" for="outtime">Out
 											Time<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -156,7 +156,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="hfdayhour">Shift
+										<label class="col-form-label text-info font-weight-bold  col-lg-2" for="hfdayhour">Shift
 											Half Day Hour<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -168,7 +168,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="othour">Shift
+										<label class="col-form-label text-info font-weight-bold col-lg-2 text-info font-weight-bold" for="othour">Shift
 											OT Hour<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -181,7 +181,7 @@
 									 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="lateMin">Late
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="lateMin">Late
 											Allowed in MIN <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -193,7 +193,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="groupId">Select
+										<label class="col-form-label text-info font-weight-bold  col-lg-2" for="groupId">Select
 											Group <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -212,7 +212,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="ischange">Is
+										<label class="col-form-label   text-info font-weight-bold col-lg-2" for="ischange">Is
 											Changeable<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-2">
