@@ -49,7 +49,8 @@
 							<div class="card-header header-elements-inline">
 								<table width="100%">
 									<tr width="100%">
-										<td width="60%"><h5 class="card-title">Add Self Group</td>
+										<td width="60%"><h5 class="card-title">Add Shift
+												Group</td>
 										<td width="40%" align="right">
 											<%-- <a
 									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
@@ -101,12 +102,14 @@
 									action="${pageContext.request.contextPath}/submitInsertSelfGrp"
 									id="submitInsertLocaion" method="post">
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="locName">Self Group
-											Name <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="locName">Shift Group Name <span
+											class="text-danger">*</span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Enter Self Group Name" id="grpName"
+												placeholder="Enter Shift Group Name" id="grpName"
 												name="grpName" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_grpName"
 												style="display: none;">This field is required.</span>
@@ -150,7 +153,7 @@
 
 	</div>
 	<!-- /page content -->
-<script>
+	<script>
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
@@ -158,7 +161,7 @@
 			//checkSame();
 			return;
 		}
-</script>
+	</script>
 	<script>
 		$(document).ready(function($) {
 

@@ -98,41 +98,43 @@
 								<tr class="bg-blue">
 
 									<th width="10%">Sr. No.</th>
-									<th>Emp Code </th>
-									<th>Employee Name</th>
+									<th>Emp Code</th>
+									<th>Name</th>
+									<th>Emp Type</th>
+									<th>Dept.</th>
+									<th>Desig</th>
 									<th>Location</th>
-									<!-- <th>MICR Code</th>
-									<th>IFSC_Code</th> -->
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
 
 
-								<c:forEach items="${empList}" var="empList"
-									varStatus="count">
+								<c:forEach items="${empList}" var="empList" varStatus="count">
 									<tr>
-										 <td>${count.index+1}</td>
+										<td>${count.index+1}</td>
 										<td>${empList.empCode}</td>
-										<td>${empList.firstName} ${empList.middleName} ${empList.surname}</td>
-											<td>${empList.locName}</td>
+										<td>${empList.firstName}&nbsp;${empList.middleName}&nbsp;${empList.surname}</td>
+										<td>${empList.empTypeName}</td>
+										<td>${empList.deptName}</td>
+										<td>${empList.empDesgn}</td>
+										<td>${empList.locName}</td>
 										<%-- <td>${empList.micrCode}</td>
 										<td>${empList.ifscCode}</td>  --%>
-										
+
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a
 													href="${pageContext.request.contextPath}/employeeEdit?empId=${empList.exVar1}"
-													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
-													 ></i></a>
+													class="list-icons-item text-primary-600"
+													data-popup="tooltip" title="" data-original-title="Edit"><i
+													class="icon-pencil7"></i></a>
 											</c:if> <c:if test="${deleteAccess == 0}">
-											 
-											<a href="javascript:void(0)"
+
+												<a href="javascript:void(0)"
 													class="list-icons-item text-danger-600 bootbox_custom"
-													data-uuid="${empList.exVar1}" data-popup="tooltip"
-													title="" data-original-title="Delete"><i
-													class="icon-trash"></i></a>
-											</c:if>
-											<%-- <a	href="${pageContext.request.contextPath}/showEmpGraphs?empId=${empList.exVar1}"
+													data-uuid="${empList.exVar1}" data-popup="tooltip" title=""
+													data-original-title="Delete"><i class="icon-trash"></i></a>
+											</c:if> <%-- <a	href="${pageContext.request.contextPath}/showEmpGraphs?empId=${empList.exVar1}"
 													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Graphs & Reports"><i class="icon-pencil7"
 													 ></i></a> --%></td>
 									</tr>
@@ -159,14 +161,15 @@
 
 	</div>
 	<!-- /page content -->
-<script>
+	<script>
 		// Custom bootbox dialog
 		$('.bootbox_custom')
 				.on(
 						'click',
 						function() {
 							var uuid = $(this).data("uuid") // will return the number 123
-										bootbox.confirm({
+							bootbox
+									.confirm({
 										title : 'Confirm ',
 										message : 'Are you sure you want to delete selected records ?',
 										buttons : {

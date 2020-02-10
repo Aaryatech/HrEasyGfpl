@@ -8,6 +8,7 @@
 <c:url var="getShiftListByLocationIdAndSelftGroupId"
 	value="/getShiftListByLocationIdAndSelftGroupId" />
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
+  
 </head>
 
 <body>
@@ -136,7 +137,7 @@
 											Time<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-											<input type="time" class="form-control" id="intime" data-mask="99:99"
+											<input type="time" class="form-control timehour24 " id="intime" data-mask="23:59"
 												name="intime" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_intime"
 												style="display: none;">This field is required.</span>
@@ -148,7 +149,7 @@
 											Time<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-											<input type="time" class="form-control" id="outtime" data-mask="99:99"
+											<input type="time" class="form-control timehour24" id="outtime" data-mask="23:59"
 												name="outtime" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_outtime"
 												style="display: none;">This field is required.</span>
@@ -160,7 +161,7 @@
 											Half Day Hour<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-											<input type="time" class="form-control" id="hfdayhour" data-mask="99:99"
+											<input type="time" class="form-control timehour24" id="hfdayhour" data-mask="23:59"
 												name="hfdayhour" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_hfdayhour"
 												style="display: none;">This field is required.</span>
@@ -172,7 +173,7 @@
 											OT Hour<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-											<input type="time" class="form-control" id="othour" data-mask="99:99"
+											<input type="time" class="form-control timehour24" id="othour" data-mask="23:59"
 												name="othour" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_othour"
 												style="display: none;">This field is required.</span>
@@ -273,6 +274,11 @@
 	<!-- /page content -->
 
 	<script>
+	
+	 // Time picker
+    $('.timehour24').AnyTime_picker({
+        format: '%H:%i'
+    });
 		function changeIsChange() {
 
 			if (document.getElementById("ischange").checked == true) {
