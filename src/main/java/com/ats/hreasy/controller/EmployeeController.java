@@ -1506,9 +1506,9 @@ public class EmployeeController {
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
 
-			String shiftId = null;
+			String holiCatId = null;
 			try {
-				shiftId = request.getParameter("shiftId");
+				holiCatId = request.getParameter("holiCatId");
 			} catch (Exception e) {
 				e.printStackTrace();
 
@@ -1539,9 +1539,9 @@ public class EmployeeController {
 			// System.out.println("shiftId id are**" + shiftId);
 
 			map.add("empIdList", items);
-			map.add("structId", shiftId);
+			map.add("holiCatId", holiCatId);
 
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/salStructAssignmentUpdate", map,
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/holiCatAssignmentUpdate", map,
 					Info.class);
 
 		} catch (Exception e) {
@@ -1549,7 +1549,7 @@ public class EmployeeController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/showEmpListToAssignSalStruct";
+		return "redirect:/assignHolidayCategory";
 	}
 
 }

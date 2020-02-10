@@ -42,8 +42,8 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee Salary
-										Structure Assignment</h5></td>
+								<td width="60%"><h5 class="card-title">Employee Holiday
+										Category Assignment</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
@@ -87,7 +87,7 @@
 							}
 						%>
 						<form
-							action="${pageContext.request.contextPath}/submitAssignSalStructToEmp"
+							action="${pageContext.request.contextPath}/submitAssignHolidayCatToEmp"
 							id="submitInsertEmp" method="post">
 
 							<div class="form-group row">
@@ -144,8 +144,7 @@
 											<td>${empdetList.empTypeName}</td>
 											<td>${empdetList.deptName}</td>
 											<td>${empdetList.empDesgn}</td>
-
-											<td>${empdetList.locName}</td>
+ 											<td>${empdetList.locName}</td>
 											<td>${empdetList.salTypeName}</td>
 
 										</tr>
@@ -191,7 +190,7 @@
 
 				var isError = false;
 				var errMsg = "";
-				var shiftId = $("#shiftId").val();
+				var holiCatId = $("#holiCatId").val();
 
 				var checked = $("#submitInsertEmp input:checked").length > 0;
 				if (!checked) {
@@ -202,7 +201,7 @@
 					isError = false;
 				}
 				//alert("checked" +checked);
-				if (shiftId == null || shiftId == "") {
+				if (holiCatId == null || holiCatId == "") {
 					isError = true;
 					$("#error_shiftId").show()
 				} else {
