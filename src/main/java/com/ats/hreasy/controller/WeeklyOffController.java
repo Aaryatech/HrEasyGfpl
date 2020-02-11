@@ -45,7 +45,7 @@ public class WeeklyOffController {
 	String locId = "0";
 	String month = "0";
 	String year = "0";
-
+	String weekoffCatId="0";
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date now = new Date();
 	String curDate = dateFormat.format(new Date());
@@ -466,7 +466,7 @@ public class WeeklyOffController {
 				locId = "0";
 				month = "0";
 				year = "0";
-
+				weekoffCatId="0";
 				try {
 					locId = request.getParameter("locId");
 
@@ -484,6 +484,14 @@ public class WeeklyOffController {
 
 				} catch (Exception e) {
 					year = "0";
+				}
+				
+				
+				try {
+					weekoffCatId = request.getParameter("weekoffCatId");
+
+				} catch (Exception e) {
+					weekoffCatId = "0";
 				}
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -503,13 +511,15 @@ public class WeeklyOffController {
 				model.addObject("locId", locId);
 				model.addObject("month", (month));
 				model.addObject("year", (year));
+				model.addObject("weekoffCatId", weekoffCatId);
 
 				map = new LinkedMultiValueMap<>();
 				map.add("companyId", 1);
 				map.add("month", Integer.parseInt(month));
 				map.add("year", Integer.parseInt(year));
 				map.add("locId", Integer.parseInt(locId));
-
+				map.add("weekoffCatId", Integer.parseInt(weekoffCatId));
+				
 				String[] strArr = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getWeeklyOffDatesToChange", map, String[].class);
 
