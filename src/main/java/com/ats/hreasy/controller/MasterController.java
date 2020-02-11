@@ -32,6 +32,7 @@ import com.ats.hreasy.model.LeaveType;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.SelfGroup;
+import com.ats.hreasy.model.WeekoffCategory;
 import com.ats.hreasy.model.Bonus.BonusMaster;
 
 @Controller
@@ -988,6 +989,273 @@ public class MasterController {
 
 	}
 
+	
+ 	
+	
+	
+	//***************************Weekoff Category*************************
+	
+	
+		WeekoffCategory editWeekCat =new WeekoffCategory();
+
+		@RequestMapping(value = "/weekoffCategoryAdd", method = RequestMethod.GET)
+		public String weekoffCategoryAdd(HttpServletRequest request, HttpServletResponse response,Model model) {
+
+			HttpSession session = request.getSession();
+		 String mav=null;
+
+			try {
+
+				/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+				Info view = AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0, newModuleList);
+
+				if (view.isError() == true) {
+
+					model = new ModelAndView("accessDenied");
+
+				} else {*/
+				
+				WeekoffCategory holi=new WeekoffCategory();
+					mav = "master/weekoffCategoryAdd";
+	 				model.addAttribute("title","Add Weekoff Category");
+	 				model.addAttribute("holi",holi);
+				/*}*/
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return mav;
+		}
+
+		@RequestMapping(value = "/submitInsertWeekoffCategory", method = RequestMethod.POST)
+		public String submitInsertWeekoffCategory(HttpServletRequest request, HttpServletResponse response) {
+
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+			String a = new String(); 
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0,
+			 * newModuleList); if (view.isError() == true) {
+			 * 
+			 * a = "redirect:/accessDenied";
+			 * 
+			 * } else {
+			 */
+				a = "redirect:/showWeekoffCatList";
+				try {
+
+					Date date = new Date();
+					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+					String woShortName = request.getParameter("woShortName");
+					String woCatName = request.getParameter("woCatName");
+					String remark = request.getParameter("remark");
+					
+					int  woCatId = Integer.parseInt(request.getParameter("woCatId"));
+					 
+					Boolean ret = false;
+
+					if (FormValidation.Validaton(woShortName, "") == true) {
+
+						ret = true;
+						System.out.println("woShortName" + ret);
+					}
+					if (FormValidation.Validaton(woCatName, "") == true) {
+
+						ret = true;
+						System.out.println("hoShortName" + ret);
+					}
+					 
+
+					if (ret == false) {
+
+						WeekoffCategory location = new WeekoffCategory();
+						
+						location.setWoCatId(woCatId);
+						location.setWoCatName(woCatName);
+						location.setWoCatShortName(woShortName);
+						location.setRemark(remark);
+						
+						
+	 					location.setCompanyId(1);
+	 					location.setExInt1(0);
+						location.setExInt2(0);;
+	 					location.setIsActive(1);
+						location.setDelStatus(1);
+						location.setMakerUserId(userObj.getUserId());
+	 					location.setMakerEnterDatetime(sf.format(date));
+	 					
+	 					location.setExVar2("");;
+						location.setExVar1("");
+
+						WeekoffCategory res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeekoffCat", location,
+								WeekoffCategory.class);
+
+						if (res != null) {
+							if(woCatId==0) {
+								session.setAttribute("successMsg", "Weekoff Category Inserted Successfully");
+							}else {
+								session.setAttribute("successMsg", "Weekoff Category Updated Successfully");
+
+							}
+							
+						} else {
+							session.setAttribute("errorMsg", "Failed to Insert Record");
+						}
+
+					} else {
+						session.setAttribute("errorMsg", "Failed to Insert Record");
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+			//}
+
+			return a;
+		}
+
+		@RequestMapping(value = "/showWeekoffCatList", method = RequestMethod.GET)
+		public ModelAndView showWeekoffCatList(HttpServletRequest request, HttpServletResponse response) {
+
+			HttpSession session = request.getSession();
+			// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+			ModelAndView model = null;
+
+			try {
+
+				/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+				Info view = AcessController.checkAccess("showLocationList", "showLocationList", 1, 0, 0, 0, newModuleList);
+
+				if (view.isError() == true) {
+
+					model = new ModelAndView("accessDenied");
+
+				} else {*/
+
+					model = new ModelAndView("master/weekoffCatList");
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("companyId", 1);
+					WeekoffCategory[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getWeekoffCategoryList", map,
+							WeekoffCategory[].class);
+
+					List<WeekoffCategory> locationList = new ArrayList<WeekoffCategory>(Arrays.asList(location));
+
+					for (int i = 0; i < locationList.size(); i++) {
+
+						locationList.get(i)
+								.setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getWoCatId())));
+					}
+
+				 
+					model.addObject("holiList", locationList);
+
+				/*
+				 * Info add = AcessController.checkAccess("showLocationList",
+				 * "showLocationList", 0, 1, 0, 0, newModuleList); Info edit =
+				 * AcessController.checkAccess("showLocationList", "showLocationList", 0, 0, 1,
+				 * 0, newModuleList); Info delete =
+				 * AcessController.checkAccess("showLocationList", "showLocationList", 0, 0, 0,
+				 * 1, newModuleList);
+				 * 
+				 * if (add.isError() == false) { System.out.println(" add   Accessable ");
+				 * model.addObject("addAccess", 0);
+				 * 
+				 * } if (edit.isError() == false) { System.out.println(" edit   Accessable ");
+				 * model.addObject("editAccess", 0); } if (delete.isError() == false) {
+				 * System.out.println(" delete   Accessable "); model.addObject("deleteAccess",
+				 * 0);
+				 * 
+				 * }
+				 * 
+				 * }
+				 */
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return model;
+		}
+
+		@RequestMapping(value = "/deleteWeekoffCat", method = RequestMethod.GET)
+		public String deleteWeekoffCat(HttpServletRequest request, HttpServletResponse response) {
+
+			HttpSession session = request.getSession();
+			String a = null;
+
+			try {
+	/*
+				List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+
+				Info view = AcessController.checkAccess("deleteLocation", "showLocationList", 0, 0, 0, 1, newModuleList);
+				if (view.isError() == true) {
+
+					a = "redirect:/accessDenied";
+
+				}
+
+				else {
+	*/
+					a = "redirect:/showWeekoffCatList";
+
+					String base64encodedString = request.getParameter("woCatId");
+					String woCatId = FormValidation.DecodeKey(base64encodedString);
+
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("woCatId", woCatId);
+					Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteWeekoffCategory", map,
+							Info.class);
+
+					if (info.isError() == false) {
+						session.setAttribute("successMsg", info.getMsg());
+					} else {
+						session.setAttribute("errorMsg", info.getMsg());
+					}
+				//}
+			} catch (Exception e) {
+				e.printStackTrace();
+				session.setAttribute("errorMsg", "Failed to Delete");
+			}
+			return a;
+		}
+
+		
+		
+		@RequestMapping(value = "/editWeekoffCat", method = RequestMethod.GET)
+		public String editWeekoffCat(HttpServletRequest request, HttpServletResponse response, HttpSession session,Model model) {
+			 
+			 String mav=null;
+
+			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("editDesignation", "showDesignationList", 0, 0, 1, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {*/
+				try {
+					mav = "master/weekoffCategoryAdd";
+
+					String base64encodedString = request.getParameter("woCatId");
+					String woCatId = FormValidation.DecodeKey(base64encodedString);
+
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("woCatId", woCatId);
+					editWeekCat = Constants.getRestTemplate().postForObject(Constants.url + "/deleteWeekoffCategory", map,
+							WeekoffCategory.class);
+					model.addAttribute("holi", editWeekCat);
+					model.addAttribute("title", "Edit Weekoff Category");
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			 
+			return mav ;
+
+		}
 
 
 }

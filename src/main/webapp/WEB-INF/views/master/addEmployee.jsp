@@ -2319,8 +2319,7 @@
 													$("#error_plCalcBase")
 															.hide()
 												}
-												
-												alert($("#subCmpId").val());
+												 
 
 												if (!$("#subCmpId").val()) {
 
