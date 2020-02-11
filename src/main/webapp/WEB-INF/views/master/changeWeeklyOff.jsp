@@ -98,7 +98,7 @@
 									for="locId">Select Location <span class="text-danger">*
 								</span>:
 								</label>
-								<div class="col-lg-10">
+								<div class="col-lg-4">
 									<select name="locId" data-placeholder="Select Location"
 										id="locId" class="form-control form-control-sm select"
 										data-container-css-class="select-sm" data-fouc>
@@ -118,6 +118,40 @@
 
 										</c:forEach>
 									</select> <span class="validation-invalid-label" id="error_locId"
+										style="display: none;">This field is required.</span>
+								</div>
+								
+								
+								
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="locId"> Select Weekoff Category <span
+									class="text-danger">* </span>:
+								</label>
+								<div class="col-lg-4">
+									<select name="holiCatId"
+										data-placeholder="Select Weekoff Category" id="holiCatId"
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
+										<option value="">Select Weekoff Category</option>
+										
+										
+										<c:forEach items="${holiList}" var="holiList">
+										<c:choose>
+										<c:when test="">
+											<option value="${holiList.woCatId}">${holiList.woCatName}</option>
+										</c:when>
+										<c:otherwise>
+										
+																					<option value="${holiList.woCatId}">${holiList.woCatName}</option>
+										
+										
+										</c:otherwise>
+										
+											</c:choose>
+										</c:forEach>
+									
+									</select> <span class="validation-invalid-label" id="error_holiCatId"
 										style="display: none;">This field is required.</span>
 								</div>
 							</div>
@@ -390,7 +424,20 @@
 				} else {
 					$("#error_locId").hide()
 				}
+				
+				
+				if (!$("#holiCatId").val()) {
 
+					isError = true;
+
+					$("#error_holiCatId").show()
+
+				} else {
+					$("#error_holiCatId").hide()
+				}
+
+				
+				
 				if (!$("#month").val()) {
 
 					isError = true;

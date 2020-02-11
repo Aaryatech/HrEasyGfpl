@@ -27,10 +27,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
-
- 
-			</div>
+			<div class="page-header page-header-light"></div>
 			<!-- /page header -->
 
 
@@ -40,19 +37,20 @@
 
 				<!-- Highlighting rows and columns -->
 				<div class="card">
-					 
-					
-						<div class="card-header header-elements-inline">
- 						<table width="100%">
+
+
+					<div class="card-header header-elements-inline">
+						<table width="100%">
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Weekly Off List</h5></td>
-								<td width="40%" align="right">
-							  	<c:if test="${addAccess == 0}">
-								 <a
-									href="${pageContext.request.contextPath}/addWeeklyOff"
-									class="breadcrumb-elements-item">
-										<button type="button" class="btn btn-primary"> Add Weekly Off </button>
-								</a></c:if> </td>
+								<td width="40%" align="right"><c:if
+										test="${addAccess == 0}">
+										<a href="${pageContext.request.contextPath}/addWeeklyOff"
+											class="breadcrumb-elements-item">
+											<button type="button" class="btn btn-primary">Add
+												Weekly Off</button>
+										</a>
+									</c:if></td>
 							</tr>
 						</table>
 					</div>
@@ -101,9 +99,10 @@
 								<tr class="bg-blue">
 
 									<th width="10%">Sr. No.</th>
+									<th>Category</th>
 									<th>Location Name</th>
 									<th>Weekly Off Type</th>
-								<!-- 	<th>Weekly Off Presently</th> -->
+									<!-- 	<th>Weekly Off Presently</th> -->
 									<th>Day</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
@@ -114,6 +113,7 @@
 								<c:forEach items="${weekOffList}" var="week" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
+										<td>${week.weekOffCat}</td>
 										<td>${week.locName}</td>
 										<td><c:choose>
 												<c:when test="${week.woType==1}">
@@ -150,7 +150,7 @@
 												All
 												</c:otherwise>
 											</c:choose></td>
-									<%-- 	<td>${week.woPresently}</td> --%>
+										<%-- 	<td>${week.woPresently}</td> --%>
 										<td><c:choose>
 												<c:when test="${week.woDay==1}">
 												
@@ -187,27 +187,23 @@
 												</c:otherwise>
 											</c:choose></td>
 
-										<td class="text-center">
-										
-														<c:if test="${editAccess == 0}">
-														<a
-															href="${pageContext.request.contextPath}/editWeeklyOff?woId=${week.exVar1}"class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Edit"><i class="icon-pencil7"
-													 		></i></a></c:if>
-															<c:if
-																test="${deleteAccess == 0}">
-														<%-- <a
+										<td class="text-center"><c:if test="${editAccess == 0}">
+												<a
+													href="${pageContext.request.contextPath}/editWeeklyOff?woId=${week.exVar1}"
+													class="list-icons-item text-primary-600"
+													data-popup="tooltip" title="" data-original-title="Edit"><i
+													class="icon-pencil7"></i></a>
+											</c:if> <c:if test="${deleteAccess == 0}">
+												<%-- <a
 															href="${pageContext.request.contextPath}/deleteWeeklyOff?woId=${week.exVar1}"
 															onClick="return confirm('Are you sure want to delete this record');"
 															title="Delete"><i class="icon-trash" style="color: black;"></i>
 															</a> --%>
-															<a href="javascript:void(0)"
+												<a href="javascript:void(0)"
 													class="list-icons-item text-danger-600 bootbox_custom"
-													data-uuid="${week.exVar1}" data-popup="tooltip"
-													title="" data-original-title="Delete"><i
-													class="icon-trash"></i></a>
-															</c:if>
-											
-										</td>
+													data-uuid="${week.exVar1}" data-popup="tooltip" title=""
+													data-original-title="Delete"><i class="icon-trash"></i></a>
+											</c:if></td>
 									</tr>
 								</c:forEach>
 
@@ -232,14 +228,15 @@
 
 	</div>
 	<!-- /page content -->
-<script>
+	<script>
 		// Custom bootbox dialog
 		$('.bootbox_custom')
 				.on(
 						'click',
 						function() {
 							var uuid = $(this).data("uuid") // will return the number 123
-										bootbox.confirm({
+							bootbox
+									.confirm({
 										title : 'Confirm ',
 										message : 'Are you sure you want to delete selected records ?',
 										buttons : {

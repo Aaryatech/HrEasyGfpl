@@ -101,7 +101,7 @@
 										data-placeholder="Select Weekoff Category" id="holiCatId"
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
-										<option value="">Select Holiday Category</option>
+										<option value="">Select Weekoff Category</option>
 										<c:forEach items="${holiList}" var="holiList">
 											<option value="${holiList.woCatId}">${holiList.woCatName}</option>
 										</c:forEach>

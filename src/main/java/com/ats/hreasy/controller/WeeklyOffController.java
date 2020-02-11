@@ -458,8 +458,22 @@ public class WeeklyOffController {
 			model = new ModelAndView("accessDenied");
 
 		} else {
+			
+			
+			
+			
+			
 
 			model = new ModelAndView("master/changeWeeklyOff");
+			
+			
+			WeekoffCategory[] location1 = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
+					WeekoffCategory[].class);
+
+			List<WeekoffCategory> locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
+ 
+			model.addObject("holiList", locationList1);
+
 
 			try {
 
@@ -488,7 +502,7 @@ public class WeeklyOffController {
 				
 				
 				try {
-					weekoffCatId = request.getParameter("weekoffCatId");
+					weekoffCatId = request.getParameter("holiCatId");
 
 				} catch (Exception e) {
 					weekoffCatId = "0";
@@ -572,7 +586,7 @@ public class WeeklyOffController {
 				if (ret == false) {
 
 					WeeklyOffShit weekShft = new WeeklyOffShit();
-					weekShft.setCmpId(1);
+					weekShft.setCmpId(Integer.parseInt(request.getParameter("holiCatId")));
 					weekShft.setDelStatus(1);
 					weekShft.setLocationId(Integer.parseInt(locId));
 					weekShft.setLoginTime(dateTime);
