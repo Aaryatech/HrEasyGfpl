@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +28,14 @@ import com.ats.hreasy.common.HoursConversion;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
+import com.ats.hreasy.model.HolidayCategory;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.MstEmpType;
 import com.ats.hreasy.model.SalaryTypesMaster;
 import com.ats.hreasy.model.ShiftMaster;
+import com.ats.hreasy.model.WeekoffCategory;
 
 @Controller
 @Scope("session")
@@ -698,4 +701,99 @@ public class EmployeeShiftAssignController {
 		return "redirect:/showMstEmpTypeList";
 	}
 
+	
+	
+	@RequestMapping(value = "/assignWeekoffCategory", method = RequestMethod.GET)
+	public String assignWeekoffCategory(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+		String ret = new String();
+		/*
+		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+		 * session.getAttribute("moduleJsonList"); Info view =
+		 * AcessController.checkAccess("showEmpListToAssignSalStruct",
+		 * "showEmpListToAssignSalStruct", 1, 0, 0, 0, newModuleList);
+		 * 
+		 * if (view.isError() == true) {
+		 * 
+		 * model = new ModelAndView("accessDenied");
+		 * 
+		 * } else {
+		 */
+		ret = "master/assignWeekoffCategory";
+
+		try {
+
+			GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllEmplistForWeekOffCatAssign", GetEmployeeDetails[].class);
+
+			List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+			model.addAttribute("empdetList", empdetList);
+
+			WeekoffCategory[] location1 = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
+					WeekoffCategory[].class);
+
+			List<WeekoffCategory> locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
+ 
+			model.addAttribute("holiList", locationList1);
+
+ 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// }
+		return ret;
+	}
+	
+	
+	@RequestMapping(value = "/submitAssignWeekoffCatToEmp", method = RequestMethod.POST)
+	public String submitAssignHolidayCatToEmp(HttpServletRequest request, HttpServletResponse response) {
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+
+			String holiCatId = null;
+			try {
+				holiCatId = request.getParameter("holiCatId");
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+			// System.out.println("work date**" + workDate);
+
+			String[] empId = request.getParameterValues("empId");
+
+			StringBuilder sb = new StringBuilder();
+
+			List<Integer> empIdList = new ArrayList<>();
+
+			for (int i = 0; i < empId.length; i++) {
+				sb = sb.append(empId[i] + ",");
+				empIdList.add(Integer.parseInt(empId[i]));
+
+				// System.out.println("empId id are**" + empId[i]);
+
+			}
+
+			String items = sb.toString();
+
+			items = items.substring(0, items.length() - 1);
+
+			StringBuilder sbEmp = new StringBuilder();
+
+			// System.out.println("empId id are**" + empIdList.toString());
+			// System.out.println("shiftId id are**" + shiftId);
+
+			map.add("empIdList", items);
+			map.add("holiCatId", holiCatId);
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/weekoffCatAssignmentUpdate", map,
+					Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "redirect:/assignWeekoffCategory";
+	}
 }
