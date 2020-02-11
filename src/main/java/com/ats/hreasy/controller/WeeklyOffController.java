@@ -46,6 +46,7 @@ public class WeeklyOffController {
 	String month = "0";
 	String year = "0";
 	String weekoffCatId="0";
+	String monthyear="0";
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date now = new Date();
 	String curDate = dateFormat.format(new Date());
@@ -457,30 +458,20 @@ public class WeeklyOffController {
 
 			model = new ModelAndView("accessDenied");
 
-		} else {
-			
-			
-			
-			
-			
-
+		} else { 
 			model = new ModelAndView("master/changeWeeklyOff");
-			
-			
-			WeekoffCategory[] location1 = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
+ 			WeekoffCategory[] location1 = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
 					WeekoffCategory[].class);
-
-			List<WeekoffCategory> locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
+ 			List<WeekoffCategory> locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
+ 			model.addObject("holiList", locationList1);
  
-			model.addObject("holiList", locationList1);
-
-
 			try {
 
 				locId = "0";
 				month = "0";
 				year = "0";
 				weekoffCatId="0";
+				monthyear="0";
 				try {
 					locId = request.getParameter("locId");
 
@@ -488,18 +479,16 @@ public class WeeklyOffController {
 					locId = "0";
 				}
 				try {
-					month = request.getParameter("month");
+					monthyear = request.getParameter("monthyear");
+					String a[]=monthyear.split("-");
+					month=a[0];
+					year=a[1];
 
 				} catch (Exception e) {
 					month = "0";
-				}
-				try {
-					year = request.getParameter("year");
-
-				} catch (Exception e) {
 					year = "0";
 				}
-				
+				  
 				
 				try {
 					weekoffCatId = request.getParameter("holiCatId");
@@ -525,6 +514,8 @@ public class WeeklyOffController {
 				model.addObject("locId", locId);
 				model.addObject("month", (month));
 				model.addObject("year", (year));
+				model.addObject("monthyear", monthyear);
+
 				model.addObject("weekoffCatId", weekoffCatId);
 
 				map = new LinkedMultiValueMap<>();
@@ -570,8 +561,7 @@ public class WeeklyOffController {
 				String reason = request.getParameter("reason");
 
 				String dateFrom = request.getParameter("tempDate");
-				System.err.println("locId" + locId);
-				Boolean ret = false;
+ 				Boolean ret = false;
 
 				if (FormValidation.Validaton(changeDate, "") == true) {
 					System.err.println("changeDate");
@@ -586,7 +576,7 @@ public class WeeklyOffController {
 				if (ret == false) {
 
 					WeeklyOffShit weekShft = new WeeklyOffShit();
-					weekShft.setCmpId(Integer.parseInt(request.getParameter("holiCatId")));
+					weekShft.setCmpId(Integer.parseInt(request.getParameter("tempHoliCatId")));
 					weekShft.setDelStatus(1);
 					weekShft.setLocationId(Integer.parseInt(locId));
 					weekShft.setLoginTime(dateTime);

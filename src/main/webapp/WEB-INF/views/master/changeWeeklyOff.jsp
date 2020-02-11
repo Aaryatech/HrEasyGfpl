@@ -6,6 +6,11 @@
 <head>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap-datepicker.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-datepicker.js"></script>
 </head>
 
 <body>
@@ -93,6 +98,36 @@
 
 
 							<div class="form-group row">
+							
+							<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="locId"> Select Weekoff Category <span
+									class="text-danger">* </span>:
+								</label>
+								<div class="col-lg-4">
+									<select name="holiCatId"
+										data-placeholder="Select Weekoff Category" id="holiCatId"
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
+										<option value="">Select Weekoff Category</option>
+
+
+										<c:forEach items="${holiList}" var="holiList">
+											<c:choose>
+												<c:when test="${holiList.woCatId==weekoffCatId}">
+													<option selected value="${holiList.woCatId}">${holiList.woCatName}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${holiList.woCatId}">${holiList.woCatName}</option>
+												</c:otherwise>
+
+											</c:choose>
+										</c:forEach>
+
+									</select> <span class="validation-invalid-label" id="error_holiCatId"
+										style="display: none;">This field is required.</span>
+								</div>
+								
 								<label
 									class="col-form-label text-info font-weight-bold col-lg-2"
 									for="locId">Select Location <span class="text-danger">*
@@ -120,89 +155,29 @@
 									</select> <span class="validation-invalid-label" id="error_locId"
 										style="display: none;">This field is required.</span>
 								</div>
+
 								
-								
-								
-								<label
-									class="col-form-label text-info font-weight-bold col-lg-2"
-									for="locId"> Select Weekoff Category <span
-									class="text-danger">* </span>:
-								</label>
-								<div class="col-lg-4">
-									<select name="holiCatId"
-										data-placeholder="Select Weekoff Category" id="holiCatId"
-										class="form-control form-control-select2 select2-hidden-accessible"
-										data-fouc="" aria-hidden="true">
-										<option value="">Select Weekoff Category</option>
-										
-										
-										<c:forEach items="${holiList}" var="holiList">
-										<c:choose>
-										<c:when test="">
-											<option value="${holiList.woCatId}">${holiList.woCatName}</option>
-										</c:when>
-										<c:otherwise>
-										
-																					<option value="${holiList.woCatId}">${holiList.woCatName}</option>
-										
-										
-										</c:otherwise>
-										
-											</c:choose>
-										</c:forEach>
-									
-									</select> <span class="validation-invalid-label" id="error_holiCatId"
-										style="display: none;">This field is required.</span>
-								</div>
 							</div>
+
 
 							<div class="form-group row">
 								<label
 									class="col-form-label text-info font-weight-bold col-lg-2"
-									for="month"> Month <span class="text-danger">*</span>:
+									for="month"> Month-Year <span class="text-danger">*</span>:
 								</label>
 								<div class="col-lg-4">
-									<select name="month" data-placeholder="Select Deduction Type"
-										id="month"
-										class="form-control form-control-select21 select2-hidden-accessible1">
-										<option value=''>Select Month</option>
-										<option value="1" ${month == 1 ? 'selected' : ''}>Janaury</option>
-										<option value='2' ${month == 2 ? 'selected' : ''}>February</option>
-										<option value='3' ${month == 3 ? 'selected' : ''}>March</option>
-										<option value='4' ${month == 4 ? 'selected' : ''}>April</option>
-										<option value='5' ${month == 5 ? 'selected' : ''}>May</option>
-										<option value='6' ${month == 6 ? 'selected' : ''}>June</option>
-										<option value='7' ${month == 7 ? 'selected' : ''}>July</option>
-										<option value='8' ${month == 8 ? 'selected' : ''}>August</option>
-										<option value='9' ${month == 9 ? 'selected' : ''}>September</option>
-										<option value='10' ${month == 10 ? 'selected' : ''}>October</option>
-										<option value='11' ${month == 11 ? 'selected' : ''}>November</option>
-										<option value='12' ${month == 12 ? 'selected' : ''}>December</option>
-									</select> <span class="validation-invalid-label" id="error_month"
+									<input type="text" name="monthyear" id="monthyear"
+										class="form-control datepicker"   value="${monthyear}"
+										autocomplete="off" data-min-view-mode="months"
+										data-start-view="1" data-format="mm-yyyy">
+										
+										
+										<span class="validation-invalid-label" id="error_monthyear"
 										style="display: none;">This field is required.</span>
-								</div>
-
-
-
-								<label
-									class="col-form-label text-info font-weight-bold col-lg-2"
-									for="month"> Year <span class="text-danger">*</span>:
-								</label>
-								<div class="col-lg-4">
-									<select name="year" data-placeholder="Select Year" id="year"
-										class="form-control form-control-select21 select2-hidden-accessible1">
-										<option value=''>Select Year</option>
-
-										<option value='2018' ${year == 2018 ? 'selected' : ''}>2018</option>
-										<option value='2019' ${year == 2019 ? 'selected' : ''}>2019</option>
-										<option value='2020' ${year == 2020 ? 'selected' : ''}>2020</option>
-
-									</select><span class="validation-invalid-label" id="error_year"
-										style="display: none;">This field is required.</span>
-
 								</div>
 							</div>
 
+ 
 							<div style="text-align: center;">
 								<input type="submit" class="btn btn-primary" value="Search"
 									id="deleteId"
@@ -220,7 +195,10 @@
 								value="${locId}"> <input type="hidden" id="monthTemp"
 								name="monthTemp" value="${month}"> <input type="hidden"
 								id="yearTemp" name="yearTemp" value="${year}"> <input
-								type="hidden" id="tempDate" name="tempDate" value="0">
+								type="hidden" id="tempDate" name="tempDate" value="">
+								
+								<input
+								type="hidden" id="tempHoliCatId" name="tempHoliCatId" value="${weekoffCatId}">
 
 
 
@@ -242,8 +220,8 @@
 												<tr>
 													<td>${count.index+1}</td>
 													<td><input type="radio" name="dateFrom"
-														onchange="setValue(this.value,${count.index+1})" value="${dateList}"
-														id="dateFrom${count.index+1}" />${dateList}
+														onchange="setValue(this.value,${count.index+1})"
+														value="${dateList}" id="dateFrom${count.index+1}" />${dateList}
 
 													</td>
 
@@ -326,6 +304,11 @@
 			if (document.getElementById('dateFrom'+count).checked) {
 				//alert(1);
 				document.getElementById("tempDate").value = datexy;
+				
+				
+				$("#error_tempDate").hide()
+			}else{
+				$("#error_tempDate").show()
 			}
 
 		}
@@ -392,7 +375,34 @@
 				} else {
 					$("#error_changeDate").hide()
 				}
+				
+				
+				if (!$("#tempDate").val()) {
 
+					isError = true;
+
+					$("#error_tempDate").show()
+
+				} else {
+					$("#error_tempDate").hide()
+				}
+
+				
+				
+			/* 	
+				var isVisible = $('#error_tempDate').is(':visible');
+				 
+				if (isVisible == true) {
+					  
+					isError = true;
+			    }  
+				
+				
+				 */
+				
+				
+				
+				
 				if (!isError) {
 
 					var x = true;
@@ -415,7 +425,7 @@
 
 				var isError = false;
 				var errMsg = "";
-				if (!$("#locId").val()) {
+				  if (!$("#locId").val()) {
 
 					isError = true;
 
@@ -423,7 +433,7 @@
 
 				} else {
 					$("#error_locId").hide()
-				}
+				}  
 				
 				
 				if (!$("#holiCatId").val()) {
@@ -438,24 +448,16 @@
 
 				
 				
-				if (!$("#month").val()) {
+				if (!$("#monthyear").val()) {
 
 					isError = true;
 
-					$("#error_month").show()
+					$("#error_monthyear").show()
 
 				} else {
-					$("#error_month").hide()
+					$("#error_monthyear").hide()
 				}
-				if (!$("#year").val()) {
-
-					isError = true;
-
-					$("#error_year").show()
-
-				} else {
-					$("#error_year").hide()
-				}
+				 
 
 				if (!isError) {
 
@@ -472,44 +474,6 @@
 			});
 		});
 	</script>
-
-
-	<!-- 
-	<script type="text/javascript">
-		$(document).ready(function($) {
-			$("#submitInsertEmp").submit(function(e) {
-				alert($("#changeReason").val());
-				var isError = false;
-				var errMsg = "";
-
-				if (!$("#changeReason").val()) {
-					alert(1);
-					isError = true;
-
-					$("#error_changeReason").show()
-
-				} else {
-					alert(0);
-					$("#error_changeReason").hide()
-				}
-
-				if (!isError) {
-
-					var x = true;
-					if (x == true) {
-
-						document.getElementById("subBtn").disabled = true;
-
-						return true;
-					}
-					//end ajax send this to php page
-				}
-				return false;
-			});
-		});
-	</script> -->
-
-
 
 
 	<script type="text/javascript">
@@ -549,6 +513,19 @@
 										.prop('checked', this.checked);
 							});
 				});
+		
+		 $(document).ready(function() {
+		        // month selector
+		        $('.datepicker').datepicker({
+		            autoclose: true,
+		            format: "mm-yyyy",
+		            viewMode: "months",
+		            minViewMode: "months"
+
+		        });
+
+
+		    });
 	</script>
 
 </body>
