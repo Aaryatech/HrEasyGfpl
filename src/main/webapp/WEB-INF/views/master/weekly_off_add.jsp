@@ -28,10 +28,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
-
- 
-			</div>
+			<div class="page-header page-header-light"></div>
 			<!-- /page header -->
 
 
@@ -50,22 +47,23 @@
 
 
 						<div class="card">
-							 
-							
-								<div class="card-header header-elements-inline">
- 						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Add Weekly Off</h5></td>
-								<td width="40%" align="right">
-							  
-								 <%-- <a
+
+
+							<div class="card-header header-elements-inline">
+								<table width="100%">
+									<tr width="100%">
+										<td width="60%"><h5 class="card-title">Add Weekly
+												Off</h5></td>
+										<td width="40%" align="right">
+											<%-- <a
 									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">KRA List </button>
-								</a>  --%></td>
-							</tr>
-						</table>
-					</div>
+								</a>  --%>
+										</td>
+									</tr>
+								</table>
+							</div>
 
 							<div class="card-body">
 								<%
@@ -108,8 +106,10 @@
 									action="${pageContext.request.contextPath}/submitInsertWeeklyOff"
 									id="submitInsertWeeklyOff" method="post">
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
-											Location <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="select2">Select Location <span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<select name="locId" data-placeholder="Select Location"
@@ -131,8 +131,33 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
-											Weekly Off Type <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="woCatId">Select Weekoff Category <span
+											class="text-danger">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<select name="woCatId" data-placeholder="Select "
+												id="woCatId"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+												<option value="0">Select</option>
+
+												<c:forEach items="${holiList}" var="holiList">
+													<option value="${holiList.woCatId}">${holiList.woCatName}</option>
+												</c:forEach>
+											</select> <span class="validation-invalid-label" id="error_woCatId"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
+
+
+									<div class="form-group row">
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="select2">Select Weekly Off Type <span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<select name="woType" data-placeholder="Please Select"
@@ -175,12 +200,14 @@
 												field is required.</span>
 										</div>
 									</div> -->
-									
-									
+
+
 									<input type="hidden" value="1" name="woPresently">
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
-											Weekly Off Day <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="select2">Select Weekly Off Day <span
+											class="text-danger">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<select name="woDay" data-placeholder="Please Select"
@@ -220,9 +247,7 @@
 											</button>
 											<a
 												href="${pageContext.request.contextPath}/showWeeklyOffList"><button
-													type="button" class="btn btn-light"> 
-													Back
-												</button></a>
+													type="button" class="btn btn-light">Back</button></a>
 										</div>
 									</div>
 								</form>
@@ -280,57 +305,72 @@
 			return true;
 
 		}
-		$(document).ready(function($) {
+		$(document)
+				.ready(
+						function($) {
 
-			$("#submitInsertWeeklyOff").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
+							$("#submitInsertWeeklyOff")
+									.submit(
+											function(e) {
+												var isError = false;
+												var errMsg = "";
 
-				if (!$("#locId").val()) {
+												if (!$("#locId").val()) {
 
-					isError = true;
+													isError = true;
 
-					$("#error_locId").show()
-					//return false;
-				} else {
-					$("#error_locId").hide()
-				}
+													$("#error_locId").show()
+													//return false;
+												} else {
+													$("#error_locId").hide()
+												}
 
-				if (!$("#woType").val()) {
+												if (!$("#woType").val()) {
 
-					isError = true;
+													isError = true;
 
-					$("#error_woType").show()
+													$("#error_woType").show()
 
-				} else {
-					$("#error_woType").hide()
-				}
+												} else {
+													$("#error_woType").hide()
+												}
 
-				
+												if (!$("#woDay").val()) {
 
-				if (!$("#woDay").val()) {
+													isError = true;
 
-					isError = true;
+													$("#error_woDay").show()
 
-					$("#error_woDay").show()
+												} else {
+													$("#error_woDay").hide()
+												}
 
-				} else {
-					$("#error_woDay").hide()
-				}
+												if (!$("#woCatId").val()
+														|| parseInt($(
+																"#woCatId")
+																.val()) == 0) {
 
-				if (!isError) {
+													isError = true;
 
-					var x = true;
-					if (x == true) {
+													$("#error_woCatId").show()
 
-						document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//end ajax send this to php page
-				}
-				return false;
-			});
-		});
+												} else {
+													$("#error_woCatId").hide()
+												}
+												if (!isError) {
+
+													var x = true;
+													if (x == true) {
+
+														document
+																.getElementById("submtbtn").disabled = true;
+														return true;
+													}
+													//end ajax send this to php page
+												}
+												return false;
+											});
+						});
 		//
 	</script>
 

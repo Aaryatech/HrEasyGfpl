@@ -35,6 +35,7 @@ import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.WeeklyOff;
 import com.ats.hreasy.model.WeeklyOffShit;
+import com.ats.hreasy.model.WeekoffCategory;
 import com.ats.hreasy.model.Loan.GetLoan;
 
 @Controller
@@ -88,6 +89,18 @@ public class WeeklyOffController {
 				model.addObject("locationList", locationList);
 				model.addObject("locationAccess", userObj.getLocationIds().split(","));
 				// model.addObject("locationAccess", "2,3".split(","));
+				
+				
+				WeekoffCategory[] location1 = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
+						WeekoffCategory[].class);
+
+				List<WeekoffCategory> locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
+
+				
+			 
+				model.addObject("holiList", locationList1);
+
+
 
 			}
 		} catch (Exception e) {
@@ -154,6 +167,8 @@ public class WeeklyOffController {
 					save.setWoPresently(woPresently);
 					save.setMakerEnterDatetime(dateTime);
 					save.setMakerUserId(userObj.getUserId());
+					save.setExInt1(Integer.parseInt( request.getParameter("woCatId")));
+
 
 					WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff", save,
 							WeeklyOff.class);
@@ -333,6 +348,19 @@ public class WeeklyOffController {
 				model.addObject("locIdList", locIdList);
 				model.addObject("locationAccess", userObj.getLocationIds().split(","));
 				// model.addObject("locationAccess", "2,3".split(","));
+				
+				
+				 
+				WeekoffCategory[] location1 = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
+						WeekoffCategory[].class);
+
+				List<WeekoffCategory> locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
+
+				
+			 
+				model.addObject("holiList", locationList1);
+
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -390,7 +418,7 @@ public class WeeklyOffController {
 					editWeeklyOff.setWoPresently(woPresently);
 					editWeeklyOff.setWoRemarks(woRemarks);
 					editWeeklyOff.setWoType(woType);
-
+ 					editWeeklyOff.setExInt1(Integer.parseInt( request.getParameter("woCatId")));
 					WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff",
 							editWeeklyOff, WeeklyOff.class);
 

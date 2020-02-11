@@ -166,6 +166,35 @@
 									</div>
 
 
+
+									<div class="form-group row">
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="hoCatId">Select Weekoff Category <span
+											class="text-danger">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<select name="woCatId" data-placeholder="Select "
+												id="woCatId"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+												<option value="0">Select</option>
+ 												<c:forEach items="${holiList}" var="holiList">
+ 													<c:choose>
+														<c:when test="${editWeeklyOff.exInt1==holiList.woCatId}">
+															<option selected value="${holiList.woCatId}">${holiList.woCatName}</option>
+														</c:when>
+														<c:otherwise>
+															<option value="${holiList.woCatId}">${holiList.woCatName}</option>
+														</c:otherwise>
+													</c:choose>
+												</c:forEach>
+											</select> <span class="validation-invalid-label" id="error_woCatId"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
+
 									<div class="form-group row">
 										<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
 											Weekly Off Type <span class="text-danger">* </span>:
@@ -391,6 +420,19 @@
 					$("#error_woDay").hide()
 				}
 
+				
+				if (!$("#woCatId").val()
+						|| parseInt($(
+								"#woCatId")
+								.val()) == 0) {
+
+					isError = true;
+
+					$("#error_woCatId").show()
+
+				} else {
+					$("#error_woCatId").hide()
+				}
 				if (!isError) {
 
 					var x = true;

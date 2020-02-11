@@ -1137,9 +1137,8 @@ public class MasterController {
 				} else {*/
 
 					model = new ModelAndView("master/weekoffCatList");
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-					map.add("companyId", 1);
-					WeekoffCategory[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getWeekoffCategoryList", map,
+					 
+					WeekoffCategory[] location = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
 							WeekoffCategory[].class);
 
 					List<WeekoffCategory> locationList = new ArrayList<WeekoffCategory>(Arrays.asList(location));
@@ -1244,7 +1243,7 @@ public class MasterController {
 
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 					map.add("woCatId", woCatId);
-					editWeekCat = Constants.getRestTemplate().postForObject(Constants.url + "/deleteWeekoffCategory", map,
+					editWeekCat = Constants.getRestTemplate().postForObject(Constants.url + "/getWeekoffCategoryHoCatId", map,
 							WeekoffCategory.class);
 					model.addAttribute("holi", editWeekCat);
 					model.addAttribute("title", "Edit Weekoff Category");
