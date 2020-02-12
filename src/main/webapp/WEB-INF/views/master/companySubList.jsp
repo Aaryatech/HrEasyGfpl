@@ -42,13 +42,12 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Company
-										List</h5></td>
+								<td width="60%"><h5 class="card-title">Company List</h5></td>
 								<td width="40%" align="right"><c:if test="${addAccess==0}">
 										<a href="${pageContext.request.contextPath}/companySubAdd"
 											class="breadcrumb-elements-item">
 											<button type="button" class="btn btn-primary">Add
-												  Company</button>
+												Company</button>
 										</a>
 									</c:if></td>
 							</tr>
@@ -123,10 +122,12 @@
 													class="list-icons-item text-primary-600"
 													data-popup="tooltip" title="" data-original-title="Edit"><i
 													class="icon-pencil7"></i></a>
-											</c:if> <a href="javascript:void(0)"
-											class="list-icons-item text-danger-600 bootbox_custom"
-											data-uuid="${list.exVar1}" data-popup="tooltip" title=""
-											data-original-title="Delete"><i class="icon-trash"></i></a> <c:choose>
+											</c:if> <c:if test="${deleteAccess == 0}">
+												<a href="javascript:void(0)"
+													class="list-icons-item text-danger-600 bootbox_custom"
+													data-uuid="${list.exVar1}" data-popup="tooltip" title=""
+													data-original-title="Delete"><i class="icon-trash"></i></a>
+											</c:if> <c:choose>
 												<c:when test="${list.isActive==1}">
 													<a
 														href="${pageContext.request.contextPath}/activeDeactiveCompany?companyId=${list.exVar1}"><i

@@ -729,35 +729,37 @@ public class MasterController {
 		return info;
 
 	}
-	
-	
-	//***************************Holiday Category*************************
-	
-	
-	HolidayCategory editHoliCat =new HolidayCategory();
+
+	// ***************************Holiday Category*************************
+
+	HolidayCategory editHoliCat = new HolidayCategory();
 
 	@RequestMapping(value = "/holidayCategoryAdd", method = RequestMethod.GET)
-	public String holidayCategoryAdd(HttpServletRequest request, HttpServletResponse response,Model model) {
+	public String holidayCategoryAdd(HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		HttpSession session = request.getSession();
-	 String mav=null;
+		String mav = null;
 
 		try {
 
-			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-			Info view = AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0, newModuleList);
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0,
+			 * newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
 
-			if (view.isError() == true) {
-
-				model = new ModelAndView("accessDenied");
-
-			} else {*/
-			
-			HolidayCategory holi=new HolidayCategory();
-				mav = "master/holidayCategoryAdd";
- 				model.addAttribute("title","Add Holiday Category");
- 				model.addAttribute("holi",holi);
-			/*}*/
+			HolidayCategory holi = new HolidayCategory();
+			mav = "master/holidayCategoryAdd";
+			model.addAttribute("title", "Add Holiday Category");
+			model.addAttribute("holi", holi);
+			/* } */
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -769,7 +771,7 @@ public class MasterController {
 
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
-		String a = new String(); 
+		String a = new String();
 		/*
 		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
 		 * session.getAttribute("moduleJsonList"); Info view =
@@ -780,71 +782,69 @@ public class MasterController {
 		 * 
 		 * } else {
 		 */
-			a = "redirect:/showHolidayCatList";
-			try {
+		a = "redirect:/showHolidayCatList";
+		try {
 
-				Date date = new Date();
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-				String hoCatName = request.getParameter("hoCatName");
-				String hoShortName = request.getParameter("hoShortName");
-				String remark = request.getParameter("remark");
-				
-				int  hoCatId = Integer.parseInt(request.getParameter("hoCatId"));
-				 
-				Boolean ret = false;
+			String hoCatName = request.getParameter("hoCatName");
+			String hoShortName = request.getParameter("hoShortName");
+			String remark = request.getParameter("remark");
 
-				if (FormValidation.Validaton(hoCatName, "") == true) {
+			int hoCatId = Integer.parseInt(request.getParameter("hoCatId"));
 
-					ret = true;
-					System.out.println("hoCatName" + ret);
-				}
-				if (FormValidation.Validaton(hoShortName, "") == true) {
+			Boolean ret = false;
 
-					ret = true;
-					System.out.println("hoShortName" + ret);
-				}
-				 
+			if (FormValidation.Validaton(hoCatName, "") == true) {
 
-				if (ret == false) {
+				ret = true;
+				System.out.println("hoCatName" + ret);
+			}
+			if (FormValidation.Validaton(hoShortName, "") == true) {
 
-					HolidayCategory location = new HolidayCategory();
-					
-					location.setHoCatId(hoCatId);
-					location.setHoCatName(hoCatName);
-					location.setHoCatShortName(hoShortName);
-					location.setRemark(remark);
-					
-					
- 					location.setCompanyId(1);
- 					location.setExInt1(0);
-					location.setExInt2(0);;
- 					location.setIsActive(1);
-					location.setDelStatus(1);
-					location.setMakerUserId(userObj.getUserId());
- 					location.setMakerEnterDatetime(sf.format(date));
- 					
- 					location.setExVar2("");;
-					location.setExVar1("");
+				ret = true;
+				System.out.println("hoShortName" + ret);
+			}
 
-					HolidayCategory res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHolidayCat", location,
-							HolidayCategory.class);
+			if (ret == false) {
 
-					if (res != null) {
-						session.setAttribute("successMsg", "HolidayCategory Inserted Successfully");
-					} else {
-						session.setAttribute("errorMsg", "Failed to Insert Record");
-					}
+				HolidayCategory location = new HolidayCategory();
 
+				location.setHoCatId(hoCatId);
+				location.setHoCatName(hoCatName);
+				location.setHoCatShortName(hoShortName);
+				location.setRemark(remark);
+
+				location.setCompanyId(1);
+				location.setExInt1(0);
+				location.setExInt2(0);
+ 				location.setIsActive(1);
+				location.setDelStatus(1);
+				location.setMakerUserId(userObj.getUserId());
+				location.setMakerEnterDatetime(sf.format(date));
+
+				location.setExVar2("");
+ 				location.setExVar1("");
+
+				HolidayCategory res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHolidayCat",
+						location, HolidayCategory.class);
+
+				if (res != null) {
+					session.setAttribute("successMsg", "HolidayCategory Inserted Successfully");
 				} else {
 					session.setAttribute("errorMsg", "Failed to Insert Record");
 				}
 
-			} catch (Exception e) {
-				e.printStackTrace();
+			} else {
 				session.setAttribute("errorMsg", "Failed to Insert Record");
 			}
-		//}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Insert Record");
+		}
+		// }
 
 		return a;
 	}
@@ -859,20 +859,21 @@ public class MasterController {
 
 		try {
 
-			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-			Info view = AcessController.checkAccess("showLocationList", "showLocationList", 1, 0, 0, 0, newModuleList);
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showHolidayCatList", "showHolidayCatList", 1, 0, 0, 0,
+					newModuleList);
 
 			if (view.isError() == true) {
 
 				model = new ModelAndView("accessDenied");
 
-			} else {*/
+			} else {
 
 				model = new ModelAndView("master/holidayCatList");
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("companyId", 1);
-				HolidayCategory[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getHolidayCategoryList", map,
-						HolidayCategory[].class);
+				HolidayCategory[] location = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getHolidayCategoryList", map, HolidayCategory[].class);
 
 				List<HolidayCategory> locationList = new ArrayList<HolidayCategory>(Arrays.asList(location));
 
@@ -882,8 +883,280 @@ public class MasterController {
 							.setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getHoCatId())));
 				}
 
-			 
 				model.addObject("holiList", locationList);
+
+				Info add = AcessController.checkAccess("showHolidayCatList", "showHolidayCatList", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showHolidayCatList", "showHolidayCatList", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showHolidayCatList", "showHolidayCatList", 0, 0, 0, 1,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					System.out.println(" delete   Accessable ");
+					model.addObject("deleteAccess", 0);
+
+				}
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/deleteHolidayCat", method = RequestMethod.GET)
+	public String deleteHolidayCat(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		String a = null;
+
+		try {
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+
+			Info view = AcessController.checkAccess("deleteHolidayCat", "showHolidayCatList", 0, 0, 0, 1,
+					newModuleList);
+			if (view.isError() == true) {
+
+				a = "redirect:/accessDenied";
+
+			}
+
+			else {
+
+				a = "redirect:/showHolidayCatList";
+
+				String base64encodedString = request.getParameter("hoCatId");
+				String hoCatId = FormValidation.DecodeKey(base64encodedString);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("hoCatId", hoCatId);
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteHolidayCategory", map,
+						Info.class);
+
+				if (info.isError() == false) {
+					session.setAttribute("successMsg", info.getMsg());
+				} else {
+					session.setAttribute("errorMsg", info.getMsg());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+		return a;
+	}
+
+	@RequestMapping(value = "/editHolidayCat", method = RequestMethod.GET)
+	public String editDesignation(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			Model model) {
+
+		String mav = null;
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("editHolidayCat", "deleteHolidayCat", 0, 0, 1, 0, newModuleList);
+
+		if (view.isError() == true) {
+
+			mav = "accessDenied";
+
+		} else {
+
+			try {
+				mav = "master/holidayCategoryAdd";
+
+				String base64encodedString = request.getParameter("hoCatId");
+				String hoCatId = FormValidation.DecodeKey(base64encodedString);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("hoCatId", hoCatId);
+				editHoliCat = Constants.getRestTemplate().postForObject(Constants.url + "/getHolidayCategoryHoCatId",
+						map, HolidayCategory.class);
+				model.addAttribute("holi", editHoliCat);
+				model.addAttribute("title", "Edit Holiday Category");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return mav;
+
+	}
+
+	// ***************************Weekoff Category*************************
+
+	WeekoffCategory editWeekCat = new WeekoffCategory();
+
+	@RequestMapping(value = "/weekoffCategoryAdd", method = RequestMethod.GET)
+	public String weekoffCategoryAdd(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		HttpSession session = request.getSession();
+		String mav = null;
+
+		try {
+
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0,
+			 * newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+
+			WeekoffCategory holi = new WeekoffCategory();
+			mav = "master/weekoffCategoryAdd";
+			model.addAttribute("title", "Add Weekoff Category");
+			model.addAttribute("holi", holi);
+			/* } */
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/submitInsertWeekoffCategory", method = RequestMethod.POST)
+	public String submitInsertWeekoffCategory(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+		String a = new String();
+		/*
+		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+		 * session.getAttribute("moduleJsonList"); Info view =
+		 * AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0,
+		 * newModuleList); if (view.isError() == true) {
+		 * 
+		 * a = "redirect:/accessDenied";
+		 * 
+		 * } else {
+		 */
+		a = "redirect:/showWeekoffCatList";
+		try {
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			String woShortName = request.getParameter("woShortName");
+			String woCatName = request.getParameter("woCatName");
+			String remark = request.getParameter("remark");
+
+			int woCatId = Integer.parseInt(request.getParameter("woCatId"));
+
+			Boolean ret = false;
+
+			if (FormValidation.Validaton(woShortName, "") == true) {
+
+				ret = true;
+				System.out.println("woShortName" + ret);
+			}
+			if (FormValidation.Validaton(woCatName, "") == true) {
+
+				ret = true;
+				System.out.println("hoShortName" + ret);
+			}
+
+			if (ret == false) {
+
+				WeekoffCategory location = new WeekoffCategory();
+
+				location.setWoCatId(woCatId);
+				location.setWoCatName(woCatName);
+				location.setWoCatShortName(woShortName);
+				location.setRemark(remark);
+
+				location.setCompanyId(1);
+				location.setExInt1(0);
+				location.setExInt2(0);
+				;
+				location.setIsActive(1);
+				location.setDelStatus(1);
+				location.setMakerUserId(userObj.getUserId());
+				location.setMakerEnterDatetime(sf.format(date));
+
+				location.setExVar2("");
+				;
+				location.setExVar1("");
+
+				WeekoffCategory res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeekoffCat",
+						location, WeekoffCategory.class);
+
+				if (res != null) {
+					if (woCatId == 0) {
+						session.setAttribute("successMsg", "Weekoff Category Inserted Successfully");
+					} else {
+						session.setAttribute("successMsg", "Weekoff Category Updated Successfully");
+
+					}
+
+				} else {
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+
+			} else {
+				session.setAttribute("errorMsg", "Failed to Insert Record");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Insert Record");
+		}
+		// }
+
+		return a;
+	}
+
+	@RequestMapping(value = "/showWeekoffCatList", method = RequestMethod.GET)
+	public ModelAndView showWeekoffCatList(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+		ModelAndView model = null;
+
+		try {
+
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList"); Info view =
+			 * AcessController.checkAccess("showLocationList", "showLocationList", 1, 0, 0,
+			 * 0, newModuleList);
+			 * 
+			 * if (view.isError() == true) {
+			 * 
+			 * model = new ModelAndView("accessDenied");
+			 * 
+			 * } else {
+			 */
+
+			model = new ModelAndView("master/weekoffCatList");
+
+			WeekoffCategory[] location = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getWeekoffCategoryList", WeekoffCategory[].class);
+
+			List<WeekoffCategory> locationList = new ArrayList<WeekoffCategory>(Arrays.asList(location));
+
+			for (int i = 0; i < locationList.size(); i++) {
+
+				locationList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getWoCatId())));
+			}
+
+			model.addObject("holiList", locationList);
 
 			/*
 			 * Info add = AcessController.checkAccess("showLocationList",
@@ -911,41 +1184,42 @@ public class MasterController {
 		return model;
 	}
 
-	@RequestMapping(value = "/deleteHolidayCat", method = RequestMethod.GET)
-	public String deleteHolidayCat(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/deleteWeekoffCat", method = RequestMethod.GET)
+	public String deleteWeekoffCat(HttpServletRequest request, HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
 		String a = null;
 
 		try {
-/*
-			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			/*
+			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+			 * session.getAttribute("moduleJsonList");
+			 * 
+			 * Info view = AcessController.checkAccess("deleteLocation", "showLocationList",
+			 * 0, 0, 0, 1, newModuleList); if (view.isError() == true) {
+			 * 
+			 * a = "redirect:/accessDenied";
+			 * 
+			 * }
+			 * 
+			 * else {
+			 */
+			a = "redirect:/showWeekoffCatList";
 
-			Info view = AcessController.checkAccess("deleteLocation", "showLocationList", 0, 0, 0, 1, newModuleList);
-			if (view.isError() == true) {
+			String base64encodedString = request.getParameter("woCatId");
+			String woCatId = FormValidation.DecodeKey(base64encodedString);
 
-				a = "redirect:/accessDenied";
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("woCatId", woCatId);
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteWeekoffCategory", map,
+					Info.class);
 
+			if (info.isError() == false) {
+				session.setAttribute("successMsg", info.getMsg());
+			} else {
+				session.setAttribute("errorMsg", info.getMsg());
 			}
-
-			else {
-*/
-				a = "redirect:/showHolidayCatList";
-
-				String base64encodedString = request.getParameter("hoCatId");
-				String hoCatId = FormValidation.DecodeKey(base64encodedString);
-
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("hoCatId", hoCatId);
-				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteHolidayCategory", map,
-						Info.class);
-
-				if (info.isError() == false) {
-					session.setAttribute("successMsg", info.getMsg());
-				} else {
-					session.setAttribute("errorMsg", info.getMsg());
-				}
-			//}
+			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("errorMsg", "Failed to Delete");
@@ -953,308 +1227,43 @@ public class MasterController {
 		return a;
 	}
 
-	
-	
-	@RequestMapping(value = "/editHolidayCat", method = RequestMethod.GET)
-	public String editDesignation(HttpServletRequest request, HttpServletResponse response, HttpSession session,Model model) {
-		 
-		 String mav=null;
+	@RequestMapping(value = "/editWeekoffCat", method = RequestMethod.GET)
+	public String editWeekoffCat(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			Model model) {
 
-		/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-		Info view = AcessController.checkAccess("editDesignation", "showDesignationList", 0, 0, 1, 0, newModuleList);
+		String mav = null;
 
-		if (view.isError() == true) {
+		/*
+		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+		 * session.getAttribute("moduleJsonList"); Info view =
+		 * AcessController.checkAccess("editDesignation", "showDesignationList", 0, 0,
+		 * 1, 0, newModuleList);
+		 * 
+		 * if (view.isError() == true) {
+		 * 
+		 * model = new ModelAndView("accessDenied");
+		 * 
+		 * } else {
+		 */
+		try {
+			mav = "master/weekoffCategoryAdd";
 
-			model = new ModelAndView("accessDenied");
+			String base64encodedString = request.getParameter("woCatId");
+			String woCatId = FormValidation.DecodeKey(base64encodedString);
 
-		} else {*/
-			try {
-				mav = "master/holidayCategoryAdd";
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("woCatId", woCatId);
+			editWeekCat = Constants.getRestTemplate().postForObject(Constants.url + "/getWeekoffCategoryHoCatId", map,
+					WeekoffCategory.class);
+			model.addAttribute("holi", editWeekCat);
+			model.addAttribute("title", "Edit Weekoff Category");
 
-				String base64encodedString = request.getParameter("hoCatId");
-				String hoCatId = FormValidation.DecodeKey(base64encodedString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("hoCatId", hoCatId);
-				 editHoliCat = Constants.getRestTemplate().postForObject(Constants.url + "/getHolidayCategoryHoCatId", map,
-						 HolidayCategory.class);
-				model.addAttribute("holi", editHoliCat);
-				model.addAttribute("title", "Edit Holiday Category");
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		 
-		return mav ;
+		return mav;
 
 	}
-
-	
- 	
-	
-	
-	//***************************Weekoff Category*************************
-	
-	
-		WeekoffCategory editWeekCat =new WeekoffCategory();
-
-		@RequestMapping(value = "/weekoffCategoryAdd", method = RequestMethod.GET)
-		public String weekoffCategoryAdd(HttpServletRequest request, HttpServletResponse response,Model model) {
-
-			HttpSession session = request.getSession();
-		 String mav=null;
-
-			try {
-
-				/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-				Info view = AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0, newModuleList);
-
-				if (view.isError() == true) {
-
-					model = new ModelAndView("accessDenied");
-
-				} else {*/
-				
-				WeekoffCategory holi=new WeekoffCategory();
-					mav = "master/weekoffCategoryAdd";
-	 				model.addAttribute("title","Add Weekoff Category");
-	 				model.addAttribute("holi",holi);
-				/*}*/
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return mav;
-		}
-
-		@RequestMapping(value = "/submitInsertWeekoffCategory", method = RequestMethod.POST)
-		public String submitInsertWeekoffCategory(HttpServletRequest request, HttpServletResponse response) {
-
-			HttpSession session = request.getSession();
-			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
-			String a = new String(); 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0,
-			 * newModuleList); if (view.isError() == true) {
-			 * 
-			 * a = "redirect:/accessDenied";
-			 * 
-			 * } else {
-			 */
-				a = "redirect:/showWeekoffCatList";
-				try {
-
-					Date date = new Date();
-					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-					String woShortName = request.getParameter("woShortName");
-					String woCatName = request.getParameter("woCatName");
-					String remark = request.getParameter("remark");
-					
-					int  woCatId = Integer.parseInt(request.getParameter("woCatId"));
-					 
-					Boolean ret = false;
-
-					if (FormValidation.Validaton(woShortName, "") == true) {
-
-						ret = true;
-						System.out.println("woShortName" + ret);
-					}
-					if (FormValidation.Validaton(woCatName, "") == true) {
-
-						ret = true;
-						System.out.println("hoShortName" + ret);
-					}
-					 
-
-					if (ret == false) {
-
-						WeekoffCategory location = new WeekoffCategory();
-						
-						location.setWoCatId(woCatId);
-						location.setWoCatName(woCatName);
-						location.setWoCatShortName(woShortName);
-						location.setRemark(remark);
-						
-						
-	 					location.setCompanyId(1);
-	 					location.setExInt1(0);
-						location.setExInt2(0);;
-	 					location.setIsActive(1);
-						location.setDelStatus(1);
-						location.setMakerUserId(userObj.getUserId());
-	 					location.setMakerEnterDatetime(sf.format(date));
-	 					
-	 					location.setExVar2("");;
-						location.setExVar1("");
-
-						WeekoffCategory res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeekoffCat", location,
-								WeekoffCategory.class);
-
-						if (res != null) {
-							if(woCatId==0) {
-								session.setAttribute("successMsg", "Weekoff Category Inserted Successfully");
-							}else {
-								session.setAttribute("successMsg", "Weekoff Category Updated Successfully");
-
-							}
-							
-						} else {
-							session.setAttribute("errorMsg", "Failed to Insert Record");
-						}
-
-					} else {
-						session.setAttribute("errorMsg", "Failed to Insert Record");
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-					session.setAttribute("errorMsg", "Failed to Insert Record");
-				}
-			//}
-
-			return a;
-		}
-
-		@RequestMapping(value = "/showWeekoffCatList", method = RequestMethod.GET)
-		public ModelAndView showWeekoffCatList(HttpServletRequest request, HttpServletResponse response) {
-
-			HttpSession session = request.getSession();
-			// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
-
-			ModelAndView model = null;
-
-			try {
-
-				/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-				Info view = AcessController.checkAccess("showLocationList", "showLocationList", 1, 0, 0, 0, newModuleList);
-
-				if (view.isError() == true) {
-
-					model = new ModelAndView("accessDenied");
-
-				} else {*/
-
-					model = new ModelAndView("master/weekoffCatList");
-					 
-					WeekoffCategory[] location = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
-							WeekoffCategory[].class);
-
-					List<WeekoffCategory> locationList = new ArrayList<WeekoffCategory>(Arrays.asList(location));
-
-					for (int i = 0; i < locationList.size(); i++) {
-
-						locationList.get(i)
-								.setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getWoCatId())));
-					}
-
-				 
-					model.addObject("holiList", locationList);
-
-				/*
-				 * Info add = AcessController.checkAccess("showLocationList",
-				 * "showLocationList", 0, 1, 0, 0, newModuleList); Info edit =
-				 * AcessController.checkAccess("showLocationList", "showLocationList", 0, 0, 1,
-				 * 0, newModuleList); Info delete =
-				 * AcessController.checkAccess("showLocationList", "showLocationList", 0, 0, 0,
-				 * 1, newModuleList);
-				 * 
-				 * if (add.isError() == false) { System.out.println(" add   Accessable ");
-				 * model.addObject("addAccess", 0);
-				 * 
-				 * } if (edit.isError() == false) { System.out.println(" edit   Accessable ");
-				 * model.addObject("editAccess", 0); } if (delete.isError() == false) {
-				 * System.out.println(" delete   Accessable "); model.addObject("deleteAccess",
-				 * 0);
-				 * 
-				 * }
-				 * 
-				 * }
-				 */
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return model;
-		}
-
-		@RequestMapping(value = "/deleteWeekoffCat", method = RequestMethod.GET)
-		public String deleteWeekoffCat(HttpServletRequest request, HttpServletResponse response) {
-
-			HttpSession session = request.getSession();
-			String a = null;
-
-			try {
-	/*
-				List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-
-				Info view = AcessController.checkAccess("deleteLocation", "showLocationList", 0, 0, 0, 1, newModuleList);
-				if (view.isError() == true) {
-
-					a = "redirect:/accessDenied";
-
-				}
-
-				else {
-	*/
-					a = "redirect:/showWeekoffCatList";
-
-					String base64encodedString = request.getParameter("woCatId");
-					String woCatId = FormValidation.DecodeKey(base64encodedString);
-
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-					map.add("woCatId", woCatId);
-					Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteWeekoffCategory", map,
-							Info.class);
-
-					if (info.isError() == false) {
-						session.setAttribute("successMsg", info.getMsg());
-					} else {
-						session.setAttribute("errorMsg", info.getMsg());
-					}
-				//}
-			} catch (Exception e) {
-				e.printStackTrace();
-				session.setAttribute("errorMsg", "Failed to Delete");
-			}
-			return a;
-		}
-
-		
-		
-		@RequestMapping(value = "/editWeekoffCat", method = RequestMethod.GET)
-		public String editWeekoffCat(HttpServletRequest request, HttpServletResponse response, HttpSession session,Model model) {
-			 
-			 String mav=null;
-
-			/*List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-			Info view = AcessController.checkAccess("editDesignation", "showDesignationList", 0, 0, 1, 0, newModuleList);
-
-			if (view.isError() == true) {
-
-				model = new ModelAndView("accessDenied");
-
-			} else {*/
-				try {
-					mav = "master/weekoffCategoryAdd";
-
-					String base64encodedString = request.getParameter("woCatId");
-					String woCatId = FormValidation.DecodeKey(base64encodedString);
-
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-					map.add("woCatId", woCatId);
-					editWeekCat = Constants.getRestTemplate().postForObject(Constants.url + "/getWeekoffCategoryHoCatId", map,
-							WeekoffCategory.class);
-					model.addAttribute("holi", editWeekCat);
-					model.addAttribute("title", "Edit Weekoff Category");
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			 
-			return mav ;
-
-		}
-
 
 }

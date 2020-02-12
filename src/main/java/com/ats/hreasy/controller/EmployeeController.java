@@ -1565,67 +1565,76 @@ public class EmployeeController {
 		String mav = null;
 		try {
 
-			mav = "master/driverEmpList";
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showDriverEmployeeList", "showDriverEmployeeList", 1, 0, 0, 0,
+					newModuleList);
 
-			GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllDriverEmployee", GetEmployeeDetails[].class);
+			if (view.isError() == true) {
 
-			List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
-			model.addAttribute("empdetList", empdetList);
+				mav = "accessDenied";
 
-			for (int i = 0; i < empdetList.size(); i++) {
+			} else {
 
-				empdetList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empdetList.get(i).getEmpId())));
+				mav = "master/driverEmpList";
+
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllDriverEmployee", GetEmployeeDetails[].class);
+
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+				model.addAttribute("empdetList", empdetList);
+
+				for (int i = 0; i < empdetList.size(); i++) {
+
+					empdetList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(empdetList.get(i).getEmpId())));
+				}
+
+				model.addAttribute("empList", empdetList);
+
+				Info add = AcessController.checkAccess("showDriverEmployeeList", "showDriverEmployeeList", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showDriverEmployeeList", "showDriverEmployeeList", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showDriverEmployeeList", "showDriverEmployeeList", 0, 0, 0,
+						1, newModuleList);
+
+				if (add.isError() == false) { // System.out.println(" add Accessable ");
+					model.addAttribute("addAccess", 0);
+
+				}
+				if (edit.isError() == false) { // System.out.println(" edit Accessable ");
+					model.addAttribute("editAccess", 0);
+				}
+				if (delete.isError() == false) { //
+					System.out.println(" delete Accessable ");
+					model.addAttribute("deleteAccess", 0);
+
+				}
 			}
-
-			model.addAttribute("empList", empdetList);
-			model.addAttribute("addAccess", 0);
-			model.addAttribute("editAccess", 0);
- 
-			/*
-			 * Info add = AcessController.checkAccess("showEmployeeList",
-			 * "showEmployeeList", 0, 1, 0, 0, newModuleList); Info edit =
-			 * AcessController.checkAccess("showEmployeeList", "showEmployeeList", 0, 0, 1,
-			 * 0, newModuleList); Info delete =
-			 * AcessController.checkAccess("showEmployeeList", "showEmployeeList", 0, 0, 0,
-			 * 1, newModuleList);
-			 * 
-			 * if (add.isError() == false) { // System.out.println(" add Accessable ");
-			 * model.addObject("addAccess", 0);
-			 * 
-			 * } if (edit.isError() == false) { // System.out.println(" edit Accessable ");
-			 * model.addObject("editAccess", 0); } if (delete.isError() == false) { //
-			 * System.out.println(" delete Accessable "); model.addObject("deleteAccess",
-			 * 0);
-			 * 
-			 * }
-			 */
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return mav;
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/showAddDriverDetails", method = RequestMethod.GET)
-	public String  editClaimType(HttpServletRequest request, HttpServletResponse response,Model model) {
+	public String editClaimType(HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		String mav = null;
 		HttpSession session = request.getSession();
-	/*	List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-		Info view = AcessController.checkAccess("editClaimType", "showClaimTypeList", 0, 0, 1, 0, newModuleList);
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showAddDriverDetails", "showDriverEmployeeList", 0, 0, 1, 0, newModuleList);
 
 		if (view.isError() == true) {
 
-			model = new ModelAndView("accessDenied");
+			mav = "accessDenied";
 
-		} else {*/
+		} else {
 
 			try {
 
-				mav ="master/addDriverDet";
+				mav = "master/addDriverDet";
 
 				String base64encodedString = request.getParameter("empId");
 				String empId = FormValidation.DecodeKey(base64encodedString);
@@ -1633,73 +1642,68 @@ public class EmployeeController {
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("empId", empId);
-				EmpDriver editEmpDriver = Constants.getRestTemplate().postForObject(Constants.url + "/getDriverByEmpId", map,
-						EmpDriver.class);
+				EmpDriver editEmpDriver = Constants.getRestTemplate().postForObject(Constants.url + "/getDriverByEmpId",
+						map, EmpDriver.class);
 				model.addAttribute("editEmpDriver", editEmpDriver);
-				
-				
-				 map = new LinkedMultiValueMap<>();
-					map.add("empId", empId);
-					GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
-							.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
-					model.addAttribute("empDeatil",empPersInfo);
+
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+				GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
+				model.addAttribute("empDeatil", empPersInfo);
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-	//	}
+		}
 		return mav;
 	}
 
-	
-	
 	@RequestMapping(value = "/submitEmpDriver", method = RequestMethod.POST)
 	public String submitEmpDriver(HttpServletRequest request, HttpServletResponse response) {
 		try {
-				HttpSession session = request.getSession();
-				EmpDriver company = new EmpDriver();
-				int driverEmpId = 0; 
-				try {
-					driverEmpId = Integer.parseInt(request.getParameter("driverEmpId"));
-				}catch (Exception e) {
-					e.printStackTrace();
-					driverEmpId = 0;
-				}
-				
-			 
-				company.setDesignationId(Integer.parseInt(request.getParameter("desnId")));
-				company.setEmpDriverId(driverEmpId);
-				 
-				company.setEmpId(Integer.parseInt(request.getParameter("empId")));
-				company.setLicenceExpDate(request.getParameter("expDate"));
-				company.setLicenceIssueDate(request.getParameter("issueDate"));
-				company.setVehicleTblId(1);
-				company.setLicenceNo(request.getParameter("licenceNo"));
-				company.setVehicleNo(request.getParameter("vehicleNo"));
-				company.setVehicleType(request.getParameter("vehicleType"));
-				company.setDelStatus(1);
-				company.setExInt1(0);
-				company.setExInt2(0);
-				company.setExVar1("NA");
-				company.setExVar2("NA");
-				company.setMakerEnterDatetime(currDate);
-			 
-				EmpDriver saveComp = Constants.getRestTemplate().postForObject(Constants.url + "/saveDriver", company,
-						EmpDriver.class);
-				
-				if (saveComp != null) {
-					session.setAttribute("successMsg", "Record Updated Successfully");
-				} else {
-					session.setAttribute("errorMsg", "Failed to Update Record");
-				}
-				 
-		}catch (Exception e) {
-			System.out.println("Exception in insertEmployeeBasicInfo : "+e.getMessage());
+			HttpSession session = request.getSession();
+			EmpDriver company = new EmpDriver();
+			int driverEmpId = 0;
+			try {
+				driverEmpId = Integer.parseInt(request.getParameter("driverEmpId"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				driverEmpId = 0;
+			}
+
+			company.setDesignationId(Integer.parseInt(request.getParameter("desnId")));
+			company.setEmpDriverId(driverEmpId);
+
+			company.setEmpId(Integer.parseInt(request.getParameter("empId")));
+			company.setLicenceExpDate(request.getParameter("expDate"));
+			company.setLicenceIssueDate(request.getParameter("issueDate"));
+			company.setVehicleTblId(1);
+			company.setLicenceNo(request.getParameter("licenceNo"));
+			company.setVehicleNo(request.getParameter("vehicleNo"));
+			company.setVehicleType("0");
+			company.setDelStatus(1);
+			company.setExInt1(0);
+			company.setExInt2(0);
+			company.setExVar1("NA");
+			company.setExVar2("NA");
+			company.setMakerEnterDatetime(currDate);
+
+			EmpDriver saveComp = Constants.getRestTemplate().postForObject(Constants.url + "/saveDriver", company,
+					EmpDriver.class);
+
+			if (saveComp != null) {
+				session.setAttribute("successMsg", "Record Updated Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed to Update Record");
+			}
+
+		} catch (Exception e) {
+			System.out.println("Exception in insertEmployeeBasicInfo : " + e.getMessage());
 			e.printStackTrace();
 		}
 		return "redirect:/showDriverEmployeeList";
-		
+
 	}
-	
 
 }

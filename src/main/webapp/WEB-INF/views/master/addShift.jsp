@@ -97,7 +97,7 @@
 									id="submitShiftTiming" method="post">
 									<div class="form-group row">
 										<label class="col-form-label text-info font-weight-bold col-lg-2" for="locId">Select
-											Location <span style="color: red">* </span>:
+											Location <span style="color: red"> *</span>:
 										</label>
 										<div class="col-lg-10">
 											<select name="locId" data-placeholder="Select Location"

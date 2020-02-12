@@ -106,7 +106,7 @@
 									action="${pageContext.request.contextPath}/submitInsertAccessRole"
 									id="submitInsertEmpType" method="post">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="empTypeName">Role
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="empTypeName">Role
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -119,12 +119,12 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="empShortName">Role
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="empShortName">Role
 											Short Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Role Short Name" id="empShortName"
+												placeholder="Role Short Name" id="empShortName"s
 												name="empShortName" autocomplete="off" onchange="trim(this)"
 												maxlength="5"> <span
 												class="validation-invalid-label" id="error_empShortName"

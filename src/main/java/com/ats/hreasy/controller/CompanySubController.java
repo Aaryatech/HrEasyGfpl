@@ -49,53 +49,55 @@ public class CompanySubController {
 
 		try {
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("showCompanyList", "showCompanyList", 1, 0, 0, 0,
-			 * newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
-			model = new ModelAndView("master/companySubList");
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showSubCompanyList", "showSubCompanyList", 1, 0, 0, 0,
+					newModuleList);
 
-			MstCompanySub[] company = Constants.getRestTemplate().getForObject(Constants.url + "/getAllSubCompanies",
-					MstCompanySub[].class);
+			if (view.isError() == true) {
 
-			List<MstCompanySub> companyList = new ArrayList<MstCompanySub>(Arrays.asList(company));
+				model = new ModelAndView("accessDenied");
 
-			for (int i = 0; i < companyList.size(); i++) {
+			} else {
 
-				companyList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(companyList.get(i).getCompanyId())));
+				model = new ModelAndView("master/companySubList");
+
+				MstCompanySub[] company = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllSubCompanies", MstCompanySub[].class);
+
+				List<MstCompanySub> companyList = new ArrayList<MstCompanySub>(Arrays.asList(company));
+
+				for (int i = 0; i < companyList.size(); i++) {
+
+					companyList.get(i)
+							.setExVar1(FormValidation.Encrypt(String.valueOf(companyList.get(i).getCompanyId())));
+				}
+				model.addObject("companyList", companyList);
+
+				 
+
+				Info add = AcessController.checkAccess("showSubCompanyList", "showSubCompanyList", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showSubCompanyList", "showSubCompanyList", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showSubCompanyList", "showSubCompanyList", 0, 0, 0, 1,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					System.out.println(" delete   Accessable ");
+					model.addObject("deleteAccess", 0);
+
+				}
+
 			}
-			model.addObject("companyList", companyList);
-
-			model.addObject("addAccess", 0);
-			model.addObject("editAccess", 0);
-			model.addObject("deleteAccess", 0);
-
-			/*
-			 * Info add = AcessController.checkAccess("showCompanyList", "showCompanyList",
-			 * 0, 1, 0, 0, newModuleList); Info edit =
-			 * AcessController.checkAccess("showCompanyList", "showCompanyList", 0, 0, 1, 0,
-			 * newModuleList); Info delete = AcessController.checkAccess("showCompanyList",
-			 * "showCompanyList", 0, 0, 0, 1, newModuleList);
-			 * 
-			 * if (add.isError() == false) { System.out.println(" add   Accessable ");
-			 * model.addObject("addAccess", 0);
-			 * 
-			 * } if (edit.isError() == false) { System.out.println(" edit   Accessable ");
-			 * model.addObject("editAccess", 0); } if (delete.isError() == false) {
-			 * System.out.println(" delete   Accessable "); model.addObject("deleteAccess",
-			 * 0);
-			 * 
-			 * }
-			 */
-			// }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -104,8 +106,21 @@ public class CompanySubController {
 
 	@RequestMapping(value = "/deleteSubCompany", method = RequestMethod.GET)
 	public String deleteSubCompany(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		String a = null;
+		String a = new String();
 
+		 
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+
+		Info view = AcessController.checkAccess("deleteSubCompany", "showSubCompanyList", 0, 0, 0, 1, newModuleList);
+		if (view.isError() == true) {
+
+			a = "redirect:/accessDenied";
+
+		}
+
+		else {
+
+ 
 		a = "redirect:/showSubCompanyList";
 		try {
 			String base64encodedString = request.getParameter("companyId");
@@ -128,7 +143,7 @@ public class CompanySubController {
 			e.printStackTrace();
 			session.setAttribute("errorMsg", "Failed to Delete");
 		}
-
+		}
 		return a;
 	}
 
@@ -171,23 +186,22 @@ public class CompanySubController {
 
 		try {
 			MstCompanySub company = new MstCompanySub();
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("dsesignationAdd", "showDesignationList", 0, 1,
-			 * 0, 0, newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
-			model = new ModelAndView("master/companySubAdd");
-			model.addObject("company", company);
-			session.setAttribute("tabFlag", 0);
 
-			// }
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("companySubAdd", "showSubCompanyList", 0, 1, 0, 0,
+					newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {
+
+				model = new ModelAndView("master/companySubAdd");
+				model.addObject("company", company);
+				session.setAttribute("tabFlag", 0);
+
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -310,6 +324,16 @@ public class CompanySubController {
 		ModelAndView model = null;
 		HttpSession session = request.getSession();
 		try {
+			
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("editSubCompanyInfo", "showSubCompanyList", 0, 0, 1, 0,
+					newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {
 
 			String redirectFlag = request.getParameter("redirectFlag");
 			if (Integer.parseInt(redirectFlag) == 2) {
@@ -332,6 +356,7 @@ public class CompanySubController {
 			model.addObject("viewUrl", Constants.imageShowUrl);
 
 			System.out.println(" company : " + company.toString());
+			}
 		} catch (Exception e) {
 			System.out.println("Exception in addCompanyInfo : " + e.getMessage());
 			e.printStackTrace();

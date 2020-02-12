@@ -195,7 +195,7 @@
 										</div>
 									</div>
 
-
+<%-- 
 									<div class="form-group row">
 										<label
 											class="col-form-label text-info font-weight-bold  col-lg-2"
@@ -219,7 +219,7 @@
 												id="error_vehicleType" style="display: none;">This
 												field is required.</span>
 										</div>
-									</div>
+									</div> --%>
 
 
 
@@ -275,7 +275,7 @@
 				var isError = false;
 				var errMsg = "";
 				$("#error_licenceNo").hide();
-				$("#error_vehicleType").hide();
+				/* $("#error_vehicleType").hide(); */
 				$("#error_expDate").hide();
 				$("#error_issueDate").hide();
 				$("#error_vehicleNo").hide();
@@ -292,12 +292,12 @@
 					$("#error_licenceNo").show()
 				}
 
-				if (!$("#vehicleType").val()) {
+				/* if (!$("#vehicleType").val()) {
 
 					isError = true;
 					$("#error_vehicleType").show()
 
-				}
+				} */
 
 				if (!$("#issueDate").val()) {
 

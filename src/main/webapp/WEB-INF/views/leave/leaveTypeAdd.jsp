@@ -182,7 +182,7 @@
 									</div>
 											<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="comoffallowed">Is Structured
-											<span style="color:red">* </span>:</label>
+											<span style="color:red"> </span>:</label>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label"> <input type="radio"
 												class="form-check-input" name="isStructured"

@@ -108,7 +108,7 @@
 									<div class="form-group row">
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
-											for="typeName"> Type Name<span class="text-danger">*
+											for="typeName"> Type Name<span class="text-danger"> *
 										</span>:
 										</label>
 										<div class="col-lg-10">
@@ -124,7 +124,7 @@
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
 											for="minWorkRule"> Minimum Work Hour Rule Applicable
-											<span class="text-danger">* </span>:
+											<span class="text-danger"> *</span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="minWorkRule" data-placeholder="Please Select"
@@ -145,7 +145,7 @@
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
 											for="halfDayDed"> Half Day Deduction <span
-											class="text-danger">* </span>:
+											class="text-danger"> *</span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="halfDayDed" data-placeholder="Please Select"
@@ -171,7 +171,7 @@
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
 											for="otApplicable"> OT Applicable <span
-											class="text-danger">* </span>:
+											class="text-danger"> *</span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="otApplicable" data-placeholder="Please Select"
@@ -194,7 +194,7 @@
 
 											<label
 												class="col-form-label text-info font-weight-bold col-lg-2"
-												for="otType"> OT Type<span class="text-danger">*
+												for="otType"> OT Type<span class="text-danger"> *
 											</span>:
 											</label>
 											<div class="col-lg-4">
@@ -219,7 +219,7 @@
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
 											for="weekOffWork"> Weekly off Holiday Work <span
-											class="text-danger">* </span>:
+											class="text-danger"> * </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="weekOffWork" data-placeholder="Please Select"
@@ -239,7 +239,7 @@
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
 											for="lateMark"> Late Mark Entry<span
-											class="text-danger">* </span>:
+											class="text-danger"> * </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="lateMark" data-placeholder="Please Select"
