@@ -40,6 +40,7 @@ import com.ats.hreasy.model.LeaveStructureHeader;
 import com.ats.hreasy.model.LeaveType;
 import com.ats.hreasy.model.LeavesAllotment;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.Setting;
 
 @Controller
 @Scope("session")
@@ -131,9 +132,14 @@ public class LeaveStructureController {
 
 				if (ret == false) {
 
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("limitKey", "default_previlage");
+					Setting defaultPrv = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey",
+							map, Setting.class);
+
 					LeaveStructureHeader head = new LeaveStructureHeader();
 					List<LeaveStructureDetails> detailList = new ArrayList<>();
-					
+
 					head.setCompanyId(1);
 					head.setDelStatus(1);
 					head.setIsActive(1);
@@ -142,17 +148,22 @@ public class LeaveStructureController {
 					head.setMakerUserId(1);
 
 					LeaveStructureDetails detail = new LeaveStructureDetails();
-					detail.setDelStatus(1);
-					detail.setExInt1(0);
-					detail.setExInt2(0);
-					detail.setExVar1("NA");
-					detail.setExVar2("NA");
-					detail.setIsActive(1); 
-					detail.setLvsAllotedLeaves(0); 
-					detail.setLvTypeId(1);
-					detail.setMakerUserId(userObj.getUserId());
-					detail.setMakerDatetime(dateTime);
-					detailList.add(detail);
+					
+					if (Integer.parseInt(defaultPrv.getValue()) == 1) {
+
+						detail = new LeaveStructureDetails();
+						detail.setDelStatus(1);
+						detail.setExInt1(0);
+						detail.setExInt2(0);
+						detail.setExVar1("NA");
+						detail.setExVar2("NA");
+						detail.setIsActive(1);
+						detail.setLvsAllotedLeaves(0);
+						detail.setLvTypeId(1);
+						detail.setMakerUserId(userObj.getUserId());
+						detail.setMakerDatetime(dateTime);
+						detailList.add(detail);
+					}
 					
 					detail = new LeaveStructureDetails();
 					detail.setDelStatus(1);
@@ -160,13 +171,13 @@ public class LeaveStructureController {
 					detail.setExInt2(0);
 					detail.setExVar1("NA");
 					detail.setExVar2("NA");
-					detail.setIsActive(1); 
-					detail.setLvsAllotedLeaves(0); 
+					detail.setIsActive(1);
+					detail.setLvsAllotedLeaves(0);
 					detail.setLvTypeId(2);
 					detail.setMakerUserId(userObj.getUserId());
 					detail.setMakerDatetime(dateTime);
 					detailList.add(detail);
-					
+
 					for (int i = 0; i < leaveTypeList.size(); i++) {
 
 						int noOfLeaves = 0;
@@ -361,7 +372,7 @@ public class LeaveStructureController {
 				if (info.isError() == false) {
 					session.setAttribute("successMsg", info.getMsg());
 				} else {
-					session.setAttribute("errorMsg",  info.getMsg());
+					session.setAttribute("errorMsg", info.getMsg());
 				}
 			}
 		} catch (Exception e) {
