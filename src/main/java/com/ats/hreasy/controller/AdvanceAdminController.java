@@ -45,6 +45,7 @@ import com.ats.hreasy.model.ShiftMaster;
 import com.ats.hreasy.model.TblEmpInfo;
 import com.ats.hreasy.model.User;
 import com.ats.hreasy.model.Advance.Advance;
+import com.ats.hreasy.model.Advance.AdvanceDetails;
 import com.ats.hreasy.model.Advance.GetAdvance;
 
 @Controller
@@ -458,6 +459,7 @@ public class AdvanceAdminController {
 		Info view = AcessController.checkAccess("showSkipAdvance", "showEmpAdvancePendingList", 0, 0, 1, 0,
 				newModuleList);
 
+		List<AdvanceDetails> advDetList=new ArrayList<>();
 		if (view.isError() == true) {
 
 			model = new ModelAndView("accessDenied");
@@ -489,37 +491,25 @@ public class AdvanceAdminController {
 				map.add("advId", advId);
 				Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
 						Advance.class);
+				
+				map = new LinkedMultiValueMap<>();
+				map.add("advId", advId);
+			 
+				AdvanceDetails[] employeeInfo = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAdvanceDetailsByAdvanceIdId", map, AdvanceDetails[].class);
+
+				advDetList = new ArrayList<AdvanceDetails>(Arrays.asList(employeeInfo));
+model.addObject("advDetList", advDetList);
+				
+				model.addObject("count", advDetList.size());
+				System.err.println(advDetList.toString()+"***"+advId);
 				advList.setAdvDate(DateConvertor.convertToDMY(advList.getAdvDate()));
 				model.addObject("advList", advList);
 				String a = Month.of(advList.getDedMonth()).name();
 				model.addObject("monthName", a);
-				String skipStr = new String();
-				if (advList.getSkipId() == 0) {
-					skipStr = "-";
-					model.addObject("skipStr", skipStr);
-				} else {
-					String abc = new String();
-					String csv = advList.getSkipRemarks();
-
-					String[] elements = csv.split(",");
-
-					List<String> fixedLenghtList = Arrays.asList(elements);
-
-					ArrayList<String> listOfString = new ArrayList<String>(fixedLenghtList);
-
-					/*
-					 * System.out.println("Adv listOfString-------" + listOfString.toString()); for
-					 * (int i = 1; i < listOfString.size(); i++) {
-					 * 
-					 * 
-					 * String y= (String.valueOf(i)).concat(")").concat(listOfString.get(i));
-					 * abc.concat(y); System.out.println("Adv Info-------" + String.valueOf(i));
-					 * System.out.println("Adv Info-------" + listOfString.get(i));
-					 * 
-					 * }
-					 */
-					model.addObject("listOfString", listOfString);
-				}
+				
+				
+				 
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -576,26 +566,32 @@ public class AdvanceAdminController {
 				}
 
 				if (ret == false) {
-					String skipStr = new String();
-					if (advList.getSkipId() == 0) {
-						skipStr = remark;
-					} else {
-						skipStr = advList.getSkipRemarks().concat(",").concat(remark);
-					}
-					int count = advList.getSkipId() + 1;
-
-					map = new LinkedMultiValueMap<>();
-					map.add("dateTimeUpdate", sf2.format(date2));
-					map.add("userId", userObj.getEmpId());
-					map.add("skipStr", skipStr);
-					map.add("count", count);
-					map.add("advId", advId);
-					map.add("dedMonth", oneMonthLater.getMonthValue());
-					map.add("dedYear", oneMonthLater.getYear());
-					Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSkipAdvance", map,
-							Info.class);
-
-					if (info != null) {
+ 					AdvanceDetails advDet=new AdvanceDetails();
+					
+					advDet.setExInt1(0);
+					advDet.setExInt2(0);
+					advDet.setExVar1("NA");
+					advDet.setExVar2("NA");
+					advDet.setAdvId(advId);
+					advDet.setDelStatus(1);
+					advDet.setSkipRemarks(remark);
+ 					advDet.setSkipLoginId(userObj.getEmpId());
+					advDet.setSkipLoginTime(sf2.format(date2));
+					 
+					AdvanceDetails res = Constants.getRestTemplate().postForObject(Constants.url + "/saveAdvanceDetails", advDet,
+							AdvanceDetails.class);
+ 
+					if (res != null) {
+						 
+						map = new LinkedMultiValueMap<>();
+						map.add("dateTimeUpdate", sf2.format(date2));
+						map.add("userId", userObj.getEmpId());
+ 						map.add("advId", advId);
+						map.add("dedMonth", oneMonthLater.getMonthValue());
+						map.add("dedYear", oneMonthLater.getYear());
+						Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSkipAdvance", map,
+								Info.class);
+ 
 						session.setAttribute("successMsg", "Advance Skipped  Successfully");
 					} else {
 						session.setAttribute("errorMsg", "Failed to Insert Record");

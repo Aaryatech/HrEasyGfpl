@@ -130,7 +130,7 @@
 										Designation: </label> <label class="col-form-label col-lg-2"
 										for="locId" style="color: red;"> ${empDeatil.empDesgn}
 									</label> <label class="col-form-label col-lg-2" for="locId">
-										Emp Type Amount: </label> <label class="col-form-label col-lg-2"
+										Emp Type: </label> <label class="col-form-label col-lg-2"
 										for="locId" style="color: red;">
 										${empDeatil.empTypeName} </label> <label
 										class="col-form-label col-lg-2" for="locId"> Location:

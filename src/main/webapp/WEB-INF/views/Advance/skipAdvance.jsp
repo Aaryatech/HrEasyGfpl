@@ -156,34 +156,27 @@
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">
 											Prev Skipped Reason : </label>
-										<c:if test="${advList.skipId==0}">
-											<label class="col-form-label col-lg-2" for="voucherNo">
-												${skipStr} </label>
-										</c:if>
-										<c:if test="${advList.skipId>0}">
-
-
-											<label class="col-form-label col-lg-2" for="voucherNo">
-												<c:forEach items="${listOfString}" var="listOfString"
-													varStatus="count">${count.index+1}.${listOfString}<br> </c:forEach>
+										  
+											<label class="col-form-label col-lg-5" for="voucherNo">
+												<c:forEach items="${advDetList}" var="advDetList"
+													varStatus="count">${count.index+1}.${advDetList.skipRemarks}   ${advDetList.skipLoginTime}<br> </c:forEach>
 											</label>
-										</c:if>
-
+										 
 									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">Skipped
 											Time : </label> <label class="col-form-label col-lg-2"
-											for="voucherNo"> ${advList.skipId} </label>
+											for="voucherNo"> ${count} </label>
 									</div>
 
 
-									<div class="form-group row">
+								<%-- 	<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">Last
 											Skipped date: </label> <label class="col-form-label col-lg-2"
 											for="voucherNo"> ${advList.skipLoginTime} </label>
 									</div>
-
+ --%>
 
 
 
