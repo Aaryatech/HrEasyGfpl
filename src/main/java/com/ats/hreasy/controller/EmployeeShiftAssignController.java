@@ -310,6 +310,8 @@ public class EmployeeShiftAssignController {
 				String halfDayDed = request.getParameter("halfDayDed");
 				String minWorkRule = request.getParameter("minWorkRule");
 				String woRemarks = request.getParameter("woRemarks");
+				String prodApplicable = request.getParameter("prodApplicable");
+
 
 				Boolean ret = false;
 
@@ -349,10 +351,15 @@ public class EmployeeShiftAssignController {
 					ret = true;
 					System.out.println("minWorkRule" + ret);
 				}
-				if (FormValidation.Validaton(woRemarks, "") == true) {
+				/*
+				 * if (FormValidation.Validaton(woRemarks, "") == true) {
+				 * 
+				 * ret = true; System.out.println("woRemarks" + ret); }
+				 */
+				if (FormValidation.Validaton(prodApplicable, "") == true) {
 
 					ret = true;
-					System.out.println("woRemarks" + ret);
+					System.out.println("prodApplicable" + ret);
 				}
 				//System.err.println("minWorkHr"+minWorkHr);
 
@@ -382,6 +389,12 @@ public class EmployeeShiftAssignController {
 					mstEmpType.setMinworkApplicable(minWorkRule);
 					mstEmpType.setOtTime("0");
 					mstEmpType.setMaxLateTimeAllowed(0);
+					mstEmpType.setProdIncentiveApp(prodApplicable);
+					mstEmpType.setExInt1(0);
+					mstEmpType.setExInt2(0);
+					mstEmpType.setExVar1("NA");
+					mstEmpType.setExVar2("NA");
+
 					// mstEmpType.setStatus(status);
 					// mstEmpType.setWeeklyHolidayLateAllowed(weeklyHolidayLateAllowed);
 					// mstEmpType.setWeeklyHolidayLateAllowedMin(weeklyHolidayLateAllowedMin);
@@ -594,6 +607,8 @@ public class EmployeeShiftAssignController {
 				String minWorkRule = request.getParameter("minWorkRule");
 				String woRemarks = request.getParameter("woRemarks");
 				String empTypeId = request.getParameter("empTypeId");
+				String prodApplicable = request.getParameter("prodApplicable");
+				
 				if (otApplicable.equals("Yes")) {
 					otType = request.getParameter("otType");
 				} else {
@@ -640,12 +655,16 @@ public class EmployeeShiftAssignController {
 					ret = true;
 					System.out.println("minWorkRule" + ret);
 				}
-				if (FormValidation.Validaton(woRemarks, "") == true) {
+				/*
+				 * if (FormValidation.Validaton(woRemarks, "") == true) {
+				 * 
+				 * ret = true; System.out.println("woRemarks" + ret); }
+				 */
+				if (FormValidation.Validaton(prodApplicable, "") == true) {
 
 					ret = true;
-					System.out.println("woRemarks" + ret);
+					System.out.println("prodApplicable" + ret);
 				}
-
 				if (ret == false) {
 					//String mnghr1 = HoursConversion.convertHoursToMin(minWorkHr);
 					MstEmpType mstEmpType = new MstEmpType();
@@ -672,6 +691,14 @@ public class EmployeeShiftAssignController {
 					mstEmpType.setMinworkApplicable(minWorkRule);
 					mstEmpType.setOtTime("0");
 					mstEmpType.setMaxLateTimeAllowed(0);
+					mstEmpType.setProdIncentiveApp(prodApplicable);
+					mstEmpType.setExInt1(0);
+					mstEmpType.setExInt2(0);
+					mstEmpType.setExVar1("NA");
+					mstEmpType.setExVar2("NA");
+
+					
+					
 					// mstEmpType.setStatus(status);
 					// mstEmpType.setWeeklyHolidayLateAllowed(weeklyHolidayLateAllowed);
 					// mstEmpType.setWeeklyHolidayLateAllowedMin(weeklyHolidayLateAllowedMin);

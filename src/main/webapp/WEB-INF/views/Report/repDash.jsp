@@ -202,10 +202,10 @@
 
 											<div class="card-body" align="left">
  												Employee Loan Amount <a href="#"
-													onclick="getProgReport(0,'showEmpLoanRep')"
+													onclick="getProgReport(0,'showLoanRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEmpAttendRegisterRep')"
+													onclick="getProgReport(1,'showLoanRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <br /> Yearly Loan Report
 												<a href="#"

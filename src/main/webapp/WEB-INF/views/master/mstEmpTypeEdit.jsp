@@ -108,8 +108,8 @@
 									<div class="form-group row">
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
-											for="typeName"> Type Name<span class="text-danger"> *
-										</span>:
+											for="typeName"> Type Name<span class="text-danger">
+												* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -169,14 +169,11 @@
 
 									</div>
 
-
-
-
 									<div class="form-group row">
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
-											for="otApplicable"> OT Applicable <span
-											class="text-danger"> * </span>:
+											for="otApplicable"> Performance Incentive Applicable
+											<span class="text-danger"> * </span>:
 										</label>
 										<div class="col-lg-4">
 											<select name="otApplicable" data-placeholder="Please Select"
@@ -199,8 +196,8 @@
 										<div class="form-group row">
 											<label
 												class="col-form-label text-info font-weight-bold col-lg-2"
-												for="otType"> OT Type<span class="text-danger"> *
-											</span>:
+												for="otType"> OT Type<span class="text-danger">
+													* </span>:
 											</label>
 											<div class="col-lg-4">
 												<select name="otType" data-placeholder="Please Select"
@@ -226,9 +223,31 @@
 											</div>
 										</div>
 									</div>
-
-
+ 
 									<div class="form-group row">
+
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="prodApplicable">Production Incentive Applicable<span
+											class="text-danger"> *</span>:
+										</label>
+										<div class="col-lg-4">
+											<select name="prodApplicable"
+												data-placeholder="Please Select" id="prodApplicable"
+												onchange="setDate()"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												tabindex="-1" aria-hidden="true">
+												<option value="">Please Select</option>
+												<option value="1"
+													${employee.prodIncentiveApp == '1' ? 'selected' : ''}>Yes</option>
+												<option value="0"
+													${employee.prodIncentiveApp == '0' ? 'selected' : ''}>No</option>
+
+
+											</select> <span class="validation-invalid-label"
+												id="error_prodApplicable" style="display: none;">This
+												field is required.</span>
+										</div>
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
 											for="weekOffWork"> Weekly off Holiday Work <span
@@ -252,6 +271,12 @@
 												field is required.</span>
 										</div>
 
+
+									</div>
+
+									<input type="hidden" id="minHr" name="minHr" value="0">
+									<div class="form-group row">
+
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
 											for="lateMark"> Late Mark Entry<span
@@ -271,10 +296,6 @@
 											</select> <span class="validation-invalid-label" id="error_lateMark"
 												style="display: none;">This field is required.</span>
 										</div>
-									</div>
-
-									<input type="hidden" id="minHr" name="minHr" value="0">
-									<div class="form-group row">
 
 
 										<!-- <label class="col-form-label text-info font-weight-bold col-lg-2" for="minHr">
@@ -453,6 +474,16 @@
 
 				} else {
 					$("#error_halfDayDed").hide()
+				}
+
+				if (!$("#prodApplicable").val()) {
+
+					isError = true;
+
+					$("#error_prodApplicable").show()
+
+				} else {
+					$("#error_prodApplicable").hide()
 				}
 
 				if (!isError) {

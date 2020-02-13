@@ -108,8 +108,8 @@
 									<div class="form-group row">
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
-											for="typeName"> Type Name<span class="text-danger"> *
-										</span>:
+											for="typeName"> Type Name<span class="text-danger">
+												* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -163,14 +163,11 @@
 										</div>
 
 									</div>
-
-
-
-
+ 
 									<div class="form-group row">
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
-											for="otApplicable"> OT Applicable <span
+											for="otApplicable"> Performance Incentive Applicable <span
 											class="text-danger"> *</span>:
 										</label>
 										<div class="col-lg-4">
@@ -194,8 +191,8 @@
 
 											<label
 												class="col-form-label text-info font-weight-bold col-lg-2"
-												for="otType"> OT Type<span class="text-danger"> *
-											</span>:
+												for="otType"> OT Type<span class="text-danger">
+													* </span>:
 											</label>
 											<div class="col-lg-4">
 												<select name="otType" data-placeholder="Please Select"
@@ -216,6 +213,28 @@
 
 
 									<div class="form-group row">
+									
+										<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="prodApplicable">Production Incentive Applicable<span
+												class="text-danger"> *</span>:
+											</label>
+											<div class="col-lg-4">
+												<select name="prodApplicable"
+													data-placeholder="Please Select" id="prodApplicable"
+													onchange="setDate()"
+													class="form-control form-control-select2 select2-hidden-accessible"
+													tabindex="-1" aria-hidden="true">
+													<option value="">Please Select</option>
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+
+
+
+												</select> <span class="validation-invalid-label"
+													id="error_prodApplicable" style="display: none;">This
+													field is required.</span>
+											</div>
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
 											for="weekOffWork"> Weekly off Holiday Work <span
@@ -235,7 +254,28 @@
 												id="error_weekOffWork" style="display: none;">This
 												field is required.</span>
 										</div>
+									 
+										
+										</div>
 
+ 									<input type="hidden" id="minHr" name="minHr" value="0">
+
+
+									<div class="form-group row">
+
+
+										<!-- 	<label class="col-form-label text-info font-weight-bold col-lg-2" for="minHr">
+											Minimum Work Hour(in Min)<span class="text-danger">* </span>:
+										</label> 
+										<div class="col-lg-4">
+											<input type="hidden" class="form-control numbersOnly"
+												placeholder="Enter Min Hours" id="minHr" name="minHr" value="0"
+												autocomplete="off" onchange="trim(this)" maxlength="20">
+											<span class="validation-invalid-label" id="error_minHr"
+												style="display: none;">This field is required.</span>
+										</div>
+										 
+-->
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
 											for="lateMark"> Late Mark Entry<span
@@ -253,24 +293,7 @@
 											</select> <span class="validation-invalid-label" id="error_lateMark"
 												style="display: none;">This field is required.</span>
 										</div>
-									</div>
-									<input type="hidden" id="minHr" name="minHr" value="0">
 
-
-									<div class="form-group row">
-
-
-										<!-- 	<label class="col-form-label text-info font-weight-bold col-lg-2" for="minHr">
-											Minimum Work Hour(in Min)<span class="text-danger">* </span>:
-										</label> 
-										<div class="col-lg-4">
-											<input type="hidden" class="form-control numbersOnly"
-												placeholder="Enter Min Hours" id="minHr" name="minHr" value="0"
-												autocomplete="off" onchange="trim(this)" maxlength="20">
-											<span class="validation-invalid-label" id="error_minHr"
-												style="display: none;">This field is required.</span>
-										</div>
--->
 										<label class="col-form-label  col-lg-2" for="woRemarks">Remark
 											: </label>
 										<div class="col-lg-4">
@@ -440,7 +463,15 @@
 					$("#error_halfDayDed").hide()
 				}
 
-				 
+				if (!$("#prodApplicable").val()) {
+
+					isError = true;
+
+					$("#error_prodApplicable").show()
+
+				} else {
+					$("#error_prodApplicable").hide()
+				}
 
 				if (!isError) {
 
