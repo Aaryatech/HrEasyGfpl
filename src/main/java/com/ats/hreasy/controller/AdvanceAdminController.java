@@ -502,7 +502,7 @@ public class AdvanceAdminController {
 model.addObject("advDetList", advDetList);
 				
 				model.addObject("count", advDetList.size());
-				System.err.println(advDetList.toString()+"***"+advId);
+				//System.err.println(advDetList.toString()+"***"+advId);
 				advList.setAdvDate(DateConvertor.convertToDMY(advList.getAdvDate()));
 				model.addObject("advList", advList);
 				String a = Month.of(advList.getDedMonth()).name();
@@ -541,6 +541,7 @@ model.addObject("advDetList", advDetList);
 				SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 				String remark = request.getParameter("remark");
+				int count = Integer.parseInt(request.getParameter("count"));
 				int advId = Integer.parseInt(request.getParameter("advId"));
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("advId", advId);
@@ -564,7 +565,6 @@ model.addObject("advDetList", advDetList);
 					ret = true;
 					System.out.println("remark" + ret);
 				}
-
 				if (ret == false) {
  					AdvanceDetails advDet=new AdvanceDetails();
 					
@@ -589,10 +589,19 @@ model.addObject("advDetList", advDetList);
  						map.add("advId", advId);
 						map.add("dedMonth", oneMonthLater.getMonthValue());
 						map.add("dedYear", oneMonthLater.getYear());
+						map.add("count",count+1);
+						 
 						Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSkipAdvance", map,
 								Info.class);
+						
+						if(info.isError()==false)
+						{
+							session.setAttribute("successMsg", "Advance Skipped  Successfully");
+
+						} else {
+							session.setAttribute("errorMsg", "Failed to Insert Record");
+						}
  
-						session.setAttribute("successMsg", "Advance Skipped  Successfully");
 					} else {
 						session.setAttribute("errorMsg", "Failed to Insert Record");
 					}

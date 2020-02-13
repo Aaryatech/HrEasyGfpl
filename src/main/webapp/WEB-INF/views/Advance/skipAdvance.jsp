@@ -138,7 +138,7 @@
 											${advList.advDate} </label>
 									</div>
 
-
+count
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="advanceAmt">Date(month-year)
@@ -169,6 +169,8 @@
 											Time : </label> <label class="col-form-label col-lg-2"
 											for="voucherNo"> ${count} </label>
 									</div>
+									
+									<input type="hidden" id="count" name="count" value="${count}"> 
 
 
 								<%-- 	<div class="form-group row">
