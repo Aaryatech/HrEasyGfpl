@@ -88,7 +88,7 @@
 											<th class="text-center">EMP Code</th>
 											<th width="20%" class="text-center">EMP Name</th>
 											<th class="text-center">Basic</th>
-											<th class="text-center">Fund</th>
+											 
 											<th class="text-center">Gross Earning</th>
 											<th class="text-center">Adv</th>
 											<th class="text-center">Loan</th>
@@ -102,7 +102,7 @@
 											<th class="text-center">Gross Ded</th>
 											<th class="text-center">Claim ADD</th>
 											<th class="text-center">Performance Bonus</th>
-											<th class="text-center">OT AMT</th>
+											<th class="text-center">Performance Incentive <!-- (OT AMT) --></th>
 											<th class="text-center">Net Salary</th>
 										</tr>
 
@@ -160,11 +160,7 @@
 																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getBasicCal(), amount_round)));
 												%>
 											</td>
-											<td class="text-right">
-												<%
-													out.println(String.format("%.2f", ReportCostants.castNumber(list.get(i).getFund(), amount_round)));
-												%>
-											</td>
+											 
 											<td class="text-right">
 												<%
 													out.println(String.format("%.2f",

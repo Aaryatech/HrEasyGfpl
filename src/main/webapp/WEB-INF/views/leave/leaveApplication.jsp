@@ -171,8 +171,6 @@
 													<td style="text-align: right;">${leaveHistoryList.aplliedLeaeve}</td>
 													<td style="text-align: right;">${leaveHistoryList.balLeave+leaveHistoryList.lvsAllotedLeaves-leaveHistoryList.sactionLeave-leaveHistoryList.aplliedLeaeve}</td>
 
-
-
 												</tr>
 											</c:forEach>
 
