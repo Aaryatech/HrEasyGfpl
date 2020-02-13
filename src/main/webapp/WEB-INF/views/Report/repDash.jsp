@@ -155,8 +155,7 @@
 											</div>
 										</div>
 									</div>
-
-
+ 
 									<div class="col-sm-12 col-md-4">
 										<div class="card">
 											<div
@@ -166,9 +165,7 @@
 											</div>
 
 											<div class="card-body" align="left">
-
-
-												Attendance Register <a href="#"
+ 												Attendance Register <a href="#"
 													onclick="getProgReport(0,'showEmpAttendRegisterRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
@@ -194,19 +191,58 @@
 
 
 
+
 									<div class="col-sm-12 col-md-4">
 										<div class="card">
 											<div
 												class="card-header bg-primary text-white header-elements-inline">
-
-												<div class="header-elements">
-													<div class="list-icons"></div>
-												</div>
+												<h6 class="card-title">Loan Reports</h6>
+												<div class="header-elements"></div>
 											</div>
 
-											<div class="card-body" align="left">Estimated Hours</div>
+											<div class="card-body" align="left">
+ 												Employee Loan Amount <a href="#"
+													onclick="getProgReport(0,'showEmpLoanRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmpAttendRegisterRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <br /> Yearly Loan Report
+												<a href="#"
+													onclick="getProgReport(0,'showEmpAttendanceRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmpAttendanceRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a><br /> Employee Loan Skip Report <a
+													href="#" onclick="getProgReport(0,'showEmpLateMarkRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+													
+													<br/>
+													Employee Partial Pay Loan  Report<a
+													href="#" onclick="getProgReport(0,'showEmpLateMarkRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+													
+													<br/>
+													
+													Employee Foreclose Loan  Report <a
+													href="#" onclick="getProgReport(0,'showEmpLateMarkRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+
+											</div>
 										</div>
 									</div>
+
+
 
 								</div>
 

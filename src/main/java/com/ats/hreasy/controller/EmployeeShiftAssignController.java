@@ -301,10 +301,10 @@ public class EmployeeShiftAssignController {
 				String otType = null;
 				String minWorkHr = request.getParameter("minHr");
 				String otApplicable = request.getParameter("otApplicable");
-				if (otApplicable.equals("1")) {
+				if (otApplicable.equals("Yes")) {
 					otType = request.getParameter("otType");
 				} else {
-					otType = "0";
+					otType = "";
 				}
 				String typeName = request.getParameter("typeName");
 				String halfDayDed = request.getParameter("halfDayDed");
@@ -594,10 +594,10 @@ public class EmployeeShiftAssignController {
 				String minWorkRule = request.getParameter("minWorkRule");
 				String woRemarks = request.getParameter("woRemarks");
 				String empTypeId = request.getParameter("empTypeId");
-				if (otApplicable.equals("1")) {
+				if (otApplicable.equals("Yes")) {
 					otType = request.getParameter("otType");
 				} else {
-					otType = "0";
+					otType = "";
 				}
 
 				System.err.println("empTypeId" + empTypeId);

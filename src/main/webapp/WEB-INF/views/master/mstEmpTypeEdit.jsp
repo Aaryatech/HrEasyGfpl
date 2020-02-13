@@ -184,10 +184,10 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												tabindex="-1" aria-hidden="true">
 												<option value="">Please Select</option>
-												<option value="1"
-													${employee.otApplicable == '1' ? 'selected' : ''}>Yes</option>
-												<option value="0"
-													${employee.otApplicable == '0' ? 'selected' : ''}>No</option>
+												<option value="Yes"
+													${employee.otApplicable == 'Yes' ? 'selected' : ''}>Yes</option>
+												<option value="No"
+													${employee.otApplicable == 'No' ? 'selected' : ''}>No</option>
 
 
 											</select> <span class="validation-invalid-label"
@@ -339,7 +339,7 @@
 
 			var value = document.getElementById("otApplicable").value;
 			//alert("Value " + value)
-			if (value == 1) {
+			if (value == 'Yes') {
 				//	document.getElementById("abc").style.display = "block";
 				$("#abc").show()
 			} else {
@@ -413,7 +413,7 @@
 					$("#error_otApplicable").hide()
 				}
 
-				if (parseInt($("#otApplicable").val()) == 1) {
+				if ($("#otApplicable").val() == 'Yes') {
 					if (!$("#otType").val()) {
 
 						isError = true;

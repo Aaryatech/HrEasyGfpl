@@ -101,9 +101,7 @@
 									<th>Location</th>
 									<th>Licence No.</th>
 									<th>Action</th>
-
-
-								</tr>
+ 								</tr>
 							</thead>
 							<tbody>
 

@@ -138,7 +138,7 @@
 											${advList.advDate} </label>
 									</div>
 
-count
+
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="advanceAmt">Date(month-year)
@@ -171,6 +171,8 @@ count
 									</div>
 									
 									<input type="hidden" id="count" name="count" value="${count}"> 
+																		<input type="hidden" id="skipStr" name="skipStr" value="${skipStr}"> 
+									
 
 
 								<%-- 	<div class="form-group row">
