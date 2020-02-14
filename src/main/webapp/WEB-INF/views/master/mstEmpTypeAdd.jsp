@@ -191,7 +191,7 @@
 
 											<label
 												class="col-form-label text-info font-weight-bold col-lg-2"
-												for="otType"> OT Type<span class="text-danger">
+												for="otType"> Performance Incentive Type<span class="text-danger">
 													* </span>:
 											</label>
 											<div class="col-lg-4">
@@ -226,8 +226,8 @@
 													class="form-control form-control-select2 select2-hidden-accessible"
 													tabindex="-1" aria-hidden="true">
 													<option value="">Please Select</option>
-													<option value="Yes">Yes</option>
-													<option value="No">No</option>
+													<option value="1">Yes</option>
+													<option value="0">No</option>
 
 
 

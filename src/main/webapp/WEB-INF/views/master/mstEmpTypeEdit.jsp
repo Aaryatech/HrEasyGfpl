@@ -196,7 +196,7 @@
 										<div class="form-group row">
 											<label
 												class="col-form-label text-info font-weight-bold col-lg-2"
-												for="otType"> OT Type<span class="text-danger">
+												for="otType"> Performance Incentive Type<span class="text-danger">
 													* </span>:
 											</label>
 											<div class="col-lg-4">
@@ -223,7 +223,7 @@
 											</div>
 										</div>
 									</div>
- 
+
 									<div class="form-group row">
 
 										<label
