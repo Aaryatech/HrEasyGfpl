@@ -498,7 +498,7 @@ public class ReportAdminController {
 
 				cell = new PdfPCell(new Phrase("" + prog.getLoanApplNo(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 				
@@ -515,14 +515,14 @@ public class ReportAdminController {
 
 				cell = new PdfPCell(new Phrase("" + prog.getLoanRepayEnd(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 				
 
 				cell = new PdfPCell(new Phrase("" + prog.getCurrentTotpaid(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 
@@ -781,12 +781,12 @@ public class ReportAdminController {
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
 
 			table.addCell(hcell);
+			double totAdv=0;
 
 			int index = 0;
 			for (int i = 0; i < progList.size(); i++) {
 				PdfPCell cell;
 				// System.err.println("I " + i);
-
 				int flag = 0;
 				GetAdvance prog = progList.get(i);
 				for (int k = 0; k < progList1.size(); k++) {
@@ -889,8 +889,10 @@ public class ReportAdminController {
 						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 						table.addCell(cell);
-
+						
 					}
+					
+					
 
 				}
 
@@ -953,7 +955,7 @@ public class ReportAdminController {
 					table.addCell(cell);
 
 				}
-
+				totAdv=totAdv+prog.getAdvAmount();
 			}
 
 			document.open();
@@ -963,13 +965,14 @@ public class ReportAdminController {
 			name.setAlignment(Element.ALIGN_CENTER);
 			document.add(name);
 			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("Month-Year" + month));
+			document.add(new Paragraph("Month-Year: " + month));
+			
 
 			document.add(new Paragraph("\n"));
 			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 
 			document.add(table);
-
+			document.add(new Paragraph("Total Advance Amt: " + totAdv));
 			int totalPages = writer.getPageNumber();
 
 			// System.out.println("Page no " + totalPages);
@@ -1025,6 +1028,7 @@ public class ReportAdminController {
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 				int cnt = 1;
+				double advAmt=0;
 				for (int i = 0; i < progList.size(); i++) {
 					System.err.println("i:" + i);
 
@@ -1084,13 +1088,13 @@ public class ReportAdminController {
 						exportToExcelList.add(expoExcel);
 
 					}
-
+					advAmt=advAmt+progList.get(i).getAdvAmount();
 					
 				}
 				XSSFWorkbook wb = null;
 				try {
 
-					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Month-Year:" + month, "", 'I');
+					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Month-Year: " + month, "Total Advance: " +advAmt, 'I');
 
 					ExceUtil.autoSizeColumns(wb, 3);
 					response.setContentType("application/vnd.ms-excel");

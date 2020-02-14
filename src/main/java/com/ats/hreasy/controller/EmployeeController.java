@@ -310,6 +310,15 @@ public class EmployeeController {
 
 		} else {
 			int empId = Integer.parseInt(request.getParameter("empId"));
+
+			if (empId != 0) {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+
+				emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map,
+						EmployeeMaster.class);
+			}
 			try {
 
 				int contract = 0;
@@ -933,6 +942,13 @@ public class EmployeeController {
 			TblEmpInfo empInfo = new TblEmpInfo();
 			// if(empIdInfo!=null) {
 
+			if (empId != 0) {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+				empInfo = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeePersonalInfo", map,
+						TblEmpInfo.class);
+			}
 			empInfo.setEmpInfoId(empInfoId); // empInfo.setEmpInfoId(empIdInfo.getEmpInfoId());
 			empInfo.setEmpId(empId);// empInfo.setEmpId(empIdInfo.getEmpId());
 			empInfo.setMiddleName(request.getParameter("midname"));
@@ -1001,6 +1017,14 @@ public class EmployeeController {
 			}
 
 			TblEmpNominees empNominee = new TblEmpNominees();
+
+			if (empId != 0) {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+				empNominee = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeNominee", map,
+						TblEmpNominees.class);
+			}
 
 			empNominee.setNomineeId(empNomineeId); // empNominee.setNomineeId(empIdNom.getNomineeId());
 			empNominee.setEmpId(empId); // empNominee.setEmpId(empIdNom.getEmpId());
@@ -1079,6 +1103,14 @@ public class EmployeeController {
 			}
 
 			TblEmpBankInfo empBank = new TblEmpBankInfo();
+
+			if (empId != 0) {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+				empBank = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeBankInfo", map,
+						TblEmpBankInfo.class);
+			}
 
 			empBank.setEmpId(empId);
 			empBank.setBankInfoId(empBankId);
@@ -1226,6 +1258,16 @@ public class EmployeeController {
 
 			/* if(empIdSal!=null) { */
 
+			if (empId != 0) {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+				empSal = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeSalInfo", map,
+						EmpSalaryInfo.class);
+
+				System.err.println("empSal" + empSal.toString());
+
+			}
 			empSal.setSalaryInfoId(empSalInfoId); // empSal.setSalaryInfoId(empIdSal.getSalaryInfoId());
 			empSal.setEmpId(empId); // empSal.setEmpId(empIdSal.getEmpId());
 			empSal.setBasic(basic);
@@ -1241,6 +1283,9 @@ public class EmployeeController {
 				empSal.setPfEmplrPer(Double.parseDouble(request.getParameter("pfEmployerPer")));
 			} else {
 				empSal.setPfType("0");
+				empSal.setPfEmpPer(0.0);
+				empSal.setPfEmplrPer(Double.parseDouble(request.getParameter("pfEmployerPer")));
+
 			}
 			empSal.setEsicApplicable(request.getParameter("esicApplicable"));
 
@@ -1248,6 +1293,9 @@ public class EmployeeController {
 
 				System.err.println("esicApplicable" + request.getParameter("esicApplicable"));
 
+				empSal.setEmployeeEsicPercentage(Double.parseDouble(request.getParameter("empEsicPer")));
+				empSal.setEmployerEsicPercentage(Double.parseDouble(request.getParameter("employerEsicPer")));
+			}else {
 				empSal.setEmployeeEsicPercentage(Double.parseDouble(request.getParameter("empEsicPer")));
 				empSal.setEmployerEsicPercentage(Double.parseDouble(request.getParameter("employerEsicPer")));
 			}
@@ -1267,6 +1315,8 @@ public class EmployeeController {
 			empSal.setExInt2(0);
 			empSal.setExVar1("NA");
 			empSal.setExVar2("NA");
+
+			System.err.println("empSal" + empSal.toString());
 
 			EmpSalaryInfo empIdSal = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary",
 					empSal, EmpSalaryInfo.class);
@@ -1624,7 +1674,8 @@ public class EmployeeController {
 		HttpSession session = request.getSession();
 
 		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-		Info view = AcessController.checkAccess("showAddDriverDetails", "showDriverEmployeeList", 0, 0, 1, 0, newModuleList);
+		Info view = AcessController.checkAccess("showAddDriverDetails", "showDriverEmployeeList", 0, 0, 1, 0,
+				newModuleList);
 
 		if (view.isError() == true) {
 

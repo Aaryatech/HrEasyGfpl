@@ -551,6 +551,8 @@ public class AdvanceAdminController {
 
 				Date date2 = new Date();
 				SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				SimpleDateFormat sf= new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
+
 
 				String remark = request.getParameter("remark");
 				int count = Integer.parseInt(request.getParameter("count"));
@@ -592,7 +594,7 @@ public class AdvanceAdminController {
 					advDet.setDelStatus(1);
 					advDet.setSkipRemarks(remark);
 					advDet.setSkipLoginId(userObj.getEmpId());
-					advDet.setSkipLoginTime(sf2.format(date2));
+					advDet.setSkipLoginTime(sf.format(date2));
 
 					AdvanceDetails res = Constants.getRestTemplate()
 							.postForObject(Constants.url + "/saveAdvanceDetails", advDet, AdvanceDetails.class);

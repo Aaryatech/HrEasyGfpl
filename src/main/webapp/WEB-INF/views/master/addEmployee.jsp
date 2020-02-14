@@ -156,13 +156,14 @@
 													class="col-form-label text-info font-weight-bold col-lg-2"
 													for="empCode">Emp Code <span class="text-danger">*</span>:
 												</label>
-												
-												
-												 
+
+
+
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${emp.empCode}" placeholder="Employee Code."
-														id="empCode" name="empCode"  ${emp.empId!=0 ? 'readonly' : ''}
+														id="empCode" name="empCode"
+														${emp.empId!=0 ? 'readonly' : ''}
 														style="text-transform: uppercase;" autocomplete="off"
 														onchange="trim(this)" maxlength="5"> <span
 														class="hidedefault   validation-invalid-label"
@@ -224,12 +225,11 @@
 
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="subCmpId">Company <span
-													class="text-danger">*</span>:
+													for="subCmpId">Company <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
-													<select name="subCmpId"
-														data-placeholder="Select Company" id="subCmpId"
+													<select name="subCmpId" data-placeholder="Select Company"
+														id="subCmpId"
 														class="form-control form-control-select2 select2-hidden-accessible">
 														<option value="">Select Sub Company</option>
 														<c:forEach items="${companySubList}" var="companySubList">
@@ -342,10 +342,8 @@
 
 											<div class="form-group row">
 
-												<label
-													class="col-form-label col-lg-2"
-													for="contractor">Contractor <span
-													class="text-danger"></span>:
+												<label class="col-form-label col-lg-2" for="contractor">Contractor
+													<span class="text-danger"></span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="contractor"
@@ -576,12 +574,13 @@
 													<select name="ishod" id="ishod"
 														class="form-control form-control-select2 select2-hidden-accessible"
 														onchange="opencloseDepthodDrop(this.value)">
-														<option value="99"  ${emp.exInt1==99 ? 'selected' : ''}>Please Select</option>
+														<option value="99" ${emp.exInt1==99 ? 'selected' : ''}>Please
+															Select</option>
 														<option value="0" ${emp.exInt1==0 ? 'selected' : ''}>Employee</option>
 														<option value="1" ${emp.exInt1==1 ? 'selected' : ''}>HOD</option>
 														<option value="2" ${emp.exInt1==2 ? 'selected' : ''}>HR</option>
 
-														 
+
 													</select> <span class="hidedefault   validation-invalid-label"
 														style="display: none;" id="error_ishod">This field
 														is required.</span>
@@ -1402,12 +1401,11 @@
 
 												</div>
 
-												 
-													
-													<label
+
+
+												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="bankId">Bank : <span
-													class="text-danger">*</span>
+													for="bankId">Bank : <span class="text-danger">*</span>
 												</label>
 												<div class="col-lg-4">
 													<select name="bankId" data-placeholder="Select Bank"
@@ -1475,9 +1473,7 @@
 											action="${pageContext.request.contextPath}/insertEmployeeAllowancesInfo"
 											id="insertEmployeeAllowancesInfo" method="post"
 											enctype="multipart/form-data">
-
-
-											<div class="form-group row">
+ 											<div class="form-group row">
 												<div class="col-lg-4">
 													<input type="hidden" id="empId" name="empId"
 														value="${emp.empId}">
@@ -1485,7 +1481,9 @@
 
 												<div class="col-lg-4">
 													<input type="hidden" id="empSalId" name="empSalId"
-														value="${empAllowanceId.salaryInfoId}">
+														value="${empAllowanceId.salaryInfoId}"> <input
+														type="hidden" id="salaryTypeId" name="salaryTypeId"
+														value="${empAllowanceId.salaryTypeId}">
 												</div>
 											</div>
 
@@ -1629,7 +1627,7 @@
 															field is required.</span>
 													</div>
 
-													<label
+													<%-- <label
 														class="col-form-label text-info font-weight-bold col-lg-2"
 														for="pfEmployerPer">PF Employer Per <span
 														class="text-danger">*</span>:
@@ -1643,7 +1641,12 @@
 															class="hidedefault  validation-invalid-label"
 															style="display: none;" id="error_pfEmployerPer">This
 															field is required.</span>
-													</div>
+													</div> --%>
+													
+													
+													<input type="hidden"   id="pfEmployerPer"
+															name="pfEmployerPer" 
+															value="0.0"> 
 												</div>
 
 											</div>
@@ -1671,8 +1674,30 @@
 														style="display: none;" id="error_esicApplicable">This
 														field is required.</span>
 												</div>
+												
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="mlwfApplicable">MLWF Applicable <span
+													class="text-danger">*</span>:
+												</label>
+												<div class="col-lg-4">
+
+													<select name="mlwfApplicable" id="mlwfApplicable"
+														data-rel="chosen" class="form-control">
+														<option value="0"
+															${empAllowanceId.mlwfApplicable == '0' ? 'selected' : ''}>Please
+															Select</option>
+														<option value="no"
+															${empAllowanceId.mlwfApplicable == 'no' ? 'selected' : ''}>NO</option>
+														<option value="yes"
+															${empAllowanceId.mlwfApplicable == 'yes' ? 'selected' : ''}>YES</option>
+
+													</select> <span class="hidedefault  validation-invalid-label"
+														style="display: none;" id="error_mlwfApplicable">This
+														field is required.</span>
+												</div>
 											</div>
-											<div id="esic_block" style="display: none;">
+											<%-- <div id="esic_block" style="display: none;">
 
 
 
@@ -1709,31 +1734,16 @@
 															field is required.</span>
 													</div>
 												</div>
-											</div>
+											</div> --%>
 
-											<div class="form-group row">
-												<label
-													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="mlwfApplicable">MLWF Applicable <span
-													class="text-danger">*</span>:
-												</label>
-												<div class="col-lg-4">
 
-													<select name="mlwfApplicable" id="mlwfApplicable"
-														data-rel="chosen" class="form-control">
-														<option value="0"
-															${empAllowanceId.mlwfApplicable == '0' ? 'selected' : ''}>Please
-															Select</option>
-														<option value="no"
-															${empAllowanceId.mlwfApplicable == 'no' ? 'selected' : ''}>NO</option>
-														<option value="yes"
-															${empAllowanceId.mlwfApplicable == 'yes' ? 'selected' : ''}>YES</option>
+											<input type="hidden" value="0" id="empEsicPer"
+												name="empEsicPer"> <input type="hidden"
+											  id="employerEsicPer"
+												name="employerEsicPer" 
+												value="0">
 
-													</select> <span class="hidedefault  validation-invalid-label"
-														style="display: none;" id="error_mlwfApplicable">This
-														field is required.</span>
-												</div>
-											</div>
+											 
 
 											<div class="form-group row">
 
@@ -2238,8 +2248,6 @@
 			return;
 		}
 		$(document).ready(function() {
-			
-			 
 
 			var isEsicApplicable = '${empAllowanceId.esicApplicable}';
 
@@ -2319,7 +2327,6 @@
 													$("#error_plCalcBase")
 															.hide()
 												}
-												 
 
 												if (!$("#subCmpId").val()) {
 
@@ -2330,13 +2337,15 @@
 												} else {
 													$("#error_subCmpId").hide()
 												}
-												
-												var isVisible = $('#unique_user').is(':visible');
-												 
+
+												var isVisible = $(
+														'#unique_user').is(
+														':visible');
+
 												if (isVisible == true) {
-													  
+
 													isError = true;
-											    }  
+												}
 												if (!$("#empCode").val()) {
 
 													isError = true;
@@ -2404,19 +2413,19 @@
 													$("#error_locId_list")
 															.hide()
 												}
-												 
-												if (!$("#ishod").val() || parseInt($("#ishod").val())==99) {
-													 
+
+												if (!$("#ishod").val()
+														|| parseInt($("#ishod")
+																.val()) == 99) {
+
 													isError = true;
 
-													$("#error_ishod")
-															.show();
+													$("#error_ishod").show();
 
 												} else {
-													$("#error_ishod")
-															.hide();
+													$("#error_ishod").hide();
 												}
-												 
+
 												if (!$("#empCat").val()) {
 
 													isError = true;
@@ -2515,18 +2524,18 @@
 												} else {
 													$("#error_desigId").hide()
 												}
-/* 
-												if (!$("#contractor").val()) {
+												/* 
+												 if (!$("#contractor").val()) {
 
-													isError = true;
+												 isError = true;
 
-													$("#error_contractor")
-															.show()
+												 $("#error_contractor")
+												 .show()
 
-												} else {
-													$("#error_contractor")
-															.hide()
-												} */
+												 } else {
+												 $("#error_contractor")
+												 .hide()
+												 } */
 
 												/* if (!$("#ishod").val()) {
 
@@ -2669,12 +2678,10 @@
 											function(e) {
 												var isError = false;
 												var errMsg = "";
-												
-											 
 
 												if (!$("#basic").val()
-														|| parseFloat($("#basic")
-																.val()) <= 0) {
+														|| parseFloat($(
+																"#basic").val()) <= 0) {
 
 													isError = true;
 
@@ -2733,7 +2740,7 @@
 																.hide()
 													}
 
-													if (!$("#pfEmployerPer")
+													/* if (!$("#pfEmployerPer")
 															.val()
 															|| parseFloat($(
 																	"#pfEmployerPer")
@@ -2749,7 +2756,7 @@
 														$(
 																"#error_pfEmployerPer")
 																.hide()
-													}
+													} */
 												}
 												var y = document
 														.getElementById("esicApplicable").value;
@@ -2767,7 +2774,7 @@
 															.hide()
 												}
 
-												if ($("#esicApplicable").val() == 'yes') {
+											/* 	if ($("#esicApplicable").val() == 'yes') {
 
 													if (!$("#empEsicPer").val()
 															|| parseFloat($(
@@ -2802,7 +2809,7 @@
 																.hide()
 													}
 
-												}
+												} */
 
 												var b = document
 														.getElementById("mlwfApplicable").value;
