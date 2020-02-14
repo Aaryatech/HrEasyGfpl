@@ -10,6 +10,10 @@
 
 <body>
 	<c:url var="getUniqEmpCodeResp" value="/getUniqEmpCodeResp"></c:url>
+	<c:url var="getBasicSalCalc" value="/getBasicSalCalc"></c:url>
+
+
+
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -92,9 +96,7 @@
 								<%-- <c:set  var="empTab" value="<%out.println(session.getAttribute("empTab"));%>"></c:set> --%>
 								<!-- Highlighted tabs -->
 
-
-
-
+ 
 
 								<ul class="nav nav-tabs nav-tabs-highlight">
 
@@ -1473,7 +1475,7 @@
 											action="${pageContext.request.contextPath}/insertEmployeeAllowancesInfo"
 											id="insertEmployeeAllowancesInfo" method="post"
 											enctype="multipart/form-data">
- 											<div class="form-group row">
+											<div class="form-group row">
 												<div class="col-lg-4">
 													<input type="hidden" id="empId" name="empId"
 														value="${emp.empId}">
@@ -1484,6 +1486,24 @@
 														value="${empAllowanceId.salaryInfoId}"> <input
 														type="hidden" id="salaryTypeId" name="salaryTypeId"
 														value="${empAllowanceId.salaryTypeId}">
+												</div>
+											</div>
+
+
+											<div class="form-group row">
+
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="basic">Gross Salary Rs.<span
+													class="text-danger">*</span>:
+												</label>
+												<div class="col-lg-4">
+													<input type="text" class="form-control numbersOnly"
+														placeholder="Gross Salary Rs." name="grossSal"
+														id="grossSal" onchange="calAllValues(this.value)">
+													<span class="hidedefault   validation-invalid-label"
+														style="display: none;" id="error_salBasis">This
+														field is required.</span>
 												</div>
 											</div>
 
@@ -1532,9 +1552,6 @@
 																<c:set var="empSalAlwncId"
 																	value="${empAllowncList.empSalAllowanceId}"></c:set>
 															</c:when>
-															<%-- 	<c:otherwise>
-											 		<c:set var="allowanceValue" value="0"></c:set>
-											 	</c:otherwise> --%>
 
 														</c:choose>
 													</c:forEach>
@@ -1544,11 +1561,15 @@
 																for="allownces${allowanceList.allowanceId}">${allowanceList.shortName}
 																: </label>
 															<div class="col-lg-10">
-																<input type="text" class="form-control numbersOnly"
+																Per:<input type="text" class="form-control numbersOnly"
 																	value="${allowanceValue}"
 																	placeholder="${allowanceList.name}"
 																	id="allownces${allowanceList.allowanceId}"
 																	name="allownces${allowanceList.allowanceId}"
+																	autocomplete="off" onchange="trim(this)"> Val:
+																<input type="text" class="form-control numbersOnly"
+																	value="0" id="allowncesVal${allowanceList.allowanceId}"
+																	name="allowncesVal${allowanceList.allowanceId}"
 																	autocomplete="off" onchange="trim(this)"> <input
 																	type="hidden"
 																	id="empSalAllownaceId${allowanceList.allowanceId}"
@@ -1642,11 +1663,10 @@
 															style="display: none;" id="error_pfEmployerPer">This
 															field is required.</span>
 													</div> --%>
-													
-													
-													<input type="hidden"   id="pfEmployerPer"
-															name="pfEmployerPer" 
-															value="0.0"> 
+
+
+													<input type="hidden" id="pfEmployerPer"
+														name="pfEmployerPer" value="0.0">
 												</div>
 
 											</div>
@@ -1674,7 +1694,7 @@
 														style="display: none;" id="error_esicApplicable">This
 														field is required.</span>
 												</div>
-												
+
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
 													for="mlwfApplicable">MLWF Applicable <span
@@ -1739,11 +1759,9 @@
 
 											<input type="hidden" value="0" id="empEsicPer"
 												name="empEsicPer"> <input type="hidden"
-											  id="employerEsicPer"
-												name="employerEsicPer" 
-												value="0">
+												id="employerEsicPer" name="employerEsicPer" value="0">
 
-											 
+
 
 											<div class="form-group row">
 
@@ -2241,6 +2259,37 @@
 	</script>
 
 	<script>
+		function calAllValues(grossSal) {
+ 
+
+			$.getJSON('${getBasicSalCalc}',
+
+			{
+
+				grossSal : grossSal,
+				ajax : 'true'
+
+			}, function(data) {
+
+				var x = 0.0;
+				$.each(data,
+						function(key, dt) {
+
+							document.getElementById("allowncesVal"
+									+ dt.allowanceId).value = dt.exVar1;
+
+							alert(x);
+							x = parseFloat(x) + parseFloat(dt.exVar1);
+							alert(x);
+						})
+
+				document.getElementById("basic").value = parseDouble(grossSal)
+						- parseDouble(x);
+
+			});
+
+		}
+
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
@@ -2774,42 +2823,42 @@
 															.hide()
 												}
 
-											/* 	if ($("#esicApplicable").val() == 'yes') {
+												/* 	if ($("#esicApplicable").val() == 'yes') {
 
-													if (!$("#empEsicPer").val()
-															|| parseFloat($(
-																	"#empEsicPer")
-																	.val()) <= 0) {
+														if (!$("#empEsicPer").val()
+																|| parseFloat($(
+																		"#empEsicPer")
+																		.val()) <= 0) {
 
-														isError = true;
+															isError = true;
 
-														$("#error_empEsicPer")
-																.show()
-														//return false;
-													} else {
-														$("#error_empEsicPer")
-																.hide()
-													}
+															$("#error_empEsicPer")
+																	.show()
+															//return false;
+														} else {
+															$("#error_empEsicPer")
+																	.hide()
+														}
 
-													if (!$("#employerEsicPer")
-															.val()
-															|| parseFloat($(
-																	"#employerEsicPer")
-																	.val()) <= 0) {
+														if (!$("#employerEsicPer")
+																.val()
+																|| parseFloat($(
+																		"#employerEsicPer")
+																		.val()) <= 0) {
 
-														isError = true;
+															isError = true;
 
-														$(
-																"#error_employerEsicPer")
-																.show()
-														//return false;
-													} else {
-														$(
-																"#error_employerEsicPer")
-																.hide()
-													}
+															$(
+																	"#error_employerEsicPer")
+																	.show()
+															//return false;
+														} else {
+															$(
+																	"#error_employerEsicPer")
+																	.hide()
+														}
 
-												} */
+													} */
 
 												var b = document
 														.getElementById("mlwfApplicable").value;

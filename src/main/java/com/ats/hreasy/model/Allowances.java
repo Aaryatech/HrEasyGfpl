@@ -11,6 +11,16 @@ public class Allowances {
 	private int del_status;
 	private int is_active;
 	private String makerEnterDatetime;
+	
+
+	private int exInt1;
+	private int exInt2;
+	private String exVar1;
+	private String exVar2;
+
+	private float grossSalPer;
+
+	private float taxPer;
 	public int getAllowanceId() {
 		return allowanceId;
 	}
@@ -65,12 +75,53 @@ public class Allowances {
 	public void setMakerEnterDatetime(String makerEnterDatetime) {
 		this.makerEnterDatetime = makerEnterDatetime;
 	}
+	
+	
+	public int getExInt1() {
+		return exInt1;
+	}
+	public void setExInt1(int exInt1) {
+		this.exInt1 = exInt1;
+	}
+	public int getExInt2() {
+		return exInt2;
+	}
+	public void setExInt2(int exInt2) {
+		this.exInt2 = exInt2;
+	}
+	public String getExVar1() {
+		return exVar1;
+	}
+	public void setExVar1(String exVar1) {
+		this.exVar1 = exVar1;
+	}
+	public String getExVar2() {
+		return exVar2;
+	}
+	public void setExVar2(String exVar2) {
+		this.exVar2 = exVar2;
+	}
+	public float getGrossSalPer() {
+		return grossSalPer;
+	}
+	public void setGrossSalPer(float grossSalPer) {
+		this.grossSalPer = grossSalPer;
+	}
+	public float getTaxPer() {
+		return taxPer;
+	}
+	public void setTaxPer(float taxPer) {
+		this.taxPer = taxPer;
+	}
 	@Override
 	public String toString() {
 		return "Allowances [allowanceId=" + allowanceId + ", name=" + name + ", shortName=" + shortName + ", short_no="
 				+ short_no + ", description=" + description + ", is_taxable=" + is_taxable + ", del_status="
-				+ del_status + ", is_active=" + is_active + ", makerEnterDatetime=" + makerEnterDatetime + "]";
+				+ del_status + ", is_active=" + is_active + ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1="
+				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", grossSalPer="
+				+ grossSalPer + ", taxPer=" + taxPer + "]";
 	}
+	 
 	
 	
 	

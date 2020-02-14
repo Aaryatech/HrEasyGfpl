@@ -1,6 +1,7 @@
 package com.ats.hreasy.controller;
 
 import java.math.BigInteger;
+
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ import com.ats.hreasy.model.EmpType;
 import com.ats.hreasy.model.EmployeDoc;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
-import com.ats.hreasy.model.HolidayCategory;
+ import com.ats.hreasy.model.HolidayCategory;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
@@ -1295,7 +1296,7 @@ public class EmployeeController {
 
 				empSal.setEmployeeEsicPercentage(Double.parseDouble(request.getParameter("empEsicPer")));
 				empSal.setEmployerEsicPercentage(Double.parseDouble(request.getParameter("employerEsicPer")));
-			}else {
+			} else {
 				empSal.setEmployeeEsicPercentage(Double.parseDouble(request.getParameter("empEsicPer")));
 				empSal.setEmployerEsicPercentage(Double.parseDouble(request.getParameter("employerEsicPer")));
 			}
@@ -1332,7 +1333,7 @@ public class EmployeeController {
 					double allwncValue = 0;
 					try {
 						allwncValue = Double
-								.parseDouble(request.getParameter("allownces" + allowanceList.get(i).getAllowanceId()));
+								.parseDouble(request.getParameter("allowncesVal" + allowanceList.get(i).getAllowanceId()));
 					} catch (Exception e) {
 						allwncValue = 0;
 					}
@@ -1511,6 +1512,38 @@ public class EmployeeController {
 		}
 
 		return flag;
+
+	}
+
+	@RequestMapping(value = "/getBasicSalCalc", method = RequestMethod.GET)
+	public @ResponseBody List<Allowances> getBasicSalCalc(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) {
+		
+		
+		List<Allowances> allowanceListNew=new ArrayList<Allowances>();
+ 		try {
+			double grossSal =Double.parseDouble( request.getParameter("grossSal"));
+			
+			
+			Allowances[] allowanceArr = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllAllowances", Allowances[].class);
+			allowanceListNew = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
+
+			
+			for(int i=0;i<allowanceListNew.size();i++) {
+				
+				double per= allowanceListNew.get(i).getGrossSalPer();
+				double tempVal=(grossSal*per)/100;
+				allowanceListNew.get(i).setExVar1(String.valueOf(tempVal));
+ 				
+			}
+ 		 
+		 
+		 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return allowanceListNew;
 
 	}
 
