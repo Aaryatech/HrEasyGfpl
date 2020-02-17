@@ -190,12 +190,16 @@ public class LeaveController {
 
 				System.out.println("color    " + leaveColor);
 				int isStructured = Integer.parseInt(request.getParameter("isStructured"));
+				int isFile = Integer.parseInt(request.getParameter("isFile"));
 				try {
 					remark = request.getParameter("remark");
 				} catch (Exception e) {
 					remark = "NA";
 				}
 
+				
+				
+				
 				Boolean ret = false;
 
 				if (FormValidation.Validaton(leaveTypeTitle, "") == true) {
@@ -213,6 +217,12 @@ public class LeaveController {
 
 					ret = true;
 					System.out.println("add" + ret);
+				}
+
+				if (FormValidation.Validaton(request.getParameter("isFile"), "") == true) {
+
+					ret = true;
+					System.out.println("isFile" + ret);
 				}
 
 				if (ret == false) {
@@ -237,6 +247,7 @@ public class LeaveController {
 					leaveSummary.setDelStatus(1);
 					leaveSummary.setMakerUserId(userObj.getUserId());
 					leaveSummary.setMakerEnterDatetime(sf.format(date));
+					leaveSummary.setIsFile(isFile);
 
 					LeaveType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLeaveType",
 							leaveSummary, LeaveType.class);
@@ -433,6 +444,8 @@ public class LeaveController {
 				// int WprkingHrs = Integer.parseInt(request.getParameter("leaveWorlHrs"));
 				int summId = Integer.parseInt(request.getParameter("summId"));
 				String leaveColor = request.getParameter("leaveColor");
+				int isFile = Integer.parseInt(request.getParameter("isFile"));
+
 				String remark = null;
 				System.out.println("color    " + leaveColor);
 				int isStructured = Integer.parseInt(request.getParameter("isStructured"));
@@ -461,6 +474,12 @@ public class LeaveController {
 					System.out.println("add" + ret);
 				}
 
+				if (FormValidation.Validaton(request.getParameter("isFile"), "") == true) {
+
+					ret = true;
+					System.out.println("add" + ret);
+				}
+
 				if (ret == false) {
 
 					editLeaveType.setCompanyId(1);
@@ -473,6 +492,7 @@ public class LeaveController {
 					editLeaveType.setLvRmarks(remark);
 					editLeaveType.setMakerUserId(userObj.getUserId());
 					editLeaveType.setMakerEnterDatetime(sf.format(date));
+					editLeaveType.setIsFile(isFile);
 
 					LeaveType res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLeaveType",
 							editLeaveType, LeaveType.class);

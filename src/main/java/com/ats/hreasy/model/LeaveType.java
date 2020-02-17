@@ -17,6 +17,7 @@ public class LeaveType {
 	private String lvColor;
 	
 	private int isStructured;
+	private int isFile;
 	
 	private String lvRmarks;
 	
@@ -42,6 +43,15 @@ public class LeaveType {
 	
 	private boolean error;
 
+
+	
+	public int getIsFile() {
+		return isFile;
+	}
+
+	public void setIsFile(int isFile) {
+		this.isFile = isFile;
+	}
 
 	public boolean isError() {
 		return error;
@@ -212,11 +222,14 @@ public class LeaveType {
 	public String toString() {
 		return "LeaveType [lvTypeId=" + lvTypeId + ", companyId=" + companyId + ", lvTitle=" + lvTitle
 				+ ", lvTitleShort=" + lvTitleShort + ", lvSumupId=" + lvSumupId + ", lvWorkingHrs=" + lvWorkingHrs
-				+ ", lvColor=" + lvColor + ", isStructured=" + isStructured + ", lvRmarks=" + lvRmarks + ", delStatus="
-				+ delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId + ", makerEnterDatetime="
-				+ makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1="
-				+ exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + "]";
+				+ ", lvColor=" + lvColor + ", isStructured=" + isStructured + ", isFile=" + isFile + ", lvRmarks="
+				+ lvRmarks + ", delStatus=" + delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId
+				+ ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
+				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", error="
+				+ error + "]";
 	}
+
+	 
 	
 	
 }

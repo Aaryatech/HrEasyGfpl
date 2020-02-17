@@ -148,7 +148,7 @@ public class LeaveStructureController {
 					head.setMakerUserId(1);
 
 					LeaveStructureDetails detail = new LeaveStructureDetails();
-					
+
 					if (Integer.parseInt(defaultPrv.getValue()) == 1) {
 
 						detail = new LeaveStructureDetails();
@@ -163,8 +163,9 @@ public class LeaveStructureController {
 						detail.setMakerUserId(userObj.getUserId());
 						detail.setMakerDatetime(dateTime);
 						detailList.add(detail);
+
 					}
-					
+
 					detail = new LeaveStructureDetails();
 					detail.setDelStatus(1);
 					detail.setExInt1(0);
@@ -181,15 +182,36 @@ public class LeaveStructureController {
 					for (int i = 0; i < leaveTypeList.size(); i++) {
 
 						int noOfLeaves = 0;
+						int minlv = 0;
+						int maxlv = 0;
 						try {
 							noOfLeaves = (Integer
 									.parseInt(request.getParameter("noOfLeaves" + leaveTypeList.get(i).getLvTypeId())));
+
 						} catch (Exception e) {
 							noOfLeaves = 0;
 						}
 
-						/* if (noOfLeaves > 0) { */
-						detail = new LeaveStructureDetails();
+						try {
+
+							minlv = Integer
+									.parseInt(request.getParameter("min" + leaveTypeList.get(i).getLvTypeId()));
+
+						} catch (Exception e) {
+							minlv = 0;
+						}
+
+						try {
+
+							maxlv = Integer
+									.parseInt(request.getParameter("max" + leaveTypeList.get(i).getLvTypeId()));
+
+						} catch (Exception e) {
+							maxlv = 0;
+						}
+					//	System.err.println("lv" + noOfLeaves + "min" + minlv + "max" + maxlv);
+
+ 						detail = new LeaveStructureDetails();
 						detail.setDelStatus(1);
 						detail.setExInt1(0);
 						detail.setExInt2(0);
@@ -198,13 +220,14 @@ public class LeaveStructureController {
 						detail.setIsActive(1);
 
 						detail.setLvsAllotedLeaves(noOfLeaves);
+						detail.setMaxNoDays(maxlv);
+						detail.setMinNoDays(minlv);
 
 						detail.setLvTypeId(leaveTypeList.get(i).getLvTypeId());
 						detail.setMakerUserId(userObj.getUserId());
 						detail.setMakerDatetime(dateTime);
 						detailList.add(detail);
-						/* } */
-					}
+ 					}
 
 					head.setDetailList(detailList);
 
@@ -435,6 +458,12 @@ public class LeaveStructureController {
 									flag = 1;
 									editStructure.getDetailList().get(j).setLvsAllotedLeaves(Integer.parseInt(
 											request.getParameter("noOfLeaves" + leaveTypeList.get(i).getLvTypeId())));
+
+									editStructure.getDetailList().get(j).setMaxNoDays(Integer.parseInt(
+											request.getParameter("max" + leaveTypeList.get(i).getLvTypeId())));
+									editStructure.getDetailList().get(j).setMinNoDays(Integer.parseInt(
+											request.getParameter("min" + leaveTypeList.get(i).getLvTypeId())));
+
 								}
 
 							} catch (Exception e) {
@@ -456,7 +485,7 @@ public class LeaveStructureController {
 							// Constants.url + "saveLeaveStructureDetail", detail,
 							// LeaveStructureDetails.class);
 							editStructure.getDetailList().add(detail);
-							System.out.println(detail.toString());
+						//	System.out.println(detail.toString());
 							/* } */
 
 						}

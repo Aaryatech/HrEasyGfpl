@@ -1,5 +1,6 @@
 package com.ats.hreasy.model;
 
+ 
 public class LeaveStructureDetails {
 
 	private int lvsDetailsId;
@@ -25,6 +26,11 @@ public class LeaveStructureDetails {
 	private String exVar1;
 
 	private String exVar2;
+	
+	
+ 	private int minNoDays;
+	
+ 	private int maxNoDays;
 
 	public int getLvsDetailsId() {
 		return lvsDetailsId;
@@ -121,13 +127,34 @@ public class LeaveStructureDetails {
 	public void setExVar2(String exVar2) {
 		this.exVar2 = exVar2;
 	}
+	
+	
+
+	public int getMinNoDays() {
+		return minNoDays;
+	}
+
+	public void setMinNoDays(int minNoDays) {
+		this.minNoDays = minNoDays;
+	}
+
+	public int getMaxNoDays() {
+		return maxNoDays;
+	}
+
+	public void setMaxNoDays(int maxNoDays) {
+		this.maxNoDays = maxNoDays;
+	}
 
 	@Override
 	public String toString() {
 		return "LeaveStructureDetails [lvsDetailsId=" + lvsDetailsId + ", lvsId=" + lvsId + ", lvTypeId=" + lvTypeId
 				+ ", lvsAllotedLeaves=" + lvsAllotedLeaves + ", delStatus=" + delStatus + ", isActive=" + isActive
 				+ ", makerUserId=" + makerUserId + ", makerDatetime=" + makerDatetime + ", exInt1=" + exInt1
-				+ ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
+				+ ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", minNoDays=" + minNoDays
+				+ ", maxNoDays=" + maxNoDays + "]";
 	}
+
+ 
 
 }

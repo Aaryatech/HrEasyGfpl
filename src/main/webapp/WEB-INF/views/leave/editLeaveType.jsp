@@ -110,7 +110,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label text-info font-weight-bold col-lg-2" for="leaveTypeTitle">
-											 Leave Type  <span style="color: red">* </span>:
+											 Leave Type  <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -125,7 +125,7 @@
 									<div class="form-group row">
 										<label class="col-form-label text-info font-weight-bold col-lg-2"
 											for="leaveShortTypeTitle"> Short Name <span
-											style="color: red">* </span>:
+											style="color: red">*</span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -189,7 +189,33 @@
 												id="isStructured" value="0"> No
 											</label>
 										</div>
+										
+										
+										
 									</div>
+									
+									<div class="form-group row">
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="isFile">File Required
+											<span style="color:red"> *</span>:</label>
+										<div class="form-check form-check-inline">
+											<label class="form-check-label"> <input type="radio"
+											${editCompany.isFile==1 ? 'checked' : ''}
+												class="form-check-input" name="isFile"
+												id="isFile" checked value="1"> Yes
+											</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<label class="form-check-label"> <input type="radio"
+												class="form-check-input" name="isFile"
+												${editCompany.isFile==0 ? 'checked' : ''}
+												id="isFile" value="0"> No
+											</label>
+										</div>
+										
+											<span class="validation-invalid-label" id="error_isFile"
+												style="display: none;">This field is required.</span>
+									</div>
+									
 
 
 									<div class="form-group row">

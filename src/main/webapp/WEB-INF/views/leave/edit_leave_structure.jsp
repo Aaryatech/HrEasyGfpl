@@ -31,9 +31,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
- 
-			</div>
+			<div class="page-header page-header-light"></div>
 			<!-- /page header -->
 
 
@@ -52,23 +50,25 @@
 
 
 						<div class="card">
-							 
-							
+
+
 							<div class="card-header header-elements-inline">
- 						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Edit Leave Structure</h5></td>
-								<td width="40%" align="right">
-							  <%-- 
+								<table width="100%">
+									<tr width="100%">
+										<td width="60%"><h5 class="card-title">Edit Leave
+												Structure</h5></td>
+										<td width="40%" align="right">
+											<%-- 
 								 <a
 									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">KRA List </button>
-								</a>  --%></td>
-							</tr>
-						</table>
-					</div>
-							
+								</a>  --%>
+										</td>
+									</tr>
+								</table>
+							</div>
+
 
 							<div class="card-body">
 								<%
@@ -111,15 +111,16 @@
 									action="${pageContext.request.contextPath}/editInsertLeaveStructure"
 									id="insertLeaveStructure" method="post">
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="lvsName">Leave
-											Structure Name  <span class="text-danger">* </span>:</label>
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="lvsName">Leave Structure Name <span
+											class="text-danger">* </span>:
+										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Leave Structure Name" id="lvsName"
 												value="${editStructure.lvsName}" name="lvsName"
-												autocomplete="off" onchange="trim(this)"> <span
-												class="validation-invalid-label" id="error_lvsName"
-												style="display: none;">This field is required.</span>
+												autocomplete="off" onchange="trim(this)">
 										</div>
 									</div>
 									<hr>
@@ -130,30 +131,77 @@
 									<c:forEach items="${leaveTypeList}" var="leaveType">
 
 										<c:set var="NoOfLeaves" value="0"></c:set>
+										<c:set var="minVal" value="0"></c:set>
+										<c:set var="maxVal" value="0"></c:set>
 										<c:forEach items="${editStructureDetail}" var="detail">
 											<c:choose>
 												<c:when test="${detail.lvTypeId==leaveType.lvTypeId}">
 													<c:set var="NoOfLeaves" value="${detail.lvsAllotedLeaves}"></c:set>
+
+													<c:set var="minNoDays" value="${detail.minNoDays}"></c:set>
+
+													<c:set var="maxNoDays" value="${detail.maxNoDays}"></c:set>
+
 												</c:when>
+
+
+
 											</c:choose>
 										</c:forEach>
 
 										<div class="form-group row">
-											<label class="col-form-label text-info font-weight-bold col-lg-2" for="prsnName">${leaveType.lvTitle}
-												<span class="text-danger">* </span>: </label>
-											<div class="col-md-6">
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="noOfLeaves${leaveType.lvTypeId}">${leaveType.lvTitle}
+												<span class="text-danger">* </span>:
+											</label>
+											<div class="col-md-2">
 												<input type="text" class="form-control numbersOnly"
 													placeholder="No.of Leaves Peryear"
 													id="noOfLeaves${leaveType.lvTypeId}" value="${NoOfLeaves}"
 													name="noOfLeaves${leaveType.lvTypeId}" autocomplete="off"
-													onchange="trim(this)"> <span
-													class="validation-invalid-label" id="error_prsnName"
-													style="display: none;">This field is required.</span>
+													onchange="trim(this)">
 											</div>
+
+
+
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-1"
+												for="min${leaveType.lvTypeId}">Min Days <span
+												class="text-danger">* </span>:
+											</label>
+											<div class="col-md-2">
+												<input type="text" class="form-control numbersOnly"
+													id="min${leaveType.lvTypeId}" value="${minNoDays}"
+													name="min${leaveType.lvTypeId}" autocomplete="off"
+													onchange="chkVal(${leaveType.lvTypeId})">
+											</div>
+
+
+
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-1"
+												for="max${leaveType.lvTypeId}">Max Days<span
+												class="text-danger">* </span>:
+											</label>
+											<div class="col-md-2">
+												<input type="text" class="form-control numbersOnly"
+													id="max${leaveType.lvTypeId}" value="${maxNoDays}"
+													name="max${leaveType.lvTypeId}" autocomplete="off"
+													onchange="chkVal(${leaveType.lvTypeId})"> <span
+													class="validation-invalid-label"
+													id="error_prsnName${leaveType.lvTypeId}"
+													style="display: none;">Min. Days Should be Less than
+													Max. Days .</span> <span class="validation-invalid-label"
+													id="error_prsnName1${leaveType.lvTypeId}"
+													style="display: none;">Min. Days & Max. Days Should
+													be Less than Leave Type Days.</span>
+											</div>
+
 										</div>
 
-
 									</c:forEach>
+									<input type="hidden" name="err_flag" id="err_flag" value="0">
 
 
 									<div class="form-group row mb-0">
@@ -163,8 +211,11 @@
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a href="${pageContext.request.contextPath}/showLeaveStructureList"><button
-										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>Back</button></a>
+											<a
+												href="${pageContext.request.contextPath}/showLeaveStructureList"><button
+													type="button" class="btn btn-light">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>Back
+												</button></a>
 										</div>
 									</div>
 								</form>
@@ -188,7 +239,41 @@
 
 	</div>
 	<!-- /page content -->
+	<script>
+		function  chkVal(id){
+			
+			var minDays=document.getElementById("min"+id).value;
+			var maxDays=document.getElementById("max"+id).value;
+			var Days=document.getElementById("noOfLeaves"+id).value;
+ 			
+			if(parseFloat(maxDays)< parseFloat(minDays)){
+				$("#error_prsnName"+id).show()
+				
+				document.getElementById("err_flag").value=1;
+				
 
+			}else{
+				$("#error_prsnName"+id).hide()
+				document.getElementById("err_flag").value=0;
+
+
+			}
+			 
+			if(parseFloat(Days)< parseFloat(minDays)  || parseFloat(Days)< parseFloat(maxDays)){
+				$("#error_prsnName1"+id).show()
+				
+				document.getElementById("err_flag").value=1;
+				
+
+			}else{
+				$("#error_prsnName1"+id).hide()
+				document.getElementById("err_flag").value=0;
+
+
+			}
+		}
+	
+			</script>
 	<script>
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
@@ -237,6 +322,13 @@
 				} else {
 					$("#error_lvsName").hide()
 				}
+				
+				
+
+				if ($("#err_flag").val()==1) {
+ 					isError = true;
+ 
+				}  
 
 				if (!isError) {
 
