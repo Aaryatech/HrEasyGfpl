@@ -2,6 +2,7 @@ package com.ats.hreasy.model;
 
 import java.util.List;
  
+ 
 
 public class EmpSalInfoDaiyInfoTempInfo {
 	
@@ -71,7 +72,13 @@ public class EmpSalInfoDaiyInfoTempInfo {
 		private double epfEmployerPercentage;
 		private double epsEmployerPercentage;
 		private double presentInsentive;
-		private double nightAllow;
+		private double nightAllow; 
+		private double epsDefault; 
+		private double epmloyerEpfDefault; 
+		private double epmloyerEpfExtra; 
+		private double pfAdminChPercentage; 
+		private double edliPercentage; 
+		private double edliAdminPercentage; 
 		
 		// tbl_emp_salary_info
 		private int salaryInfoId; 
@@ -1011,6 +1018,42 @@ public class EmpSalInfoDaiyInfoTempInfo {
 		public void setNightAllow(double nightAllow) {
 			this.nightAllow = nightAllow;
 		}
+		public double getEpsDefault() {
+			return epsDefault;
+		}
+		public void setEpsDefault(double epsDefault) {
+			this.epsDefault = epsDefault;
+		}
+		public double getEpmloyerEpfDefault() {
+			return epmloyerEpfDefault;
+		}
+		public void setEpmloyerEpfDefault(double epmloyerEpfDefault) {
+			this.epmloyerEpfDefault = epmloyerEpfDefault;
+		}
+		public double getEpmloyerEpfExtra() {
+			return epmloyerEpfExtra;
+		}
+		public void setEpmloyerEpfExtra(double epmloyerEpfExtra) {
+			this.epmloyerEpfExtra = epmloyerEpfExtra;
+		}
+		public double getPfAdminChPercentage() {
+			return pfAdminChPercentage;
+		}
+		public void setPfAdminChPercentage(double pfAdminChPercentage) {
+			this.pfAdminChPercentage = pfAdminChPercentage;
+		}
+		public double getEdliPercentage() {
+			return edliPercentage;
+		}
+		public void setEdliPercentage(double edliPercentage) {
+			this.edliPercentage = edliPercentage;
+		}
+		public double getEdliAdminPercentage() {
+			return edliAdminPercentage;
+		}
+		public void setEdliAdminPercentage(double edliAdminPercentage) {
+			this.edliAdminPercentage = edliAdminPercentage;
+		}
 		@Override
 		public String toString() {
 			return "EmpSalInfoDaiyInfoTempInfo [uuid=" + uuid + ", id=" + id + ", cmpId=" + cmpId + ", empId=" + empId
@@ -1036,7 +1079,10 @@ public class EmpSalInfoDaiyInfoTempInfo {
 					+ epfPercentage + ", epsEmployeePercentage=" + epsEmployeePercentage + ", productionInsentive="
 					+ productionInsentive + ", epfEmployerPercentage=" + epfEmployerPercentage
 					+ ", epsEmployerPercentage=" + epsEmployerPercentage + ", presentInsentive=" + presentInsentive
-					+ ", nightAllow=" + nightAllow + ", salaryInfoId=" + salaryInfoId + ", salaryTypeId=" + salaryTypeId
+					+ ", nightAllow=" + nightAllow + ", epsDefault=" + epsDefault + ", epmloyerEpfDefault="
+					+ epmloyerEpfDefault + ", epmloyerEpfExtra=" + epmloyerEpfExtra + ", pfAdminChPercentage="
+					+ pfAdminChPercentage + ", edliPercentage=" + edliPercentage + ", edliAdminPercentage="
+					+ edliAdminPercentage + ", salaryInfoId=" + salaryInfoId + ", salaryTypeId=" + salaryTypeId
 					+ ", basic=" + basic + ", da=" + da + ", hra=" + hra + ", spa=" + spa + ", pfApplicable="
 					+ pfApplicable + ", pfType=" + pfType + ", pfEmpPer=" + pfEmpPer + ", pfEmplrPer=" + pfEmplrPer
 					+ ", esicApplicable=" + esicApplicable + ", cmpJoiningDate=" + cmpJoiningDate + ", cmpLeavingDate="
