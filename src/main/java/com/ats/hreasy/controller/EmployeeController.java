@@ -314,6 +314,8 @@ public class EmployeeController {
 
 			if (empId != 0) {
 
+				
+				System.err.println("record exists");
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("empId", empId);
 
@@ -329,13 +331,20 @@ public class EmployeeController {
 				int locId = 0;
 				try {
 					empId = Integer.parseInt(request.getParameter("empId"));
-					contract = Integer.parseInt(request.getParameter("contractor"));
-					deptId = Integer.parseInt(request.getParameter("deptId"));
+ 					deptId = Integer.parseInt(request.getParameter("deptId"));
 					desigId = Integer.parseInt(request.getParameter("desigId"));
 					empType = Integer.parseInt(request.getParameter("empType"));
 					locId = Integer.parseInt(request.getParameter("locId"));
 				} catch (Exception e) {
 					empId = 0;
+ 				}
+				
+				
+				try {
+ 					contract = Integer.parseInt(request.getParameter("contractor"));
+					 
+				} catch (Exception e) {
+					 
 					contract = 0;
 				}
 				int ishod = Integer.parseInt(request.getParameter("ishod"));
@@ -1210,6 +1219,7 @@ public class EmployeeController {
 			double empEsicPer = 0;
 			double employerEsicPer = 0;
 			double societyContri = 0;
+			double grossSal=0;
 
 			try {
 				empId = Integer.parseInt(request.getParameter("empId"));
@@ -1257,6 +1267,19 @@ public class EmployeeController {
 				societyContri = 0;
 			}
 
+			
+			try {
+
+				grossSal = Double.parseDouble(request.getParameter("grossSal"));
+
+			} catch (Exception e) {
+
+				grossSal = 0;
+			}
+
+			 
+			
+			
 			/* if(empIdSal!=null) { */
 
 			if (empId != 0) {
@@ -1266,7 +1289,7 @@ public class EmployeeController {
 				empSal = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeSalInfo", map,
 						EmpSalaryInfo.class);
 
-				System.err.println("empSal" + empSal.toString());
+			 
 
 			}
 			empSal.setSalaryInfoId(empSalInfoId); // empSal.setSalaryInfoId(empIdSal.getSalaryInfoId());
@@ -1274,7 +1297,7 @@ public class EmployeeController {
 			empSal.setBasic(basic);
 			empSal.setSocietyContribution(societyContri);
 			empSal.setPfApplicable(request.getParameter("pfApplicable"));
-
+			empSal.setGrossSalary(grossSal);
 			if (request.getParameter("pfApplicable").equals("yes")) {
 
 				System.err.println("pfApplicable" + request.getParameter("pfApplicable")
@@ -1292,8 +1315,7 @@ public class EmployeeController {
 
 			if (request.getParameter("esicApplicable").equals("yes")) {
 
-				System.err.println("esicApplicable" + request.getParameter("esicApplicable"));
-
+ 
 				empSal.setEmployeeEsicPercentage(Double.parseDouble(request.getParameter("empEsicPer")));
 				empSal.setEmployerEsicPercentage(Double.parseDouble(request.getParameter("employerEsicPer")));
 			} else {
@@ -1317,16 +1339,17 @@ public class EmployeeController {
 			empSal.setExVar1("NA");
 			empSal.setExVar2("NA");
 
-			System.err.println("empSal" + empSal.toString());
-
+ 
 			EmpSalaryInfo empIdSal = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary",
 					empSal, EmpSalaryInfo.class);
 
-			if (empIdSal != null) {
+			
+ 			if (empIdSal != null) {
 
 				int allwnSalId = 0;
 				List<EmpSalAllowance> allowncList = new ArrayList<EmpSalAllowance>();
-
+				
+ 
 				for (int i = 0; i < allowanceList.size(); i++) {
 
 					EmpSalAllowance empSellAllwance = new EmpSalAllowance();
@@ -1345,7 +1368,9 @@ public class EmployeeController {
 					}
 
 					if (allwncValue >= 0) {
-
+						
+						
+ 
 						empSellAllwance.setEmpSalAllowanceId(allwnSalId);
 						empSellAllwance.setEmpId(Integer.parseInt(request.getParameter("empId")));
 						empSellAllwance.setAllowanceId(allowanceList.get(i).getAllowanceId());
@@ -1364,6 +1389,9 @@ public class EmployeeController {
 
 				}
 
+				
+				
+				
 				EmpSalAllowance[] allowance = Constants.getRestTemplate().postForObject(
 						Constants.url + "/saveEmpSalAllowanceInfo", allowncList, EmpSalAllowance[].class);
 
@@ -1522,9 +1550,11 @@ public class EmployeeController {
 		
 		List<Allowances> allowanceListNew=new ArrayList<Allowances>();
  		try {
-			double grossSal =Double.parseDouble( request.getParameter("grossSal"));
-			
-			
+ 			 
+ 			 
+ 			double  grossSal =Double.parseDouble( request.getParameter("grossSal"));
+
+ 			 
 			Allowances[] allowanceArr = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getAllAllowances", Allowances[].class);
 			allowanceListNew = new ArrayList<Allowances>(Arrays.asList(allowanceArr));

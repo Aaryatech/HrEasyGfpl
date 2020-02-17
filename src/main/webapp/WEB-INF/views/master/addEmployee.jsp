@@ -96,7 +96,7 @@
 								<%-- <c:set  var="empTab" value="<%out.println(session.getAttribute("empTab"));%>"></c:set> --%>
 								<!-- Highlighted tabs -->
 
- 
+
 
 								<ul class="nav nav-tabs nav-tabs-highlight">
 
@@ -159,8 +159,6 @@
 													for="empCode">Emp Code <span class="text-danger">*</span>:
 												</label>
 
-
-
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
 														value="${emp.empCode}" placeholder="Employee Code."
@@ -175,9 +173,6 @@
 														style="display: none;" id="error_empCode">This
 														field is required.</span>
 												</div>
-
-
-
 
 											</div>
 
@@ -539,8 +534,8 @@
 
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="locId_list"> Accessible Location : <span
-													class="text-danger">*</span>
+													for="locId_list"> Accessible Location <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="locId_list"
@@ -569,8 +564,8 @@
 
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="ishod"> Designation Type : <span
-													class="text-danger">*</span>
+													for="ishod"> Designation Type <span
+													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="ishod" id="ishod"
@@ -1390,7 +1385,7 @@
 											<div class="form-group row">
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="accNo">Account No: <span class="text-danger">*</span>:
+													for="accNo">Account No <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control"
@@ -1407,7 +1402,7 @@
 
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="bankId">Bank : <span class="text-danger">*</span>
+													for="bankId">Bank <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<select name="bankId" data-placeholder="Select Bank"
@@ -1494,15 +1489,16 @@
 
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="basic">Gross Salary Rs.<span
+													for="grossSal">Gross Salary Rs. <span
 													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
+														value="${empAllowanceId.grossSalary}"
 														placeholder="Gross Salary Rs." name="grossSal"
 														id="grossSal" onchange="calAllValues(this.value)">
 													<span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_salBasis">This
+														style="display: none;" id="error_grossSal">This
 														field is required.</span>
 												</div>
 											</div>
@@ -1511,19 +1507,19 @@
 
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="basic">Basic Rs.<span class="text-danger">*</span>:
+													for="basic">Basic Rs. <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
-														placeholder="Basic Rs." name="basic" id="basic"
+														placeholder="Basic Rs." name="basic" id="basic" readonly
 														onchange="trim(this)" value="${empAllowanceId.basic}">
-													<span class="hidedefault   validation-invalid-label"
+													<!-- <span class="hidedefault   validation-invalid-label"
 														style="display: none;" id="error_salBasis">This
-														field is required.</span>
+														field is required.</span> -->
 												</div>
 
 												<label class="col-form-label col-lg-2" for="societyContri">Society
-													Contribution Rs. : </label>
+													Contribution Rs. :</label>
 												<div class="col-lg-4">
 													<input type="text" class="form-control numbersOnly"
 														value="${empAllowanceId.societyContribution}"
@@ -1559,22 +1555,26 @@
 														<div class="form-group row">
 															<label class="col-form-label col-lg-2"
 																for="allownces${allowanceList.allowanceId}">${allowanceList.shortName}
-																: </label>
+																(${allowanceList.grossSalPer} %): </label>
 															<div class="col-lg-10">
-																Per:<input type="text" class="form-control numbersOnly"
-																	value="${allowanceValue}"
-																	placeholder="${allowanceList.name}"
-																	id="allownces${allowanceList.allowanceId}"
-																	name="allownces${allowanceList.allowanceId}"
-																	autocomplete="off" onchange="trim(this)"> Val:
 																<input type="text" class="form-control numbersOnly"
-																	value="0" id="allowncesVal${allowanceList.allowanceId}"
+																	value="${allowanceValue}"
+																	id="allowncesVal${allowanceList.allowanceId}"
 																	name="allowncesVal${allowanceList.allowanceId}"
 																	autocomplete="off" onchange="trim(this)"> <input
 																	type="hidden"
 																	id="empSalAllownaceId${allowanceList.allowanceId}"
 																	name="empSalAllownaceId${allowanceList.allowanceId}"
 																	value="${empSalAlwncId}">
+
+
+																<%-- Per:<input type="text" class="form-control numbersOnly"
+																	value="${allowanceValue}"
+																	placeholder="${allowanceList.name}"
+																	id="allownces${allowanceList.allowanceId}"
+																	name="allownces${allowanceList.allowanceId}"
+																	autocomplete="off" onchange="trim(this)">Val: --%>
+
 															</div>
 
 														</div>
@@ -2152,7 +2152,7 @@
 
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-2"
-													for="upass">Update User Password : <span
+													for="upass">Update User Password <span
 													class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-5">
@@ -2258,10 +2258,10 @@
 		}
 	</script>
 
-	<script>
+	<script type="text/javascript">
 		function calAllValues(grossSal) {
- 
-
+	 
+		 
 			$.getJSON('${getBasicSalCalc}',
 
 			{
@@ -2274,22 +2274,26 @@
 				var x = 0.0;
 				$.each(data,
 						function(key, dt) {
-
+					
+ 
 							document.getElementById("allowncesVal"
 									+ dt.allowanceId).value = dt.exVar1;
 
-							alert(x);
 							x = parseFloat(x) + parseFloat(dt.exVar1);
-							alert(x);
+								 
 						})
-
-				document.getElementById("basic").value = parseDouble(grossSal)
-						- parseDouble(x);
+						
+						
+						document.getElementById("basic").value = parseFloat(grossSal)
+						- parseFloat(x);
 
 			});
+		 
 
 		}
+	</script>
 
+	<script type="text/javascript">
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
@@ -2728,7 +2732,7 @@
 												var isError = false;
 												var errMsg = "";
 
-												if (!$("#basic").val()
+												/* if (!$("#basic").val()
 														|| parseFloat($(
 																"#basic").val()) <= 0) {
 
@@ -2739,6 +2743,22 @@
 												} else {
 													$("#error_salBasis").hide()
 												}
+												 */
+												
+												if (!$("#grossSal").val()
+														|| parseFloat($(
+																"#grossSal").val()) <= 0) {
+
+													isError = true;
+
+													$("#error_grossSal").show()
+													//return false;
+												} else {
+													$("#error_grossSal").hide()
+												}
+												
+												
+												
 
 												var x = document
 														.getElementById("pfApplicable").value;
