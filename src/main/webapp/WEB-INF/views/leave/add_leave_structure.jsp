@@ -160,8 +160,8 @@
 										<div class="form-group row">
 											<label
 												class="col-form-label text-info font-weight-bold col-lg-2		"
-												for="prsnName">${leaveType.lvTitle} <span
-												class="text-danger">* </span>:
+												for="noOfLeaves${leaveType.lvTypeId}">${leaveType.lvTitle}
+												<span class="text-danger">* </span>:
 											</label>
 											<div class="col-md-2">
 												<input type="text" class="form-control numbersOnly"
@@ -170,14 +170,11 @@
 													name="noOfLeaves${leaveType.lvTypeId}" autocomplete="off"
 													onchange="trim(this)">
 											</div>
-
-
-
-
+ 
 											<label
 												class="col-form-label text-info font-weight-bold col-lg-1"
-												for="prsnName">Min Days <span class="text-danger">*
-											</span>:
+												for="min${leaveType.lvTypeId}">Min Days <span
+												class="text-danger">* </span>:
 											</label>
 											<div class="col-md-2">
 												<input type="text" class="form-control numbersOnly"
@@ -185,27 +182,29 @@
 													name="min${leaveType.lvTypeId}" autocomplete="off"
 													onchange="chkVal(${leaveType.lvTypeId})">
 											</div>
-
-
-
+ 
 											<label
 												class="col-form-label text-info font-weight-bold col-lg-1"
-												for="prsnName">Max Days<span class="text-danger">*
-											</span>:
+												for="max${leaveType.lvTypeId}">Max Days<span
+												class="text-danger">* </span>:
 											</label>
 											<div class="col-md-2">
 												<input type="text" class="form-control numbersOnly"
 													id="max${leaveType.lvTypeId}" value="0"
 													name="max${leaveType.lvTypeId}" autocomplete="off"
-													onchange="trim(this)"> <span
-													class="validation-invalid-label" id="error_prsnName${leaveType.lvTypeId}"
-													style="display: none;">Min Days Should be Less than
-													Maximum Days.</span>
+													onchange="chkVal(${leaveType.lvTypeId})"> <span
+													class="validation-invalid-label"
+													id="error_prsnName${leaveType.lvTypeId}"
+													style="display: none;">Min. Days Should be Less than
+													Max. Days .</span> <span class="validation-invalid-label"
+													id="error_prsnName1${leaveType.lvTypeId}"
+													style="display: none;">Min. Days & Max. Days Should
+													be Less than Leave Type Days.</span>
 											</div>
 
 										</div>
 									</c:forEach>
-
+									<input type="hidden" name="err_flag" id="err_flag" value="0">
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
@@ -247,16 +246,33 @@
 			
 			var minDays=document.getElementById("min"+id).value;
 			var maxDays=document.getElementById("max"+id).value;
-			
-			
-			if(parseFloat(maxDays)<parseFloat(minDays)){
-				$("#error_lvsName"+id).show()
+			var Days=document.getElementById("noOfLeaves"+id).value;
+ 			
+			if(parseFloat(maxDays)< parseFloat(minDays)){
+				$("#error_prsnName"+id).show()
+				
+				document.getElementById("err_flag").value=1;
+				
 
 			}else{
-				$("#error_lvsName"+id).hide()
+				$("#error_prsnName"+id).hide()
+				document.getElementById("err_flag").value=0;
+
 
 			}
-			
+			 
+			if(parseFloat(Days)< parseFloat(minDays)  || parseFloat(Days)< parseFloat(maxDays)){
+				$("#error_prsnName1"+id).show()
+				
+				document.getElementById("err_flag").value=1;
+				
+
+			}else{
+				$("#error_prsnName1"+id).hide()
+				document.getElementById("err_flag").value=0;
+
+
+			}
 		}
 	
 			</script>
@@ -308,6 +324,12 @@
 				} else {
 					$("#error_lvsName").hide()
 				}
+				
+
+				if ($("#err_flag").val()==1) {
+ 					isError = true;
+ 
+				}  
 
 			 
 				if (!isError) {
