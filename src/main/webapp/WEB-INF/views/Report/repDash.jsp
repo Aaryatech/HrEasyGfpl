@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- 
- 
+
+
 <c:url var="empInfoHistoryList" value="/empInfoHistoryList" />
 <style type="text/css">
 .dataTables_wrapper {
@@ -100,24 +100,24 @@
 											class="validation-invalid-label" id="error_datepicker"
 											style="display: none;">Please Select Date. </span>
 									</div>
-									
-									<label class="col-form-label col-lg-2">Date Range<span
-											style="color: red">* </span>:
-										</label>
-										<div class="col-lg-5">
-											<input type="text" class="form-control daterange-basic_new "
-												name="leaveDateRange" data-placeholder="Select Date"
-												id="leaveDateRange" onchange="calholidayWebservice()">
-											<span class="validation-invalid-label" id="error_Range"
-												style="display: none;">This field is required.</span> <span
-												class="validation-invalid-label" id="error_insuf"
-												style="display: none;">Insufficient Leaves.</span>
 
-										</div>
- 
+									<label class="col-form-label col-lg-2">Date Range<span
+										style="color: red">* </span>:
+									</label>
+									<div class="col-lg-5">
+										<input type="text" class="form-control daterange-basic_new "
+											name="leaveDateRange" data-placeholder="Select Date"
+											id="leaveDateRange" onchange="calholidayWebservice()">
+										<span class="validation-invalid-label" id="error_Range"
+											style="display: none;">This field is required.</span> <span
+											class="validation-invalid-label" id="error_insuf"
+											style="display: none;">Insufficient Leaves.</span>
+
+									</div>
+
 								</div>
-								
-									 
+
+
 								<div class="row">
 
 									<div class="col-sm-12 col-md-4">
@@ -155,7 +155,7 @@
 											</div>
 										</div>
 									</div>
- 
+
 									<div class="col-sm-12 col-md-4">
 										<div class="card">
 											<div
@@ -165,7 +165,7 @@
 											</div>
 
 											<div class="card-body" align="left">
- 												Attendance Register <a href="#"
+												Attendance Register <a href="#"
 													onclick="getProgReport(0,'showEmpAttendRegisterRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
@@ -201,38 +201,65 @@
 											</div>
 
 											<div class="card-body" align="left">
- 												Employee Loan Amount <a href="#"
-													onclick="getProgReport(0,'showLoanRep')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showLoanRep')"
+												Employee Loan Amount <a href="#"
+													onclick="getProgReport(0,'showLoanRep')" title="excel"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<a href="#" onclick="getProgReport(1,'showLoanRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <br /> Yearly Loan Report
-												<a href="#"
-													onclick="getProgReport(0,'showEmpAttendanceRep')"
+													style="color: black;"></i></a> <br /> Yearly Loan Report <a
+													href="#" onclick="getProgReport(0,'showEmpAttendanceRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showEmpAttendanceRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br /> Employee Loan Skip Report <a
-													href="#" onclick="getProgReport(0,'showEmpLateMarkRep')"
+													style="color: black;"></i></a><br /> Employee Loan Skip Report
+												<a href="#" onclick="getProgReport(0,'showEmpLateMarkRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
-													
-													<br/>
-													Employee Partial Pay Loan  Report<a
-													href="#" onclick="getProgReport(0,'showEmpLateMarkRep')"
+
+												<br /> Employee Partial Pay Loan Report<a href="#"
+													onclick="getProgReport(0,'showEmpLateMarkRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
-													
-													<br/>
-													
-													Employee Foreclose Loan  Report <a
-													href="#" onclick="getProgReport(0,'showEmpLateMarkRep')"
+
+												<br /> Employee Foreclose Loan Report <a href="#"
+													onclick="getProgReport(0,'showEmpLateMarkRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-12 col-md-4">
+										<div class="card">
+											<div
+												class="card-header bg-primary text-white header-elements-inline">
+												<h6 class="card-title">PF Satement</h6>
+												<div class="header-elements"></div>
+											</div>
+
+											<div class="card-body" align="left">
+												Employee PF Statement<a href="#"
+													onclick="getProgReport(0,'showEmpPfRep')" title="excel"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<a href="#" onclick="getProgReport(1,'showEmpPfRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <br /> Employer PF Statement <a
+													href="#" onclick="getProgReport(0,'showEmpAttendanceRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmpAttendanceRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a><br /> Employee Employer PF
+												Statement <a href="#"
+													onclick="getProgReport(0,'showEmpLateMarkRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
@@ -307,7 +334,7 @@
 
 		}
 	</script>
-	
+
 	<script type="text/javascript">
 		// Single picker
 		$("#datepicker").datepicker({
@@ -317,7 +344,7 @@
 			dateFormat : "mm-yy"
 		});
 	</script>
-		<script type="text/javascript">
+	<script type="text/javascript">
 		// Single picker
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
@@ -340,8 +367,8 @@
 			}
 		});
 	</script>
-	
- 
+
+
 
 
 </body>
