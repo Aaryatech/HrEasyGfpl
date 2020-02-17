@@ -757,7 +757,7 @@ public class EmployeeController {
 				String base64encodedString = request.getParameter("empId");
 				String empId = FormValidation.DecodeKey(base64encodedString);
 
-				// System.out.println("Encrypt-----" + empId);
+			 //System.out.println("Encrypt-----" + empId);
 				map = new LinkedMultiValueMap<>();
 				map.add("empId", Integer.parseInt(empId));
 
@@ -1268,15 +1268,14 @@ public class EmployeeController {
 			}
 
 			
-			try {
-
-				grossSal = Double.parseDouble(request.getParameter("grossSal"));
-
-			} catch (Exception e) {
-
-				grossSal = 0;
-			}
-
+			  try {
+			  
+			  grossSal = Double.parseDouble(request.getParameter("grossSal"));
+			  
+			  } catch (Exception e) {
+			  
+			  grossSal = 0; }
+			  
 			 
 			
 			
@@ -1338,59 +1337,62 @@ public class EmployeeController {
 			empSal.setExInt2(0);
 			empSal.setExVar1("NA");
 			empSal.setExVar2("NA");
+			
+			
+			int allwnSalId = 0;
+ 			List<EmpSalAllowance> allowncList = new ArrayList<EmpSalAllowance>();
+ 			
+ 			double allow_temp=0;
+			for (int i = 0; i < allowanceList.size(); i++) {
 
+				EmpSalAllowance empSellAllwance = new EmpSalAllowance();
+				double allwncValue = 0;
+				try {
+					allwncValue = Double
+							.parseDouble(request.getParameter("allowncesVal" + allowanceList.get(i).getAllowanceId()));
+				} catch (Exception e) {
+					allwncValue = 0;
+				}
+				try {
+					allwnSalId = Integer.parseInt(
+							request.getParameter("empSalAllownaceId" + allowanceList.get(i).getAllowanceId()));
+				} catch (Exception e) {
+					allwnSalId = 0;
+				}
+
+				if (allwncValue >= 0) {
+					
+					allow_temp=allow_temp+allwncValue;
+					 
+					empSellAllwance.setEmpSalAllowanceId(allwnSalId);
+					empSellAllwance.setEmpId(Integer.parseInt(request.getParameter("empId")));
+					empSellAllwance.setAllowanceId(allowanceList.get(i).getAllowanceId());
+					empSellAllwance.setAllowanceValue(allwncValue);
+					empSellAllwance.setMakerEnterDatetime(currDate);
+
+					empSellAllwance.setDelStatus(1);
+					empSellAllwance.setExInt1(0);
+					empSellAllwance.setExInt2(0);
+					empSellAllwance.setExVar1("NA");
+					empSellAllwance.setExVar2("NA");
+
+					allowncList.add(empSellAllwance);
+
+				}
+
+			}
+			
+			
+			if(grossSal==basic+allow_temp) {
+				
+		
  
 			EmpSalaryInfo empIdSal = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployeeIdSalary",
 					empSal, EmpSalaryInfo.class);
 
 			
  			if (empIdSal != null) {
-
-				int allwnSalId = 0;
-				List<EmpSalAllowance> allowncList = new ArrayList<EmpSalAllowance>();
-				
  
-				for (int i = 0; i < allowanceList.size(); i++) {
-
-					EmpSalAllowance empSellAllwance = new EmpSalAllowance();
-					double allwncValue = 0;
-					try {
-						allwncValue = Double
-								.parseDouble(request.getParameter("allowncesVal" + allowanceList.get(i).getAllowanceId()));
-					} catch (Exception e) {
-						allwncValue = 0;
-					}
-					try {
-						allwnSalId = Integer.parseInt(
-								request.getParameter("empSalAllownaceId" + allowanceList.get(i).getAllowanceId()));
-					} catch (Exception e) {
-						allwnSalId = 0;
-					}
-
-					if (allwncValue >= 0) {
-						
-						
- 
-						empSellAllwance.setEmpSalAllowanceId(allwnSalId);
-						empSellAllwance.setEmpId(Integer.parseInt(request.getParameter("empId")));
-						empSellAllwance.setAllowanceId(allowanceList.get(i).getAllowanceId());
-						empSellAllwance.setAllowanceValue(allwncValue);
-						empSellAllwance.setMakerEnterDatetime(currDate);
-
-						empSellAllwance.setDelStatus(1);
-						empSellAllwance.setExInt1(0);
-						empSellAllwance.setExInt2(0);
-						empSellAllwance.setExVar1("NA");
-						empSellAllwance.setExVar2("NA");
-
-						allowncList.add(empSellAllwance);
-
-					}
-
-				}
-
-				
-				
 				
 				EmpSalAllowance[] allowance = Constants.getRestTemplate().postForObject(
 						Constants.url + "/saveEmpSalAllowanceInfo", allowncList, EmpSalAllowance[].class);
@@ -1398,7 +1400,7 @@ public class EmployeeController {
 				if (allowance != null) {
 
 					session.setAttribute("successMsg", "Record Updated Successfully");
-					String empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
+					String  empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
 					// System.out.println("Emp Encrypt Id---" + empEncryptId);
 
 					redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
@@ -1409,6 +1411,13 @@ public class EmployeeController {
 			} else {
 				session.setAttribute("errorMsg", "Failed to Update Record");
 				redirect = "redirect:/employeeAdd";
+			}
+ 			
+			}else {
+				String  empEncryptId = FormValidation.Encrypt(String.valueOf(empId));
+
+				session.setAttribute("errorMsg", "Enter The Salary Values Properly");
+				redirect = "redirect:/employeeEdit?empId=" + empEncryptId;
 			}
 
 			/*
