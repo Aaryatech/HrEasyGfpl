@@ -80,6 +80,7 @@ public class EmpSalInfoDaiyInfoTempInfo {
 		private double edliPercentage; 
 		private double edliAdminPercentage; 
 		
+		
 		// tbl_emp_salary_info
 		private int salaryInfoId; 
 		private int salaryTypeId;
