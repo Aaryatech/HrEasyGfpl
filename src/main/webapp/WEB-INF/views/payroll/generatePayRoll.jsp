@@ -256,7 +256,7 @@
 																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getNetSalary(), amount_round)));
 												%>
 											</td>
-											<%-- <td class="text-right">
+											  <%-- <td class="text-right">
 												<%
 													out.println(
 																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getEmployerEps(), amount_round)));
@@ -266,6 +266,18 @@
 												<%
 													out.println(
 																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getEmployerPf(), amount_round)));
+												%>
+											</td>  
+											<td class="text-right">
+												<%
+													out.println(
+																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getEpmloyerEpfDefault(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(
+																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getEpmloyerEpfExtra(), amount_round)));
 												%>
 											</td> --%>
 										</tr>
