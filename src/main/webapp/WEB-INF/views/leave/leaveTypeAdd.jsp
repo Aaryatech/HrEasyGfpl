@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib
-	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>	
-	
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +30,7 @@
 			<!-- Page header -->
 			<div class="page-header page-header-light">
 
-<%-- 
+				<%-- 
 				<div
 					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
@@ -49,7 +48,8 @@
 							class="breadcrumb-elements-item">  Leave Type List </a>
 
 				</div>
-			</div> --%></div>
+			</div> --%>
+			</div>
 			<!-- /page header -->
 
 
@@ -68,23 +68,24 @@
 
 
 						<div class="card">
-							 
-								
+
+
 							<div class="card-header header-elements-inline">
- 						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Add Leave Type</h5></td>
-								<td width="40%" align="right">
-							  
-								 <%-- <a
+								<table width="100%">
+									<tr width="100%">
+										<td width="60%"><h5 class="card-title">Add Leave
+												Type</h5></td>
+										<td width="40%" align="right">
+											<%-- <a
 									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">KRA List </button>
-								</a>  --%></td>
-							</tr>
-						</table>
-					</div>
-							
+								</a>  --%>
+										</td>
+									</tr>
+								</table>
+							</div>
+
 
 							<div class="card-body">
 
@@ -123,43 +124,53 @@
 									session.removeAttribute("successMsg");
 									}
 								%>
-								<form action="${pageContext.request.contextPath}/submitInsertLeaveType"
-									id="submitInsertCompany" method="post" >
-									
-									
+								<form
+									action="${pageContext.request.contextPath}/submitInsertLeaveType"
+									id="submitInsertCompany" method="post">
+
+
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="leaveTypeTitle">
-											 Leave Type<span class="text-danger">* </span>:</label>
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="leaveTypeTitle"> Leave Type<span
+											class="text-danger"> *</span>:
+										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Enter Leave Type" id="leaveTypeTitle"
-												name="leaveTypeTitle" autocomplete="off"onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_leaveType" 
+												name="leaveTypeTitle" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_leaveType"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
 
-												<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="leaveShortTypeTitle">
-											Short Name<span class="text-danger">* </span>:</label>
+									<div class="form-group row">
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="leaveShortTypeTitle"> Short Name <span
+											class="text-danger">*</span>:
+										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Enter Leave Type Short Name " id="leaveShortTypeTitle" 
-												name="leaveShortTypeTitle" autocomplete="off" onchange="trim(this)" oninput="checkUniqueShortName(this.value)" >
-											<span class="validation-invalid-label" id="error_leaveScType"
-												style="display: none;">This field is required.</span>
-												<span class="validation-invalid-label" id="error_leaveShortname"
-												style="display: none;">Already exist.</span>
-												<span
+												placeholder="Enter Leave Type Short Name "
+												id="leaveShortTypeTitle" name="leaveShortTypeTitle"
+												autocomplete="off" onchange="trim(this)"
+												oninput="checkUniqueShortName(this.value)"> <span
+												class="validation-invalid-label" id="error_leaveScType"
+												style="display: none;">This field is required.</span> <span
+												class="validation-invalid-label" id="error_leaveShortname"
+												style="display: none;">Already exist.</span> <span
 												class="validation-invalid-label" id="error_sameName"
-												style="display: none;">Leave Type Short Name Can Not be same as  Leave Type Name. </span>
-												
-												
-												
+												style="display: none;">Leave Type Short Name Can Not
+												be same as Leave Type Name. </span>
+
+
+
 										</div>
 									</div>
 
-<!-- 
+									<!-- 
 								<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="leaveWorlHrs">Working Hours<span class="text-danger">* </span>:
 										</label>
@@ -177,12 +188,15 @@
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2">Color:</label>
 										<div class="col-lg-10">
-											<input type="text" id="leaveColor" name="leaveColor" class="form-control colorpicker-show-input" data-preferred-format="hex" value="#f75d1c" data-fouc>
+											<input type="text" id="leaveColor" name="leaveColor"
+												class="form-control colorpicker-show-input"
+												data-preferred-format="hex" value="#f75d1c" data-fouc>
 										</div>
 									</div>
-											<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="comoffallowed">Is Structured
-											<span style="color:red"> </span>:</label>
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="comoffallowed">Is
+											Structured <span style="color: red"> </span>:
+										</label>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label"> <input type="radio"
 												class="form-check-input" name="isStructured"
@@ -196,26 +210,52 @@
 											</label>
 										</div>
 									</div>
-									
-									
+
+
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="select2">Leave Summary:</label>
+										<label class="col-form-label col-lg-2" for="isFile">File
+											Required <span style="color: red">*</span>:
+										</label>
+										<div class="form-check form-check-inline">
+											<label class="form-check-label"> <input type="radio"
+												class="form-check-input" name="isFile" id="isFile" checked
+												value="1"> Yes
+											</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<label class="form-check-label"> <input type="radio"
+												class="form-check-input" name="isFile" id="isFile" value="0">
+												No
+											</label>
+										</div>
+
+										<span class="validation-invalid-label" id="error_isFile"
+											style="display: none;">This field is required.</span>
+									</div>
+
+
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="select2">Leave
+											Summary:</label>
 										<div class="col-lg-10">
-											<select name="summId" data-placeholder="Select a Summary" id="summId"
+											<select name="summId" data-placeholder="Select a Summary"
+												id="summId"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												required data-fouc="" tabindex="-1" aria-hidden="true">
-											<option value="0" >Please Select</option>
-											<c:forEach items="${sumList}" var="sumList">
-																		
-											<option value="${sumList.lvSumupId}">${sumList.lvSumupTitle}</option>
- 
-									</c:forEach>
+												<option value="0">Please Select</option>
+												<c:forEach items="${sumList}" var="sumList">
 
-											
+													<option value="${sumList.lvSumupId}">${sumList.lvSumupTitle}</option>
+
+												</c:forEach>
+
+
 											</select>
 										</div>
 									</div>
-											
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="remark">Any
 											Remark:</label>
@@ -228,13 +268,18 @@
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
-<!-- 										
- -->											<button type="submit" class="btn bg-blue ml-3 legitRipple"
+											<!-- 										
+ -->
+											<button type="submit" class="btn bg-blue ml-3 legitRipple"
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-												<a href="${pageContext.request.contextPath}/showLeaveTypeList"><button
-										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Back</button></a>
+											<a
+												href="${pageContext.request.contextPath}/showLeaveTypeList"><button
+													type="button" class="btn btn-light">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Back
+												</button></a>
 										</div>
 									</div>
 								</form>
@@ -254,35 +299,34 @@
 			<!-- Footer -->
 			<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 			<!-- /footer -->
-</div>
 		</div>
-		
-		<!-- /main content -->
+	</div>
+
+	<!-- /main content -->
 
 
 	<!-- /page content -->
-	
+
 	<script type="text/javascript">
-	function checkUniqueShortName(valueType) {
+		function checkUniqueShortName(valueType) {
 			//alert("hi");
 
 			document.getElementById("submtbtn").disabled = false;
-			
+
 			var valid = false;
-			
-		
-			if (valueType!= '') {
-					valid = true;
-					
-			} else{ 
-					valid = false;
+
+			if (valueType != '') {
+				valid = true;
+
+			} else {
+				valid = false;
 			}
 			if (valid == true)
-			
+
 				$
 						.getJSON(
 								'${checkUniqueLeaveType}',
-								{								
+								{
 									valueType : valueType,
 									ajax : 'true',
 
@@ -292,34 +336,32 @@
 									//alert("data" + +JSON.stringify(data));
 									if (data.error == false) {
 										//alert("Already exist")
-											$("#error_leaveShortname").show()
-										document.getElementById("leaveShortTypeTitle").value = "";
+										$("#error_leaveShortname").show()
+										document
+												.getElementById("leaveShortTypeTitle").value = "";
 									}
-									
+
 								});
-			
-		}
 
-	
+		}
 	</script>
-<script type="text/javascript">
+	<script type="text/javascript">
+		function checkSame() {
+			x = document.getElementById("leaveTypeTitle").value;
+			y = document.getElementById("leaveShortTypeTitle").value;
+			//alert(x);
 
-function checkSame(){
-	x=document.getElementById("leaveTypeTitle").value;
-	y=document.getElementById("leaveShortTypeTitle").value;
-	//alert(x);
-	
-	if(x!== '' && y!== ''){
-		if(x==y){
-			$("#error_sameName").show()
-			document.getElementById("leaveShortTypeTitle").value="";
+			if (x !== '' && y !== '') {
+				if (x == y) {
+					$("#error_sameName").show()
+					document.getElementById("leaveShortTypeTitle").value = "";
+				} else {
+					$("#error_sameName").hide()
+				}
+			}
+
 		}
-		else{
-			$("#error_sameName").hide()
-		}
-}
-	
-}</script>
+	</script>
 	<script>
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
@@ -342,7 +384,6 @@ function checkSame(){
 			return true;
 		}
 
-		
 		$(document).ready(function($) {
 
 			$("#submitInsertCompany").submit(function(e) {
@@ -359,7 +400,6 @@ function checkSame(){
 					$("#error_leaveType").hide()
 				}
 
-
 				if (!$("#leaveShortTypeTitle").val()) {
 
 					isError = true;
@@ -369,13 +409,6 @@ function checkSame(){
 				} else {
 					$("#error_leaveScType").hide()
 				}
-
-				
- 
-				
-				
-				
-				
 
 				if (!isError) {
 
