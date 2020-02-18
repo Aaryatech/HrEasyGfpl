@@ -644,6 +644,7 @@ public class LeaveController {
 			String empId1 = FormValidation.Encrypt(String.valueOf(lvEmp.getEmpId()));
 			model.addObject("lvEmp", lvEmp);
 			model.addObject("empId1", empId1);
+			model.addObject("imageUrl", Constants.imageShowUrl);
 			// System.out.println("emp leave details" + lvEmp.toString());
 
 		} catch (Exception e) {
@@ -1142,6 +1143,7 @@ public class LeaveController {
 			lvEmp.setLeaveFromdt(DateConvertor.convertToDMY(lvEmp.getLeaveFromdt()));
 			lvEmp.setLeaveTodt(DateConvertor.convertToDMY(lvEmp.getLeaveTodt()));
 			model.addObject("lvEmp", lvEmp);
+			model.addObject("imageUrl", Constants.imageShowUrl);
 			// System.out.println("emp leave details" + lvEmp.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1173,7 +1175,7 @@ public class LeaveController {
 				List<CalenderYear> calYearList = new ArrayList<CalenderYear>(Arrays.asList(calenderYear));
 
 				EmployeeMaster[] employeeInfo = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getEmplistForAssignAuthority", EmployeeMaster[].class);
+						.getForObject(Constants.url + "/getEmplistForAssignAuthorityAll", EmployeeMaster[].class);
 
 				List<EmployeeMaster> employeeInfoList = new ArrayList<EmployeeMaster>(Arrays.asList(employeeInfo));
 				model.addObject("calYearList", calYearList);
@@ -1212,7 +1214,7 @@ public class LeaveController {
 			map = new LinkedMultiValueMap<>();
 
 			EmployeeMaster[] emp = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getEmplistForAssignAuthority", EmployeeMaster[].class);
+					.getForObject(Constants.url + "/getEmplistForAssignAuthorityAll", EmployeeMaster[].class);
 
 			List<EmployeeMaster> empList1 = new ArrayList<EmployeeMaster>(Arrays.asList(emp));
 
