@@ -172,6 +172,17 @@
 
 							</div>
 						</div>
+						<c:if test="${lvEmp.empPhoto != '-'}">
+							<div class="form-group row">
+								<label class="col-form-label col-lg-2" for="certificate">Fitness
+									Certificate</label>
+								<div class="col-lg-6">
+									<a href="${imageUrl}${lvEmp.empPhoto}" target="_blank">Download
+										File</a>
+
+								</div>
+							</div>
+						</c:if>
 						<table
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
 							id="printtable1">
