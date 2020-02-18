@@ -320,6 +320,18 @@
 															title="PDF"><i class="icon-file-spreadsheet  "
 																style="color: black;"></i></a></td>
 													</tr>
+													
+													<tr>
+														<td>1</td>
+														<td>Employee PF Statement</td>
+														<td class="text-center"><a href="#"
+															onclick="getProgReport(0,'showEmpPfRepEmpWise')"
+															title="excel"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a> <a href="#"
+															onclick="getProgReport(1,'showEmpPfRepEmpWise')"
+															title="PDF"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a></td>
+													</tr>
 
 												</tbody>
 											</table>

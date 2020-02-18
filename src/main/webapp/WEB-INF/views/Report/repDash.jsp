@@ -116,8 +116,7 @@
 									</div>
 
 								</div>
-
-
+								 
 								<div class="row">
 
 									<div class="col-sm-12 col-md-4">
@@ -246,24 +245,41 @@
 											</div>
 
 											<div class="card-body" align="left">
+
+									<label
+										class="col-form-label text-info font-weight-bold col-lg-3"
+										for="subCmpId">Company:
+									</label>
+									<div class="col-lg-4">
+										<select name="subCmpId" data-placeholder="Select Sub Company"
+											id="subCmpId"
+											class="form-control form-control-select2 ">
+											<option value="">Select Sub Company</option>
+											<c:forEach items="${companySubList}" var="companySubList">
+												<option value="${companySubList.companyId}">${companySubList.companyName}</option>
+
+											</c:forEach>
+										</select>
+									</div>
+
 												Employee PF Statement<a href="#"
 													onclick="getProgReport(0,'showEmpPfRep')" title="excel"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 												<a href="#" onclick="getProgReport(1,'showEmpPfRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <br /> Employer PF Statement <a
-													href="#" onclick="getProgReport(0,'showEmpAttendanceRep')"
+													href="#" onclick="getProgReport(0,'showEmployerPfRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEmpAttendanceRep')"
+													onclick="getProgReport(1,'showEmployerPfRep')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a><br />
+												Employee Employer PF Statement <a href="#"
+													onclick="getProgReport(0,'showEmployeeEmployerPfRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmployeeEmployerPfRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br /> Employee Employer PF
-												Statement <a href="#"
-													onclick="getProgReport(0,'showEmpLateMarkRep')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
-													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+													style="color: black;"></i></a>
 
 											</div>
 										</div>

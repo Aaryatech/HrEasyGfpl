@@ -48,6 +48,7 @@ import com.ats.hreasy.model.GetDailyDailyRecord;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.LeaveHistTemp;
 import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.MstCompanySub;
 import com.ats.hreasy.model.Advance.AdvanceDetails;
 import com.ats.hreasy.model.Advance.GetAdvance;
 import com.ats.hreasy.model.report.EmpAttendeanceRep;
@@ -80,6 +81,14 @@ public class ReportAdminController {
 		try {
 			model = new ModelAndView("Report/repDash");
 			HttpSession session = request.getSession();
+
+			MstCompanySub[] company = Constants.getRestTemplate().getForObject(Constants.url + "/getAllSubCompanies",
+					MstCompanySub[].class);
+
+			List<MstCompanySub> companyList = new ArrayList<MstCompanySub>(Arrays.asList(company));
+			model.addObject("companySubList", companyList);
+
+			System.err.println("companySubList" + companyList.toString());
 
 		} catch (Exception e) {
 
@@ -348,9 +357,6 @@ public class ReportAdminController {
 		}
 	}
 
-	
-	
-
 	@RequestMapping(value = "/showAdvanceSkipRep", method = RequestMethod.GET)
 	public void showAdvanceSkipRep(HttpServletRequest request, HttpServletResponse response) {
 
@@ -471,7 +477,7 @@ public class ReportAdminController {
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
 
 			table.addCell(hcell);
-			double totAdv=0;
+			double totAdv = 0;
 
 			int index = 0;
 			for (int i = 0; i < progList.size(); i++) {
@@ -579,10 +585,8 @@ public class ReportAdminController {
 						cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 						table.addCell(cell);
-						
+
 					}
-					
-					
 
 				}
 
@@ -645,7 +649,7 @@ public class ReportAdminController {
 					table.addCell(cell);
 
 				}
-				totAdv=totAdv+prog.getAdvAmount();
+				totAdv = totAdv + prog.getAdvAmount();
 			}
 
 			document.open();
@@ -656,7 +660,6 @@ public class ReportAdminController {
 			document.add(name);
 			document.add(new Paragraph("\n"));
 			document.add(new Paragraph("Month-Year: " + month));
-			
 
 			document.add(new Paragraph("\n"));
 			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -718,7 +721,7 @@ public class ReportAdminController {
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 				int cnt = 1;
-				double advAmt=0;
+				double advAmt = 0;
 				for (int i = 0; i < progList.size(); i++) {
 					System.err.println("i:" + i);
 
@@ -726,9 +729,8 @@ public class ReportAdminController {
 
 					for (int k = 0; k < progList1.size(); k++) {
 
- 
 						if (progList1.get(k).getAdvId() == progList.get(i).getId()) {
- 							flag = flag + 1;
+							flag = flag + 1;
 							expoExcel = new ExportToExcel();
 							rowData = new ArrayList<String>();
 							if (flag == 1) {
@@ -742,7 +744,7 @@ public class ReportAdminController {
 								rowData.add("" + progList.get(i).getAdvAmount());
 								rowData.add("" + progList.get(i).getSkipId());
 							} else {
- 								rowData.add("" + " ");
+								rowData.add("" + " ");
 								rowData.add("" + " ");
 								rowData.add("" + " ");
 								rowData.add("" + " ");
@@ -763,7 +765,7 @@ public class ReportAdminController {
 					if (flag == 0) {
 						expoExcel = new ExportToExcel();
 						rowData = new ArrayList<String>();
- 						cnt = cnt + i;
+						cnt = cnt + i;
 						rowData.add("" + (i + 1));
 						rowData.add("" + progList.get(i).getEmpCode());
 						rowData.add(
@@ -778,13 +780,14 @@ public class ReportAdminController {
 						exportToExcelList.add(expoExcel);
 
 					}
-					advAmt=advAmt+progList.get(i).getAdvAmount();
-					
+					advAmt = advAmt + progList.get(i).getAdvAmount();
+
 				}
 				XSSFWorkbook wb = null;
 				try {
 
-					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Month-Year: " + month, "Total Advance: " +advAmt, 'I');
+					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Month-Year: " + month,
+							"Total Advance: " + advAmt, 'I');
 
 					ExceUtil.autoSizeColumns(wb, 3);
 					response.setContentType("application/vnd.ms-excel");
@@ -1520,9 +1523,6 @@ public class ReportAdminController {
 
 		}
 	}
-	
-	
-	
 
 	@RequestMapping(value = "/showEmpLateMarkRep", method = RequestMethod.GET)
 	public void showEmpLateMarkRep(HttpServletRequest request, HttpServletResponse response) {
@@ -2035,11 +2035,9 @@ public class ReportAdminController {
 
 		}
 	}
-	
-	//*******************************Loan Reports****************************
-	
-	
-	
+
+	// *******************************Loan Reports****************************
+
 	@RequestMapping(value = "/showEmpLoanRep", method = RequestMethod.GET)
 	public void showEmpLoanRep(HttpServletRequest request, HttpServletResponse response) {
 
@@ -2269,7 +2267,6 @@ public class ReportAdminController {
 
 		}
 	}
-	
 
 	@RequestMapping(value = "/showLoanRep", method = RequestMethod.GET)
 	public void showLoanRep(HttpServletRequest request, HttpServletResponse response) {
@@ -2284,7 +2281,7 @@ public class ReportAdminController {
 		Boolean ret = false;
 		try {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
- 			map.add("month", temp[0]);
+			map.add("month", temp[0]);
 			map.add("year", temp[1]);
 			GetLoanReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getLoanReport", map,
 					GetLoanReport[].class);
@@ -2292,7 +2289,7 @@ public class ReportAdminController {
 
 			String header = "";
 			String title = "                 ";
- 			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
+			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
 			String repDate = DF2.format(new Date());
 
 			Document document = new Document(PageSize._11X17);
@@ -2322,13 +2319,13 @@ public class ReportAdminController {
 			table.setHeaderRows(1);
 
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.0f, 3.0f, 5.5f, 3.5f, 3.5f, 3.5f,3.5f,3.5f,3.5f,3.5f });
+			table.setWidths(new float[] { 2.0f, 3.0f, 5.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f });
 			Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
 			// BaseColor.BLACK);
 			Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
 																	// BaseColor.BLACK);
 			tableHeaderFont.setColor(ReportCostants.tableHeaderFontBaseColor);
- 
+
 			PdfPCell hcell = new PdfPCell();
 			hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
 
@@ -2367,27 +2364,25 @@ public class ReportAdminController {
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
 
 			table.addCell(hcell);
-			
+
 			hcell = new PdfPCell(new Phrase("Loan Repay End", tableHeaderFont));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
 
 			table.addCell(hcell);
-			
-			
+
 			hcell = new PdfPCell(new Phrase("Current Total Paid", tableHeaderFont));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
 
 			table.addCell(hcell);
-			
-			
+
 			hcell = new PdfPCell(new Phrase("Current Total Outstanding", tableHeaderFont));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
 
 			table.addCell(hcell);
-			
+
 			hcell = new PdfPCell(new Phrase("Status", tableHeaderFont));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
@@ -2424,7 +2419,7 @@ public class ReportAdminController {
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
-				
+
 				cell = new PdfPCell(new Phrase("" + prog.getLoanAmt(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -2441,7 +2436,6 @@ public class ReportAdminController {
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
-				
 
 				cell = new PdfPCell(new Phrase("" + prog.getCurrentTotpaid(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -2529,7 +2523,7 @@ public class ReportAdminController {
 				rowData.add("Current Total Paid");
 				rowData.add("Current Total Outstanding");
 				rowData.add("Status");
- 
+
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 				int cnt = 1;
@@ -2543,13 +2537,12 @@ public class ReportAdminController {
 					rowData.add("" + progList.get(i).getEmpName());
 					rowData.add("" + progList.get(i).getLoanApplNo());
 					rowData.add("" + progList.get(i).getLoanAmt());
- 					rowData.add("" + progList.get(i).getLoanRepayStart());
+					rowData.add("" + progList.get(i).getLoanRepayStart());
 					rowData.add("" + progList.get(i).getLoanRepayEnd());
 					rowData.add("" + progList.get(i).getCurrentTotpaid());
 					rowData.add("" + progList.get(i).getCurrentOutstanding());
 					rowData.add("" + progList.get(i).getLoanStatus());
 
-					 
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
 
@@ -2583,8 +2576,7 @@ public class ReportAdminController {
 
 		}
 	}
-	
-	
+
 	/*
 	 * @RequestMapping(value = "/showLoanYearlyRep", method = RequestMethod.GET)
 	 * public void showLoanYearlyRep(HttpServletRequest request, HttpServletResponse
@@ -2945,33 +2937,36 @@ public class ReportAdminController {
 	 * 
 	 * } }
 	 */
-	//******************PF Statement***********************
-	
-	
+	// ******************PF Statement***********************
 
 	@RequestMapping(value = "/showEmpPfRep", method = RequestMethod.GET)
 	public void showEmpPfRep(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Employee PF  Statement";
+		String reportName = "Employee PF Statement";
+		String leaveDateRange = request.getParameter("leaveDateRange");
+		String[] arrOfStr = leaveDateRange.split("to", 2);
+		int cmpId = 0;
+		try {
+			cmpId = Integer.parseInt(request.getParameter("subCmpId"));
 
-		HttpSession session = request.getSession();
+		} catch (Exception e) {
+			cmpId = 0;
+		}
 
-		String month = request.getParameter("date");
-
-		String temp[] = month.split("-");
+		String cmpName = "-";
 		Boolean ret = false;
 		try {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("companyId", 1);
- 			map.add("month", temp[0]);
-			map.add("year", temp[1]);
-			GetSalaryCalcReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getPfStatement", map,
-					GetSalaryCalcReport[].class);
+			map.add("companyId", cmpId);
+			map.add("fromDate", arrOfStr[0]);
+			map.add("toDate", arrOfStr[1]);
+			GetSalaryCalcReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getPfStatement",
+					map, GetSalaryCalcReport[].class);
 			List<GetSalaryCalcReport> progList = new ArrayList<>(Arrays.asList(resArray));
 
 			String header = "";
 			String title = "                 ";
- 			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
+			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
 			String repDate = DF2.format(new Date());
 
 			Document document = new Document(PageSize._11X17);
@@ -2996,18 +2991,18 @@ public class ReportAdminController {
 			writer.setPageEvent(event);
 			// writer.add(new Paragraph("Curricular Aspects"));
 
-			PdfPTable table = new PdfPTable(5);
+			PdfPTable table = new PdfPTable(6);
 
 			table.setHeaderRows(1);
 
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.0f, 3.0f, 5.5f, 3.5f, 3.5f });
+			table.setWidths(new float[] { 2.0f, 3.0f, 6.5f, 3.5f, 3.5f, 3.5f });
 			Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
 			// BaseColor.BLACK);
 			Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
 																	// BaseColor.BLACK);
 			tableHeaderFont.setColor(ReportCostants.tableHeaderFontBaseColor);
- 
+
 			PdfPCell hcell = new PdfPCell();
 			hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
 
@@ -3029,8 +3024,7 @@ public class ReportAdminController {
 
 			table.addCell(hcell);
 
-			 
-			hcell = new PdfPCell(new Phrase("PFable salary/wages", tableHeaderFont));
+			hcell = new PdfPCell(new Phrase("EPF Wages", tableHeaderFont));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
 
@@ -3041,12 +3035,10 @@ public class ReportAdminController {
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
 
 			table.addCell(hcell);
-			
+
 			hcell = new PdfPCell(new Phrase("EPF %", tableHeaderFont));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-			
-			 
 
 			table.addCell(hcell);
 
@@ -3080,7 +3072,7 @@ public class ReportAdminController {
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
-				
+
 				cell = new PdfPCell(new Phrase("" + prog.getEmployeePf(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -3088,11 +3080,13 @@ public class ReportAdminController {
 
 				cell = new PdfPCell(new Phrase("" + prog.getEpfPercentage(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
+				if (cmpId != 0) {
+					cmpName = prog.getCompanyName();
 
-			 
+				}
 
 			}
 
@@ -3103,7 +3097,8 @@ public class ReportAdminController {
 			name.setAlignment(Element.ALIGN_CENTER);
 			document.add(name);
 			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("Month-Year: " + month));
+			document.add(new Paragraph("Date Range: " + leaveDateRange));
+			document.add(new Paragraph("Company Name: " + cmpName));
 
 			document.add(new Paragraph("\n"));
 			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -3155,10 +3150,10 @@ public class ReportAdminController {
 				rowData.add("Sr. No");
 				rowData.add("Emp Code");
 				rowData.add("Emp Name");
-				rowData.add("PFable Salary Wages");
+				rowData.add("EPF Wages");
 				rowData.add("Employee's Contribution PF");
 				rowData.add("EPF %");
-			 
+
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 				int cnt = 1;
@@ -3172,17 +3167,23 @@ public class ReportAdminController {
 					rowData.add("" + progList.get(i).getEmpName());
 					rowData.add("" + progList.get(i).getEpfWages());
 					rowData.add("" + progList.get(i).getEmployeePf());
- 					rowData.add("" + progList.get(i).getEpfPercentage());
-				 
+					rowData.add("" + progList.get(i).getEpfPercentage());
+
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
+
+					if (cmpId != 0) {
+						cmpName = progList.get(i).getCompanyName();
+
+					}
 
 				}
 
 				XSSFWorkbook wb = null;
 				try {
 
-					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Month-Year:" + month, "", 'F');
+					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+							"Date Range:" + leaveDateRange + " Company Name:" + cmpName, "", 'F');
 
 					ExceUtil.autoSizeColumns(wb, 3);
 					response.setContentType("application/vnd.ms-excel");
@@ -3207,6 +3208,819 @@ public class ReportAdminController {
 
 		}
 	}
-	
+
+	@RequestMapping(value = "/showEmployerPfRep", method = RequestMethod.GET)
+	public void showEmployerPfRep(HttpServletRequest request, HttpServletResponse response) {
+
+		String reportName = "Employeer PF  Statement";
+
+		HttpSession session = request.getSession();
+
+		String leaveDateRange = request.getParameter("leaveDateRange");
+		String[] arrOfStr = leaveDateRange.split("to", 2);
+		int cmpId = 0;
+		try {
+			cmpId = Integer.parseInt(request.getParameter("subCmpId"));
+
+		} catch (Exception e) {
+			cmpId = 0;
+		}
+		String cmpName = "-";
+
+		Boolean ret = false;
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("companyId", cmpId);
+			map.add("fromDate", arrOfStr[0]);
+			map.add("toDate", arrOfStr[1]);
+			GetSalaryCalcReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getPfStatement",
+					map, GetSalaryCalcReport[].class);
+			List<GetSalaryCalcReport> progList = new ArrayList<>(Arrays.asList(resArray));
+
+			String header = "";
+			String title = "                 ";
+			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
+			String repDate = DF2.format(new Date());
+
+			Document document = new Document(PageSize._11X17);
+			document.setMargins(5, 5, 0, 0);
+			document.setMarginMirroring(false);
+
+			String FILE_PATH = Constants.REPORT_SAVE;
+			File file = new File(FILE_PATH);
+
+			PdfWriter writer = null;
+
+			FileOutputStream out = new FileOutputStream(FILE_PATH);
+			try {
+				writer = PdfWriter.getInstance(document, out);
+			} catch (DocumentException e) {
+
+				e.printStackTrace();
+			}
+
+			ItextPageEvent event = new ItextPageEvent(header, title, "", "");
+
+			writer.setPageEvent(event);
+			// writer.add(new Paragraph("Curricular Aspects"));
+
+			PdfPTable table = new PdfPTable(6);
+
+			table.setHeaderRows(1);
+
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] { 2.0f, 3.0f, 5.5f, 3.5f, 3.5f, 3.5f });
+			Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
+			// BaseColor.BLACK);
+			Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
+																	// BaseColor.BLACK);
+			tableHeaderFont.setColor(ReportCostants.tableHeaderFontBaseColor);
+
+			PdfPCell hcell = new PdfPCell();
+			hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+			hcell = new PdfPCell(new Phrase("Sr.No.", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employee Code", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employee Name", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("EPS Wages", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employeer's Contribution PF", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("EPF %", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			int index = 0;
+			for (int i = 0; i < progList.size(); i++) {
+				// System.err.println("I " + i);
+				GetSalaryCalcReport prog = progList.get(i);
+
+				index++;
+				PdfPCell cell;
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmpCode(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmpName(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmployerEps(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmployerPf(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEpfEmployerPercentage(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+
+				if (cmpId != 0) {
+					cmpName = prog.getCompanyName();
+
+				}
+
+			}
+
+			document.open();
+			Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
+
+			Paragraph name = new Paragraph(reportName, hf);
+			name.setAlignment(Element.ALIGN_CENTER);
+			document.add(name);
+			document.add(new Paragraph("\n"));
+			document.add(new Paragraph("Date Range: " + leaveDateRange));
+			document.add(new Paragraph("Company Name: " + cmpName));
+
+
+			document.add(new Paragraph("\n"));
+			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+
+			document.add(table);
+
+			int totalPages = writer.getPageNumber();
+
+			// System.out.println("Page no " + totalPages);
+
+			document.close();
+			int p = Integer.parseInt(request.getParameter("p"));
+			// System.err.println("p " + p);
+
+			if (p == 1) {
+
+				if (file != null) {
+
+					String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+					if (mimeType == null) {
+
+						mimeType = "application/pdf";
+
+					}
+
+					response.setContentType(mimeType);
+
+					response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+					response.setContentLength((int) file.length());
+
+					InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+					try {
+						FileCopyUtils.copy(inputStream, response.getOutputStream());
+					} catch (IOException e) {
+						// System.out.println("Excep in Opening a Pdf File");
+						e.printStackTrace();
+					}
+				}
+			} else {
+
+				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+				ExportToExcel expoExcel = new ExportToExcel();
+				List<String> rowData = new ArrayList<String>();
+
+				rowData.add("Sr. No");
+				rowData.add("Emp Code");
+				rowData.add("Emp Name");
+				rowData.add("EPS Wages");
+				rowData.add("Employeer's Contribution PF");
+				rowData.add("EPF %");
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				int cnt = 1;
+				for (int i = 0; i < progList.size(); i++) {
+					expoExcel = new ExportToExcel();
+					rowData = new ArrayList<String>();
+					cnt = cnt + i;
+
+					rowData.add("" + (i + 1));
+					rowData.add("" + progList.get(i).getEmpCode());
+					rowData.add("" + progList.get(i).getEmpName());
+					rowData.add("" + progList.get(i).getEmployerEps());
+					rowData.add("" + progList.get(i).getEmployerPf());
+					rowData.add("" + progList.get(i).getEpfEmployerPercentage());
+
+					expoExcel.setRowData(rowData);
+					exportToExcelList.add(expoExcel);
+
+					if (cmpId != 0) {
+
+						cmpName = progList.get(i).getCompanyName();
+					}
+
+				}
+
+				XSSFWorkbook wb = null;
+				try {
+
+					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "DateRange:" + leaveDateRange+ " Company Name:" + cmpName, "",
+							'F');
+
+					ExceUtil.autoSizeColumns(wb, 3);
+					response.setContentType("application/vnd.ms-excel");
+					String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+					response.setHeader("Content-disposition",
+							"attachment; filename=" + reportName + "-" + date + ".xlsx");
+					wb.write(response.getOutputStream());
+
+				} catch (IOException ioe) {
+					throw new RuntimeException("Error writing spreadsheet to output stream");
+				} finally {
+					if (wb != null) {
+						wb.close();
+					}
+				}
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+	}
+
+	@RequestMapping(value = "/showEmployeeEmployerPfRep", method = RequestMethod.GET)
+	public void showEmployeeEmployerPfRep(HttpServletRequest request, HttpServletResponse response) {
+
+		String reportName = "Employee Employeer PF  Statement";
+
+		HttpSession session = request.getSession();
+
+		String leaveDateRange = request.getParameter("leaveDateRange");
+		String[] arrOfStr = leaveDateRange.split("to", 2);
+		int cmpId = 0;
+		try {
+			cmpId = Integer.parseInt(request.getParameter("subCmpId"));
+
+		} catch (Exception e) {
+			cmpId = 0;
+		}
+
+		String cmpName = "-";
+
+		Boolean ret = false;
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("companyId", cmpId);
+			map.add("fromDate", arrOfStr[0]);
+			map.add("toDate", arrOfStr[1]);
+			GetSalaryCalcReport[] resArray = Constants.getRestTemplate().postForObject(Constants.url + "getPfStatement",
+					map, GetSalaryCalcReport[].class);
+			List<GetSalaryCalcReport> progList = new ArrayList<>(Arrays.asList(resArray));
+
+			String header = "";
+			String title = "                 ";
+			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
+			String repDate = DF2.format(new Date());
+
+			Document document = new Document(PageSize._11X17);
+			document.setMargins(5, 5, 0, 0);
+			document.setMarginMirroring(false);
+
+			String FILE_PATH = Constants.REPORT_SAVE;
+			File file = new File(FILE_PATH);
+
+			PdfWriter writer = null;
+
+			FileOutputStream out = new FileOutputStream(FILE_PATH);
+			try {
+				writer = PdfWriter.getInstance(document, out);
+			} catch (DocumentException e) {
+
+				e.printStackTrace();
+			}
+
+			ItextPageEvent event = new ItextPageEvent(header, title, "", "");
+
+			writer.setPageEvent(event);
+			// writer.add(new Paragraph("Curricular Aspects"));
+
+			PdfPTable table = new PdfPTable(6);
+
+			table.setHeaderRows(1);
+
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] { 2.0f, 3.0f, 5.5f, 3.5f, 3.5f, 3.5f });
+			Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
+			// BaseColor.BLACK);
+			Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
+																	// BaseColor.BLACK);
+			tableHeaderFont.setColor(ReportCostants.tableHeaderFontBaseColor);
+
+			PdfPCell hcell = new PdfPCell();
+			hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+			hcell = new PdfPCell(new Phrase("Sr.No.", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employee Code", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employee Name", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("PFable Salary/Wages", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employee's Contribution PF", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employeer's Contribution PF", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			int index = 0;
+			for (int i = 0; i < progList.size(); i++) {
+				// System.err.println("I " + i);
+				GetSalaryCalcReport prog = progList.get(i);
+
+				index++;
+				PdfPCell cell;
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmpCode(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmpName(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEpfWages(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmployeePf(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmployerPf(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				table.addCell(cell);
+
+				if (cmpId != 0) {
+					cmpName = prog.getCompanyName();
+
+				}
+
+			}
+
+			document.open();
+			Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
+
+			Paragraph name = new Paragraph(reportName, hf);
+			name.setAlignment(Element.ALIGN_CENTER);
+			document.add(name);
+			document.add(new Paragraph("\n"));
+			document.add(new Paragraph("DateRange: " + leaveDateRange));
+			document.add(new Paragraph("Company Name: " + cmpName));
+
+
+			document.add(new Paragraph("\n"));
+			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+
+			document.add(table);
+
+			int totalPages = writer.getPageNumber();
+
+			// System.out.println("Page no " + totalPages);
+
+			document.close();
+			int p = Integer.parseInt(request.getParameter("p"));
+			// System.err.println("p " + p);
+
+			if (p == 1) {
+
+				if (file != null) {
+
+					String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+					if (mimeType == null) {
+
+						mimeType = "application/pdf";
+
+					}
+
+					response.setContentType(mimeType);
+
+					response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+					response.setContentLength((int) file.length());
+
+					InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+					try {
+						FileCopyUtils.copy(inputStream, response.getOutputStream());
+					} catch (IOException e) {
+						// System.out.println("Excep in Opening a Pdf File");
+						e.printStackTrace();
+					}
+				}
+			} else {
+
+				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+				ExportToExcel expoExcel = new ExportToExcel();
+				List<String> rowData = new ArrayList<String>();
+
+				rowData.add("Sr. No");
+				rowData.add("Emp Code");
+				rowData.add("Emp Name");
+				rowData.add("PFable Salary/Wages");
+				rowData.add("Employee's Contribution PF");
+				rowData.add("Employeer's Contribution PF");
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				int cnt = 1;
+				for (int i = 0; i < progList.size(); i++) {
+					expoExcel = new ExportToExcel();
+					rowData = new ArrayList<String>();
+					cnt = cnt + i;
+
+					rowData.add("" + (i + 1));
+					rowData.add("" + progList.get(i).getEmpCode());
+					rowData.add("" + progList.get(i).getEmpName());
+					rowData.add("" + progList.get(i).getEpfWages());
+					rowData.add("" + progList.get(i).getEmployeePf());
+					rowData.add("" + progList.get(i).getEmployerPf());
+
+					expoExcel.setRowData(rowData);
+					exportToExcelList.add(expoExcel);
+
+					if (cmpId != 0) {
+
+						cmpName = progList.get(i).getCompanyName();
+					}
+
+				}
+
+				XSSFWorkbook wb = null;
+				try {
+
+					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "DateRange:" + leaveDateRange + " Company Name:" + cmpName, "",
+							'F');
+
+					ExceUtil.autoSizeColumns(wb, 3);
+					response.setContentType("application/vnd.ms-excel");
+					String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+					response.setHeader("Content-disposition",
+							"attachment; filename=" + reportName + "-" + date + ".xlsx");
+					wb.write(response.getOutputStream());
+
+				} catch (IOException ioe) {
+					throw new RuntimeException("Error writing spreadsheet to output stream");
+				} finally {
+					if (wb != null) {
+						wb.close();
+					}
+				}
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+	}
+
+	@RequestMapping(value = "/showEmpPfRepEmpWise", method = RequestMethod.GET)
+	public void showEmpPfRepEmpWise(HttpServletRequest request, HttpServletResponse response) {
+
+		String reportName = "Employee PF Statement";
+
+		int empId = 0;
+		try {
+			empId = Integer.parseInt(request.getParameter("empId1"));
+
+		} catch (Exception e) {
+			empId = 0;
+
+		}
+		String fromDate = request.getParameter("datepickerFromRep");
+		String toDate = request.getParameter("datepickerToRep");
+
+		System.err.println("empId :" + empId);
+
+		Boolean ret = false;
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("empId", empId);
+			map.add("fromDate", fromDate);
+			map.add("toDate", toDate);
+
+			GetSalaryCalcReport[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "getEmpPfStatement", map, GetSalaryCalcReport[].class);
+			List<GetSalaryCalcReport> progList = new ArrayList<>(Arrays.asList(resArray));
+
+			String header = "";
+			String title = "                 ";
+			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
+			String repDate = DF2.format(new Date());
+
+			Document document = new Document(PageSize._11X17);
+			document.setMargins(5, 5, 0, 0);
+			document.setMarginMirroring(false);
+
+			String FILE_PATH = Constants.REPORT_SAVE;
+			File file = new File(FILE_PATH);
+
+			PdfWriter writer = null;
+
+			FileOutputStream out = new FileOutputStream(FILE_PATH);
+			try {
+				writer = PdfWriter.getInstance(document, out);
+			} catch (DocumentException e) {
+
+				e.printStackTrace();
+			}
+
+			ItextPageEvent event = new ItextPageEvent(header, title, "", "");
+
+			writer.setPageEvent(event);
+			// writer.add(new Paragraph("Curricular Aspects"));
+
+			PdfPTable table = new PdfPTable(6);
+
+			table.setHeaderRows(1);
+
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] { 2.0f, 3.0f, 6.5f, 3.0f, 3.0f, 3.0f });
+			Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
+			// BaseColor.BLACK);
+			Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
+																	// BaseColor.BLACK);
+			tableHeaderFont.setColor(ReportCostants.tableHeaderFontBaseColor);
+
+			PdfPCell hcell = new PdfPCell();
+			hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+			hcell = new PdfPCell(new Phrase("Sr.No.", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employee Code", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employee Name", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("EPF Wages", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Employee's Contribution PF", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("EPF %", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			int index = 0;
+			for (int i = 0; i < progList.size(); i++) {
+				// System.err.println("I " + i);
+				GetSalaryCalcReport prog = progList.get(i);
+
+				index++;
+				PdfPCell cell;
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmpCode(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmpName(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEpfWages(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEmployeePf(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getEpfPercentage(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+
+			}
+
+			document.open();
+			Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
+
+			Paragraph name = new Paragraph(reportName, hf);
+			name.setAlignment(Element.ALIGN_CENTER);
+			document.add(name);
+			document.add(new Paragraph("\n"));
+			document.add(new Paragraph("DateRange: " + fromDate + "To" + toDate));
+
+			document.add(new Paragraph("\n"));
+			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+
+			document.add(table);
+
+			int totalPages = writer.getPageNumber();
+
+			// System.out.println("Page no " + totalPages);
+
+			document.close();
+			int p = Integer.parseInt(request.getParameter("p"));
+			// System.err.println("p " + p);
+
+			if (p == 1) {
+
+				if (file != null) {
+
+					String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+					if (mimeType == null) {
+
+						mimeType = "application/pdf";
+
+					}
+
+					response.setContentType(mimeType);
+
+					response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+					response.setContentLength((int) file.length());
+
+					InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+					try {
+						FileCopyUtils.copy(inputStream, response.getOutputStream());
+					} catch (IOException e) {
+						// System.out.println("Excep in Opening a Pdf File");
+						e.printStackTrace();
+					}
+				}
+			} else {
+
+				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+				ExportToExcel expoExcel = new ExportToExcel();
+				List<String> rowData = new ArrayList<String>();
+
+				rowData.add("Sr. No");
+				rowData.add("Emp Code");
+				rowData.add("Emp Name");
+				rowData.add("EPF Wages");
+				rowData.add("Employee's Contribution PF");
+				rowData.add("EPF %");
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				int cnt = 1;
+				for (int i = 0; i < progList.size(); i++) {
+					expoExcel = new ExportToExcel();
+					rowData = new ArrayList<String>();
+					cnt = cnt + i;
+
+					rowData.add("" + (i + 1));
+					rowData.add("" + progList.get(i).getEmpCode());
+					rowData.add("" + progList.get(i).getEmpName());
+					rowData.add("" + progList.get(i).getEpfWages());
+					rowData.add("" + progList.get(i).getEmployeePf());
+					rowData.add("" + progList.get(i).getEpfPercentage());
+
+					expoExcel.setRowData(rowData);
+					exportToExcelList.add(expoExcel);
+
+				}
+
+				XSSFWorkbook wb = null;
+				try {
+
+					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+							"Date Range:" + fromDate + "To" + toDate, "", 'F');
+
+					ExceUtil.autoSizeColumns(wb, 3);
+					response.setContentType("application/vnd.ms-excel");
+					String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+					response.setHeader("Content-disposition",
+							"attachment; filename=" + reportName + "-" + date + ".xlsx");
+					wb.write(response.getOutputStream());
+
+				} catch (IOException ioe) {
+					throw new RuntimeException("Error writing spreadsheet to output stream");
+				} finally {
+					if (wb != null) {
+						wb.close();
+					}
+				}
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+	}
 
 }
