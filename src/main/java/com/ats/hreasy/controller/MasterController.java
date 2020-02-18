@@ -742,24 +742,20 @@ public class MasterController {
 
 		try {
 
-			/*
-			 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-			 * session.getAttribute("moduleJsonList"); Info view =
-			 * AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0,
-			 * newModuleList);
-			 * 
-			 * if (view.isError() == true) {
-			 * 
-			 * model = new ModelAndView("accessDenied");
-			 * 
-			 * } else {
-			 */
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("holidayCategoryAdd", "showHolidayCatList", 0, 1, 0, 0, newModuleList);
 
-			HolidayCategory holi = new HolidayCategory();
-			mav = "master/holidayCategoryAdd";
-			model.addAttribute("title", "Add Holiday Category");
-			model.addAttribute("holi", holi);
-			/* } */
+			if (view.isError() == true) {
+
+				mav = "accessDenied";
+
+			} else {
+
+				HolidayCategory holi = new HolidayCategory();
+				mav = "master/holidayCategoryAdd";
+				model.addAttribute("title", "Add Holiday Category");
+				model.addAttribute("holi", holi);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -772,16 +768,7 @@ public class MasterController {
 		HttpSession session = request.getSession();
 		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 		String a = new String();
-		/*
-		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-		 * session.getAttribute("moduleJsonList"); Info view =
-		 * AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0,
-		 * newModuleList); if (view.isError() == true) {
-		 * 
-		 * a = "redirect:/accessDenied";
-		 * 
-		 * } else {
-		 */
+	 
 		a = "redirect:/showHolidayCatList";
 		try {
 
@@ -819,13 +806,13 @@ public class MasterController {
 				location.setCompanyId(1);
 				location.setExInt1(0);
 				location.setExInt2(0);
- 				location.setIsActive(1);
+				location.setIsActive(1);
 				location.setDelStatus(1);
 				location.setMakerUserId(userObj.getUserId());
 				location.setMakerEnterDatetime(sf.format(date));
 
 				location.setExVar2("");
- 				location.setExVar1("");
+				location.setExVar1("");
 
 				HolidayCategory res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHolidayCat",
 						location, HolidayCategory.class);
@@ -844,8 +831,7 @@ public class MasterController {
 			e.printStackTrace();
 			session.setAttribute("errorMsg", "Failed to Insert Record");
 		}
-		// }
-
+	 
 		return a;
 	}
 
@@ -965,7 +951,7 @@ public class MasterController {
 		String mav = null;
 
 		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-		Info view = AcessController.checkAccess("editHolidayCat", "deleteHolidayCat", 0, 0, 1, 0, newModuleList);
+		Info view = AcessController.checkAccess("editHolidayCat", "showHolidayCatList", 0, 0, 1, 0, newModuleList);
 
 		if (view.isError() == true) {
 
