@@ -63,6 +63,22 @@ public class GetPayrollGeneratedList {
 	private double societyContribution;
 	private String  empCategory;
 	private double basicDefault;
+	private double abDeduction;
+	private double epfPercentage;
+	private double epsEmployeePercentage;
+	private double productionInsentive;
+	private double epfEmployerPercentage;
+	private double epsEmployerPercentage;
+	private double presentInsentive;
+	private double nightAllow;
+	private double epsDefault; 
+	private double epmloyerEpfDefault; 
+	private double epmloyerEpfExtra; 
+	private double pfAdminChPercentage; 
+	private double edliPercentage; 
+	private double edliAdminPercentage;  
+	private double employerEsicPercentage; 
+	private double employeeEsicPercentage;
 	
 	private String  name; 
 	private String  empTypeName; 
@@ -647,6 +663,134 @@ public class GetPayrollGeneratedList {
 		this.moneyInword = moneyInword;
 	}
 
+	public double getAbDeduction() {
+		return abDeduction;
+	}
+
+	public void setAbDeduction(double abDeduction) {
+		this.abDeduction = abDeduction;
+	}
+
+	public double getEpfPercentage() {
+		return epfPercentage;
+	}
+
+	public void setEpfPercentage(double epfPercentage) {
+		this.epfPercentage = epfPercentage;
+	}
+
+	public double getEpsEmployeePercentage() {
+		return epsEmployeePercentage;
+	}
+
+	public void setEpsEmployeePercentage(double epsEmployeePercentage) {
+		this.epsEmployeePercentage = epsEmployeePercentage;
+	}
+
+	public double getProductionInsentive() {
+		return productionInsentive;
+	}
+
+	public void setProductionInsentive(double productionInsentive) {
+		this.productionInsentive = productionInsentive;
+	}
+
+	public double getEpfEmployerPercentage() {
+		return epfEmployerPercentage;
+	}
+
+	public void setEpfEmployerPercentage(double epfEmployerPercentage) {
+		this.epfEmployerPercentage = epfEmployerPercentage;
+	}
+
+	public double getEpsEmployerPercentage() {
+		return epsEmployerPercentage;
+	}
+
+	public void setEpsEmployerPercentage(double epsEmployerPercentage) {
+		this.epsEmployerPercentage = epsEmployerPercentage;
+	}
+
+	public double getPresentInsentive() {
+		return presentInsentive;
+	}
+
+	public void setPresentInsentive(double presentInsentive) {
+		this.presentInsentive = presentInsentive;
+	}
+
+	public double getNightAllow() {
+		return nightAllow;
+	}
+
+	public void setNightAllow(double nightAllow) {
+		this.nightAllow = nightAllow;
+	}
+
+	public double getEpsDefault() {
+		return epsDefault;
+	}
+
+	public void setEpsDefault(double epsDefault) {
+		this.epsDefault = epsDefault;
+	}
+
+	public double getEpmloyerEpfDefault() {
+		return epmloyerEpfDefault;
+	}
+
+	public void setEpmloyerEpfDefault(double epmloyerEpfDefault) {
+		this.epmloyerEpfDefault = epmloyerEpfDefault;
+	}
+
+	public double getEpmloyerEpfExtra() {
+		return epmloyerEpfExtra;
+	}
+
+	public void setEpmloyerEpfExtra(double epmloyerEpfExtra) {
+		this.epmloyerEpfExtra = epmloyerEpfExtra;
+	}
+
+	public double getPfAdminChPercentage() {
+		return pfAdminChPercentage;
+	}
+
+	public void setPfAdminChPercentage(double pfAdminChPercentage) {
+		this.pfAdminChPercentage = pfAdminChPercentage;
+	}
+
+	public double getEdliPercentage() {
+		return edliPercentage;
+	}
+
+	public void setEdliPercentage(double edliPercentage) {
+		this.edliPercentage = edliPercentage;
+	}
+
+	public double getEdliAdminPercentage() {
+		return edliAdminPercentage;
+	}
+
+	public void setEdliAdminPercentage(double edliAdminPercentage) {
+		this.edliAdminPercentage = edliAdminPercentage;
+	}
+
+	public double getEmployerEsicPercentage() {
+		return employerEsicPercentage;
+	}
+
+	public void setEmployerEsicPercentage(double employerEsicPercentage) {
+		this.employerEsicPercentage = employerEsicPercentage;
+	}
+
+	public double getEmployeeEsicPercentage() {
+		return employeeEsicPercentage;
+	}
+
+	public void setEmployeeEsicPercentage(double employeeEsicPercentage) {
+		this.employeeEsicPercentage = employeeEsicPercentage;
+	}
+
 	@Override
 	public String toString() {
 		return "GetPayrollGeneratedList [id=" + id + ", cmpId=" + cmpId + ", empId=" + empId + ", empCode=" + empCode
@@ -667,11 +811,19 @@ public class GetPayrollGeneratedList {
 				+ ", isLocked=" + isLocked + ", loginName=" + loginName + ", loginTime=" + loginTime
 				+ ", mlwfApplicable=" + mlwfApplicable + ", ptApplicable=" + ptApplicable + ", payDed=" + payDed
 				+ ", commentsForItBonus=" + commentsForItBonus + ", societyContribution=" + societyContribution
-				+ ", empCategory=" + empCategory + ", basicDefault=" + basicDefault + ", name=" + name
-				+ ", empTypeName=" + empTypeName + ", departName=" + departName + ", designName=" + designName
-				+ ", payableDays=" + payableDays + ", presentDays=" + presentDays + ", weeklyOff=" + weeklyOff
-				+ ", paidHoliday=" + paidHoliday + ", paidLeave=" + paidLeave + ", unpaidLeave=" + unpaidLeave
-				+ ", payrollAllownceList=" + payrollAllownceList + ", moneyInword=" + moneyInword + "]";
+				+ ", empCategory=" + empCategory + ", basicDefault=" + basicDefault + ", abDeduction=" + abDeduction
+				+ ", epfPercentage=" + epfPercentage + ", epsEmployeePercentage=" + epsEmployeePercentage
+				+ ", productionInsentive=" + productionInsentive + ", epfEmployerPercentage=" + epfEmployerPercentage
+				+ ", epsEmployerPercentage=" + epsEmployerPercentage + ", presentInsentive=" + presentInsentive
+				+ ", nightAllow=" + nightAllow + ", epsDefault=" + epsDefault + ", epmloyerEpfDefault="
+				+ epmloyerEpfDefault + ", epmloyerEpfExtra=" + epmloyerEpfExtra + ", pfAdminChPercentage="
+				+ pfAdminChPercentage + ", edliPercentage=" + edliPercentage + ", edliAdminPercentage="
+				+ edliAdminPercentage + ", employerEsicPercentage=" + employerEsicPercentage
+				+ ", employeeEsicPercentage=" + employeeEsicPercentage + ", name=" + name + ", empTypeName="
+				+ empTypeName + ", departName=" + departName + ", designName=" + designName + ", payableDays="
+				+ payableDays + ", presentDays=" + presentDays + ", weeklyOff=" + weeklyOff + ", paidHoliday="
+				+ paidHoliday + ", paidLeave=" + paidLeave + ", unpaidLeave=" + unpaidLeave + ", payrollAllownceList="
+				+ payrollAllownceList + ", moneyInword=" + moneyInword + "]";
 	}
 	
 	

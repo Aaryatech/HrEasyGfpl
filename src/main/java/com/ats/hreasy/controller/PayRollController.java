@@ -271,7 +271,7 @@ public class PayRollController {
 				String empIds = request.getParameter("empIds");
 				String searchDate = request.getParameter("searchDate");
 				String[] dt = searchDate.split("-");
-				
+
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				map.add("userId", userObj.getUserId());
 				map.add("empIds", empIds);
@@ -499,6 +499,7 @@ public class PayRollController {
 				rowData.add("" + payRollDataForProcessing.getAllowancelist().get(i).getShortName());
 
 			}
+			rowData.add("Absent Deduction");
 			rowData.add("Gross Earning");
 			rowData.add("Adv");
 			rowData.add("Loan");
@@ -512,7 +513,8 @@ public class PayRollController {
 			rowData.add("Gross Ded");
 			rowData.add("Claim ADD");
 			rowData.add("Performance Bonus");
-			rowData.add("OT AMT");
+			rowData.add("Production Incentive");
+			rowData.add("Performance Incentive");
 			rowData.add("Net Salary");
 
 			expoExcel.setRowData(rowData);
@@ -574,6 +576,8 @@ public class PayRollController {
 
 						}
 						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getAbDeduction(), amount_round)));
+						rowData.add("" + String.format("%.2f",
 								ReportCostants.castNumber(list.get(i).getGrossSalary(), amount_round)));
 						rowData.add("" + String.format("%.2f",
 								ReportCostants.castNumber(list.get(i).getAdvanceDed(), amount_round)));
@@ -605,6 +609,8 @@ public class PayRollController {
 								ReportCostants.castNumber(list.get(i).getMiscExpAdd(), amount_round)));
 						rowData.add("" + String.format("%.2f",
 								ReportCostants.castNumber(list.get(i).getPerformanceBonus(), amount_round)));
+						rowData.add("" + String.format("%.2f",
+								ReportCostants.castNumber(list.get(i).getProductionInsentive(), amount_round)));
 						rowData.add("" + String.format("%.2f",
 								ReportCostants.castNumber(list.get(i).getOtWages(), amount_round)));
 						rowData.add("" + String.format("%.2f",

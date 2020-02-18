@@ -259,6 +259,26 @@ hr {
 								align="right">${list.otWages}</td>
 
 						</tr>
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">Production Incentive</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.productionInsentive}</td>
+
+						</tr>
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">Performance Incentive</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.otWages}</td>
+
+						</tr>
 
 					</table></td>
 
@@ -352,6 +372,16 @@ hr {
 							<td width="50%" valign="top"
 								style="color: #000; font-size: 12px; padding-right: 5px;"
 								align="right">${list.loanDed}</td>
+
+						</tr>
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">AB Deduction</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.abDeduction}</td>
 
 						</tr>
 					</table>
