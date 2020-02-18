@@ -21,7 +21,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.BufferedInputStream;
@@ -42,6 +44,7 @@ import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.common.ItextPageEvent;
 import com.ats.hreasy.common.ReportCostants;
 import com.ats.hreasy.common.UpateAttendaceCommon;
+import com.ats.hreasy.common.VpsImageUpload;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.AuthorityInformation;
 import com.ats.hreasy.model.CalenderYear;
@@ -197,9 +200,6 @@ public class LeaveController {
 					remark = "NA";
 				}
 
-				
-				
-				
 				Boolean ret = false;
 
 				if (FormValidation.Validaton(leaveTypeTitle, "") == true) {
@@ -666,7 +666,7 @@ public class LeaveController {
 			String base64encodedString = request.getParameter("empId");
 			String empId = FormValidation.DecodeKey(base64encodedString);
 
-			//System.out.println(empId);
+			// System.out.println(empId);
 
 			CalenderYear calculateYear = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
@@ -699,21 +699,22 @@ public class LeaveController {
 
 			map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
-			map.add("fromDate",calculateYear.getCalYrFromDate());
-			map.add("toDate",calculateYear.getCalYrToDate());
-			PayableDayAndPresentDays payableDayAndPresentDays = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getPayableDayandPresentDayByEmpId", map, PayableDayAndPresentDays.class);
-			
-			if(payableDayAndPresentDays.isError()==false) {
-				for(int i=0 ; i<leaveHistoryList.size() ; i++) {
-					if(leaveHistoryList.get(i).getLvTypeId()==1) {
-						
-						leaveHistoryList.get(i).setLvsAllotedLeaves((int) (payableDayAndPresentDays.getPayableDays()/24));
+			map.add("fromDate", calculateYear.getCalYrFromDate());
+			map.add("toDate", calculateYear.getCalYrToDate());
+			PayableDayAndPresentDays payableDayAndPresentDays = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getPayableDayandPresentDayByEmpId", map, PayableDayAndPresentDays.class);
+
+			if (payableDayAndPresentDays.isError() == false) {
+				for (int i = 0; i < leaveHistoryList.size(); i++) {
+					if (leaveHistoryList.get(i).getLvTypeId() == 1) {
+
+						leaveHistoryList.get(i)
+								.setLvsAllotedLeaves((int) (payableDayAndPresentDays.getPayableDays() / 24));
 						break;
 					}
 				}
 			}
-			
+
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empId", empId);
 
@@ -758,9 +759,9 @@ public class LeaveController {
 	}
 
 	@RequestMapping(value = "/chkNumber", method = RequestMethod.GET)
-	public @ResponseBody String chkNumber(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody Info chkNumber(HttpServletRequest request, HttpServletResponse response) {
 
-		String balance = new String();
+		Info info = new Info();
 
 		try {
 
@@ -768,18 +769,23 @@ public class LeaveController {
 
 			for (int i = 0; i < leaveHistoryList.size(); i++) {
 				if (leaveTypeId == leaveHistoryList.get(i).getLvTypeId()) {
-					balance = String.valueOf(leaveHistoryList.get(i).getBalLeave()
+					String balance = String.valueOf(leaveHistoryList.get(i).getBalLeave()
 							+ leaveHistoryList.get(i).getLvsAllotedLeaves() - leaveHistoryList.get(i).getSactionLeave()
 							- leaveHistoryList.get(i).getAplliedLeaeve());
+					int isRequered = leaveHistoryList.get(i).getIsFile();
+					info.setMsg(balance + "," + isRequered);
+					info.setError(false);
+					break;
 				}
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			balance = "0";
+			info.setError(true);
+			info.setMsg(0 + "," + 0);
 		}
 
-		return balance;
+		return info;
 	}
 
 	@RequestMapping(value = "/checkDatesRange", method = RequestMethod.GET)
@@ -795,14 +801,14 @@ public class LeaveController {
 			String typeId = request.getParameter("typeId");
 			String noOfDays = request.getParameter("noOfDays");
 			String shortName = new String();
-			
+
 			for (int i = 0; i < leaveHistoryList.size(); i++) {
 				if (Integer.parseInt(typeId) == leaveHistoryList.get(i).getLvTypeId()) {
 					shortName = leaveHistoryList.get(i).getLvTitleShort();
 					break;
 				}
 			}
-			
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map = new LinkedMultiValueMap<>();
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
@@ -850,18 +856,43 @@ public class LeaveController {
 	}
 
 	@RequestMapping(value = "/insertLeave", method = RequestMethod.POST)
-	public String insertLeave(HttpServletRequest request, HttpServletResponse response) {
+	public String insertLeave(@RequestParam("documentFile") List<MultipartFile> documentFile,
+			HttpServletRequest request, HttpServletResponse response) {
 		String empId1 = request.getParameter("empId");
 		try {
 
 			CalenderYear calculateYear = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
 
+			Info infoImage = new Info();
+
 			HttpSession session = request.getSession();
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+			int fileRequired = Integer.parseInt(request.getParameter("fileRequired"));
+
+			Boolean ret = false;
+
+			if (fileRequired == 1) {
+
+				if (documentFile.get(0).getOriginalFilename() != "") {
+
+					VpsImageUpload upload = new VpsImageUpload();
+					String imageName = dateTimeInGMT.format(date)+"_"+documentFile.get(0).getOriginalFilename();
+					infoImage = upload.saveUploadedImge(documentFile.get(0), Constants.imageSaveUrl, imageName,
+							Constants.values, 0, 0, 0, 0, 0);
+					infoImage.setMsg(imageName);
+				} else {
+					infoImage.setError(true);
+				}
+
+			} else {
+				infoImage.setMsg("-");
+				infoImage.setError(false);
+			}
 
 			// String compName = request.getParameter("1");
 			String leaveDateRange = request.getParameter("leaveDateRange");
@@ -901,32 +932,30 @@ public class LeaveController {
 				remark = "NA";
 			}
 
-			Boolean ret = false;
-
 			if (FormValidation.Validaton(leaveDateRange, "") == true) {
 
 				ret = true;
-				System.out.println("leaveDateRange" + ret);
+
 			}
 			if (FormValidation.Validaton(request.getParameter("noOfDays"), "") == true) {
 
 				ret = true;
-				System.out.println("noOfDays" + ret);
+
 			}
 
 			if (FormValidation.Validaton(request.getParameter("noOfDaysExclude"), "") == true) {
 
 				ret = true;
-				System.out.println("add" + ret);
+
 			}
 
 			if (FormValidation.Validaton(request.getParameter("leaveTypeId"), "") == true) {
 
 				ret = true;
-				System.out.println("add" + ret);
+
 			}
 
-			if (ret == false) {
+			if (ret == false && infoImage.isError() == false) {
 
 				LeaveApply leaveSummary = new LeaveApply();
 
@@ -946,7 +975,7 @@ public class LeaveController {
 				leaveSummary.setExInt3(1);
 				leaveSummary.setExVar1("NA");
 				leaveSummary.setExVar2("NA");
-				leaveSummary.setExVar3("NA");
+				leaveSummary.setExVar3(infoImage.getMsg());
 				leaveSummary.setIsActive(1);
 				leaveSummary.setDelStatus(1);
 				leaveSummary.setMakerUserId(userObj.getUserId());

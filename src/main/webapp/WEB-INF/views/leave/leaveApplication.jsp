@@ -182,7 +182,7 @@
 								</div>
 								<br>
 								<form action="${pageContext.request.contextPath}/insertLeave"
-									id="submitInsertLeave" method="post">
+									id="submitInsertLeave" method="post" enctype="multipart/form-data">
 
 
 
@@ -263,7 +263,7 @@
 												placeholder="No. of Days " id="noOfDays" name="noOfDays"
 												autocomplete="off" readonly> <span
 												class="validation-invalid-label" id="error_noOfDays"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Leave Minimum 1 Day</span>
 										</div>
 									</div>
 									<div class="form-group row">
@@ -277,6 +277,23 @@
 												oninput="checkTotal()" readonly> <span
 												class="validation-invalid-label" id="error_noOfDaysExclude"
 												style="display: none;">This field is required.</span>
+										</div>
+									</div>
+
+									<div id="fileDive" style="display: none;">
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2" for="documentFile">
+												Fitness Certificate </label>
+											<div class="col-lg-5">
+
+												<input type="file" class="form-control" id="documentFile"
+													name="documentFile" accept=".jpg,.png,.gif,.doc,.xls,.pdf">
+												<span class="form-text text-muted">Only
+													.jpg,.png,.gif</span> <span class="validation-invalid-label"
+													id="error_documentFile" style="display: none;">This
+													field is required.</span>
+											</div>
+
 										</div>
 									</div>
 
@@ -306,8 +323,9 @@
 										value="${setlimit.value}"> <input type="hidden"
 										id="yearFinalDate" value="${currYr.calYrToDate}"> <input
 										type="hidden" class="form-control" id="leaveCanApply"
-										value="0" name="leaveCanApply">
-
+										value="0" name="leaveCanApply"> <input type="hidden"
+										class="form-control numbersOnly" id="fileRequired"
+										name="fileRequired" value="0">
 									<div class="col-md-12" style="text-align: center;">
 
 										<c:choose>
@@ -366,17 +384,31 @@
 			 valid == true;
 			 }
 			 if (valid == true) */
-			$.getJSON('${chkNumber}', {
+			$
+					.getJSON(
+							'${chkNumber}',
+							{
 
-				inputValue : inputValue,
-				lvsId : lvsId,
-				ajax : 'true',
+								inputValue : inputValue,
+								lvsId : lvsId,
+								ajax : 'true',
 
-			}, function(data) {
-				//alert(data.balLeave);
-				document.getElementById("tempNoDays").value = parseFloat(data);
+							},
+							function(data) {
+								//alert(data.balLeave);
 
-			});
+								var res = data.msg.split(",");
+								document.getElementById("tempNoDays").value = parseFloat(res[0]);
+
+								if (res[1] == 1) {
+									document.getElementById("fileRequired").value = 1;
+									$("#fileDive").show();
+								} else {
+									document.getElementById("fileRequired").value = 0;
+									$("#fileDive").hide();
+								}
+
+							});
 		}
 		function checkDatesRange() {
 			var daterange = document.getElementById("leaveDateRange").value;
@@ -1145,7 +1177,10 @@
 													$("#error_Range").hide()
 												}
 
-												if (!$("#noOfDays").val()) {
+												if (!$("#noOfDays").val()
+														|| parseFloat($(
+																"#noOfDays")
+																.val()) == 0) {
 
 													isError = true;
 
@@ -1210,6 +1245,20 @@
 													$(
 															"#error_leaveRepeatValidation")
 															.hide();
+												}
+
+												if (!$("#documentFile").val()
+														&& $("#fileRequired")
+																.val() == 1) {
+
+													isError = true;
+
+													$("#error_documentFile")
+															.show()
+													//return false;
+												} else {
+													$("#error_documentFile")
+															.hide()
 												}
 
 												if (!isError) {

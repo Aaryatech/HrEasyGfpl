@@ -36,9 +36,11 @@ public class VpsImageUpload {
 				Info info = new Info();
 				
 				 try {
+					 
+					 String[] filetypes = file.getOriginalFilename().split("\\.");
 					 String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 					 
-					 if ( ArrayUtils.contains( allowExt, extension.toLowerCase() ) ) {
+					 if ( ArrayUtils.contains( allowExt, extension.toLowerCase() ) && filetypes.length==2) {
 						
 							Path path = Paths.get(uploadPath + imageName);
 				
