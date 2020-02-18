@@ -4137,13 +4137,13 @@ public class ReportAdminController {
 
 				cell = new PdfPCell(new Phrase("" + prog.getMinVal()+"-"+prog.getMaxVal(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + prog.getEmpCount(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
 
