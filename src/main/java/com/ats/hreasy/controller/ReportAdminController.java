@@ -4031,25 +4031,24 @@ public class ReportAdminController {
 
 		String reportName = "Professsional Tax Challen";
 
-		int empId = 0;
+		String leaveDateRange = request.getParameter("leaveDateRange");
+		String[] arrOfStr = leaveDateRange.split("to", 2);
+		int cmpId = 0;
 		try {
-			empId = Integer.parseInt(request.getParameter("empId1"));
+			cmpId = Integer.parseInt(request.getParameter("subCmpId"));
 
 		} catch (Exception e) {
-			empId = 0;
-
+			cmpId = 0;
 		}
-		String fromDate = request.getParameter("datepickerFromRep");
-		String toDate = request.getParameter("datepickerToRep");
 
-		System.err.println("empId :" + empId);
+		String cmpName = "-";
 
 		Boolean ret = false;
 		try {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("empId", empId);
-			map.add("fromDate", fromDate);
-			map.add("toDate", toDate);
+			map.add("companyId", cmpId);
+			map.add("fromDate", arrOfStr[0]);
+			map.add("toDate", arrOfStr[1]);
 
 			GetPtChallan[] resArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "getPtChallanRep", map, GetPtChallan[].class);
@@ -4164,7 +4163,7 @@ public class ReportAdminController {
 			name.setAlignment(Element.ALIGN_CENTER);
 			document.add(name);
 			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("DateRange: " + fromDate + "To" + toDate));
+			document.add(new Paragraph("DateRange: " +leaveDateRange));
 
 			document.add(new Paragraph("\n"));
 			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -4241,7 +4240,7 @@ public class ReportAdminController {
 				try {
 
 					wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-							"Date Range:" + fromDate + "To" + toDate, "", 'D');
+							"Date Range:" +leaveDateRange, "", 'D');
 
 					ExceUtil.autoSizeColumns(wb, 3);
 					response.setContentType("application/vnd.ms-excel");

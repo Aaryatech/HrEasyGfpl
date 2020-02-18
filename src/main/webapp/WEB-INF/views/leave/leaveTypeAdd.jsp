@@ -193,7 +193,7 @@
 												data-preferred-format="hex" value="#f75d1c" data-fouc>
 										</div>
 									</div>
-									<div class="form-group row">
+								<!-- 	<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="comoffallowed">Is
 											Structured <span style="color: red"> </span>:
 										</label>
@@ -209,13 +209,14 @@
 												id="isStructured" value="0"> No
 											</label>
 										</div>
-									</div>
-
+									</div> -->
+									
+									<input type="hidden" id="isStructured" name="isStructured" value="1">
+ 
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="isFile">File
-											Required <span style="color: red">*</span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="isFile">Is File Upload Required <span style="color: red">*</span>:
 										</label>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label"> <input type="radio"

@@ -109,8 +109,10 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="leaveTypeTitle">
-											 Leave Type  <span style="color: red">*</span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="leaveTypeTitle"> Leave Type <span
+											style="color: red">*</span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -123,7 +125,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2"
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
 											for="leaveShortTypeTitle"> Short Name <span
 											style="color: red">*</span>:
 										</label>
@@ -171,7 +174,7 @@
 												data-fouc>
 										</div>
 									</div>
-									<div class="form-group row">
+									<%-- 	<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="comoffallowed">Is
 											Structured <span style="color: red"> </span>:
 										</label>
@@ -192,30 +195,38 @@
 										
 										
 										
-									</div>
-									
+									</div> --%>
+
+
+									<input type="hidden" id="isStructured" name="isStructured"
+										value="1">
+
+
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="isFile">File Required
-											<span style="color:red"> *</span>:</label>
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="isFile">Is File Upload Required <span style="color: red">
+												*</span>:
+										</label>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label"> <input type="radio"
-											${editCompany.isFile==1 ? 'checked' : ''}
-												class="form-check-input" name="isFile"
-												id="isFile" checked value="1"> Yes
+												${editCompany.isFile==1 ? 'checked' : ''}
+												class="form-check-input" name="isFile" id="isFile" checked
+												value="1"> Yes
 											</label>
 										</div>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label"> <input type="radio"
 												class="form-check-input" name="isFile"
-												${editCompany.isFile==0 ? 'checked' : ''}
-												id="isFile" value="0"> No
+												${editCompany.isFile==0 ? 'checked' : ''} id="isFile"
+												value="0"> No
 											</label>
 										</div>
-										
-											<span class="validation-invalid-label" id="error_isFile"
-												style="display: none;">This field is required.</span>
+
+										<span class="validation-invalid-label" id="error_isFile"
+											style="display: none;">This field is required.</span>
 									</div>
-									
+
 
 
 									<div class="form-group row">
@@ -226,7 +237,9 @@
 												id="summId"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												required data-fouc="" tabindex="-1" aria-hidden="true">
-											<option value="0" ${editCompany.lvSumupId == '0' ? 'selected' : ''}>Please Select</option>
+												<option value="0"
+													${editCompany.lvSumupId == '0' ? 'selected' : ''}>Please
+													Select</option>
 
 												<c:forEach items="${sumList}" var="sumList">
 													<c:choose>
@@ -263,8 +276,12 @@
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-										<a href="${pageContext.request.contextPath}/showLeaveTypeList"><button
-										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Back</button></a>
+											<a
+												href="${pageContext.request.contextPath}/showLeaveTypeList"><button
+													type="button" class="btn btn-light">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Back
+												</button></a>
 										</div>
 									</div>
 								</form>

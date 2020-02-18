@@ -279,6 +279,13 @@
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showEmployeeEmployerPfRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a><br />
+												PT Challen Statement <a href="#"
+													onclick="getProgReport(0,'getPtChallanRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'getPtChallanRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a>
 
 											</div>
