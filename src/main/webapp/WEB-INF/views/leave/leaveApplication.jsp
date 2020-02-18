@@ -383,6 +383,7 @@
 			var empId = document.getElementById("empId").value;
 			var res = daterange.split(" to ");
 			var inputValue = document.getElementById("leaveTypeId").value;
+			var noOfDays = document.getElementById("noOfDays").value;
 			$
 					.getJSON(
 							'${checkDatesRange}',
@@ -392,6 +393,7 @@
 								toDate : res[1],
 								empId : empId,
 								typeId : inputValue,
+								noOfDays : noOfDays,
 								ajax : 'true',
 
 							},
@@ -1165,7 +1167,7 @@
 													$("#error_noOfDaysExclude")
 															.hide()
 												}
-												 
+
 												if ($("#leaveLimit").val() == 1
 														&& $("#leaveTypeId")
 																.val() != 2) {

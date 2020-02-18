@@ -666,7 +666,7 @@ public class LeaveController {
 			String base64encodedString = request.getParameter("empId");
 			String empId = FormValidation.DecodeKey(base64encodedString);
 
-			System.out.println(empId);
+			//System.out.println(empId);
 
 			CalenderYear calculateYear = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
@@ -793,13 +793,25 @@ public class LeaveController {
 			String toDate = request.getParameter("toDate");
 			String empId = request.getParameter("empId");
 			String typeId = request.getParameter("typeId");
-
+			String noOfDays = request.getParameter("noOfDays");
+			String shortName = new String();
+			
+			for (int i = 0; i < leaveHistoryList.size(); i++) {
+				if (Integer.parseInt(typeId) == leaveHistoryList.get(i).getLvTypeId()) {
+					shortName = leaveHistoryList.get(i).getLvTitleShort();
+					break;
+				}
+			}
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map = new LinkedMultiValueMap<>();
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 			map.add("empId", empId);
 			map.add("leaveTypeId", typeId);
+			map.add("shortName", shortName);
+			map.add("noOfDays", noOfDays);
+			System.out.println(map);
 			leaveResponse = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/checkDateForRepetedLeaveValidation", map, Info.class);
 
