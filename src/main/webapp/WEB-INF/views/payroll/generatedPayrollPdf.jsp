@@ -249,16 +249,7 @@ hr {
 								align="right">${list.performanceBonus}</td>
 
 						</tr>
-						<tr>
-							<td width="50%" valign="top"
-								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
-								align="left">OT AMT</td>
-
-							<td width="50%" valign="top"
-								style="color: #000; font-size: 12px; padding-right: 5px;"
-								align="right">${list.otWages}</td>
-
-						</tr>
+						 
 						<tr>
 							<td width="50%" valign="top"
 								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
