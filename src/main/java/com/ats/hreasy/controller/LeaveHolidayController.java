@@ -34,6 +34,7 @@ import com.ats.hreasy.model.CalenderYear;
 import com.ats.hreasy.model.GetHoliday;
 import com.ats.hreasy.model.Holiday;
 import com.ats.hreasy.model.HolidayCategory;
+import com.ats.hreasy.model.HolidayMaster;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
 import com.ats.hreasy.model.LoginResponse;
@@ -83,15 +84,14 @@ public class LeaveHolidayController {
 				}
 
 				model.addObject("locationList", locationList);
-				
-				
-			 map = new LinkedMultiValueMap<>();
+
+				map = new LinkedMultiValueMap<>();
 				map.add("companyId", 1);
-				HolidayCategory[] holi = Constants.getRestTemplate().postForObject(Constants.url + "/getHolidayCategoryList", map,
-						HolidayCategory[].class);
+				HolidayCategory[] holi = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getHolidayCategoryList", map, HolidayCategory[].class);
 
 				List<HolidayCategory> holiList = new ArrayList<HolidayCategory>(Arrays.asList(holi));
-				
+
 				model.addObject("holiList", holiList);
 
 			}
@@ -146,8 +146,6 @@ public class LeaveHolidayController {
 					holidayId = 0;
 				}
 
-				
-			
 				Boolean ret = false;
 
 				if (FormValidation.Validaton(dateRange, "") == true) {
@@ -181,8 +179,8 @@ public class LeaveHolidayController {
 					holiday.setLocId(locIdList);
 					holiday.setMakerEnterDatetime(dateTime);
 					holiday.setMakerUserId(userObj.getUserId());
-					holiday.setExInt1( Integer.parseInt(request.getParameter("hoCatId")));
-					
+					holiday.setExInt1(Integer.parseInt(request.getParameter("hoCatId")));
+
 					Holiday res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHoliday", holiday,
 							Holiday.class);
 
@@ -241,15 +239,14 @@ public class LeaveHolidayController {
 
 				model.addObject("locationList", locationList);
 
-				
-				 map = new LinkedMultiValueMap<>();
-					map.add("companyId", 1);
-					HolidayCategory[] holi = Constants.getRestTemplate().postForObject(Constants.url + "/getHolidayCategoryList", map,
-							HolidayCategory[].class);
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				HolidayCategory[] holi = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getHolidayCategoryList", map, HolidayCategory[].class);
 
-					List<HolidayCategory> holiList = new ArrayList<HolidayCategory>(Arrays.asList(holi));
-					
-					model.addObject("holiList", holiList);
+				List<HolidayCategory> holiList = new ArrayList<HolidayCategory>(Arrays.asList(holi));
+
+				model.addObject("holiList", holiList);
 				// getCalculateYearList
 
 				/*
@@ -400,8 +397,8 @@ public class LeaveHolidayController {
 					editHoliday.setHolidayRemark(holidayRemark);
 					editHoliday.setLocId(locIdList);
 					editHoliday.setExVar2(holidayTitle);
-					
-					editHoliday.setExInt1( Integer.parseInt(request.getParameter("hoCatId")));
+
+					editHoliday.setExInt1(Integer.parseInt(request.getParameter("hoCatId")));
 					Holiday res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHoliday", editHoliday,
 							Holiday.class);
 
@@ -460,6 +457,295 @@ public class LeaveHolidayController {
 			e.printStackTrace();
 			session.setAttribute("errorMsg", "Failed to Delete");
 		}
+		return a;
+	}
+
+	@RequestMapping(value = "/addHolidayMaster", method = RequestMethod.GET)
+	public ModelAndView addHolidayMaster(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+
+		try {
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("addHolidayMaster", "showHolidayMasterList", 0, 1, 0, 0,
+					newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {
+
+				model = new ModelAndView("master/addHolidayMaster");
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/submitInsertHolidayMaster", method = RequestMethod.POST)
+	public String submitInsertHolidayMaster(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+		String a = new String();
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("submitInsertHolidayMaster", "showHolidayMasterList", 0, 1, 0, 0,
+				newModuleList);
+
+		if (view.isError() == true) {
+
+			a = "redirect:/accessDenied";
+
+		} else {
+
+			a = "redirect:/showHolidayMasterList";
+			try {
+
+				String dateRange = request.getParameter("dateRange");
+				String holidayTitle = request.getParameter("holidayTitle");
+
+				Boolean ret = false;
+
+				if (FormValidation.Validaton(dateRange, "") == true) {
+
+					ret = true;
+
+				}
+
+				if (FormValidation.Validaton(holidayTitle, "") == true && ret == false) {
+
+					ret = true;
+
+				}
+
+				if (ret == false) {
+
+					HolidayMaster holiday = new HolidayMaster();
+					holiday.setDelStatus(1);
+					holiday.setHolidayName(holidayTitle);
+					holiday.setHolidayDate(dateRange);
+
+					HolidayMaster res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHolidayMaster",
+							holiday, HolidayMaster.class);
+
+					if (res != null) {
+						session.setAttribute("successMsg", "Record Inserted Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Insert Record");
+					}
+
+				} else {
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return a;
+	}
+
+	@RequestMapping(value = "/showHolidayMasterList", method = RequestMethod.GET)
+	public ModelAndView showHolidayMasterList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = null;
+		HttpSession session = request.getSession();
+
+		try {
+			LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showHolidayMasterList", "showHolidayMasterList", 1, 0, 0, 0,
+					newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {
+
+				model = new ModelAndView("master/showHolidayMasterList");
+
+				HolidayMaster[] holListArray = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getHolidayMaster", HolidayMaster[].class);
+
+				List<HolidayMaster> holList = new ArrayList<>(Arrays.asList(holListArray));
+
+				model.addObject("holList", holList);
+				Info add = AcessController.checkAccess("showHolidayMasterList", "showHolidayMasterList", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showHolidayMasterList", "showHolidayMasterList", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showHolidayMasterList", "showHolidayMasterList", 0, 0, 0, 1,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					System.out.println(" delete   Accessable ");
+					model.addObject("deleteAccess", 0);
+
+				}
+				// System.out.println("HolidayList" + holList.toString());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/deleteHolidayMaster", method = RequestMethod.GET)
+	public String deleteHolidayMaster(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		String a = null;
+
+		try {
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("deleteHolidayMaster", "showHolidayMasterList", 0, 0, 0, 1,
+					newModuleList);
+			if (view.isError() == true) {
+
+				a = "redirect:/accessDenied";
+
+			} else {
+
+				a = "redirect:/showHolidayMasterList";
+
+				int holidayId = Integer.parseInt(request.getParameter("holidayId"));
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("holidayId", holidayId);
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteHolidayMaster", map,
+						Info.class);
+
+				if (info.isError() == false) {
+					session.setAttribute("successMsg", "Deleted Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Delete");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+		return a;
+	}
+
+	HolidayMaster editHolidayMaster = new HolidayMaster();
+
+	@RequestMapping(value = "/editHolidayMaster", method = RequestMethod.GET)
+	public ModelAndView editHolidayMaster(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = null;
+		HttpSession session = request.getSession();
+
+		try {
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("editHolidayMaster", "showHolidayMasterList", 0, 0, 1, 0,
+					newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {
+
+				model = new ModelAndView("master/editHolidayMaster");
+
+				int holidayId = Integer.parseInt(request.getParameter("holidayId"));
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map = new LinkedMultiValueMap<>();
+				map.add("holidayId", holidayId);
+				editHolidayMaster = Constants.getRestTemplate().postForObject(Constants.url + "/getHolidayMasterById",
+						map, HolidayMaster.class);
+				model.addObject("editHoliday", editHolidayMaster);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/submitEditHolidayMaster", method = RequestMethod.POST)
+	public String submitEditHolidayMaster(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+		String a = new String();
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("submitInsertHolidayMaster", "showHolidayMasterList", 0, 1, 0, 0,
+				newModuleList);
+
+		if (view.isError() == true) {
+
+			a = "redirect:/accessDenied";
+
+		} else {
+
+			a = "redirect:/showHolidayMasterList";
+			try {
+
+				String dateRange = request.getParameter("dateRange");
+				String holidayTitle = request.getParameter("holidayTitle");
+
+				Boolean ret = false;
+
+				if (FormValidation.Validaton(dateRange, "") == true) {
+
+					ret = true;
+
+				}
+
+				if (FormValidation.Validaton(holidayTitle, "") == true && ret == false) {
+
+					ret = true;
+
+				}
+
+				if (ret == false) {
+
+					editHolidayMaster.setHolidayName(holidayTitle);
+					editHolidayMaster.setHolidayDate(dateRange);
+
+					HolidayMaster res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHolidayMaster",
+							editHolidayMaster, HolidayMaster.class);
+
+					if (res != null) {
+						session.setAttribute("successMsg", "Record Updated Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Updated Record");
+					}
+
+				} else {
+					session.setAttribute("errorMsg", "Failed to Updated Record");
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 		return a;
 	}
 

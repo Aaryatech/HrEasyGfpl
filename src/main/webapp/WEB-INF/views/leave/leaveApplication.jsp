@@ -152,7 +152,7 @@
 											<tr class="bg-blue" style="text-align: center;">
 
 												<th>Leave Type</th>
-												<th>Carry Forward</th>
+												<th>Opening Leave</th>
 												<th>Earned</th>
 												<th>Approved</th>
 												<th>Applied</th>
@@ -182,7 +182,8 @@
 								</div>
 								<br>
 								<form action="${pageContext.request.contextPath}/insertLeave"
-									id="submitInsertLeave" method="post" enctype="multipart/form-data">
+									id="submitInsertLeave" method="post"
+									enctype="multipart/form-data">
 
 
 
