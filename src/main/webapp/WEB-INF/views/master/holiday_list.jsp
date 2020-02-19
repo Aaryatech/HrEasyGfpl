@@ -130,12 +130,8 @@
 
 									<th>Category</th>
 									<th>Holiday Title</th>
-									<th>Location Name</th>
 									<th>Calendar</th>
-									<th>From Date</th>
-									<th>To Date</th>
-
-
+									<th>Date</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
@@ -147,30 +143,25 @@
 										<td>${count.index+1}</td>
 										<td>${holiday.hoCatName}</td>
 										<td>${holiday.exVar2}</td>
-
-										<td>${holiday.locName}</td>
 										<td>${holiday.calYrFromDate}&nbsp;To&nbsp;${holiday.calYrToDate}</td>
 										<td>${holiday.holidayFromdt}</td>
-										<td>${holiday.holidayTodt}</td>
 
-										<td class="text-center"><c:if test="${editAccess == 0}">
+										<td class="text-center">
+											<%-- <c:if test="${editAccess == 0}">
 												<a
 													href="${pageContext.request.contextPath}/editHoliday?holidayId=${holiday.exVar1}"
 													class="list-icons-item text-primary-600"
 													data-popup="tooltip" title="" data-original-title="Edit"><i
 													class="icon-pencil7"></i></a>
-											</c:if> <c:if test="${deleteAccess == 0}">
-												<%-- <a
-													href="${pageContext.request.contextPath}/deleteHoliday?holidayId=${holiday.exVar1}"
-													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a> --%>
+											</c:if> --%> <c:if test="${deleteAccess == 0}">
+
 
 												<a href="javascript:void(0)"
 													class="list-icons-item text-danger-600 bootbox_custom"
 													data-uuid="${holiday.exVar1}" data-popup="tooltip" title=""
 													data-original-title="Delete"><i class="icon-trash"></i></a>
-											</c:if></td>
+											</c:if>
+										</td>
 									</tr>
 								</c:forEach>
 

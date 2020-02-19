@@ -127,7 +127,7 @@
 									action="${pageContext.request.contextPath}/submitInsertHoliday"
 									id="submitInsertHoli" method="post">
 
-									<div class="form-group row">
+									<!-- <div class="form-group row">
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
 											for="holidayTitle">Holiday Title <span
@@ -141,7 +141,7 @@
 												class="validation-invalid-label" id="error_holidayTitle"
 												style="display: none;">This field is required.</span>
 										</div>
-									</div>
+									</div> -->
 
 									<div class="form-group row">
 										<label
@@ -157,8 +157,8 @@
 
 												<option value="0">Select</option>
 
-												<c:forEach items="${holiList}" var="holiList">
-													<option value="${holiList.hoCatId}">${holiList.hoCatName}</option>
+												<c:forEach items="${holidayCatList}" var="holidayCatList">
+													<option value="${holidayCatList.hoCatId}">${holidayCatList.hoCatName}</option>
 												</c:forEach>
 											</select> <span class="validation-invalid-label" id="error_hoCatId"
 												style="display: none;">This field is required.</span>
@@ -168,55 +168,20 @@
 									<div class="form-group row">
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
-											for="locId">Select Location <span class="text-danger">*
+											for="locId">Select Holidays <span class="text-danger">*
 										</span>:
 										</label>
 										<div class="col-lg-10">
-											<select name="locId" data-placeholder="Select Location"
+											<select name="locId" data-placeholder="Select Holidays"
 												id="locId" multiple="multiple"
 												class="form-control form-control-sm select"
 												data-container-css-class="select-sm" data-fouc>
-												<option value="">Select Location</option>
-												<c:forEach items="${locationList}" var="location">
-													<option value="${location.locId}">${location.locName}</option>
+												<option value="">Select Holidays</option>
+												<c:forEach items="${holiList}" var="holiList">
+													<option value="${holiList.holidayId}">${holiList.holidayName}</option>
 												</c:forEach>
 											</select> <span class="validation-invalid-label" id="error_locationId"
 												style="display: none;">This field is required.</span>
-										</div>
-									</div>
-
-
-									<%-- <div class="form-group row">
-										<label class="col-form-label col-lg-2" for="calYrId">Select
-											year :*</label>
-										<div class="col-lg-10">
-											<select name="calYrId" data-placeholder="Select Year"
-												id="calYrId"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												tabindex="-1" aria-hidden="true">
-												<option value="">Select Year</option>
-												<c:forEach items="${yearList}" var="year">
-
-													<option value="${year.calYrId}">${year.calYrFromDate}_${year.calYrToDate}</option>
-
-												</c:forEach>
-											</select> <span class="validation-invalid-label" id="error_calYrId"
-												style="display: none;">This field is required.</span>
-										</div>
-									</div>
- --%>
-									<div class="form-group row">
-										<label
-											class="col-form-label text-info font-weight-bold col-lg-2">Date
-											Range <span class="text-danger">* </span>:
-										</label>
-										<div class="col-lg-10">
-											<input type="text" class="form-control daterange-basic_new "
-												value="21-04-2019 @ 21-05-2019" name="dateRange"
-												data-placeholder="Select Date" id="dateRange"> <span
-												class="validation-invalid-label" id="error_Range"
-												style="display: none;">This field is required.</span>
-
 										</div>
 									</div>
 
@@ -307,18 +272,8 @@
 												var isError = false;
 												var errMsg = "";
 
-												if (!$("#holidayTitle").val()) {
-
-													isError = true;
-
-													$("#error_holidayTitle")
-															.show()
-
-												} else {
-													$("#error_holidayTitle")
-															.hide()
-												}
-
+												$("#error_locationId").hide()
+												$("#error_hoCatId").hide()
 												if ($("#locId").val() == "") {
 
 													isError = true;
@@ -326,9 +281,6 @@
 													$("#error_locationId")
 															.show()
 
-												} else {
-													$("#error_locationId")
-															.hide()
 												}
 
 												if (!$("#hoCatId").val()
@@ -340,30 +292,14 @@
 
 													$("#error_hoCatId").show()
 
-												} else {
-													$("#error_hoCatId").hide()
-												}
-
-												if (!$("#dateRange").val()) {
-
-													isError = true;
-
-													$("#error_Range").show()
-
-												} else {
-													$("#error_Range").hide()
 												}
 
 												if (!isError) {
 
-													var x = true;
-													if (x == true) {
+													document
+															.getElementById("submtbtn").disabled = true;
+													return true;
 
-														document
-																.getElementById("submtbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
 												}
 												return false;
 											});

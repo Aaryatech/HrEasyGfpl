@@ -49,6 +49,8 @@ public class LeaveHolidayController {
 	String curDate = dateFormat.format(new Date());
 	String dateTime = dateFormat.format(now);
 
+	List<HolidayMaster> holiList = new ArrayList<>();
+
 	@RequestMapping(value = "/holidayAdd", method = RequestMethod.GET)
 	public ModelAndView holidayAdd(HttpServletRequest request, HttpServletResponse response) {
 
@@ -71,28 +73,37 @@ public class LeaveHolidayController {
 				// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("companyId", 1);
-				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
-						Location[].class);
+				/*
+				 * map.add("companyId", 1); Location[] location =
+				 * Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList",
+				 * map, Location[].class);
+				 * 
+				 * List<Location> locationList = new
+				 * ArrayList<Location>(Arrays.asList(location));
+				 * 
+				 * for (int i = 0; i < locationList.size(); i++) {
+				 * 
+				 * locationList.get(i)
+				 * .setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getLocId
+				 * ()))); }
+				 * 
+				 * model.addObject("locationList", locationList);
+				 */
 
-				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+				HolidayMaster[] holListArray = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getHolidayMaster", HolidayMaster[].class);
 
-				for (int i = 0; i < locationList.size(); i++) {
-
-					locationList.get(i)
-							.setExVar1(FormValidation.Encrypt(String.valueOf(locationList.get(i).getLocId())));
-				}
-
-				model.addObject("locationList", locationList);
+				holiList = new ArrayList<>(Arrays.asList(holListArray));
+				model.addObject("holiList", holiList);
 
 				map = new LinkedMultiValueMap<>();
 				map.add("companyId", 1);
 				HolidayCategory[] holi = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getHolidayCategoryList", map, HolidayCategory[].class);
 
-				List<HolidayCategory> holiList = new ArrayList<HolidayCategory>(Arrays.asList(holi));
+				List<HolidayCategory> holidayCatList = new ArrayList<HolidayCategory>(Arrays.asList(holi));
 
-				model.addObject("holiList", holiList);
+				model.addObject("holidayCatList", holidayCatList);
 
 			}
 
@@ -119,79 +130,104 @@ public class LeaveHolidayController {
 			a = "redirect:/showHolidayList";
 			try {
 
-				CalenderYear calculateYear = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
-
-				String dateRange = request.getParameter("dateRange");
-				String[] arrOfStr = dateRange.split("to", 2);
-
+				String[] holidayIds = request.getParameterValues("locId");
+				int holcatId = Integer.parseInt(request.getParameter("hoCatId"));
 				String holidayRemark = request.getParameter("holidayRemark");
-				String holidayTitle = request.getParameter("holidayTitle");
 
-				String[] locIds = request.getParameterValues("locId");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+						Location[].class);
 
 				StringBuilder sb = new StringBuilder();
 
-				for (int i = 0; i < locIds.length; i++) {
-					sb = sb.append(locIds[i] + ",");
+				for (int i = 0; i < location.length; i++) {
+					sb = sb.append(location[i].getLocId() + ",");
 
 				}
 				String locIdList = sb.toString();
 				locIdList = locIdList.substring(0, locIdList.length() - 1);
 
-				int holidayId = 0;
-				try {
-					holidayId = Integer.parseInt(request.getParameter("holidayId"));
-				} catch (Exception e) {
-					holidayId = 0;
-				}
+				CalenderYear calculateYear = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
 
-				Boolean ret = false;
+				StringBuilder dates = new StringBuilder();
 
-				if (FormValidation.Validaton(dateRange, "") == true) {
+				List<HolidayMaster> newHoliList = new ArrayList<>();
 
-					ret = true;
+				for (int j = 0; j < holidayIds.length; j++) {
 
-				}
+					for (int i = 0; i < holiList.size(); i++) {
 
-				if (FormValidation.Validaton(holidayRemark, "") == true) {
+						if (Integer.parseInt(holidayIds[j]) == holiList.get(i).getHolidayId()) {
 
-					ret = true;
-
-				}
-
-				if (ret == false) {
-
-					Holiday holiday = new Holiday();
-
-					holiday.setCalYrId(calculateYear.getCalYrId());
-					holiday.setCompanyId(1);
-					holiday.setDelStatus(1);
-
-					holiday.setExVar1("NA");
-					holiday.setExVar2(holidayTitle);
-					holiday.setExVar3("NA");
-					holiday.setHolidayFromdt(DateConvertor.convertToYMD(arrOfStr[0].toString().trim()));
-					holiday.setHolidayTodt(DateConvertor.convertToYMD(arrOfStr[1].toString().trim()));
-
-					holiday.setHolidayRemark(holidayRemark);
-					holiday.setIsActive(1);
-					holiday.setLocId(locIdList);
-					holiday.setMakerEnterDatetime(dateTime);
-					holiday.setMakerUserId(userObj.getUserId());
-					holiday.setExInt1(Integer.parseInt(request.getParameter("hoCatId")));
-
-					Holiday res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHoliday", holiday,
-							Holiday.class);
-
-					if (res.isError() == false) {
-						session.setAttribute("successMsg", "Record Inserted Successfully");
-					} else {
-						session.setAttribute("errorMsg", "Failed to Insert Record");
+							dates = dates.append(DateConvertor.convertToYMD(holiList.get(i).getHolidayDate()) + ",");
+							newHoliList.add(holiList.get(i));
+							break;
+						}
 					}
 
+				}
+				String holidayDates = dates.toString();
+				holidayDates = holidayDates.substring(0, holidayDates.length() - 1);
+
+				map = new LinkedMultiValueMap<>();
+				map.add("dates", holidayDates);
+				map.add("holcatId", holcatId);
+				Holiday[] holidayRes = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getHolidayListByDates", map, Holiday[].class);
+
+				List<Holiday> saveList = new ArrayList<>();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+
+				for (int i = 0; i < newHoliList.size(); i++) {
+
+					Date date1 = dd.parse(newHoliList.get(i).getHolidayDate());
+					int flag = 0;
+
+					for (int j = 0; j < holidayRes.length; j++) {
+						Date date2 = sf.parse(holidayRes[j].getHolidayFromdt());
+						if (date1.compareTo(date2) == 0) {
+							flag = 1;
+							break;
+						}
+
+					}
+
+					if (flag == 0) {
+
+						Holiday holiday = new Holiday();
+						holiday.setCalYrId(calculateYear.getCalYrId());
+						holiday.setCompanyId(1);
+						holiday.setDelStatus(1);
+
+						holiday.setExVar1("NA");
+						holiday.setExVar2(newHoliList.get(i).getHolidayName());
+						holiday.setExVar3("NA");
+						holiday.setHolidayFromdt(DateConvertor.convertToYMD(newHoliList.get(i).getHolidayDate()));
+						holiday.setHolidayTodt(DateConvertor.convertToYMD(newHoliList.get(i).getHolidayDate()));
+						holiday.setHolidayRemark(holidayRemark);
+						holiday.setIsActive(1);
+						holiday.setLocId(locIdList);
+						holiday.setMakerEnterDatetime(dateTime);
+						holiday.setMakerUserId(userObj.getUserId());
+						holiday.setExInt1(holcatId);
+						holiday.setExInt2(newHoliList.get(i).getHolidayId());
+						saveList.add(holiday);
+
+					}
+				}
+
+				// System.out.println(saveList);
+
+				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHolidayList", saveList,
+						Info.class);
+
+				if (res.isError() == false) {
+					session.setAttribute("successMsg", "Transaction Successfully");
 				} else {
-					session.setAttribute("errorMsg", "Failed to Insert Record");
+					session.setAttribute("errorMsg", "Transaction Failed Failed");
 				}
 
 			} catch (Exception e) {
