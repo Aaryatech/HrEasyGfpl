@@ -150,8 +150,8 @@
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control datepickerclass"
-												value="21-04-2019 @ 21-05-2019" name="dateRange"
-												data-placeholder="Select Date" id="dateRange"> <span
+												name="dateRange" data-placeholder="Select Date"
+												id="dateRange"> <span
 												class="validation-invalid-label" id="error_Range"
 												style="display: none;">This field is required.</span>
 
