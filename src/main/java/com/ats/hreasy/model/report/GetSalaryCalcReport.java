@@ -78,6 +78,7 @@ public class GetSalaryCalcReport {
 		private double edliPercentage; 
 		private double edliAdminPercentage; 
 		
+		private double employerMlwf;
 
 		private String empName;
 		
@@ -85,6 +86,16 @@ public class GetSalaryCalcReport {
 		private String companyName;
 		
 		private String nameSd;
+
+		
+		
+		public double getEmployerMlwf() {
+			return employerMlwf;
+		}
+
+		public void setEmployerMlwf(double employerMlwf) {
+			this.employerMlwf = employerMlwf;
+		}
 
 		public int getId() {
 			return id;
@@ -706,26 +717,24 @@ public class GetSalaryCalcReport {
 					+ ", epfWagesEmployer=" + epfWagesEmployer + ", esicWagesCal=" + esicWagesCal + ", grossSalary="
 					+ grossSalary + ", epsWages=" + epsWages + ", esicWagesDec=" + esicWagesDec + ", employeePf="
 					+ employeePf + ", employerEps=" + employerEps + ", employerPf=" + employerPf + ", esic=" + esic
-					+ ", employerEsic=" + employerEsic + ", esicStatus=" + esicStatus + ", pfStatus=" + pfStatus + ", mlwf="
-					+ mlwf + ", tds=" + tds + ", itded=" + itded + ", fund=" + fund + ", totPfAdminCh=" + totPfAdminCh
-					+ ", totEdliCh=" + totEdliCh + ", totEdliAdminCh=" + totEdliAdminCh + ", ncpDays=" + ncpDays
-					+ ", status=" + status + ", ptDed=" + ptDed + ", advanceDed=" + advanceDed + ", loanDed=" + loanDed
-					+ ", miscExpDed=" + miscExpDed + ", miscExpDedDeduct=" + miscExpDedDeduct + ", netSalary=" + netSalary
-					+ ", isLocked=" + isLocked + ", loginName=" + loginName + ", loginTime=" + loginTime
+					+ ", employerEsic=" + employerEsic + ", esicStatus=" + esicStatus + ", pfStatus=" + pfStatus
+					+ ", mlwf=" + mlwf + ", tds=" + tds + ", itded=" + itded + ", fund=" + fund + ", totPfAdminCh="
+					+ totPfAdminCh + ", totEdliCh=" + totEdliCh + ", totEdliAdminCh=" + totEdliAdminCh + ", ncpDays="
+					+ ncpDays + ", status=" + status + ", ptDed=" + ptDed + ", advanceDed=" + advanceDed + ", loanDed="
+					+ loanDed + ", miscExpDed=" + miscExpDed + ", miscExpDedDeduct=" + miscExpDedDeduct + ", netSalary="
+					+ netSalary + ", isLocked=" + isLocked + ", loginName=" + loginName + ", loginTime=" + loginTime
 					+ ", mlwfApplicable=" + mlwfApplicable + ", ptApplicable=" + ptApplicable + ", payDed=" + payDed
 					+ ", commentsForItBonus=" + commentsForItBonus + ", societyContribution=" + societyContribution
 					+ ", empCategory=" + empCategory + ", basicDefault=" + basicDefault + ", abDeduction=" + abDeduction
 					+ ", epfPercentage=" + epfPercentage + ", epsEmployeePercentage=" + epsEmployeePercentage
-					+ ", productionInsentive=" + productionInsentive + ", epfEmployerPercentage=" + epfEmployerPercentage
-					+ ", epsEmployerPercentage=" + epsEmployerPercentage + ", presentInsentive=" + presentInsentive
-					+ ", nightAllow=" + nightAllow + ", epsDefault=" + epsDefault + ", epmloyerEpfDefault="
-					+ epmloyerEpfDefault + ", epmloyerEpfExtra=" + epmloyerEpfExtra + ", pfAdminChPercentage="
-					+ pfAdminChPercentage + ", edliPercentage=" + edliPercentage + ", edliAdminPercentage="
-					+ edliAdminPercentage + ", empName=" + empName + ", companyName=" + companyName + ", nameSd=" + nameSd
-					+ "]";
+					+ ", productionInsentive=" + productionInsentive + ", epfEmployerPercentage="
+					+ epfEmployerPercentage + ", epsEmployerPercentage=" + epsEmployerPercentage + ", presentInsentive="
+					+ presentInsentive + ", nightAllow=" + nightAllow + ", epsDefault=" + epsDefault
+					+ ", epmloyerEpfDefault=" + epmloyerEpfDefault + ", epmloyerEpfExtra=" + epmloyerEpfExtra
+					+ ", pfAdminChPercentage=" + pfAdminChPercentage + ", edliPercentage=" + edliPercentage
+					+ ", edliAdminPercentage=" + edliAdminPercentage + ", employerMlwf=" + employerMlwf + ", empName="
+					+ empName + ", companyName=" + companyName + ", nameSd=" + nameSd + "]";
 		}
-		
-		
  
 
 }

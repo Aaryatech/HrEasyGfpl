@@ -116,7 +116,7 @@
 									</div>
 
 								</div>
-								 
+
 								<div class="row">
 
 									<div class="col-sm-12 col-md-4">
@@ -236,6 +236,23 @@
 										</div>
 									</div>
 
+									<div class="form-group row">
+
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-3"
+											for="subCmpId">Company: </label>
+										<div class="col-lg-5">
+											<select name="subCmpId" data-placeholder="Select Sub Company"
+												id="subCmpId" class="form-control form-control-select2 ">
+												<option value="">Select Sub Company</option>
+												<c:forEach items="${companySubList}" var="companySubList">
+													<option value="${companySubList.companyId}">${companySubList.companyName}</option>
+
+												</c:forEach>
+											</select>
+										</div>
+									</div>
+
 									<div class="col-sm-12 col-md-4">
 										<div class="card">
 											<div
@@ -246,21 +263,7 @@
 
 											<div class="card-body" align="left">
 
-									<label
-										class="col-form-label text-info font-weight-bold col-lg-3"
-										for="subCmpId">Company:
-									</label>
-									<div class="col-lg-4">
-										<select name="subCmpId" data-placeholder="Select Sub Company"
-											id="subCmpId"
-											class="form-control form-control-select2 ">
-											<option value="">Select Sub Company</option>
-											<c:forEach items="${companySubList}" var="companySubList">
-												<option value="${companySubList.companyId}">${companySubList.companyName}</option>
 
-											</c:forEach>
-										</select>
-									</div>
 
 												Employee PF Statement<a href="#"
 													onclick="getProgReport(0,'showEmpPfRep')" title="excel"><i
@@ -280,19 +283,43 @@
 													onclick="getProgReport(1,'showEmployeeEmployerPfRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a><br />
-												PT Challen Statement <a href="#"
-													onclick="getProgReport(0,'getPtChallanRep')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'getPtChallanRep')"
-													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a>
 
 											</div>
 										</div>
 									</div>
 
 
+
+									<div class="col-sm-12 col-md-4">
+										<div class="card">
+											<div
+												class="card-header bg-primary text-white header-elements-inline">
+												<h6 class="card-title">PT Reports</h6>
+												<div class="header-elements"></div>
+											</div>
+
+											<div class="card-body" align="left">
+												PT Challen Statement <a href="#"
+													onclick="getProgReport(0,'getPtChallanRep')" title="excel"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<a href="#" onclick="getProgReport(1,'getPtChallanRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a><br /> Professional Tax
+												Statement <a href="#"
+													onclick="getProgReport(0,'showEmpPTStatRep')" title="excel"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<a href="#" onclick="getProgReport(1,'showEmpPTStatRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <br /> MLWF Statement <a
+													href="#" onclick="getProgReport(0,'showMlwfStatRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showMlwfStatRep')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+
+											</div>
+										</div>
+									</div>
 
 								</div>
 
