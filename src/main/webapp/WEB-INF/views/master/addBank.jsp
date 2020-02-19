@@ -146,8 +146,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="micrCode">MICR
-											Code <span class="text-danger">* </span>:
+										<label class="col-form-label col-lg-2" for="micrCode">MICR
+											Code <span class="text-danger"></span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -288,18 +288,22 @@
 													$("#error_branchName")
 															.hide()
 												}
-												if (!$("#micrCode").val()
-														|| !validateMicr($(
-																"#micrCode")
-																.val())) {
+												
+												if($("#micrCode").val().length > 0){
+													if (!$("#micrCode").val()
+															|| !validateMicr($(
+																	"#micrCode")
+																	.val())) {
 
-													isError = true;
+														isError = true;
 
-													$("#error_micrCode").show()
+														$("#error_micrCode").show()
 
-												} else {
-													$("#error_micrCode").hide()
+													} else {
+														$("#error_micrCode").hide()
+													}
 												}
+												
 												if (!$("#ifscCode").val()
 														|| !validateIfsc($(
 																"#ifscCode")

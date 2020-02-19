@@ -100,7 +100,7 @@
 									<th width="10%">Sr. No.</th>
 									<th>Name </th>
 									<th>Branch Name</th>
-									<th>MICR Code</th>
+									<!-- <th>MICR Code</th> -->
 									<th>IFSC Code</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
@@ -114,8 +114,8 @@
 										<td>${count.index+1}</td>
 										<td class="text-left">${bankList.name}</td>
 										<td class="text-left">${bankList.branchName}</td>
-										<td>${bankList.micrCode}</td>
-										<td>${bankList.ifscCode}</td>
+<%-- 										<td>${bankList.micrCode}</td>
+ --%>										<td>${bankList.ifscCode}</td>
 										
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a

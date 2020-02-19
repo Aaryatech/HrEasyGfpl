@@ -139,6 +139,21 @@
 										</div>
 									</div>
 									
+									
+										<div class="form-group row">
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="sortNo">Sort No.
+											 <span class="text-danger">* </span>:</label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control"
+												placeholder="Enter Sort No" id="sortNo" value="${desig.exInt1}"
+												name="sortNo" autocomplete="off" onchange="trim(this)"
+												maxlength="10"> <span
+												class="validation-invalid-label" id="error_sortNo"
+												style="display: none;">This field is required.</span>
+												 
+										</div>
+									</div>
+									
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="remark">Remark
 											: </label>
@@ -226,6 +241,11 @@
 					} else {
 						$("#error_unique").hide()
 					}
+					
+					
+					
+					
+					
 				});
 			}
 		}
@@ -315,6 +335,22 @@
 													$("#error_desigShortName")
 															.hide()
 												}
+												
+												if (!$("#sortNo").val()) {
+
+													isError = true;
+
+													$("#error_sortNo")
+															.show()
+
+												} else {
+													$("#error_sortNo")
+															.hide()
+												}
+												
+												
+												
+												
 
 												if (!isError) {
 

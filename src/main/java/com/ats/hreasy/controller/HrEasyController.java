@@ -63,7 +63,7 @@ public class HrEasyController {
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("companyId", 1);
 				Designation[] designation = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getAllDesignations", map, Designation[].class);
+						.postForObject(Constants.url + "/getAllDesignationsListBySortNo", map, Designation[].class);
 
 				List<Designation> designationList = new ArrayList<Designation>(Arrays.asList(designation));
 
@@ -150,11 +150,14 @@ public class HrEasyController {
 			try {
 				a = "redirect:/showDesignationList";
 				Designation desig = new Designation();
+				
+				/* String sh[]=request.getParameter("desigShortName").split("-"); */
+				desig.setRemarks(request.getParameter("remark"));
 
 				desig.setCompanyId(1);
 				desig.setDelStatus(1);
 				desig.setDesigId(Integer.parseInt(request.getParameter("desigId")));
-				desig.setExInt1(0);
+				desig.setExInt1(Integer.parseInt(request.getParameter("sortNo")));
 				desig.setExInt2(0);
 				desig.setExVar1("NA");
 				desig.setExVar2("NA");
@@ -162,7 +165,8 @@ public class HrEasyController {
 				desig.setMakerEnterDatetime(currDate);
 				desig.setName(request.getParameter("desigName"));
 				desig.setNameSd(request.getParameter("desigShortName"));
-				desig.setRemarks(request.getParameter("remark"));
+				
+				
 
 				Designation saveDesig = Constants.getRestTemplate().postForObject(Constants.url + "/saveDesignation",
 						desig, Designation.class);
@@ -855,7 +859,14 @@ public class HrEasyController {
 				bank.setBranchName(request.getParameter("branchName"));
 				bank.setCompanyId(1);
 				bank.setIfscCode(request.getParameter("ifscCode"));
-				bank.setMicrCode(request.getParameter("micrCode"));
+				
+				try {
+					bank.setMicrCode(request.getParameter("micrCode"));
+
+				} catch (Exception e) {
+					bank.setMicrCode("");
+
+				}
 				bank.setName(request.getParameter("bankName"));
 				bank.setDelStatus(1);
 				bank.setExInt1(0);
