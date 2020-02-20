@@ -353,6 +353,37 @@
 										</div>
 									</div>
 									
+									<div class="col-sm-12 col-md-4">
+										<div class="card">
+											<div
+												class="card-header bg-primary text-white header-elements-inline">
+												<h6 class="card-title">Pending Loan Reports</h6>
+												<div class="header-elements"></div>
+											</div>
+
+											<div class="card-body" align="left">
+												Pending Loan Details <a href="#"
+													onclick="getProgReport(0,'showPendingLoanRep')" title="excel"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<a href="#" onclick="getProgReport(1,'showPendingLoanRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a><br /> <!-- Professional Tax
+												Statement <a href="#"
+													onclick="getProgReport(0,'showEmpPTStatRep')" title="excel"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<a href="#" onclick="getProgReport(1,'showEmpPTStatRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <br /> MLWF Statement <a
+													href="#" onclick="getProgReport(0,'showMlwfStatRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showMlwfStatRep')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a> -->
+													 
+											</div>
+										</div>
+									</div>
+									
 
 								</div>
 
