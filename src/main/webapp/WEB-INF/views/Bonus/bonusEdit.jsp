@@ -114,7 +114,7 @@
 										<div class="col-lg-10">
 											<input type="text" class="form-control daterange-basic_new "
 												name="leaveDateRange" data-placeholder="Select Date"  value="${dateString}"
-												id="leaveDateRange" onchange="calholidayWebservice()">
+												id="leaveDateRange" >
 											<span class="validation-invalid-label" id="error_Range"
 												style="display: none;">This field is required.</span> <span
 												class="validation-invalid-label" id="error_insuf"
@@ -146,6 +146,20 @@
 												placeholder="E.g. Exgratia %" id="exgratiaPrcnt" name="exgratiaPrcnt"  value="${editBonus.exgratiaPercentage}"
 												autocomplete="off" onchange="trim(this)"> <span
 												class="validation-invalid-label" id="error_exgratiaPrcnt"
+												style="display: none;">This field is required.</span>
+										</div>
+									</div>
+									
+									
+										<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="shiftName">Min Days
+										  <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control"
+												placeholder="Minimum Bonus Days" id="minDays" name="minDays"  value="${editBonus.minDays}"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_minDays"
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
@@ -223,6 +237,17 @@
 				} else {
 					$("#error_bonusPrcnt").hide()
 				}
+				
+				
+				if (!$("#minDays").val()) {
+
+					isError = true;
+
+					$("#error_minDays").show()
+				} else {
+					$("#error_minDays").hide()
+				}
+				
 
 				if (!isError) {
 

@@ -93,7 +93,7 @@ public class BonusAdminController {
 				String bonusTitle = request.getParameter("bonusTitle");
 				String bonusPrcnt = request.getParameter("bonusPrcnt");
 
-				String minDays = request.getParameter("minDays");
+			
 
 				String bonusRemark = new String();
 				String[] arrOfStr = leaveDateRange.split("to", 2);
@@ -128,6 +128,7 @@ public class BonusAdminController {
 					System.out.println("exgratiaPrcnt" + ret);
 				}
 
+				String minDays = request.getParameter("minDays");
 				if (FormValidation.Validaton(minDays, "") == true) {
 
 					ret = true;
@@ -460,7 +461,12 @@ public class BonusAdminController {
 					ret = true;
 					System.out.println("bonusPrcnt" + ret);
 				}
+				String minDays = request.getParameter("minDays");
+				if (FormValidation.Validaton(minDays, "") == true) {
 
+					ret = true;
+					System.out.println("minDays" + ret);
+				}
 				if (ret == false) {
 
 					editBonus.setBonusPercentage(Double.parseDouble(bonusPrcnt));
@@ -473,6 +479,7 @@ public class BonusAdminController {
 					editBonus.setFyTitle(bonusTitle);
 					editBonus.setFyTodt(arrOfStr[1].toString().trim());
 					editBonus.setIsCurrent(1);
+					editBonus.setMinDays(Integer.parseInt(minDays));
 					editBonus.setRemark(bonusRemark);
 
 					BonusMaster res = Constants.getRestTemplate().postForObject(Constants.url + "/saveBonus", editBonus,

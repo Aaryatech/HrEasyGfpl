@@ -118,7 +118,7 @@
 										<div class="col-lg-10">
 											<input type="text" class="form-control daterange-basic_new "
 												name="leaveDateRange" data-placeholder="Select Date"
-												id="leaveDateRange" onchange="calholidayWebservice()">
+												id="leaveDateRange" >
 											<span class="validation-invalid-label" id="error_Range"
 												style="display: none;">This field is required.</span> <span
 												class="validation-invalid-label" id="error_insuf"
