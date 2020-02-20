@@ -7,6 +7,9 @@
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
+<style type="text/css">
+.select2-selection--multiple .select2-selection__rendered{border-bottom:1px solid #ddd;}
+</style>
 
 <body>
 	<c:url var="getUniqEmpCodeResp" value="/getUniqEmpCodeResp"></c:url>
