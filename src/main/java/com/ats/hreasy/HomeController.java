@@ -173,9 +173,9 @@ public class HomeController {
 			 * 
 			 * System.out.println(hashtext);
 			 */
-			RandomString randomString = new RandomString();
+			/*RandomString randomString = new RandomString();
 			String password = randomString.nextString();
-			System.out.println(password);
+			System.out.println(password);*/
 
 		} catch (Exception e) {
 			e.printStackTrace();
