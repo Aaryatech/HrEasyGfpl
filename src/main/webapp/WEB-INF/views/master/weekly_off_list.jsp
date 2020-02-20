@@ -100,7 +100,7 @@
 
 									<th width="10%">Sr. No.</th>
 									<th>Category</th>
-									<th>Location Name</th>
+									<!-- <th>Location Name</th> -->
 									<th>Weekly Off Type</th>
 									<!-- 	<th>Weekly Off Presently</th> -->
 									<th>Day</th>
@@ -114,7 +114,7 @@
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${week.weekOffCat}</td>
-										<td>${week.locName}</td>
+									<%-- 	<td>${week.locName}</td> --%>
 										<td><c:choose>
 												<c:when test="${week.woType==1}">
 												
