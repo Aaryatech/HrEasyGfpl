@@ -163,32 +163,32 @@
 												for="noOfLeaves${leaveType.lvTypeId}">${leaveType.lvTitle}
 												<span class="text-danger">* </span>:
 											</label>
-											<div class="col-md-2">
+											<div class="col-md-1">
 												<input type="text" class="form-control numbersOnly"
 													placeholder="No.of Leaves Peryear"
 													id="noOfLeaves${leaveType.lvTypeId}" value="0"
 													name="noOfLeaves${leaveType.lvTypeId}" autocomplete="off"
 													onchange="trim(this)">
 											</div>
- 
+
 											<label
 												class="col-form-label text-info font-weight-bold col-lg-1"
 												for="min${leaveType.lvTypeId}">Min Days <span
 												class="text-danger">* </span>:
 											</label>
-											<div class="col-md-2">
+											<div class="col-md-1">
 												<input type="text" class="form-control numbersOnly"
 													id="min${leaveType.lvTypeId}" value="0"
 													name="min${leaveType.lvTypeId}" autocomplete="off"
 													onchange="chkVal(${leaveType.lvTypeId})">
 											</div>
- 
+
 											<label
 												class="col-form-label text-info font-weight-bold col-lg-1"
 												for="max${leaveType.lvTypeId}">Max Days<span
 												class="text-danger">* </span>:
 											</label>
-											<div class="col-md-2">
+											<div class="col-md-1">
 												<input type="text" class="form-control numbersOnly"
 													id="max${leaveType.lvTypeId}" value="0"
 													name="max${leaveType.lvTypeId}" autocomplete="off"
@@ -200,6 +200,18 @@
 													id="error_prsnName1${leaveType.lvTypeId}"
 													style="display: none;">Min. Days & Max. Days Should
 													be Less than Leave Type Days.</span>
+											</div>
+
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-1"
+												for="maxCarryForword${leaveType.lvTypeId}">Max Carry
+												Forward<span class="text-danger">* </span>:
+											</label>
+											<div class="col-md-1">
+												<input type="text" class="form-control numbersOnly"
+													id="maxCarryForword${leaveType.lvTypeId}" value="0"
+													name="maxCarryForword${leaveType.lvTypeId}"
+													autocomplete="off">
 											</div>
 
 										</div>
@@ -248,7 +260,7 @@
 			var maxDays=document.getElementById("max"+id).value;
 			var Days=document.getElementById("noOfLeaves"+id).value;
  			
-			if(parseFloat(maxDays)< parseFloat(minDays)){
+			/* if(parseFloat(maxDays)< parseFloat(minDays)){
 				$("#error_prsnName"+id).show()
 				
 				document.getElementById("err_flag").value=1;
@@ -272,7 +284,7 @@
 				document.getElementById("err_flag").value=0;
 
 
-			}
+			} */
 		}
 	
 			</script>

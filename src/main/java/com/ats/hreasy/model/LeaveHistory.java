@@ -21,6 +21,12 @@ public class LeaveHistory {
 		private float sactionLeave;
 		
 		private int isFile;
+		
+		private int maxAccumulateCarryforward;
+		
+		private int isCarryforward;
+		
+		private int maxCarryforward;
 
 		public int getLvsId() {
 			return lvsId;
@@ -94,12 +100,37 @@ public class LeaveHistory {
 			this.isFile = isFile;
 		}
 
+		public int getMaxAccumulateCarryforward() {
+			return maxAccumulateCarryforward;
+		}
+
+		public void setMaxAccumulateCarryforward(int maxAccumulateCarryforward) {
+			this.maxAccumulateCarryforward = maxAccumulateCarryforward;
+		}
+
+		public int getIsCarryforward() {
+			return isCarryforward;
+		}
+
+		public void setIsCarryforward(int isCarryforward) {
+			this.isCarryforward = isCarryforward;
+		}
+
+		public int getMaxCarryforward() {
+			return maxCarryforward;
+		}
+
+		public void setMaxCarryforward(int maxCarryforward) {
+			this.maxCarryforward = maxCarryforward;
+		}
+
 		@Override
 		public String toString() {
 			return "LeaveHistory [lvTypeId=" + lvTypeId + ", lvsId=" + lvsId + ", lvTitleShort=" + lvTitleShort
 					+ ", lvTitle=" + lvTitle + ", lvsAllotedLeaves=" + lvsAllotedLeaves + ", balLeave=" + balLeave
 					+ ", aplliedLeaeve=" + aplliedLeaeve + ", sactionLeave=" + sactionLeave + ", isFile=" + isFile
-					+ "]";
+					+ ", maxAccumulateCarryforward=" + maxAccumulateCarryforward + ", isCarryforward=" + isCarryforward
+					+ ", maxCarryforward=" + maxCarryforward + "]";
 		}
 
 		

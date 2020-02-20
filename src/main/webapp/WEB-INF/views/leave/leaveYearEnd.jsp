@@ -91,9 +91,8 @@
 							session.removeAttribute("successMsg");
 							}
 						%>
-						<form
-							action="${pageContext.request.contextPath}/submitYearEndAndAssignNewStructure"
-							id="submitInsertProjectHeader" method="post">
+						<form action="${pageContext.request.contextPath}/leaveYearEnd"
+							id="submitInsertProjectHeader" method="get">
 
 							<div class="form-group row">
 								<label class="col-form-label col-lg-2" for="select2">Select
@@ -106,18 +105,28 @@
 										tabindex="-1" aria-hidden="true">
 										<option value="">Select Employee</option>
 										<c:forEach items="${employeeInfoList}" var="empInfo">
-											<option value="${empInfo.empId}">${empInfo.surname}
-												${empInfo.firstName} ${empInfo.middleName}</option>
+
+											<c:choose>
+												<c:when test="${empInfo.empId==empId}">
+													<option value="${empInfo.empId}" selected>${empInfo.surname}
+														${empInfo.firstName} ${empInfo.middleName}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${empInfo.empId}">${empInfo.surname}
+														${empInfo.firstName} ${empInfo.middleName}</option>
+												</c:otherwise>
+											</c:choose>
+
 										</c:forEach>
 									</select> <span class="validation-invalid-label" id="error_empId"
 										style="display: none;">This field is required.</span>
 								</div>
 
 
-								<input type="button" class="btn bg-blue ml-3 legitRipple"
-									id="searchh" onclick="search()" value="Search" />
+
 
 							</div>
+
 
 							<div class="form-group row">
 
@@ -131,8 +140,19 @@
 										tabindex="-1" aria-hidden="true" required="required">
 										<option value="">Select Structure Allotment</option>
 										<c:forEach items="${lStrList}" var="lStrList">
-											<option value="${lStrList.lvsId}">${lStrList.lvsName}
-											</option>
+
+											<c:choose>
+												<c:when test="${lStrList.lvsId==structId}">
+													<option value="${lStrList.lvsId}" selected>${lStrList.lvsName}
+													</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${lStrList.lvsId}">${lStrList.lvsName}
+													</option>
+												</c:otherwise>
+											</c:choose>
+
+
 										</c:forEach>
 									</select> <span class="validation-invalid-label" id="error_calYrId"
 										style="display: none;">This field is required.</span>
@@ -140,47 +160,121 @@
 
 
 							</div>
-							<div id='loader' style='display: none;'>
-								<img
-									src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
-									width="150px" height="150px"
-									style="display: block; margin-left: auto; margin-right: auto">
-							</div>
-							<div class="table-responsive">
-								<table
-									class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
-									id="printtable1">
-
-
-									<thead>
-										<tr class="bg-blue" style="text-align: center;">
-
-											<th>Leave Type</th>
-											<th width="10%">Opening Bal</th>
-											<th width="10%">Earned</th>
-											<th width="10%">Approved</th>
-											<th width="10%">Applied</th>
-											<th width="10%">Balanced</th>
-											<th width="10%">InCash</th>
-											<th width="10%">Carry Forward</th>
-
-										</tr>
-									</thead>
-									<tbody>
-
-									</tbody>
-								</table>
-							</div>
-							<br>
 
 							<div class="col-md-12">
-								<div style="text-align: center;">
+								<div class="text-center">
 									<input type="submit" class="btn bg-blue ml-3 legitRipple"
-										id="submtbtn" value="Submit" />
+										id="searchh" value="Search" />
 
 								</div>
 							</div>
 						</form>
+						<br>
+						<div id='loader' style='display: none;'>
+							<img
+								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
+								width="150px" height="150px"
+								style="display: block; margin-left: auto; margin-right: auto">
+						</div>
+
+						<c:if test="${previousleavehistorylist.size()>0}">
+							<form
+								action="${pageContext.request.contextPath}/submitYearEndAndAssignNewStructure"
+								id="submitInsertProjectHeader" method="post">
+
+								<div class="table-responsive">
+									<table
+										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
+										id="printtable1">
+
+
+										<thead>
+											<tr class="bg-blue" style="text-align: center;">
+
+												<th>Leave Type</th>
+												<th width="10%">Previous Year Opening Bal</th>
+												<th width="10%">Previous Year Earned</th>
+												<th width="10%">Previous Year Approved</th>
+												<th width="10%">Previous Year Applied</th>
+												<th width="10%">Previous Year Balanced</th>
+												<!-- <th width="10%">InCash</th> -->
+												<th width="10%">Carry Forward</th>
+												<th width="10%">Current Year Earned</th>
+												<th width="10%">Current Year Balanced</th>
+											</tr>
+										</thead>
+
+
+										<tbody>
+											<c:forEach items="${previousleavehistorylist}"
+												var="previousleavehistorylist" varStatus="count">
+												<tr>
+													<c:set
+														value="${previousleavehistorylist.balLeave+previousleavehistorylist.lvsAllotedLeaves-previousleavehistorylist.sactionLeave-previousleavehistorylist.aplliedLeaeve}"
+														var="ballv"></c:set>
+													<td>${previousleavehistorylist.lvTitle}</td>
+													<td>${previousleavehistorylist.balLeave}</td>
+													<td>${previousleavehistorylist.lvsAllotedLeaves}</td>
+													<td>${previousleavehistorylist.sactionLeave}</td>
+													<td>${previousleavehistorylist.aplliedLeaeve}</td>
+													<td>${ballv}</td>
+													<c:set var="carryForward" value="0"></c:set>
+													<c:set var="currentEarn" value="0"></c:set>
+													<c:set var="color" value=""></c:set>
+													<c:forEach items="${leaveStructureById.detailList}"
+														var="detailList">
+
+														<c:if
+															test="${detailList.lvTypeId==previousleavehistorylist.lvTypeId}">
+															<c:set var="currentEarn"
+																value="${detailList.lvsAllotedLeaves}"></c:set>
+														</c:if>
+													</c:forEach>
+
+													<c:if
+														test="${previousleavehistorylist.maxAccumulateCarryforward>0}">
+														<c:choose>
+															<c:when
+																test="${(ballv+currentEarn)>previousleavehistorylist.maxAccumulateCarryforward && 
+																ballv>previousleavehistorylist.maxAccumulateCarryforward}">
+																<c:set var="carryForward"
+																	value="${previousleavehistorylist.maxAccumulateCarryforward}"></c:set>
+																<c:set var="color" value="red"></c:set>
+															</c:when> 
+															<c:otherwise>
+																<c:set var="carryForward" value="${ballv}"></c:set>
+															</c:otherwise>
+														</c:choose>
+													</c:if>
+													<%-- <td><input
+														id="inchashLv${previousleavehistorylist.lvTypeId}"
+														name="inchashLv${previousleavehistorylist.lvTypeId}"
+														value="0" class="form-control" type="number" required></td> --%>
+													<td style="background-color: ${color};"><input
+														id="carryfrwd${previousleavehistorylist.lvTypeId}"
+														name="carryfrwd${previousleavehistorylist.lvTypeId}"
+														value="${carryForward}" class="form-control" type="text"
+														required></td>
+													<td>${currentEarn}</td>
+													<c:set var="currentyearbal"
+														value="${carryForward+currentEarn}"></c:set>
+													<td>${currentyearbal}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+								<br>
+
+								<div class="col-md-12">
+									<div style="text-align: center;">
+										<input type="submit" class="btn bg-blue ml-3 legitRipple"
+											id="submtbtn" value="Submit" />
+
+									</div>
+								</div>
+							</form>
+						</c:if>
 					</div>
 
 				</div>

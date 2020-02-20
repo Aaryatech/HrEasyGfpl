@@ -184,6 +184,8 @@ public class LeaveStructureController {
 						int noOfLeaves = 0;
 						int minlv = 0;
 						int maxlv = 0;
+						int maxCarryForwardAccumadat = 0;
+
 						try {
 							noOfLeaves = (Integer
 									.parseInt(request.getParameter("noOfLeaves" + leaveTypeList.get(i).getLvTypeId())));
@@ -194,8 +196,7 @@ public class LeaveStructureController {
 
 						try {
 
-							minlv = Integer
-									.parseInt(request.getParameter("min" + leaveTypeList.get(i).getLvTypeId()));
+							minlv = Integer.parseInt(request.getParameter("min" + leaveTypeList.get(i).getLvTypeId()));
 
 						} catch (Exception e) {
 							minlv = 0;
@@ -203,15 +204,23 @@ public class LeaveStructureController {
 
 						try {
 
-							maxlv = Integer
-									.parseInt(request.getParameter("max" + leaveTypeList.get(i).getLvTypeId()));
+							maxlv = Integer.parseInt(request.getParameter("max" + leaveTypeList.get(i).getLvTypeId()));
 
 						} catch (Exception e) {
 							maxlv = 0;
 						}
-					//	System.err.println("lv" + noOfLeaves + "min" + minlv + "max" + maxlv);
 
- 						detail = new LeaveStructureDetails();
+						try {
+							maxCarryForwardAccumadat = (Integer.parseInt(
+									request.getParameter("maxCarryForword" + leaveTypeList.get(i).getLvTypeId())));
+
+						} catch (Exception e) {
+							maxCarryForwardAccumadat = 0;
+						}
+
+						// System.err.println("lv" + noOfLeaves + "min" + minlv + "max" + maxlv);
+
+						detail = new LeaveStructureDetails();
 						detail.setDelStatus(1);
 						detail.setExInt1(0);
 						detail.setExInt2(0);
@@ -222,12 +231,12 @@ public class LeaveStructureController {
 						detail.setLvsAllotedLeaves(noOfLeaves);
 						detail.setMaxNoDays(maxlv);
 						detail.setMinNoDays(minlv);
-
+						detail.setMaxAccumulateCarryforward(maxCarryForwardAccumadat);
 						detail.setLvTypeId(leaveTypeList.get(i).getLvTypeId());
 						detail.setMakerUserId(userObj.getUserId());
 						detail.setMakerDatetime(dateTime);
 						detailList.add(detail);
- 					}
+					}
 
 					head.setDetailList(detailList);
 
@@ -357,8 +366,11 @@ public class LeaveStructureController {
 
 				model.addObject("leaveTypeList", leaveTypeList);
 
-				System.out.println("editStructure" + editStructure.toString());
-				System.out.println("editStructureDetail" + editStructure.getDetailList().toString());
+				/*
+				 * System.out.println("editStructure" + editStructure.toString());
+				 * System.out.println("editStructureDetail" +
+				 * editStructure.getDetailList().toString());
+				 */
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -441,13 +453,6 @@ public class LeaveStructureController {
 
 					for (int i = 0; i < leaveTypeList.size(); i++) {
 						int flag = 0;
-						int noOfLeaves = 0;
-						try {
-							noOfLeaves = (Integer
-									.parseInt(request.getParameter("noOfLeaves" + leaveTypeList.get(i).getLvTypeId())));
-						} catch (Exception e) {
-							noOfLeaves = 0;
-						}
 
 						for (int j = 0; j < editStructure.getDetailList().size(); j++) {
 
@@ -456,13 +461,34 @@ public class LeaveStructureController {
 								if (editStructure.getDetailList().get(j).getLvTypeId() == leaveTypeList.get(i)
 										.getLvTypeId()) {
 									flag = 1;
-									editStructure.getDetailList().get(j).setLvsAllotedLeaves(Integer.parseInt(
-											request.getParameter("noOfLeaves" + leaveTypeList.get(i).getLvTypeId())));
 
-									editStructure.getDetailList().get(j).setMaxNoDays(Integer.parseInt(
-											request.getParameter("max" + leaveTypeList.get(i).getLvTypeId())));
-									editStructure.getDetailList().get(j).setMinNoDays(Integer.parseInt(
-											request.getParameter("min" + leaveTypeList.get(i).getLvTypeId())));
+									try {
+										editStructure.getDetailList().get(j)
+												.setLvsAllotedLeaves(Integer.parseInt(request.getParameter(
+														"noOfLeaves" + leaveTypeList.get(i).getLvTypeId())));
+									} catch (Exception e) {
+
+									}
+									try {
+										editStructure.getDetailList().get(j).setMaxNoDays(Integer.parseInt(
+												request.getParameter("max" + leaveTypeList.get(i).getLvTypeId())));
+									} catch (Exception e) {
+
+									}
+									try {
+										editStructure.getDetailList().get(j).setMinNoDays(Integer.parseInt(
+												request.getParameter("min" + leaveTypeList.get(i).getLvTypeId())));
+									} catch (Exception e) {
+
+									}
+
+									try {
+										editStructure.getDetailList().get(j)
+												.setMaxAccumulateCarryforward(Integer.parseInt(request.getParameter(
+														"maxCarryForword" + leaveTypeList.get(i).getLvTypeId())));
+									} catch (Exception e) {
+
+									}
 
 								}
 
@@ -470,27 +496,57 @@ public class LeaveStructureController {
 								// editStructure.getDetailList().get(i).setLvsAllotedLeaves(noOfLeaves1);
 							}
 						}
-						/* if (noOfLeaves > 0) { */
+
 						if (flag == 0) {
+
+							int noOfLeaves = 0;
+							int minlv = 0;
+							int maxlv = 0;
+							int maxCarryForwardAccumadat = 0;
+
+							try {
+								noOfLeaves = (Integer.parseInt(
+										request.getParameter("noOfLeaves" + leaveTypeList.get(i).getLvTypeId())));
+							} catch (Exception e) {
+								noOfLeaves = 0;
+							}
+
+							try {
+								minlv = (Integer
+										.parseInt(request.getParameter("min" + leaveTypeList.get(i).getLvTypeId())));
+							} catch (Exception e) {
+								minlv = 0;
+							}
+
+							try {
+								maxlv = (Integer
+										.parseInt(request.getParameter("max" + leaveTypeList.get(i).getLvTypeId())));
+							} catch (Exception e) {
+								maxlv = 0;
+							}
+
+							try {
+								maxCarryForwardAccumadat = (Integer.parseInt(
+										request.getParameter("maxCarryForword" + leaveTypeList.get(i).getLvTypeId())));
+							} catch (Exception e) {
+								maxCarryForwardAccumadat = 0;
+							}
+
 							LeaveStructureDetails detail = new LeaveStructureDetails();
 							detail.setDelStatus(1);
 							detail.setIsActive(1);
 							detail.setLvsAllotedLeaves(noOfLeaves);
+							detail.setMaxAccumulateCarryforward(maxCarryForwardAccumadat);
+							detail.setMaxNoDays(maxlv);
+							detail.setMinNoDays(minlv);
 							detail.setLvTypeId(leaveTypeList.get(i).getLvTypeId());
 							detail.setMakerDatetime(dateTime);
 							detail.setLvsId(editStructure.getLvsId());
 							detail.setMakerUserId(userObj.getUserId());
 
-							// LeaveStructureDetails resDetails = Constants.getRestTemplate().postForObject(
-							// Constants.url + "saveLeaveStructureDetail", detail,
-							// LeaveStructureDetails.class);
 							editStructure.getDetailList().add(detail);
-						//	System.out.println(detail.toString());
-							/* } */
 
 						}
-						// System.err.println("editStructure" +
-						// editStructure.getDetailList().toString());
 
 					}
 
@@ -923,6 +979,10 @@ public class LeaveStructureController {
 		return "redirect:/leaveStructureAllotment";
 	}
 
+	List<LeaveHistory> previousleavehistorylist = new ArrayList<>();
+	int empId = 0;
+	int structId = 0;
+
 	@RequestMapping(value = "/leaveYearEnd", method = RequestMethod.GET)
 	public ModelAndView leaveYearEnd(HttpServletRequest request, HttpServletResponse response) {
 
@@ -956,6 +1016,31 @@ public class LeaveStructureController {
 						.postForObject(Constants.url + "/getStructureList", map, LeaveStructureHeader[].class);
 				List<LeaveStructureHeader> lSummarylist = new ArrayList<>(Arrays.asList(lvStrSummery));
 				model.addObject("lStrList", lSummarylist);
+
+				try {
+					empId = Integer.parseInt(request.getParameter("empId"));
+					structId = Integer.parseInt(request.getParameter("structId"));
+
+					map = new LinkedMultiValueMap<>();
+					map.add("empId", empId);
+
+					LeaveHistory[] leaveHistory = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getPreviousleaveHistory", map, LeaveHistory[].class);
+					previousleavehistorylist = new ArrayList<>(Arrays.asList(leaveHistory));
+					model.addObject("previousleavehistorylist", previousleavehistorylist);
+					model.addObject("empId", empId);
+					model.addObject("structId", structId);
+
+					map = new LinkedMultiValueMap<>();
+					map.add("lvsId", structId);
+					LeaveStructureHeader leaveStructureById = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getStructureById", map, LeaveStructureHeader.class);
+					model.addObject("leaveStructureById", leaveStructureById);
+
+				} catch (Exception e) {
+
+				}
+
 			}
 
 		} catch (Exception e) {
@@ -963,9 +1048,6 @@ public class LeaveStructureController {
 		}
 		return model;
 	}
-
-	List<LeaveHistory> previousleavehistorylist = new ArrayList<>();
-	int empId = 0;
 
 	@RequestMapping(value = "/getPreviousYearHistory", method = RequestMethod.GET)
 	@ResponseBody
@@ -1000,8 +1082,10 @@ public class LeaveStructureController {
 			CalenderYear calculateYear = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
 
-			empId = Integer.parseInt(request.getParameter("empId"));
-			int structId = Integer.parseInt(request.getParameter("structId"));
+			/*
+			 * empId = Integer.parseInt(request.getParameter("empId")); int structId =
+			 * Integer.parseInt(request.getParameter("structId"));
+			 */
 
 			if (previousleavehistorylist.size() > 0) {
 
@@ -1027,11 +1111,11 @@ public class LeaveStructureController {
 					leaveBalanceCal.setIsActive(1);
 					leaveBalanceCal.setLvAlloted(0);
 					leaveBalanceCal.setLvbalId(0);
-					leaveBalanceCal.setLvCarryFwd(Float.parseFloat(
-							request.getParameter("carryfrwd" + previousleavehistorylist.get(i).getLvTypeId())));
+					/*leaveBalanceCal.setLvCarryFwd(Float.parseFloat(
+							request.getParameter("carryfrwd" + previousleavehistorylist.get(i).getLvTypeId())));*/
 					leaveBalanceCal.setLvCarryFwdRemarks("Null");
-					leaveBalanceCal.setLvEncash(Float.parseFloat(
-							request.getParameter("inchashLv" + previousleavehistorylist.get(i).getLvTypeId())));
+					/*leaveBalanceCal.setLvEncash(Float.parseFloat(
+							request.getParameter("inchashLv" + previousleavehistorylist.get(i).getLvTypeId())));*/
 					leaveBalanceCal.setOpBal(Float.parseFloat(
 							request.getParameter("carryfrwd" + previousleavehistorylist.get(i).getLvTypeId())));
 					leaveBalanceCal.setMakerUserId(1);

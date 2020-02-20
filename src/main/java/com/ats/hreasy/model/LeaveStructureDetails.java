@@ -1,6 +1,6 @@
 package com.ats.hreasy.model;
-
  
+
 public class LeaveStructureDetails {
 
 	private int lvsDetailsId;
@@ -26,11 +26,16 @@ public class LeaveStructureDetails {
 	private String exVar1;
 
 	private String exVar2;
-	
-	
+	 
  	private int minNoDays;
 	
  	private int maxNoDays;
+ 	 
+	private int isCarryforward;
+	 
+	private int maxCarryforward;
+	 
+	private int maxAccumulateCarryforward;
 
 	public int getLvsDetailsId() {
 		return lvsDetailsId;
@@ -146,13 +151,38 @@ public class LeaveStructureDetails {
 		this.maxNoDays = maxNoDays;
 	}
 
+	public int getIsCarryforward() {
+		return isCarryforward;
+	}
+
+	public void setIsCarryforward(int isCarryforward) {
+		this.isCarryforward = isCarryforward;
+	}
+
+	public int getMaxCarryforward() {
+		return maxCarryforward;
+	}
+
+	public void setMaxCarryforward(int maxCarryforward) {
+		this.maxCarryforward = maxCarryforward;
+	}
+
+	public int getMaxAccumulateCarryforward() {
+		return maxAccumulateCarryforward;
+	}
+
+	public void setMaxAccumulateCarryforward(int maxAccumulateCarryforward) {
+		this.maxAccumulateCarryforward = maxAccumulateCarryforward;
+	}
+
 	@Override
 	public String toString() {
 		return "LeaveStructureDetails [lvsDetailsId=" + lvsDetailsId + ", lvsId=" + lvsId + ", lvTypeId=" + lvTypeId
 				+ ", lvsAllotedLeaves=" + lvsAllotedLeaves + ", delStatus=" + delStatus + ", isActive=" + isActive
 				+ ", makerUserId=" + makerUserId + ", makerDatetime=" + makerDatetime + ", exInt1=" + exInt1
 				+ ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", minNoDays=" + minNoDays
-				+ ", maxNoDays=" + maxNoDays + "]";
+				+ ", maxNoDays=" + maxNoDays + ", isCarryforward=" + isCarryforward + ", maxCarryforward="
+				+ maxCarryforward + ", maxAccumulateCarryforward=" + maxAccumulateCarryforward + "]";
 	}
 
  
