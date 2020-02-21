@@ -98,8 +98,10 @@
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-2"> Employee Name:
-										</label> <label class="col-form-label col-lg-2" for="locId"> <c:forEach
-												items="${employeeInfoList}" var="empInfo">
+										</label> <label
+											class="col-form-label col-lg-2 text-info font-weight-bold"
+											for="locId"> <c:forEach items="${employeeInfoList}"
+												var="empInfo">
 												<c:if test="${empInfo.empId==empId}">
 														 ${empInfo.surname} ${empInfo.firstName} ${empInfo.middleName} 
 													</c:if>
@@ -163,7 +165,8 @@
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-2"> Previous
-											Allocated Structure: </label> <label class="col-form-label col-lg-2"
+											Allocated Structure: </label> <label
+											class="col-form-label col-lg-2 text-info font-weight-bold "
 											for="locId"> ${previousStructName}</label>
 
 									</div>
@@ -171,44 +174,50 @@
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-2" for="locId">
-											Emp Code: </label> <label class="col-form-label col-lg-2" for="locId">
-											${empDeatil.empCode}</label>
+											Emp Code: </label> <label
+											class="col-form-label col-lg-2 text-info font-weight-bold "
+											for="locId"> ${empDeatil.empCode}</label>
 									</div>
 
 
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-2" for="locId">
-											Emp Designation: </label> <label class="col-form-label col-lg-2"
+											Emp Designation: </label> <label
+											class="col-form-label col-lg-2 text-info font-weight-bold "
 											for="locId"> ${empDeatil.empDesgn} </label> <label
 											class="col-form-label col-lg-1" for="locId"> Emp
-											Type: </label> <label class="col-form-label col-lg-2" for="locId">
-											${empDeatil.empTypeName} </label> <label
+											Type: </label> <label
+											class="col-form-label col-lg-2 text-info font-weight-bold "
+											for="locId"> ${empDeatil.empTypeName} </label> <label
 											class="col-form-label col-lg-1" for="locId">
-											Location: </label> <label class="col-form-label col-lg-2" for="locId">
-											${empDeatil.locName} </label>
+											Location: </label> <label
+											class="col-form-label col-lg-2 text-info font-weight-bold"
+											for="locId"> ${empDeatil.locName} </label>
 
 									</div>
 									<hr>
 
 									<c:choose>
 										<c:when test="${structId>0}">
-											<label class="col-form-label col-lg-2"> New Allocated
-												Structure: </label>
-											<label class="col-form-label col-lg-2" for="locId"> <c:forEach
-													items="${lStrList}" var="lStrList">
+											<div class="form-group row">
+												<label class="col-form-label col-lg-2"> New
+													Allocated Structure: </label> <label
+													class="col-form-label col-lg-2 text-info font-weight-bold"
+													for="locId"> <c:forEach items="${lStrList}"
+														var="lStrList">
 
 
-													<c:if test="${lStrList.lvsId==structId}">
+														<c:if test="${lStrList.lvsId==structId}">
 															${lStrList.lvsName}
 														</c:if>
 
 
 
-												</c:forEach>
-											</label>
-											<input id="structId" name="structId" value="${structId}"
-												type="hidden" required>
+													</c:forEach>
+												</label> <input id="structId" name="structId" value="${structId}"
+													type="hidden" required>
+											</div>
 										</c:when>
 										<c:otherwise>
 											<div class="form-group row">
@@ -249,8 +258,8 @@
 											<input type="submit" class="btn bg-blue ml-3 legitRipple"
 												id="searchh" value="Calculate" /> <a
 												href="${pageContext.request.contextPath}/leaveYearEnd"><input
-												type="button" class="btn bg-blue ml-3 legitRipple"
-												id="reset" value="Reset" /></a>
+												type="button" class="btn bg-blue ml-3 legitRipple" id="back"
+												value="Back" /></a>
 										</div>
 									</div>
 									</form>
