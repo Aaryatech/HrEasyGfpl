@@ -322,13 +322,38 @@
 													</tr>
 													
 													<tr>
-														<td>1</td>
+														<td>2</td>
 														<td>Employee PF Statement</td>
 														<td class="text-center"><a href="#"
 															onclick="getProgReport(0,'showEmpPfRepEmpWise')"
 															title="excel"><i class="icon-file-spreadsheet  "
 																style="color: black;"></i></a> <a href="#"
 															onclick="getProgReport(1,'showEmpPfRepEmpWise')"
+															title="PDF"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a></td>
+													</tr>
+													
+													<tr>
+														<td>3</td>
+														<td>Employee Late Mark</td>
+														<td class="text-center"><a href="#"
+															onclick="getProgReport(0,'showEmpLateMarkByEmpId')"
+															title="excel"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a> <a href="#"
+															onclick="getProgReport(1,'showEmpLateMarkByEmpId')"
+															title="PDF"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a></td>
+													</tr>
+													
+													
+													<tr>
+														<td>4</td>
+														<td>Loan Statement Details</td>
+														<td class="text-center"><a href="#"
+															onclick="getProgReport(0,'showEmpLoanStatDetailByEmp')"
+															title="excel"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a> <a href="#"
+															onclick="getProgReport(1,'showEmpLoanStatDetailByEmp')"
 															title="PDF"><i class="icon-file-spreadsheet  "
 																style="color: black;"></i></a></td>
 													</tr>
