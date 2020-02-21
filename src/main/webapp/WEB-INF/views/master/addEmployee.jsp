@@ -2421,7 +2421,7 @@
 												} else {
 													$("#error_fname").hide()
 												}
-												if (!$("#mname").val()) {
+												/* if (!$("#mname").val()) {
 
 													isError = true;
 
@@ -2429,7 +2429,7 @@
 
 												} else {
 													$("#error_mname").hide()
-												}
+												} */
 												if (!$("#sname").val()) {
 
 													isError = true;

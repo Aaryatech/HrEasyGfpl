@@ -310,6 +310,20 @@ public class EmployeeController {
 			redirect = "redirect:/accessDenied";
 
 		} else {
+			
+			
+			String mname=new String();
+			
+			try {
+				mname = request.getParameter("mname");
+				 
+			} catch (Exception e) {
+				 
+				mname = "";
+			}
+			
+			
+			
 			int empId = Integer.parseInt(request.getParameter("empId"));
 
 			if (empId != 0) {
@@ -339,7 +353,7 @@ public class EmployeeController {
 					empId = 0;
  				}
 				
-				
+
 				try {
  					contract = Integer.parseInt(request.getParameter("contractor"));
 					 
@@ -380,7 +394,7 @@ public class EmployeeController {
 					emp.setEmpId(empId);
 
 					emp.setFirstName(request.getParameter("fname"));
-					emp.setMiddleName(request.getParameter("mname"));
+					emp.setMiddleName(mname);
 					emp.setSurname(request.getParameter("sname"));
 					emp.setSubCmpId(Integer.parseInt(request.getParameter("subCmpId")));
 					emp.setPlCalcBase(Integer.parseInt(request.getParameter("plCalcBase")));
@@ -470,7 +484,7 @@ public class EmployeeController {
 					emp.setEmpId(empId);
 
 					emp.setFirstName(request.getParameter("fname"));
-					emp.setMiddleName(request.getParameter("mname"));
+					emp.setMiddleName(mname);
 					emp.setSurname(request.getParameter("sname"));
 					emp.setSubCmpId(Integer.parseInt(request.getParameter("subCmpId")));
 					emp.setPlCalcBase(Integer.parseInt(request.getParameter("plCalcBase")));

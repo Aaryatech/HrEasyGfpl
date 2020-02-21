@@ -4,7 +4,6 @@ package com.ats.hreasy.model.Bonus;
 
 public class BonusCalc {
 
-	 
 	private int bonusCalcId;
 
 	private int companyId;
@@ -16,7 +15,7 @@ public class BonusCalc {
 
 	private String companyEmpCode;
 
-	private double exgratiaPrcnt;
+	//private String pfNo;
 
 	private String location;
 
@@ -27,7 +26,7 @@ public class BonusCalc {
 	private String currDesignation;
 
 	private String bonusDetails;
-
+	private int totalBonusDays ;
 	private int totalBonusWages;
 
 	private String bonusApplicable;
@@ -56,13 +55,15 @@ public class BonusCalc {
 
 	private String exgretiaApplicable;
 
-	private double grossExgretiaAmt;
+	private double grossExgretiaAmt ;
 
 	private double dedExgretiaAmt;
 
 	private String dedReason;
 
 	private double netExgretiaAmt;
+	
+	private double exgratiaPrcnt;
 
 	private double paidExgretiaAmt;
 
@@ -87,8 +88,6 @@ public class BonusCalc {
 
 	private String exVar1;;
 	private String exVar2;
-	
-	
 
 	public double getExgratiaPrcnt() {
 		return exgratiaPrcnt;
@@ -121,8 +120,8 @@ public class BonusCalc {
 	public void setBonusId(int bonusId) {
 		this.bonusId = bonusId;
 	}
+ 
 
-	 
 	public int getEmpId() {
 		return empId;
 	}
@@ -144,7 +143,6 @@ public class BonusCalc {
 	 * 
 	 * public void setPfNo(String pfNo) { this.pfNo = pfNo; }
 	 */
-
 	public String getLocation() {
 		return location;
 	}
@@ -258,10 +256,6 @@ public class BonusCalc {
 		this.paidBonusDate = paidBonusDate;
 	}
 
-	public void setPaidExgretiaDate(String paidExgretiaDate) {
-		this.paidExgretiaDate = paidExgretiaDate;
-	}
-
 	public String getIsBonussheetFinalized() {
 		return isBonussheetFinalized;
 	}
@@ -301,17 +295,15 @@ public class BonusCalc {
 	public void setExgretiaApplicable(String exgretiaApplicable) {
 		this.exgretiaApplicable = exgretiaApplicable;
 	}
- 
+
+	 
+
 	public double getGrossExgretiaAmt() {
 		return grossExgretiaAmt;
 	}
 
 	public void setGrossExgretiaAmt(double grossExgretiaAmt) {
 		this.grossExgretiaAmt = grossExgretiaAmt;
-	}
-
-	public String getPaidExgretiaDate() {
-		return paidExgretiaDate;
 	}
 
 	public double getDedExgretiaAmt() {
@@ -346,7 +338,15 @@ public class BonusCalc {
 		this.paidExgretiaAmt = paidExgretiaAmt;
 	}
 
-  
+ 
+	public String getPaidExgretiaDate() {
+		return paidExgretiaDate;
+	}
+
+	public void setPaidExgretiaDate(String paidExgretiaDate) {
+		this.paidExgretiaDate = paidExgretiaDate;
+	}
+
 	public String getIsExgretiaFinalized() {
 		return isExgretiaFinalized;
 	}
@@ -434,13 +434,23 @@ public class BonusCalc {
 	public void setExVar2(String exVar2) {
 		this.exVar2 = exVar2;
 	}
+	
+	
+
+	public int getTotalBonusDays() {
+		return totalBonusDays;
+	}
+
+	public void setTotalBonusDays(int totalBonusDays) {
+		this.totalBonusDays = totalBonusDays;
+	}
 
 	@Override
 	public String toString() {
 		return "BonusCalc [bonusCalcId=" + bonusCalcId + ", companyId=" + companyId + ", bonusId=" + bonusId
-				+ ", empId=" + empId + ", companyEmpCode=" + companyEmpCode + ", exgratiaPrcnt=" + exgratiaPrcnt
-				+ ", location=" + location + ", empName=" + empName + ", currAge=" + currAge + ", currDesignation="
-				+ currDesignation + ", bonusDetails=" + bonusDetails + ", totalBonusWages=" + totalBonusWages
+				+ ", empId=" + empId + ", companyEmpCode=" + companyEmpCode + ", location=" + location + ", empName="
+				+ empName + ", currAge=" + currAge + ", currDesignation=" + currDesignation + ", bonusDetails="
+				+ bonusDetails + ", totalBonusDays=" + totalBonusDays + ", totalBonusWages=" + totalBonusWages
 				+ ", bonusApplicable=" + bonusApplicable + ", grossBonusAmt=" + grossBonusAmt + ", dedBonusPujaAmt="
 				+ dedBonusPujaAmt + ", dedBonusAdvAmt=" + dedBonusAdvAmt + ", dedBonusLossAmt=" + dedBonusLossAmt
 				+ ", netBonusAmt=" + netBonusAmt + ", paidBonusAmt=" + paidBonusAmt + ", paidBonusDate=" + paidBonusDate
@@ -448,15 +458,14 @@ public class BonusCalc {
 				+ ", totalExgretiaDays=" + totalExgretiaDays + ", totalExgretiaWages=" + totalExgretiaWages
 				+ ", exgretiaApplicable=" + exgretiaApplicable + ", grossExgretiaAmt=" + grossExgretiaAmt
 				+ ", dedExgretiaAmt=" + dedExgretiaAmt + ", dedReason=" + dedReason + ", netExgretiaAmt="
-				+ netExgretiaAmt + ", paidExgretiaAmt=" + paidExgretiaAmt + ", paidExgretiaDate=" + paidExgretiaDate
-				+ ", isExgretiaFinalized=" + isExgretiaFinalized + ", recStatus=" + recStatus + ", loginIdBonus="
-				+ loginIdBonus + ", loginIdExgretia=" + loginIdExgretia + ", loginTimeBonus=" + loginTimeBonus
-				+ ", loginTimeExgretia=" + loginTimeExgretia + ", delStatus=" + delStatus + ", exInt1=" + exInt1
-				+ ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
+				+ netExgretiaAmt + ", exgratiaPrcnt=" + exgratiaPrcnt + ", paidExgretiaAmt=" + paidExgretiaAmt
+				+ ", paidExgretiaDate=" + paidExgretiaDate + ", isExgretiaFinalized=" + isExgretiaFinalized
+				+ ", recStatus=" + recStatus + ", loginIdBonus=" + loginIdBonus + ", loginIdExgretia=" + loginIdExgretia
+				+ ", loginTimeBonus=" + loginTimeBonus + ", loginTimeExgretia=" + loginTimeExgretia + ", delStatus="
+				+ delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ "]";
 	}
 
-	 
-	 
 	 
 	 
 

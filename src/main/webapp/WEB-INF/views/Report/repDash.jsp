@@ -206,40 +206,7 @@
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 												<a href="#" onclick="getProgReport(1,'showLoanDedRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br /> Employee Loan Amount <a
-													href="#" onclick="getProgReport(0,'showLoanRep')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showLoanRep')" title="PDF"><i
-													class="icon-file-spreadsheet  " style="color: black;"></i></a>
-												<br /> Yearly Loan Report <a href="#"
-													onclick="getProgReport(0,'showEmpAttendanceRep')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEmpAttendanceRep')"
-													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br /> Employee Loan Skip Report
-												<a href="#" onclick="getProgReport(0,'showEmpLateMarkRep')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
-													class="icon-file-spreadsheet  " style="color: black;"></i></a>
-
-												<br /> Employee Partial Pay Loan Report<a href="#"
-													onclick="getProgReport(0,'showEmpLateMarkRep')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
-													class="icon-file-spreadsheet  " style="color: black;"></i></a>
-
-												<br /> Employee Foreclose Loan Report <a href="#"
-													onclick="getProgReport(0,'showEmpLateMarkRep')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
-													class="icon-file-spreadsheet  " style="color: black;"></i></a>
-
-												<br />
+													style="color: black;"></i></a><br /> 
 
 
 											</div>
@@ -359,6 +326,15 @@
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showMlwfStatRep')" title="PDF"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+													<br/>  ESIC Statement <a href="#"
+													onclick="getProgReport(0,'showEsiSummaryRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEsiSummaryRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a><br />
+													
+													
 
 											</div>
 										</div>
@@ -397,7 +373,12 @@
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 												<a href="#" onclick="getProgReport(1,'showBonusRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br />
+													style="color: black;"></i></a><br /> Employee Exgratia Details
+												<a href="#" onclick="getProgReport(0,'showExgratiaRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showExgratiaRep')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a><br />
 
 											</div>
 										</div>
