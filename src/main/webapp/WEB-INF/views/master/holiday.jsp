@@ -163,6 +163,7 @@
 											</select> <span class="validation-invalid-label" id="error_hoCatId"
 												style="display: none;">This field is required.</span>
 										</div>
+										
 									</div>
 
 									<div class="form-group row">
@@ -182,7 +183,10 @@
 												</c:forEach>
 											</select> <span class="validation-invalid-label" id="error_locationId"
 												style="display: none;">This field is required.</span>
+												<div class=" pt-2 text-info font-weight-bold " id="selected_count">Number of Holiday: 
 										</div>
+										</div>
+										
 									</div>
 
 									<div class="form-group row">
@@ -262,10 +266,15 @@
 			return true;
 
 		}
+		$(document).on('change', '#locId', function() {
+			  // Does some stuff and logs the event to the console
+			  //alert( $("#locId :selected").length);
+			  $("#selected_count").html("Number of Holiday: "+$("#locId :selected").length);
+			});
 		$(document)
 				.ready(
 						function($) {
-
+							 
 							$("#submitInsertHoli")
 									.submit(
 											function(e) {
