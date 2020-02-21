@@ -28,6 +28,7 @@ import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Allowances;
 import com.ats.hreasy.model.Bank;
+import com.ats.hreasy.model.CalenderYear;
 import com.ats.hreasy.model.Contractor;
 import com.ats.hreasy.model.Department;
 import com.ats.hreasy.model.Designation;
@@ -83,6 +84,14 @@ public class GraphsController {
 				GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
 				model.addAttribute("empDeatil",empPersInfo);
+				
+				
+				CalenderYear[] calenderYear = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getCalculateYearList", CalenderYear[].class);
+				List<CalenderYear> calYearList = new ArrayList<CalenderYear>(Arrays.asList(calenderYear));
+
+			 
+				model.addAttribute("calYearList", calYearList);
  			 
 		} catch (Exception e) {
 			e.printStackTrace();

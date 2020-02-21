@@ -451,9 +451,56 @@
 											</div>
 										</div>
 									</div>
+									
+									
+									
+									
+									<div class="col-sm-12 col-md-4">
+										<div class="card">
+											<div
+												class="card-header bg-primary text-white header-elements-inline">
+												<h6 class="card-title">Leave Reports</h6>
+												<div class="header-elements"></div>
+											</div>
 
+											<div class="card-body" align="left">
+ 
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-3"
+													for="calYrId">Select
+													Year: </label>
+												<div class="col-lg-5">
+													<select name="calYrId"
+														data-placeholder="Select Sub Company" id="calYrId"
+														class="form-control form-control-select2 ">
+														<option value="">Select  </option>
+															<c:forEach items="${calYearList}" var="calYear">
+															<option value="${calYear.calYrId}">${calYear.calYrFromDate}
+																to ${calYear.calYrToDate}</option>
+														</c:forEach>
+													</select>
+												</div>
+												
+												
+												<input type="hidden" id="empId1" name="empId1"  value="-1">
+												
+												
+												Leave History <a href="#"
+													onclick="getProgReport(0,'showEmpLeaveHistoryRepNew')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmpLeaveHistoryRepNew')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<br />
+												 
+											</div>
+										</div>
+									</div>
+ 
 
 								</div>
+<input
+								type="hidden" id="cal_yr" name="cal_yr" value="0">
 
 								<input type="hidden" id="p" name="p" value="0"> <input
 									type="hidden" id="emp_name" name="emp_name" value="0">
@@ -495,6 +542,13 @@
 			if (prm == 1) {
 
 				document.getElementById("p").value = "1";
+			}
+			
+
+			if ($("#calYrId").length > 0) {
+				var elm = document.getElementById('calYrId');
+				var text = elm.options[elm.selectedIndex].innerHTML;
+				document.getElementById("cal_yr").value = text;
 			}
 
 			if (x.length == 0) {

@@ -130,9 +130,8 @@
 										Designation: </label> <label class="col-form-label col-lg-2"
 										for="locId" style="color: red;"> ${empDeatil.empDesgn}
 									</label> <label class="col-form-label col-lg-2" for="locId">
-										Emp Type: </label> <label class="col-form-label col-lg-2"
-										for="locId" style="color: red;">
-										${empDeatil.empTypeName} </label> <label
+										Emp Type: </label> <label class="col-form-label col-lg-2" for="locId"
+										style="color: red;"> ${empDeatil.empTypeName} </label> <label
 										class="col-form-label col-lg-2" for="locId"> Location:
 									</label> <label class="col-form-label col-lg-2" for="locId"
 										style="color: red;"> ${empDeatil.locName} </label>
@@ -320,7 +319,7 @@
 															title="PDF"><i class="icon-file-spreadsheet  "
 																style="color: black;"></i></a></td>
 													</tr>
-													
+
 													<tr>
 														<td>2</td>
 														<td>Employee PF Statement</td>
@@ -332,7 +331,7 @@
 															title="PDF"><i class="icon-file-spreadsheet  "
 																style="color: black;"></i></a></td>
 													</tr>
-													
+
 													<tr>
 														<td>3</td>
 														<td>Employee Late Mark</td>
@@ -344,8 +343,8 @@
 															title="PDF"><i class="icon-file-spreadsheet  "
 																style="color: black;"></i></a></td>
 													</tr>
-													
-													
+
+
 													<tr>
 														<td>4</td>
 														<td>Loan Statement Details</td>
@@ -360,7 +359,55 @@
 
 												</tbody>
 											</table>
-											<input type="hidden" id="p" name="p" value="0">
+
+
+											<br />
+											<div class="form-group row">
+
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-3"
+													for="calYrId">Select Year: </label>
+												<div class="col-lg-5">
+													<select name="calYrId"
+														data-placeholder="Select Sub Company" id="calYrId"
+														class="form-control form-control-select2 ">
+														<option value="">Select</option>
+														<c:forEach items="${calYearList}" var="calYear">
+															<option value="${calYear.calYrId}">${calYear.calYrFromDate}
+																to ${calYear.calYrToDate}</option>
+														</c:forEach>
+													</select>
+												</div>
+											</div>
+
+											<table
+												class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+												id="printtable1">
+												<thead>
+													<tr class="bg-blue">
+
+														<th width="10%">Sr. No.</th>
+														<th>Report Name</th>
+
+														<th width="10%" class="text-center">Actions</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>1</td>
+														<td>Employee Leave Report</td>
+														<td class="text-center"><a href="#"
+															onclick="getProgReport(0,'showEmpLeaveHistoryRepNew')"
+															title="excel"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a> <a href="#"
+															onclick="getProgReport(1,'showEmpLeaveHistoryRepNew')"
+															title="PDF"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a></td>
+													</tr>
+												</tbody>
+											</table>
+											<input type="hidden" id="p" name="p" value="0"> <input
+												type="hidden" id="cal_yr" name="cal_yr" value="0">
 
 
 										</form>
@@ -440,6 +487,12 @@
 			if (prm == 1) {
 
 				document.getElementById("p").value = "1";
+			}
+
+			if ($("#calYrId").length > 0) {
+				var elm = document.getElementById('calYrId');
+				var text = elm.options[elm.selectedIndex].innerHTML;
+				document.getElementById("cal_yr").value = text;
 			}
 
 			var form = document.getElementById("reportForm");
