@@ -28,6 +28,8 @@ public class LeaveHistory {
 		
 		private int maxCarryforward;
 
+		private String lvsName;
+		
 		public int getLvsId() {
 			return lvsId;
 		}
@@ -124,13 +126,21 @@ public class LeaveHistory {
 			this.maxCarryforward = maxCarryforward;
 		}
 
+		public String getLvsName() {
+			return lvsName;
+		}
+
+		public void setLvsName(String lvsName) {
+			this.lvsName = lvsName;
+		}
+
 		@Override
 		public String toString() {
 			return "LeaveHistory [lvTypeId=" + lvTypeId + ", lvsId=" + lvsId + ", lvTitleShort=" + lvTitleShort
 					+ ", lvTitle=" + lvTitle + ", lvsAllotedLeaves=" + lvsAllotedLeaves + ", balLeave=" + balLeave
 					+ ", aplliedLeaeve=" + aplliedLeaeve + ", sactionLeave=" + sactionLeave + ", isFile=" + isFile
 					+ ", maxAccumulateCarryforward=" + maxAccumulateCarryforward + ", isCarryforward=" + isCarryforward
-					+ ", maxCarryforward=" + maxCarryforward + "]";
+					+ ", maxCarryforward=" + maxCarryforward + ", lvsName=" + lvsName + "]";
 		}
 
 		

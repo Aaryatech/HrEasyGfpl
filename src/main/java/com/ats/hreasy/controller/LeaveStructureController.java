@@ -29,6 +29,7 @@ import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.CalenderYear;
 import com.ats.hreasy.model.EmployeeMaster;
+import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.GetLeaveAuthority;
 import com.ats.hreasy.model.GetStructureAllotment;
 import com.ats.hreasy.model.Info;
@@ -1019,7 +1020,6 @@ public class LeaveStructureController {
 
 				try {
 					empId = Integer.parseInt(request.getParameter("empId"));
-					structId = Integer.parseInt(request.getParameter("structId"));
 
 					map = new LinkedMultiValueMap<>();
 					map.add("empId", empId);
@@ -1029,6 +1029,29 @@ public class LeaveStructureController {
 					previousleavehistorylist = new ArrayList<>(Arrays.asList(leaveHistory));
 					model.addObject("previousleavehistorylist", previousleavehistorylist);
 					model.addObject("empId", empId);
+
+					String previousStructName = new String();
+
+					try {
+						previousStructName = previousleavehistorylist.get(0).getLvsName();
+						model.addObject("previousStructName", previousStructName);
+					} catch (Exception e) {
+
+					}
+				} catch (Exception e) {
+
+					model.addObject("empId", 0);
+
+				}
+
+				try {
+					map = new LinkedMultiValueMap<>();
+					map.add("empId", empId);
+					GetEmployeeDetails empPersInfo = Constants.getRestTemplate().postForObject(
+							Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
+					model.addObject("empDeatil", empPersInfo);
+
+					structId = Integer.parseInt(request.getParameter("structId"));
 					model.addObject("structId", structId);
 
 					map = new LinkedMultiValueMap<>();
@@ -1038,7 +1061,7 @@ public class LeaveStructureController {
 					model.addObject("leaveStructureById", leaveStructureById);
 
 				} catch (Exception e) {
-
+					model.addObject("structId", 0);
 				}
 
 			}
@@ -1111,11 +1134,17 @@ public class LeaveStructureController {
 					leaveBalanceCal.setIsActive(1);
 					leaveBalanceCal.setLvAlloted(0);
 					leaveBalanceCal.setLvbalId(0);
-					/*leaveBalanceCal.setLvCarryFwd(Float.parseFloat(
-							request.getParameter("carryfrwd" + previousleavehistorylist.get(i).getLvTypeId())));*/
+					/*
+					 * leaveBalanceCal.setLvCarryFwd(Float.parseFloat(
+					 * request.getParameter("carryfrwd" +
+					 * previousleavehistorylist.get(i).getLvTypeId())));
+					 */
 					leaveBalanceCal.setLvCarryFwdRemarks("Null");
-					/*leaveBalanceCal.setLvEncash(Float.parseFloat(
-							request.getParameter("inchashLv" + previousleavehistorylist.get(i).getLvTypeId())));*/
+					/*
+					 * leaveBalanceCal.setLvEncash(Float.parseFloat(
+					 * request.getParameter("inchashLv" +
+					 * previousleavehistorylist.get(i).getLvTypeId())));
+					 */
 					leaveBalanceCal.setOpBal(Float.parseFloat(
 							request.getParameter("carryfrwd" + previousleavehistorylist.get(i).getLvTypeId())));
 					leaveBalanceCal.setMakerUserId(1);

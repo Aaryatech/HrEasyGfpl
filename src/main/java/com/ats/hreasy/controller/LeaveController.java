@@ -698,7 +698,7 @@ public class LeaveController {
 				model.addObject("lvsId", leaveHistoryList.get(0).getLvsId());
 			}
 
-			map = new LinkedMultiValueMap<>();
+			/*map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
 			map.add("fromDate", calculateYear.getCalYrFromDate());
 			map.add("toDate", calculateYear.getCalYrToDate());
@@ -714,7 +714,7 @@ public class LeaveController {
 						break;
 					}
 				}
-			}
+			}*/
 
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empId", empId);
