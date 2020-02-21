@@ -178,7 +178,7 @@
 												data-container-css-class="select-sm" data-fouc>
 												<option value="">Select Holidays</option>
 												<c:forEach items="${holiList}" var="holiList">
-													<option value="${holiList.holidayId}">${holiList.holidayName}</option>
+													<option value="${holiList.holidayId}">${holiList.holidayName}-${holiList.holidayDate}</option>
 												</c:forEach>
 											</select> <span class="validation-invalid-label" id="error_locationId"
 												style="display: none;">This field is required.</span>
