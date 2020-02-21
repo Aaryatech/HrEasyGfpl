@@ -388,7 +388,7 @@
 										<div class="card">
 											<div
 												class="card-header bg-primary text-white header-elements-inline">
-												<h6 class="card-title">Pending Loan Reports</h6>
+												<h6 class="card-title">Salary/Loan Statement</h6>
 												<div class="header-elements"></div>
 											</div>
 
@@ -420,6 +420,34 @@
 				onclick="getProgReport(1,'showMlwfStatRep')" title="PDF"><i
 				class="icon-file-spreadsheet  " style="color: black;"></i></a> -->
 
+											</div>
+										</div>
+									</div>
+
+
+									<div class="col-sm-12 col-md-4">
+										<div class="card">
+											<div
+												class="card-header bg-primary text-white header-elements-inline">
+												<h6 class="card-title">Salary Report</h6>
+												<div class="header-elements"></div>
+											</div>
+
+											<div class="card-body" align="left">
+												Employee Overtime Register <a href="#"
+													onclick="getProgReport(0,'showEmpOtReg')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmpOtReg')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a><br />
+
+												 Employee Late Mark <a href="#"
+													onclick="getProgReport(0,'showEmpLateMark')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showEmpLateMark')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<br />
 											</div>
 										</div>
 									</div>
