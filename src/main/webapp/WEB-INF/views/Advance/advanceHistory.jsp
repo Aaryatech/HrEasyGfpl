@@ -90,7 +90,7 @@
 						
 							<div class="form-group row">
 								
-								<label class="col-form-label col-lg-2" for="locId">
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="locId">
 								Year<span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-4">
@@ -107,7 +107,7 @@
  									</select>  
 								</div>
 								
-								<label class="col-form-label col-lg-2" for="empId">
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="empId">
 								Employee<span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-4">

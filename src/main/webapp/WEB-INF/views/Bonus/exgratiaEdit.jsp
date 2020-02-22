@@ -148,7 +148,7 @@
 												onchange="trim(this)">
 										</div>
 
-										<label class="col-form-label col-lg-2" for="shiftName">Exgratia
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="shiftName">Exgratia
 											% <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-4">

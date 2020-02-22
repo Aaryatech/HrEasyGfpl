@@ -121,7 +121,7 @@
 									action="${pageContext.request.contextPath}/submitUpdatePass"
 									id="submitInsertLocaion" method="post">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="locName">Current
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="locName">Current
 											Password <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -134,7 +134,7 @@
 									</div>
 									<div id="abc" style="display: none;">
 										<div class="form-group row">
-											<label class="col-form-label col-lg-2" for="password">New
+											<label class="col-form-label text-info font-weight-bold col-lg-2" for="password">New
 												Password <span style="color: red">* </span>:
 											</label>
 											
@@ -153,7 +153,7 @@
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-form-label col-lg-2" for="password">New
+											<label class="col-form-label text-info font-weight-bold col-lg-2" for="password">New
 												Password <span style="color: red">* </span>:
 											</label>
 											

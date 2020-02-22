@@ -65,7 +65,7 @@
 									action="${pageContext.request.contextPath}/attendaceSheetByHr"
 									id="submitInsertLeave" method="get">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-1" for="date">Select
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="date">Select
 											Date <span style="color: red">* </span> :
 										</label>
 										<div class="col-md-2">

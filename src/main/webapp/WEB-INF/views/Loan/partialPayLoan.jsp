@@ -215,7 +215,7 @@
 									<hr>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="advanceAmt">PartialPay
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="advanceAmt">PartialPay
 											Amount (Rs) <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-4">
@@ -232,7 +232,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="joiningDate">
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="joiningDate">
 											Date <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-4">
@@ -252,7 +252,7 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="remark">
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="remark">
 											Remark <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-4">

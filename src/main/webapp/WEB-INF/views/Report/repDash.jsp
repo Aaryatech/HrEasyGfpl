@@ -250,7 +250,7 @@
 										<div class="col-lg-5">
 											<select name="subCmpId" data-placeholder="Select Sub Company"
 												id="subCmpId" class="form-control form-control-select2 ">
-												<option value="">Select Sub Company</option>
+												<option value="">Select  Company</option>
 												<c:forEach items="${companySubList}" var="companySubList">
 													<option value="${companySubList.companyId}">${companySubList.companyName}</option>
 
@@ -387,7 +387,7 @@
 													for="bonusId">Bonus(F4): </label>
 												<div class="col-lg-5">
 													<select name="bonusId"
-														data-placeholder="Select Sub Company" id="bonusId"
+														data-placeholder="Select Bonus" id="bonusId"
 														class="form-control form-control-select2 ">
 														<option value="">Select Bonus</option>
 														<c:forEach items="${bonusList}" var="bonusList">
@@ -430,7 +430,7 @@
 													for="calYrId">Select Year(F5): </label>
 												<div class="col-lg-5">
 													<select name="calYrId"
-														data-placeholder="Select Sub Company" id="calYrId"
+														data-placeholder="Select Calender Year" id="calYrId"
 														class="form-control form-control-select2 ">
 														<option value="">Select</option>
 														<c:forEach items="${calYearList}" var="calYear">
@@ -552,18 +552,7 @@
 		
 	</script>
 	<script type="text/javascript">
-		// Single picker
-		/* $('.datepickerclass').daterangepicker({
-			singleDatePicker : true,
-			selectMonths : true,
-			selectYears : true,
-			locale : {
-				format : 'DD-MM-YYYY'
-			}
-		});
-*/
-		//daterange-basic_new
-		// Basic initialization
+	 
 		$('.daterange-basic_new').daterangepicker({
 			applyClass : 'bg-slate-600',
 

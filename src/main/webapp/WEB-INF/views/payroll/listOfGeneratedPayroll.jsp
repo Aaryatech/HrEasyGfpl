@@ -111,7 +111,7 @@
 							action="${pageContext.request.contextPath}/listOfGeneratedPayroll"
 							id="listOfGeneratedPayroll" method="get">
 							<div class="form-group row">
-								<label class="col-form-label col-lg-1" for="datepicker">
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="datepicker">
 									Select Month <span style="color: red">* </span> :
 								</label>
 								<div class="col-md-2">

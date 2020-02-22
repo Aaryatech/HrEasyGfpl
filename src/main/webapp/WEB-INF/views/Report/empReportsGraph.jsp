@@ -14,13 +14,15 @@
 <c:url var="getEmpAdvanceGraph" value="/getEmpAdvanceGraph" />
 <c:url var="getEmpLoanGraph" value="/getEmpLoanGraph" />
 <c:url var="getEmpDefaultSalGraph" value="/getEmpDefaultSalGraph" />
+<c:url var="getEmpGrossSalGraph" value="/getEmpGrossSalGraph" />
+
 
 
 <link rel="stylesheet"
-	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
+	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap-datepicker.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-datepicker.js"></script>
 
 <body onload="getGraphs(1)">
 
@@ -267,6 +269,21 @@
 
 													</div>
 												</div>
+												
+													
+												<div class="col-md-10">
+													<div class="box box-primary">
+														<div class="box-header with-border">
+															<h3 class="box-title">Employee Gross Salary Graph</h3>
+
+														</div>
+														<div class="box-body chart-responsive">
+															<div class="chart" id="emp_sal_graph"
+																style="height: 300px;"></div>
+														</div>
+
+													</div>
+												</div>
 											</div>
 
 
@@ -452,7 +469,7 @@
 
 	</div>
 	<!-- /page content -->
-	<script type="text/javascript">
+<!-- 	<script type="text/javascript">
 		// Single picker
 		$(".datepickerclass").datepicker({
 
@@ -462,25 +479,32 @@
 			dateFormat : "mm-yy"
 		});
 	</script>
-	<!-- 
-		<script type="text/javascript">
+	
+	 -->
+	<script type="text/javascript">
 		// Single picker
-		$("#datepickerFromRep").datepicker({
+		/* $("#datepicker").datepicker({
 			changeMonth : true,
 			changeYear : true,
 			yearRange : "-50:+50",
 			dateFormat : "mm-yy"
-		});
+		}); */
+		
+		 $(document).ready(function() {
+		        // month selector
+		        $('.datepickerclass').datepicker({
+		            autoclose: true,
+		            format: "mm-yyyy",
+		            viewMode: "months",
+		            minViewMode: "months"
 
-		//daterange-basic_new
-		// Basic initialization
-		$("#datepickerToRep").datepicker({
-			changeMonth : true,
-			changeYear : true,
-			yearRange : "-50:+50",
-			dateFormat : "mm-yy"
-		});
-	</script> -->
+		        });
+
+
+		    });
+		
+	</script>
+	 
 
 
 	<script type="text/javascript"
@@ -772,6 +796,68 @@
 						}
 
 					});
+			
+			
+			
+			$.getJSON('${getEmpGrossSalGraph}',
+
+					{
+						empId : empId,
+						toDate : toDate,
+						fromDate : fromDate,
+						ajax : 'true'
+
+					}, function(data) {
+
+						google.charts.load('current', {
+							'packages' : [ 'corechart' ]
+						});
+						google.charts.setOnLoadCallback(drawChart);
+
+						function drawChart() {
+
+							var dataTable = new google.visualization.DataTable();
+
+							dataTable.addColumn('string', 'Month-Year'); // Implicit domain column.
+
+							dataTable.addColumn('number', 'Default Gross Salary Amt');
+
+							$.each(data, function(key, dt) {
+
+								dataTable.addRows([
+
+								[ dt.date, dt.defaultSalAmt, ]
+
+								]);
+
+							})
+
+							/* slantedTextAngle: 60 */
+							var options = {
+								hAxis : {
+									title : "Month Year",
+									textPosition : 'out',
+									slantedText : true
+								},
+								vAxis : {
+									title : 'Gross Salary Amount',
+									minValue : 0,
+									viewWindow : {
+										min : 0
+									},
+									format : '0',
+								},
+								colors : [ 'blue' ],
+								theme : 'material'
+							};
+							var chart = new google.visualization.ColumnChart(document
+									.getElementById('emp_sal_graph'));
+
+							chart.draw(dataTable, options);
+						}
+
+					});
+
 
 		}
 	</script>

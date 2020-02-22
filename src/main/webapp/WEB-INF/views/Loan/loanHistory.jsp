@@ -90,7 +90,7 @@
 
 						<div class="form-group row">
 
-							<label class="col-form-label col-lg-2" for="locId"> Year<span
+							<label class="col-form-label text-info font-weight-bold col-lg-2" for="locId"> Year<span
 								style="color: red">* </span>:
 							</label>
 							<div class="col-lg-4">
@@ -108,7 +108,7 @@
 							</div>
 
 
-							<label class="col-form-label col-lg-2" for="status">
+							<label class="col-form-label text-info font-weight-bold col-lg-2" for="status">
 								Status<span style="color: red">* </span>:
 							</label>
 							<div class="col-lg-4">

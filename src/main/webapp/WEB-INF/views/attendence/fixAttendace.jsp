@@ -52,7 +52,7 @@
 							action="${pageContext.request.contextPath}/submitFixAttendaceByDateAndEmp"
 							id="submitInsertLeave" method="post">
 							<div class="form-group row">
-								<label class="col-form-label col-lg-1" for="date">From
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="date">From
 									Date <span style="color: red">* </span> :
 								</label>
 								<div class="col-md-2">
@@ -61,7 +61,7 @@
 										value="" autocomplete="off">
 								</div>
 								<div class="col-lg-1"></div>
-								<label class="col-form-label col-lg-1" for="date">To
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="date">To
 									Date <span style="color: red">* </span> :
 								</label>
 								<div class="col-md-2">

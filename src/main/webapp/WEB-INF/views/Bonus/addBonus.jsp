@@ -97,7 +97,7 @@
 									id="submitBonus" method="post">
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="shiftName">Bonus
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="shiftName">Bonus
 											Period Title <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -112,7 +112,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2">Date Range<span
+										<label class="col-form-label text-info font-weight-bold col-lg-2">Date Range<span
 											style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -128,7 +128,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="shiftName">Bonus
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="shiftName">Bonus
 											% <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -141,7 +141,7 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="shiftName">Exgratia 
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="shiftName">Exgratia 
 											% <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -154,7 +154,7 @@
 									</div>
 									
 										<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="shiftName">Min Days
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="shiftName">Min Days
 										  <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -167,7 +167,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="lvngReson">Remark<span
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="lvngReson">Remark<span
 											style="color: red">* </span> :
 										</label>
 										<div class="col-lg-10">

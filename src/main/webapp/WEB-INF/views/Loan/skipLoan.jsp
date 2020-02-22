@@ -180,7 +180,7 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="remark">
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="remark">
 											Skipping Reason <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-4">

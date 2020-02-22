@@ -109,7 +109,7 @@
 									<input type="hidden" value="${empPersInfo.empId}" id="empId"
 										name="empId">
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="empName">Employee
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="empName">Employee
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -122,7 +122,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="grossSal">Total
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="grossSal">Total
 											Gross Salary <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -133,7 +133,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="voucherNo">Voucher
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="voucherNo">Voucher
 											No. <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -150,7 +150,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="advanceAmt">Advance
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="advanceAmt">Advance
 											Amount <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -175,7 +175,7 @@
 									</div>
 									 -->
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="date">Select
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="date">Select
 											Date <span style="color: red">* </span> :
 										</label>
 										<div class="col-md-10">
@@ -190,7 +190,7 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="reason">
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="reason">
 											Remark <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-4">

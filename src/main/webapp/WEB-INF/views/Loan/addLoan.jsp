@@ -127,7 +127,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="grossSal">
-											Previous Loan Unpaid Amount < : </label>
+											Previous Loan Unpaid Amount : </label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" id="grossSal"
 												readonly="readonly" name="grossSal"
@@ -151,7 +151,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="voucherNo">Loan
-											Application No. <span style="color: red">* </span>:
+											Application No. <span style="color: red"></span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control" readonly="readonly"
@@ -167,8 +167,8 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="advanceAmt">Loan
-											Amount (Rs) <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="advanceAmt">Loan
+											Amount (Rs) <span style="color: red"> *</span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
@@ -180,8 +180,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="month">Rate
-											of Interest (%)<span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="month">Rate
+											of Interest (%)<span style="color: red"> *</span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control" id="roi" name="roi"
@@ -191,8 +191,8 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="month">Loan
-											Tenure In Month <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="month">Loan
+											Tenure In Month <span style="color: red"> *</span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control" id="tenure" value="1"
@@ -205,8 +205,8 @@
 									<div class="form-group row">
 
 
-										<label class="col-form-label col-lg-2" for="startDate">
-											Start Date of Cutting <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="startDate">
+											Start Date of Cutting <span style="color: red"> *</span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control datepickerclass " onchange="calAmt()"
@@ -219,8 +219,8 @@
 									<div class="form-group row">
 
 
-										<label class="col-form-label col-lg-2" for="joiningDate">
-											End Date of Cutting<span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="joiningDate">
+											End Date of Cutting<span style="color: red"> *</span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control datepickerclass "
@@ -230,8 +230,8 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="month">Total
-											Repay Amount <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="month">Total
+											Repay Amount <span style="color: red"> *</span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control" id="repayAmt"
@@ -244,8 +244,8 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="month">Loan
-											EMI <span style="color: red">* </span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="month">Loan
+											EMI <span style="color: red"> *</span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control" id="emi" name="emi"
@@ -257,8 +257,8 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="remark">
-											Remark <span style="color: red">*</span>:
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="remark">
+											Remark <span style="color: red"> *</span>:
 										</label>
 										<div class="col-lg-4">
 											<textarea class="form-control"
