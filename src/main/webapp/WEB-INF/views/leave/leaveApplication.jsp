@@ -188,7 +188,7 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="leaveTypeId">Select
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="leaveTypeId">Select
 											Leave Type <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-4">
@@ -237,7 +237,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2">Date Range<span
+										<label class="col-form-label text-info font-weight-bold col-lg-2">Date Range<span
 											style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
@@ -256,7 +256,7 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="noOfDays">
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="noOfDays">
 											No. of Days<span style="color: red">* </span> :
 										</label>
 										<div class="col-lg-4">
@@ -268,7 +268,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="noOfDaysExclude">
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="noOfDaysExclude">
 											Excluding Weekly Off <span style="color: red">* </span>
 										</label>
 										<div class="col-lg-4">
@@ -283,7 +283,7 @@
 
 									<div id="fileDive" style="display: none;">
 										<div class="form-group row">
-											<label class="col-form-label col-lg-2" for="documentFile">
+											<label class="col-form-label text-info font-weight-bold col-lg-2" for="documentFile">
 												Fitness Certificate </label>
 											<div class="col-lg-5">
 
@@ -299,7 +299,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="lvngReson">Remark<span
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="lvngReson">Remark<span
 											style="color: red">* </span> :
 										</label>
 										<div class="col-lg-10">

@@ -115,10 +115,10 @@
 								<div class="form-group row">
 
 									<label class="col-form-label col-lg-2" for="locId"> Emp
-										Code: </label> <label class="col-form-label col-lg-2" for="locId"
+										Code: </label> <label class="col-form-label text-info font-weight-bold col-lg-2" for="locId"
 										style="color: red;"> ${empDeatil.empCode}</label> <label
 										class="col-form-label col-lg-2" for="locId"> Emp Name:
-									</label> <label class="col-form-label col-lg-5" for="locId"
+									</label> <label class="col-form-label text-info font-weight-bold col-lg-2" for="locId"
 										style="color: red;">${empDeatil.surname}&nbsp;${empDeatil.middleName}&nbsp;${empDeatil.firstName}
 									</label>
 								</div>
@@ -127,13 +127,13 @@
 								<div class="form-group row">
 
 									<label class="col-form-label col-lg-2" for="locId"> Emp
-										Designation: </label> <label class="col-form-label col-lg-2"
+										Designation: </label> <label class="col-form-label text-info font-weight-bold col-lg-2"
 										for="locId" style="color: red;"> ${empDeatil.empDesgn}
 									</label> <label class="col-form-label col-lg-2" for="locId">
-										Emp Type: </label> <label class="col-form-label col-lg-2" for="locId"
+										Emp Type: </label> <label class="col-form-label text-info font-weight-bold col-lg-2" for="locId"
 										style="color: red;"> ${empDeatil.empTypeName} </label> <label
 										class="col-form-label col-lg-2" for="locId"> Location:
-									</label> <label class="col-form-label col-lg-2" for="locId"
+									</label> <label class="col-form-label text-info font-weight-bold col-lg-2" for="locId"
 										style="color: red;"> ${empDeatil.locName} </label>
 
 								</div>

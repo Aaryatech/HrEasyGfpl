@@ -8,10 +8,10 @@
 
 </head>
 <link rel="stylesheet"
-	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
+	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap-datepicker.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-datepicker.js"></script>
 <body>
 
 	<!-- Main navbar -->
@@ -160,9 +160,35 @@
 
 	</div>
 	<!-- /page content -->
+	<script type="text/javascript">
+		 
+		$('.daterange-basic_new').daterangepicker({
+			applyClass : 'bg-slate-600',
+
+			cancelClass : 'btn-light',
+			locale : {
+				format : 'DD-MM-YYYY',
+				separator : ' to '
+			}
+		});
+		 $(document).ready(function() {
+		        // month selector
+		        $('#datepicker').datepicker({
+		            autoclose: true,
+		            format: "mm-yyyy",
+		            viewMode: "months",
+		            minViewMode: "months"
+
+		        });
+
+
+		    });
+		
+		
+	</script>
 
 	<script>
-		$(document).ready(function() {
+	/* 	$(document).ready(function() {
 			// month selector
 			$('.datepicker').datepicker({
 				autoclose : true,
@@ -171,7 +197,7 @@
 				format : 'mm',
 
 			});
-		});
+		}); */
 		$(document)
 				.ready(
 						function($) {

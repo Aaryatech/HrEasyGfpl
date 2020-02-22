@@ -91,7 +91,7 @@
 
 						<form method="post" id="reportForm">
 							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="select2">Select
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
 									Employee <span style="color: red">* </span> :
 								</label>
 								<div class="col-md-2">
@@ -110,7 +110,7 @@
 								</div>
 
 
-								<label class="col-form-label col-lg-2" for="select2">Select
+								<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
 									Year <span style="color: red">* </span> :
 								</label>
 								<div class="col-md-2">

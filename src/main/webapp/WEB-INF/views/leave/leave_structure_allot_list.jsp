@@ -171,7 +171,7 @@
 									method="post" id="assignstuct">
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="lvsId">Select
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="lvsId">Select
 											Structure <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">

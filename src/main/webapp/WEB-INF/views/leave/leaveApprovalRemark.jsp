@@ -276,9 +276,10 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="remark">Any
-											Remark:<c:choose>
-												<c:when test="${stat==7 || stat==8 || stat==9 }">*</c:when>
+										<label
+											class="${stat==7 || stat==8 || stat==9 ? 'col-form-label text-info font-weight-bold col-lg-2' : 'col-form-label col-lg-2'}"
+											for="remark">Any Remark:<c:choose>
+												<c:when test="${stat==7 || stat==8 || stat==9 }"><span class="text-danger">*</span></c:when>
 											</c:choose>
 										</label>
 										<div class="col-lg-10">

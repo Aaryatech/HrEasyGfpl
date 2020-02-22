@@ -112,7 +112,7 @@
 								</c:when>
 								<c:otherwise>
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="select2">Select
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
 											Employee <span style="color: red">* </span> :
 										</label>
 										<div class="col-md-2">
@@ -222,7 +222,7 @@
 										<c:otherwise>
 											<div class="form-group row">
 
-												<label class="col-form-label col-lg-2" for="select2">New
+												<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">New
 													Structure Allotment <span style="color: red">* </span> :
 												</label>
 												<div class="col-md-2">
