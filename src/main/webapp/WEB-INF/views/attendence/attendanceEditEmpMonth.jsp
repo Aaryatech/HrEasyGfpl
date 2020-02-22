@@ -358,7 +358,7 @@
 					document.getElementById("byIntimeDive").style.display = 'none';
 					document.getElementById("byStatusDive").style.display = 'block';
 					document.getElementById("byStatus").checked = true;
-					
+					document.getElementById("dailyId").value = response.id;
 					document.getElementById("attDate").value = response.attDate;
 					document.getElementById("attStatus").value = response.attStatus;
 					 
@@ -371,7 +371,7 @@
 
 					document.getElementById("inTime").value = response.inTime.substr(0, 5);
 					document.getElementById("outTime").value = response.outTime.substr(0, 5);
-					document.getElementById("dailyId").value = response.id;
+					
 					
 					if(response.lateMark==1){
 						document.getElementById("lateMark").checked = true;
