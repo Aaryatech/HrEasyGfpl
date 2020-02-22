@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.text.DateFormat;
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -26,6 +28,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
@@ -34,6 +37,8 @@ import com.ats.hreasy.common.ExportToExcel;
 import com.ats.hreasy.common.ItextPageEvent;
 import com.ats.hreasy.common.ReportCostants;
 import com.ats.hreasy.model.DailyAttendance;
+import com.ats.hreasy.model.graph.EmpDailyAttendanceGraph;
+import com.ats.hreasy.model.graph.EmpDefaultSalaryGraph;
 import com.ats.hreasy.model.report.EmpLateMarkDetails;
 import com.ats.hreasy.model.report.EmpOtReg;
 import com.ats.hreasy.model.report.LoanStatementDetailsReport;
@@ -1880,5 +1885,58 @@ public class ReportController {
 
 		}
 	}
-	
+	/*****************************************************************************/
+	@RequestMapping(value = "/getEmpDefaultSalGraph", method = RequestMethod.GET)
+	public @ResponseBody List<EmpDefaultSalaryGraph>  getEmpAttnGraph(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		List<EmpDefaultSalaryGraph> defSalList = new ArrayList<EmpDefaultSalaryGraph>();
+		
+		String fromDate = new String();
+		String toDate = new String();
+		HttpSession session = request.getSession();
+		String[] shortMonths = new DateFormatSymbols().getShortMonths();
+		try {
+			int empId = Integer.parseInt(request.getParameter("empId"));
+
+			fromDate = request.getParameter("fromDate");
+			toDate = request.getParameter("toDate");
+
+			// System.err.println("fromDate"+fromDate);
+			// System.err.println("toDate"+toDate);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			map.add("companyId", 1);
+			map.add("fromDate", fromDate);
+			map.add("toDate", toDate);
+
+			EmpDefaultSalaryGraph[] salArr = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getDefaultSalByEmpId", map, EmpDefaultSalaryGraph[].class);
+
+			List<EmpDefaultSalaryGraph> salList = new ArrayList<EmpDefaultSalaryGraph>(Arrays.asList(salArr));
+			
+			for (int i = 0; i < salList.size(); i++) {
+				EmpDefaultSalaryGraph emp = new EmpDefaultSalaryGraph();
+				
+				int mnth = salList.get(i).getMonth();
+				int yr = salList.get(i).getYear();
+				
+				String c = Month.of(mnth).name();
+				
+				emp.setDate(shortMonths[mnth-1].concat("-").concat(String.valueOf(yr)));
+				emp.setDefaultSalAmt(salList.get(i).getDefaultSalAmt());				
+				defSalList.add(emp);
+			}
+			
+			System.out.println("List-----------"+defSalList);
+
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return defSalList;
+
+	}
 }

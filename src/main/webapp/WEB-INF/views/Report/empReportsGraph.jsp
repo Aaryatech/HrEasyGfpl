@@ -13,7 +13,7 @@
 <c:url var="getEmpAttnGraph" value="/getEmpAttnGraph" />
 <c:url var="getEmpAdvanceGraph" value="/getEmpAdvanceGraph" />
 <c:url var="getEmpLoanGraph" value="/getEmpLoanGraph" />
-
+<c:url var="getEmpDefaultSalGraph" value="/getEmpDefaultSalGraph" />
 
 
 <link rel="stylesheet"
@@ -247,6 +247,21 @@
 														</div>
 														<div class="box-body chart-responsive">
 															<div class="chart" id="emp_loan_graph"
+																style="height: 300px;"></div>
+														</div>
+
+													</div>
+												</div>
+												
+												
+												<div class="col-md-10">
+													<div class="box box-primary">
+														<div class="box-header with-border">
+															<h3 class="box-title">Employee Default Gross Salary Graph</h3>
+
+														</div>
+														<div class="box-body chart-responsive">
+															<div class="chart" id="emp_def_sal_graph"
 																style="height: 300px;"></div>
 														</div>
 
@@ -698,6 +713,65 @@
 				}
 
 			});
+			
+			$.getJSON('${getEmpDefaultSalGraph}',
+
+					{
+						empId : empId,
+						toDate : toDate,
+						fromDate : fromDate,
+						ajax : 'true'
+
+					}, function(data) {
+
+						google.charts.load('current', {
+							'packages' : [ 'corechart' ]
+						});
+						google.charts.setOnLoadCallback(drawChart);
+
+						function drawChart() {
+
+							var dataTable = new google.visualization.DataTable();
+
+							dataTable.addColumn('string', 'Month-Year'); // Implicit domain column.
+
+							dataTable.addColumn('number', 'Default Gross Salary Amt');
+
+							$.each(data, function(key, dt) {
+
+								dataTable.addRows([
+
+								[ dt.date, dt.defaultSalAmt, ]
+
+								]);
+
+							})
+
+							/* slantedTextAngle: 60 */
+							var options = {
+								hAxis : {
+									title : "Month Year",
+									textPosition : 'out',
+									slantedText : true
+								},
+								vAxis : {
+									title : 'Default Gross Salary Amount',
+									minValue : 0,
+									viewWindow : {
+										min : 0
+									},
+									format : '0',
+								},
+								colors : [ 'blue' ],
+								theme : 'material'
+							};
+							var chart = new google.visualization.ColumnChart(document
+									.getElementById('emp_def_sal_graph'));
+
+							chart.draw(dataTable, options);
+						}
+
+					});
 
 		}
 	</script>
