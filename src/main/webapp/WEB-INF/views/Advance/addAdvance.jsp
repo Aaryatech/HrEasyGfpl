@@ -8,10 +8,10 @@
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 <link rel="stylesheet"
-	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
+	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap-datepicker.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-datepicker.js"></script>
 <c:url value="/checkVoucherNo" var="checkVoucherNo"></c:url>
 <body>
 
@@ -341,15 +341,14 @@
 		});
 		//
 	</script>
-
-	<script type="text/javascript">
+<script type="text/javascript">
 		// Single picker
-		$("#datepicker").datepicker({
+		/* $("#datepicker").datepicker({
 			changeMonth : true,
 			changeYear : true,
 			yearRange : "-50:+50",
 			dateFormat : "mm-yy"
-		});
+		}); */
 
 		//daterange-basic_new
 		// Basic initialization
@@ -362,6 +361,20 @@
 				separator : ' to '
 			}
 		});
+		 $(document).ready(function() {
+		        // month selector
+		        $('#datepicker').datepicker({
+		            autoclose: true,
+		            format: "mm-yyyy",
+		            viewMode: "months",
+		            minViewMode: "months"
+
+		        });
+
+
+		    });
+		
+		
 	</script>
 
 	<!-- <script type="text/javascript">

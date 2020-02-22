@@ -7,42 +7,7 @@
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
-<style>
-* {
-	box-sizing: border-box;
-}
-
-.myInput {
-	background-image: url('https://www.w3schools.com/css/searchicon.png');
-	background-position: 8px 7px;
-	background-repeat: no-repeat;
-	width: 20%;
-	font-size: 16px;
-	padding: 5px 5px 5px 40px;
-	border: 1px solid #ddd;
-	margin-bottom: 12px;
-}
-
-#myTable {
-	border-collapse: collapse;
-	width: 100%;
-	border: 1px solid #ddd;
-	font-size: 18px;
-}
-
-#myTable th, #myTable td {
-	text-align: left;
-	padding: 12px;
-}
-
-#myTable tr {
-	border-bottom: 1px solid #ddd;
-}
-
-#myTable tr.header, #myTable tr:hover {
-	background-color: #f1f1f1;
-}
-</style>
+ 
 
 <body>
 
@@ -145,13 +110,10 @@
 										style="display: none;">This field is required.</span>
 								</div>
 							</div>
-							<input type="text" id="myInput1" class="myInput"
-								onkeyup="myFunction1()" placeholder="Search for employee.."
-								title="Type in a name">
+						 
 							<div class="table-responsive">
-							<table
-									class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
-									id="printtable2">
+							<table class="table datatable-scroll-y" width="100%"
+										id="printtable1">
 								<thead>
 									<tr class="bg-blue">
 
@@ -222,53 +184,7 @@
 
 	</div>
 	<!-- /page content -->
-<script>
-		function myFunction1() {
-			var input, filter, table, tr, i, txtValue, td0, td1, td2, td3, td4, td5, td6, td7, td8;
-			input = document.getElementById("myInput1");
-			filter = input.value.toUpperCase();
-			table = document.getElementById("printtable2");
-			tr = table.getElementsByTagName("tr");
-
-			for (i = 0; i < tr.length; i++) {
-
-				td0 = tr[i].getElementsByTagName("td")[0];
-				td1 = tr[i].getElementsByTagName("td")[1];
-				td2 = tr[i].getElementsByTagName("td")[2];
-				td3 = tr[i].getElementsByTagName("td")[3];
-				td4 = tr[i].getElementsByTagName("td")[4];
-				td5 = tr[i].getElementsByTagName("td")[5];
-				td6 = tr[i].getElementsByTagName("td")[6];
-				td7 = tr[i].getElementsByTagName("td")[7];
-				td8 = tr[i].getElementsByTagName("td")[8];
-
-				if (td0 || td1 || td2 || td3 || td4 || td5 || td6 || td7 || td8) {
-
-					if (td0.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td1.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td2.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td3.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td4.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td5.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td6.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td7.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td8.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
-				}
-			}
-		}
-	</script>
+ 
 
 	<script type="text/javascript">
 		$(document).ready(function($) {
@@ -298,7 +214,9 @@
 
 					var x = true;
 					if (x == true) {
-
+						var table = $('#printtable1')
+						.DataTable();
+						table.search("").draw();
 						document.getElementById("deleteId").disabled = true;
 
 						return true;

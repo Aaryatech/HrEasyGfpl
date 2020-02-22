@@ -14,12 +14,18 @@
 }
 </style>
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
-</head>
+
 <link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap-datepicker.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-datepicker.js"></script>
+</head>
+<!-- <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
+<link rel="stylesheet" href="/resources/demos/style.css"> -->
 <body>
 
 	<!-- Main navbar -->
@@ -67,7 +73,7 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="card-header header-elements-inline">
-							<h3 class="card-title">Report Dashboard</h3>
+							<h3 class="card-title">Report </h3>
 						</div>
 
 
@@ -91,23 +97,23 @@
 
 								<div class="form-group row">
 									<label class="col-form-label col-lg-1" for="date">Select
-										Date <span style="color: red">* </span> :
+										Date(F1) <span style="color: red">* </span> :
 									</label>
 									<div class="col-md-2">
-										<input type="text" class="form-control "
+										<input type="text" class="form-control datepicker"
 											placeholder="Select Date " id="datepicker" name="date"
 											value="${date}" autocomplete="off"> <span
 											class="validation-invalid-label" id="error_datepicker"
 											style="display: none;">Please Select Date. </span>
 									</div>
 
-									<label class="col-form-label col-lg-2">Date Range<span
+									<label class="col-form-label col-lg-2">Date Range(F2)<span
 										style="color: red">* </span>:
 									</label>
 									<div class="col-lg-5">
 										<input type="text" class="form-control daterange-basic_new "
 											name="leaveDateRange" data-placeholder="Select Date"
-											id="leaveDateRange" onchange="calholidayWebservice()">
+											id="leaveDateRange" >
 										<span class="validation-invalid-label" id="error_Range"
 											style="display: none;">This field is required.</span> <span
 											class="validation-invalid-label" id="error_insuf"
@@ -130,21 +136,21 @@
 											<div class="card-body" align="left">
 
 
-												Employee Advance Payment <a href="#"
+												Employee Advance Payment (F1) <a href="#"
 													onclick="getProgReport(0,'showAdvancePaymentRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showAdvancePaymentRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <br /> Yearly Advance Amount <a
-													href="#"
+													style="color: black;"></i></a> <br /> Yearly Advance
+												Amount(F1) <a href="#"
 													onclick="getProgReport(0,'showAdvancePaymentYearlyRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showAdvancePaymentYearlyRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a><br /> Employee Advance Skip
-												Report <a href="#"
+												Report (F1)<a href="#"
 													onclick="getProgReport(0,'showAdvanceSkipRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
@@ -164,25 +170,33 @@
 											</div>
 
 											<div class="card-body" align="left">
-												Attendance Register <a href="#"
+												Attendance Register(F1) <a href="#"
 													onclick="getProgReport(0,'showEmpAttendRegisterRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showEmpAttendRegisterRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <br /> Daily Attendance Report
-												<a href="#"
+													style="color: black;"></i></a> <br /> Daily Attendance
+												Report(F2) <a href="#"
 													onclick="getProgReport(0,'showEmpAttendanceRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showEmpAttendanceRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br /> Employee Late Mark <a
-													href="#" onclick="getProgReport(0,'showEmpLateMarkRep')"
+													style="color: black;"></i></a><br />  
+
+												Employee Overtime Register(F2) <a href="#"
+													onclick="getProgReport(0,'showEmpOtReg')" title="excel"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<a href="#" onclick="getProgReport(1,'showEmpOtReg')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a><br /> Employee Late Mark(F2) <a
+													href="#" onclick="getProgReport(0,'showEmpLateMark')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEmpLateMarkRep')" title="PDF"><i
+													onclick="getProgReport(1,'showEmpLateMark')" title="PDF"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<br />
 
 											</div>
 										</div>
@@ -201,12 +215,27 @@
 
 											<div class="card-body" align="left">
 
-												Loan Deduction Report <a href="#"
+												Loan Deduction Report(F2) <a href="#"
 													onclick="getProgReport(0,'showLoanDedRep')" title="excel"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 												<a href="#" onclick="getProgReport(1,'showLoanDedRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br /> 
+													style="color: black;"></i></a><br />
+													
+													Pending Loan Details(F2) <a href="#"
+													onclick="getProgReport(0,'showPendingLoanRep')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showPendingLoanRep')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a><br />
+
+												Loan Statement Details(F2) <a href="#"
+													onclick="getProgReport(0,'showLoanStatement')"
+													title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <a href="#"
+													onclick="getProgReport(1,'showLoanStatement')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<br />
 
 
 											</div>
@@ -217,7 +246,7 @@
 
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-3"
-											for="subCmpId">Company: </label>
+											for="subCmpId">Company(F3): </label>
 										<div class="col-lg-5">
 											<select name="subCmpId" data-placeholder="Select Sub Company"
 												id="subCmpId" class="form-control form-control-select2 ">
@@ -242,18 +271,19 @@
 
 
 
-												Employee PF Statement<a href="#"
+												Employee PF Statement(F2,F3)<a href="#"
 													onclick="getProgReport(0,'showEmpPfRep')" title="excel"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 												<a href="#" onclick="getProgReport(1,'showEmpPfRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <br /> Employer PF Statement <a
-													href="#" onclick="getProgReport(0,'showEmployerPfRep')"
+													style="color: black;"></i></a> <br /> Employer PF
+												Statement(F2,F3) <a href="#"
+													onclick="getProgReport(0,'showEmployerPfRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showEmployerPfRep')" title="PDF"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a><br />
-												Employee Employer PF Statement <a href="#"
+												Employee Employer PF Statement(F2,F3) <a href="#"
 													onclick="getProgReport(0,'showEmployeeEmployerPfRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
@@ -276,18 +306,18 @@
 											</div>
 
 											<div class="card-body" align="left">
-												PT Challen Statement <a href="#"
+												PT Challen Statement (F2,F3)<a href="#"
 													onclick="getProgReport(0,'getPtChallanRep')" title="excel"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 												<a href="#" onclick="getProgReport(1,'getPtChallanRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a><br /> Professional Tax
-												Statement <a href="#"
+												Statement(F2,F3) <a href="#"
 													onclick="getProgReport(0,'showEmpPTStatRep')" title="excel"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 												<a href="#" onclick="getProgReport(1,'showEmpPTStatRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <br /> MLWF Statement <a
+													style="color: black;"></i></a> <br /> MLWF Statement(F2,F3) <a
 													href="#" onclick="getProgReport(0,'showMlwfStatRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
@@ -308,33 +338,32 @@
 											</div>
 
 											<div class="card-body" align="left">
-												Statutory ESIC Statement <a href="#"
+												Statutory ESIC Statement (F2,F3)<a href="#"
 													onclick="getProgReport(0,'showStatutoryEsicRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showStatutoryEsicRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a><br /> Professional Tax
-												Statement <a href="#"
+												Statement (F2,F3)<a href="#"
 													onclick="getProgReport(0,'showEmpPTStatRep')" title="excel"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 												<a href="#" onclick="getProgReport(1,'showEmpPTStatRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <br /> MLWF Statement <a
+													style="color: black;"></i></a> <br /> MLWF Statement (F2,F3)<a
 													href="#" onclick="getProgReport(0,'showMlwfStatRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showMlwfStatRep')" title="PDF"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
-													<br/>  ESIC Statement <a href="#"
+												<br /> ESIC Statement(F2,F3) <a href="#"
 													onclick="getProgReport(0,'showEsiSummaryRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEsiSummaryRep')"
-													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br />
-													
-													
+													onclick="getProgReport(1,'showEsiSummaryRep')" title="PDF"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a><br />
+
+
 
 											</div>
 										</div>
@@ -355,7 +384,7 @@
 
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-3"
-													for="bonusId">Bonus: </label>
+													for="bonusId">Bonus(F4): </label>
 												<div class="col-lg-5">
 													<select name="bonusId"
 														data-placeholder="Select Sub Company" id="bonusId"
@@ -368,93 +397,24 @@
 													</select>
 												</div>
 
-												Employee Bonus Details <a href="#"
+												Employee Bonus Details(F4) <a href="#"
 													onclick="getProgReport(0,'showBonusRep')" title="excel"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 												<a href="#" onclick="getProgReport(1,'showBonusRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br /> Employee Exgratia Details
-												<a href="#" onclick="getProgReport(0,'showExgratiaRep')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showExgratiaRep')" title="PDF"><i
-													class="icon-file-spreadsheet  " style="color: black;"></i></a><br />
-
-											</div>
-										</div>
-									</div>
-
-									<div class="col-sm-12 col-md-4">
-										<div class="card">
-											<div
-												class="card-header bg-primary text-white header-elements-inline">
-												<h6 class="card-title">Salary/Loan Statement</h6>
-												<div class="header-elements"></div>
-											</div>
-
-											<div class="card-body" align="left">
-												Pending Loan Details <a href="#"
-													onclick="getProgReport(0,'showPendingLoanRep')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showPendingLoanRep')" title="PDF"><i
-													class="icon-file-spreadsheet  " style="color: black;"></i></a><br />
-
-												Loan Statement Details <a href="#"
-													onclick="getProgReport(0,'showLoanStatement')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showLoanStatement')" title="PDF"><i
+													style="color: black;"></i></a><br /> Employee Exgratia
+												Details(F4) <a href="#"
+													onclick="getProgReport(0,'showExgratiaRep')" title="excel"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
-												<br />
-												<!-- Professional Tax
-			Statement <a href="#"
-				onclick="getProgReport(0,'showEmpPTStatRep')" title="excel"><i
-				class="icon-file-spreadsheet  " style="color: black;"></i></a>
-			<a href="#" onclick="getProgReport(1,'showEmpPTStatRep')"
-				title="PDF"><i class="icon-file-spreadsheet  "
-				style="color: black;"></i></a> <br /> MLWF Statement <a
-				href="#" onclick="getProgReport(0,'showMlwfStatRep')"
-				title="excel"><i class="icon-file-spreadsheet  "
-				style="color: black;"></i></a> <a href="#"
-				onclick="getProgReport(1,'showMlwfStatRep')" title="PDF"><i
-				class="icon-file-spreadsheet  " style="color: black;"></i></a> -->
+												<a href="#" onclick="getProgReport(1,'showExgratiaRep')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a><br />
 
 											</div>
 										</div>
 									</div>
-
-
-									<div class="col-sm-12 col-md-4">
-										<div class="card">
-											<div
-												class="card-header bg-primary text-white header-elements-inline">
-												<h6 class="card-title">Salary Report</h6>
-												<div class="header-elements"></div>
-											</div>
-
-											<div class="card-body" align="left">
-												Employee Overtime Register <a href="#"
-													onclick="getProgReport(0,'showEmpOtReg')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEmpOtReg')" title="PDF"><i
-													class="icon-file-spreadsheet  " style="color: black;"></i></a><br />
-
-												 Employee Late Mark <a href="#"
-													onclick="getProgReport(0,'showEmpLateMark')"
-													title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEmpLateMark')" title="PDF"><i
-													class="icon-file-spreadsheet  " style="color: black;"></i></a>
-												<br />
-											</div>
-										</div>
-									</div>
-									
-									
-									
-									
+ 
+ 
 									<div class="col-sm-12 col-md-4">
 										<div class="card">
 											<div
@@ -464,43 +424,41 @@
 											</div>
 
 											<div class="card-body" align="left">
- 
+
 												<label
 													class="col-form-label text-info font-weight-bold col-lg-3"
-													for="calYrId">Select
-													Year: </label>
+													for="calYrId">Select Year(F5): </label>
 												<div class="col-lg-5">
 													<select name="calYrId"
 														data-placeholder="Select Sub Company" id="calYrId"
 														class="form-control form-control-select2 ">
-														<option value="">Select  </option>
-															<c:forEach items="${calYearList}" var="calYear">
+														<option value="">Select</option>
+														<c:forEach items="${calYearList}" var="calYear">
 															<option value="${calYear.calYrId}">${calYear.calYrFromDate}
 																to ${calYear.calYrToDate}</option>
 														</c:forEach>
 													</select>
 												</div>
-												
-												
-												<input type="hidden" id="empId1" name="empId1"  value="-1">
-												
-												
-												Leave History <a href="#"
+
+
+												<input type="hidden" id="empId1" name="empId1" value="-1">
+
+
+												Leave History (F5)<a href="#"
 													onclick="getProgReport(0,'showEmpLeaveHistoryRepNew')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
-													onclick="getProgReport(1,'showEmpLeaveHistoryRepNew')" title="PDF"><i
-													class="icon-file-spreadsheet  " style="color: black;"></i></a>
-												<br />
-												 
+													onclick="getProgReport(1,'showEmpLeaveHistoryRepNew')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a> <br />
+
 											</div>
 										</div>
 									</div>
- 
+
 
 								</div>
-<input
-								type="hidden" id="cal_yr" name="cal_yr" value="0">
+								<input type="hidden" id="cal_yr" name="cal_yr" value="0">
 
 								<input type="hidden" id="p" name="p" value="0"> <input
 									type="hidden" id="emp_name" name="emp_name" value="0">
@@ -543,7 +501,6 @@
 
 				document.getElementById("p").value = "1";
 			}
-			
 
 			if ($("#calYrId").length > 0) {
 				var elm = document.getElementById('calYrId');
@@ -573,16 +530,30 @@
 
 	<script type="text/javascript">
 		// Single picker
-		$("#datepicker").datepicker({
+		/* $("#datepicker").datepicker({
 			changeMonth : true,
 			changeYear : true,
 			yearRange : "-50:+50",
 			dateFormat : "mm-yy"
-		});
+		}); */
+		
+		 $(document).ready(function() {
+		        // month selector
+		        $('#datepicker').datepicker({
+		            autoclose: true,
+		            format: "mm-yyyy",
+		            viewMode: "months",
+		            minViewMode: "months"
+
+		        });
+
+
+		    });
+		
 	</script>
 	<script type="text/javascript">
 		// Single picker
-		$('.datepickerclass').daterangepicker({
+		/* $('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
 			selectMonths : true,
 			selectYears : true,
@@ -590,7 +561,7 @@
 				format : 'DD-MM-YYYY'
 			}
 		});
-
+*/
 		//daterange-basic_new
 		// Basic initialization
 		$('.daterange-basic_new').daterangepicker({
@@ -601,7 +572,7 @@
 				format : 'DD-MM-YYYY',
 				separator : ' to '
 			}
-		});
+		}); 
 	</script>
 
 
