@@ -195,7 +195,10 @@ public class AttendenceController {
 			mav = "attendence/attendanceSelectMonth";
 
 			try {
-
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				Integer countSal = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getSalStructCountEmp", map, Integer.class);
+				model.addAttribute("countSal", countSal);
 				Date dt = new Date();
 				Calendar temp = Calendar.getInstance();
 				temp.setTime(dt);
@@ -212,7 +215,7 @@ public class AttendenceController {
 
 				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				  map = new LinkedMultiValueMap<String, Object>();
 				map.add("fromDate", sf.format(firstDay));
 				map.add("toDate", sf.format(lastDay));
 				InfoForUploadAttendance infoForUploadAttendance = Constants.getRestTemplate().postForObject(
@@ -230,6 +233,11 @@ public class AttendenceController {
 				model.addAttribute("monthName", monthName);
 				model.addAttribute("year", year);
 				model.addAttribute("infoForUploadAttendance", infoForUploadAttendance);
+				
+				
+				
+				
+
 
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,66 +50,71 @@
 						<!-- /title -->
 
 
-
-
 						<div class="card">
+
 							<div class="card-header header-elements-inline">
 								<h6 class="card-title">
 									Attendance process for month <strong> ${monthName}
 										&nbsp;${year}</strong>
-								</h6>
+								</h6><br/>
+								<c:if test="${countSal>0}">
+									<label class="text-danger"> Shift Are not
+										Assigned To Employee </label>
+								</c:if>
 								<div class="header-elements"></div>
 							</div>
 
 							<div class="card-body">
 								<div class="tab-content">
-									<div class="" id="solid-rounded-justified-tab1">
+									<c:if test="${countSal==0}">
+										<div class="" id="solid-rounded-justified-tab1">
 
-										<div
-											class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-right wmin-300 border-0 shadow-0 order-1 order-md-2 sidebar-expand-md card">
 											<div
-												class="card-header bg-transparent header-elements-inline">
-												<span class="card-title font-weight-bold">Stats</span>
+												class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-right wmin-300 border-0 shadow-0 order-1 order-md-2 sidebar-expand-md card">
+												<div
+													class="card-header bg-transparent header-elements-inline">
+													<span class="card-title font-weight-bold">Stats</span>
+
+												</div>
+
+												<div class="card-body p-0">
+													<ul class="nav nav-sidebar my-2">
+														<li class="nav-item"><i class="icon-users"></i> Total
+															Employee <span class="badge bg-info badge-pill ml-auto"
+															id="total_emp">${infoForUploadAttendance.totalEmp}</span></li>
+														<li class="nav-item"><i class="icon-grid4"></i> Total
+															attendance expected <span
+															class="badge bg-info badge-pill ml-auto"
+															id="total_attendce_expected">${(infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp}</span></li>
+														<li class="nav-item"><i class="icon-grid52"></i>
+															Total added by step1 <span
+															class="badge bg-success badge-pill ml-auto"
+															id="total_att_present">${infoForUploadAttendance.updatedByStep1}</span></li>
+														<li class="nav-item"><i class="icon-grid52"></i>
+															Total attendance uploaded <span
+															class="badge bg-danger badge-pill ml-auto"
+															id="by_file_updated">${infoForUploadAttendance.updatedByFile}</span></li>
+													</ul>
+												</div>
 
 											</div>
+											<form name="attendanceStep1" id="attendanceStep1"
+												action="${pageContext.request.contextPath}/attendenceImportExel"
+												method="GET" class="form-inline justify-content-center">
 
-											<div class="card-body p-0">
-												<ul class="nav nav-sidebar my-2">
-													<li class="nav-item"><i class="icon-users"></i> Total
-														Employee <span class="badge bg-info badge-pill ml-auto"
-														id="total_emp">${infoForUploadAttendance.totalEmp}</span></li>
-													<li class="nav-item"><i class="icon-grid4"></i> Total
-														attendance expected <span
-														class="badge bg-info badge-pill ml-auto"
-														id="total_attendce_expected">${(infoForUploadAttendance.dateDiff+1)*infoForUploadAttendance.totalEmp}</span></li>
-													<li class="nav-item"><i class="icon-grid52"></i> Total
-														added by step1 <span
-														class="badge bg-success badge-pill ml-auto"
-														id="total_att_present">${infoForUploadAttendance.updatedByStep1}</span></li>
-													<li class="nav-item"><i class="icon-grid52"></i> Total
-														attendance uploaded <span
-														class="badge bg-danger badge-pill ml-auto"
-														id="by_file_updated">${infoForUploadAttendance.updatedByFile}</span></li>
-												</ul>
-											</div>
-
-										</div>
-										<form name="attendanceStep1" id="attendanceStep1"
-											action="${pageContext.request.contextPath}/attendenceImportExel"
-											method="GET" class="form-inline justify-content-center">
-
-											<input type="hidden" name="mode" id="mode" value="submitform">
-											<div class="form-group ">
-												<label for="staticEmail" class="col-md-12 col-form-label">Month
-													: </label>
+												<input type="hidden" name="mode" id="mode"
+													value="submitform">
+												<div class="form-group ">
+													<label for="staticEmail" class="col-md-12 col-form-label">Month
+														: </label>
 
 
-											</div>
-											<div class="input-group mr-3">
+												</div>
+												<div class="input-group mr-3">
 
-												<input type="text" name="selectMonth" id="datepicker"
-													class="form-control" required />
-												<!-- <select name="selectMonth"
+													<input type="text" name="selectMonth" id="datepicker"
+														class="form-control" required />
+													<!-- <select name="selectMonth"
 													data-placeholder="Please Select" id="selectMonth"
 													class="form-control form-control-select21 select2-hidden-accessible1"
 													tabindex="-1" aria-hidden="true" required="required">
@@ -127,22 +133,23 @@
 													<option value="12">December</option>
 
 												</select> -->
-											</div>
+												</div>
 
-											<button type="submit" class="btn btn-primary   btnActStep1 "
-												id="btnActStep1" data-toggle1="modal"
-												data-target1="#modal_step1">
-												Submit <i class="icon-paperplane ml-2"></i>
-											</button>
+												<button type="submit" class="btn btn-primary   btnActStep1 "
+													id="btnActStep1" data-toggle1="modal"
+													data-target1="#modal_step1">
+													Submit <i class="icon-paperplane ml-2"></i>
+												</button>
 
-										</form>
+											</form>
 
 
-									</div>
-
+										</div>
+									</c:if>
 
 								</div>
 							</div>
+
 						</div>
 					</div>
 				</div>
@@ -161,7 +168,6 @@
 	</div>
 	<!-- /page content -->
 	<script type="text/javascript">
-		 
 		$('.daterange-basic_new').daterangepicker({
 			applyClass : 'bg-slate-600',
 
@@ -171,33 +177,30 @@
 				separator : ' to '
 			}
 		});
-		 $(document).ready(function() {
-		        // month selector
-		        $('#datepicker').datepicker({
-		            autoclose: true,
-		            format: "mm-yyyy",
-		            viewMode: "months",
-		            minViewMode: "months"
+		$(document).ready(function() {
+			// month selector
+			$('#datepicker').datepicker({
+				autoclose : true,
+				format : "mm-yyyy",
+				viewMode : "months",
+				minViewMode : "months"
 
-		        });
+			});
 
-
-		    });
-		
-		
+		});
 	</script>
 
 	<script>
-	/* 	$(document).ready(function() {
-			// month selector
-			$('.datepicker').datepicker({
-				autoclose : true,
-				maxViewMode : 0,
-				minViewMode : 1,
-				format : 'mm',
+		/* 	$(document).ready(function() {
+				// month selector
+				$('.datepicker').datepicker({
+					autoclose : true,
+					maxViewMode : 0,
+					minViewMode : 1,
+					format : 'mm',
 
-			});
-		}); */
+				});
+			}); */
 		$(document)
 				.ready(
 						function($) {

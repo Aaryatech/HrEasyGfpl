@@ -435,7 +435,23 @@
 															onclick="getProgReport(1,'showEmpLeaveHistoryRepNew')"
 															title="PDF"><i class="icon-file-spreadsheet  "
 																style="color: black;"></i></a></td>
+																
+																
+																
 													</tr>
+													<tr>
+														<td>1</td>
+														<td>Employee Leave Application Tracking</td>
+														<td class="text-center"><a href="#"
+															onclick="getProgReport(0,'showEmpLeaveApplicationRep')"
+															title="excel"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a> <a href="#"
+															onclick="getProgReport(1,'showEmpLeaveApplicationRep')"
+															title="PDF"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a></td>
+																
+																
+ 													</tr>
 												</tbody>
 											</table>
 											<input type="hidden" id="p" name="p" value="0"> <input

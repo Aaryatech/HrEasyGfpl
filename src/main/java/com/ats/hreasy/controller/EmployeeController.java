@@ -1301,8 +1301,7 @@ public class EmployeeController {
 				map.add("empId", empId);
 				empSal = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeSalInfo", map,
 						EmpSalaryInfo.class);
-
-			 
+ 
 
 			}
 			empSal.setSalaryInfoId(empSalInfoId); // empSal.setSalaryInfoId(empIdSal.getSalaryInfoId());
@@ -1351,7 +1350,7 @@ public class EmployeeController {
 			empSal.setExInt2(0);
 			empSal.setExVar1("NA");
 			empSal.setExVar2("NA");
-			
+			empSal.setSalaryTypeId(1);
 			
 			int allwnSalId = 0;
  			List<EmpSalAllowance> allowncList = new ArrayList<EmpSalAllowance>();
