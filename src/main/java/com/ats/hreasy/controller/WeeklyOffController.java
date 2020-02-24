@@ -460,24 +460,21 @@ public class WeeklyOffController {
 
 		} else { 
 			model = new ModelAndView("master/changeWeeklyOff");
- 			WeekoffCategory[] location1 = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
-					WeekoffCategory[].class);
- 			List<WeekoffCategory> locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
- 			model.addObject("holiList", locationList1);
+			/*
+			 * WeekoffCategory[] location1 =
+			 * Constants.getRestTemplate().getForObject(Constants.url +
+			 * "/getWeekoffCategoryList", WeekoffCategory[].class); List<WeekoffCategory>
+			 * locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
+			 * model.addObject("holiList", locationList1);
+			 */
  
 			try {
 
-				locId = "0";
-				month = "0";
+ 				month = "0";
 				year = "0";
-				weekoffCatId="0";
+				String empId="0";
 				monthyear="0";
-				try {
-					locId = request.getParameter("locId");
-
-				} catch (Exception e) {
-					locId = "0";
-				}
+				 
 				try {
 					monthyear = request.getParameter("monthyear");
 					String a[]=monthyear.split("-");
@@ -488,37 +485,42 @@ public class WeeklyOffController {
 					month = "0";
 					year = "0";
 				}
-				  
+				
 				
 				try {
-					weekoffCatId = request.getParameter("holiCatId");
-
-				} catch (Exception e) {
-					weekoffCatId = "0";
-				}
-
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("companyId", 1);
-				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
-						Location[].class);
-
-				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+					empId = request.getParameter("empId");
 				 
-			 
-				model.addObject("locationList", locationList);
-				model.addObject("locId", locId);
+				} catch (Exception e) {
+					 empId="0";
+				}
+				  
+				  
+				
+				 
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				/*
+				 * map.add("companyId", 1); Location[] location =
+				 * Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList",
+				 * map, Location[].class);
+				 * 
+				 * List<Location> locationList = new
+				 * ArrayList<Location>(Arrays.asList(location));
+				 * 
+				 * 
+				 * model.addObject("locationList", locationList);
+				 */
 				model.addObject("month", (month));
 				model.addObject("year", (year));
 				model.addObject("monthyear", monthyear);
-
-				model.addObject("weekoffCatId", weekoffCatId);
-
+				/*
+				 * model.addObject("locId", locId);
+				 * 
+				 * model.addObject("weekoffCatId", weekoffCatId);
+				 */
 				map = new LinkedMultiValueMap<>();
-				map.add("companyId", 1);
-				map.add("month", Integer.parseInt(month));
+ 				map.add("month", Integer.parseInt(month));
 				map.add("year", Integer.parseInt(year));
-				map.add("locId", Integer.parseInt(locId));
-				map.add("weekoffCatId", Integer.parseInt(weekoffCatId));
+ 				map.add("empId", Integer.parseInt(empId));
 				
 				String[] strArr = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getWeeklyOffDatesToChange", map, String[].class);
