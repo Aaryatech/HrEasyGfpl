@@ -7,11 +7,9 @@
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
+
+ 
+ 
 <body>
 
 	<!-- Main navbar -->
@@ -95,24 +93,29 @@
 							id="showEmpListToAssignShift" method="get">
 
 							<div class="form-group row">
-								<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
-									Employee <span class="text-danger">* </span> :
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="empId">Employee <span class="text-danger">*</span>:
 								</label>
-								<div class="col-md-2">
-									<select name="empId" data-placeholder="Select Employee"
-										id="empId" class="form-control form-control-select2 "
-										tabindex="-1" aria-hidden="true">
+
+								<div class="col-lg-4">
+									<select name="empId" data-placeholder="Select  " id="empId"
+										class="form-control form-control-select2 select2-hidden-accessible">
+
+										<option value="">Select </option>
 										<option value="-1">All</option>
 										<c:forEach items="${employeeInfoList}" var="empInfo">
 
 											<c:choose>
 												<c:when test="${empInfo.empId==empId}">
 													<option selected value="${empInfo.empId}">${empInfo.surname}
-														${empInfo.firstName} [${empInfo.empCode}] [${empInfo.empDesgn}] </option>
+														${empInfo.firstName} [${empInfo.empCode}]
+														[${empInfo.empDesgn}]</option>
 												</c:when>
 												<c:otherwise>
 													<option value="${empInfo.empId}">${empInfo.surname}
-														${empInfo.firstName} [${empInfo.empCode}] [${empInfo.empDesgn}]</option>
+														${empInfo.firstName} [${empInfo.empCode}]
+														[${empInfo.empDesgn}]</option>
 												</c:otherwise>
 											</c:choose>
 										</c:forEach>
@@ -122,8 +125,10 @@
 
 
 
-								<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
-									Date <span class="text-danger">* </span> :
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="select2">Select Date <span class="text-danger">*
+								</span> :
 								</label>
 								<div class="col-md-2">
 									<select name="date" data-placeholder="Select Employee"
@@ -219,7 +224,7 @@
 										<tr>
 											<td>${count1.index+1}</td>
 											<td>${empList.empCode}</td>
-											<td>${empList.firstName} ${empList.surname}</td>
+											<td>${empList.firstName}${empList.surname}</td>
 											<c:forEach begin="0" end="${days}" step="1"
 												varStatus="count3">
 												<c:forEach items="${daysList}" var="daysList"
@@ -266,8 +271,6 @@
 			yearRange : "-50:+50",
 			dateFormat : "mm-yy"
 		});
-
-		 
 	</script>
 	<script type="text/javascript">
 		$(document).ready(function($) {

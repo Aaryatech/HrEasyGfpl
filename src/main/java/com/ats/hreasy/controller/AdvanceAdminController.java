@@ -458,7 +458,7 @@ public class AdvanceAdminController {
 		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 		Info view = AcessController.checkAccess("showSkipAdvance", "showEmpAdvancePendingList", 0, 0, 1, 0,
 				newModuleList);
-		String skipStr=new String();
+		String skipStr = new String();
 
 		List<AdvanceDetails> advDetList = new ArrayList<>();
 		if (view.isError() == true) {
@@ -511,16 +511,15 @@ public class AdvanceAdminController {
 
 				if (advDetList.size() == 0) {
 					skipStr = "-";
-					
+
 				} else {
-  					for (int i = 1; i < advDetList.size(); i++) {
-  						skipStr = skipStr.concat(",").concat(advDetList.get(i).getSkipRemarks());
- 
+					for (int i = 1; i < advDetList.size(); i++) {
+						skipStr = skipStr.concat(",").concat(advDetList.get(i).getSkipRemarks());
+
 					}
 
- 				}
-				
-				
+				}
+
 				model.addObject("skipStr", skipStr);
 
 			} catch (Exception e) {
@@ -551,16 +550,14 @@ public class AdvanceAdminController {
 
 				Date date2 = new Date();
 				SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				SimpleDateFormat sf= new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
-
+				SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
 
 				String remark = request.getParameter("remark");
 				int count = Integer.parseInt(request.getParameter("count"));
 				int advId = Integer.parseInt(request.getParameter("advId"));
-				
+
 				String skipStr = request.getParameter("skipStr");
 
-				
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("advId", advId);
 				Advance advList = Constants.getRestTemplate().postForObject(Constants.url + "/getAdvanceById", map,
@@ -608,8 +605,8 @@ public class AdvanceAdminController {
 						map.add("dedMonth", oneMonthLater.getMonthValue());
 						map.add("dedYear", oneMonthLater.getYear());
 						map.add("count", count + 1);
-						map.add("skipStr",skipStr.concat(remark));
-						
+						map.add("skipStr", skipStr.concat(remark));
+
 						Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSkipAdvance", map,
 								Info.class);
 
@@ -771,6 +768,8 @@ public class AdvanceAdminController {
 
 			String today = new String();
 			String nextMonthDay = new String();
+			String today1 = new String();
+			String nextMonthDay1 = new String();
 
 			try {
 				empId = request.getParameter("empId");
@@ -782,16 +781,25 @@ public class AdvanceAdminController {
 
 			Date dateToday = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sf2 = new SimpleDateFormat("MM-yyyy");
 
 			today = String.valueOf(sf.format(dateToday));
-			// System.err.println("today" + today);
-			model.addAttribute("today", DateConvertor.convertToDMY(today));
+			today1 = String.valueOf(sf2.format(dateToday));
+
+			 System.err.println("today" + dateToday);
+
+			model.addAttribute("today", today1);
 			LocalDate localDate = LocalDate.parse((today));
 			LocalDate oneMonthLater = localDate.plusMonths(1);
-			// System.err.println("oneMonthLater" + oneMonthLater);
 
 			nextMonthDay = String.valueOf(oneMonthLater);
-			model.addAttribute("nextMonthDay", DateConvertor.convertToDMY(nextMonthDay));
+			System.err.println("nextMonthDay" + nextMonthDay);
+			
+			
+			String temp[]=nextMonthDay.split("-");
+			
+
+			model.addAttribute("nextMonthDay", temp[1].concat("-").concat(temp[0]));
 			// System.err.println("nextMonthDay" +
 			// DateConvertor.convertToDMY(nextMonthDay));
 
