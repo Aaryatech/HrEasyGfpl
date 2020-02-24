@@ -173,6 +173,8 @@
 
 												<th>Employee Name</th>
 												<th>Employee Code</th>
+												<th>Department</th>
+												<th>Designation</th>
 
 
 												<!-- <th>Designation</th> -->
@@ -189,9 +191,9 @@
 														value="${emp.empId}" /></td>
 													<td>${emp.surname}&nbsp;${emp.firstName}</td>
 													<td>${emp.empCode}</td>
+													<td>${emp.deptName}</td>
+ 													<td>${emp.empDesgn}</td>
 
-
-													<%-- <td>${emp.empCategory}</td> --%>
 												</tr>
 											</c:forEach>
 
@@ -214,6 +216,8 @@
 												<!-- <th width="10%">Sr. No.</th> -->
 												<th>Employee Name</th>
 												<th>Employee Code</th>
+												<th>Department</th>
+												<th>Designation</th>
 
 												<!-- <th>Desgn</th> -->
 											</tr>
@@ -230,7 +234,8 @@
 
 													<td>${emp.surname}&nbsp;${emp.firstName}</td>
 													<td>${emp.empCode}</td>
-
+													<td>${emp.deptName}</td>
+													<td>${emp.empDesgn}</td>
 												</tr>
 											</c:forEach>
 

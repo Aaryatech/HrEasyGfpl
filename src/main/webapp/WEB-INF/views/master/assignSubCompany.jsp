@@ -8,6 +8,7 @@
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
  
+
 <body>
 
 	<!-- Main navbar -->
@@ -42,8 +43,7 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee
-										Holiday Category Assignment</h5></td>
+								<td width="60%"><h5 class="card-title">Employee Company Assignment</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
@@ -87,74 +87,73 @@
 							}
 						%>
 						<form
-							action="${pageContext.request.contextPath}/submitAssignHolidayCatToEmp"
+							action="${pageContext.request.contextPath}/submitAssignCompamnyToEmp"
 							id="submitInsertEmp" method="post">
 
 							<div class="form-group row">
 								<label
 									class="col-form-label text-info font-weight-bold col-lg-2"
-									for="locId"> Select Holiday Category <span
+									for="locId"> Select Company <span
 									class="text-danger">* </span>:
 								</label>
 								<div class="col-lg-10">
-									<select name="holiCatId"
-										data-placeholder="Select Holiday Category" id="holiCatId"
+									<select name="compId"
+										data-placeholder="Select Company" id="compId"
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
-										<option value="">Select Holiday Category</option>
-										<c:forEach items="${holiList}" var="holiList">
-											<option value="${holiList.hoCatId}">${holiList.hoCatName}</option>
+										<option value="">Select Company</option>
+										<c:forEach items="${subCompList}" var="holiList">
+											<option value="${holiList.companyId}">${holiList.company_name}</option>
 										</c:forEach>
 									</select> <span class="validation-invalid-label" id="error_shiftId"
 										style="display: none;">This field is required.</span>
 								</div>
 							</div>
-							 
+						 
 							<div class="table-responsive">
 							<table class="table datatable-scroll-y" width="100%"
 										id="printtable1">
-									<thead>
-										<tr class="bg-blue">
+								<thead>
+									<tr class="bg-blue">
 
-											<th width="10%">Sr.no</th>
+										<th width="10%">Sr.no</th>
 
-											<th><input type="checkbox" name="selAll" id="selAll" /></th>
-											<th>Employee Code</th>
-											<th>Employee Name</th>
-											<th>Employee Type</th>
-											<th>Department</th>
-											<th>Designation</th>
-											<th>Location</th>
-											<th>Holiday Category</th>
+										<th><input type="checkbox" name="selAll" id="selAll" /></th>
+										<th>Employee Code</th>
+										<th>Employee Name</th>
+										<th>Employee Type</th>
+										<th>Department</th>
+										<th>Designation</th>
+										<th>Location</th>
+										<th>Company</th>
 
+
+									</tr>
+								</thead>
+								<tbody>
+
+
+									<c:forEach items="${empdetList}" var="empdetList"
+										varStatus="count">
+										<tr>
+
+											<td>${count.index+1}</td>
+											<td><input type="checkbox" id="empId${empdetList.empId}"
+												value="${empdetList.empId}" name="empId" class="select_all"></td>
+											<td>${empdetList.empCode}</td>
+											<td>${empdetList.surname}&nbsp;${empdetList.middleName}&nbsp;${empdetList.firstName}</td>
+											<td>${empdetList.empTypeName}</td>
+											<td>${empdetList.deptName}</td>
+											<td>${empdetList.empDesgn}</td>
+ 											<td>${empdetList.locName}</td>
+											<td>${empdetList.subCompName}</td>
 
 										</tr>
-									</thead>
-									<tbody>
- 
-										<c:forEach items="${empdetList}" var="empdetList"
-											varStatus="count">
-											<tr>
+									</c:forEach>
 
-												<td>${count.index+1}</td>
-												<td><input type="checkbox"
-													id="empId${empdetList.empId}" value="${empdetList.empId}"
-													name="empId" class="select_all"></td>
-												<td>${empdetList.empCode}</td>
-												<td>${empdetList.surname}&nbsp;${empdetList.middleName}&nbsp;${empdetList.firstName}</td>
-												<td>${empdetList.empTypeName}</td>
-												<td>${empdetList.deptName}</td>
-												<td>${empdetList.empDesgn}</td>
-												<td>${empdetList.locName}</td>
-												<td>${empdetList.hoCatName}</td>
-
-											</tr>
-										</c:forEach>
-
-									</tbody>
-								</table>
-							</div>
-							<br/>
+								</tbody>
+							</table>
+</div><br/>
 							<span class="validation-invalid-label" id="error_chk"
 								style="display: none;">Please Select the Employee.</span>
 
@@ -184,61 +183,15 @@
 
 	</div>
 	<!-- /page content -->
-<!-- 
-	<script>
-		function myFunction1() {
-			var input, filter, table, tr, i, txtValue, td0, td1, td2, td3, td4, td5, td6, td7, td8;
-			input = document.getElementById("myInput1");
-			filter = input.value.toUpperCase();
-			table = document.getElementById("printtable2");
-			tr = table.getElementsByTagName("tr");
+ 
 
-			for (i = 0; i < tr.length; i++) {
-
-				td0 = tr[i].getElementsByTagName("td")[0];
-				td1 = tr[i].getElementsByTagName("td")[1];
-				td2 = tr[i].getElementsByTagName("td")[2];
-				td3 = tr[i].getElementsByTagName("td")[3];
-				td4 = tr[i].getElementsByTagName("td")[4];
-				td5 = tr[i].getElementsByTagName("td")[5];
-				td6 = tr[i].getElementsByTagName("td")[6];
-				td7 = tr[i].getElementsByTagName("td")[7];
-				td8 = tr[i].getElementsByTagName("td")[8];
-
-				if (td0 || td1 || td2 || td3 || td4 || td5 || td6 || td7 || td8) {
-
-					if (td0.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td1.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td2.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td3.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td4.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td5.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td6.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td7.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td8.innerText.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
-				}
-			}
-		}
-	</script> -->
 	<script type="text/javascript">
 		$(document).ready(function($) {
 			$("#submitInsertEmp").submit(function(e) {
 
 				var isError = false;
 				var errMsg = "";
-				var holiCatId = $("#holiCatId").val();
+				var compId = $("#compId").val();
 
 				var checked = $("#submitInsertEmp input:checked").length > 0;
 				if (!checked) {
@@ -249,7 +202,7 @@
 					isError = false;
 				}
 				//alert("checked" +checked);
-				if (holiCatId == null || holiCatId == "") {
+				if (compId == null || compId == "") {
 					isError = true;
 					$("#error_shiftId").show()
 				} else {

@@ -147,7 +147,7 @@
 											<td>${empdetList.deptName}</td>
 											<td>${empdetList.empDesgn}</td>
  											<td>${empdetList.locName}</td>
-											<td>${empdetList.salTypeName}</td>
+											<td>${empdetList.woCatName}</td>
 
 										</tr>
 									</c:forEach>

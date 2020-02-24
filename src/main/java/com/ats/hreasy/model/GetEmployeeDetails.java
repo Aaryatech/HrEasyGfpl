@@ -104,7 +104,31 @@ public class GetEmployeeDetails {
 	
 	private String empTypeName;
 	
-
+	
+	private String subCompName;
+	
+	private String hoCatName;
+	
+	
+	private String woCatName;
+	public String getSubCompName() {
+		return subCompName;
+	}
+	public void setSubCompName(String subCompName) {
+		this.subCompName = subCompName;
+	}
+	public String getHoCatName() {
+		return hoCatName;
+	}
+	public void setHoCatName(String hoCatName) {
+		this.hoCatName = hoCatName;
+	}
+	public String getWoCatName() {
+		return woCatName;
+	}
+	public void setWoCatName(String woCatName) {
+		this.woCatName = woCatName;
+	}
 	private String deptName;
 	private String empDesgn;
 	private String locName;
@@ -456,9 +480,9 @@ public class GetEmployeeDetails {
 				+ ", empCategory=" + empCategory + ", exgratiaPerc=" + exgratiaPerc + ", newBasicRate=" + newBasicRate
 				+ ", newHraRate=" + newHraRate + ", newDaRate=" + newDaRate + ", delStatus=" + delStatus + ", exInt1="
 				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", shiftname="
-				+ shiftname + ", empTypeName=" + empTypeName + ", deptName=" + deptName + ", empDesgn=" + empDesgn
+				+ shiftname + ", empTypeName=" + empTypeName + ", subCompName=" + subCompName + ", hoCatName="
+				+ hoCatName + ", woCatName=" + woCatName + ", deptName=" + deptName + ", empDesgn=" + empDesgn
 				+ ", locName=" + locName + ", orgName=" + orgName + ", salTypeName=" + salTypeName + "]";
 	}
 	 
-
 }

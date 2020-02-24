@@ -142,6 +142,8 @@
 
 													<th>Employee Name</th>
 													<th>Employee Code</th>
+													<th>Department</th>
+													<th>Designation</th>
 
 													<!-- <th>Designation</th> -->
 
@@ -158,6 +160,8 @@
 															id="empIds${count.index+1}" checked value="${emp.empId}" /></td>
 														<td>${emp.surname}&nbsp;${emp.firstName}</td>
 														<td>${emp.empCode}</td>
+														<td>${emp.deptName}</td>
+														<td>${emp.empDesgn}</td>
 
 														<%-- <td>${emp.empCategory}</td> --%>
 													</tr>
@@ -182,6 +186,8 @@
 												<!-- <th width="10%">Sr. No.</th> -->
 												<th>Employee Name</th>
 												<th>Employee Code</th>
+												<th>Department</th>
+												<th>Designation</th>
 
 												<!-- <th  >Desgn</th> -->
 											</tr>
@@ -230,6 +236,8 @@
 														</c:choose></td>
 													<td>${emp.surname}&nbsp;${emp.firstName}</td>
 													<td>${emp.empCode}</td>
+													<td>${emp.deptName}</td>
+													<td>${emp.empDesgn}</td>
 
 													<%-- <td  >${emp.empCategory}</td> --%>
 												</tr>

@@ -596,17 +596,17 @@ public class LeaveStructureController {
 			} else {
 				model = new ModelAndView("leave/authority_add");
 
-				EmployeeMaster[] employeeMaster = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getEmplistForAssignAuthority", EmployeeMaster[].class);
+				GetEmployeeDetails[] employeeMaster = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getEmplistForAssignAuthority", GetEmployeeDetails[].class);
 
-				List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>(Arrays.asList(employeeMaster));
+				List<GetEmployeeDetails> empList = new ArrayList<GetEmployeeDetails>(Arrays.asList(employeeMaster));
 
 				model.addObject("empList", empList);
 
-				EmployeeMaster[] empInfoError = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getEmpInfoListForLeaveAuth", EmployeeMaster[].class);
+				GetEmployeeDetails[] empInfoError = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getEmpInfoListForLeaveAuth", GetEmployeeDetails[].class);
 
-				List<EmployeeMaster> employeeInfo = new ArrayList<>(Arrays.asList(empInfoError));
+				List<GetEmployeeDetails>  employeeInfo = new ArrayList<>(Arrays.asList(empInfoError));
 				model.addObject("empListAuth", employeeInfo);
 
 			}
@@ -782,17 +782,17 @@ public class LeaveStructureController {
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
-				EmployeeMaster[] employeeMaster = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getEmplistForAssignAuthority", EmployeeMaster[].class);
+				GetEmployeeDetails[] employeeMaster = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getEmplistForAssignAuthority", GetEmployeeDetails[].class);
 
-				List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>(Arrays.asList(employeeMaster));
+				List<GetEmployeeDetails> empList = new ArrayList<GetEmployeeDetails>(Arrays.asList(employeeMaster));
 
 				model.addObject("empList", empList);
 				map.add("empIdList", empId);
-				EmployeeMaster[] empInfoError = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getEmpInfoListByEmpIdList", map, EmployeeMaster[].class);
+				GetEmployeeDetails[] empInfoError = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getEmpInfoListByEmpIdList", map, GetEmployeeDetails[].class);
 
-				List<EmployeeMaster> employeeInfo = new ArrayList<>(Arrays.asList(empInfoError));
+				List<GetEmployeeDetails>employeeInfo = new ArrayList<>(Arrays.asList(empInfoError));
 				model.addObject("empListAuth", employeeInfo);
 				model.addObject("space", " ");
 

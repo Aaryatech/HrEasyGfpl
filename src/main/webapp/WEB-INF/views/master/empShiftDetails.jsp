@@ -8,8 +8,8 @@
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
- 
- 
+
+
 <body>
 
 	<!-- Main navbar -->
@@ -102,8 +102,15 @@
 									<select name="empId" data-placeholder="Select  " id="empId"
 										class="form-control form-control-select2 select2-hidden-accessible">
 
-										<option value="">Select </option>
-										<option value="-1">All</option>
+										<option value="">Select Employee</option>
+										<c:set var="selflag" value="0"></c:set>
+										<c:if test="${empId==-1}">
+											<option selected value="-1">All</option>
+											<c:set var="selflag" value="1"></c:set>
+										</c:if>
+										<c:if test="${selFlag==0}">
+ 											<option value="-1">All</option>
+										</c:if>
 										<c:forEach items="${employeeInfoList}" var="empInfo">
 
 											<c:choose>
