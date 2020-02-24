@@ -388,7 +388,19 @@
 															title="PDF"><i class="icon-file-spreadsheet  "
 																style="color: black;"></i></a></td>
 													</tr>
-
+													
+													<tr>
+														<td>4</td>
+														<td>Payment Deduction Details</td>
+														<td class="text-center"><a href="#"
+															onclick="getProgReport(0,'showEmpDedRep')"
+															title="excel"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a> <a href="#"
+															onclick="getProgReport(1,'showEmpDedRep')"
+															title="PDF"><i class="icon-file-spreadsheet  "
+																style="color: black;"></i></a></td>
+													</tr>
+													 
 												</tbody>
 											</table>
 

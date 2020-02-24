@@ -73,7 +73,7 @@
 				<div class="card">
 					<div class="card-body">
 						<div class="card-header header-elements-inline">
-							<h3 class="card-title">Report </h3>
+							<h3 class="card-title">Report</h3>
 						</div>
 
 
@@ -113,8 +113,8 @@
 									<div class="col-lg-5">
 										<input type="text" class="form-control daterange-basic_new "
 											name="leaveDateRange" data-placeholder="Select Date"
-											id="leaveDateRange" >
-										<span class="validation-invalid-label" id="error_Range"
+											id="leaveDateRange"> <span
+											class="validation-invalid-label" id="error_Range"
 											style="display: none;">This field is required.</span> <span
 											class="validation-invalid-label" id="error_insuf"
 											style="display: none;">Insufficient Leaves.</span>
@@ -183,9 +183,8 @@
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showEmpAttendanceRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br />  
-
-												Employee Overtime Register(F2) <a href="#"
+													style="color: black;"></i></a><br /> Employee Overtime
+												Register(F2) <a href="#"
 													onclick="getProgReport(0,'showEmpOtReg')" title="excel"><i
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 												<a href="#" onclick="getProgReport(1,'showEmpOtReg')"
@@ -220,10 +219,8 @@
 													class="icon-file-spreadsheet  " style="color: black;"></i></a>
 												<a href="#" onclick="getProgReport(1,'showLoanDedRep')"
 													title="PDF"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a><br />
-													
-													Pending Loan Details(F2) <a href="#"
-													onclick="getProgReport(0,'showPendingLoanRep')"
+													style="color: black;"></i></a><br /> Pending Loan Details(F2)
+												<a href="#" onclick="getProgReport(0,'showPendingLoanRep')"
 													title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a> <a href="#"
 													onclick="getProgReport(1,'showPendingLoanRep')" title="PDF"><i
@@ -250,7 +247,7 @@
 										<div class="col-lg-5">
 											<select name="subCmpId" data-placeholder="Select Sub Company"
 												id="subCmpId" class="form-control form-control-select2 ">
-												<option value="">Select  Company</option>
+												<option value="">Select Company</option>
 												<c:forEach items="${companySubList}" var="companySubList">
 													<option value="${companySubList.companyId}">${companySubList.companyName}</option>
 
@@ -268,8 +265,6 @@
 											</div>
 
 											<div class="card-body" align="left">
-
-
 
 												Employee PF Statement(F2,F3)<a href="#"
 													onclick="getProgReport(0,'showEmpPfRep')" title="excel"><i
@@ -364,6 +359,14 @@
 													class="icon-file-spreadsheet  " style="color: black;"></i></a><br />
 
 
+												Employee Payment Deduction(F2) <a href="#"
+													onclick="getProgReport(0,'showEmpDedRepAll')" title="excel"><i
+													class="icon-file-spreadsheet  " style="color: black;"></i></a>
+												<a href="#" onclick="getProgReport(1,'showEmpDedRepAll')"
+													title="PDF"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a><br />
+
+
 
 											</div>
 										</div>
@@ -386,9 +389,8 @@
 													class="col-form-label text-info font-weight-bold col-lg-3"
 													for="bonusId">Bonus(F4): </label>
 												<div class="col-lg-5">
-													<select name="bonusId"
-														data-placeholder="Select Bonus" id="bonusId"
-														class="form-control form-control-select2 ">
+													<select name="bonusId" data-placeholder="Select Bonus"
+														id="bonusId" class="form-control form-control-select2 ">
 														<option value="">Select Bonus</option>
 														<c:forEach items="${bonusList}" var="bonusList">
 															<option value="${bonusList.bonusId}">${bonusList.fyTitle}</option>
@@ -413,8 +415,8 @@
 											</div>
 										</div>
 									</div>
- 
- 
+
+
 									<div class="col-sm-12 col-md-4">
 										<div class="card">
 											<div
@@ -455,6 +457,10 @@
 											</div>
 										</div>
 									</div>
+
+
+
+
 
 
 								</div>
@@ -536,23 +542,20 @@
 			yearRange : "-50:+50",
 			dateFormat : "mm-yy"
 		}); */
-		
-		 $(document).ready(function() {
-		        // month selector
-		        $('#datepicker').datepicker({
-		            autoclose: true,
-		            format: "mm-yyyy",
-		            viewMode: "months",
-		            minViewMode: "months"
 
-		        });
+		$(document).ready(function() {
+			// month selector
+			$('#datepicker').datepicker({
+				autoclose : true,
+				format : "mm-yyyy",
+				viewMode : "months",
+				minViewMode : "months"
 
+			});
 
-		    });
-		
+		});
 	</script>
 	<script type="text/javascript">
-	 
 		$('.daterange-basic_new').daterangepicker({
 			applyClass : 'bg-slate-600',
 
@@ -561,7 +564,7 @@
 				format : 'DD-MM-YYYY',
 				separator : ' to '
 			}
-		}); 
+		});
 	</script>
 
 
