@@ -171,8 +171,10 @@
 									method="post" id="assignstuct">
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="lvsId">Select
-											Structure <span style="color: red">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="lvsId">Select Structure <span style="color: red">*
+										</span>:
 										</label>
 										<div class="col-lg-10">
 											<select name="lvsId" data-placeholder="Select Structure"
@@ -202,6 +204,8 @@
 												<th width="5%">Sr. No.</th>
 												<th width="10%">Employee Code</th>
 												<th>Employee Name</th>
+												<th>Department</th>
+												<th>Designation</th>
 
 											</tr>
 										</thead>
@@ -236,7 +240,8 @@
 															<c:set var="index" value="${index+1}"></c:set>
 															<td>${structure.empCode}</td>
 															<td>${structure.empSname}&nbsp;${structure.empFname}</td>
-
+															<td>${structure.empDeptName}</td>
+															<td>${structure.empCatName}</td>
 														</tr>
 													</c:otherwise>
 												</c:choose>
@@ -274,7 +279,8 @@
 												<th width="5%">Sr. No.</th>
 												<th width="10%">Employee Code</th>
 												<th>Employee Name</th>
-
+												<th>Department</th>
+												<th>Designation</th>
 												<th width="20%">Structure</th>
 
 
@@ -309,7 +315,10 @@
 															<c:set var="index" value="${index+1}"></c:set>
 															<td>${structure.empCode}</td>
 															<td>${structure.empSname}&nbsp;${structure.empFname}</td>
+															<td>${structure.empDeptName}</td>
+															<td>${structure.empCatName}</td>
 															<td>${structure.lvsName}</td>
+
 														</tr>
 													</c:when>
 												</c:choose>

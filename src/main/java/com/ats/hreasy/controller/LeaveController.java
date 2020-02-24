@@ -54,6 +54,7 @@ import com.ats.hreasy.model.EmpLeaveHistoryRep;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.FileUploadedData;
 import com.ats.hreasy.model.GetAuthorityIds;
+import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.GetLeaveApplyAuthwise;
 import com.ats.hreasy.model.GetLeaveStatus;
 import com.ats.hreasy.model.Info;
@@ -541,10 +542,10 @@ public class LeaveController {
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("empId", userObj.getEmpId());
 
-				EmployeeMaster[] employeeDepartment = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getAuthorityWiseEmpListByEmpId", map, EmployeeMaster[].class);
+				GetEmployeeDetails[] employeeDepartment = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAuthorityWiseEmpListByEmpId", map, GetEmployeeDetails[].class);
 
-				List<EmployeeMaster> employeeDepartmentlist = new ArrayList<EmployeeMaster>(
+				List<GetEmployeeDetails> employeeDepartmentlist = new ArrayList<GetEmployeeDetails>(
 						Arrays.asList(employeeDepartment));
 
 				for (int i = 0; i < employeeDepartmentlist.size(); i++) {

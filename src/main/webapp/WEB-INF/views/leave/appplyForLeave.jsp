@@ -129,6 +129,8 @@
 									<th>Name</th>
 									<th>Email</th>
 									<th>Mobile</th>
+									<th>Department</th>
+									<th>Designation</th>
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
 							</thead>
@@ -143,6 +145,8 @@
 
 											<td>${empList.emailId}</td>
 											<td>${empList.mobileNo1}</td>
+											<td>${empList.deptName}</td>
+											<td>${empList.empDesgn}</td>
 
 											<td class="text-center"><c:if test="${addAccess == 0}">
 													<a
@@ -167,6 +171,9 @@
 
 											<td>${empList.emailId}</td>
 											<td>${empList.mobileNo1}</td>
+											<td>${empList.deptName}</td>
+											<td>${empList.empDesgn}</td>
+											
 
 											<td class="text-center"><c:if test="${addAccess == 0}">
 													<a

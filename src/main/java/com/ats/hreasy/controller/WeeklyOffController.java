@@ -504,12 +504,7 @@ public class WeeklyOffController {
 
 				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
 				 
-				/*WeekoffCategory[] weekoffCategory = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
-						WeekoffCategory[].class);
-				List<WeekoffCategory> weekoffCategoryList = new ArrayList<WeekoffCategory>(Arrays.asList(weekoffCategory));
-				
-				//System.err.println("locationList" + locationList.toString());
-				model.addObject("weekoffCategoryList", weekoffCategoryList);*/
+			 
 				model.addObject("locationList", locationList);
 				model.addObject("locId", locId);
 				model.addObject("month", (month));
