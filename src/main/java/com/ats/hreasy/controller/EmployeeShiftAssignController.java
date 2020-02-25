@@ -26,6 +26,8 @@ import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.common.HoursConversion;
 import com.ats.hreasy.model.AccessRightModule;
+import com.ats.hreasy.model.Department;
+import com.ats.hreasy.model.Designation;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.HolidayCategory;
@@ -313,7 +315,6 @@ public class EmployeeShiftAssignController {
 				String woRemarks = request.getParameter("woRemarks");
 				String prodApplicable = request.getParameter("prodApplicable");
 
-
 				Boolean ret = false;
 
 				if (FormValidation.Validaton(lateMark, "") == true) {
@@ -362,11 +363,11 @@ public class EmployeeShiftAssignController {
 					ret = true;
 					System.out.println("prodApplicable" + ret);
 				}
-				//System.err.println("minWorkHr"+minWorkHr);
+				// System.err.println("minWorkHr"+minWorkHr);
 
 				if (ret == false) {
-					//String mnghr1 = HoursConversion.convertHoursToMin(minWorkHr);
-					//System.err.println("mnghr1"+mnghr1);
+					// String mnghr1 = HoursConversion.convertHoursToMin(minWorkHr);
+					// System.err.println("mnghr1"+mnghr1);
 					MstEmpType mstEmpType = new MstEmpType();
 
 					mstEmpType.setAttType("0");
@@ -458,7 +459,7 @@ public class EmployeeShiftAssignController {
 
 					locationList.get(i)
 							.setAttType(FormValidation.Encrypt(String.valueOf(locationList.get(i).getEmpTypeId())));
-					//editMstType.setMinWorkHr(HoursConversion.convertMinToHours(editMstType.getMinWorkHr()));
+					// editMstType.setMinWorkHr(HoursConversion.convertMinToHours(editMstType.getMinWorkHr()));
 
 					/*
 					 * locationList.get(i)
@@ -609,7 +610,7 @@ public class EmployeeShiftAssignController {
 				String woRemarks = request.getParameter("woRemarks");
 				String empTypeId = request.getParameter("empTypeId");
 				String prodApplicable = request.getParameter("prodApplicable");
-				
+
 				if (otApplicable.equals("Yes")) {
 					otType = request.getParameter("otType");
 				} else {
@@ -667,7 +668,7 @@ public class EmployeeShiftAssignController {
 					System.out.println("prodApplicable" + ret);
 				}
 				if (ret == false) {
-					//String mnghr1 = HoursConversion.convertHoursToMin(minWorkHr);
+					// String mnghr1 = HoursConversion.convertHoursToMin(minWorkHr);
 					MstEmpType mstEmpType = new MstEmpType();
 
 					mstEmpType.setAttType("0");
@@ -698,8 +699,6 @@ public class EmployeeShiftAssignController {
 					mstEmpType.setExVar1("NA");
 					mstEmpType.setExVar2("NA");
 
-					
-					
 					// mstEmpType.setStatus(status);
 					// mstEmpType.setWeeklyHolidayLateAllowed(weeklyHolidayLateAllowed);
 					// mstEmpType.setWeeklyHolidayLateAllowedMin(weeklyHolidayLateAllowedMin);
@@ -729,24 +728,18 @@ public class EmployeeShiftAssignController {
 		return "redirect:/showMstEmpTypeList";
 	}
 
-	
-	
 	@RequestMapping(value = "/assignWeekoffCategory", method = RequestMethod.GET)
 	public String assignWeekoffCategory(HttpServletRequest request, HttpServletResponse response, Model model) {
 		HttpSession session = request.getSession();
 		String ret = new String();
-		/*
-		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-		 * session.getAttribute("moduleJsonList"); Info view =
-		 * AcessController.checkAccess("showEmpListToAssignSalStruct",
-		 * "showEmpListToAssignSalStruct", 1, 0, 0, 0, newModuleList);
-		 * 
-		 * if (view.isError() == true) {
-		 * 
-		 * model = new ModelAndView("accessDenied");
-		 * 
-		 * } else {
-		 */
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("assignWeekoffCategory", "assignWeekoffCategory", 1, 0, 0, 0, newModuleList);
+
+		if (view.isError() == true) {
+			ret = "accessDenied";
+
+		} else {
+
 		ret = "master/assignWeekoffCategory";
 
 		try {
@@ -757,22 +750,20 @@ public class EmployeeShiftAssignController {
 			List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
 			model.addAttribute("empdetList", empdetList);
 
-			WeekoffCategory[] location1 = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
-					WeekoffCategory[].class);
+			WeekoffCategory[] location1 = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getWeekoffCategoryList", WeekoffCategory[].class);
 
 			List<WeekoffCategory> locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
- 
+
 			model.addAttribute("holiList", locationList1);
 
- 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// }
+	  }
 		return ret;
 	}
-	
-	
+
 	@RequestMapping(value = "/submitAssignWeekoffCatToEmp", method = RequestMethod.POST)
 	public String submitAssignHolidayCatToEmp(HttpServletRequest request, HttpServletResponse response) {
 
@@ -808,10 +799,8 @@ public class EmployeeShiftAssignController {
 
 			StringBuilder sbEmp = new StringBuilder();
 
-		 
-
 			map.add("empIdList", items);
-			map.add("holiCatId", holiCatId);
+			map.add("upDateId", holiCatId);
 			map.add("flag", 8);
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
@@ -824,66 +813,55 @@ public class EmployeeShiftAssignController {
 
 		return "redirect:/assignWeekoffCategory";
 	}
-	
-	
-	//***********************Assignment of Emp Masters to Emp*********************
-	
-	
-	
+
+	// ***********************Assignment of Emp Masters to Emp*********************
+
 	@RequestMapping(value = "/assignSubCompany", method = RequestMethod.GET)
 	public String assignSubCompanyCategory(HttpServletRequest request, HttpServletResponse response, Model model) {
 		HttpSession session = request.getSession();
 		String ret = new String();
-		/*
-		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
-		 * session.getAttribute("moduleJsonList"); Info view =
-		 * AcessController.checkAccess("showEmpListToAssignSalStruct",
-		 * "showEmpListToAssignSalStruct", 1, 0, 0, 0, newModuleList);
-		 * 
-		 * if (view.isError() == true) {
-		 * 
-		 * model = new ModelAndView("accessDenied");
-		 * 
-		 * } else {
-		 */
-		ret = "master/assignWeekoffCategory";
 
-		try {
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("assignSubCompany", "assignSubCompany", 1, 0, 0, 0, newModuleList);
 
-			GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+		if (view.isError() == true) {
+			ret = "accessDenied";
 
-			List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
-			model.addAttribute("empdetList", empdetList);
+		} else {
 
-			MstCompanySub[] location1 = Constants.getRestTemplate().getForObject(Constants.url + "/getAllActiveSubCompanies",
-					MstCompanySub[].class);
+			ret = "master/assignSubCompany";
 
-			List<MstCompanySub> locationList1 = new ArrayList<MstCompanySub>(Arrays.asList(location1));
- 
-			model.addAttribute("subCompList", locationList1);
+			try {
 
- 
-		} catch (Exception e) {
-			e.printStackTrace();
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+				model.addAttribute("empdetList", empdetList);
+
+				MstCompanySub[] location1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllActiveSubCompanies", MstCompanySub[].class);
+
+				List<MstCompanySub> locationList1 = new ArrayList<MstCompanySub>(Arrays.asList(location1));
+
+				model.addAttribute("subCompList", locationList1);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		// }
 		return ret;
 	}
-	
-	
-	
-	
-	
+
 	@RequestMapping(value = "/submitAssignCompamnyToEmp", method = RequestMethod.POST)
 	public String submitAssignCompamnyToEmp(HttpServletRequest request, HttpServletResponse response) {
 
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
 
-			String holiCatId = null;
+			String compId = null;
 			try {
-				holiCatId = request.getParameter("holiCatId");
+				compId = request.getParameter("compId");
 			} catch (Exception e) {
 				e.printStackTrace();
 
@@ -910,12 +888,11 @@ public class EmployeeShiftAssignController {
 
 			StringBuilder sbEmp = new StringBuilder();
 
-		 
-
 			map.add("empIdList", items);
-			map.add("holiCatId", holiCatId);
+			map.add("upDateId", compId);
+			map.add("flag", 2);
 
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/weekoffCatAssignmentUpdate", map,
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
 					Info.class);
 
 		} catch (Exception e) {
@@ -923,8 +900,364 @@ public class EmployeeShiftAssignController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/assignWeekoffCategory";
+		return "redirect:/assignSubCompany";
 	}
-	
-	 
+
+	@RequestMapping(value = "/assignDept", method = RequestMethod.GET)
+	public String assignDept(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+		String ret = new String();
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("assignDept", "assignDept", 1, 0, 0, 0, newModuleList);
+
+		if (view.isError() == true) {
+			ret = "accessDenied";
+
+		} else {
+
+			ret = "master/assignDept";
+
+			try {
+
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+				model.addAttribute("empdetList", empdetList);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+
+				Department[] department = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllDepartments", map, Department[].class);
+
+				List<Department> departmentList = new ArrayList<Department>(Arrays.asList(department));
+
+				model.addAttribute("departmentList", departmentList);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+
+	@RequestMapping(value = "/submitAssignDeptToEmp", method = RequestMethod.POST)
+	public String submitAssignDeptToEmp(HttpServletRequest request, HttpServletResponse response) {
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+
+			String deptId = null;
+			try {
+				deptId = request.getParameter("deptId");
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+			// System.out.println("work date**" + workDate);
+
+			String[] empId = request.getParameterValues("empId");
+
+			StringBuilder sb = new StringBuilder();
+
+			List<Integer> empIdList = new ArrayList<>();
+
+			for (int i = 0; i < empId.length; i++) {
+				sb = sb.append(empId[i] + ",");
+				empIdList.add(Integer.parseInt(empId[i]));
+
+				// System.out.println("empId id are**" + empId[i]);
+
+			}
+
+			String items = sb.toString();
+
+			items = items.substring(0, items.length() - 1);
+
+			StringBuilder sbEmp = new StringBuilder();
+
+			map.add("empIdList", items);
+			map.add("upDateId", deptId);
+			map.add("flag", 3);
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
+					Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "redirect:/assignDept";
+	}
+
+	@RequestMapping(value = "/showAssignDesignation", method = RequestMethod.GET)
+	public String showAssignDesignation(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+		String ret = new String();
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showAssignDesignation", "showAssignDesignation", 1, 0, 0, 0,
+				newModuleList);
+
+		if (view.isError() == true) {
+			ret = "accessDenied";
+
+		} else {
+
+			ret = "master/assignDesignation";
+
+			try {
+
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+				model.addAttribute("empdetList", empdetList);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				Designation[] designation = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllDesignationsListBySortNo", map, Designation[].class);
+
+				List<Designation> designationList = new ArrayList<Designation>(Arrays.asList(designation));
+				model.addAttribute("designationList", designationList);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+
+	@RequestMapping(value = "/submitAssignDesnToEmp", method = RequestMethod.POST)
+	public String submitAssignDesnToEmp(HttpServletRequest request, HttpServletResponse response) {
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+
+			String desigId = null;
+			try {
+				desigId = request.getParameter("desigId");
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+			// System.out.println("work date**" + workDate);
+
+			String[] empId = request.getParameterValues("empId");
+
+			StringBuilder sb = new StringBuilder();
+
+			List<Integer> empIdList = new ArrayList<>();
+
+			for (int i = 0; i < empId.length; i++) {
+				sb = sb.append(empId[i] + ",");
+				empIdList.add(Integer.parseInt(empId[i]));
+
+				// System.out.println("empId id are**" + empId[i]);
+
+			}
+
+			String items = sb.toString();
+
+			items = items.substring(0, items.length() - 1);
+
+			StringBuilder sbEmp = new StringBuilder();
+
+			map.add("empIdList", items);
+			map.add("upDateId", desigId);
+			map.add("flag", 4);
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
+					Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "redirect:/showAssignDesignation";
+	}
+
+	@RequestMapping(value = "/showAssignLocation", method = RequestMethod.GET)
+	public String showAssignLocation(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+		String ret = new String();
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showAssignLocation", "showAssignLocation", 1, 0, 0, 0, newModuleList);
+
+		if (view.isError() == true) {
+			ret = "accessDenied";
+
+		} else {
+			ret = "master/assignLocation";
+
+			try {
+
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+				model.addAttribute("empdetList", empdetList);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+				map.add("companyId", 1);
+
+				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+						Location[].class);
+
+				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+
+				model.addAttribute("locationList", locationList);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+
+	@RequestMapping(value = "/submitAssignLocToEmp", method = RequestMethod.POST)
+	public String submitAssignLocToEmp(HttpServletRequest request, HttpServletResponse response) {
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+
+			String locId = null;
+			try {
+				locId = request.getParameter("locId");
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+			// System.out.println("work date**" + workDate);
+
+			String[] empId = request.getParameterValues("empId");
+
+			StringBuilder sb = new StringBuilder();
+
+			List<Integer> empIdList = new ArrayList<>();
+
+			for (int i = 0; i < empId.length; i++) {
+				sb = sb.append(empId[i] + ",");
+				empIdList.add(Integer.parseInt(empId[i]));
+
+				// System.out.println("empId id are**" + empId[i]);
+
+			}
+
+			String items = sb.toString();
+
+			items = items.substring(0, items.length() - 1);
+
+			StringBuilder sbEmp = new StringBuilder();
+
+			map.add("empIdList", items);
+			map.add("upDateId", locId);
+			map.add("flag", 6);
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
+					Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "redirect:/showAssignLocation";
+	}
+
+	@RequestMapping(value = "/showAssignEmpType", method = RequestMethod.GET)
+	public String showAssignEmpType(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+		String ret = new String();
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showAssignEmpType", "showAssignEmpType", 1, 0, 0, 0, newModuleList);
+
+		if (view.isError() == true) {
+			ret = "accessDenied";
+
+		} else {
+			ret = "master/assignEmpType";
+
+			try {
+
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+				model.addAttribute("empdetList", empdetList);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+				map.add("companyId", 1);
+				MstEmpType[] empTypeList = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getMstEmpTypeList", map, MstEmpType[].class);
+
+				List<MstEmpType> empTypeList1 = new ArrayList<MstEmpType>(Arrays.asList(empTypeList));
+
+				model.addAttribute("empTypeList", empTypeList1);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+
+	@RequestMapping(value = "/submitAssignEmpTypeToEmp", method = RequestMethod.POST)
+	public String submitAssignEmpTypeToEmp(HttpServletRequest request, HttpServletResponse response) {
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+
+			String empType = null;
+			try {
+				empType = request.getParameter("empType");
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+			// System.out.println("work date**" + workDate);
+
+			String[] empId = request.getParameterValues("empId");
+
+			StringBuilder sb = new StringBuilder();
+
+			List<Integer> empIdList = new ArrayList<>();
+
+			for (int i = 0; i < empId.length; i++) {
+				sb = sb.append(empId[i] + ",");
+				empIdList.add(Integer.parseInt(empId[i]));
+
+				// System.out.println("empId id are**" + empId[i]);
+
+			}
+
+			String items = sb.toString();
+
+			items = items.substring(0, items.length() - 1);
+
+			StringBuilder sbEmp = new StringBuilder();
+
+			map.add("empIdList", items);
+			map.add("upDateId", empType);
+			map.add("flag", 5);
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
+					Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "redirect:/showAssignEmpType";
+	}
+
 }

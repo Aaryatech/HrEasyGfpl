@@ -1676,7 +1676,7 @@ public class EmployeeController {
  
 
 			map.add("empIdList", items);
-			map.add("holiCatId", holiCatId);
+			map.add("upDateId", holiCatId);
 			map.add("flag", 1);
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
