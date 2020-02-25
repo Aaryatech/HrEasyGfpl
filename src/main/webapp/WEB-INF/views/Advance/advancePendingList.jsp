@@ -138,7 +138,7 @@
 													class="list-icons-item text-primary-600"
 													data-popup="tooltip" title=""
 													data-original-title="Skip Advance"><i
-													class="icon-pencil7"></i></a>
+													class="icon-last"></i></a>
 											</c:if> <c:if test="${deleteAccess == 0}">
 												<%-- 
 											<a href="${pageContext.request.contextPath}/deleteAdvance?advId=${empdetList.exVar1}"

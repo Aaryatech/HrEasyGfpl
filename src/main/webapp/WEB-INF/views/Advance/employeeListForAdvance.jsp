@@ -125,7 +125,7 @@
 													href="${pageContext.request.contextPath}/showAddAdvance?empId=${empdetList.exVar1}"
 													class="list-icons-item text-primary-600"
 													data-popup="tooltip" title="Add Advance"
-													data-original-title="Edit"><i class="icon-pencil7"></i></a>
+													data-original-title="Edit"><i class="icon-enlarge5"></i></a>
 											</c:if></td>
 
 									</tr>
