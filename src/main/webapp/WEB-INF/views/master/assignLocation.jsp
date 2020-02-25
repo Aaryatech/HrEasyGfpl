@@ -44,7 +44,7 @@
 						<table width="100%">
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Employee
-										Weekoff Category Assignment</h5></td>
+										Location Assignment</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
@@ -88,27 +88,30 @@
 							}
 						%>
 						<form
-							action="${pageContext.request.contextPath}/submitAssignWeekoffCatToEmp"
+							action="${pageContext.request.contextPath}/submitAssignLocToEmp"
 							id="submitInsertEmp" method="post">
 
 							<div class="form-group row">
+
 								<label
 									class="col-form-label text-info font-weight-bold col-lg-2"
-									for="locId"> Select Weekoff Category <span
-									class="text-danger">* </span>:
+									for="locId">Location <span class="text-danger">*</span>:
 								</label>
-								<div class="col-lg-10">
-									<select name="holiCatId"
-										data-placeholder="Select Weekoff Category" id="holiCatId"
-										class="form-control form-control-select2 select2-hidden-accessible"
-										data-fouc="" aria-hidden="true">
-										<option value="">Select Weekoff Category</option>
-										<c:forEach items="${holiList}" var="holiList">
-											<option value="${holiList.woCatId}">${holiList.woCatName}
-												[${holiList.woCatShortName}]</option>
+								<div class="col-lg-4">
+									<select name="locId" data-placeholder="Select Location"
+										id="locId"
+										class="form-control form-control-select2 select2-hidden-accessible">
+
+										<option value="">Select Location</option>
+										<c:forEach items="${locationList}" var="locationList">
+
+											<option value="${locationList.locId}">${locationList.locName}
+												[${locationList.locNameShort}]</option>
+
 										</c:forEach>
-									</select> <span class="validation-invalid-label" id="error_shiftId"
-										style="display: none;">This field is required.</span>
+									</select> <span class="hidedefault   validation-invalid-label"
+										style="display: none;" id="error_locId">This field is
+										required.</span>
 								</div>
 							</div>
 
@@ -127,7 +130,7 @@
 											<th>Department</th>
 											<th>Designation</th>
 											<th>Location</th>
-											<th>Weekoff Category</th>
+											<th>Company</th>
 
 
 										</tr>
@@ -149,7 +152,7 @@
 												<td>${empdetList.deptName}</td>
 												<td>${empdetList.empDesgn}</td>
 												<td>${empdetList.locName}</td>
-												<td>${empdetList.woCatName}</td>
+												<td>${empdetList.subCompName}</td>
 
 											</tr>
 										</c:forEach>
@@ -194,7 +197,7 @@
 
 				var isError = false;
 				var errMsg = "";
-				var holiCatId = $("#holiCatId").val();
+				var locId = $("#locId").val();
 
 				var checked = $("#submitInsertEmp input:checked").length > 0;
 				if (!checked) {
@@ -205,11 +208,11 @@
 					isError = false;
 				}
 				//alert("checked" +checked);
-				if (holiCatId == null || holiCatId == "") {
+				if (locId == null || locId == "") {
 					isError = true;
-					$("#error_shiftId").show()
+					$("#error_locId").show()
 				} else {
-					$("#error_shiftId").hide()
+					$("#error_locId").hide()
 				}
 
 				if (!isError) {

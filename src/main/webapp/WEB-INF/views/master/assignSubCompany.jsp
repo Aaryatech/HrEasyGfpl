@@ -102,8 +102,8 @@
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
 										<option value="">Select Company</option>
-										<c:forEach items="${subCompList}" var="holiList">
-											<option value="${holiList.companyId}">${holiList.company_name}</option>
+										<c:forEach items="${subCompList}" var="subCompList">
+											<option value="${subCompList.companyId}">${subCompList.companyName}[${subCompList.nameSd}]</option>
 										</c:forEach>
 									</select> <span class="validation-invalid-label" id="error_shiftId"
 										style="display: none;">This field is required.</span>

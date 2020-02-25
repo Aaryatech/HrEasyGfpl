@@ -103,7 +103,7 @@
 										data-fouc="" aria-hidden="true">
 										<option value="">Select Holiday Category</option>
 										<c:forEach items="${holiList}" var="holiList">
-											<option value="${holiList.hoCatId}">${holiList.hoCatName}</option>
+											<option value="${holiList.hoCatId}">${holiList.hoCatName} [${holiList.hoCatShortName}]</option>
 										</c:forEach>
 									</select> <span class="validation-invalid-label" id="error_shiftId"
 										style="display: none;">This field is required.</span>
