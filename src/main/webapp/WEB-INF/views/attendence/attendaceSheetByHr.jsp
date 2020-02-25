@@ -69,8 +69,8 @@
 											Date <span style="color: red">* </span> :
 										</label>
 										<div class="col-md-2">
-											<input type="text" class="form-control "
-												placeholder="Select Date " id="datepicker" name="date"
+											<input type="text" class="form-control datepickerclass"
+												placeholder="Select Date " id="datepicker1" name="date"
 												value="${date}" autocomplete="off">
 										</div>
 
@@ -171,7 +171,7 @@
 											<c:forEach items="${dailyDailyList}" var="dailyrecordList">
 												<tr>
 													<td class="text-center">${dailyrecordList.empCode}</td>
-													<td class="text-center">${dailyrecordList.empName}</td>
+													<td >${dailyrecordList.empName}</td>
 													<td class="text-center">${dailyrecordList.attStatus}</td>
 
 													<c:choose>
@@ -357,6 +357,14 @@
 			});  
 
 		}
+	$('.datepickerclass').daterangepicker({
+		singleDatePicker : true,
+		selectMonths : true,
+		selectYears : true,
+		locale : {
+			format : 'DD-MM-YYYY'
+		}
+	});
 	</script>
 
 

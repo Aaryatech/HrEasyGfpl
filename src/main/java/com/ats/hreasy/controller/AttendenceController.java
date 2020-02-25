@@ -773,7 +773,7 @@ public class AttendenceController {
 					map.add("desgType", userObj.getDesignType());
 					map.add("departIds", userObj.getHodDeptIds());
 					DailyAttendance[] dailyAttendance = Constants.getRestTemplate().postForObject(
-							Constants.url + "/getEmployyeDailyDailyListByDeptIds", map, DailyAttendance[].class);
+							Constants.url + "/getEmployyeDailyDailyListforHr", map, DailyAttendance[].class);
 					List<DailyAttendance> dailyDailyList = new ArrayList<DailyAttendance>(
 							Arrays.asList(dailyAttendance));
 					model.addAttribute("dailyDailyList", dailyDailyList);

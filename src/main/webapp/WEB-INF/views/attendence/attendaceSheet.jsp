@@ -13,7 +13,7 @@
 	src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-datepicker.js"></script>
 
 </head>
- 
+
 <body>
 
 	<!-- Main navbar -->
@@ -57,8 +57,10 @@
 						<form action="${pageContext.request.contextPath}/attendaceSheet"
 							id="submitInsertLeave" method="get">
 							<div class="form-group row">
-								<label class="col-form-label text-info font-weight-bold col-lg-2" for="date">Select
-									Date <span style="color: red">* </span> :
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="date">Select Date <span style="color: red">*
+								</span> :
 								</label>
 								<div class="col-md-2">
 									<input type="text" class="form-control "
@@ -106,7 +108,8 @@
 										<thead>
 											<tr class="bg-blue">
 												<th width="10%" style="text-align: center;">Sr.no</th>
-												<th style="text-align: center;">Employee Code</th>
+												<th style="text-align: center;">EMP Code</th>
+												<th style="text-align: center;">EMP Name</th>
 												<th style="text-align: center;">Month</th>
 												<th style="text-align: center;">Year</th>
 												<c:forEach items="${attendanceSheetData.dates}" var="dates"
@@ -123,6 +126,7 @@
 												<tr>
 													<td>${count.index+1}</td>
 													<td style="text-align: center;">${infomationList.empCode}</td>
+													<td>${infomationList.empName}</td>
 													<td style="text-align: right;">${month}</td>
 													<td style="text-align: right;">${year}</td>
 													<c:forEach items="${infomationList.sttsList}"
@@ -158,6 +162,7 @@
 												<th class="text-center">EMP Name</th>
 												<th class="text-center">Working Days</th>
 												<th class="text-center">Present Days</th>
+												<th class="text-center">Absent Days</th>
 												<th class="text-center">Weekly Off</th>
 												<th class="text-center">Paid Holiday</th>
 												<th class="text-center">Paid Leave</th>
@@ -182,6 +187,7 @@
 													<td>${summrylist.empName}</td>
 													<td class="text-right">${summrylist.workingDays}</td>
 													<td class="text-right">${summrylist.presentDays}</td>
+													<td class="text-right">${summrylist.absentDays}</td>
 													<td class="text-right">${summrylist.weeklyOff}</td>
 													<td class="text-right">${summrylist.paidHoliday}</td>
 													<td class="text-right">${summrylist.paidLeave}</td>
@@ -241,20 +247,17 @@
 				separator : ' to '
 			}
 		});
-		 $(document).ready(function() {
-		        // month selector
-		        $('#datepicker').datepicker({
-		            autoclose: true,
-		            format: "mm-yyyy",
-		            viewMode: "months",
-		            minViewMode: "months"
+		$(document).ready(function() {
+			// month selector
+			$('#datepicker').datepicker({
+				autoclose : true,
+				format : "mm-yyyy",
+				viewMode : "months",
+				minViewMode : "months"
 
-		        });
+			});
 
-
-		    });
-		
-		
+		});
 	</script>
 </body>
 </html>
