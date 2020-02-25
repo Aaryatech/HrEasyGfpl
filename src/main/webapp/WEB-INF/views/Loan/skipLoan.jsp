@@ -116,7 +116,7 @@
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="grossSal">Total
 											Gross Salary: </label> <label class="col-form-label col-lg-2"
-											for="grossSal">${empPersInfo.grossSalaryEst} </label>
+											for="grossSal">${empPersInfo.grossSalary} </label>
 									</div>
 
 									<div class="form-group row">

@@ -116,7 +116,7 @@
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="grossSal">Total
 											Gross Salary: </label> <label class="col-form-label col-lg-2"
-											for="grossSal">${empPersInfo.grossSalaryEst} </label>
+											for="grossSal">${empPersInfo.grossSalary} </label>
 									</div>
 
 									<div class="form-group row">
@@ -155,13 +155,12 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">
-											Prev Skipped Reason : </label>
-										  
-											<label class="col-form-label col-lg-5" for="voucherNo">
-												<c:forEach items="${advDetList}" var="advDetList"
-													varStatus="count">${count.index+1}.${advDetList.skipRemarks}   ${advDetList.skipLoginTime}<br> </c:forEach>
-											</label>
-										 
+											Prev Skipped Reason : </label> <label class="col-form-label col-lg-5"
+											for="voucherNo"> <c:forEach items="${advDetList}"
+												var="advDetList" varStatus="count">${count.index+1}.${advDetList.skipRemarks}   ${advDetList.skipLoginTime}<br>
+											</c:forEach>
+										</label>
+
 									</div>
 
 									<div class="form-group row">
@@ -169,13 +168,14 @@
 											Time : </label> <label class="col-form-label col-lg-2"
 											for="voucherNo"> ${count} </label>
 									</div>
-									
-									<input type="hidden" id="count" name="count" value="${count}"> 
-																		<input type="hidden" id="skipStr" name="skipStr" value="${skipStr}"> 
-									
+
+									<input type="hidden" id="count" name="count" value="${count}">
+									<input type="hidden" id="skipStr" name="skipStr"
+										value="${skipStr}">
 
 
-								<%-- 	<div class="form-group row">
+
+									<%-- 	<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="month">Last
 											Skipped date: </label> <label class="col-form-label col-lg-2"
 											for="voucherNo"> ${advList.skipLoginTime} </label>
@@ -186,8 +186,10 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="remark">
-											Skipping Reason <span style="color: red">*</span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="remark"> Skipping Reason <span
+											style="color: red">*</span>:
 										</label>
 										<div class="col-lg-4">
 											<textarea class="form-control"

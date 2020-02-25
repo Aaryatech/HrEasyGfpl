@@ -108,7 +108,7 @@
 										class="col-form-label col-lg-2" for="locId"> Total
 										Gross Salary: : </label> <label class="col-form-label col-lg-2"
 										for="locId" style="color: red;">
-										${empPersInfo.grossSalaryEst} </label>
+										${empPersInfo.grossSalary} </label>
 
 								</div>
 

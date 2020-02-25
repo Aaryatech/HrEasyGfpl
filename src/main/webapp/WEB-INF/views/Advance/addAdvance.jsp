@@ -127,7 +127,7 @@
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" id="grossSal"
-												value="${empPersInfo.grossSalaryEst}" readonly="readonly"
+												value="${empPersInfo.grossSalary}" readonly="readonly"
 												name="grossSal" autocomplete="off" onchange="trim(this)">
 										</div>
 									</div>

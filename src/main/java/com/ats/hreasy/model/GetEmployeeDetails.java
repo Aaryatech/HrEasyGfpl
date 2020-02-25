@@ -74,6 +74,7 @@ public class GetEmployeeDetails {
  	private String loginTime;
 
  	private int plCalcBase;
+ 	private double grossSalary;
 
  
 	private float earnLeaveOpeningBalance;
@@ -111,6 +112,15 @@ public class GetEmployeeDetails {
 	
 	
 	private String woCatName;
+	
+	
+	
+	public double getGrossSalary() {
+		return grossSalary;
+	}
+	public void setGrossSalary(double grossSalary) {
+		this.grossSalary = grossSalary;
+	}
 	public String getSubCompName() {
 		return subCompName;
 	}
@@ -476,13 +486,14 @@ public class GetEmployeeDetails {
 				+ grossSalaryEst + ", emailId=" + emailId + ", noticePayAmount=" + noticePayAmount
 				+ ", salDedAtFullandfinal=" + salDedAtFullandfinal + ", addedFrom=" + addedFrom + ", rawData=" + rawData
 				+ ", addedBySupervisorId=" + addedBySupervisorId + ", loginName=" + loginName + ", loginTime="
-				+ loginTime + ", plCalcBase=" + plCalcBase + ", earnLeaveOpeningBalance=" + earnLeaveOpeningBalance
-				+ ", empCategory=" + empCategory + ", exgratiaPerc=" + exgratiaPerc + ", newBasicRate=" + newBasicRate
-				+ ", newHraRate=" + newHraRate + ", newDaRate=" + newDaRate + ", delStatus=" + delStatus + ", exInt1="
-				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", shiftname="
-				+ shiftname + ", empTypeName=" + empTypeName + ", subCompName=" + subCompName + ", hoCatName="
-				+ hoCatName + ", woCatName=" + woCatName + ", deptName=" + deptName + ", empDesgn=" + empDesgn
-				+ ", locName=" + locName + ", orgName=" + orgName + ", salTypeName=" + salTypeName + "]";
+				+ loginTime + ", plCalcBase=" + plCalcBase + ", grossSalary=" + grossSalary
+				+ ", earnLeaveOpeningBalance=" + earnLeaveOpeningBalance + ", empCategory=" + empCategory
+				+ ", exgratiaPerc=" + exgratiaPerc + ", newBasicRate=" + newBasicRate + ", newHraRate=" + newHraRate
+				+ ", newDaRate=" + newDaRate + ", delStatus=" + delStatus + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
+				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", shiftname=" + shiftname + ", empTypeName="
+				+ empTypeName + ", subCompName=" + subCompName + ", hoCatName=" + hoCatName + ", woCatName=" + woCatName
+				+ ", deptName=" + deptName + ", empDesgn=" + empDesgn + ", locName=" + locName + ", orgName=" + orgName
+				+ ", salTypeName=" + salTypeName + "]";
 	}
 	 
 }

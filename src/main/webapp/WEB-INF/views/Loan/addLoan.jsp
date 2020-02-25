@@ -120,7 +120,7 @@
 											Gross Salary : </label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" id="grossSal"
-												value="${empPersInfo.grossSalaryEst}" readonly="readonly"
+												value="${empPersInfo.grossSalary}" readonly="readonly"
 												name="grossSal" autocomplete="off" onchange="trim(this)">
 										</div>
 									</div>
@@ -389,7 +389,7 @@
 				} else {
 					$("#error_remark").hide()
 				}
-				if (!$("#tenure").val()) {
+				if (!$("#tenure").val()  || $("#tenure").val() <= 0) {
 
 					isError = true;
 
@@ -409,7 +409,7 @@
 					$("#error_roi").hide()
 				}
 
-				if (!$("#loanAmt").val()) {
+				if (!$("#loanAmt").val()  || $("#loanAmt").val() <= 0 ) {
 
 					isError = true;
 

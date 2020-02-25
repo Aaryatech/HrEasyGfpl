@@ -288,10 +288,7 @@ class LoanAdminController {
 					adv.setLoginName(String.valueOf(userObj.getEmpId()));
 					adv.setLoginTime(sf2.format(date2));
 					adv.setSkipId(0);
-					adv.setSkipLoginName("0");
-					adv.setSkipLoginTime("0000-00-00 00:00:00");
-					adv.setSkipRemarks("");
-					adv.setDelStatus(1);
+ 					adv.setDelStatus(1);
 
 					LoanMain res = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpLoan", adv,
 							LoanMain.class);
@@ -524,10 +521,19 @@ class LoanAdminController {
 				String empId = FormValidation.DecodeKey(base64encodedString);
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				
+				
+				map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+				map.add("empId", empId);
+				loan = Constants.getRestTemplate().postForObject(Constants.url + "/getLoanHistoryEmpWiseSpecForCompany",
+						map, GetLoan.class);
+				model.addObject("empDeatil", loan);
+				
 
 				map.add("companyId", 1);
 				map.add("empId", empId);
-
+				 
 				LoanMain[] employeeInfo = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getLoanHistoryEmpWiseDetailComp", map, LoanMain[].class);
 
@@ -557,12 +563,7 @@ class LoanAdminController {
 
 				}
 
-				map = new LinkedMultiValueMap<>();
-				map.add("companyId", 1);
-				map.add("empId", empId);
-				loan = Constants.getRestTemplate().postForObject(Constants.url + "/getLoanHistoryEmpWiseSpecForCompany",
-						map, GetLoan.class);
-				model.addObject("empDeatil", loan);
+			
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -584,12 +585,12 @@ class LoanAdminController {
 
 			String base64encodedString1 = request.getParameter("empId");
 			String empId = FormValidation.DecodeKey(base64encodedString1);
-
+			 System.out.println("Edit EmpPersonal Info-------" + empId);
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
 			GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
-			// System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
+		 System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
 
 			String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
 					.concat(" ").concat(empPersInfo.getSurname()).concat("[")
