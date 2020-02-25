@@ -98,8 +98,8 @@
 
 
 							<div class="form-group row">
-							
-							<label
+
+								<%-- <label
 									class="col-form-label text-info font-weight-bold col-lg-2"
 									for="locId"> Select Weekoff Category <span
 									class="text-danger">* </span>:
@@ -155,29 +155,55 @@
 									</select> <span class="validation-invalid-label" id="error_locId"
 										style="display: none;">This field is required.</span>
 								</div>
-
-								
-							</div>
+ --%>
 
 
-							<div class="form-group row">
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="empId">Employee <span class="text-danger">*</span>:
+								</label>
+
+								<div class="col-lg-4">
+									<select name="empId" data-placeholder="Select  " id="empId"
+										class="form-control form-control-select2 select2-hidden-accessible">
+
+										<option value="">Select Employee</option>
+										 
+										<c:forEach items="${employeeInfoList}" var="empInfo">
+
+											<c:choose>
+												<c:when test="${empInfo.empId==empId}">
+													<option selected value="${empInfo.empId}">${empInfo.surname}
+														${empInfo.firstName} [${empInfo.empCode}]
+														[${empInfo.empDesgn}]</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${empInfo.empId}">${empInfo.surname}
+														${empInfo.firstName} [${empInfo.empCode}]
+														[${empInfo.empDesgn}]</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</select> <span class="validation-invalid-label" id="error_empId"
+										style="display: none;">This field is required.</span>
+								</div>
+
+
 								<label
 									class="col-form-label text-info font-weight-bold col-lg-2"
 									for="month"> Month-Year <span class="text-danger">*</span>:
 								</label>
 								<div class="col-lg-4">
 									<input type="text" name="monthyear" id="monthyear"
-										class="form-control datepicker"   value="${monthyear}"
+										class="form-control datepicker" value="${monthyear}"
 										autocomplete="off" data-min-view-mode="months"
-										data-start-view="1" data-format="mm-yyyy">
-										
-										
-										<span class="validation-invalid-label" id="error_monthyear"
+										data-start-view="1" data-format="mm-yyyy"> <span
+										class="validation-invalid-label" id="error_monthyear"
 										style="display: none;">This field is required.</span>
 								</div>
 							</div>
 
- 
+
 							<div style="text-align: center;">
 								<input type="submit" class="btn btn-primary" value="Search"
 									id="deleteId"
@@ -191,14 +217,11 @@
 							action="${pageContext.request.contextPath}/submitInsertWeeklyOffChange"
 							id="submitInsertLocaion" method="post">
 
-							<input type="hidden" id="locIdTemp" name="locIdTemp"
-								value="${locId}"> <input type="hidden" id="monthTemp"
+							<input type="hidden" id="empIdTemp" name="empIdTemp"
+								value="${empId}"> <input type="hidden" id="monthTemp"
 								name="monthTemp" value="${month}"> <input type="hidden"
 								id="yearTemp" name="yearTemp" value="${year}"> <input
-								type="hidden" id="tempDate" name="tempDate" value="">
-								
-								<input
-								type="hidden" id="tempHoliCatId" name="tempHoliCatId" value="${weekoffCatId}">
+								type="hidden" id="tempDate" name="tempDate" value="">  
 
 
 
@@ -425,29 +448,16 @@
 
 				var isError = false;
 				var errMsg = "";
-				  if (!$("#locId").val()) {
+				  if (!$("#empId").val()) {
 
 					isError = true;
 
-					$("#error_locId").show()
+					$("#error_empId").show()
 
 				} else {
-					$("#error_locId").hide()
+					$("#error_empId").hide()
 				}  
-				
-				
-				if (!$("#holiCatId").val()) {
-
-					isError = true;
-
-					$("#error_holiCatId").show()
-
-				} else {
-					$("#error_holiCatId").hide()
-				}
-
-				
-				
+				 
 				if (!$("#monthyear").val()) {
 
 					isError = true;

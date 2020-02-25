@@ -28,6 +28,8 @@ import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
+import com.ats.hreasy.model.EmployeeMaster;
+import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.GetWeekShiftChange;
 import com.ats.hreasy.model.GetWeeklyOff;
 import com.ats.hreasy.model.Info;
@@ -45,8 +47,8 @@ public class WeeklyOffController {
 	String locId = "0";
 	String month = "0";
 	String year = "0";
-	String weekoffCatId="0";
-	String monthyear="0";
+	String weekoffCatId = "0";
+	String monthyear = "0";
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date now = new Date();
 	String curDate = dateFormat.format(new Date());
@@ -90,18 +92,13 @@ public class WeeklyOffController {
 				model.addObject("locationList", locationList);
 				model.addObject("locationAccess", userObj.getLocationIds().split(","));
 				// model.addObject("locationAccess", "2,3".split(","));
-				
-				
-				WeekoffCategory[] location1 = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
-						WeekoffCategory[].class);
+
+				WeekoffCategory[] location1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getWeekoffCategoryList", WeekoffCategory[].class);
 
 				List<WeekoffCategory> locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
 
-				
-			 
 				model.addObject("holiList", locationList1);
-
-
 
 			}
 		} catch (Exception e) {
@@ -168,8 +165,7 @@ public class WeeklyOffController {
 					save.setWoPresently(woPresently);
 					save.setMakerEnterDatetime(dateTime);
 					save.setMakerUserId(userObj.getUserId());
-					save.setExInt1(Integer.parseInt( request.getParameter("woCatId")));
-
+					save.setExInt1(Integer.parseInt(request.getParameter("woCatId")));
 
 					WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff", save,
 							WeeklyOff.class);
@@ -349,18 +345,13 @@ public class WeeklyOffController {
 				model.addObject("locIdList", locIdList);
 				model.addObject("locationAccess", userObj.getLocationIds().split(","));
 				// model.addObject("locationAccess", "2,3".split(","));
-				
-				
-				 
-				WeekoffCategory[] location1 = Constants.getRestTemplate().getForObject(Constants.url + "/getWeekoffCategoryList",
-						WeekoffCategory[].class);
+
+				WeekoffCategory[] location1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getWeekoffCategoryList", WeekoffCategory[].class);
 
 				List<WeekoffCategory> locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
 
-				
-			 
 				model.addObject("holiList", locationList1);
-
 
 			}
 		} catch (Exception e) {
@@ -419,7 +410,7 @@ public class WeeklyOffController {
 					editWeeklyOff.setWoPresently(woPresently);
 					editWeeklyOff.setWoRemarks(woRemarks);
 					editWeeklyOff.setWoType(woType);
- 					editWeeklyOff.setExInt1(Integer.parseInt( request.getParameter("woCatId")));
+					editWeeklyOff.setExInt1(Integer.parseInt(request.getParameter("woCatId")));
 					WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff",
 							editWeeklyOff, WeeklyOff.class);
 
@@ -458,7 +449,7 @@ public class WeeklyOffController {
 
 			model = new ModelAndView("accessDenied");
 
-		} else { 
+		} else {
 			model = new ModelAndView("master/changeWeeklyOff");
 			/*
 			 * WeekoffCategory[] location1 =
@@ -467,36 +458,39 @@ public class WeeklyOffController {
 			 * locationList1 = new ArrayList<WeekoffCategory>(Arrays.asList(location1));
 			 * model.addObject("holiList", locationList1);
 			 */
- 
+
+			GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+
+			List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+
+			model.addObject("employeeInfoList", empdetList);
+
 			try {
 
- 				month = "0";
+				month = "0";
 				year = "0";
-				String empId="0";
-				monthyear="0";
-				 
+				String empId = "0";
+				monthyear = "0";
+
 				try {
 					monthyear = request.getParameter("monthyear");
-					String a[]=monthyear.split("-");
-					month=a[0];
-					year=a[1];
+					String a[] = monthyear.split("-");
+					month = a[0];
+					year = a[1];
 
 				} catch (Exception e) {
 					month = "0";
 					year = "0";
 				}
-				
-				
+
 				try {
 					empId = request.getParameter("empId");
-				 
+
 				} catch (Exception e) {
-					 empId="0";
+					empId = "0";
 				}
-				  
-				  
-				
-				 
+
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				/*
 				 * map.add("companyId", 1); Location[] location =
@@ -518,10 +512,10 @@ public class WeeklyOffController {
 				 * model.addObject("weekoffCatId", weekoffCatId);
 				 */
 				map = new LinkedMultiValueMap<>();
- 				map.add("month", Integer.parseInt(month));
+				map.add("month", Integer.parseInt(month));
 				map.add("year", Integer.parseInt(year));
- 				map.add("empId", Integer.parseInt(empId));
-				
+				map.add("empId", Integer.parseInt(empId));
+
 				String[] strArr = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getWeeklyOffDatesToChange", map, String[].class);
 
@@ -558,7 +552,9 @@ public class WeeklyOffController {
 				String reason = request.getParameter("reason");
 
 				String dateFrom = request.getParameter("tempDate");
- 				Boolean ret = false;
+				int empId = Integer.parseInt(request.getParameter("empIdTemp"));
+
+				Boolean ret = false;
 
 				if (FormValidation.Validaton(changeDate, "") == true) {
 					System.err.println("changeDate");
@@ -570,12 +566,21 @@ public class WeeklyOffController {
 					ret = true;
 				}
 
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+
+				EmployeeMaster emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map,
+						EmployeeMaster.class);
+
 				if (ret == false) {
 
 					WeeklyOffShit weekShft = new WeeklyOffShit();
-					weekShft.setCmpId(Integer.parseInt(request.getParameter("tempHoliCatId")));
+
+					weekShft.setCmpId(emp.getHolidayCategory());
+					weekShft.setLocationId(emp.getLocationId());
+
 					weekShft.setDelStatus(1);
-					weekShft.setLocationId(Integer.parseInt(locId));
+					weekShft.setEmpId(empId);
 					weekShft.setLoginTime(dateTime);
 					weekShft.setMonth(Integer.parseInt(month));
 					weekShft.setReason(reason);
@@ -620,6 +625,14 @@ public class WeeklyOffController {
 			} else {
 
 				model = new ModelAndView("master/shiftedWeekOffList");
+				
+
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetail", GetEmployeeDetails[].class);
+
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+
+				model.addObject("employeeInfoList", empdetList);
 
 				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
@@ -661,10 +674,11 @@ public class WeeklyOffController {
 		try {
 
 			String calYrId = request.getParameter("calYrId");
+			String empId = request.getParameter("empId");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("year", calYrId);
-			map.add("companyId", 1);
+ 			map.add("empId", Integer.parseInt(empId));
 
 			GetWeekShiftChange[] employeeInfo = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getAllWeekOffShifted", map, GetWeekShiftChange[].class);

@@ -147,8 +147,8 @@ public class EmployeeShiftAssignController {
 
 			map.add("empIdList", items);
 			map.add("shiftId", shiftId);
-
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/shiftAssignmentUpdate", map,
+			map.add("flag", 7);
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
 					Info.class);
 
 		} catch (Exception e) {
@@ -812,8 +812,9 @@ public class EmployeeShiftAssignController {
 
 			map.add("empIdList", items);
 			map.add("holiCatId", holiCatId);
+			map.add("flag", 8);
 
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/weekoffCatAssignmentUpdate", map,
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
 					Info.class);
 
 		} catch (Exception e) {

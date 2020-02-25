@@ -1673,14 +1673,13 @@ public class EmployeeController {
 			items = items.substring(0, items.length() - 1);
 
 			StringBuilder sbEmp = new StringBuilder();
-
-			// System.out.println("empId id are**" + empIdList.toString());
-			// System.out.println("shiftId id are**" + shiftId);
+ 
 
 			map.add("empIdList", items);
 			map.add("holiCatId", holiCatId);
+			map.add("flag", 1);
 
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/holiCatAssignmentUpdate", map,
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
 					Info.class);
 
 		} catch (Exception e) {

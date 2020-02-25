@@ -95,9 +95,10 @@
 
 						<div class="form-group row">
 
-							<label class="col-form-label text-info font-weight-bold col-lg-2" for="locId"> Year<span class="text-danger">* </span>:
+							<label class="col-form-label text-info font-weight-bold col-lg-2"
+								for="locId"> Year<span class="text-danger">* </span>:
 							</label>
-							<div class="col-lg-4">
+							<div class="col-lg-2">
 								<select name="calYrId" data-placeholder="Select  " id="calYrId"
 									class="form-control form-control-select2 select2-hidden-accessible"
 									data-fouc="" aria-hidden="true">
@@ -109,7 +110,28 @@
 									<option value="2021">2021</option>
 								</select>
 							</div>
+ 
+							<label class="col-form-label text-info font-weight-bold col-lg-2"
+								for="empId"> Employee<span class="text-danger">* </span>:
+							</label>
+							<div class="col-lg-3">
+								<select name="empId" data-placeholder="Select  " id="empId"
+									class="form-control form-control-select2 select2-hidden-accessible">
 
+									<option value="">Select Employee</option>
+
+									<option selected value="-1">All</option>
+
+									<c:forEach items="${employeeInfoList}" var="empInfo">
+
+										<option value="${empInfo.empId}">${empInfo.surname}
+											${empInfo.firstName} [${empInfo.empCode}]
+											[${empInfo.empDesgn}]</option>
+
+									</c:forEach>
+								</select>
+
+							</div>
 							<div style="text-align: center;">
 								<input type="button" class="btn btn-primary" value="Search"
 									onclick="show()" id="deleteId"
@@ -159,9 +181,10 @@
 	<script type="text/javascript">
 		function show() {
 
-			//alert("Hi View Orders  ");
+			 
 
 			var calYrId = document.getElementById("calYrId").value;
+			var empId = document.getElementById("empId").value;
 
 			var valid = true;
 
@@ -169,17 +192,22 @@
 				valid = false;
 				alert("Please Select Year");
 			}
+			if (empId == null || empId == "") {
+				valid = false;
+				alert("Please Select Employee");
+			}
 
 			if (valid == true) {
 
 				$.getJSON('${getWeekOffChangeDetails}', {
 					calYrId : calYrId,
+					empId : empId,
 					ajax : 'true',
 				},
 
 				function(data) {
 
-					//	alert("Data " +JSON.stringify(data));
+					 
 
 					var dataTable = $('#printtable1').DataTable();
 					dataTable.clear().draw();

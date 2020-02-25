@@ -22,9 +22,20 @@ public class WeeklyOffShit {
 	private int locationId;
 	
 	private int delStatus;
+	
+	private int empId;
+
 
 
 	 
+	public int getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+
 	public int getDelStatus() {
 		return delStatus;
 	}
@@ -109,7 +120,8 @@ public class WeeklyOffShit {
 	public String toString() {
 		return "WeeklyOffShit [id=" + id + ", month=" + month + ", year=" + year + ", weekofffromdate="
 				+ weekofffromdate + ", weekoffshiftdate=" + weekoffshiftdate + ", cmpId=" + cmpId + ", reason=" + reason
-				+ ", loginTime=" + loginTime + ", locationId=" + locationId + ", delStatus=" + delStatus + "]";
+				+ ", loginTime=" + loginTime + ", locationId=" + locationId + ", delStatus=" + delStatus + ", empId="
+				+ empId + "]";
 	}
 
 	 
