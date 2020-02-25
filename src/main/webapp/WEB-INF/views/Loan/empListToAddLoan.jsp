@@ -122,7 +122,7 @@
 											<td>${empdetList.locName}</td>
 											<td><c:if test="${editAccess == 0}"><a
 													href="${pageContext.request.contextPath}/showAddLoan?empId=${empdetList.exVar1}"
-													class="list-icons-item text-primary-600" data-popup="tooltip" title="Add Loan" data-original-title="Edit"><i class="icon-pencil7"
+													class="list-icons-item text-primary-600" data-popup="tooltip" title="Add Loan" data-original-title="Edit"><i class="icon-enlarge5 "
 													 ></i></a></c:if></td>
 
 										</tr>

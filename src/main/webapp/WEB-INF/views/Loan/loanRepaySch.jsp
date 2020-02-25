@@ -194,7 +194,7 @@
 														varStatus="count">
 														<tr>
 															<td>${dateList}</td>
-															<td>${advList.loanEmi}</td>
+															<td>${advList.loanEmiIntrest}</td>
 														</tr>
 													</c:forEach>
 

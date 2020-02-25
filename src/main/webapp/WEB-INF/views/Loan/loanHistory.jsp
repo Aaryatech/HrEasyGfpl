@@ -248,7 +248,7 @@
 
 					$.each(data, function(i, v) {
 						
-						var acButton = '<a href="${pageContext.request.contextPath}/showLoanDetailHistory?empId='+v.exVar1+'&calYrId='+v.exVar3+'&status='+v.exVar2+'"><i class="icon-pencil7" title="Detail History" style="color: black;">';	
+						var acButton = '<a href="${pageContext.request.contextPath}/showLoanDetailHistory?empId='+v.exVar1+'&calYrId='+v.exVar3+'&status='+v.exVar2+'"><i class="icon-three-bars" title="Detail History" style="color: black;">';	
 
 
 						dataTable.row.add(

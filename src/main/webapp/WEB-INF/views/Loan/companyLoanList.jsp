@@ -179,7 +179,7 @@
 										<td>${empdetList.currentOutstanding}</td>
 										<td><c:if test="${editAccess == 0}"><a
 													href="${pageContext.request.contextPath}/showLoanListForAction?empId=${empdetList.exVar1}"
-													class="list-icons-item text-primary-600" data-popup="tooltip" title="Loan Details" data-original-title="Edit"><i class="icon-pencil7"
+													class="list-icons-item text-primary-600" data-popup="tooltip" title="Loan Details" data-original-title="Edit"><i class="icon-paragraph-justify2"
 													 ></i></a></c:if></td>
 										
  									</tr>

@@ -156,41 +156,27 @@
 										<td>${empdetList.loanEmi}</td>
 										<td>${empdetList.currentOutstanding}</td>
 										<td>${empdetList.loanStatus}</td>
-										<td>
-										
-										 <c:if test="${empdetList.skipId==0}">
-											 <a
-											href="${pageContext.request.contextPath}/showSkipLoan?id=${empdetList.exVar1}&empId=${empdetList.exVar2}"
-											class="list-icons-item text-primary-600" data-popup="tooltip"
-											title="" data-original-title="Skip Loan"><i
-												class="icon-pencil7"></i></a>
-										</c:if>
-										 
-									 <a
+										<td><c:if test="${empdetList.skipId==0}">
+												<a
+													href="${pageContext.request.contextPath}/showSkipLoan?id=${empdetList.exVar1}&empId=${empdetList.exVar2}"
+													class="list-icons-item text-primary-600"
+													data-popup="tooltip" title=""
+													data-original-title="Skip Loan"><i
+													class="icon-last"></i></a>
+											</c:if> <a
 											href="${pageContext.request.contextPath}/showForeCloseLoan?id=${empdetList.exVar1}&empId=${empdetList.exVar2}"
 											class="list-icons-item text-primary-600" data-popup="tooltip"
 											title="" data-original-title="Foreclose Loan"><i
-												class="icon-pencil7"></i></a>
-										
-												
-												
-												 <a
+												class="icon-close2 "></i></a> <a
 											href="${pageContext.request.contextPath}/showPartialPayLoan?id=${empdetList.exVar1}&empId=${empdetList.exVar2}"
 											class="list-icons-item text-primary-600" data-popup="tooltip"
 											title="" data-original-title="Partial Pay"><i
-												class="icon-pencil7"></i></a>
-										 
-												
-												
-												 <a
+												class="icon-comments
+e9a9"></i></a> <a
 											href="${pageContext.request.contextPath}/showRepayLoan?id=${empdetList.exVar1}&empId=${empdetList.exVar2}"
 											class="list-icons-item text-primary-600" data-popup="tooltip"
 											title="" data-original-title="Repay Schedule"><i
-												class="icon-pencil7"></i></a>
-												
-											
-												
-												</td>
+												class="icon-sort-time-desc"></i></a></td>
 
 
 									</tr>

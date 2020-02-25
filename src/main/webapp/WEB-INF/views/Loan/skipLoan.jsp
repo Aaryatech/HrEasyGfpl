@@ -109,7 +109,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="empName">Employee
-											Name : </label> <label class="col-form-label col-lg-2" for="empName">${empPersInfoString}
+											Name : </label> <label class="col-form-label col-lg-4" for="empName">${empPersInfoString}
 										</label>
 									</div>
 
@@ -128,7 +128,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="advanceAmt">Date
-											: : </label> <label class="col-form-label col-lg-2" for="voucherNo">
+											 : </label> <label class="col-form-label col-lg-2" for="voucherNo">
 											${advList.loanAddDate} </label>
 									</div>
 

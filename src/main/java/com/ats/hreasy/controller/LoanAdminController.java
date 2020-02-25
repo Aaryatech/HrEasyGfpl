@@ -101,10 +101,17 @@ class LoanAdminController {
 			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
 			try {
 
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("limitKey", "loan_number");
+				Setting getSettingByKey = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey",
+						map, Setting.class);
+
+				model.addObject("appNo", getSettingByKey.getValue());
+
 				String base64encodedString = request.getParameter("empId");
 				String empTypeId = FormValidation.DecodeKey(base64encodedString);
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map = new LinkedMultiValueMap<>();
 				map.add("empId", empTypeId);
 				GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
@@ -123,13 +130,6 @@ class LoanAdminController {
 						map, LoanMain.class);
 
 				model.addObject("prevLoan", empPersInfo1);
-				System.out.println("  LoanMain Info-------" + empPersInfo1.toString());
-
-				map = new LinkedMultiValueMap<String, Object>();
-				map.add("limitKey", "loan_number");
-				Setting getSettingByKey = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey",
-						map, Setting.class);
-				model.addObject("appNo", getSettingByKey.getValue());
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -264,7 +264,7 @@ class LoanAdminController {
 					adv.setAllData("");
 					adv.setCurrentOutstanding(Integer.parseInt(repayAmt));
 					adv.setCurrentTotpaid(0);
-					adv.setLoanAddDate(sf2.format(date2));
+					adv.setLoanAddDate(sf.format(date2));
 					adv.setLoanAmt(Integer.parseInt(loanAmt));
 					adv.setLoanEmi(temp);
 					adv.setLoanEmiIntrest(Integer.parseInt(emi));
@@ -539,7 +539,7 @@ class LoanAdminController {
 					Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 							.parse(employeeInfoList.get(i).getSkipLoginTime());
 
-					//System.out.println("date------" + sf.format(date));
+					// System.out.println("date------" + sf.format(date));
 					String a = sf.format(date1);
 
 					// System.out.println("a------" + a);
@@ -785,7 +785,7 @@ class LoanAdminController {
 
 			String remark = request.getParameter("remark");
 			String closeDate = request.getParameter("joiningDate");
-			System.err.println("closeDate"+closeDate);
+			System.err.println("closeDate" + closeDate);
 			String partialAmt = request.getParameter("partialAmt");
 			int id = Integer.parseInt(request.getParameter("id"));
 
