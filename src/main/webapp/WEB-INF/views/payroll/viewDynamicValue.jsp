@@ -142,6 +142,7 @@
 											<th class="text-center">Pay Ded</th>
 											<th class="text-center">IT Ded</th>
 											<th class="text-center">Performance Bonus</th>
+											<th class="text-center">Reward</th>
 											<th class="text-center">Edit</th>
 										</tr>
 
@@ -161,6 +162,7 @@
 												<td class="text-right">${empList.payDed}</td>
 												<td class="text-right">${empList.itded}</td>
 												<td class="text-right">${empList.performanceBonus}</td>
+												<td class="text-right">${empList.reward}</td>
 												<td class="text-center"><a href="#"
 													onclick="editBonus(${empList.id})"
 													data-original-title="Edit"><i class="icon-pencil7"></i></a></td>

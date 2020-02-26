@@ -82,6 +82,9 @@ public class EmpSalInfoDaiyInfoTempInfo {
 		private double employerEsicPercentageSal; 
 		private double employeeEsicPercentageSal;
 		private double employerMlwf;
+		private double adjustMinus;
+		private double adjustPlus;
+		private double reward;
 		
 		// tbl_emp_salary_info
 		private int salaryInfoId; 
@@ -1075,6 +1078,24 @@ public class EmpSalInfoDaiyInfoTempInfo {
 		public void setEmployerMlwf(double employerMlwf) {
 			this.employerMlwf = employerMlwf;
 		}
+		public double getAdjustMinus() {
+			return adjustMinus;
+		}
+		public void setAdjustMinus(double adjustMinus) {
+			this.adjustMinus = adjustMinus;
+		}
+		public double getAdjustPlus() {
+			return adjustPlus;
+		}
+		public void setAdjustPlus(double adjustPlus) {
+			this.adjustPlus = adjustPlus;
+		}
+		public double getReward() {
+			return reward;
+		}
+		public void setReward(double reward) {
+			this.reward = reward;
+		}
 		@Override
 		public String toString() {
 			return "EmpSalInfoDaiyInfoTempInfo [uuid=" + uuid + ", id=" + id + ", cmpId=" + cmpId + ", empId=" + empId
@@ -1105,6 +1126,7 @@ public class EmpSalInfoDaiyInfoTempInfo {
 					+ pfAdminChPercentage + ", edliPercentage=" + edliPercentage + ", edliAdminPercentage="
 					+ edliAdminPercentage + ", employerEsicPercentageSal=" + employerEsicPercentageSal
 					+ ", employeeEsicPercentageSal=" + employeeEsicPercentageSal + ", employerMlwf=" + employerMlwf
+					+ ", adjustMinus=" + adjustMinus + ", adjustPlus=" + adjustPlus + ", reward=" + reward
 					+ ", salaryInfoId=" + salaryInfoId + ", salaryTypeId=" + salaryTypeId + ", basic=" + basic + ", da="
 					+ da + ", hra=" + hra + ", spa=" + spa + ", pfApplicable=" + pfApplicable + ", pfType=" + pfType
 					+ ", pfEmpPer=" + pfEmpPer + ", pfEmplrPer=" + pfEmplrPer + ", esicApplicable=" + esicApplicable
