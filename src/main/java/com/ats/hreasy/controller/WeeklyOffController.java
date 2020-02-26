@@ -504,6 +504,7 @@ public class WeeklyOffController {
 				 * model.addObject("locationList", locationList);
 				 */
 				model.addObject("month", (month));
+				model.addObject("empId",empId);
 				model.addObject("year", (year));
 				model.addObject("monthyear", monthyear);
 				/*
@@ -673,11 +674,12 @@ public class WeeklyOffController {
 
 		try {
 
-			String calYrId = request.getParameter("calYrId");
+			String calYrId[] = request.getParameter("monthyear").split("-");
 			String empId = request.getParameter("empId");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("year", calYrId);
+			map.add("month", calYrId[0]);
+			map.add("year", calYrId[1]);
  			map.add("empId", Integer.parseInt(empId));
 
 			GetWeekShiftChange[] employeeInfo = Constants.getRestTemplate()

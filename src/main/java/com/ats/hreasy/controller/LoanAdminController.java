@@ -288,7 +288,7 @@ class LoanAdminController {
 					adv.setLoginName(String.valueOf(userObj.getEmpId()));
 					adv.setLoginTime(sf2.format(date2));
 					adv.setSkipId(0);
- 					adv.setDelStatus(1);
+					adv.setDelStatus(1);
 
 					LoanMain res = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmpLoan", adv,
 							LoanMain.class);
@@ -521,24 +521,22 @@ class LoanAdminController {
 				String empId = FormValidation.DecodeKey(base64encodedString);
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				
-				
+
 				map = new LinkedMultiValueMap<>();
 				map.add("companyId", 1);
 				map.add("empId", empId);
 				loan = Constants.getRestTemplate().postForObject(Constants.url + "/getLoanHistoryEmpWiseSpecForCompany",
 						map, GetLoan.class);
 				model.addObject("empDeatil", loan);
-				
 
 				map.add("companyId", 1);
 				map.add("empId", empId);
-				 
+
 				LoanMain[] employeeInfo = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getLoanHistoryEmpWiseDetailComp", map, LoanMain[].class);
 
 				employeeInfoList = new ArrayList<LoanMain>(Arrays.asList(employeeInfo));
-				// System.out.println("employeeInfoList" + employeeInfoList.toString());
+				System.out.println("employeeInfoList" + employeeInfoList.toString());
 				model.addObject("loanList", employeeInfoList);
 
 				for (int i = 0; i < employeeInfoList.size(); i++) {
@@ -563,7 +561,6 @@ class LoanAdminController {
 
 				}
 
-			
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -585,12 +582,12 @@ class LoanAdminController {
 
 			String base64encodedString1 = request.getParameter("empId");
 			String empId = FormValidation.DecodeKey(base64encodedString1);
-			 System.out.println("Edit EmpPersonal Info-------" + empId);
+			System.out.println("Edit EmpPersonal Info-------" + empId);
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
 			GetEmployeeDetails empPersInfo = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getAllEmployeeDetailByEmpId", map, GetEmployeeDetails.class);
-		 System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
+			System.out.println("Edit EmpPersonal Info-------" + empPersInfo.toString());
 
 			String empPersInfoString = empPersInfo.getEmpCode().concat(" ").concat(empPersInfo.getFirstName())
 					.concat(" ").concat(empPersInfo.getSurname()).concat("[")
@@ -604,7 +601,7 @@ class LoanAdminController {
 			LoanMain advList = Constants.getRestTemplate().postForObject(Constants.url + "/getLoanById", map,
 					LoanMain.class);
 
-			System.err.println("-----"+advList.toString());
+			System.err.println("-----" + advList.toString());
 			model.addObject("advList", advList);
 
 			String skipStr = new String();

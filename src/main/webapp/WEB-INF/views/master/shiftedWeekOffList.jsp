@@ -7,6 +7,12 @@
 <c:url var="getWeekOffChangeDetails" value="/getWeekOffChangeDetails" />
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap-datepicker.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-datepicker.js"></script>
 </head>
 
 <body>
@@ -96,23 +102,20 @@
 						<div class="form-group row">
 
 							<label class="col-form-label text-info font-weight-bold col-lg-2"
-								for="locId"> Year<span class="text-danger">* </span>:
+								for="month"> Month-Year <span class="text-danger">*</span>:
 							</label>
-							<div class="col-lg-2">
-								<select name="calYrId" data-placeholder="Select  " id="calYrId"
-									class="form-control form-control-select2 select2-hidden-accessible"
-									data-fouc="" aria-hidden="true">
-
-									<option value="0">Select Year</option>
-
-									<option value="2019">2019</option>
-									<option value="2020">2020</option>
-									<option value="2021">2021</option>
-								</select>
+							<div class="col-lg-3">
+								<input type="text" name="monthyear" id="monthyear"
+									class="form-control datepicker" autocomplete="off"
+									data-min-view-mode="months" data-start-view="1"
+									data-format="mm-yyyy"> <span
+									class="validation-invalid-label" id="error_monthyear"
+									style="display: none;">This field is required.</span>
 							</div>
- 
+
 							<label class="col-form-label text-info font-weight-bold col-lg-2"
-								for="empId"> Employee<span class="text-danger">* </span>:
+								for="empId"> Employee<span class="text-danger">*
+							</span>:
 							</label>
 							<div class="col-lg-3">
 								<select name="empId" data-placeholder="Select  " id="empId"
@@ -179,16 +182,27 @@
 	</div>
 	<!-- /page content -->
 	<script type="text/javascript">
+		$(document).ready(function() {
+			// month selector
+			$('.datepicker').datepicker({
+				autoclose : true,
+				format : "mm-yyyy",
+				viewMode : "months",
+				minViewMode : "months"
+
+			});
+
+		});
+	</script>
+	<script type="text/javascript">
 		function show() {
 
-			 
-
-			var calYrId = document.getElementById("calYrId").value;
+			var monthyear = document.getElementById("monthyear").value;
 			var empId = document.getElementById("empId").value;
 
 			var valid = true;
 
-			if (calYrId == null || calYrId == "") {
+			if (monthyear == null || monthyear == "") {
 				valid = false;
 				alert("Please Select Year");
 			}
@@ -200,14 +214,12 @@
 			if (valid == true) {
 
 				$.getJSON('${getWeekOffChangeDetails}', {
-					calYrId : calYrId,
+					monthyear : monthyear,
 					empId : empId,
 					ajax : 'true',
 				},
 
 				function(data) {
-
-					 
 
 					var dataTable = $('#printtable1').DataTable();
 					dataTable.clear().draw();
