@@ -102,7 +102,7 @@
 									<th>Emp Code </th>
 									<th>Employee Name</th>
 									<th>Deduction Rate</th>
-									<th>Deduction Total</th>
+								<!-- 	<th>Deduction Total</th> -->
 									<th>Deduction Month Year</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
@@ -117,13 +117,13 @@
 										<td>${deductList.empCode}</td>
 										<td>${deductList.empName}</td>
 										<td>${deductList.dedRate}</td>
-										<td>${deductList.dedTotal}</td>
+										<%-- <td>${deductList.dedTotal}</td> --%>
 										<td>${deductList.month}-${deductList.year}</td>
 										<td class="text-center"><c:if test="${editAccess == 0}">
-												<a
+												<%-- <a
 													href="${pageContext.request.contextPath}/editEmpPayDeduct?deductId=${deductList.encryptedId}"
 													class="list-icons-item text-primary-600" data-popup="tooltip"  data-original-title="Deduction"><i class="icon-pencil7"
-													 ></i></a>
+													 ></i></a> --%>
 											</c:if> <c:if test="${deleteAccess == 0}">
 												 
 												 
