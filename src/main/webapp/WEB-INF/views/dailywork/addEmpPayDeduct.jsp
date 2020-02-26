@@ -6,10 +6,15 @@
 <head>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap-datepicker.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-datepicker.js"></script>
 </head>
 
 <body>
-<c:url var="getPayDeductionTypeRate" value="/getPayDeductionTypeRate"></c:url>
+	<c:url var="getPayDeductionTypeRate" value="/getPayDeductionTypeRate"></c:url>
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -27,10 +32,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
-
- 
-			</div>
+			<div class="page-header page-header-light"></div>
 			<!-- /page header -->
 
 
@@ -49,21 +51,22 @@
 
 
 						<div class="card">
-							 
-					<div class="card-header header-elements-inline">
- 						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Add Employee Payment Deduction</h5></td>
-								<td width="40%" align="right">
-							  
-								 <%-- <a
+
+							<div class="card-header header-elements-inline">
+								<table width="100%">
+									<tr width="100%">
+										<td width="60%"><h5 class="card-title">Add Employee
+												Payment Deduction</h5></td>
+										<td width="40%" align="right">
+											<%-- <a
 									href="${pageContext.request.contextPath}/showAddKra?empId=${editKra.exVar3}&finYrId=${editKra.exVar2}"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">KRA List </button>
-								</a>  --%></td>
-							</tr>
-						</table>
-					</div>
+								</a>  --%>
+										</td>
+									</tr>
+								</table>
+							</div>
 							<div class="card-body">
 								<%
 									if (session.getAttribute("errorMsg") != null) {
@@ -104,89 +107,115 @@
 								<form
 									action="${pageContext.request.contextPath}/insertPayDeductDetail"
 									id="insertPayDeductDetail" method="post">
-								
-								<div class="form-group row">
-									<input type="hidden" value="${pay.dedId}" id="dedId" name="dedId">
-									<input type="hidden" value="${empId}" id="empId" name="empId">
-									<input type="hidden" value="${currentYear}" id="year" name="year">
-								</div>
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="dedTypeId">Select
-													Deduction Type <span style="color: red"> </span>:
-												</label>
-												<div class="col-lg-4">
-													<select name="dedTypeId"
-														data-placeholder="Select Deduction Type" id="dedTypeId" onchange="getDeductRate(this.value)"
-														class="form-control form-control-select21 select2-hidden-accessible1">
-														<c:forEach items="${payDeductList}"
-															var="payDeductList">															
-																<option value="${payDeductList.dedTypeId}">${payDeductList.typeName}</option>
-													</c:forEach>
-													</select> <span class="hidedefault   validation-invalid-label"
-														style="display: none;" id="error_empType">This field is required.</span>
-												</div>
+										<input type="hidden" value="${empId}" id="empId" name="empId">
+
+
+										<input type="hidden" value="0" id="dedId" name="dedId">
 									</div>
 									
+									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="dedRate">Amount
+										<label class="col-form-label col-lg-2" for="dedRate">Employee
+											 Code<span style="color:red"></span>:</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control" value="${emp.empCode}" readonly="readonly">
+												
+										</div>
+									</div> 
+									
+								<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="dedRate">Employee Name
 											 <span style="color:red"></span>:</label>
 										<div class="col-lg-4">
-											<input type="text" class="form-control"
-												placeholder="Enter Address" id="dedRate" value="${pay.dedRate}"
-												name="dedRate" autocomplete="off" onchange="trim(this)"> <span
-												class="validation-invalid-label" id="error_address"
-												style="display: none;">This field is required.</span>
-												
+											<input type="text" class="form-control" value="${emp.firstName} ${emp.surname}" readonly="readonly"> 
+										</div>
+									</div>
+									
+									
+									<div class="form-group row">
+
+
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="dedTypeId"> Deduction Type <span
+											class="text-danger">*</span>:
+										</label>
+										<div class="col-lg-4">
+											<select name="dedTypeId"
+												data-placeholder="Select Deduction Type" id="dedTypeId"
+												onchange="getDeductRate(this.value)"
+												class="form-control form-control-select2 select2-hidden-accessible">
+
+												<option value="">Select</option>
+												<c:forEach items="${payDeductList}" var="payDeductList">
+													<option value="${payDeductList.dedTypeId}">${payDeductList.typeName}</option>
+												</c:forEach>
+											</select> <span class="hidedefault   validation-invalid-label"
+												style="display: none;" id="error_dedTypeId">This
+												field is required.</span>
 										</div>
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="month">Deduction Month
-											 <span style="color:red"> </span>:</label>
+
+
+
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="dedRate"> Amount<span class="text-danger">*</span>:
+										</label>
 										<div class="col-lg-4">
-											<select name="month"
-														data-placeholder="Select Deduction Type" id="month"
-														class="form-control form-control-select21 select2-hidden-accessible1">
-													 <option value=''>Select Month</option>
-												    <option value='1'>Janaury</option>
-												    <option value='2'>February</option>
-												    <option value='3'>March</option>
-												    <option value='4'>April</option>
-												    <option value='5'>May</option>
-												    <option value='6'>June</option>
-												    <option value='7'>July</option>
-												    <option value='8'>August</option>
-												    <option value='9'>September</option>
-												    <option value='10'>October</option>
-												    <option value='11'>November</option>
-												    <option value='12'>December</option>
-											</select>
-												
+											<input type="text" class="form-control"
+												placeholder="Enter Address" id="dedRate" name="dedRate"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_dedRate"
+												style="display: none;">This field is required.</span>
+
 										</div>
 									</div>
-									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="remark">Reason / Remark :
-											Name <span style="color:red"></span>:</label>
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="month"> Month-Year <span class="text-danger">*</span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" name="monthyear" id="monthyear"
+												class="form-control datepicker" autocomplete="off"
+												data-min-view-mode="months" data-start-view="1"
+												data-format="mm-yyyy"> <span
+												class="validation-invalid-label" id="error_monthyear"
+												style="display: none;">This field is required.</span>
+										</div>
+
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="remark">Reason
+											/ Remark <span style="color: red"></span>:
+										</label>
 										<div class="col-lg-4">
 											<textarea class="form-control"
 												placeholder="Enter Reason / Remark" id="remark"
-												name="remark" autocomplete="off" onchange="trim(this)">${pay.dedRemark}</textarea>
-											<span class="validation-invalid-label" id="error_micrCode"
-												style="display: none;">This field is required.</span>
+												name="remark" autocomplete="off" onchange="trim(this)"> </textarea>
+
 										</div>
 									</div>
-									
+
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
-										
+
 											<button type="submit" class="btn bg-blue ml-3 legitRipple"
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a href="${pageContext.request.contextPath}/viewPayDeduction"><button
-										type="button" class="btn btn-light"><i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp; Back</button></a>
+													type="button" class="btn btn-light">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Back
+												</button></a>
 										</div>
 									</div>
 								</form>
@@ -213,189 +242,95 @@
 	</div>
 	<!-- /page content -->
 
+	<script type="text/javascript">
+		$(document).ready(function() {
+			// month selector
+			$('.datepicker').datepicker({
+				autoclose : true,
+				format : "mm-yyyy",
+				viewMode : "months",
+				minViewMode : "months"
+
+			});
+
+		});
+	</script>
 	<script>
-	
-	function getDeductRate(deductType) {
-		$
-			.getJSON(
-					'${getPayDeductionTypeRate}',
+		function getDeductRate(deductType) {
+			$.getJSON('${getPayDeductionTypeRate}',
 
-					{
-						 
-						deductType : deductType,
-						ajax : 'true'
+			{
 
-					},
-					function(data) {
-						$('#dedRate').val(data.dedRate);
+				deductType : deductType,
+				ajax : 'true'
 
-					});
-	}
-	
-	function checkSame(){
-		x=document.getElementById("locName").value;
-		y=document.getElementById("locShortName").value;
-		//alert(x);
-		
-		if(x!== '' && y!== ''){
-			if(x==y){
-				$("#error_sameName").show()
-				document.getElementById("locShortName").value="";
-			}
-			else{
-				$("#error_sameName").hide()
-			}
-	}
-		
-	}
+			}, function(data) {
+				$('#dedRate').val(data.dedRate);
+
+			});
+		}
+
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
 			replace(/\n +/, "\n"); // Removes spaces after newlines
-			checkSame();
+
 			return;
 		}
 
-		function validateEmail(email) {
+		$(document).ready(function($) {
 
-			var eml = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+			$("#insertPayDeductDetail").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
 
-			if (eml.test($.trim(email)) == false) {
+				if (!$("#dedTypeId").val()) {
 
+					isError = true;
+
+					$("#error_dedTypeId").show()
+					//return false;
+				} else {
+					$("#error_dedTypeId").hide()
+				}
+
+				if (!$("#dedRate").val()) {
+
+					isError = true;
+
+					$("#error_dedRate").show()
+
+				} else {
+					$("#error_dedRate").hide()
+				}
+				if (!$("#monthyear").val()) {
+
+					isError = true;
+
+					$("#error_monthyear").show()
+
+				} else {
+					$("#error_monthyear").hide()
+				}
+				 
+				if (!isError) {
+
+					var x = true;
+					if (x == true) {
+
+						document.getElementById("submtbtn").disabled = true;
+						return true;
+					}
+					//end ajax send this to php page
+				}
 				return false;
-
-			}
-
-			return true;
-
-		}
-		function validateMobile(mobile) {
-			var mob = /^[1-9]{1}[0-9]{9}$/;
-
-			if (mob.test($.trim(mobile)) == false) {
-
-				//alert("Please enter a valid email address .");
-				return false;
-
-			}
-			return true;
-
-		}
-		$(document)
-				.ready(
-						function($) {
-
-							$("#submitInsertLocaion")
-									.submit(
-											function(e) {
-												var isError = false;
-												var errMsg = "";
-
-												if (!$("#bankName").val()) {
-
-													isError = true;
-
-													$("#error_bank").show()
-													//return false;
-												} else {
-													$("#error_bank").hide()
-												}
-
-												if (!$("#address").val()) {
-
-													isError = true;
-
-													$("#error_address")
-															.show()
-
-												} else {
-													$("#error_address")
-															.hide()
-												}
-												if (!$("#branchName").val()) {
-
-													isError = true;
-
-													$("#error_branchName")
-															.show()
-
-												} else {
-													$("#error_branchName")
-															.hide()
-												}
-												if (!$("#micrCode").val()) {
-
-													isError = true;
-
-													$("#error_micrCode")
-															.show()
-
-												} else {
-													$("#error_micrCode")
-															.hide()
-												}
-												if (!$("#ifscCode").val()) {
-
-													isError = true;
-
-													$("#error_ifscCode")
-															.show()
-
-												} else {
-													$("#error_ifscCode")
-															.hide()
-												}
-
-												if (!isError) {
-
-													var x = true;
-													if (x == true) {
-
-														document
-																.getElementById("submtbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
-												}
-												return false;
-											});
-						});
+			});
+		});
 		//
 	</script>
-	
-	
-	
-	<!-- <script type="text/javascript">
-	$('#submtbtn').on('click', function() {
-        swalInit({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-            buttonsStyling: false
-        }).then(function(result) {
-            if(result.value) {
-                swalInit(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                );
-            }
-            else if(result.dismiss === swal.DismissReason.cancel) {
-                swalInit(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
-                    'error'
-                );
-            }
-        });
-    });
-	
-	</script> -->
+
+
+
 
 </body>
 </html>

@@ -67,7 +67,152 @@ public class BonusAdminController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/showAddBonusType", method = RequestMethod.GET)
+	public String showAddBonusType(HttpServletRequest request, HttpServletResponse response,Model model) {
 
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+		String  mav = new String();
+		/*
+		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+		 * session.getAttribute("moduleJsonList"); Info view =
+		 * AcessController.checkAccess("showAddBonus", "showBonusList", 0, 1, 0, 0,
+		 * newModuleList);
+		 * 
+		 * if (view.isError() == true) { model = new ModelAndView("accessDenied"); }
+		 * else {
+		 */
+
+			try {
+
+				mav ="Bonus/addBonusPayType";
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		//}
+		return mav;
+	}
+
+	
+	
+
+	@RequestMapping(value = "/submitBonusType", method = RequestMethod.POST)
+	public String submitBonusType(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		String a = new String();
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showAddBonus", "showBonusList", 0, 1, 0, 0, newModuleList);
+
+		if (view.isError() == true) {
+
+			a = "redirect:/accessDenied";
+
+		} else {
+
+			a = "redirect:/showBonusList";
+			try {
+
+				Date date = new Date();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String leaveDateRange = request.getParameter("leaveDateRange");
+				String bonusTitle = request.getParameter("bonusTitle");
+				String bonusPrcnt = request.getParameter("bonusPrcnt");
+
+			
+
+				String bonusRemark = new String();
+				String[] arrOfStr = leaveDateRange.split("to", 2);
+				Boolean ret = false;
+
+				try {
+					bonusRemark = request.getParameter("bonusRemark");
+				} catch (Exception e) {
+					bonusRemark = "";
+				}
+
+				if (FormValidation.Validaton(leaveDateRange, "") == true) {
+
+					ret = true;
+					System.out.println("leaveDateRange" + ret);
+				}
+				if (FormValidation.Validaton(bonusTitle, "") == true) {
+
+					ret = true;
+					System.out.println("bonusTitle" + ret);
+				}
+
+				if (FormValidation.Validaton(bonusPrcnt, "") == true) {
+
+					ret = true;
+					System.out.println("bonusPrcnt" + ret);
+				}
+				String exgratiaPrcnt = request.getParameter("exgratiaPrcnt");
+				if (FormValidation.Validaton(exgratiaPrcnt, "") == true) {
+
+					ret = true;
+					System.out.println("exgratiaPrcnt" + ret);
+				}
+
+				String minDays = request.getParameter("minDays");
+				if (FormValidation.Validaton(minDays, "") == true) {
+
+					ret = true;
+					System.out.println("minDays" + ret);
+				}
+
+				if (ret == false) {
+
+					BonusMaster bonus = new BonusMaster();
+					bonus.setMinDays(Integer.parseInt(minDays));
+					bonus.setBonusPercentage(Double.parseDouble(bonusPrcnt));
+					bonus.setDelStatus(1);
+					bonus.setExInt1(0);
+					bonus.setExInt2(0);
+					bonus.setExVar1("NA");
+					bonus.setExVar2("NA");
+					bonus.setFyFromdt(arrOfStr[0].toString().trim());
+					bonus.setFyTitle(bonusTitle);
+					bonus.setFyTodt(arrOfStr[1].toString().trim());
+					bonus.setIsCurrent(1);
+					bonus.setRemark(bonusRemark);
+					bonus.setBonusAppBelowAmount(0);
+					bonus.setBonusAppBelowApplicable(0);
+					bonus.setBonuSealingLimitAmountPerMonth(0);
+					bonus.setBonusSealingLimitApplicable(0);
+					bonus.setDedBonusAdvAmtPercentage(0);
+					bonus.setExgratiaPercentage(Double.parseDouble(exgratiaPrcnt));
+
+					BonusMaster res = Constants.getRestTemplate().postForObject(Constants.url + "/saveBonus", bonus,
+							BonusMaster.class);
+
+					if (res != null) {
+						session.setAttribute("successMsg", "Location Inserted Successfully");
+					} else {
+						session.setAttribute("errorMsg", "Failed to Insert Record");
+					}
+
+				} else {
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				session.setAttribute("errorMsg", "Failed to Insert Record");
+			}
+		}
+
+		return a;
+	}
+
+	
+	
+	
 	@RequestMapping(value = "/submitBonus", method = RequestMethod.POST)
 	public String submitBonus(HttpServletRequest request, HttpServletResponse response) {
 

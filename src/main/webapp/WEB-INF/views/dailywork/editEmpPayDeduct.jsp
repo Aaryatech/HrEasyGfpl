@@ -4,7 +4,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/assets/css/bootstrap-datepicker.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/assets/js/bootstrap-datepicker.js"></script>
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
@@ -134,7 +138,7 @@
 												<div class="col-lg-4">
 													<select name="dedTypeId"
 														data-placeholder="Select Deduction Type" id="dedTypeId" onchange="getDeductRate(this.value)"
-														class="form-control form-control-select21 select2-hidden-accessible1">
+															class="form-control form-control-select2 select2-hidden-accessible">
 														<c:forEach items="${payDeductList}"
 															var="payDeductList">	
 															<c:choose>
@@ -257,22 +261,7 @@
 					});
 	}
 	
-	function checkSame(){
-		x=document.getElementById("locName").value;
-		y=document.getElementById("locShortName").value;
-		//alert(x);
-		
-		if(x!== '' && y!== ''){
-			if(x==y){
-				$("#error_sameName").show()
-				document.getElementById("locShortName").value="";
-			}
-			else{
-				$("#error_sameName").hide()
-			}
-	}
-		
-	}
+	 
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
@@ -281,31 +270,7 @@
 			return;
 		}
 
-		function validateEmail(email) {
-
-			var eml = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-
-			if (eml.test($.trim(email)) == false) {
-
-				return false;
-
-			}
-
-			return true;
-
-		}
-		function validateMobile(mobile) {
-			var mob = /^[1-9]{1}[0-9]{9}$/;
-
-			if (mob.test($.trim(mobile)) == false) {
-
-				//alert("Please enter a valid email address .");
-				return false;
-
-			}
-			return true;
-
-		}
+		 
 		$(document)
 				.ready(
 						function($) {
@@ -389,38 +354,7 @@
 	</script>
 	
 	
-	
-	<!-- <script type="text/javascript">
-	$('#submtbtn').on('click', function() {
-        swalInit({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-            buttonsStyling: false
-        }).then(function(result) {
-            if(result.value) {
-                swalInit(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                );
-            }
-            else if(result.dismiss === swal.DismissReason.cancel) {
-                swalInit(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
-                    'error'
-                );
-            }
-        });
-    });
-	
-	</script> -->
+	 
 
 </body>
 </html>

@@ -444,18 +444,31 @@ public class PayDeductionController {
 
 				String base64encodedString = request.getParameter("empId");
 				String empId = FormValidation.DecodeKey(base64encodedString);
+				
+				
+			
 
-				PayDeductionDetails pay = new PayDeductionDetails();
 
+				/*
+				 * PayDeductionDetails pay = new PayDeductionDetails(); model.addObject("pay",
+				 * pay);
+				 */
 				PayDeduction[] payDeductArr = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAllPayDeduction", PayDeduction[].class);
 				List<PayDeduction> payDeductList = new ArrayList<PayDeduction>(Arrays.asList(payDeductArr));
 
 				model = new ModelAndView("dailywork/addEmpPayDeduct");
-				model.addObject("currentYear", currentYear);
-				model.addObject("pay", pay);
+ 			
 				model.addObject("empId", empId);
 				model.addObject("payDeductList", payDeductList);
+				
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+
+				EmployeeMaster emp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map,
+						EmployeeMaster.class);
+				model.addObject("emp", emp);
 
 				// }
 			} catch (Exception e) {
@@ -473,22 +486,20 @@ public class PayDeductionController {
 			int dedId = 0;
 			int empId = 0;
 			int dedTypeId = 0;
-			int month = 0;
-			int year = 0;
-			try {
+			String monthyear =request.getParameter("monthyear");
+			
+			String a[]=monthyear.split("-");
+ 			try {
 				dedId = Integer.parseInt(request.getParameter("dedId"));
 				empId = Integer.parseInt(request.getParameter("empId"));
 				dedTypeId = Integer.parseInt(request.getParameter("dedTypeId"));
-				month = Integer.parseInt(request.getParameter("month"));
-				year = Integer.parseInt(request.getParameter("year"));
-			} catch (Exception e) {
+  			} catch (Exception e) {
 				e.printStackTrace();
 
 				dedId = 0;
 				empId = 0;
 				dedTypeId = 0;
-				month = 0;
-				year = 0;
+ 				year = 0;
 			}
 			PayDeductionDetails pay = new PayDeductionDetails();
 
@@ -496,8 +507,8 @@ public class PayDeductionController {
 			pay.setCmpId(1);
 			pay.setEmpId(empId);
 			pay.setDedTypeId(dedTypeId);
-			pay.setMonth(month);
-			pay.setYear(year);
+			pay.setMonth(Integer.parseInt(a[0]));
+			pay.setYear(Integer.parseInt(a[1]));
 			pay.setDedRate(Double.parseDouble(request.getParameter("dedRate")));
 			pay.setDedRemark(request.getParameter("remark"));
 

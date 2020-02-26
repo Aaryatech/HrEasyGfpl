@@ -176,11 +176,11 @@
 									 -->
 									<div class="form-group row">
 										<label class="col-form-label text-info font-weight-bold col-lg-2" for="date">Select
-											Date <span style="color: red">* </span> :
+											Deduction Month <span style="color: red">* </span> :
 										</label>
 										<div class="col-md-10">
 											<input type="text" class="form-control "
-												placeholder="Select Date " id="datepicker" name="date"
+												placeholder="Select Deduction Month " id="datepicker" name="date"
 												value="${date}" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_month"
 												style="display: none;">This field is required.</span>
