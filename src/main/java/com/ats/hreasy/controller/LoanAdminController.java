@@ -604,6 +604,7 @@ class LoanAdminController {
 			LoanMain advList = Constants.getRestTemplate().postForObject(Constants.url + "/getLoanById", map,
 					LoanMain.class);
 
+			System.err.println("-----"+advList.toString());
 			model.addObject("advList", advList);
 
 			String skipStr = new String();
