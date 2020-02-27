@@ -119,8 +119,8 @@
 										
 										<td class="text-center"><c:if test="${editAccess == 0}">
 												<a
-													href="${pageContext.request.contextPath}/payDeductEmployee?empId=${empList.exVar1}"
-													class="list-icons-item text-primary-600" data-popup="tooltip"  data-original-title="Deduction"><i class="icon-pencil7"
+													href="${pageContext.request.contextPath}/empAddReward?empId=${empList.exVar1}"
+													class="list-icons-item text-primary-600" data-popup="tooltip"  data-original-title="Reward"><i class="icon-enlarge5 "
 													 ></i></a>
 											</c:if> </td>
 									</tr>

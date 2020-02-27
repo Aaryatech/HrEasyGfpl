@@ -152,7 +152,7 @@
 									
 									
 										<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="shiftName">Min Days
+										<label class="col-form-label text-info font-weight-bold col-lg-2" for="shiftName">Present Min Days
 										  <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">

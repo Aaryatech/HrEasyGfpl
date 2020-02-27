@@ -42,14 +42,15 @@
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee Payment Deduction
-								 </h5></td>
+								<td width="60%"><h5 class="card-title">Payment
+										Deduction Details</h5></td>
 								<td width="40%" align="right"><c:if test="${addAccess==0}">
-										<%-- <a href="${pageContext.request.contextPath}/employeeAdd"
+										<a
+											href="${pageContext.request.contextPath}/viewEmpRewarAddList"
 											class="breadcrumb-elements-item">
 											<button type="button" class="btn btn-primary">Add
-												Employee</button>
-										</a> --%>
+												Reward</button>
+										</a>
 									</c:if></td>
 							</tr>
 						</table>
@@ -99,39 +100,38 @@
 								<tr class="bg-blue">
 
 									<th width="10%">Sr. No.</th>
-									<th>Emp Code </th>
-									<th>Employee Name</th>
-									<!-- <th>MICR Code</th>
-									<th>IFSC_Code</th> -->
+ 									<th>Employee Name</th>
+									<th>Reward Type</th>
+									<th>Reward Rate</th>
+									<th>Reward Month Year</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
 
 
-								<c:forEach items="${empList}" var="empList"
+								<c:forEach items="${rewardList}" var="rewardList"
 									varStatus="count">
 									<tr>
-										 <td>${count.index+1}</td>
-										<td>${empList.empCode}</td>
-										<td>${empList.firstName} ${empList.middleName} ${empList.surname}</td>
-										<%-- <td>${empList.micrCode}</td>
-										<td>${empList.ifscCode}</td>  --%>
-										
-										<td class="text-center"><c:if test="${editAccess == 0}">
+										<td>${count.index+1}</td>
+ 										<td>${rewardList.payLoginName}</td>
+										<td>${rewardList.payApprovalRemark}</td>
+										<td>${rewardList.payRate}</td>
+										<td>${rewardList.month}-${rewardList.year}</td>
+										<td class="text-center">
+											<%-- <c:if test="${editAccess == 0}">
 												<a
-													href="${pageContext.request.contextPath}/payDeductEmployee?empId=${empList.exVar1}"
-													class="list-icons-item text-primary-600" data-popup="tooltip"  data-original-title="Deduction"><i class="icon-enlarge5"
+													href="${pageContext.request.contextPath}/editEmpPayDeduct?deductId=${deductList.encryptedId}"
+													class="list-icons-item text-primary-600" data-popup="tooltip"  data-original-title="Deduction"><i class="icon-pencil7"
 													 ></i></a>
-											</c:if> <%-- <c:if test="${deleteAccess == 0}">
-												 
-												 
-											<a href="javascript:void(0)"
+											</c:if>  --%> <c:if test="${deleteAccess == 0}">
+												<a href="javascript:void(0)"
 													class="list-icons-item text-danger-600 bootbox_custom"
-													data-uuid="${empList.exVar1}" data-popup="tooltip"
+													data-uuid="${rewardList.exVar1}" data-popup="tooltip"
 													title="" data-original-title="Delete"><i
 													class="icon-trash"></i></a>
-											</c:if> --%></td>
+											</c:if>
+										</td>
 									</tr>
 								</c:forEach>
 
@@ -156,14 +156,15 @@
 
 	</div>
 	<!-- /page content -->
-<script>
+	<script>
 		// Custom bootbox dialog
 		$('.bootbox_custom')
 				.on(
 						'click',
 						function() {
 							var uuid = $(this).data("uuid") // will return the number 123
-										bootbox.confirm({
+							bootbox
+									.confirm({
 										title : 'Confirm ',
 										message : 'Are you sure you want to delete selected records ?',
 										buttons : {
@@ -178,7 +179,7 @@
 										},
 										callback : function(result) {
 											if (result) {
-												location.href = "${pageContext.request.contextPath}/deleteEmp?empId="
+												location.href = "${pageContext.request.contextPath}/deleteEmpReward?deductId="
 														+ uuid;
 
 											}

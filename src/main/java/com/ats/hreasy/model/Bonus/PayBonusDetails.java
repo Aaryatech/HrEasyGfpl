@@ -22,7 +22,7 @@ public class PayBonusDetails {
 	
 	private String payLoginName;
 	
-	private String payLoginDteTime;
+	private String payLoginDateTime;
 	
 	private String payApproveBy;
 	
@@ -125,12 +125,13 @@ public class PayBonusDetails {
 		this.payLoginName = payLoginName;
 	}
 
-	public String getPayLoginDteTime() {
-		return payLoginDteTime;
+	 
+	public String getPayLoginDateTime() {
+		return payLoginDateTime;
 	}
 
-	public void setPayLoginDteTime(String payLoginDteTime) {
-		this.payLoginDteTime = payLoginDteTime;
+	public void setPayLoginDateTime(String payLoginDateTime) {
+		this.payLoginDateTime = payLoginDateTime;
 	}
 
 	public String getPayApproveBy() {
@@ -249,15 +250,14 @@ public class PayBonusDetails {
 	public String toString() {
 		return "PayBonusDetails [payId=" + payId + ", empId=" + empId + ", cmpId=" + cmpId + ", payTypeId=" + payTypeId
 				+ ", payRate=" + payRate + ", payOccurence=" + payOccurence + ", payTotal=" + payTotal + ", payRemark="
-				+ payRemark + ", payLoginName=" + payLoginName + ", payLoginDteTime=" + payLoginDteTime
+				+ payRemark + ", payLoginName=" + payLoginName + ", payLoginDateTime=" + payLoginDateTime
 				+ ", payApproveBy=" + payApproveBy + ", payApprovalRemark=" + payApprovalRemark
 				+ ", payApprovalDatetime=" + payApprovalDatetime + ", isPaid=" + isPaid + ", finalStatus=" + finalStatus
 				+ ", month=" + month + ", year=" + year + ", delStatus=" + delStatus + ", makerEnterDatetime="
 				+ makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2="
 				+ exVar2 + ", error=" + error + "]";
 	}
- 
-	
-	
+
+	 
 
 }
