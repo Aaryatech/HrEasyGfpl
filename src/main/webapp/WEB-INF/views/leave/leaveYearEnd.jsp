@@ -112,8 +112,10 @@
 								</c:when>
 								<c:otherwise>
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">Select
-											Employee <span style="color: red">* </span> :
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="select2">Select Employee <span
+											style="color: red">* </span> :
 										</label>
 										<div class="col-md-2">
 											<select name="empId" data-placeholder="Select Employee"
@@ -222,8 +224,10 @@
 										<c:otherwise>
 											<div class="form-group row">
 
-												<label class="col-form-label text-info font-weight-bold col-lg-2" for="select2">New
-													Structure Allotment <span style="color: red">* </span> :
+												<label
+													class="col-form-label text-info font-weight-bold col-lg-2"
+													for="select2">New Structure Allotment <span
+													style="color: red">* </span> :
 												</label>
 												<div class="col-md-2">
 													<select name="structId"
@@ -314,6 +318,7 @@
 												<!-- <th width="10%">InCash</th> -->
 
 												<c:if test="${structId>0}">
+													<th width="10%">In Cash</th>
 													<th width="10%">Carry Forward</th>
 													<th width="10%">Current Year Earned</th>
 													<th width="10%">Current Year Balanced</th>
@@ -368,6 +373,11 @@
 														value="0" class="form-control" type="number" required></td> --%>
 
 													<c:if test="${structId>0}">
+														<td><input
+															id="inCash${previousleavehistorylist.lvTypeId}"
+															name="inCash${previousleavehistorylist.lvTypeId}"
+															value="${carryForward}" class="form-control numbersOnly"
+															type="text" required></td>
 														<td style="background-color: ${color};"><input
 															id="carryfrwd${previousleavehistorylist.lvTypeId}"
 															name="carryfrwd${previousleavehistorylist.lvTypeId}"

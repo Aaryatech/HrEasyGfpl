@@ -123,6 +123,39 @@
 												autocomplete="off" onchange="trim(this)">
 										</div>
 									</div>
+									<div class="form-group row">
+
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-3"
+											for="select2">Calculation Cash AMT of Leave Balance <span
+											style="color: red">* </span> :
+										</label>
+										<div class="col-lg-7">
+											<select name="allowanceIds"
+												data-placeholder="Select Structure Allotment"
+												id="allowanceIds"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												tabindex="-1" aria-hidden="true" multiple>
+												<c:forEach items="${allowanceList}" var="allowanceList">
+													<c:set value="0" var="find">
+													</c:set>
+													<c:forEach items="${allownceIds}" var="allownceIds">
+
+														<c:if test="${allownceIds==allowanceList.allowanceId}">
+															<option value="${allowanceList.allowanceId}" selected>${allowanceList.name}
+															</option>
+															<c:set value="1" var="find">
+															</c:set>
+														</c:if>
+
+													</c:forEach>
+													<c:if test="${find==0}">
+														<option value="${allowanceList.allowanceId}">${allowanceList.name}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+										</div>
+									</div>
 									<hr>
 									<div class="form-group row">
 										<strong> Leaves Types :</strong>
@@ -134,6 +167,7 @@
 										<c:set var="minVal" value="0"></c:set>
 										<c:set var="maxVal" value="0"></c:set>
 										<c:set var="maxCarryForword" value="0"></c:set>
+										<c:set var="isInCash" value="0"></c:set>
 										<c:forEach items="${editStructureDetail}" var="detail">
 											<c:choose>
 												<c:when test="${detail.lvTypeId==leaveType.lvTypeId}">
@@ -144,6 +178,7 @@
 													<c:set var="maxNoDays" value="${detail.maxNoDays}"></c:set>
 													<c:set var="maxCarryForword"
 														value="${detail.maxAccumulateCarryforward}"></c:set>
+													<c:set var="isInCash" value="${detail.exInt1}"></c:set>
 												</c:when>
 
 
@@ -212,8 +247,27 @@
 													autocomplete="off" onchange="chkVal(${leaveType.lvTypeId})">
 											</div>
 
-										</div>
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-1"
+												for="isInCash${leaveType.lvTypeId}">In Cash : </label>
+											<div class="col-md-1">
 
+												<c:choose>
+													<c:when test="${isInCash==1}">
+														<input type="checkbox" id="isInCash${leaveType.lvTypeId}"
+															value="0" name="isInCash${leaveType.lvTypeId}"
+															autocomplete="off" checked>
+													</c:when>
+													<c:otherwise>
+														<input type="checkbox" id="isInCash${leaveType.lvTypeId}"
+															value="0" name="isInCash${leaveType.lvTypeId}"
+															autocomplete="off">
+													</c:otherwise>
+												</c:choose>
+
+											</div>
+
+										</div>
 									</c:forEach>
 									<input type="hidden" name="err_flag" id="err_flag" value="0">
 
@@ -255,13 +309,13 @@
 	<!-- /page content -->
 	<script>
 		function  chkVal(id){
-			
+			 
 			var minDays=document.getElementById("min"+id).value;
 			var maxDays=document.getElementById("max"+id).value;
 			var Days=document.getElementById("noOfLeaves"+id).value;
  			
-			if(parseFloat(maxDays)< parseFloat(minDays)){
-			/* 	$("#error_prsnName"+id).show()
+			/*if(parseFloat(maxDays)< parseFloat(minDays)){
+			 	$("#error_prsnName"+id).show()
 				
 				document.getElementById("err_flag").value=1;
 				

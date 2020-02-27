@@ -27,6 +27,7 @@ import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
+import com.ats.hreasy.model.Allowances;
 import com.ats.hreasy.model.CalenderYear;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
@@ -88,6 +89,11 @@ public class LeaveStructureController {
 				model.addObject("leaveTypeList", leaveTypeList);
 
 				model.addObject("title", "Add Leave Structure");
+
+				Allowances[] allowanceArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllAllowances", Allowances[].class);
+				List<Allowances> allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
+				model.addObject("allowanceList", allowanceList);
 			}
 
 		} catch (Exception e) {
@@ -122,6 +128,7 @@ public class LeaveStructureController {
 			try {
 
 				String lvsName = request.getParameter("lvsName");
+				String[] allownsIds = request.getParameterValues("allowanceIds");
 
 				Boolean ret = false;
 
@@ -220,10 +227,17 @@ public class LeaveStructureController {
 						}
 
 						// System.err.println("lv" + noOfLeaves + "min" + minlv + "max" + maxlv);
-
 						detail = new LeaveStructureDetails();
+						try {
+							int inCash = Integer
+									.parseInt(request.getParameter("isInCash" + leaveTypeList.get(i).getLvTypeId()));
+							detail.setExInt1(1);
+						} catch (Exception e) {
+							detail.setExInt1(0);
+						}
+
 						detail.setDelStatus(1);
-						detail.setExInt1(0);
+
 						detail.setExInt2(0);
 						detail.setExVar1("NA");
 						detail.setExVar2("NA");
@@ -237,6 +251,18 @@ public class LeaveStructureController {
 						detail.setMakerUserId(userObj.getUserId());
 						detail.setMakerDatetime(dateTime);
 						detailList.add(detail);
+					}
+
+					String id = new String();
+
+					if (allownsIds != null) {
+						for (int i = 0; i < allownsIds.length; i++) {
+							id = id + allownsIds[i] + ",";
+						}
+
+						head.setExVar1(id.substring(0, id.length() - 1));
+					}else {
+						head.setExVar1("0");
 					}
 
 					head.setDetailList(detailList);
@@ -367,11 +393,19 @@ public class LeaveStructureController {
 
 				model.addObject("leaveTypeList", leaveTypeList);
 
-				/*
-				 * System.out.println("editStructure" + editStructure.toString());
-				 * System.out.println("editStructureDetail" +
-				 * editStructure.getDetailList().toString());
-				 */
+				Allowances[] allowanceArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllAllowances", Allowances[].class);
+				List<Allowances> allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
+				model.addObject("allowanceList", allowanceList);
+
+				try {
+					String[] allownceIds = editStructure.getExVar1().split(",");
+					model.addObject("allownceIds", allownceIds);
+
+				} catch (Exception e) {
+
+				}
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -439,6 +473,7 @@ public class LeaveStructureController {
 				System.err.println("Inside insert editInsertLeaveStructure method");
 
 				String lvsName = request.getParameter("lvsName");
+				String[] allownsIds = request.getParameterValues("allowanceIds");
 
 				Boolean ret = false;
 
@@ -451,6 +486,18 @@ public class LeaveStructureController {
 				if (ret == false) {
 
 					editStructure.setLvsName(lvsName);
+
+					String id = new String();
+
+					if (allownsIds != null) {
+						for (int i = 0; i < allownsIds.length; i++) {
+							id = id + allownsIds[i] + ",";
+						}
+
+						editStructure.setExVar1(id.substring(0, id.length() - 1));
+					} else {
+						editStructure.setExVar1("0");
+					}
 
 					for (int i = 0; i < leaveTypeList.size(); i++) {
 						int flag = 0;
@@ -489,6 +536,14 @@ public class LeaveStructureController {
 														"maxCarryForword" + leaveTypeList.get(i).getLvTypeId())));
 									} catch (Exception e) {
 
+									}
+
+									try {
+										int incash = Integer.parseInt(
+												request.getParameter("isInCash" + leaveTypeList.get(i).getLvTypeId()));
+										editStructure.getDetailList().get(j).setExInt1(1);
+									} catch (Exception e) {
+										editStructure.getDetailList().get(j).setExInt1(0);
 									}
 
 								}
@@ -545,6 +600,14 @@ public class LeaveStructureController {
 							detail.setLvsId(editStructure.getLvsId());
 							detail.setMakerUserId(userObj.getUserId());
 
+							try {
+								int inCash = Integer.parseInt(
+										request.getParameter("isInCash" + leaveTypeList.get(i).getLvTypeId()));
+								detail.setExInt1(1);
+							} catch (Exception e) {
+								detail.setExInt1(0);
+							}
+
 							editStructure.getDetailList().add(detail);
 
 						}
@@ -552,6 +615,7 @@ public class LeaveStructureController {
 					}
 
 					// System.out.println(editStructure);
+
 					LeaveStructureHeader res = Constants.getRestTemplate().postForObject(
 							Constants.url + "saveLeaveStruture", editStructure, LeaveStructureHeader.class);
 
@@ -560,6 +624,7 @@ public class LeaveStructureController {
 					} else {
 						session.setAttribute("errorMsg", "Failed to Update Record");
 					}
+
 				} else {
 					session.setAttribute("errorMsg", "Failed to Update Record");
 				}
@@ -606,7 +671,7 @@ public class LeaveStructureController {
 				GetEmployeeDetails[] empInfoError = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getEmpInfoListForLeaveAuth", GetEmployeeDetails[].class);
 
-				List<GetEmployeeDetails>  employeeInfo = new ArrayList<>(Arrays.asList(empInfoError));
+				List<GetEmployeeDetails> employeeInfo = new ArrayList<>(Arrays.asList(empInfoError));
 				model.addObject("empListAuth", employeeInfo);
 
 			}
@@ -792,7 +857,7 @@ public class LeaveStructureController {
 				GetEmployeeDetails[] empInfoError = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getEmpInfoListByEmpIdList", map, GetEmployeeDetails[].class);
 
-				List<GetEmployeeDetails>employeeInfo = new ArrayList<>(Arrays.asList(empInfoError));
+				List<GetEmployeeDetails> employeeInfo = new ArrayList<>(Arrays.asList(empInfoError));
 				model.addObject("empListAuth", employeeInfo);
 				model.addObject("space", " ");
 

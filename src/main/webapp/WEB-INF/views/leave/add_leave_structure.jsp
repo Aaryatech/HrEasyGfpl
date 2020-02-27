@@ -149,6 +149,27 @@
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
+									<div class="form-group row">
+
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-3"
+											for="select2">Calculation Cash AMT of Leave Balance <span
+											style="color: red">* </span> :
+										</label>
+										<div class="col-lg-7">
+											<select name="allowanceIds"
+												data-placeholder="Select Structure Allotment"
+												id="allowanceIds"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												tabindex="-1" aria-hidden="true" multiple>
+												<c:forEach items="${allowanceList}" var="allowanceList">
+
+													<option value="${allowanceList.allowanceId}">${allowanceList.name}</option>
+
+												</c:forEach>
+											</select>
+										</div>
+									</div>
 									<hr>
 									<div class="form-group row">
 										<strong> Leaves Types :</strong>
@@ -211,6 +232,15 @@
 												<input type="text" class="form-control numbersOnly"
 													id="maxCarryForword${leaveType.lvTypeId}" value="0"
 													name="maxCarryForword${leaveType.lvTypeId}"
+													autocomplete="off">
+											</div>
+
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-1"
+												for="isInCash${leaveType.lvTypeId}">In Cash : </label>
+											<div class="col-md-1">
+												<input type="checkbox" id="isInCash${leaveType.lvTypeId}"
+													value="0" name="isInCash${leaveType.lvTypeId}"
 													autocomplete="off">
 											</div>
 

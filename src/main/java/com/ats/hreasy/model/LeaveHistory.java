@@ -30,6 +30,8 @@ public class LeaveHistory {
 
 		private String lvsName;
 		
+		private int isInCash;
+		
 		public int getLvsId() {
 			return lvsId;
 		}
@@ -134,13 +136,21 @@ public class LeaveHistory {
 			this.lvsName = lvsName;
 		}
 
+		public int getIsInCash() {
+			return isInCash;
+		}
+
+		public void setIsInCash(int isInCash) {
+			this.isInCash = isInCash;
+		}
+
 		@Override
 		public String toString() {
 			return "LeaveHistory [lvTypeId=" + lvTypeId + ", lvsId=" + lvsId + ", lvTitleShort=" + lvTitleShort
 					+ ", lvTitle=" + lvTitle + ", lvsAllotedLeaves=" + lvsAllotedLeaves + ", balLeave=" + balLeave
 					+ ", aplliedLeaeve=" + aplliedLeaeve + ", sactionLeave=" + sactionLeave + ", isFile=" + isFile
 					+ ", maxAccumulateCarryforward=" + maxAccumulateCarryforward + ", isCarryforward=" + isCarryforward
-					+ ", maxCarryforward=" + maxCarryforward + ", lvsName=" + lvsName + "]";
+					+ ", maxCarryforward=" + maxCarryforward + ", lvsName=" + lvsName + ", isInCash=" + isInCash + "]";
 		}
 
 		
