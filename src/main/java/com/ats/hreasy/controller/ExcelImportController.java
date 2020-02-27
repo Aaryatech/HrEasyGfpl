@@ -82,33 +82,38 @@ public class ExcelImportController {
 	@RequestMapping(value = "/empDetailUploadCSV", method = RequestMethod.POST)
 	public String empDetailUploadCSV(@RequestParam("fileNew") List<MultipartFile> fileNew, HttpServletRequest request,
 			HttpServletResponse response) {
+		HttpSession session = request.getSession();
 
 		try {
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
 			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 			Date date = new Date();
 			VpsImageUpload upload = new VpsImageUpload();
-			System.err.println(fileNew.get(0).getOriginalFilename());
-			String imageName = new String();
+ 			String imageName = new String();
 			imageName = dateTimeInGMT.format(date) + "_" + fileNew.get(0).getOriginalFilename();
 
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
 			upload.saveUploadedFiles(fileNew.get(0), Constants.docSaveUrl, imageName);
+		
 			String fileIn = Constants.docSaveUrl + imageName;
 
 			MultiValueMap<String, Object> map = null;
 			// List of beans to save
-			List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>();
-			List<TblEmpInfo> empListInfo = new ArrayList<TblEmpInfo>();
-			List<TblEmpBankInfo> empBankListInfo = new ArrayList<TblEmpBankInfo>();
-			List<EmpSalaryInfo> empSalInfoListInfo = new ArrayList<EmpSalaryInfo>();
-
-			List<TblEmpNominees> empRelativeListInfo = new ArrayList<TblEmpNominees>();
-
+			/*
+			 * List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>();
+			 * List<TblEmpInfo> empListInfo = new ArrayList<TblEmpInfo>();
+			 * List<TblEmpBankInfo> empBankListInfo = new ArrayList<TblEmpBankInfo>();
+			 * List<EmpSalaryInfo> empSalInfoListInfo = new ArrayList<EmpSalaryInfo>();
+			 * 
+			 * List<TblEmpNominees> empRelativeListInfo = new ArrayList<TblEmpNominees>();
+			 */
 			List<Allowances> allowanceList = new ArrayList<Allowances>();
-			System.err.println(imageName);
-			FileInputStream file = new FileInputStream(new File("/home/lenovo/Downloads/myUploads/abc.xls"));
+			System.err.println("-------"+imageName);
+			
+			//temp.xls2020-02-27_19:30:03_abc.xls
+			FileInputStream file = new FileInputStream(new File(Constants.docSaveUrl+imageName));
 
 			// Create Workbook instance holding reference to .xlsx file
 			HSSFWorkbook workbook = new HSSFWorkbook(file);
@@ -164,13 +169,13 @@ public class ExcelImportController {
 				if (row.getCell(6) != null)
 					esicno = row.getCell(6).toString();
 
-				String aadhar = null;
+				long aadhar = 0;
 				if (row.getCell(7) != null)
-					aadhar = row.getCell(11).toString();
+					aadhar = (long) row.getCell(7).getNumericCellValue();
 
-				String uan = null;
+				long uan = 0;
 				if (row.getCell(8) != null)
-					uan = row.getCell(8).toString();
+					uan = (long) row.getCell(8).getNumericCellValue();
 
 				EmployeeMaster emp = new EmployeeMaster();
 				emp.setCmpCode(1);
@@ -185,8 +190,8 @@ public class ExcelImportController {
 				emp.setPanCardNo(pan);
 				emp.setPfNo(pfno);
 				emp.setEsicNo(esicno);
-				emp.setAadharNo(aadhar);
-				emp.setUan(uan);
+				emp.setAadharNo(String.valueOf(aadhar));
+				emp.setUan(String.valueOf(uan));
 				emp.setDelStatus(1);
 				emp.setSubCmpId(0);
 				emp.setEmpId(0);
@@ -204,7 +209,7 @@ public class ExcelImportController {
 				emp.setAddedFrom(0);
 				emp.setNoticePayAmount(0);
 				emp.setAddedBySupervisorId(0);
-				emp.setLoginName("NA");
+				emp.setLoginName(String.valueOf(userObj.getUserId()));
 				emp.setLoginTime(dateTimeInGMT.format(date));
 				emp.setPlCalcBase(0);
 				emp.setRawData("NA");
@@ -221,10 +226,12 @@ public class ExcelImportController {
 				if (row.getCell(10) != null)
 					middlenamerelation = row.getCell(10).getStringCellValue();
 
+				
 				/*
 				 * String dob = null; if (row.getCell(11) != null) dob =
-				 * row.getCell(15).getStringCellValue();
+				 * row.getCell(11).getStringCellValue();
 				 */
+
 				String gender = null;
 				if (row.getCell(12) != null)
 					gender = row.getCell(12).getStringCellValue();
@@ -244,16 +251,16 @@ public class ExcelImportController {
 				String emerNam = null;
 				if (row.getCell(36) != null)
 					emerNam = row.getCell(36).getStringCellValue();
-
-				String emerCon = null;
+				// System.err.println("--" + row.getCell(37).getStringCellValue());
+				long emerCon = 0;
 				if (row.getCell(37) != null)
-					emerCon = row.getCell(37).getStringCellValue();
+					emerCon = (int) row.getCell(37).getNumericCellValue();
 
 				TblEmpInfo empInfo = new TblEmpInfo();
 				empInfo.setEmpId(empSaveResp.getEmpId());
 				empInfo.setMiddleName(empInfoMiddlename);
 				empInfo.setMiddleNameRelation(middlenamerelation);
-				empInfo.setDob("2019-01-01");
+				empInfo.setDob("10-10-2019");
 				empInfo.setGender(gender);
 				empInfo.setAddress(address);
 				empInfo.setPermanentAddress(permamnentAddress);
@@ -261,7 +268,7 @@ public class ExcelImportController {
 				empInfo.setEmail(email);
 				empInfo.setEmerName(emerNam);
 
-				empInfo.setEmerContactNo1(emerCon);
+				empInfo.setEmerContactNo1(String.valueOf(emerCon));
 				TblEmpInfo empInfoSave = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo, TblEmpInfo.class);
 				System.out.println("EmpInfo--------" + empInfoSave);
@@ -304,94 +311,77 @@ public class ExcelImportController {
 				/****************************************
 				 * Nominee
 				 **********************************************/
-
-				String name2 = null;
-				if (row.getCell(20) != null)
-					name2 = row.getCell(20).getStringCellValue();
-
-				String relation2 = null;
-				if (row.getCell(21) != null)
-					relation2 = row.getCell(21).getStringCellValue();
-
-				String dob2 = null;
-				if (row.getCell(22) != null)
-					dob2 = row.getCell(22).getStringCellValue();
-
-				String name3 = null;
-				if (row.getCell(23) != null)
-					name3 = row.getCell(23).getStringCellValue();
-
-				String relation3 = null;
-				if (row.getCell(24) != null)
-					relation3 = row.getCell(24).getStringCellValue();
-
-				String dob3 = null;
-				if (row.getCell(25) != null)
-					dob3 = row.getCell(25).getStringCellValue();
-
-				String name4 = null;
-				if (row.getCell(26) != null)
-					name4 = row.getCell(26).getStringCellValue();
-
-				String relation4 = null;
-				if (row.getCell(27) != null)
-					relation4 = row.getCell(27).getStringCellValue();
-
-				String dob4 = null;
-				if (row.getCell(28) != null)
-					dob4 = row.getCell(28).getStringCellValue();
-
-				String name5 = null;
-				if (row.getCell(29) != null)
-					name5 = row.getCell(29).getStringCellValue();
-
-				String relation5 = null;
-				if (row.getCell(30) != null)
-					relation5 = row.getCell(30).getStringCellValue();
-
-				String dob5 = null;
-				if (row.getCell(31) != null)
-					dob5 = row.getCell(31).getStringCellValue();
-
-				String name6 = null;
-				if (row.getCell(32) != null)
-					name6 = row.getCell(32).getStringCellValue();
-
-				String relation6 = null;
-				if (row.getCell(33) != null)
-					relation6 = row.getCell(33).getStringCellValue();
-
-				String dob6 = null;
-				if (row.getCell(34) != null)
-					dob6 = row.getCell(34).getStringCellValue();
+				/*
+				 * String name2 = null; if (row.getCell(20) != null) name2 =
+				 * row.getCell(20).getStringCellValue();
+				 * 
+				 * String relation2 = null; if (row.getCell(21) != null) relation2 =
+				 * row.getCell(21).getStringCellValue();
+				 * 
+				 * String dob2 = null; if (row.getCell(22) != null) dob2 =
+				 * row.getCell(22).getStringCellValue();
+				 * 
+				 * String name3 = null; if (row.getCell(23) != null) name3 =
+				 * row.getCell(23).getStringCellValue();
+				 * 
+				 * String relation3 = null; if (row.getCell(24) != null) relation3 =
+				 * row.getCell(24).getStringCellValue();
+				 * 
+				 * String dob3 = null; if (row.getCell(25) != null) dob3 =
+				 * row.getCell(25).getStringCellValue();
+				 * 
+				 * String name4 = null; if (row.getCell(26) != null) name4 =
+				 * row.getCell(26).getStringCellValue();
+				 * 
+				 * String relation4 = null; if (row.getCell(27) != null) relation4 =
+				 * row.getCell(27).getStringCellValue();
+				 * 
+				 * String dob4 = null; if (row.getCell(28) != null) dob4 =
+				 * row.getCell(28).getStringCellValue();
+				 * 
+				 * String name5 = null; if (row.getCell(29) != null) name5 =
+				 * row.getCell(29).getStringCellValue();
+				 * 
+				 * String relation5 = null; if (row.getCell(30) != null) relation5 =
+				 * row.getCell(30).getStringCellValue();
+				 * 
+				 * String dob5 = null; if (row.getCell(31) != null) dob5 =
+				 * row.getCell(31).getStringCellValue();
+				 * 
+				 * String name6 = null; if (row.getCell(32) != null) name6 =
+				 * row.getCell(32).getStringCellValue();
+				 * 
+				 * String relation6 = null; if (row.getCell(33) != null) relation6 =
+				 * row.getCell(33).getStringCellValue();
+				 * 
+				 * String dob6 = null; if (row.getCell(34) != null) dob6 =
+				 * row.getCell(34).getStringCellValue();
+				 */
 				TblEmpNominees empNominee = new TblEmpNominees();
 
-				try {
-					empNominee.setEmpId(empSaveResp.getEmpId());
-					empNominee.setNomineeId(checkEmpCode.getNomineeId());
-				} catch (Exception e) {
-					empNominee.setNomineeId(0);
-				}
+				/*
+				 * try { empNominee.setEmpId(empSaveResp.getEmpId());
+				 * empNominee.setNomineeId(checkEmpCode.getNomineeId()); } catch (Exception e) {
+				 * empNominee.setNomineeId(0); }
+				 */
 
-				empNominee.setName2(name2);
-				empNominee.setRelation2(relation2);
-				empNominee.setDob2(dob2);
-
-				empNominee.setName3(name3);
-				empNominee.setRelation3(relation3);
-				empNominee.setDob3(dob3);
-
-				empNominee.setName4(name4);
-				empNominee.setRelation4(relation4);
-				empNominee.setDob4(dob4);
-
-				empNominee.setName5(name5);
-				empNominee.setRelation5(relation5);
-				empNominee.setDob5(dob5);
-
-				empNominee.setName6(name6);
-				empNominee.setRelation6(relation6);
-				empNominee.setDob6(dob6);
+				/*
+				 * empNominee.setName2(name2); empNominee.setRelation2(relation2);
+				 * empNominee.setDob2(dob2);
+				 * 
+				 * empNominee.setName3(name3); empNominee.setRelation3(relation3);
+				 * empNominee.setDob3(dob3);
+				 * 
+				 * empNominee.setName4(name4); empNominee.setRelation4(relation4);
+				 * empNominee.setDob4(dob4);
+				 * 
+				 * empNominee.setName5(name5); empNominee.setRelation5(relation5);
+				 * empNominee.setDob5(dob5);
+				 * 
+				 * empNominee.setName6(name6); empNominee.setRelation6(relation6);
+				 * empNominee.setDob6(dob6);
+				 */
+				empNominee.setEmpId(empSaveResp.getEmpId());
 				empNominee.setDelStatus(1);
 
 				TblEmpNominees nominee = Constants.getRestTemplate()
@@ -410,19 +400,19 @@ public class ExcelImportController {
 
 				String cmpJoinDate = null;
 				if (row.getCell(18) != null)
-					cmpLeavDate = row.getCell(18).getStringCellValue();
+					cmpJoinDate = row.getCell(18).getStringCellValue();
 
 				String epfJoinDate = null;
 				if (row.getCell(19) != null)
-					cmpLeavDate = row.getCell(19).getStringCellValue();
+					epfJoinDate = row.getCell(19).getStringCellValue();
 
 				String salBasis = null;
 				if (row.getCell(20) != null)
 					salBasis = row.getCell(20).getStringCellValue();
 
-				String grossSal = null;
+				int grossSal = 0;
 				if (row.getCell(21) != null)
-					grossSal = row.getCell(21).getStringCellValue();
+					grossSal = (int) row.getCell(21).getNumericCellValue();
 
 				double basic = 0;
 				if (row.getCell(22) != null)
@@ -498,7 +488,8 @@ public class ExcelImportController {
 				empSal.setMlwfApplicable(isMlwfApplicable);
 				empSal.setPtApplicable(isPtApplicable);
 				empSal.setDelStatus(1);
-
+				empSal.setPfApplicable(pfApplicable);
+				empSal.setGrossSalary(grossSal);
 				EmpSalaryInfo empSalInfo = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/saveEmployeeIdSalary", empSal, EmpSalaryInfo.class);
 				System.out.println("Emp SalInfo-----------" + empSalInfo);
