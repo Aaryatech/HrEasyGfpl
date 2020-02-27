@@ -84,6 +84,7 @@ public class GetPayrollGeneratedList {
 	private double adjustMinus;
 	private double adjustPlus;
 	private double reward;
+	private int subCmpId;
 	
 	private String  name; 
 	private String  empTypeName; 
@@ -836,6 +837,14 @@ public class GetPayrollGeneratedList {
 		this.reward = reward;
 	}
 
+	public int getSubCmpId() {
+		return subCmpId;
+	}
+
+	public void setSubCmpId(int subCmpId) {
+		this.subCmpId = subCmpId;
+	}
+
 	@Override
 	public String toString() {
 		return "GetPayrollGeneratedList [id=" + id + ", cmpId=" + cmpId + ", empId=" + empId + ", empCode=" + empCode
@@ -866,11 +875,11 @@ public class GetPayrollGeneratedList {
 				+ edliAdminPercentage + ", employerEsicPercentage=" + employerEsicPercentage
 				+ ", employeeEsicPercentage=" + employeeEsicPercentage + ", employerMlwf=" + employerMlwf
 				+ ", grossSalDefault=" + grossSalDefault + ", adjustMinus=" + adjustMinus + ", adjustPlus=" + adjustPlus
-				+ ", reward=" + reward + ", name=" + name + ", empTypeName=" + empTypeName + ", departName="
-				+ departName + ", designName=" + designName + ", payableDays=" + payableDays + ", presentDays="
-				+ presentDays + ", weeklyOff=" + weeklyOff + ", paidHoliday=" + paidHoliday + ", paidLeave=" + paidLeave
-				+ ", unpaidLeave=" + unpaidLeave + ", payrollAllownceList=" + payrollAllownceList + ", moneyInword="
-				+ moneyInword + "]";
+				+ ", reward=" + reward + ", subCmpId=" + subCmpId + ", name=" + name + ", empTypeName=" + empTypeName
+				+ ", departName=" + departName + ", designName=" + designName + ", payableDays=" + payableDays
+				+ ", presentDays=" + presentDays + ", weeklyOff=" + weeklyOff + ", paidHoliday=" + paidHoliday
+				+ ", paidLeave=" + paidLeave + ", unpaidLeave=" + unpaidLeave + ", payrollAllownceList="
+				+ payrollAllownceList + ", moneyInword=" + moneyInword + "]";
 	}
 	
 	

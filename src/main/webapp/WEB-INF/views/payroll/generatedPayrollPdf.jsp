@@ -121,16 +121,26 @@ hr {
 				<td colspan="2"
 					style="border-left: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;"
 					align="center"><table width="100%">
+
+						<c:set value="" var="logo"></c:set>
+						<c:set value="-" var="companyName"></c:set>
+						<c:set value="-" var="longAdd1"></c:set>
+						<c:forEach items="${companyList}" var="companyList">
+							<c:if test="${companyList.companyId==list.subCmpId}">
+								<c:set value="${companyList.logo}" var="logo"></c:set>
+								<c:set value="${companyList.companyName}" var="companyName"></c:set>
+								<c:set value="${companyList.longAdd1}" var="longAdd1"></c:set>
+							</c:if>
+						</c:forEach>
 						<tr>
-							<td width="22.33%"><img
-								src="${pageContext.request.contextPath}/resources/global_assets/images/companyLogo.png"
-								width="80" height="50" /></td>
+							<td width="22.33%"><img src="${logoUrl}${logo}" width="80"
+								height="50" /></td>
 
 							<td width="53.33%" valign="top"
 								style="font-weight: bold; margin: 0px;" align="center">
-								<h4 align="center" style="font-size: 16px;">${companyInfo.companyName}</h4>
+								<h4 align="center" style="font-size: 16px;">${companyName}</h4>
 								<h6 style="font-weight: bold; margin: 0px; font-size: 10px;"
-									align="center">${companyInfo.longAdd1}</h6>
+									align="center">${longAdd1}</h6>
 								<h5 style="font-weight: bold; margin: 0px; font-size: 14px;"
 									align="center">Payment Slip for the month of ${monthName}
 									${year}</h5>
@@ -249,7 +259,7 @@ hr {
 								align="right">${list.performanceBonus}</td>
 
 						</tr>
-						 
+
 						<tr>
 							<td width="50%" valign="top"
 								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
@@ -268,6 +278,16 @@ hr {
 							<td width="50%" valign="top"
 								style="color: #000; font-size: 12px; padding-right: 5px;"
 								align="right">${list.otWages}</td>
+
+						</tr>
+						<tr>
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; border-right: 1px solid #313131; padding-left: 5px;"
+								align="left">Reward</td>
+
+							<td width="50%" valign="top"
+								style="color: #000; font-size: 12px; padding-right: 5px;"
+								align="right">${list.reward}</td>
 
 						</tr>
 

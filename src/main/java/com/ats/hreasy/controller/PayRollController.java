@@ -50,6 +50,7 @@ import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.InfoForUploadAttendance;
 import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.MstCompany;
+import com.ats.hreasy.model.MstCompanySub;
 import com.ats.hreasy.model.PayRollDataForProcessing;
 
 @Controller
@@ -445,13 +446,19 @@ public class PayRollController {
 				mav = "payroll/listOfGeneratedPayroll";
 				String date = request.getParameter("selectMonth");
 
+				MstCompanySub[] companyList = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllSubCompanies", MstCompanySub[].class);
+				model.addAttribute("companyList", companyList);
+
 				if (date != null) {
 					String[] monthyear = date.split("-");
 					model.addAttribute("date", date);
 
+					int companyId = Integer.parseInt(request.getParameter("subCmpId"));
+					request.setAttribute("companyId", companyId);
 					request.setAttribute("month", monthyear[0]);
 					request.setAttribute("year", monthyear[1]);
-
+					model.addAttribute("companyId", companyId);
 					/*
 					 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
 					 * Object>(); map.add("month", monthyear[0]); map.add("year", monthyear[1]);
@@ -696,12 +703,18 @@ public class PayRollController {
 			List<GetPayrollGeneratedList> list = payRollDataForProcessing.getPayrollGeneratedList();
 			model.addObject("list", list);
 
-			map = new LinkedMultiValueMap<String, Object>();
+			/*map = new LinkedMultiValueMap<String, Object>();
 			map.add("companyId", 1);
 			MstCompany companyInfo = Constants.getRestTemplate().postForObject(Constants.url + "/getCompanyById", map,
 					MstCompany.class);
-			model.addObject("companyInfo", companyInfo);
+			model.addObject("companyInfo", companyInfo);*/
+			
+			MstCompanySub[] companyList = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllSubCompanies", MstCompanySub[].class);
+			model.addObject("companyList", companyList);
 
+			model.addObject("logoUrl", Constants.imageShowUrl);
+			
 			String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August",
 					"September", "October", "November", "December" };
 			String monthName = monthNames[Integer.parseInt(monthyear[0]) - 1];

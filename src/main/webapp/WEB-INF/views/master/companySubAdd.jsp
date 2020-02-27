@@ -338,7 +338,7 @@ System.out.println("val**"+flagNew);%> --%>
 											</div>
 											<c:if test="${not empty company.logo}">
 												<div class="form-group col-lg-4">
-													<img src="${viewUrl}/${company.logo}" height="150px"
+													<img src="${viewUrl}${company.logo}" height="150px"
 														width="200px">
 
 												</div>

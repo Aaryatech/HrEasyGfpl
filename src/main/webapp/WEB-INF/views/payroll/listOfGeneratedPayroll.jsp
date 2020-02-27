@@ -120,7 +120,31 @@
 									<input type="text" name="selectMonth" id="datepicker"
 										class="form-control" value="${date}" required />
 								</div>
-
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="datepicker"> Select Company <span
+									style="color: red">* </span> :
+								</label>
+								<div class="col-lg-2">
+									<select name="subCmpId" data-placeholder="Select Company"
+										id="subCmpId"
+										class="form-control form-control-select2 select2-hidden-accessible">
+										<option value="0">All</option>
+										<c:forEach items="${companyList}" var="companySubList">
+											<c:choose>
+												<c:when test="${companySubList.companyId==companyId}">
+													<option selected="selected"
+														value="${companySubList.companyId}">${companySubList.companyName}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${companySubList.companyId}">${companySubList.companyName}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</select> <span class="hidedefault   validation-invalid-label"
+										style="display: none;" id="error_subCmpId">This field
+										is required.</span>
+								</div>
 								<button type="submit" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn">
 									Search <i class="icon-paperplane ml-2"></i>
@@ -173,6 +197,7 @@
 													MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 													map.add("month", request.getAttribute("month"));
 													map.add("year", request.getAttribute("year"));
+													map.add("companyId", request.getAttribute("companyId"));
 
 													PayRollDataForProcessing payRollDataForProcessing = Constants.getRestTemplate()
 															.postForObject(Constants.url + "/getPayrollGenratedList", map, PayRollDataForProcessing.class);
@@ -533,8 +558,13 @@
 				list.push($(this).val());
 			});
 
-			window.open('pdfForReport?url=/pdf/generatedPayrollPdf/' + list
-					+ '/' + selectMonth);
+			if(list.length>0){
+				window.open('pdfForReport?url=/pdf/generatedPayrollPdf/' + list
+						+ '/' + selectMonth);
+			}else{
+				alert("Select Minimum one employee")
+			}
+			
 		}
 	</script>
 
