@@ -539,6 +539,7 @@ public class WeeklyOffController {
 		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
 		Info view = AcessController.checkAccess("showChangeWeekOff", "showWeekOffShift", 0, 1, 0, 0, newModuleList);
 		String a = null;
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 		if (view.isError() == true) {
 
 			a = "redirect:/accessDenied";
@@ -593,6 +594,15 @@ public class WeeklyOffController {
 							weekShft, WeeklyOffShit.class);
 
 					if (res != null) {
+						
+						map = new LinkedMultiValueMap<>();
+						map.add("id", res.getId());
+						map.add("userId",userObj.getUserId() );
+
+						Info inf = Constants.getRestTemplate().postForObject(Constants.url + "/updateAttendaceOfWeeklyOffInDailyDaily", map,
+								Info.class);
+						
+						
 						session.setAttribute("successMsg", "Record Updated Successfully");
 					} else {
 						session.setAttribute("errorMsg", "Failed to Update Record");

@@ -1,18 +1,26 @@
 package com.ats.hreasy.controller;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.sql.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -22,19 +30,31 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.DateConvertor;
+import com.ats.hreasy.common.VpsImageUpload;
+import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Allowances;
+import com.ats.hreasy.model.DataForUpdateAttendance;
 import com.ats.hreasy.model.EmpSalAllowance;
 import com.ats.hreasy.model.EmpSalaryInfo;
 import com.ats.hreasy.model.EmployeeBean;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.EmployeeRelatedTbls;
+import com.ats.hreasy.model.FileUploadedData;
+import com.ats.hreasy.model.Info;
+import com.ats.hreasy.model.Location;
+import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.TblEmpBankInfo;
 import com.ats.hreasy.model.TblEmpInfo;
 import com.ats.hreasy.model.TblEmpNominees;
+import com.itextpdf.text.pdf.codec.Base64.InputStream;
 
 @Controller
 @Scope("session")
@@ -44,132 +64,247 @@ public class ExcelImportController {
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	DateFormat dateFormat2 = new SimpleDateFormat("dd-MM-yyyy");
 
-	@RequestMapping(value = "/excelCustActMap", method = RequestMethod.GET)
-	public @ResponseBody List addCustomerActMap(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/showEmpFileUpload", method = RequestMethod.GET)
+	public String shoeEmpFileUpload(HttpServletRequest request, HttpServletResponse response) {
 
-		MultiValueMap<String, Object> map = null;
-		List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>();
-		List<TblEmpInfo> empListInfo = new ArrayList<TblEmpInfo>();
-		List<Allowances> allowanceList = new ArrayList<Allowances>();
+		HttpSession session = request.getSession();
+		String mav = null;
+		try {
+
+			mav = "fileUpload/empFileUpload";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/empDetailUploadCSV", method = RequestMethod.POST)
+	public String empDetailUploadCSV(@RequestParam("fileNew") List<MultipartFile> fileNew, HttpServletRequest request,
+			HttpServletResponse response) {
 
 		try {
+
+			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+			Date date = new Date();
+			VpsImageUpload upload = new VpsImageUpload();
+			System.err.println(fileNew.get(0).getOriginalFilename());
+			String imageName = new String();
+			imageName = dateTimeInGMT.format(date) + "_" + fileNew.get(0).getOriginalFilename();
+
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			upload.saveUploadedFiles(fileNew.get(0), Constants.docSaveUrl, imageName);
+			String fileIn = Constants.docSaveUrl + imageName;
+
+			MultiValueMap<String, Object> map = null;
+			// List of beans to save
+			List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>();
+			List<TblEmpInfo> empListInfo = new ArrayList<TblEmpInfo>();
+			List<TblEmpBankInfo> empBankListInfo = new ArrayList<TblEmpBankInfo>();
+			List<EmpSalaryInfo> empSalInfoListInfo = new ArrayList<EmpSalaryInfo>();
+
+			List<TblEmpNominees> empRelativeListInfo = new ArrayList<TblEmpNominees>();
+
+			List<Allowances> allowanceList = new ArrayList<Allowances>();
+			System.err.println(imageName);
+			FileInputStream file = new FileInputStream(new File("/home/lenovo/Downloads/myUploads/abc.xls"));
+
+			// Create Workbook instance holding reference to .xlsx file
+			HSSFWorkbook workbook = new HSSFWorkbook(file);
+
+			HSSFSheet sheet = workbook.getSheetAt(0);
+
+			// Import Employees
+			System.err.println(sheet.getLastRowNum());
+
 			Allowances[] allowanceArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllAllowances",
 					Allowances[].class);
 			allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
 
-			FileInputStream file = new FileInputStream(new File("/home/maddy/Documents/imgs/HrEasyDBDocs.xlsx"));
+			/*
+			 * int res = Constants.getRestTemplate().getForObject(Constants.url +
+			 * "/getMaxEmp", Integer.class);
+			 */
 
-			// Create Workbook instance holding reference to .xlsx file
-			XSSFWorkbook workbook = new XSSFWorkbook(file);
-
-			// Get first/desired sheet from the workbook
-			XSSFSheet sheet = workbook.getSheetAt(0);
-
-			// Import Employees
 			Row row;
-			for (int i = 1; i <= sheet.getLastRowNum(); i++) { // points to the starting of excel i.e excel first row
+			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+
+				// points to the starting of excel i.e excel first row
 				row = (Row) sheet.getRow(i); // sheet number
 
-				String empCode = null;
+				/* ********m_employees ****************************/
+				int empCode = 0;
 				if (row.getCell(0) != null)
-					empCode = row.getCell(0).getStringCellValue();
+					empCode = (int) row.getCell(0).getNumericCellValue();
 				else
 					break;
 
-				int empType = 0;
-				if (row.getCell(1) != null)
-					empType = (int) row.getCell(1).getNumericCellValue();
-
-				int department = 0;
-				if (row.getCell(2) != null)
-					department = (int) row.getCell(2).getNumericCellValue();
-
-				int designation = 0;
-				if (row.getCell(3) != null)
-					designation = (int) row.getCell(3).getNumericCellValue();
-
-				int location = 0;
-				if (row.getCell(4) != null)
-					location = (int) row.getCell(4).getNumericCellValue();
-
 				String surname = null;
-				if (row.getCell(5) != null)
-					surname = row.getCell(5).getStringCellValue();
+				if (row.getCell(3) != null)
+					surname = row.getCell(3).getStringCellValue();
 
 				String firstname = null;
-				if (row.getCell(6) != null)
-					firstname = row.getCell(6).getStringCellValue();
+				if (row.getCell(1) != null)
+					firstname = row.getCell(1).getStringCellValue();
 
 				String middlename = null;
-				if (row.getCell(7) != null)
-					middlename = row.getCell(7).getStringCellValue();
+				if (row.getCell(2) != null)
+					middlename = row.getCell(2).getStringCellValue();
 
 				String pan = null;
-				if (row.getCell(8) != null)
-					pan = row.getCell(8).toString();
+				if (row.getCell(4) != null)
+					pan = row.getCell(4).toString();
 
 				String pfno = null;
-				if (row.getCell(9) != null)
-					pfno = row.getCell(9).toString();
+				if (row.getCell(5) != null)
+					pfno = row.getCell(5).toString();
 
 				String esicno = null;
-				if (row.getCell(10) != null)
-					esicno = row.getCell(10).toString();
+				if (row.getCell(6) != null)
+					esicno = row.getCell(6).toString();
 
 				String aadhar = null;
-				if (row.getCell(11) != null)
+				if (row.getCell(7) != null)
 					aadhar = row.getCell(11).toString();
 
 				String uan = null;
-				if (row.getCell(12) != null)
-					uan = row.getCell(12).toString();
+				if (row.getCell(8) != null)
+					uan = row.getCell(8).toString();
 
-				/************************* Employee Info *******************************/
+				EmployeeMaster emp = new EmployeeMaster();
+				emp.setCmpCode(1);
+				emp.setEmpCode(String.valueOf(empCode));
+				emp.setEmpType(0);
+				emp.setDepartId(0);
+				emp.setDesignationId(0);
+				emp.setLocationId(0);
+				emp.setSurname(surname);
+				emp.setFirstName(firstname);
+				emp.setMiddleName(middlename);
+				emp.setPanCardNo(pan);
+				emp.setPfNo(pfno);
+				emp.setEsicNo(esicno);
+				emp.setAadharNo(aadhar);
+				emp.setUan(uan);
+				emp.setDelStatus(1);
+				emp.setSubCmpId(0);
+				emp.setEmpId(0);
+				emp.setMobileNo1("0");
+				emp.setLeavingReason("NA");
+				emp.setEmailId(null);
+				emp.setGrossSalaryEst(0);
+				emp.setIsEmp(1);
+				emp.setNextShiftid(0);
+				emp.setCurrentShiftid(0);
+				emp.setNewBasicRate(0);
+				emp.setNewDaRate(0);
+				emp.setNewHraRate(0);
+				emp.setSalDedAtFullandfinal(0);
+				emp.setAddedFrom(0);
+				emp.setNoticePayAmount(0);
+				emp.setAddedBySupervisorId(0);
+				emp.setLoginName("NA");
+				emp.setLoginTime(dateTimeInGMT.format(date));
+				emp.setPlCalcBase(0);
+				emp.setRawData("NA");
+
+				EmployeeMaster empSaveResp = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployee",
+						emp, EmployeeMaster.class);
+
+				/************************* Employee othet Info *******************************/
 				String empInfoMiddlename = null;
-				if (row.getCell(13) != null)
-					empInfoMiddlename = row.getCell(13).getStringCellValue();
+				if (row.getCell(9) != null)
+					empInfoMiddlename = row.getCell(9).getStringCellValue();
 
 				String middlenamerelation = null;
-				if (row.getCell(14) != null)
-					middlenamerelation = row.getCell(14).getStringCellValue();
+				if (row.getCell(10) != null)
+					middlenamerelation = row.getCell(10).getStringCellValue();
 
-				String dob = null;
-				if (row.getCell(15) != null)
-					dob = row.getCell(15).getStringCellValue();
-
+				/*
+				 * String dob = null; if (row.getCell(11) != null) dob =
+				 * row.getCell(15).getStringCellValue();
+				 */
 				String gender = null;
-				if (row.getCell(16) != null)
-					gender = row.getCell(16).getStringCellValue();
-
-				String maritalStatus = null;
-				if (row.getCell(17) != null)
-					maritalStatus = row.getCell(17).getStringCellValue();
+				if (row.getCell(12) != null)
+					gender = row.getCell(12).getStringCellValue();
 
 				String address = null;
-				if (row.getCell(18) != null)
-					address = row.getCell(18).getStringCellValue();
+				if (row.getCell(13) != null)
+					address = row.getCell(13).getStringCellValue();
 
 				String permamnentAddress = null;
-				if (row.getCell(19) != null)
-					permamnentAddress = row.getCell(19).getStringCellValue();
+				if (row.getCell(14) != null)
+					permamnentAddress = row.getCell(14).getStringCellValue();
 
 				String email = null;
-				if (row.getCell(65) != null)
-					email = row.getCell(65).getStringCellValue();
+				if (row.getCell(35) != null)
+					email = row.getCell(35).getStringCellValue();
 
-				String emerName = null;
-				if (row.getCell(66) != null)
-					emerName = row.getCell(65).getStringCellValue();
+				String emerNam = null;
+				if (row.getCell(36) != null)
+					emerNam = row.getCell(36).getStringCellValue();
 
-				String emerContact1 = null;
-				if (row.getCell(67) != null)
-					emerContact1 = row.getCell(67).toString();
+				String emerCon = null;
+				if (row.getCell(37) != null)
+					emerCon = row.getCell(37).getStringCellValue();
 
-				String emerContact2 = null;
-				if (row.getCell(68) != null)
-					emerContact2 = row.getCell(68).toString();
+				TblEmpInfo empInfo = new TblEmpInfo();
+				empInfo.setEmpId(empSaveResp.getEmpId());
+				empInfo.setMiddleName(empInfoMiddlename);
+				empInfo.setMiddleNameRelation(middlenamerelation);
+				empInfo.setDob("2019-01-01");
+				empInfo.setGender(gender);
+				empInfo.setAddress(address);
+				empInfo.setPermanentAddress(permamnentAddress);
+				empInfo.setDelStatus(1);
+				empInfo.setEmail(email);
+				empInfo.setEmerName(emerNam);
 
-				/************************* Nominees *******************************/
+				empInfo.setEmerContactNo1(emerCon);
+				TblEmpInfo empInfoSave = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo, TblEmpInfo.class);
+				System.out.println("EmpInfo--------" + empInfoSave);
+
+				/************************* Employee Bank *******************************/
+
+				long accNo = 0;
+				if (row.getCell(15) != null)
+					accNo = (long) row.getCell(15).getNumericCellValue();
+
+				String banlName = null;
+				if (row.getCell(16) != null)
+					banlName = row.getCell(16).getStringCellValue();
+
+				TblEmpBankInfo empBank = new TblEmpBankInfo();
+
+				empBank.setEmpId(empSaveResp.getEmpId());
+
+				empBank.setAccNo(String.valueOf(accNo));
+				empBank.setBankId(0);
+				empBank.setDelStatus(1);
+				empBank.setExVar1(banlName);
+				TblEmpBankInfo empBankInfo = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/saveEmployeeIdBank", empBank, TblEmpBankInfo.class);
+
+				/***********************************************************************/
+
+				MultiValueMap<String, Object> mapEmp = new LinkedMultiValueMap<>();
+				mapEmp.add("empCode", empCode);
+				EmployeeRelatedTbls checkEmpCode = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getEmpRelatedInfo", mapEmp, EmployeeRelatedTbls.class);
+				System.out.println("checkEmpCode Resp--------" + checkEmpCode);
+
+				if (checkEmpCode != null) {
+					emp.setEmpId(checkEmpCode.getEmpId());
+				} else {
+					emp.setEmpId(0);
+				}
+
+				/****************************************
+				 * Nominee
+				 **********************************************/
+
 				String name2 = null;
 				if (row.getCell(20) != null)
 					name2 = row.getCell(20).getStringCellValue();
@@ -229,187 +364,6 @@ public class ExcelImportController {
 				String dob6 = null;
 				if (row.getCell(34) != null)
 					dob6 = row.getCell(34).getStringCellValue();
-
-				/************************* Employee Bank *******************************/
-
-				long accNo = 0;
-				if (row.getCell(35) != null)
-					accNo = (long) row.getCell(35).getNumericCellValue();
-
-				int bankId = 0;
-				if (row.getCell(36) != null)
-					bankId = (int) row.getCell(36).getNumericCellValue();
-
-				/************************* Employee Salary *******************************/
-				String cmpLeavDate = null;
-				if (row.getCell(37) != null)
-					cmpLeavDate = row.getCell(37).getStringCellValue();
-
-				String cmpJoinDate = null;
-				if (row.getCell(38) != null)
-					cmpLeavDate = row.getCell(38).getStringCellValue();
-
-				String epfJoinDate = null;
-				if (row.getCell(39) != null)
-					cmpLeavDate = row.getCell(39).getStringCellValue();
-
-				String salBasis = null;
-				if (row.getCell(40) != null)
-					salBasis = row.getCell(40).getStringCellValue();
-
-				double basic = 0;
-				if (row.getCell(55) != null)
-					basic = row.getCell(55).getNumericCellValue();
-
-				String pfType = null;
-				if (row.getCell(56) != null)
-					pfType = row.getCell(56).getStringCellValue();
-
-				double pfEmployeePer = 0;
-				if (row.getCell(57) != null)
-					pfEmployeePer = row.getCell(57).getNumericCellValue();
-
-				double pfEmployerPer = 0;
-				if (row.getCell(58) != null)
-					pfEmployerPer = row.getCell(58).getNumericCellValue();
-
-				String esicApplicable = null;
-				if (row.getCell(59) != null)
-					esicApplicable = row.getCell(59).getStringCellValue();
-
-				String ceilingLimitEmpApplicable = null;
-				if (row.getCell(60) != null)
-					ceilingLimitEmpApplicable = row.getCell(60).getStringCellValue();
-
-				String ceilingLimitEmployerApplicable = null;
-				if (row.getCell(61) != null)
-					ceilingLimitEmployerApplicable = row.getCell(61).getStringCellValue();
-
-				String isMlwfApplicable = null;
-				if (row.getCell(62) != null)
-					isMlwfApplicable = row.getCell(62).getStringCellValue();
-
-				String isPtApplicable = null;
-				if (row.getCell(63) != null)
-					isPtApplicable = row.getCell(63).getStringCellValue();
-
-				// Employee Allowances
-				double dearnessAllwnc = 0;
-				if (row.getCell(41) != null)
-					dearnessAllwnc = row.getCell(41).getNumericCellValue();
-
-				double cityCopnstnAllwnc = 0;
-				if (row.getCell(42) != null)
-					cityCopnstnAllwnc = row.getCell(42).getNumericCellValue();
-
-				double entrtainmentAllwnc = 0;
-				if (row.getCell(43) != null)
-					entrtainmentAllwnc = row.getCell(43).getNumericCellValue();
-
-				double overTimeAllwnc = 0;
-				if (row.getCell(44) != null)
-					overTimeAllwnc = row.getCell(44).getNumericCellValue();
-
-				double tiffinAllwnc = 0;
-				if (row.getCell(45) != null)
-					tiffinAllwnc = row.getCell(45).getNumericCellValue();
-
-				double cashAllwnc = 0;
-				if (row.getCell(46) != null)
-					cashAllwnc = row.getCell(46).getNumericCellValue();
-
-				double projectAllwnc = 0;
-				if (row.getCell(47) != null)
-					projectAllwnc = row.getCell(47).getNumericCellValue();
-
-				double serventAllwnc = 0;
-				if (row.getCell(48) != null)
-					serventAllwnc = row.getCell(48).getNumericCellValue();
-
-				double houseRentAllwnc = 0;
-				if (row.getCell(49) != null)
-					houseRentAllwnc = row.getCell(49).getNumericCellValue();
-
-				double leaveTravelAllwnc = 0;
-				if (row.getCell(50) != null)
-					leaveTravelAllwnc = row.getCell(50).getNumericCellValue();
-
-				double conveyanceAllwnc = 0;
-				if (row.getCell(51) != null)
-					conveyanceAllwnc = row.getCell(51).getNumericCellValue();
-
-				double medicalAllwnc = 0;
-				if (row.getCell(52) != null)
-					medicalAllwnc = row.getCell(52).getNumericCellValue();
-
-				double hostelAllwnc = 0;
-				if (row.getCell(54) != null)
-					hostelAllwnc = row.getCell(54).getNumericCellValue();
-
-				/***********************************************************************/
-				EmployeeMaster emp = new EmployeeMaster();
-				emp.setCmpCode(1);
-				emp.setEmpCode(empCode);
-				emp.setEmpType(empType);
-				emp.setDepartId(department);
-				emp.setDesignationId(designation);
-				emp.setLocationId(location);
-				emp.setSurname(surname);
-				emp.setFirstName(firstname);
-				emp.setMiddleName(middlename);
-				emp.setPanCardNo(pan);
-				emp.setPfNo(pfno);
-				emp.setEsicNo(esicno);
-				emp.setAadharNo(aadhar);
-				emp.setUan(uan);
-				emp.setDelStatus(1);
-
-				MultiValueMap<String, Object> mapEmp = new LinkedMultiValueMap<>();
-				mapEmp.add("empCode", empCode);
-				EmployeeRelatedTbls checkEmpCode = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getEmpRelatedInfo", mapEmp, EmployeeRelatedTbls.class);
-				System.out.println("checkEmpCode Resp--------" + checkEmpCode);
-
-				if (checkEmpCode != null) {
-					emp.setEmpId(checkEmpCode.getEmpId());
-				} else {
-					emp.setEmpId(0);
-				}
-
-				EmployeeMaster empSaveResp = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployee",
-						emp, EmployeeMaster.class);
-				System.out.println("Emp Resp--------" + empSaveResp);
-
-				/****************************************
-				 * Employee Info
-				 **********************************************/
-				TblEmpInfo empInfo = new TblEmpInfo();
-				try {
-					empInfo.setEmpId(empSaveResp.getEmpId());
-					empInfo.setEmpInfoId(checkEmpCode.getEmpInfoId());
-				} catch (Exception e) {
-					empInfo.setEmpInfoId(0);
-				}
-
-				empInfo.setMiddleName(empInfoMiddlename);
-				empInfo.setMiddleNameRelation(middlenamerelation);
-				empInfo.setDob(dob);
-				empInfo.setGender(gender);
-				empInfo.setMaritalStatus(maritalStatus);
-				empInfo.setAddress(address);
-				empInfo.setPermanentAddress(permamnentAddress);
-				empInfo.setEmail(email);
-				empInfo.setEmerName(emerName);
-				empInfo.setEmerContactNo1(emerContact1);
-				empInfo.setEmerContactNo2(emerContact2);
-				empInfo.setDelStatus(1);
-				TblEmpInfo empInfoSave = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/saveEmployeeIdInfo", empInfo, TblEmpInfo.class);
-				System.out.println("EmpInfo--------" + empInfoSave);
-
-				/****************************************
-				 * Nominee
-				 **********************************************/
 				TblEmpNominees empNominee = new TblEmpNominees();
 
 				try {
@@ -446,27 +400,82 @@ public class ExcelImportController {
 				System.out.println("Emp Nominees-----------" + nominee);
 
 				/****************************************
-				 * Employee Bank
-				 **********************************************/
-				TblEmpBankInfo empBank = new TblEmpBankInfo();
-
-				try {
-					empBank.setEmpId(empSaveResp.getEmpId());
-					empBank.setBankInfoId(checkEmpCode.getBankInfoId());
-				} catch (Exception e) {
-					empBank.setBankInfoId(0);
-				}
-
-				empBank.setAccNo(String.valueOf(accNo));
-				empBank.setBankId(bankId);
-				empBank.setDelStatus(1);
-				TblEmpBankInfo empBankInfo = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/saveEmployeeIdBank", empBank, TblEmpBankInfo.class);
-				System.out.println("Emp Bank-----------" + empBankInfo);
-
-				/****************************************
 				 * Employee Salary
 				 **********************************************/
+
+				/************************* Employee Salary *******************************/
+				String cmpLeavDate = null;
+				if (row.getCell(17) != null)
+					cmpLeavDate = row.getCell(17).getStringCellValue();
+
+				String cmpJoinDate = null;
+				if (row.getCell(18) != null)
+					cmpLeavDate = row.getCell(18).getStringCellValue();
+
+				String epfJoinDate = null;
+				if (row.getCell(19) != null)
+					cmpLeavDate = row.getCell(19).getStringCellValue();
+
+				String salBasis = null;
+				if (row.getCell(20) != null)
+					salBasis = row.getCell(20).getStringCellValue();
+
+				String grossSal = null;
+				if (row.getCell(21) != null)
+					grossSal = row.getCell(21).getStringCellValue();
+
+				double basic = 0;
+				if (row.getCell(22) != null)
+					basic = row.getCell(22).getNumericCellValue();
+
+				String pfApplicable = null;
+				if (row.getCell(31) != null)
+					pfApplicable = row.getCell(31).getStringCellValue();
+
+				String esicApplicable = null;
+				if (row.getCell(32) != null)
+					esicApplicable = row.getCell(32).getStringCellValue();
+
+				String isMlwfApplicable = null;
+				if (row.getCell(33) != null)
+					isMlwfApplicable = row.getCell(33).getStringCellValue();
+
+				String isPtApplicable = null;
+				if (row.getCell(34) != null)
+					isPtApplicable = row.getCell(34).getStringCellValue();
+
+				// Employee Allowances
+				double dearnessAllwnc = 0;
+				if (row.getCell(23) != null)
+					dearnessAllwnc = row.getCell(23).getNumericCellValue();
+
+				double houseRentAllwnc = 0;
+				if (row.getCell(24) != null)
+					houseRentAllwnc = row.getCell(24).getNumericCellValue();
+
+				double educationAllwnc = 0;
+				if (row.getCell(25) != null)
+					educationAllwnc = row.getCell(25).getNumericCellValue();
+
+				double tiffinAllwnc = 0;
+				if (row.getCell(26) != null)
+					tiffinAllwnc = row.getCell(26).getNumericCellValue();
+
+				double leaveTravelAllwnc = 0;
+				if (row.getCell(27) != null)
+					leaveTravelAllwnc = row.getCell(27).getNumericCellValue();
+
+				double conveyanceAllwnc = 0;
+				if (row.getCell(28) != null)
+					conveyanceAllwnc = row.getCell(28).getNumericCellValue();
+				double mobileAllw = 0;
+				if (row.getCell(29) != null)
+					mobileAllw = row.getCell(29).getNumericCellValue();
+
+				double otherAll = 0;
+				if (row.getCell(30) != null)
+					otherAll = row.getCell(30).getNumericCellValue();
+
 				EmpSalaryInfo empSal = new EmpSalaryInfo();
 
 				try {
@@ -480,12 +489,12 @@ public class ExcelImportController {
 				empSal.setEpfJoiningDate(epfJoinDate);
 				empSal.setSalBasis(salBasis);
 				empSal.setBasic(basic);
-				empSal.setPfType(pfType);
-				empSal.setPfEmpPer(pfEmployeePer);
-				empSal.setPfEmplrPer(pfEmployerPer);
+				empSal.setPfType("0");
+				empSal.setPfEmpPer(0);
+				empSal.setPfEmplrPer(0);
 				empSal.setEsicApplicable(esicApplicable);
-				empSal.setCeilingLimitEmpApplicable(ceilingLimitEmpApplicable);
-				empSal.setCeilingLimitEmployerApplicable(ceilingLimitEmployerApplicable);
+				empSal.setCeilingLimitEmpApplicable("no");
+				empSal.setCeilingLimitEmployerApplicable("no");
 				empSal.setMlwfApplicable(isMlwfApplicable);
 				empSal.setPtApplicable(isPtApplicable);
 				empSal.setDelStatus(1);
@@ -499,7 +508,6 @@ public class ExcelImportController {
 				EmpSalAllowance empSalAllwance = new EmpSalAllowance();
 				int cellAllowanceStrt = 41;
 				try {
-					
 
 					String empallowanceId = checkEmpCode.getAllowanceId();
 					String[] empallowanceIds = empallowanceId.split(",");
@@ -514,7 +522,7 @@ public class ExcelImportController {
 						if (empallowanceIds[j] != null) {
 							empSalAllwance.setEmpId(empSaveResp.getEmpId());
 							empSalAllwance.setEmpSalAllowanceId(Integer.parseInt(strEmpSalAllowanceIds[j]));
-							
+
 						} else {
 							empSalAllwance.setEmpId(0);
 							empSalAllwance.setEmpSalAllowanceId(0);
@@ -528,23 +536,21 @@ public class ExcelImportController {
 
 						cellAllowanceStrt++;
 						allowncList.add(empSalAllwance);
-						System.out.println("EmpSalAllwanceList----------"+allowncList.toString());
+						System.out.println("EmpSalAllwanceList----------" + allowncList.toString());
 					}
 
-				
 				} catch (Exception e) {
 					// empSellAllwance.setSalaryInfoId(0);
 				}
 				EmpSalAllowance[] allowance = Constants.getRestTemplate().postForObject(
-					Constants.url + "/saveEmpSalAllowanceInfo", allowncList, EmpSalAllowance[].class);
-				System.out.println("Allowance--------"+allowance);
-			
+						Constants.url + "/saveEmpSalAllowanceInfo", allowncList, EmpSalAllowance[].class);
+				System.out.println("Allowance--------" + allowance);
 			} // For Loop End
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return null;
+		return "redirect:/showEmpFileUpload";
 	}
 }
