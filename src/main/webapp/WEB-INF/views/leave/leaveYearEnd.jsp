@@ -305,7 +305,7 @@
 
 
 							<form
-								action="${pageContext.request.contextPath}/submitYearEndAndAssignNewStructure1"
+								action="${pageContext.request.contextPath}/submitYearEndAndAssignNewStructure"
 								id="submitForm" method="post">
 
 								<div class="table-responsive">
@@ -396,6 +396,7 @@
 																<td><input
 																	id="inCash${previousleavehistorylist.lvTypeId}"
 																	name="inCash${previousleavehistorylist.lvTypeId}"
+																	onchange="resetAmtValue(${previousleavehistorylist.lvTypeId})"
 																	value="<fmt:formatNumber type="number"
 																		maxFractionDigits="2" minFractionDigits="2" groupingUsed="false" 
 																		value=" ${((empBasicAllownceForLeaveInCash.basic+
@@ -412,7 +413,12 @@
 															name="carryfrwd${previousleavehistorylist.lvTypeId}"
 															value="${carryForward}"
 															onchange="changeCarryforward(${previousleavehistorylist.lvTypeId})"
-															class="form-control numbersOnly" type="text" required></td>
+															class="form-control numbersOnly" type="text" required>
+															<input
+															id="inCashleavCount${previousleavehistorylist.lvTypeId}"
+															name="inCashleavCount${previousleavehistorylist.lvTypeId}"
+															value="${inCashleavCount}" class=" numbersOnly"
+															type="hidden"></td>
 														<td data-uuid="${currentEarn}"
 															data-orignalcarryfrwd="${carryForward}"
 															id="currentEarn${previousleavehistorylist.lvTypeId}">${currentEarn}</td>
@@ -610,6 +616,23 @@
 																+ currentYearBalace;
 
 													}
+													function resetAmtValue(
+															typeId) {
+														var inCash = parseFloat(document
+																.getElementById("inCash"
+																		+ typeId).value);
+														 
+														if (isNaN(inCash)) {
+
+															 
+															document
+																	.getElementById('inCash'
+																			+ typeId).value = 0;
+														}
+														 
+
+													}
+													
 													/* $(document).ready(function($) {
 
 														$("#submitForm").submit(function(e) {

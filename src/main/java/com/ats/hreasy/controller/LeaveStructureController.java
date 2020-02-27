@@ -1214,16 +1214,24 @@ public class LeaveStructureController {
 					 * previousleavehistorylist.get(i).getLvTypeId())));
 					 */
 					leaveBalanceCal.setLvCarryFwdRemarks("Null");
-					/*
-					 * leaveBalanceCal.setLvEncash(Float.parseFloat(
-					 * request.getParameter("inchashLv" +
-					 * previousleavehistorylist.get(i).getLvTypeId())));
-					 */
 					leaveBalanceCal.setOpBal(Float.parseFloat(
 							request.getParameter("carryfrwd" + previousleavehistorylist.get(i).getLvTypeId())));
+					try {
+						float incashValue = Float.parseFloat(
+								request.getParameter("inCash" + previousleavehistorylist.get(i).getLvTypeId()));
+						float leaveInCashCount = Float.parseFloat(request
+								.getParameter("inCashleavCount" + previousleavehistorylist.get(i).getLvTypeId()));
+						leaveBalanceCal.setLvEncash(leaveInCashCount);
+						leaveBalanceCal.setLvEncashRemarks(String.valueOf(incashValue));
+					} catch (Exception e) {
+
+						e.printStackTrace();
+						leaveBalanceCal.setLvEncash(0);
+						leaveBalanceCal.setLvEncashRemarks(String.valueOf(0));
+					}
+					leaveBalanceCal.setExInt1(1);
 					leaveBalanceCal.setMakerUserId(1);
 					leaveBalanceCal.setMakerEnterDatetime(dateTime);
-					leaveBalanceCal.setLvEncashRemarks("Null");
 					leaveBalanceCal.setLvTypeId(previousleavehistorylist.get(i).getLvTypeId());
 					leavBalList.add(leaveBalanceCal);
 				}
