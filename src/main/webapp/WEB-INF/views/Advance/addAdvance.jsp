@@ -109,8 +109,10 @@
 									<input type="hidden" value="${empPersInfo.empId}" id="empId"
 										name="empId">
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="empName">Employee
-											Name <span style="color: red">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="empName">Employee Name <span style="color: red">*
+										</span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -122,8 +124,10 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="grossSal">Total
-											Gross Salary <span style="color: red">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="grossSal">Total Gross Salary <span
+											style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" id="grossSal"
@@ -133,8 +137,10 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="voucherNo">Voucher
-											No. <span style="color: red">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="voucherNo">Voucher No. <span style="color: red">*
+										</span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -150,8 +156,10 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="advanceAmt">Advance
-											Amount <span style="color: red">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="advanceAmt">Advance Amount <span
+											style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
@@ -174,14 +182,33 @@
 										</div>
 									</div>
 									 -->
+
+
+
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="date">Select
-											Deduction Month <span style="color: red">* </span> :
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="dob">Date <span class="text-danger">*</span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control datepickerclass"
+												placeholder="Date of Advance" id="advDate" name="advDate"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="hidedefault  validation-invalid-label"
+												id="error_advDate" style="display: none;">This field
+												is required.</span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="date">Select Deduction Month <span
+											style="color: red">* </span> :
 										</label>
 										<div class="col-md-10">
 											<input type="text" class="form-control "
-												placeholder="Select Deduction Month " id="datepicker" name="date"
-												value="${date}" autocomplete="off"> <span
+												placeholder="Select Deduction Month " id="datepicker"
+												name="date" value="${date}" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_month"
 												style="display: none;">This field is required.</span>
 										</div>
@@ -190,8 +217,9 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="reason">
-											Remark <span style="color: red">*</span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="reason"> Remark <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-4">
 											<textarea class="form-control"
@@ -274,7 +302,7 @@
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
 			replace(/\n +/, "\n"); // Removes spaces after newlines
-			checkSame();
+
 			return;
 		}
 
@@ -315,6 +343,16 @@
 					$("#error_advanceAmt").hide()
 				}
 
+				if (!$("#advDate").val()) {
+
+					isError = true;
+
+					$("#error_advDate").show()
+
+				} else {
+					$("#error_advDate").hide()
+				}
+
 				if (!$("#adv_reason").val()) {
 
 					isError = true;
@@ -341,7 +379,7 @@
 		});
 		//
 	</script>
-<script type="text/javascript">
+	<script type="text/javascript">
 		// Single picker
 		/* $("#datepicker").datepicker({
 			changeMonth : true,
@@ -361,20 +399,45 @@
 				separator : ' to '
 			}
 		});
-		 $(document).ready(function() {
-		        // month selector
-		        $('#datepicker').datepicker({
-		            autoclose: true,
-		            format: "mm-yyyy",
-		            viewMode: "months",
-		            minViewMode: "months"
+		$(document).ready(function() {
+			// month selector
+			$('#datepicker').datepicker({
+				autoclose : true,
+				format : "mm-yyyy",
+				viewMode : "months",
+				minViewMode : "months"
 
-		        });
+			});
+
+		});
+	</script>
 
 
-		    });
-		
-		
+	<script type="text/javascript">
+		// Single picker
+		$('.datepickerclass').daterangepicker({
+			"autoUpdateInput" : false,
+			singleDatePicker : true,
+			selectMonths : true,
+			selectYears : true,
+			locale : {
+				format : 'DD-MM-YYYY'
+			}
+		}, function(start_date) {
+			$(this.element).val(start_date.format('DD-MM-YYYY'));
+		});
+
+		//daterange-basic_new
+		// Basic initialization
+		$('.daterange-basic_new').daterangepicker({
+			applyClass : 'bg-slate-600',
+
+			cancelClass : 'btn-light',
+			locale : {
+				format : 'DD-MM-YYYY',
+				separator : ' to '
+			}
+		});
 	</script>
 
 	<!-- <script type="text/javascript">

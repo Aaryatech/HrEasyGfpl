@@ -165,6 +165,7 @@ public class AdvanceAdminController {
 			int empId = Integer.parseInt(request.getParameter("empId"));
 
 			String month = request.getParameter("date");
+			String advDate = request.getParameter("advDate");
 
 			String temp[] = month.split("-");
 			Boolean ret = false;
@@ -194,7 +195,7 @@ public class AdvanceAdminController {
 
 				Advance adv = new Advance();
 				adv.setAdvAmount(Double.parseDouble(advanceAmt));
-				adv.setAdvDate(sf.format(date));
+				adv.setAdvDate(DateConvertor.convertToYMD(advDate));
 				adv.setAdvRemainingAmount(Double.parseDouble(advanceAmt));
 				adv.setAdvRemarks(remark);
 				adv.setCmpId(1);
@@ -211,9 +212,10 @@ public class AdvanceAdminController {
 				adv.setLoginName(String.valueOf(userObj.getEmpId()));
 				adv.setLoginTime(sf2.format(date2));
 				adv.setSkipId(0);
-				adv.setSkipLoginName("0");
-				adv.setSkipLoginTime("0000-00-00 00:00:00");
-				adv.setSkipRemarks("");
+				/*
+				 * adv.setSkipLoginName("0"); adv.setSkipLoginTime("0000-00-00 00:00:00");
+				 * adv.setSkipRemarks("");
+				 */
 				adv.setDelStatus(1);
 
 				Advance res = Constants.getRestTemplate().postForObject(Constants.url + "/saveMstEmpAdvance", adv,

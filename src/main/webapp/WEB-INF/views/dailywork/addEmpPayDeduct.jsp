@@ -164,7 +164,7 @@
 
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
-											for="dedRate"> Amount<span class="text-danger">*</span>:
+											for="dedRate"> Amount <span class="text-danger">*</span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
@@ -178,7 +178,7 @@
 									<div class="form-group row">
 										<label
 											class="col-form-label text-info font-weight-bold col-lg-2"
-											for="month"> Month-Year <span class="text-danger">*</span>:
+											for="month"> Deduction on Month <span class="text-danger">*</span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" name="monthyear" id="monthyear"

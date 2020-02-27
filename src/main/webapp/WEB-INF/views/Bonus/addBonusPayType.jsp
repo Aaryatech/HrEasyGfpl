@@ -98,18 +98,19 @@
 								%>
 
 								<form
-									action="${pageContext.request.contextPath}/submitInsertBonusPayType"
+									action="${pageContext.request.contextPath}/submitBonusType"
 									id="submitInsertPayDeductType" method="post">
-								<%-- 	<input type="hidden" value="${pay.dedTypeId}"
-										id="payDeductTypeId" name="payDeductTypeId"> --%>
+									<input type="hidden" value="${pay.payTypeId}" id="payTypeId"
+										name="payTypeId">
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="bank"> 
-											Bonus Type <span class="text-danger">* </span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="bonusType"> Reward Type <span class="text-danger">*
+										</span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												 
-												placeholder="Enter Bonus Type"
+												placeholder="Enter Reward Type" value="${pay.typeName}"
 												id="bonusType" name="bonusType" autocomplete="off"
 												onchange="trim(this)"> <span
 												class="validation-invalid-label" id="error_bonusType"
@@ -118,13 +119,15 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="address"> 
-											Rate<span class="text-danger"> *</span>:
+										<label
+											class="col-form-label text-info font-weight-bold col-lg-2"
+											for="bonusRate"> Rate<span class="text-danger">
+												*</span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Enter Bonus Rate" id="bonusRate"
-											  name="bonusRate" autocomplete="off"
+												value="${pay.payRate}" placeholder="Enter Bonus Rate"
+												id="bonusRate" name="bonusRate" autocomplete="off"
 												onchange="trim(this)"> <span
 												class="validation-invalid-label" id="error_bonusRate"
 												style="display: none;">This field is required.</span>
@@ -140,7 +143,7 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a
-												href="${pageContext.request.contextPath}/showPayDeductionList"><button
+												href="${pageContext.request.contextPath}/showPayBonusTypeList"><button
 													type="button" class="btn btn-light">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Back
@@ -172,7 +175,6 @@
 	<!-- /page content -->
 
 	<script>
-	 
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
@@ -181,8 +183,6 @@
 			return;
 		}
 
-	 
- 
 		$(document).ready(function($) {
 
 			$("#submitInsertPayDeductType").submit(function(e) {
@@ -225,7 +225,7 @@
 		//
 	</script>
 
- 
+
 
 </body>
 </html>
