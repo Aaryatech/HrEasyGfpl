@@ -111,8 +111,10 @@
 							action="${pageContext.request.contextPath}/listOfGeneratedPayroll"
 							id="listOfGeneratedPayroll" method="get">
 							<div class="form-group row">
-								<label class="col-form-label text-info font-weight-bold col-lg-2" for="datepicker">
-									Select Month <span style="color: red">* </span> :
+								<label
+									class="col-form-label text-info font-weight-bold col-lg-2"
+									for="datepicker"> Select Month <span style="color: red">*
+								</span> :
 								</label>
 								<div class="col-md-2">
 									<input type="text" name="selectMonth" id="datepicker"
@@ -222,6 +224,7 @@
 											<th class="text-center">Performance Bonus</th>
 											<th class="text-center">Production Incentive</th>
 											<th class="text-center">Performance Incentive <!-- (OT AMT) --></th>
+											<th class="text-center">Reward</th>
 											<th class="text-center">Net Salary</th>
 
 										</tr>
@@ -439,6 +442,12 @@
 											<td class="text-right">
 												<%
 													out.println(String.format("%.2f",
+																		ReportCostants.castNumber(list.get(i).getReward(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													out.println(String.format("%.2f",
 																		ReportCostants.castNumber(list.get(i).getNetSalary(), amount_round)));
 												%>
 											</td>
@@ -553,8 +562,8 @@
 			}
 		});
 	</script>
-	
-	
+
+
 	<script type="text/javascript">
 		// Single picker
 		/* $("#datepicker").datepicker({
@@ -575,20 +584,17 @@
 				separator : ' to '
 			}
 		});
-		 $(document).ready(function() {
-		        // month selector
-		        $('#datepicker').datepicker({
-		            autoclose: true,
-		            format: "mm-yyyy",
-		            viewMode: "months",
-		            minViewMode: "months"
+		$(document).ready(function() {
+			// month selector
+			$('#datepicker').datepicker({
+				autoclose : true,
+				format : "mm-yyyy",
+				viewMode : "months",
+				minViewMode : "months"
 
-		        });
+			});
 
-
-		    });
-		
-		
+		});
 	</script>
 </body>
 </html>

@@ -88,6 +88,7 @@
 											<th class="text-center">EMP Code</th>
 											<th width="20%" class="text-center">EMP Name</th>
 											<th class="text-center">Basic</th>
+											<th class="text-center">Allowance</th>
 											<th class="text-center">Absent Deduction</th>
 											<th class="text-center">Gross Earning</th>
 											<th class="text-center">Adv</th>
@@ -160,6 +161,15 @@
 												<%
 													out.println(
 																	String.format("%.2f", ReportCostants.castNumber(list.get(i).getBasicCal(), amount_round)));
+												%>
+											</td>
+											<td class="text-right">
+												<%
+													double totalAllow = 0;
+															for (int j = 0; j < list.get(i).getGetAllowanceTempList().size(); j++) {
+																totalAllow = totalAllow + list.get(i).getGetAllowanceTempList().get(j).getAllowanceValueCal();
+															}
+															out.println(String.format("%.2f", ReportCostants.castNumber(totalAllow, amount_round)));
 												%>
 											</td>
 											<td class="text-right">
