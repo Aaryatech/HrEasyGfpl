@@ -213,13 +213,21 @@
 														<c:if test="${lStrList.lvsId==structId}">
 															${lStrList.lvsName}
 														</c:if>
-
-
-
 													</c:forEach>
 												</label> <input id="structId" name="structId" value="${structId}"
 													type="hidden" required>
 											</div>
+											<div class="form-group row">
+												<label class="col-form-label col-lg-2"> Per Day: </label> <label
+													class="col-form-label col-lg-2 text-info font-weight-bold"
+													for="locId"> <fmt:formatNumber type="number"
+														maxFractionDigits="2" minFractionDigits="2"
+														groupingUsed="false"
+														value=" ${((empBasicAllownceForLeaveInCash.basic+
+																	empBasicAllownceForLeaveInCash.allowanceValue)/30)}" />
+												</label>
+											</div>
+
 										</c:when>
 										<c:otherwise>
 											<div class="form-group row">
@@ -355,26 +363,30 @@
 														</c:if>
 													</c:forEach>
 
-													<c:if
-														test="${previousleavehistorylist.maxAccumulateCarryforward>0}">
-														<c:choose>
-															<c:when
-																test="${(ballv+currentEarn)>previousleavehistorylist.maxAccumulateCarryforward}">
-																<c:set var="carryForward"
-																	value="${previousleavehistorylist.maxAccumulateCarryforward-currentEarn}"></c:set>
-																<c:set var="color" value="red"></c:set>
-															</c:when>
-															<c:otherwise>
-																<c:set var="carryForward" value="${ballv}"></c:set>
-															</c:otherwise>
-														</c:choose>
-													</c:if>
-													<%-- <td><input
-														id="inchashLv${previousleavehistorylist.lvTypeId}"
-														name="inchashLv${previousleavehistorylist.lvTypeId}"
-														value="0" class="form-control" type="number" required></td> --%>
+
 
 													<c:if test="${structId>0}">
+														<c:if
+															test="${previousleavehistorylist.maxAccumulateCarryforward>0}">
+															<c:choose>
+
+																<c:when
+																	test="${ballv>previousleavehistorylist.maxAccumulateCarryforward}">
+																	<c:set var="carryForward"
+																		value="${previousleavehistorylist.maxAccumulateCarryforward}"></c:set>
+																	<c:set var="color" value="red"></c:set>
+																</c:when>
+																<%-- <c:when
+																	test="${(ballv+currentEarn)>previousleavehistorylist.maxAccumulateCarryforward}">
+																	<c:set var="carryForward"
+																		value="${previousleavehistorylist.maxAccumulateCarryforward-currentEarn}"></c:set>
+																	<c:set var="color" value="red"></c:set>
+																</c:when> --%>
+																<c:otherwise>
+																	<c:set var="carryForward" value="${ballv}"></c:set>
+																</c:otherwise>
+															</c:choose>
+														</c:if>
 														<c:choose>
 															<c:when test="${previousleavehistorylist.isInCash==1}">
 																<c:set var="inCashleavCount"
@@ -388,7 +400,7 @@
 																		maxFractionDigits="2" minFractionDigits="2" groupingUsed="false" 
 																		value=" ${((empBasicAllownceForLeaveInCash.basic+
 																	empBasicAllownceForLeaveInCash.allowanceValue)/30)*inCashleavCount}" />"
-																	class="form-control numbersOnly" type="text" required ></td>
+																	class="form-control numbersOnly" type="text" required></td>
 															</c:when>
 															<c:otherwise>
 																<td>0</td>
