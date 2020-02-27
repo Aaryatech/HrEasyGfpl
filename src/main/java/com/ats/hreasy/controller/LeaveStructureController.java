@@ -29,6 +29,7 @@ import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Allowances;
 import com.ats.hreasy.model.CalenderYear;
+import com.ats.hreasy.model.EmpBasicAllownceForLeaveInCash;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.GetLeaveAuthority;
@@ -261,7 +262,7 @@ public class LeaveStructureController {
 						}
 
 						head.setExVar1(id.substring(0, id.length() - 1));
-					}else {
+					} else {
 						head.setExVar1("0");
 					}
 
@@ -1124,6 +1125,14 @@ public class LeaveStructureController {
 					LeaveStructureHeader leaveStructureById = Constants.getRestTemplate()
 							.postForObject(Constants.url + "/getStructureById", map, LeaveStructureHeader.class);
 					model.addObject("leaveStructureById", leaveStructureById);
+
+					map = new LinkedMultiValueMap<>();
+					map.add("lvsId", previousleavehistorylist.get(0).getLvsId());
+					map.add("empId", empId);
+					EmpBasicAllownceForLeaveInCash empBasicAllownceForLeaveInCash = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getEmployeeBasicAndAllownceValueByEmpIdAndStructId", map,
+									EmpBasicAllownceForLeaveInCash.class);
+					model.addObject("empBasicAllownceForLeaveInCash", empBasicAllownceForLeaveInCash);
 
 				} catch (Exception e) {
 					model.addObject("structId", 0);

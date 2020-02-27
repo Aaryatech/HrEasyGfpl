@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -309,7 +309,7 @@
 										<thead>
 											<tr class="bg-blue" style="text-align: center;">
 
-												<th>Leave Type</th>
+												<th width="20%">Leave Type</th>
 												<th width="10%">Previous Year Opening Bal</th>
 												<th width="10%">Previous Year Earned</th>
 												<th width="10%">Previous Year Approved</th>
@@ -318,7 +318,8 @@
 												<!-- <th width="10%">InCash</th> -->
 
 												<c:if test="${structId>0}">
-													<th width="10%">In Cash</th>
+													<th width="10%">In Cash Leave</th>
+													<th width="10%">Cash</th>
 													<th width="10%">Carry Forward</th>
 													<th width="10%">Current Year Earned</th>
 													<th width="10%">Current Year Balanced</th>
@@ -342,6 +343,7 @@
 													<td>${ballv}</td>
 													<c:set var="carryForward" value="0"></c:set>
 													<c:set var="currentEarn" value="0"></c:set>
+													<c:set var="inCashleavCount" value="0"></c:set>
 													<c:set var="color" value=""></c:set>
 													<c:forEach items="${leaveStructureById.detailList}"
 														var="detailList">
@@ -373,11 +375,26 @@
 														value="0" class="form-control" type="number" required></td> --%>
 
 													<c:if test="${structId>0}">
-														<td><input
-															id="inCash${previousleavehistorylist.lvTypeId}"
-															name="inCash${previousleavehistorylist.lvTypeId}"
-															value="${carryForward}" class="form-control numbersOnly"
-															type="text" required></td>
+														<c:choose>
+															<c:when test="${previousleavehistorylist.isInCash==1}">
+																<c:set var="inCashleavCount"
+																	value="${ballv-carryForward}"></c:set>
+																<td>${inCashleavCount}</td>
+
+																<td><input
+																	id="inCash${previousleavehistorylist.lvTypeId}"
+																	name="inCash${previousleavehistorylist.lvTypeId}"
+																	value="<fmt:formatNumber type="number"
+																		maxFractionDigits="2" minFractionDigits="2" groupingUsed="false" 
+																		value=" ${((empBasicAllownceForLeaveInCash.basic+
+																	empBasicAllownceForLeaveInCash.allowanceValue)/30)*inCashleavCount}" />"
+																	class="form-control numbersOnly" type="text" required ></td>
+															</c:when>
+															<c:otherwise>
+																<td>0</td>
+																<td>0</td>
+															</c:otherwise>
+														</c:choose>
 														<td style="background-color: ${color};"><input
 															id="carryfrwd${previousleavehistorylist.lvTypeId}"
 															name="carryfrwd${previousleavehistorylist.lvTypeId}"
