@@ -114,7 +114,9 @@
 															File:</label>
 														<div class="col-md-6">
 															<div class="fallback">
-													<input name="fileNew" type="file"   />
+													<input name="fileNew" type="file"   /><span
+																class="form-text text-muted">Accepted formats:
+																xls </span>
 
 
 												</div>
@@ -131,7 +133,10 @@
 
 												</form>
 											</div>
-
+	<span class="text-info"> <a
+						href="http://gfplphp.aaryatechindia.in/uploads/att_template/attendance_sample.csv"
+						target="_blank" id="genTemplate1" title=".csv Format"><i
+							class="icon-file-download"></i> Download Template</a></span>
 										</div>
 
 									</div>
