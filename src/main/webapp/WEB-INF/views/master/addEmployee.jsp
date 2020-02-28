@@ -2287,8 +2287,8 @@
 						})
 						
 						
-						document.getElementById("basic").value = parseFloat(grossSal)
-						- parseFloat(x);
+						document.getElementById("basic").value = (parseFloat(grossSal)
+						- parseFloat(x)).toFixed(2);
 
 			});
 		 
