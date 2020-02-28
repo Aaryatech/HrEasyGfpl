@@ -599,7 +599,7 @@ public class CompanyController {
 					
 					if(img!="" && img!=null) {
 						 
-							upload.saveUploadedImge(logo.get(0), Constants.imageSaveUrl, img, Constants.allextension,
+							upload.saveUploadedImge(logo.get(0), Constants.companyLogoSaveUrl, img, Constants.allextension,
 									0, 0, 0, 0, 0);
 
 							company.setLogo(img);

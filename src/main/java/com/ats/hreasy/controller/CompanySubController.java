@@ -353,7 +353,7 @@ public class CompanySubController {
 			model = new ModelAndView("master/companySubAdd");
 			model.addObject("company", company);
 
-			model.addObject("viewUrl", Constants.imageShowUrl);
+			model.addObject("viewUrl", Constants.companyLogoShowUrl);
 
 			System.out.println(" company : " + company.toString());
 			}
@@ -695,7 +695,7 @@ public class CompanySubController {
 
 				if (img.trim() != "") {
 
-					Info info = upload.saveUploadedImge(logo.get(0), Constants.imageSaveUrl, img, Constants.values, 0,
+					Info info = upload.saveUploadedImge(logo.get(0), Constants.companyLogoSaveUrl, img, Constants.values, 0,
 							0, 0, 0, 0);
 
 					if (info.isError() == false) {

@@ -63,7 +63,7 @@ public class LeaveApprovalController {
 			lvEmp.setLeaveTodt(DateConvertor.convertToDMY(lvEmp.getLeaveTodt()));
 			model.addObject("lvEmp", lvEmp);
 			 
-			model.addObject("imageUrl", Constants.imageShowUrl);
+			model.addObject("imageUrl", Constants.leaveDocShowUrl);
 
 		} catch (Exception e) {
 			e.printStackTrace();

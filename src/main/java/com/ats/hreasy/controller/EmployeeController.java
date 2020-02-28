@@ -276,7 +276,7 @@ public class EmployeeController {
 				model.addObject("allowanceList", allowanceList);
 				model.addObject("empDocList", empDocList);
 				model.addObject("emp", emp);
-				model.addObject("imgUrl", Constants.imageShowUrl);
+				model.addObject("imgUrl", Constants.empDocShowUrl);
 				session.setAttribute("empTab", 1);
 
 				map = new LinkedMultiValueMap<>();
@@ -755,7 +755,7 @@ public class EmployeeController {
 				model.addObject("bankList", bankList);
 				model.addObject("allowanceList", allowanceList);
 				model.addObject("empDocList", empDocList);
-				model.addObject("imgUrl", Constants.imageShowUrl);
+				model.addObject("imgUrl", Constants.empDocShowUrl);
 
 				map = new LinkedMultiValueMap<>();
 				map.add("compId", 1);
@@ -881,7 +881,7 @@ public class EmployeeController {
 			model.addAttribute("bankList", bankList);
 			model.addAttribute("allowanceList", allowanceList);
 			model.addAttribute("empDocList", empDocList);
-			model.addAttribute("imgUrl", Constants.imageShowUrl);
+			model.addAttribute("imgUrl", Constants.empDocShowUrl);
 
 			/**************************************************
 			 * Edit
@@ -1494,7 +1494,7 @@ public class EmployeeController {
 
 					if (img != "" && img != null) {
 
-						Info info = upload.saveUploadedImge(doc.get(j), Constants.imageSaveUrl, imageName,
+						Info info = upload.saveUploadedImge(doc.get(j), Constants.empDocSaveUrl, imageName,
 								Constants.allextension, 0, 0, 0, 0, 0);
 
 						if (info.isError() == false) {

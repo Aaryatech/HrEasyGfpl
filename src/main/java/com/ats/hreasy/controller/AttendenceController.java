@@ -308,8 +308,8 @@ public class AttendenceController {
 				Date firstDay = new GregorianCalendar(year, month - 1, 1).getTime();
 				Date lastDay = new GregorianCalendar(year, month, 0).getTime();
 
-				upload.saveUploadedFiles(file.get(0), Constants.imageSaveUrl, imageName);
-				String fileIn = Constants.imageSaveUrl + imageName;
+				upload.saveUploadedFiles(file.get(0), Constants.attsDocSaveUrl, imageName);
+				String fileIn = Constants.attsDocSaveUrl + imageName;
 
 				// String fileIn = "/home/lenovo/Documents/attendance/" + imageName;
 

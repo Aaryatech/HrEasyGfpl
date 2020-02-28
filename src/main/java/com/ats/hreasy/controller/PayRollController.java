@@ -713,7 +713,7 @@ public class PayRollController {
 					.getForObject(Constants.url + "/getAllSubCompanies", MstCompanySub[].class);
 			model.addObject("companyList", companyList);
 
-			model.addObject("logoUrl", Constants.imageShowUrl);
+			model.addObject("logoUrl", Constants.companyLogoShowUrl);
 			
 			String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August",
 					"September", "October", "November", "December" };

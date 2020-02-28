@@ -1089,7 +1089,7 @@ public class ClaimApplicationController {
 			}
 
 			model.addObject("claimProofList1", claimProofList1);
-			model.addObject("fileUrl", Constants.getImageSaveUrl);
+			model.addObject("fileUrl", Constants.imageShowUrl);
 
 		} catch (Exception e) {
 			e.printStackTrace();

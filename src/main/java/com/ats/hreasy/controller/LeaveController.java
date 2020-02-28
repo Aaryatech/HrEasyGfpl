@@ -645,7 +645,7 @@ public class LeaveController {
 			String empId1 = FormValidation.Encrypt(String.valueOf(lvEmp.getEmpId()));
 			model.addObject("lvEmp", lvEmp);
 			model.addObject("empId1", empId1);
-			model.addObject("imageUrl", Constants.imageShowUrl);
+			model.addObject("imageUrl", Constants.leaveDocShowUrl);
 			// System.out.println("emp leave details" + lvEmp.toString());
 
 		} catch (Exception e) {
@@ -884,7 +884,7 @@ public class LeaveController {
 
 					VpsImageUpload upload = new VpsImageUpload();
 					String imageName = dateTimeInGMT.format(date)+"_"+documentFile.get(0).getOriginalFilename();
-					infoImage = upload.saveUploadedImge(documentFile.get(0), Constants.imageSaveUrl, imageName,
+					infoImage = upload.saveUploadedImge(documentFile.get(0), Constants.leaveDocSaveUrl, imageName,
 							Constants.values, 0, 0, 0, 0, 0);
 					infoImage.setMsg(imageName);
 				} else {
@@ -1144,7 +1144,7 @@ public class LeaveController {
 			lvEmp.setLeaveFromdt(DateConvertor.convertToDMY(lvEmp.getLeaveFromdt()));
 			lvEmp.setLeaveTodt(DateConvertor.convertToDMY(lvEmp.getLeaveTodt()));
 			model.addObject("lvEmp", lvEmp);
-			model.addObject("imageUrl", Constants.imageShowUrl);
+			model.addObject("imageUrl", Constants.leaveDocShowUrl);
 			// System.out.println("emp leave details" + lvEmp.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
