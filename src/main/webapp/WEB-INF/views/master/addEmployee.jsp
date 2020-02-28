@@ -1499,7 +1499,7 @@
 													<input type="text" class="form-control numbersOnly"
 														value="${empAllowanceId.grossSalary}"
 														placeholder="Gross Salary Rs." name="grossSal"
-														id="grossSal" onchange1="calAllValues(this.value)">
+														id="grossSal" onchange="calAllValues(this.value)">
 													<span class="hidedefault   validation-invalid-label"
 														style="display: none;" id="error_grossSal">This
 														field is required.</span>
@@ -1513,7 +1513,7 @@
 													for="basic">Basic Rs. <span class="text-danger">*</span>:
 												</label>
 												<div class="col-lg-4">
-													<input type="text" class="form-control numbersOnly"
+													<input type="text" class="form-control numbersOnly" readonly
 														placeholder="Basic Rs." name="basic" id="basic"  
 														onchange="trim(this)" value="${empAllowanceId.basic}">
 													<!-- <span class="hidedefault   validation-invalid-label"
