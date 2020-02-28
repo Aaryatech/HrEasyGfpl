@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,11 +26,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
+import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Allowances;
 import com.ats.hreasy.model.CalenderYear;
 import com.ats.hreasy.model.EmpBasicAllownceForLeaveInCash;
+import com.ats.hreasy.model.EmpInfo;
 import com.ats.hreasy.model.EmployeeMaster;
 import com.ats.hreasy.model.GetEmployeeDetails;
 import com.ats.hreasy.model.GetLeaveAuthority;
@@ -37,6 +40,7 @@ import com.ats.hreasy.model.GetStructureAllotment;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.LeaveAuthority;
 import com.ats.hreasy.model.LeaveBalanceCal;
+import com.ats.hreasy.model.LeaveCashReport;
 import com.ats.hreasy.model.LeaveHistory;
 import com.ats.hreasy.model.LeaveStructureDetails;
 import com.ats.hreasy.model.LeaveStructureHeader;
@@ -1255,6 +1259,153 @@ public class LeaveStructureController {
 			e.printStackTrace();
 		}
 		return "redirect:/leaveYearEnd";
+	}
+
+	int yearId;
+
+	@RequestMapping(value = "/getPendingListOfleaveCash", method = RequestMethod.GET)
+	public String fixAttendaceByDateAndEmp(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+
+		String mav = null;
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("getPendingListOfleaveCash", "getPendingListOfleaveCash", 1, 0, 0, 0,
+				newModuleList);
+
+		if (view.isError() == true) {
+
+			mav = "accessDenied";
+
+		} else {
+			mav = "leave/leavecashpendinglist";
+
+			try {
+
+				CalenderYear[] calenderYear = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getCalculateYearList", CalenderYear[].class);
+				List<CalenderYear> calYearList = new ArrayList<CalenderYear>(Arrays.asList(calenderYear));
+				model.addAttribute("calYearList", calYearList);
+
+				try {
+					yearId = Integer.parseInt(request.getParameter("calYrId"));
+					model.addAttribute("yearId", yearId);
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+					map = new LinkedMultiValueMap<>();
+					map.add("yearId", yearId);
+					LeaveCashReport[] leaveCashReport = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getPendingListOfleaveCash", map, LeaveCashReport[].class);
+					List<LeaveCashReport> list = new ArrayList<>(Arrays.asList(leaveCashReport));
+					model.addAttribute("list", list);
+				} catch (Exception e) {
+					// e.printStackTrace();
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return mav;
+
+	}
+
+	@RequestMapping(value = "/submitinchashamt", method = RequestMethod.POST)
+	public String submitinchashamt(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+
+		String mav = new String();
+		try {
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("getPendingListOfleaveCash", "getPendingListOfleaveCash", 1, 0, 0, 0,
+					newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = "accessDenied";
+
+			} else {
+				mav = "redirect:/getPendingListOfleaveCash";
+
+				String[] empIds = request.getParameterValues("selectEmp");
+
+				String date = request.getParameter("date");
+
+				String ids = new String();
+
+				for (int i = 0; i < empIds.length; i++) {
+					ids = ids + empIds[i] + ",";
+
+				}
+				ids = ids.substring(0, ids.length() - 1);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("yearId", yearId);
+				map.add("date", DateConvertor.convertToYMD(date));
+				map.add("empId", ids);
+
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateIsPaidIncash", map,
+						Info.class);
+				if (info.isError() == false) {
+					session.setAttribute("successMsg", "Paid Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Paid Cash");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+
+	}
+
+	@RequestMapping(value = "/getPaidListOfleaveCash", method = RequestMethod.GET)
+	public String getPaidListOfleaveCash(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+
+		String mav = null;
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("getPaidListOfleaveCash", "getPaidListOfleaveCash", 1, 0, 0, 0,
+				newModuleList);
+
+		if (view.isError() == true) {
+
+			mav = "accessDenied";
+
+		} else {
+			mav = "leave/leavecashpaidlist";
+
+			try {
+
+				CalenderYear[] calenderYear = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getCalculateYearList", CalenderYear[].class);
+				List<CalenderYear> calYearList = new ArrayList<CalenderYear>(Arrays.asList(calenderYear));
+				model.addAttribute("calYearList", calYearList);
+
+				try {
+					int yearId = Integer.parseInt(request.getParameter("calYrId"));
+					model.addAttribute("yearId", yearId);
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map = new LinkedMultiValueMap<>();
+					map.add("yearId", yearId);
+					LeaveCashReport[] leaveCashReport = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getPaidListOfleaveCash", map, LeaveCashReport[].class);
+					List<LeaveCashReport> list = new ArrayList<>(Arrays.asList(leaveCashReport));
+
+					for (int i = 0; i < list.size(); i++) {
+						list.get(i).setPaidDate(DateConvertor.convertToDMY(list.get(i).getPaidDate()));
+					}
+					model.addAttribute("list", list);
+				} catch (Exception e) {
+					// e.printStackTrace();
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return mav;
+
 	}
 
 }
