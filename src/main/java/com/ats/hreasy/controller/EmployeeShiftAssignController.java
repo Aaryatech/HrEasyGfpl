@@ -148,7 +148,7 @@ public class EmployeeShiftAssignController {
 			// System.out.println("shiftId id are**" + shiftId);
 
 			map.add("empIdList", items);
-			map.add("shiftId", shiftId);
+			map.add("upDateId", shiftId);
 			map.add("flag", 7);
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
 					Info.class);
