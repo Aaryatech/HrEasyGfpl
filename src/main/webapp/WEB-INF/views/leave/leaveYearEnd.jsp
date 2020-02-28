@@ -224,7 +224,7 @@
 														maxFractionDigits="2" minFractionDigits="2"
 														groupingUsed="false"
 														value=" ${((empBasicAllownceForLeaveInCash.basic+
-																	empBasicAllownceForLeaveInCash.allowanceValue)/30)}" />
+																	empBasicAllownceForLeaveInCash.allowanceValue)/day)}" />
 												</label>
 											</div>
 
@@ -400,7 +400,7 @@
 																	value="<fmt:formatNumber type="number"
 																		maxFractionDigits="2" minFractionDigits="2" groupingUsed="false" 
 																		value=" ${((empBasicAllownceForLeaveInCash.basic+
-																	empBasicAllownceForLeaveInCash.allowanceValue)/30)*inCashleavCount}" />"
+																	empBasicAllownceForLeaveInCash.allowanceValue)/day)*inCashleavCount}" />"
 																	class="form-control numbersOnly" type="text" required></td>
 															</c:when>
 															<c:otherwise>

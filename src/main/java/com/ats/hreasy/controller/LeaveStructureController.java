@@ -1138,6 +1138,12 @@ public class LeaveStructureController {
 									EmpBasicAllownceForLeaveInCash.class);
 					model.addObject("empBasicAllownceForLeaveInCash", empBasicAllownceForLeaveInCash);
 
+					map = new LinkedMultiValueMap<>();
+					map.add("limitKey", "monthday");
+					Setting dayInMonth = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey",
+							map, Setting.class);
+					model.addObject("day", dayInMonth.getValue());
+					
 				} catch (Exception e) {
 					model.addObject("structId", 0);
 				}
@@ -1317,8 +1323,8 @@ public class LeaveStructureController {
 		try {
 
 			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-			Info view = AcessController.checkAccess("getPendingListOfleaveCash", "getPendingListOfleaveCash", 1, 0, 0, 0,
-					newModuleList);
+			Info view = AcessController.checkAccess("getPendingListOfleaveCash", "getPendingListOfleaveCash", 1, 0, 0,
+					0, newModuleList);
 
 			if (view.isError() == true) {
 
