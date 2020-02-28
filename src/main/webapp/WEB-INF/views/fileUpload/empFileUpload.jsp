@@ -104,8 +104,10 @@
 									<div class="col-md-12">
 										<div class="row">
 											<div class="col-md-12">
-												<form action="${pageContext.request.contextPath}/empDetailUploadCSV" method="POST" enctype="multipart/form-data"
-													method="post" 
+												<form
+													action="${pageContext.request.contextPath}/empDetailUploadCSV"
+													method="POST" enctype="multipart/form-data" method="post"
+													id="submitInsertLocaion"
 													class="form-inline1 justify-content-center">
 
 
@@ -114,12 +116,15 @@
 															File:</label>
 														<div class="col-md-6">
 															<div class="fallback">
-													<input name="fileNew" type="file"   /><span
-																class="form-text text-muted">Accepted formats:
-																xls </span>
+																<input name="fileNew" type="file" /><span
+																	class="form-text text-muted">Accepted formats:
+																	xls </span> <span
+																	class="hidedefault   validation-invalid-label"
+																	style="display: none;" id="error_empCode">Please
+																	Select File .</span>
 
 
-												</div>
+															</div>
 														</div>
 														<div class="col-md-4">
 															<button type="submit" id="btnUploadCSVSubmit"
@@ -128,15 +133,17 @@
 															</button>
 														</div>
 
+
+
 													</div>
 
 
 												</form>
 											</div>
-	<span class="text-info"> <a
-						href="http://gfplphp.aaryatechindia.in/uploads/att_template/attendance_sample.csv"
-						target="_blank" id="genTemplate1" title=".csv Format"><i
-							class="icon-file-download"></i> Download Template</a></span>
+											<span class="text-info"> <a
+												href="http://gfplphp.aaryatechindia.in/uploads/att_template/attendance_sample.csv"
+												target="_blank" id="genTemplate1" title=".csv Format"><i
+													class="icon-file-download"></i> Download Template</a></span>
 										</div>
 
 									</div>
@@ -163,39 +170,36 @@
 	</div>
 	<!-- /page content -->
 
-	<script>
+	<!-- <script>
 		$(document).ready(function($) {
 
 			$("#submitInsertLocaion").submit(function(e) {
+				alert(1);
+
+ 				$("#error_empCode").hide()
+
 				var isError = false;
 				var errMsg = "";
 
-				if (!$("#desigName").val()) {
+				if ($("#doc").val() != "") {
 
 					isError = true;
-
-					$("#error_designation").show()
+					alert(2);
+  					$("#error_empCode").show()
 					//return false;
 				} else {
-					$("#error_designation").hide()
-				}
+					alert(3);
 
-				if (!$("#desigShortName").val()) {
-
-					isError = true;
-
-					$("#error_desigShortName").show()
-
-				} else {
-					$("#error_desigShortName").hide()
+					$("#error_empCode").hide()
 				}
 
 				if (!isError) {
 
+					
 					var x = true;
 					if (x == true) {
 
-						document.getElementById("submtbtn").disabled = true;
+						document.getElementById("btnUploadCSVSubmit").disabled = true;
 						return true;
 					}
 					//end ajax send this to php page
@@ -207,6 +211,6 @@
 	</script>
 
 
-
+ -->
 </body>
 </html>

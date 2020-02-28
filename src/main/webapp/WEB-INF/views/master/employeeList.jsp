@@ -43,13 +43,23 @@
 						<table width="100%">
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Employee List</h5></td>
-								<td width="40%" align="right"><c:if test="${addAccess==0}">
+								<td width="40%" align="right">
+								
+								<a href="${pageContext.request.contextPath}/showEmpFileUpload"
+											class="breadcrumb-elements-item">
+											<button type="button" class="btn btn-success">Upload Data</button></a>
+														
+														
+														<c:if test="${addAccess==0}">
 										<a href="${pageContext.request.contextPath}/employeeAdd"
 											class="breadcrumb-elements-item">
 											<button type="button" class="btn btn-primary">Add
 												Employee</button>
 										</a>
-									</c:if></td>
+									</c:if>
+									
+									
+									</td>
 							</tr>
 						</table>
 					</div>
@@ -136,7 +146,11 @@
 													data-original-title="Delete"><i class="icon-trash"></i></a>
 											</c:if>  <a	href="${pageContext.request.contextPath}/showEmpGraphs?empId=${empList.exVar1}"
 													class="list-icons-item text-primary-600" data-popup="tooltip" title="" data-original-title="Graphs & Reports"><i class="icon-history"
-														style="color: black;"></i></a> </td>
+														style="color: black;"></i></a> 
+														
+														
+														
+													 </td>
 									</tr>
 								</c:forEach>
 

@@ -29,6 +29,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,16 +71,26 @@ public class ExcelImportController {
 	DateFormat dateFormat2 = new SimpleDateFormat("dd-MM-yyyy");
 
 	@RequestMapping(value = "/showEmpFileUpload", method = RequestMethod.GET)
-	public String shoeEmpFileUpload(HttpServletRequest request, HttpServletResponse response) {
+	public String shoeEmpFileUpload(HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		HttpSession session = request.getSession();
 		String mav = null;
-		try {
 
-			mav = "fileUpload/empFileUpload";
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showEmpFileUpload", "showEmpFileUpload", 1, 0, 0, 0, newModuleList);
+		if (view.isError() == true) {
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			mav = "accessDenied";
+
+		} else {
+
+			try {
+
+				mav = "fileUpload/empFileUpload";
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return mav;
 	}
@@ -254,6 +265,9 @@ public class ExcelImportController {
 					emp.setLoginTime(dateTimeInGMT.format(date));
 					emp.setPlCalcBase(0);
 					emp.setRawData("NA");
+					emp.setExVar1("0");
+					emp.setExVar2("0");
+
 
 					if (checkEmpCode != null) {
 						emp.setEmpId(checkEmpCode.getEmpId());
@@ -267,7 +281,7 @@ public class ExcelImportController {
 
 					/************************* Employee User Info *******************************/
 					RandomString randomString = new RandomString();
-					String password = randomString.nextString();
+					String password = "1947";
 					MessageDigest md = MessageDigest.getInstance("MD5");
 					byte[] messageDigest = md.digest(password.getBytes());
 					BigInteger number = new BigInteger(1, messageDigest);
@@ -333,11 +347,10 @@ public class ExcelImportController {
 					if (row.getCell(36) != null)
 						emerNam = row.getCell(36).getStringCellValue();
 					String emerCon = null;
-					
-					
+
 					DataFormatter formatter = new DataFormatter();
 
- 					if (row.getCell(37) != null)
+					if (row.getCell(37) != null)
 						emerCon = formatter.formatCellValue(row.getCell(37));
 					System.err.println("--" + emerCon);
 
