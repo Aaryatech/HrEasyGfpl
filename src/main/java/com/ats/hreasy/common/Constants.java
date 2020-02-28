@@ -17,10 +17,10 @@ public class Constants {
 		public static final String leaveDocSaveUrl = "/home/lenovo/Downloads/old/apache-tomcat-8.5.37/webapps/media/"; 
 		public static final String imageSaveUrl = "/home/lenovo/Downloads/old/apache-tomcat-8.5.37/webapps/media/";
 		
-		public static final String companyLogoShowUrl = "http://localhost:8080/media/";
-		public static final String empDocShowUrl = "http://localhost:8080/media/"; 
-		public static final String leaveDocShowUrl = "http://localhost:8080/media/";
-		public static final String imageShowUrl = "http://localhost:8080/media/"; */
+		public static final String companyLogoShowUrl = "http://localhost:8080/hrdocument/media/";
+		public static final String empDocShowUrl = "http://localhost:8080/hrdocument/media/"; 
+		public static final String leaveDocShowUrl = "http://localhost:8080/hrdocument/media/";
+		public static final String imageShowUrl = "http://localhost:8080/hrdocument/media/"; */
 	
 	//monginis
 	/*public static final String url="http://107.180.95.11:8080/HrEsayWebApi/"; 
@@ -34,10 +34,10 @@ public class Constants {
 	public static final String leaveDocSaveUrl = "/opt/tomcat-latest/webapps/hrdocument/leavedoc/"; 
 	public static final String imageSaveUrl = "/opt/tomcat-latest/webapps/hrdocument/mixDoc/";
 	
-	public static final String companyLogoShowUrl = "http://107.180.95.11:8080/companylogo/";
-	public static final String empDocShowUrl = "http://107.180.95.11:8080/empdoc/"; 
-	public static final String leaveDocShowUrl = "http://107.180.95.11:8080/leavedoc/";
-	public static final String imageShowUrl = "http://107.180.95.11:8080/mixDoc/";*/
+	public static final String companyLogoShowUrl = "http://107.180.95.11:8080/hrdocument/companylogo/";
+	public static final String empDocShowUrl = "http://107.180.95.11:8080/hrdocument/empdoc/"; 
+	public static final String leaveDocShowUrl = "http://107.180.95.11:8080/hrdocument/leavedoc/";
+	public static final String imageShowUrl = "http://107.180.95.11:8080/hrdocument/mixDoc/";*/
   
 	//atsserver
 	public static final String url = "http://107.180.88.121:8080/HrEsayWebApi/";
@@ -51,10 +51,10 @@ public class Constants {
 	public static final String leaveDocSaveUrl = "/opt/apache-tomcat-8.5.47/webapps/hrdocument/leavedoc/"; 
 	public static final String imageSaveUrl = "/opt/apache-tomcat-8.5.47/webapps/hrdocument/mixDoc/";
 	
-	public static final String companyLogoShowUrl = "http://107.180.88.121:8080/companylogo/";
-	public static final String empDocShowUrl = "http://107.180.88.121:8080/empdoc/"; 
-	public static final String leaveDocShowUrl = "http://107.180.88.121:8080/leavedoc/";
-	public static final String imageShowUrl = "http://107.180.88.121:8080/mixDoc/";
+	public static final String companyLogoShowUrl = "http://107.180.88.121:8080/hrdocument/companylogo/";
+	public static final String empDocShowUrl = "http://107.180.88.121:8080/hrdocument/empdoc/"; 
+	public static final String leaveDocShowUrl = "http://107.180.88.121:8080/hrdocument/leavedoc/";
+	public static final String imageShowUrl = "http://107.180.88.121:8080/hrdocument/mixDoc/";
 	 
 	
 	
