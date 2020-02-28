@@ -539,7 +539,7 @@ public class EmployeeController {
 					// emp.setExVar1("NA");
 					emp.setExVar2("NA");
 					emp.setDelStatus(1);
-
+//sdfghj
 					empSave = Constants.getRestTemplate().postForObject(Constants.url + "/saveEmployee", emp,
 							EmployeeMaster.class);
 					empId = empSave.getEmpId();
