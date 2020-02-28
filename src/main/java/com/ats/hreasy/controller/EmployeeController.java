@@ -406,7 +406,7 @@ public class EmployeeController {
 					emp.setAddedFrom(1);
 					emp.setCmpCode(1);
 					emp.setContractorId(contract);
-					emp.setCurrentShiftid(0);
+					//emp.setCurrentShiftid(0);
 					emp.setDepartId(deptId);
 					emp.setDesignationId(desigId);
 					emp.setEarnLeaveOpeningBalance(0);
