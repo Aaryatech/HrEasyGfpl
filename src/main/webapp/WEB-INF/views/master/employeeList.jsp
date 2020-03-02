@@ -48,6 +48,11 @@
 								<a href="${pageContext.request.contextPath}/showEmpFileUpload"
 											class="breadcrumb-elements-item">
 											<button type="button" class="btn btn-success">Upload Data</button></a>
+											
+											
+												<a href="${pageContext.request.contextPath}/showEmpSalUpload"
+											class="breadcrumb-elements-item">
+											<button type="button" class="btn btn-success">Upload Salary Data</button></a>
 														
 														
 														<c:if test="${addAccess==0}">

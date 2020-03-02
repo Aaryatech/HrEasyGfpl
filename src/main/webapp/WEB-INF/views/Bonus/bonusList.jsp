@@ -137,22 +137,21 @@
 														title="" data-original-title="Delete"><i
 														class="icon-trash"></i></a>
 												</c:if>
-											</c:if> 
-											
-											<c:if test="${bonusList.exVar2 ne '1'}">
-											
-											<a
-											href="${pageContext.request.contextPath}/showEmpListToAssignBonus?bonusId=${bonusList.exVar1}"
-											class="list-icons-item text-primary-600" data-popup="tooltip"
-											title="Assign Bonus" data-original-title="Edit"><i
-												class="icon-pencil7"></i></a> </c:if><c:if
-												test="${bonusList.bonusAppBelowAmount == 1}">
+											</c:if> <c:if test="${bonusList.exVar2 ne '1'}">
+
+												<a
+													href="${pageContext.request.contextPath}/showEmpListToAssignBonus?bonusId=${bonusList.exVar1}"
+													class="list-icons-item text-primary-600"
+													data-popup="tooltip" title="Assign Bonus"
+													data-original-title="Edit"><i class="icon-gift "></i></a>
+											</c:if>
+											<c:if test="${bonusList.bonusAppBelowAmount == 1}">
 
 												<a
 													href="${pageContext.request.contextPath}/showEmpListToAssignExgratia?bonusId=${bonusList.exVar1}"
-													class="list-icons-item text-primary-600"
-													data-popup="tooltip" title="Assign Exgratia"
-													data-original-title="Edit"><i class="icon-pencil7"></i></a>
+													class="list-icons-item text-warning" data-popup="tooltip"
+													title="Assign Exgratia" data-original-title="Edit"><i
+													class="icon-gift "></i></a>
 											</c:if></td>
 									</tr>
 								</c:forEach>

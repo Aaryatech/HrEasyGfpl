@@ -60,6 +60,7 @@ import com.ats.hreasy.model.TblEmpBankInfo;
 import com.ats.hreasy.model.TblEmpInfo;
 import com.ats.hreasy.model.TblEmpNominees;
 import com.ats.hreasy.model.User;
+import com.ats.hreasy.model.Advance.Advance;
 import com.itextpdf.text.pdf.codec.Base64.InputStream;
 
 @Controller
@@ -88,9 +89,73 @@ public class ExcelImportController {
 
 				mav = "fileUpload/empFileUpload";
 
+				model.addAttribute("templatePath", Constants.templateShowUrl);
+				model.addAttribute("fileName", "temp.xls");
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/showEmpSalUpload", method = RequestMethod.GET)
+	public String showEmpSalUpload(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		HttpSession session = request.getSession();
+		String mav = null;
+
+		/*
+		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+		 * session.getAttribute("moduleJsonList"); Info view =
+		 * AcessController.checkAccess("showEmpSalUpload", "showEmpSalUpload", 1, 0, 0,
+		 * 0, newModuleList); if (view.isError() == true) {
+		 * 
+		 * mav = "accessDenied";
+		 * 
+		 * } else {
+		 */
+		try {
+
+			mav = "fileUpload/empSalFileUpload";
+
+			model.addAttribute("templatePath", Constants.templateShowUrl);
+			model.addAttribute("fileName", "temp.xls");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// }
+		return mav;
+	}
+
+	@RequestMapping(value = "/showEmpAdvUpload", method = RequestMethod.GET)
+	public String showEmpAdvUpload(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		HttpSession session = request.getSession();
+		String mav = null;
+
+		/*
+		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+		 * session.getAttribute("moduleJsonList"); Info view =
+		 * AcessController.checkAccess("showEmpAdvUpload", "showEmpAdvUpload", 1, 0, 0,
+		 * 0, newModuleList); if (view.isError() == true) {
+		 * 
+		 * mav = "accessDenied";
+		 * 
+		 * } else {
+		 */
+
+		try {
+
+			mav = "fileUpload/empSalFileUpload";
+
+			model.addAttribute("templatePath", Constants.templateShowUrl);
+			model.addAttribute("fileName", "temp.xls");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			// }
 		}
 		return mav;
 	}
@@ -174,6 +239,26 @@ public class ExcelImportController {
 			 * 
 			 * }
 			 */
+			
+			
+	  map = new LinkedMultiValueMap<>();
+			map.add("companyId", 1);
+			Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+					Location[].class);
+
+			List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+			
+ 
+			
+ 			// System.err.println("emp id are " + locId2);
+			StringBuilder sbEmp = new StringBuilder();
+			for (int j = 0; j < locationList.size(); j++) {
+				sbEmp = sbEmp.append(locationList.get(j).getLocId() + ",");
+
+			}
+			String items1 = sbEmp.toString();
+			items1 = items1.substring(0, items1.length() - 1);
+			 System.err.println("items1"+items1);
 
 			Row row;
 			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
@@ -182,14 +267,16 @@ public class ExcelImportController {
 				row = (Row) sheet.getRow(i); // sheet number
 
 				/* ********m_employees ****************************/
-				int empCode = 0;
+				String empCode = null;
+				DataFormatter formatter = new DataFormatter();
 				if (row.getCell(0) != null)
-					empCode = (int) row.getCell(0).getNumericCellValue();
+					empCode = formatter.formatCellValue(row.getCell(0));
+
 				else
 					break;
 
 				System.err.println("empCode" + empCode);
-				if (empCode != 0) {
+				if (empCode != null) {
 					System.err.println("entry " + i);
 
 					MultiValueMap<String, Object> mapEmp = new LinkedMultiValueMap<>();
@@ -268,7 +355,6 @@ public class ExcelImportController {
 					emp.setExVar1("0");
 					emp.setExVar2("0");
 
-
 					if (checkEmpCode != null) {
 						emp.setEmpId(checkEmpCode.getEmpId());
 
@@ -291,7 +377,7 @@ public class ExcelImportController {
 					uinfo.setEmpTypeId(empSaveResp.getEmpType());
 					uinfo.setUserName(empSaveResp.getEmpCode());
 					uinfo.setUserPwd(hashtext);
-					uinfo.setLocId("0");
+					uinfo.setLocId(items1);
 					uinfo.setExInt1(1);
 					uinfo.setExInt2(1);
 					uinfo.setExInt3(1);
@@ -348,7 +434,7 @@ public class ExcelImportController {
 						emerNam = row.getCell(36).getStringCellValue();
 					String emerCon = null;
 
-					DataFormatter formatter = new DataFormatter();
+					formatter = new DataFormatter();
 
 					if (row.getCell(37) != null)
 						emerCon = formatter.formatCellValue(row.getCell(37));
@@ -740,6 +826,447 @@ public class ExcelImportController {
 					System.out.println("Allowance--------" + allowance);
 				}
 			} // For Loop End
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/showEmpFileUpload";
+	}
+
+	@RequestMapping(value = "/empSalaryDetailUpload", method = RequestMethod.POST)
+	public String empSalaryDetailUpload(@RequestParam("fileSal") List<MultipartFile> fileSal,
+			HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+
+		try {
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+			Date date = new Date();
+			VpsImageUpload upload = new VpsImageUpload();
+			String imageName = new String();
+			imageName = dateTimeInGMT.format(date) + "_" + fileSal.get(0).getOriginalFilename();
+
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			upload.saveUploadedFiles(fileSal.get(0), Constants.docSaveUrlSal, imageName);
+
+			String fileIn = Constants.docSaveUrlSal + imageName;
+
+			MultiValueMap<String, Object> map = null;
+
+			List<Allowances> allowanceList = new ArrayList<Allowances>();
+			System.err.println("-------" + imageName);
+
+			// temp.xls2020-02-27_19:30:03_abc.xls
+			FileInputStream file = new FileInputStream(new File(Constants.docSaveUrlSal + imageName));
+
+			// Create Workbook instance holding reference to .xlsx file
+			HSSFWorkbook workbook = new HSSFWorkbook(file);
+
+			HSSFSheet sheet = workbook.getSheetAt(0);
+
+			// Import Employees
+			System.err.println(sheet.getLastRowNum());
+
+			Allowances[] allowanceArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllAllowances",
+					Allowances[].class);
+			allowanceList = new ArrayList<Allowances>(Arrays.asList(allowanceArr));
+
+			Row row;
+			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+
+				// points to the starting of excel i.e excel first row
+				row = (Row) sheet.getRow(i); // sheet number
+
+				/* ********m_employees ****************************/
+				String empCode = null;
+				DataFormatter formatter = new DataFormatter();
+				if (row.getCell(0) != null)
+					empCode = formatter.formatCellValue(row.getCell(0));
+
+				else
+					break;
+
+				System.err.println("empCode" + empCode);
+				if (empCode != null) {
+					map = new LinkedMultiValueMap<>();
+					map.add("empCode", empCode);
+					EmployeeMaster res = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getEmpInfoByEmpCode", map, EmployeeMaster.class);
+
+					int n = 0;
+					try {
+						n = res.getEmpId();
+
+					} catch (Exception e) {
+						n = 0;
+					}
+
+					if (n != 0) {
+
+						String salBasis = null;
+						if (row.getCell(4) != null)
+							salBasis = row.getCell(4).getStringCellValue();
+
+						int grossSal = 0;
+						if (row.getCell(5) != null)
+							grossSal = (int) row.getCell(5).getNumericCellValue();
+
+						double basic = 0;
+						if (row.getCell(6) != null)
+							basic = row.getCell(6).getNumericCellValue();
+
+						// Employee Allowances
+						double dearnessAllwnc = 0;
+						if (row.getCell(7) != null)
+							dearnessAllwnc = row.getCell(7).getNumericCellValue();
+
+						double houseRentAllwnc = 0;
+						if (row.getCell(8) != null)
+							houseRentAllwnc = row.getCell(8).getNumericCellValue();
+
+						double educationAllwnc = 0;
+						if (row.getCell(9) != null)
+							educationAllwnc = row.getCell(9).getNumericCellValue();
+
+						double tiffinAllwnc = 0;
+						if (row.getCell(10) != null)
+							tiffinAllwnc = row.getCell(10).getNumericCellValue();
+
+						double leaveTravelAllwnc = 0;
+						if (row.getCell(11) != null)
+							leaveTravelAllwnc = row.getCell(11).getNumericCellValue();
+
+						double conveyanceAllwnc = 0;
+						if (row.getCell(12) != null)
+							conveyanceAllwnc = row.getCell(12).getNumericCellValue();
+						double mobileAllw = 0;
+						if (row.getCell(13) != null)
+							mobileAllw = row.getCell(14).getNumericCellValue();
+
+						double otherAll = 0;
+						if (row.getCell(14) != null)
+							otherAll = row.getCell(14).getNumericCellValue();
+
+						String pfApplicable = null;
+						if (row.getCell(15) != null)
+							pfApplicable = row.getCell(15).getStringCellValue();
+
+						String esicApplicable = null;
+						if (row.getCell(16) != null)
+							esicApplicable = row.getCell(16).getStringCellValue();
+
+						String isMlwfApplicable = null;
+						if (row.getCell(17) != null)
+							isMlwfApplicable = row.getCell(17).getStringCellValue();
+
+						String isPtApplicable = null;
+						if (row.getCell(18) != null)
+							isPtApplicable = row.getCell(18).getStringCellValue();
+
+						MultiValueMap<String, Object> mapEmp = new LinkedMultiValueMap<>();
+						mapEmp.add("empCode", empCode);
+						EmployeeRelatedTbls checkEmpCode = Constants.getRestTemplate()
+								.postForObject(Constants.url + "/getEmpRelatedInfo", mapEmp, EmployeeRelatedTbls.class);
+						System.out.println("checkEmpCode Resp--------" + checkEmpCode);
+
+						EmpSalaryInfo empSal = new EmpSalaryInfo();
+
+						if (checkEmpCode != null) {
+							empSal.setSalaryInfoId(checkEmpCode.getSalaryInfoId());
+
+						}
+						empSal.setEmpId(checkEmpCode.getEmpId());
+						/*
+						 * empSal.setCmpLeavingDate(cmpLeavDate); empSal.setCmpJoiningDate(cmpJoinDate);
+						 * empSal.setEpfJoiningDate(epfJoinDate);
+						 */
+						empSal.setSalBasis(salBasis);
+						empSal.setBasic(basic);
+						empSal.setPfType("0");
+						empSal.setPfEmpPer(0);
+						empSal.setPfEmplrPer(0);
+						empSal.setEsicApplicable(esicApplicable);
+						empSal.setCeilingLimitEmpApplicable("no");
+						empSal.setCeilingLimitEmployerApplicable("no");
+						empSal.setMlwfApplicable(isMlwfApplicable);
+						empSal.setPtApplicable(isPtApplicable);
+						empSal.setDelStatus(1);
+						empSal.setPfApplicable(pfApplicable);
+						empSal.setGrossSalary(grossSal);
+						empSal.setSalaryTypeId(1);
+						EmpSalaryInfo empSalInfo = Constants.getRestTemplate()
+								.postForObject(Constants.url + "/saveEmployeeIdSalary", empSal, EmpSalaryInfo.class);
+						System.out.println("Emp SalInfo-----------" + empSalInfo);
+
+						// Salary Allowances
+						map = new LinkedMultiValueMap<>();
+						map.add("empId", checkEmpCode.getEmpId());
+						EmpSalAllowance[] empSalAllowance = Constants.getRestTemplate().postForObject(
+								Constants.url + "/getEmployeeSalAllowances", map, EmpSalAllowance[].class);
+
+						List<EmpSalAllowance> empAllowncList = new ArrayList<EmpSalAllowance>(
+								Arrays.asList(empSalAllowance));
+
+						List<EmpSalAllowance> allowncList = new ArrayList<EmpSalAllowance>();
+						EmpSalAllowance empSalAllwance = new EmpSalAllowance();
+						try {
+
+							int keyVal1 = 0;
+							int keyVal2 = 0;
+							int keyVal3 = 0;
+							int keyVal4 = 0;
+							int keyVal5 = 0;
+							int keyVal6 = 0;
+							int keyVal7 = 0;
+							int keyVal8 = 0;
+							for (int k = 0; k < empAllowncList.size(); k++) {
+
+								if (empAllowncList.get(k).getAllowanceId() == 1) {
+									keyVal1 = empAllowncList.get(k).getEmpSalAllowanceId();
+								} else if (empAllowncList.get(k).getAllowanceId() == 1) {
+									keyVal1 = empAllowncList.get(k).getEmpSalAllowanceId();
+								} else if (empAllowncList.get(k).getAllowanceId() == 9) {
+									keyVal2 = empAllowncList.get(k).getEmpSalAllowanceId();
+								} else if (empAllowncList.get(k).getAllowanceId() == 14) {
+									keyVal3 = empAllowncList.get(k).getEmpSalAllowanceId();
+								} else if (empAllowncList.get(k).getAllowanceId() == 5) {
+									keyVal4 = empAllowncList.get(k).getEmpSalAllowanceId();
+								} else if (empAllowncList.get(k).getAllowanceId() == 10) {
+									keyVal5 = empAllowncList.get(k).getEmpSalAllowanceId();
+								} else if (empAllowncList.get(k).getAllowanceId() == 11) {
+									keyVal6 = empAllowncList.get(k).getEmpSalAllowanceId();
+								} else if (empAllowncList.get(k).getAllowanceId() == 19) {
+									keyVal7 = empAllowncList.get(k).getEmpSalAllowanceId();
+								} else if (empAllowncList.get(k).getAllowanceId() == 173) {
+									keyVal8 = empAllowncList.get(k).getEmpSalAllowanceId();
+								}
+
+							}
+
+							empSalAllwance = new EmpSalAllowance();
+
+							empSalAllwance.setEmpSalAllowanceId(keyVal1);
+							empSalAllwance.setAllowanceId(1);
+							empSalAllwance.setAllowanceValue(dearnessAllwnc);
+							empSalAllwance.setEmpId(checkEmpCode.getEmpId());
+							empSalAllwance.setDelStatus(1);
+							empSalAllwance.setExInt1(0);
+							empSalAllwance.setExInt2(0);
+							allowncList.add(empSalAllwance);
+
+							empSalAllwance = new EmpSalAllowance();
+							empSalAllwance.setEmpSalAllowanceId(keyVal2);
+							empSalAllwance.setAllowanceId(9);
+							empSalAllwance.setAllowanceValue(houseRentAllwnc);
+							empSalAllwance.setEmpId(checkEmpCode.getEmpId());
+							empSalAllwance.setDelStatus(1);
+							empSalAllwance.setExInt1(0);
+							empSalAllwance.setExInt2(0);
+							allowncList.add(empSalAllwance);
+
+							empSalAllwance = new EmpSalAllowance();
+							empSalAllwance.setEmpSalAllowanceId(keyVal3);
+
+							empSalAllwance.setAllowanceId(14);
+							empSalAllwance.setAllowanceValue(educationAllwnc);
+							empSalAllwance.setEmpId(checkEmpCode.getEmpId());
+							empSalAllwance.setDelStatus(1);
+							empSalAllwance.setExInt1(0);
+							empSalAllwance.setExInt2(0);
+							allowncList.add(empSalAllwance);
+
+							empSalAllwance = new EmpSalAllowance();
+							empSalAllwance.setEmpSalAllowanceId(keyVal4);
+
+							empSalAllwance.setAllowanceId(5);
+							empSalAllwance.setAllowanceValue(tiffinAllwnc);
+							empSalAllwance.setEmpId(checkEmpCode.getEmpId());
+							empSalAllwance.setDelStatus(1);
+							empSalAllwance.setExInt1(0);
+							empSalAllwance.setExInt2(0);
+							allowncList.add(empSalAllwance);
+
+							empSalAllwance = new EmpSalAllowance();
+							empSalAllwance.setEmpSalAllowanceId(keyVal5);
+
+							empSalAllwance.setAllowanceId(10);
+							empSalAllwance.setAllowanceValue(leaveTravelAllwnc);
+							empSalAllwance.setEmpId(checkEmpCode.getEmpId());
+							empSalAllwance.setDelStatus(1);
+							empSalAllwance.setExInt1(0);
+							empSalAllwance.setExInt2(0);
+							allowncList.add(empSalAllwance);
+
+							empSalAllwance = new EmpSalAllowance();
+							empSalAllwance.setEmpSalAllowanceId(keyVal6);
+
+							empSalAllwance.setAllowanceId(11);
+							empSalAllwance.setAllowanceValue(conveyanceAllwnc);
+							empSalAllwance.setEmpId(checkEmpCode.getEmpId());
+							empSalAllwance.setDelStatus(1);
+							empSalAllwance.setExInt1(0);
+							empSalAllwance.setExInt2(0);
+							allowncList.add(empSalAllwance);
+
+							empSalAllwance = new EmpSalAllowance();
+							empSalAllwance.setEmpSalAllowanceId(keyVal7);
+
+							empSalAllwance.setAllowanceId(19);
+							empSalAllwance.setAllowanceValue(otherAll);
+							empSalAllwance.setEmpId(checkEmpCode.getEmpId());
+							empSalAllwance.setDelStatus(1);
+							empSalAllwance.setExInt1(0);
+							empSalAllwance.setExInt2(0);
+							allowncList.add(empSalAllwance);
+
+							empSalAllwance = new EmpSalAllowance();
+							empSalAllwance.setEmpSalAllowanceId(keyVal8);
+
+							empSalAllwance.setAllowanceId(173);
+							empSalAllwance.setAllowanceValue(mobileAllw);
+							empSalAllwance.setEmpId(checkEmpCode.getEmpId());
+							empSalAllwance.setDelStatus(1);
+							empSalAllwance.setExInt1(0);
+							empSalAllwance.setExInt2(0);
+							allowncList.add(empSalAllwance);
+
+						} catch (Exception e) {
+							// empSellAllwance.setSalaryInfoId(0);
+						}
+						EmpSalAllowance[] allowance = Constants.getRestTemplate().postForObject(
+								Constants.url + "/saveEmpSalAllowanceInfo", allowncList, EmpSalAllowance[].class);
+						System.out.println("Allowance--------" + allowance);
+					}
+				}
+			} // For Loop End
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/showEmpFileUpload";
+	}
+
+	@RequestMapping(value = "/empAdvanceDetailUpload", method = RequestMethod.POST)
+	public String empAdvanceDetailUpload(@RequestParam("fileAdvance") List<MultipartFile> fileAdvance,
+			HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+
+		try {
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+			Date date = new Date();
+			VpsImageUpload upload = new VpsImageUpload();
+			String imageName = new String();
+			imageName = dateTimeInGMT.format(date) + "_" + fileAdvance.get(0).getOriginalFilename();
+
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			upload.saveUploadedFiles(fileAdvance.get(0), Constants.advSaveUrlSal, imageName);
+
+			String fileIn = Constants.advSaveUrlSal + imageName;
+
+			MultiValueMap<String, Object> map = null;
+
+			List<Allowances> allowanceList = new ArrayList<Allowances>();
+			System.err.println("-------" + imageName);
+
+			// temp.xls2020-02-27_19:30:03_abc.xls
+			FileInputStream file = new FileInputStream(new File(Constants.advSaveUrlSal + imageName));
+
+			// Create Workbook instance holding reference to .xlsx file
+			HSSFWorkbook workbook = new HSSFWorkbook(file);
+
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			List<Advance> advList = new ArrayList<>();
+			Row row;
+			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+
+				// points to the starting of excel i.e excel first row
+				row = (Row) sheet.getRow(i); // sheet number
+
+				/* ********m_employees ****************************/
+				String empCode = null;
+
+				DataFormatter formatter = new DataFormatter();
+				if (row.getCell(0) != null)
+					empCode = formatter.formatCellValue(row.getCell(0));
+
+				else
+					break;
+
+				if (empCode != null) {
+					map = new LinkedMultiValueMap<>();
+					map.add("empCode", empCode);
+					EmployeeMaster res = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getEmpInfoByEmpCode", map, EmployeeMaster.class);
+
+					/************************* Employee Advance *******************************/
+					int n = 0;
+					try {
+						n = res.getEmpId();
+
+					} catch (Exception e) {
+						n = 0;
+					}
+
+					if (n != 0) {
+
+						long voucherNo = 0;
+
+						if (row.getCell(4) != null)
+							voucherNo = (int) row.getCell(4).getNumericCellValue();
+
+						String advDate = null;
+						if (row.getCell(5) != null)
+							advDate = row.getCell(5).getStringCellValue();
+
+						double advanceAmt = 0;
+						if (row.getCell(6) != null)
+							advanceAmt = row.getCell(6).getNumericCellValue();
+
+						// Employee Allowances
+						String dedMonth = null;
+						if (row.getCell(7) != null)
+							dedMonth = row.getCell(7).getStringCellValue();
+
+						String temp[] = dedMonth.split("-");
+						Advance adv = new Advance();
+						adv.setAdvAmount(advanceAmt);
+						adv.setAdvDate(DateConvertor.convertToYMD(advDate));
+						adv.setAdvRemainingAmount(advanceAmt);
+						adv.setAdvRemarks("");
+						adv.setCmpId(1);
+						adv.setEmpId(res.getEmpId());
+						adv.setDedMonth(Integer.parseInt(temp[0]));
+						adv.setDedYear(Integer.parseInt(temp[1]));
+						adv.setExInt1(0);
+						adv.setExInt2(0);
+						adv.setExVar1("NA");
+						adv.setExVar2("NA");
+						adv.setVoucherNo(String.valueOf(voucherNo));
+						adv.setIsDed(0);
+						adv.setIsUsed(0);
+						adv.setLoginName(String.valueOf(userObj.getEmpId()));
+						adv.setLoginTime(dateTimeInGMT.format(date));
+						adv.setSkipId(0);
+						/*
+						 * adv.setSkipLoginName("0"); adv.setSkipLoginTime("0000-00-00 00:00:00");
+						 * adv.setSkipRemarks("");
+						 */
+						adv.setDelStatus(1);
+						advList.add(adv);
+
+					}
+				}
+			} // For Loop End
+
+			Info res1 = Constants.getRestTemplate().postForObject(Constants.url + "/saveAdvanceList", advList,
+					Info.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();
