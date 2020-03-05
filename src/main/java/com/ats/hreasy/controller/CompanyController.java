@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +21,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.common.VpsImageUpload;
+import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Designation;
 import com.ats.hreasy.model.EmployeDoc;
+import com.ats.hreasy.model.Info;
+import com.ats.hreasy.model.Location;
+import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.MstCompany;
+import com.ats.hreasy.model.RouteDriver;
+import com.ats.hreasy.model.SelfGroup;
+import com.ats.hreasy.model.ShiftMaster;
 
 @Controller
 @Scope("session")
@@ -632,4 +641,258 @@ public class CompanyController {
 		return "redirect:/editCompanyInfo?compId="+encryptCompId;
 		
 	}
+	
+	
+	/**********************************************************************************/
+	
+	@RequestMapping(value = "/getRouteDriverList", method = RequestMethod.GET)
+	public String attendenceImportExel(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = "master/routeDriverList";
+
+		try {
+
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("getRouteDriverList", "getRouteDriverList", 1, 0, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = "redirect:/accessDenied";
+
+			} else {
+				//MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				//map.add("locationIds", userObj.getLocationIds());
+				RouteDriver[] routeArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllRoute", RouteDriver[].class);
+
+				List<RouteDriver> routeList = new ArrayList<>(Arrays.asList(routeArr));
+				System.out.println(routeList);
+				model.addAttribute("routeList", routeList);
+
+				Info add = AcessController.checkAccess("getRouteDriverList", "getRouteDriverList", 0, 1, 0, 0, newModuleList);
+				Info edit = AcessController.checkAccess("getRouteDriverList", "getRouteDriverList", 0, 0, 1, 0, newModuleList);
+				Info delete = AcessController.checkAccess("getRouteDriverList", "getRouteDriverList", 0, 0, 0, 1, newModuleList);
+
+				if (add.isError() == false) {
+					// System.out.println(" add Accessable ");
+					model.addAttribute("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					// System.out.println(" edit Accessable ");
+					model.addAttribute("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					// System.out.println(" delete Accessable ");
+					model.addAttribute("deleteAccess", 0);
+
+				}
+
+			}
+
+			 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+
+	}
+	
+	@RequestMapping(value = "/addRouteDriver", method = RequestMethod.GET)
+	public String addShift(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = "master/addRouteDeriver";
+
+		try {
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("addRouteDriver", "getRouteDriverList", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = "redirect:/accessDenied";
+
+			} else {
+				RouteDriver route = new RouteDriver();
+				model.addAttribute("route",route);
+				model.addAttribute("title","Add Route Driver");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+
+	}
+	
+	
+	@RequestMapping(value = "/submitRouteDriver", method = RequestMethod.POST)
+	public String submitShiftTiming(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		HttpSession session = request.getSession();
+
+		String mav = new String();
+
+		try {
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("submitRouteDriver", "getRouteDriverList", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = "redirect:/accessDenied";
+
+			} else {
+				mav = "redirect:/getRouteDriverList";
+
+				
+				String name = request.getParameter("routeName");
+				String intime = request.getParameter("intime");
+				String outtime = request.getParameter("outtime");
+				String shortName = request.getParameter("shortName");
+				int routeLength = Integer.parseInt(request.getParameter("routeLength"));
+				float rateCost = Float.parseFloat(request.getParameter("rateCost"));
+				int aprxTime = Integer.parseInt(request.getParameter("approxTimeTake"));
+				int routeId = Integer.parseInt(request.getParameter("routeId"));
+				int sequence = Integer.parseInt(request.getParameter("sequence"));
+			
+				LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+				RouteDriver route = new RouteDriver();
+			
+				route.setRouteId(routeId);
+				route.setAproxStationpoint(0);
+				route.setDelStatus(1);
+				route.setExtraInt1(sequence);
+				route.setExtraInt2(0);
+				route.setExtraInt3(0);
+				route.setExtraVar1("NA");
+				route.setExtraVar2("NA");
+				route.setExtraVar3("NA");
+				route.setLoginId(userObj.getUserId());
+				route.setLoginTime(sf.format(date));
+				route.setRateCost(rateCost);
+				route.setApproxTimetaken(aprxTime);
+				route.setRouteLength(routeLength);
+				route.setRouteName(name);
+				route.setShortName(shortName);	
+				if(routeId==0) {
+				route.setApproxIntime(intime + ":00"); 
+				route.setApproxOuttime(outtime + ":00");
+				}else {
+					route.setApproxIntime(intime); 
+					route.setApproxOuttime(outtime);
+				}
+				
+				
+				System.out.println(route);
+
+				RouteDriver save = Constants.getRestTemplate().postForObject(Constants.url + "/addNewRoute",
+						route, RouteDriver.class);
+
+				if (save != null) {
+					session.setAttribute("successMsg", "Record Inserted Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Inserted Record");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Inserted Record");
+		}
+		return mav;
+
+	}
+
+	@RequestMapping(value = "/editRoute", method = RequestMethod.GET)
+	public String editRoute(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = "master/addRouteDeriver";
+
+		try {
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("editRoute", "getRouteDriverList", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = "redirect:/accessDenied";
+
+			} else {
+				model.addAttribute("title","Edit Route Driver");
+				int rId = Integer.parseInt(request.getParameter("rId"));			
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("rId", rId);
+				
+				RouteDriver route = Constants.getRestTemplate().postForObject(Constants.url + "/getRouteById",
+						map, RouteDriver.class);
+				
+				model.addAttribute("route", route);
+				mav = "master/addRouteDeriver";
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+
+	}
+	
+	@RequestMapping(value = "/deleteRoute", method = RequestMethod.GET)
+	public String deleteRoute(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = "redirect:/getRouteDriverList";
+
+		try {
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("deleteRoute", "getRouteDriverList", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = "redirect:/accessDenied";
+
+			} else {
+				int rId = Integer.parseInt(request.getParameter("rId"));			
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("rId", rId);
+				
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteRouteById",
+						map, Info.class);
+				
+				if (info.isError()) {
+					session.setAttribute("errorMsg", "Failed to Delete Record");					
+				} else {
+					session.setAttribute("successMsg", "Record Delete Successfully");
+				}
+				
+				System.out.println("Info-----------"+info);
+				mav = "redirect:/getRouteDriverList";
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+
+	}
+
 }
