@@ -108,7 +108,7 @@
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												value="${pay.typeName}"
+												value="${pay.typeName}" maxlength="20"
 												placeholder="Enter Payment Deduction Type"
 												id="payDeductType" name="payDeductType" autocomplete="off"
 												onchange="trim(this)"> <span

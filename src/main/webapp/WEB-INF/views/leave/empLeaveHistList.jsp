@@ -37,20 +37,19 @@
 
 				<!-- Highlighting rows and columns -->
 				<div class="card">
-
-
 					<div class="card-header header-elements-inline">
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee Reward
-								 </h5></td>
-								<td width="40%" align="right"><c:if test="${addAccess==0}">
-										<%-- <a href="${pageContext.request.contextPath}/employeeAdd"
-											class="breadcrumb-elements-item">
-											<button type="button" class="btn btn-primary">Add
-												Employee</button>
-										</a> --%>
-									</c:if></td>
+								<td width="60%">
+									<h5 class="card-title">${fname}&nbsp;${sname}&nbsp;Leave
+										List</h5>
+								</td>
+								<td width="40%" align="right"><a
+									href="${pageContext.request.contextPath}/showApplyForLeave"
+									class="breadcrumb-elements-item">
+										<button type="button" class="btn btn-primary">Employee
+											List</button>
+								</a></td>
 							</tr>
 						</table>
 					</div>
@@ -99,30 +98,75 @@
 								<tr class="bg-blue">
 
 									<th width="10%">Sr. No.</th>
-									<th>Emp Code </th>
-									<th>Employee Name</th>
-								 
+									<th>Leave Title</th>
+									<th>From Date</th>
+									<th>To Date</th>
+									<th>Duration</th>
+									<th>No. of Days</th>
+									<th>Reason</th>
+									<th>Status</th>
+
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
 
 
-								<c:forEach items="${empList}" var="empList"
+								<c:forEach items="${leaveHistoryList}" var="holiday"
 									varStatus="count">
 									<tr>
-										 <td>${count.index+1}</td>
-										<td>${empList.empCode}</td>
-										<td>${empList.firstName} ${empList.middleName} ${empList.surname}</td>
-										<%-- <td>${empList.micrCode}</td>
-										<td>${empList.ifscCode}</td>  --%>
-										
-										<td class="text-center"><c:if test="${editAccess == 0}">
+										<td>${count.index+1}</td>
+										<td>${holiday.lvTitle}</td>
+										<td>${holiday.leaveFromdt}</td>
+										<td>${holiday.leaveTodt}</td>
+										<c:if test="${holiday.leaveDuration==1}">
+											<td>Full Day</td>
+										</c:if>
+										<c:if test="${holiday.leaveDuration==2}">
+											<td>1st Half</td>
+										</c:if>
+										<c:if test="${holiday.leaveDuration==3}">
+											<td>2nd Half</td>
+										</c:if>
+
+										<td>${holiday.leaveNumDays}</td>
+
+										<td>${holiday.leaveEmpReason}</td>
+										<c:if test="${holiday.exInt1==1}">
+											<td><span class="badge badge-info">Initial
+													Pending</span></td>
+										</c:if>
+										<c:if test="${holiday.exInt1==2}">
+											<td><span class="badge badge-secondary">Final
+													Pending</span></td>
+										</c:if>
+										<c:if test="${holiday.exInt1==3}">
+											<td><span class="badge badge-success">Final
+													Approved</span></td>
+										</c:if>
+										<c:if test="${holiday.exInt1==7}">
+											<td><span class="badge badge-danger"> Leave
+													Cancelled</span></td>
+										</c:if>
+										<c:if test="${holiday.exInt1==8}">
+											<td><span class="badge badge-danger">Initial
+													Rejected</span></td>
+										</c:if>
+										<c:if test="${holiday.exInt1==9}">
+											<td><span class="badge badge-danger">Final Reject</span></td>
+										</c:if>
+										<td class="text-center"><a
+											href="${pageContext.request.contextPath}/showLeaveHistDetailList?leaveId=${holiday.exVar1}"><i
+												class="icon-history" style="color: black;"></i></a> <c:if
+												test="${empId==loginEmpId && holiday.exInt1!=7 && holiday.empDeptName==0}">
+
 												<a
-													href="${pageContext.request.contextPath}/empAddReward?empId=${empList.exVar1}"
-													class="list-icons-item text-primary-600" data-popup="tooltip"  data-original-title="Assign Reward"><i class="icon-enlarge5 "
-													 ></i></a>
-											</c:if> </td>
+													href="${pageContext.request.contextPath}/approveLeaveByInitialAuth?empId=${encryptEmpId}&leaveId=${holiday.exVar1}&stat=7"
+													title="Cancel"><i class="icon-cancel-square "
+													style="color: black;"></i></a>
+
+
+											</c:if></td>
 									</tr>
 								</c:forEach>
 
@@ -147,35 +191,6 @@
 
 	</div>
 	<!-- /page content -->
-<script>
-		// Custom bootbox dialog
-		$('.bootbox_custom')
-				.on(
-						'click',
-						function() {
-							var uuid = $(this).data("uuid") // will return the number 123
-										bootbox.confirm({
-										title : 'Confirm ',
-										message : 'Are you sure you want to delete selected records ?',
-										buttons : {
-											confirm : {
-												label : 'Yes',
-												className : 'btn-success'
-											},
-											cancel : {
-												label : 'Cancel',
-												className : 'btn-link'
-											}
-										},
-										callback : function(result) {
-											if (result) {
-												location.href = "${pageContext.request.contextPath}/deleteEmp?empId="
-														+ uuid;
 
-											}
-										}
-									});
-						});
-	</Script>
 </body>
 </html>

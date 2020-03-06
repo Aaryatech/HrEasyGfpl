@@ -102,7 +102,7 @@
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control" placeholder="  Title"
-												onchange="uniqueVoucherNum()" id="bonusTitle"
+												onchange="uniqueVoucherNum()" id="bonusTitle" maxlength="20"
 												name="bonusTitle" autocomplete="off"> <span
 												class="validation-invalid-label" id="error_bonusTitle"
 												style="display: none;">This field is required.</span> <span
@@ -132,7 +132,7 @@
 											% <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" maxlength="5"
 												placeholder="E.g. Bonus %" id="bonusPrcnt" name="bonusPrcnt"
 												autocomplete="off" onchange="trim(this)"> <span
 												class="validation-invalid-label" id="error_bonusPrcnt"
@@ -145,7 +145,7 @@
 											% <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" maxlength="5"
 												placeholder="E.g. Exgratia %" id="exgratiaPrcnt" name="exgratiaPrcnt"
 												autocomplete="off" onchange="trim(this)"> <span
 												class="validation-invalid-label" id="error_exgratiaPrcnt"
@@ -158,7 +158,7 @@
 										  <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" maxlength="3"
 												placeholder="Minimum Bonus Days" id="minDays" name="minDays"
 												autocomplete="off" onchange="trim(this)"> <span
 												class="validation-invalid-label" id="error_minDays"
@@ -171,7 +171,7 @@
 											style="color: red"> </span> :
 										</label>
 										<div class="col-lg-10">
-											<textarea rows="3" cols="3" class="form-control"
+											<textarea rows="3" cols="3" class="form-control" maxlength="200"
 												placeholder="Remark" onchange="trim(this)" id="bonusRemark"
 												name="bonusRemark"></textarea>
 										</div>
@@ -234,6 +234,22 @@
 			return valid;
 
 		}
+		
+		$('#bonusPrcnt').on('input', function() {
+			 this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+			});
+
+		
+		$('#exgratiaPrcnt').on('input', function() {
+			 this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+			});
+
+		
+		$('#minDays').on('input', function() {
+			 this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');
+			});
+	
+
 	</script>
 	<script>
 		function trim(el) {

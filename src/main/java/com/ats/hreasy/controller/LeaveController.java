@@ -1544,5 +1544,53 @@ public class LeaveController {
 		}
 
 	}
+	
+	
+	/***************************************************************************************/
+	//Mahendra
+	//06-03-2020
+	/*@RequestMapping(value = "/empLeaveHistList", method = RequestMethod.GET)
+	public ModelAndView empLeaveHistList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("leave/empLeaveHistList");
+		try {
+
+			HttpSession session = request.getSession();
+			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+
+			List<LeaveDetail> employeeInfoList = new ArrayList<LeaveDetail>();
+			int empId = Integer.parseInt(FormValidation.DecodeKey(request.getParameter("empId")));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			LeaveDetail[] employeeInfo = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getLeaveListByEmpId", map, LeaveDetail[].class);
+
+			employeeInfoList = new ArrayList<LeaveDetail>(Arrays.asList(employeeInfo));
+
+			for (int i = 0; i < employeeInfoList.size(); i++) {
+
+				employeeInfoList.get(i)
+						.setExVar1(FormValidation.Encrypt(String.valueOf(employeeInfoList.get(i).getLeaveId())));
+			}
+
+			EmployeeMaster editEmp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpInfoByEmpId",
+					map, EmployeeMaster.class);
+			model.addObject("fname", editEmp.getFirstName());
+			model.addObject("sname", editEmp.getSurname());
+			model.addObject("leaveHistoryList", employeeInfoList);
+			// model.addObject("empId1",empId1);
+
+			model.addObject("empId", empId);
+
+			model.addObject("loginEmpId", userObj.getEmpId());
+			model.addObject("encryptEmpId", FormValidation.Encrypt(String.valueOf(empId)));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+
+	}*/
 
 }
