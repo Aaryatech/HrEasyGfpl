@@ -148,7 +148,7 @@ public class ExcelImportController {
 
 		try {
 
-			mav = "fileUpload/empSalFileUpload";
+			mav = "fileUpload/empAdvFileUpload";
 
 			model.addAttribute("templatePath", Constants.templateShowUrl);
 			model.addAttribute("fileName", "temp.xls");

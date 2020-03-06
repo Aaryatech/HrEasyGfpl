@@ -234,7 +234,7 @@
 											<!-- 	<th>Total Days</th> -->
 											<th>Total Exgratia Wages</th>
 											<th>Gross Exgratia Amt</th>
-											<th>Net Exgratia Amt</th>
+										<!-- 	<th>Net Exgratia Amt</th> -->
 											<th>Paid Exgratia Amt</th>
 											<th width="10%" class="text-center">Actions</th>
 										</tr>
@@ -253,7 +253,7 @@
  --%>
 												<td>${bonusList.totalExgretiaWages}</td>
 												<td>${bonusList.grossExgretiaAmt}</td>
-												<td>${bonusList.netExgretiaAmt}</td>
+										<%-- 		<td>${bonusList.netExgretiaAmt}</td> --%>
 												<td>${bonusList.paidExgretiaAmt}</td>
 
 

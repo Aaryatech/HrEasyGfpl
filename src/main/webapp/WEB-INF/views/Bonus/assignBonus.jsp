@@ -115,8 +115,9 @@
 
 
 						<div class="form-group row">
-							<label class="col-form-label text-info font-weight-bold col-lg-2" for="shiftName">Bonus
-								Title <span style="color: red">* </span>:
+							<label class="col-form-label text-info font-weight-bold col-lg-2"
+								for="shiftName">Bonus Title <span style="color: red">*
+							</span>:
 							</label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" id="bonusTitle"
@@ -218,10 +219,10 @@
 											<!-- 	<th>Total Days</th> -->
 											<th>Total Wages</th>
 											<th>Gross Bonus Amt</th>
-											<th>Ded Bonus Puja Amt</th>
+											<!-- 	<th>Ded Bonus Puja Amt</th>
 											<th>Ded Bonus Adv Amt</th>
 											<th>Ded Bonus Loss_amt</th>
-											<th>Net Bonus Amt</th>
+											<th>Net Bonus Amt</th> -->
 											<th>Paid Bonus Amt</th>
 											<th width="10%" class="text-center">Actions</th>
 										</tr>
@@ -240,10 +241,10 @@
  --%>
 												<td>${bonusList.totalBonusWages}</td>
 												<td>${bonusList.grossBonusAmt}</td>
-												<td>${bonusList.dedBonusPujaAmt}</td>
+												<%-- <td>${bonusList.dedBonusPujaAmt}</td>
 												<td>${bonusList.dedBonusAdvAmt}</td>
 												<td>${bonusList.dedBonusLossAmt}</td>
-												<td>${bonusList.netBonusAmt}</td>
+												<td>${bonusList.netBonusAmt}</td> --%>
 												<td>${bonusList.paidBonusAmt}</td>
 
 												<%-- 												<c:if test="${payRollFinal==1}">
@@ -274,9 +275,10 @@
 										<div class="form-group row">
 
 
-											<label class="col-form-label text-info font-weight-bold col-lg-2" for="startDate">
-												Pay Bonus In This Salary Month <span style="color: red">*
-											</span>:
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="startDate"> Pay Bonus In This Salary Month <span
+												style="color: red">* </span>:
 											</label>
 											<div class="col-lg-4">
 												<input type="text" class="form-control datepickerclass "
@@ -289,8 +291,9 @@
 										</div>
 
 										<div class="form-group row">
-											<label class="col-form-label text-info font-weight-bold col-lg-2" for="remark">
-												Remark <span style="color: red">*</span>:
+											<label
+												class="col-form-label text-info font-weight-bold col-lg-2"
+												for="remark"> Remark <span style="color: red">*</span>:
 											</label>
 											<div class="col-lg-4">
 												<textarea class="form-control"
@@ -335,7 +338,7 @@
 	<!-- /page content -->
 
 
-<script>
+	<script>
 		function submitForm() {
 			$('#modal_scrollable').modal('hide');
 			document.getElementById("deleteId").disabled = true;
@@ -343,7 +346,7 @@
 
 		}
 	</script>
-		<div id="modal_scrollable" class="modal fade" data-backdrop="false"
+	<div id="modal_scrollable" class="modal fade" data-backdrop="false"
 		tabindex="-1">
 		<div class="modal-dialog modal-dialog-scrollable">
 			<div class="modal-content">
@@ -353,9 +356,10 @@
 				</div>
 
 				<div class="modal-body py-0">
-					<h5 class="modal-title">Are You Sure You Want  To Assign This Bonus </h5>
+					<h5 class="modal-title">Are You Sure You Want To Assign This
+						Bonus</h5>
 					<br>
-				 
+
 				</div>
 
 				<div class="modal-footer pt-3">
@@ -365,8 +369,8 @@
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 	<script>
 		function submitForm1() {
 			$('#modal_scrollable').modal('hide');
@@ -375,7 +379,7 @@
 
 		}
 	</script>
-		<div id="modal_scrollable1" class="modal fade" data-backdrop="false"
+	<div id="modal_scrollable1" class="modal fade" data-backdrop="false"
 		tabindex="-1">
 		<div class="modal-dialog modal-dialog-scrollable">
 			<div class="modal-content">
@@ -385,14 +389,16 @@
 				</div>
 
 				<div class="modal-body py-0">
-					<h5 class="modal-title">Are You Sure You Want  To  Finalize Bonus </h5>
+					<h5 class="modal-title">Are You Sure You Want To Finalize
+						Bonus</h5>
 					<br>
-				 
+
 				</div>
 
 				<div class="modal-footer pt-3">
 					<button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn bg-primary" onclick="submitForm1()">Submit</button>
+					<button type="button" class="btn bg-primary"
+						onclick="submitForm1()">Submit</button>
 				</div>
 			</div>
 		</div>
@@ -424,12 +430,11 @@
 				} */
 
 				if (!isError) {
-					 
-					$('#modal_scrollable')
-					.modal('show');
 
-						return false;
- 				}
+					$('#modal_scrollable').modal('show');
+
+					return false;
+				}
 				return false;
 			});
 		});
@@ -458,54 +463,45 @@
 			return;
 		}
 
-		$(document)
-				.ready(
-						function($) {
+		$(document).ready(function($) {
 
-							$("#submitBonusApplicable")
-									.submit(
-											function(e) {
+			$("#submitBonusApplicable").submit(function(e) {
 
-												var isError = false;
-												var errMsg = "";
+				var isError = false;
+				var errMsg = "";
 
-												if ($("#isFinal").val() != 1) {
+				if ($("#isFinal").val() != 1) {
 
-													if (!$("#startDate").val()) {
+					if (!$("#startDate").val()) {
 
-														isError = true;
+						isError = true;
 
-														$("#error_startDate")
-																.show()
-														//return false;
-													} else {
-														$("#error_startDate")
-																.hide()
-													}
+						$("#error_startDate").show()
+						//return false;
+					} else {
+						$("#error_startDate").hide()
+					}
 
-													if (!$("#remark").val()) {
+					if (!$("#remark").val()) {
 
-														isError = true;
+						isError = true;
 
-														$("#error_remark")
-																.show()
+						$("#error_remark").show()
 
-													} else {
-														$("#error_remark")
-																.hide()
-													}
+					} else {
+						$("#error_remark").hide()
+					}
 
-													if (!isError) {
-														 
-														$('#modal_scrollable1')
-														.modal('show');
+					if (!isError) {
 
-															return false;
-									 				}
-												}
-												return false;
-											});
-						});
+						$('#modal_scrollable1').modal('show');
+
+						return false;
+					}
+				}
+				return false;
+			});
+		});
 		//
 	</script>
 
