@@ -167,8 +167,8 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label text-info font-weight-bold col-lg-2" for="lvngReson">Remark<span
-											style="color: red">* </span> :
+										<label class="col-form-label  col-lg-2" for="lvngReson">Remark<span
+											style="color: red"> </span> :
 										</label>
 										<div class="col-lg-10">
 											<textarea rows="3" cols="3" class="form-control"
