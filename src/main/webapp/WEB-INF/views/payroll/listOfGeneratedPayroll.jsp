@@ -510,6 +510,19 @@
 								%>
 							</c:if>
 						</form>
+						<div class="col-md-4">
+							<a href="#"><button onclick="performBonusPdf()"
+									type="button" class="btn btn-primary">
+									Performance
+									Bonus
+							</button></a>
+							
+						<%-- 	<a href="${pageContext.request.contextPath}/showEmployeeList"><button
+									type="button" class="btn btn-primary">
+									<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+									Cancel
+							</button></a> --%>
+						</div>
 					</div>
 
 				</div>
@@ -528,6 +541,17 @@
 
 	</div>
 	<!-- /page content -->
+	<script type="text/javascript">
+	function performBonusPdf(){
+		 var date = $('#datepicker').val();
+		   alert("hi"+date);
+			window.open("${pageContext.request.contextPath}/getPerformanceBonusPdf"+"/"+date);
+	}
+	
+
+</script>
+	
+	
 	<script type="text/javascript">
 		//use this function for all reports just get mapping form action name dynamically as like of prm from every report pdf,excel function	
 		function getProgReport(prm, mapping) {

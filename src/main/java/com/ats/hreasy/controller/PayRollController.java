@@ -2,11 +2,16 @@ package com.ats.hreasy.controller;
 
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLConnection;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +28,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +45,7 @@ import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
 import com.ats.hreasy.common.ExceUtil;
 import com.ats.hreasy.common.ExportToExcel;
+import com.ats.hreasy.common.ItextPageEvent;
 import com.ats.hreasy.common.ReportCostants;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Allowances;
@@ -52,6 +59,20 @@ import com.ats.hreasy.model.LoginResponse;
 import com.ats.hreasy.model.MstCompany;
 import com.ats.hreasy.model.MstCompanySub;
 import com.ats.hreasy.model.PayRollDataForProcessing;
+import com.ats.hreasy.model.PerformanceBonus;
+import com.ats.hreasy.model.graph.EmpDailyAttendanceGraph;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 @Controller
 @Scope("session")
@@ -439,7 +460,7 @@ public class PayRollController {
 		try {
 
 			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
-			Info view = AcessController.checkAccess("selectMonthForPayRoll", "selectMonthForPayRoll", 1, 0, 0, 0,
+			Info view = AcessController.checkAccess("listOfGeneratedPayroll", "listOfGeneratedPayroll", 1, 0, 0, 0,
 					newModuleList);
 			if (view.isError() == false) {
 
@@ -849,6 +870,174 @@ public class PayRollController {
 			pd4ml.render(urlstring, fos);
 
 		}
+	}
+	
+	@RequestMapping(value = "/getPerformanceBonusPdf/{date}", method = RequestMethod.GET)
+	public void getPerformanceBonusPdf(HttpServletRequest request, HttpServletResponse response, @PathVariable String date) {	
+	
+		try {
+
+			//String date = request.getParameter("datepicker");
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		
+				String[] monthyear = date.split("-");
+				request.setAttribute("month", monthyear[0]);
+				request.setAttribute("year", monthyear[1]);
+				
+				String varDate = monthyear[1]+"-"+monthyear[0]+"-01";
+				System.out.println("varDate-------"+varDate);
+				
+				map.add("varDate", varDate);
+				PerformanceBonus[] performanceArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllPerformanceBonus", map,
+						PerformanceBonus[].class);
+				List<PerformanceBonus> performancelist= new ArrayList<PerformanceBonus>(Arrays.asList(performanceArr));
+				
+				System.err.println("PerformanceList--------------"+performancelist);
+				String reportName = "Performance Bonus";
+			String header = "";
+			String title = "                 ";
+
+			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
+			String repDate = DF2.format(new Date());
+
+			Document document = new Document(PageSize.A4);
+			document.setMargins(5, 5, 0, 0);
+			document.setMarginMirroring(false);
+
+			String FILE_PATH = Constants.REPORT_SAVE;
+			File file = new File(FILE_PATH);
+
+			PdfWriter writer = null;
+
+			FileOutputStream out = new FileOutputStream(FILE_PATH);
+			try {
+				writer = PdfWriter.getInstance(document, out);
+			} catch (DocumentException e) {
+
+				e.printStackTrace();
+			}
+
+			ItextPageEvent event = new ItextPageEvent(header, title, "", "");
+
+			writer.setPageEvent(event);
+			// writer.add(new Paragraph("Curricular Aspects"));
+
+			PdfPTable table = new PdfPTable(3);
+
+			table.setHeaderRows(1);
+
+			table.setWidthPercentage(100);
+			table.setWidths(new float[] { 2.0f, 5.5f, 3.0f});
+			Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
+			// BaseColor.BLACK);
+			Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
+																	// BaseColor.BLACK);
+			tableHeaderFont.setColor(ReportCostants.tableHeaderFontBaseColor);
+
+			PdfPCell hcell = new PdfPCell();
+			hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+
+			hcell = new PdfPCell(new Phrase("Sr.No.", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("Date", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+
+			hcell = new PdfPCell(new Phrase("OT Hours", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+			int index = 0;
+			for (int i = 0; i < performancelist.size(); i++) {
+				// System.err.println("I " + i);
+				PerformanceBonus prog = performancelist.get(i);
+
+				index++;
+				PdfPCell cell;
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getAttDate(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(
+						new Phrase("" + prog.getOtHr(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+
+			}
+
+			document.open();
+			Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
+
+			Paragraph name = new Paragraph(reportName, hf);
+			name.setAlignment(Element.ALIGN_CENTER);
+			document.add(name);
+			document.add(new Paragraph("\n"));
+			document.add(new Paragraph("Duration: " + varDate ));
+
+			document.add(new Paragraph("\n"));
+			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
+
+			document.add(table);
+
+			int totalPages = writer.getPageNumber();
+
+			// System.out.println("Page no " + totalPages);
+
+			document.close();
+			
+				if (file != null) {
+
+					String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+
+					if (mimeType == null) {
+
+						mimeType = "application/pdf";
+
+					}
+System.out.println("mimeType-----"+mimeType);
+					response.setContentType(mimeType);
+
+					response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
+
+					response.setContentLength((int) file.length());
+
+					InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+					try {
+						FileCopyUtils.copy(inputStream, response.getOutputStream());
+						System.out.println("I M Here");
+					} catch (IOException e) {
+						System.out.println("Excep in Opening a Pdf File");
+						e.printStackTrace();
+					}
+				}
+			
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+	
+	
 	}
 
 }
