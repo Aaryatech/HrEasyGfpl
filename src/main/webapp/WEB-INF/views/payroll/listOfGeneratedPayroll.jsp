@@ -544,7 +544,7 @@
 	<script type="text/javascript">
 	function performBonusPdf(){
 		 var date = $('#datepicker').val();
-		   alert("hi"+date);
+		 
 			window.open("${pageContext.request.contextPath}/getPerformanceBonusPdf"+"/"+date);
 	}
 	

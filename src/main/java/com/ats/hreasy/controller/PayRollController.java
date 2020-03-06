@@ -989,7 +989,7 @@ public class PayRollController {
 			name.setAlignment(Element.ALIGN_CENTER);
 			document.add(name);
 			document.add(new Paragraph("\n"));
-			document.add(new Paragraph("Duration: " + varDate ));
+			document.add(new Paragraph("Duration: " + date ));
 
 			document.add(new Paragraph("\n"));
 			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -1011,7 +1011,6 @@ public class PayRollController {
 						mimeType = "application/pdf";
 
 					}
-System.out.println("mimeType-----"+mimeType);
 					response.setContentType(mimeType);
 
 					response.addHeader("content-disposition", String.format("inline; filename=\"%s\"", file.getName()));
