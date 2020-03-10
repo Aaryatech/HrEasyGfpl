@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -674,6 +675,7 @@ public class LeaveController {
 					.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			model.addObject("empIdLeav", base64encodedString);
 			model.addObject("empId", empId);
 
 			map = new LinkedMultiValueMap<>();
@@ -683,6 +685,11 @@ public class LeaveController {
 					map, EmployeeMaster.class);
 
 			model.addObject("editEmp", editEmp);
+			model.addObject("empId", empId);
+			model.addObject("empName", editEmp.getFirstName()+" "+editEmp.getSurname());
+			model.addObject("loginEmpId", userObj.getEmpId());
+			
+			model.addObject("encryptEmpId", FormValidation.Encrypt(String.valueOf(empId)));
 
 			map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
@@ -1549,16 +1556,17 @@ public class LeaveController {
 	/***************************************************************************************/
 	//Mahendra
 	//06-03-2020
-	/*@RequestMapping(value = "/empLeaveHistList", method = RequestMethod.GET)
-	public ModelAndView empLeaveHistList(HttpServletRequest request, HttpServletResponse response) {
-
-		ModelAndView model = new ModelAndView("leave/empLeaveHistList");
+	@RequestMapping(value = "/showEmpLeaveHistList", method = RequestMethod.GET)
+	public @ResponseBody List<LeaveDetail> showEmpLeaveHistList(HttpServletRequest request, 
+			HttpServletResponse response, Model model) {
+		List<LeaveDetail> employeeInfoList = new ArrayList<LeaveDetail>();
+		
 		try {
 
 			HttpSession session = request.getSession();
 			LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
 
-			List<LeaveDetail> employeeInfoList = new ArrayList<LeaveDetail>();
+			
 			int empId = Integer.parseInt(FormValidation.DecodeKey(request.getParameter("empId")));
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -1576,21 +1584,22 @@ public class LeaveController {
 
 			EmployeeMaster editEmp = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpInfoByEmpId",
 					map, EmployeeMaster.class);
-			model.addObject("fname", editEmp.getFirstName());
-			model.addObject("sname", editEmp.getSurname());
-			model.addObject("leaveHistoryList", employeeInfoList);
-			// model.addObject("empId1",empId1);
+			model.addAttribute("fname", editEmp.getFirstName());
+			model.addAttribute("sname", editEmp.getSurname());
+			model.addAttribute("leaveHistoryList", employeeInfoList);
 
-			model.addObject("empId", empId);
-
-			model.addObject("loginEmpId", userObj.getEmpId());
-			model.addObject("encryptEmpId", FormValidation.Encrypt(String.valueOf(empId)));
-
+			model.addAttribute("empId", empId);
+			model.addAttribute("loginEmpId", userObj.getEmpId());
+			model.addAttribute("encryptEmpId", FormValidation.Encrypt(String.valueOf(empId)));
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return model;
+		return employeeInfoList;
 
-	}*/
+	}
+
 
 }

@@ -17,6 +17,7 @@
 	value="/getHolidayAndWeeklyOffList" />
 <c:url var="calholidayWebservice" value="/calholidayWebservice" />
 <c:url var="checkDatesRange" value="/checkDatesRange" />
+<c:url var="showEmpLeaveHistList" value="/showEmpLeaveHistList" />
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
@@ -66,11 +67,11 @@
 									<tr width="100%">
 										<td width="60%"><h5 class="card-title">Add Leave</h5></td>
 										<td width="40%" align="right">
-											<%-- <a
-									href="${pageContext.request.contextPath}/showApplyForLeave"
+											<a
+									href="#"  data-toggle="modal" data-target="#modal_full" onclick="showData('${empIdLeav}')"
 									class="breadcrumb-elements-item">
-										<button type="button" class="btn btn-primary">Employee List</button>
-								</a>  --%>
+										<button type="button" class="btn btn-primary">Leave History</button>
+								</a> 
 										</td>
 									</tr>
 								</table>
@@ -112,7 +113,10 @@
 									session.removeAttribute("successMsg");
 									}
 								%>
-
+									<input type="hidden" id="empId" value="${empId}">
+									<input type="hidden" id="loginEmpId" value="${loginEmpId}">
+									<input type="hidden" id="encryptEmpId" value="${encryptEmpId}">
+											
 								<span class="validation-invalid-label" id="error_assign"
 									style="display: none;">You Can Not Apply for Leave as
 									either Leave Authority or Leave Structure is not Assigned !!</span>
@@ -371,7 +375,108 @@
 	</div>
 	<!-- /page content -->
 
+ <!-- Full width modal -->
+				<div id="modal_full" class="modal fade" tabindex="-1">
+					<div class="modal-dialog modal-full">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">${empName} Leave History</h5>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
 
+							<div class="modal-body">
+								<table
+							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+							id="printtable2">
+							<thead>
+								<tr class="bg-blue">
+
+									<th width="10%">Sr. No.</th>
+									<th>Leave Title</th>
+									<th>From Date</th>
+									<th>To Date</th>
+									<th>Duration</th>
+									<th>No. of Days</th>
+									<th>Reason</th>
+									<th>Status</th>
+
+									<th width="10%" class="text-center">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+
+
+					<%-- 			<c:forEach items="${leaveHistoryList}" var="holiday"
+									varStatus="count">
+									<tr>
+										<td>${count.index+1}</td>
+										<td>${holiday.lvTitle}</td>
+										<td>${holiday.leaveFromdt}</td>
+										<td>${holiday.leaveTodt}</td>
+										<c:if test="${holiday.leaveDuration==1}">
+											<td>Full Day</td>
+										</c:if>
+										<c:if test="${holiday.leaveDuration==2}">
+											<td>1st Half</td>
+										</c:if>
+										<c:if test="${holiday.leaveDuration==3}">
+											<td>2nd Half</td>
+										</c:if>
+
+										<td>${holiday.leaveNumDays}</td>
+
+										<td>${holiday.leaveEmpReason}</td>
+										<c:if test="${holiday.exInt1==1}">
+											<td><span class="badge badge-info">Initial
+													Pending</span></td>
+										</c:if>
+										<c:if test="${holiday.exInt1==2}">
+											<td><span class="badge badge-secondary">Final
+													Pending</span></td>
+										</c:if>
+										<c:if test="${holiday.exInt1==3}">
+											<td><span class="badge badge-success">Final
+													Approved</span></td>
+										</c:if>
+										<c:if test="${holiday.exInt1==7}">
+											<td><span class="badge badge-danger"> Leave
+													Cancelled</span></td>
+										</c:if>
+										<c:if test="${holiday.exInt1==8}">
+											<td><span class="badge badge-danger">Initial
+													Rejected</span></td>
+										</c:if>
+										<c:if test="${holiday.exInt1==9}">
+											<td><span class="badge badge-danger">Final Reject</span></td>
+										</c:if>
+										<td class="text-center"><a
+											href="${pageContext.request.contextPath}/showLeaveHistDetailList?leaveId=${holiday.exVar1}"><i
+												class="icon-history" style="color: black;"></i></a> <c:if
+												test="${empId==loginEmpId && holiday.exInt1!=7 && holiday.empDeptName==0}">
+
+												<a
+													href="${pageContext.request.contextPath}/approveLeaveByInitialAuth?empId=${encryptEmpId}&leaveId=${holiday.exVar1}&stat=7"
+													title="Cancel"><i class="icon-cancel-square "
+													style="color: black;"></i></a>
+
+
+											</c:if></td>
+									</tr>
+								</c:forEach> --%>
+
+							</tbody>
+						</table>
+						</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+								<button type="button" class="btn bg-primary">Save changes</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /full width modal -->
+	
 
 	<script type="text/javascript">
 		function checkUnique() {
@@ -1367,5 +1472,84 @@
 		</div>
 	</div>
 	<!-- /scrollable modal -->
+	
+	 <script type="text/javascript">
+		function showData(empId) {
+			var status;	
+			var emp = $("#empId").val();
+			var logEmp = $("#loginEmpId").val();
+			var encryptEmp = $("#encryptEmpId").val();
+			
+	//	alert("empId  "+emp+" "+logEmp+" "+encryptEmp);
+			
+			var valid = true;
+
+			if (empId == null || empId == "") {
+				valid = false;
+				alert("Please Select Employee");
+			}
+
+			var valid = true;
+			$("#loader").show();
+
+			if (valid == true) {
+
+				$.getJSON('${showEmpLeaveHistList}', {
+					empId : empId,
+					ajax : 'true',
+				},
+
+				function(data) {
+					
+					//alert("Data " +JSON.stringify(data));
+
+					var dataTable = $('#printtable2').DataTable();
+					dataTable.clear().draw();
+
+					$.each(data, function(i, v) {	
+					
+					var acButton = "&nbsp;&nbsp;&nbsp;<a href=${pageContext.request.contextPath}/showLeaveHistDetailList?leaveId="+v.exVar1+">"+
+						 "<i class='icon-history' style='color: black;'></i></a>&nbsp;&nbsp;&nbsp;" 
+						 
+						
+						 var acBtn;
+						  if(emp==logEmp && v.exInt1!=7 && v.empDeptName==0){
+							 acBtn = "<a href=${pageContext.request.contextPath}/approveLeaveByInitialAuth?empId="+encryptEmp+"&leaveId="+v.exVar1+"&stat="+7+">"+
+							 "<i class='icon-cancel-square ' style='color: black;'></i></a>" 
+						 } 
+						 
+						if(v.exInt1==1){
+							status = 'Initial Pending';
+						}else if(v.exInt1==2){
+							status = 'Final Pending';
+						}else if(v.exInt1==3){
+							status = 'Final Approved';
+						}else if(v.exInt1==7){
+							status = 'Leave Cancelled';
+						}else if(v.exInt1==8){
+							status = 'Initial Rejected';
+						}
+						dataTable.row.add(
+								[
+										i + 1,
+										v.lvTitle,
+										v.leaveFromdt,
+										v.leaveTodt,
+										v.leaveDuration,
+										v.leaveNumDays,
+										v.leaveEmpReason,
+										status,
+										acButton+"   "+acBtn
+										 
+										]).draw();
+					});
+					$("#loader").hide(); 
+
+				});
+
+			}//end of if valid ==true
+
+		}
+	</script> 
 </body>
 </html>

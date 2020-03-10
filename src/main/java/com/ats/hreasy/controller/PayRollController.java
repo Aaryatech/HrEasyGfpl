@@ -49,10 +49,12 @@ import com.ats.hreasy.common.ItextPageEvent;
 import com.ats.hreasy.common.ReportCostants;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Allowances;
+import com.ats.hreasy.model.DeductionDetails;
 import com.ats.hreasy.model.EmpSalInfoDaiyInfoTempInfo;
 import com.ats.hreasy.model.EmpSalaryInfoForPayroll;
 import com.ats.hreasy.model.GetPayrollGeneratedList;
 import com.ats.hreasy.model.GetSalDynamicTempRecord;
+import com.ats.hreasy.model.IncentiveProduction;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.InfoForUploadAttendance;
 import com.ats.hreasy.model.LoginResponse;
@@ -60,6 +62,7 @@ import com.ats.hreasy.model.MstCompany;
 import com.ats.hreasy.model.MstCompanySub;
 import com.ats.hreasy.model.PayRollDataForProcessing;
 import com.ats.hreasy.model.PerformanceBonus;
+import com.ats.hreasy.model.RewardDetail;
 import com.ats.hreasy.model.graph.EmpDailyAttendanceGraph;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -872,36 +875,76 @@ public class PayRollController {
 		}
 	}
 	
-	@RequestMapping(value = "/getPerformanceBonusPdf/{date}", method = RequestMethod.GET)
-	public void getPerformanceBonusPdf(HttpServletRequest request, HttpServletResponse response, @PathVariable String date) {	
+	@RequestMapping(value = "/getPerformanceBonusPdf/{date}/{subCmpId}", method = RequestMethod.GET)
+	public void getPerformanceBonusPdf(HttpServletRequest request, HttpServletResponse response, @PathVariable String date,
+			@PathVariable int subCmpId) {	
 	
 		try {
 
 			//String date = request.getParameter("datepicker");
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-		
+			MultiValueMap<String, Object> map = null;
+			
+			int empId=0;
+			try {
+				empId = subCmpId;
+			}catch (Exception e) {
+				e.printStackTrace();
+				empId=0;
+			}
 				String[] monthyear = date.split("-");
 				request.setAttribute("month", monthyear[0]);
 				request.setAttribute("year", monthyear[1]);
 				
 				String varDate = monthyear[1]+"-"+monthyear[0]+"-01";
-				System.out.println("varDate-------"+varDate);
+				System.out.println("varDate-------"+varDate+" "+empId);
 				
+				map = new LinkedMultiValueMap<String, Object>();				
 				map.add("varDate", varDate);
 				PerformanceBonus[] performanceArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllPerformanceBonus", map,
 						PerformanceBonus[].class);
 				List<PerformanceBonus> performancelist= new ArrayList<PerformanceBonus>(Arrays.asList(performanceArr));
 				
 				System.err.println("PerformanceList--------------"+performancelist);
-				String reportName = "Performance Bonus";
+				
+				map = new LinkedMultiValueMap<String, Object>();				
+				map.add("varDate", varDate);				
+				IncentiveProduction[] incentiveProdArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllIncentiveProduction", map,
+						IncentiveProduction[].class);
+				List<IncentiveProduction> incentiveProdList= new ArrayList<IncentiveProduction>(Arrays.asList(incentiveProdArr));
+				System.err.println("IncentiveProduction--------------"+incentiveProdList);
+								
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("varMonth", monthyear[0]);
+				map.add("varYear", monthyear[1]);	
+				DeductionDetails[] deductArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDeductionDetails", map,
+						DeductionDetails[].class);
+				List<DeductionDetails> deductList= new ArrayList<DeductionDetails>(Arrays.asList(deductArr));
+				System.err.println("DeductionDetails--------------"+deductList);
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("varMonth", monthyear[0]);
+				map.add("varYear", monthyear[1]);
+				map.add("empId", empId);				
+				RewardDetail[] rewardArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllRewardDetail", map,
+						RewardDetail[].class);
+				List<RewardDetail> rewardList= new ArrayList<RewardDetail>(Arrays.asList(rewardArr));
+				System.err.println("RewardDetail--------------"+rewardList);
+				
+			
 			String header = "";
 			String title = "                 ";
-
+			float grandTotal = 0;
+			float performBounsAmt = 0;
+			float incentiveAmt = 0;
+			float rewardAmt = 0;
+			float deductionAmt = 0;
+			
 			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
 			String repDate = DF2.format(new Date());
 
 			Document document = new Document(PageSize.A4);
-			document.setMargins(5, 5, 0, 0);
+			document.setMargins(5, 5, 5, 10);
 			document.setMarginMirroring(false);
 
 			String FILE_PATH = Constants.REPORT_SAVE;
@@ -922,12 +965,12 @@ public class PayRollController {
 			writer.setPageEvent(event);
 			// writer.add(new Paragraph("Curricular Aspects"));
 
-			PdfPTable table = new PdfPTable(3);
+			PdfPTable table = new PdfPTable(6);
 
 			table.setHeaderRows(1);
 
 			table.setWidthPercentage(100);
-			table.setWidths(new float[] { 2.0f, 5.5f, 3.0f});
+			table.setWidths(new float[] { 2.0f, 5.5f, 3.0f, 3.0f, 3.0f, 3.0f});
 			Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
 			// BaseColor.BLACK);
 			Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
@@ -942,6 +985,12 @@ public class PayRollController {
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
 
 			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Heads", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
 
 			hcell = new PdfPCell(new Phrase("Date", tableHeaderFont));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -949,12 +998,25 @@ public class PayRollController {
 
 			table.addCell(hcell);
 
-			hcell = new PdfPCell(new Phrase("OT Hours", tableHeaderFont));
+			hcell = new PdfPCell(new Phrase("Qty (OT Hours) ", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Minus or Plus to Salary", tableHeaderFont));
+			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
+
+			table.addCell(hcell);
+			
+			hcell = new PdfPCell(new Phrase("Amt", tableHeaderFont));
 			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
 
 			table.addCell(hcell);
 			int index = 0;
+			float amtVal = 0;
 			for (int i = 0; i < performancelist.size(); i++) {
 				// System.err.println("I " + i);
 				PerformanceBonus prog = performancelist.get(i);
@@ -966,6 +1028,12 @@ public class PayRollController {
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
 				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("Performance Bonus", headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				
+				table.addCell(cell);
 
 				cell = new PdfPCell(new Phrase("" + prog.getAttDate(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -973,19 +1041,212 @@ public class PayRollController {
 
 				table.addCell(cell);
 
-				cell = new PdfPCell(
-						new Phrase("" + prog.getOtHr(), headFontData));
+				cell = new PdfPCell(new Phrase("" + prog.getOtHr(), headFontData));
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + "Plus", headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + prog.getExInt1(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+				amtVal = amtVal+ prog.getExInt1();
 
 			}
 
+			
+		/********************************************************************************************/
+			//Incentive Production
+			for (int i = 0; i < incentiveProdList.size(); i++) {
+				// System.err.println("I " + i);
+				IncentiveProduction prog = incentiveProdList.get(i);
+
+				index++;
+				PdfPCell cell;
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("Incentive Production", headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getAttDate(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getQty(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + "Plus", headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + prog.getExInt1(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+				amtVal = amtVal+prog.getExInt1();
+			}
+			
+/********************************************************************************************/
+			//Reward
+			for (int i = 0; i < rewardList.size(); i++) {
+				// System.err.println("I " + i);
+				RewardDetail prog = rewardList.get(i);
+
+				index++;
+				PdfPCell cell;
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + "Reward", headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getTypeName(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getQty(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + "Plus", headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + prog.getExInt1(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+				amtVal = amtVal+ prog.getExInt1();
+			}
+/********************************************************************************************/
+			//Deduction Details
+			for (int i = 0; i < deductList.size(); i++) {
+				// System.err.println("I " + i);
+				DeductionDetails prog = deductList.get(i);
+				index++;
+				PdfPCell cell;
+				cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + "Deduction Details", headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+				cell = new PdfPCell(new Phrase("" + prog.getTypeName(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				table.addCell(cell);
+
+				cell = new PdfPCell(new Phrase("" + prog.getDedRate(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + "Minus", headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				 
+				 table.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("" + prog.getExInt1(), headFontData));
+				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				table.addCell(cell);
+				
+				amtVal = amtVal- prog.getExInt1();
+			
+
+			}
+	/*******************************************************************************/
+			grandTotal = amtVal;
+			//Grand Total
+			PdfPCell cell;
+			cell = new PdfPCell(new Phrase("Total", headFontData));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+			table.addCell(cell);
+
+			cell = new PdfPCell(new Phrase("" , headFontData));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+			table.addCell(cell);
+			cell = new PdfPCell(new Phrase("" , headFontData));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+			table.addCell(cell);
+
+			cell = new PdfPCell(new Phrase("" , headFontData));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase("", headFontData));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			 
+			 table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase("" + grandTotal, headFontData));
+			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+			cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+			table.addCell(cell);
+			
+			
+			
+			
+			
 			document.open();
 			Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
 
-			Paragraph name = new Paragraph(reportName, hf);
+			Paragraph name = new Paragraph("Performance Bonus", hf);
 			name.setAlignment(Element.ALIGN_CENTER);
 			document.add(name);
 			document.add(new Paragraph("\n"));
@@ -995,11 +1256,7 @@ public class PayRollController {
 			DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
 
 			document.add(table);
-
-			int totalPages = writer.getPageNumber();
-
-			// System.out.println("Page no " + totalPages);
-
+			
 			document.close();
 			
 				if (file != null) {

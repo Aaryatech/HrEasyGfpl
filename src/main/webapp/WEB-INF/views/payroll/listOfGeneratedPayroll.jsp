@@ -513,9 +513,7 @@
 						<div class="col-md-4">
 							<a href="#"><button onclick="performBonusPdf()"
 									type="button" class="btn btn-primary">
-									Performance
-									Bonus
-							</button></a>
+									Pay Slip Detail </button></a>
 							
 						<%-- 	<a href="${pageContext.request.contextPath}/showEmployeeList"><button
 									type="button" class="btn btn-primary">
@@ -544,8 +542,9 @@
 	<script type="text/javascript">
 	function performBonusPdf(){
 		 var date = $('#datepicker').val();
+		 var subCmpId = $('#subCmpId').val();		 
 		 
-			window.open("${pageContext.request.contextPath}/getPerformanceBonusPdf"+"/"+date);
+			window.open("${pageContext.request.contextPath}/getPerformanceBonusPdf"+"/"+date+ "/"+subCmpId);
 	}
 	
 
