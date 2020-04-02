@@ -38,6 +38,7 @@ import com.ats.hreasy.model.MstCompanySub;
 import com.ats.hreasy.model.MstEmpType;
 import com.ats.hreasy.model.SalaryTypesMaster;
 import com.ats.hreasy.model.ShiftMaster;
+import com.ats.hreasy.model.SkillRates;
 import com.ats.hreasy.model.WeekoffCategory;
 
 @Controller
@@ -1347,4 +1348,93 @@ public class EmployeeShiftAssignController {
 		return "redirect:/showAssignAccesibleLocation";
 	}
 
+	@RequestMapping(value = "/showAssignSkillRate", method = RequestMethod.GET)
+	public String showAssignSkillRate(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+		String ret = new String();
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showAssignSkillRate", "showAssignSkillRate", 1, 0, 0, 0,
+				newModuleList);
+
+		if (view.isError() == true) {
+			ret = "accessDenied";
+
+		} else {
+
+			ret = "master/assignSkillRate";
+
+			try {
+
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetailSkillRate", GetEmployeeDetails[].class);
+
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+				model.addAttribute("empdetList", empdetList);
+				System.err.println("skill" + empdetList.toString());
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+
+				SkillRates[] skillList = Constants.getRestTemplate().getForObject(Constants.url + "/getSkillRateList",
+						SkillRates[].class);
+
+				List<SkillRates> skillList1 = new ArrayList<SkillRates>(Arrays.asList(skillList));
+
+				model.addAttribute("skillList1", skillList1);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+
+	@RequestMapping(value = "/submitAssignSkillToEmp", method = RequestMethod.POST)
+	public String submitAssignSkillToEmp(HttpServletRequest request, HttpServletResponse response) {
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+
+			String[] empId = request.getParameterValues("empId");
+
+			StringBuilder sb1 = new StringBuilder();
+
+			List<Integer> empIdList = new ArrayList<>();
+
+			for (int i = 0; i < empId.length; i++) {
+				sb1 = sb1.append(empId[i] + ",");
+				empIdList.add(Integer.parseInt(empId[i]));
+
+				// System.out.println("empId id are**" + empId[i]);
+
+			}
+
+			String skillId = null;
+			try {
+				skillId = request.getParameter("skillId");
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+
+			String items = sb1.toString();
+
+			items = items.substring(0, items.length() - 1);
+
+			StringBuilder sbEmp = new StringBuilder();
+
+			map.add("empIdList", items);
+			map.add("upDateId", skillId);
+			map.add("flag", 10);
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
+					Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "redirect:/showAssignSkillRate";
+	}
 }
