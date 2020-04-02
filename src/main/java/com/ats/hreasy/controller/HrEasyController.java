@@ -29,6 +29,9 @@ import com.ats.hreasy.model.Department;
 import com.ats.hreasy.model.Designation;
 import com.ats.hreasy.model.Info;
 import com.ats.hreasy.model.Location;
+import com.ats.hreasy.model.LoginResponse;
+import com.ats.hreasy.model.Setting;
+import com.ats.hreasy.model.SlabMaster;
 
 @Controller
 @Scope("session")
@@ -954,6 +957,362 @@ public class HrEasyController {
 
 				Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteBank", map, Info.class);
 
+				System.err.println("errorMsg"+res.getMsg());
+				if (res.isError() == false) {
+					session.setAttribute("successMsg", res.getMsg());
+				} else {
+					session.setAttribute("errorMsg", res.getMsg());
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				session.setAttribute("errorMsg", "Failed to Delete");
+			}
+		}
+
+		return a;
+	}
+	
+	/***********************Slab Salary for Professional Tax *********************/
+	@RequestMapping(value = "/showSlaSlabProTax", method = RequestMethod.GET)
+	public ModelAndView showSlaSlabProTax(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+		ModelAndView model = null;
+
+		try {
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showSlaSlabProTax", "showSlaSlabProTax", 1, 0, 0, 0,
+					newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {
+
+				model = new ModelAndView("master/salSlabProTaxList");
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+
+				SlabMaster[] salSlab = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllSalSlab", map, SlabMaster[].class);
+
+				List<SlabMaster> salSlabList = new ArrayList<SlabMaster>(Arrays.asList(salSlab));
+
+				for (int i = 0; i < salSlabList.size(); i++) {
+
+					salSlabList.get(i)
+							.setExVar1(FormValidation.Encrypt(String.valueOf(salSlabList.get(i).getSlabId())));
+				}
+
+				model.addObject("salSlabList", salSlabList);
+
+				Info add = AcessController.checkAccess("showSlaSlabProTax", "showSlaSlabProTax", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showSlaSlabProTax", "showSlaSlabProTax", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showSlaSlabProTax", "showSlaSlabProTax", 0, 0, 0, 1,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					System.out.println(" delete   Accessable ");
+					model.addObject("deleteAccess", 0);
+
+				}
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/addSalSlab", method = RequestMethod.GET)
+	public ModelAndView addSalSlab(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+
+		try {
+			SlabMaster slab = new SlabMaster();
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("addSalSlab", "showSlaSlabProTax", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {
+
+				model = new ModelAndView("master/addsalslab");
+				model.addObject("slab", slab);
+				model.addObject("title", "Add Slab Salary for Professional Tax");
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/insertSalSlabProTax", method = RequestMethod.POST)
+	public String insertSalSlabProTax(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+		String a = new String();
+		/*
+		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+		 * session.getAttribute("moduleJsonList"); Info view =
+		 * AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0,
+		 * newModuleList); if (view.isError() == true) {
+		 * 
+		 * a = "redirect:/accessDenied";
+		 * 
+		 * } else {
+		 */
+		a = "redirect:/showSlaSlabProTax";
+		try {
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			int slabId = 0;
+			try {
+				slabId = Integer.parseInt(request.getParameter("slabId"));
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+
+				SlabMaster slab = new SlabMaster();
+				
+				slab.setGender(0);
+				slab.setSlabId(slabId);
+				slab.setSalTermId(0);
+				slab.setMinVal(Integer.parseInt(request.getParameter("minValue")));
+				slab.setMaxVal(Integer.parseInt(request.getParameter("maxValue")));
+				slab.setAmount(Integer.parseInt(request.getParameter("amount")));
+				slab.setExInt1(0);
+				slab.setExInt2(0);
+				slab.setExInt3(0);
+				slab.setExVar1("1");
+				slab.setExVar2("1");
+				slab.setExVar3("1");
+
+				SlabMaster res = Constants.getRestTemplate().postForObject(Constants.url + "/saveSalSlab",
+						slab, SlabMaster.class);
+
+				if (res != null) {
+					if (slabId == 0) {
+						session.setAttribute("successMsg", "Slab Salary for Professional Tax Inserted Successfully");
+					} else {
+						session.setAttribute("successMsg", "Slab Salary for Professional Tax Updated Successfully");
+
+					}
+
+				} else {
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Insert Record");
+		}
+		
+		return a;
+	}
+	
+	@RequestMapping(value = "/editSalSlab", method = RequestMethod.GET)
+	public ModelAndView editSalSlab(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		SlabMaster slab = new SlabMaster();
+		ModelAndView model = null;
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("editSalSlab", "showSlaSlabProTax", 0, 1, 0, 0, newModuleList);
+
+		if (view.isError() == true) {
+
+			model = new ModelAndView("accessDenied");
+
+		} else {
+
+			try {
+				model = new ModelAndView("master/addsalslab");
+
+				String base64encodedString = request.getParameter("slabId");
+				String slabId = FormValidation.DecodeKey(base64encodedString);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("slabId", Integer.parseInt(slabId));
+
+				slab = Constants.getRestTemplate().postForObject(Constants.url + "/getSalSlabById", map, SlabMaster.class);
+				
+				model.addObject("slab", slab);
+				model.addObject("title", "Edit Slab Salary for Professional Tax");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return model;
+
+	}
+	
+	
+	/***********************Setting Labels List *********************/
+	@RequestMapping(value = "/showSettingLabelsList", method = RequestMethod.GET)
+	public ModelAndView showSettingLabelsList(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+		ModelAndView model = null;
+
+		try {
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showSettingLabelsList", "showSettingLabelsList", 1, 0, 0, 0,
+					newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {
+
+				model = new ModelAndView("master/salSettingLabels");
+
+			
+				Setting[] setting = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllSettingLabels", Setting[].class);
+
+				List<Setting> settingList = new ArrayList<Setting>(Arrays.asList(setting));
+
+				for (int i = 0; i < settingList.size(); i++) {
+
+					settingList.get(i)
+							.setExVar1(FormValidation.Encrypt(String.valueOf(settingList.get(i).getSettingId())));
+				}
+
+				model.addObject("settingList", settingList);
+
+				Info add = AcessController.checkAccess("showSettingLabelsList", "showSettingLabelsList", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showSettingLabelsList", "showSettingLabelsList", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showSettingLabelsList", "showSettingLabelsList", 0, 0, 0, 1,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					System.out.println(" delete   Accessable ");
+					model.addObject("deleteAccess", 0);
+
+				}
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	
+	@RequestMapping(value = "/editSettingLable", method = RequestMethod.GET)
+	public ModelAndView editSettingLable(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		Setting setting = new Setting();
+		ModelAndView model = null;
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("editSettingLable", "showSettingLabelsList", 0, 1, 0, 0, newModuleList);
+
+		if (view.isError() == true) {
+
+			model = new ModelAndView("accessDenied");
+
+		} else {
+
+			try {
+				model = new ModelAndView("master/editSettingLable");
+
+				String base64encodedString = request.getParameter("settingId");
+				String settingId = FormValidation.DecodeKey(base64encodedString);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("settingId", Integer.parseInt(settingId));
+
+				setting = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingById", map, Setting.class);
+				setting.setExVar1(FormValidation.Encrypt(String.valueOf(setting.getSettingId())));
+				
+				model.addObject("setting", setting);
+				model.addObject("title", "Edit Setting Value");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return model;
+
+	}
+	
+	@RequestMapping(value = "/updateSettingValue", method = RequestMethod.POST)
+	public String updateSettingValue(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+
+		String a = null;
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+
+		Info view = AcessController.checkAccess("updateSettingValue", "showSettingLabelsList", 0, 0, 0, 1, newModuleList);
+		if (view.isError() == true) {
+
+			a = "redirect:/accessDenied";
+
+		}
+
+		else {
+
+			a = "redirect:/showSettingLabelsList";
+
+			try {
+				MultiValueMap<String, Object> map = null;
+				Info res = new Info();
+				
+				String base64encodedString = request.getParameter("settingId");
+				String settingId = FormValidation.DecodeKey(base64encodedString);
+				
+				String value = request.getParameter("set_value");
+				System.out.println("Value----------"+value);
+				
+				map = new LinkedMultiValueMap<>();
+				map.add("settingId", Integer.parseInt(settingId));
+				map.add("val", value);
+
+				res = Constants.getRestTemplate().postForObject(Constants.url + "/updateSetting", map, Info.class);
+				
 				System.err.println("errorMsg"+res.getMsg());
 				if (res.isError() == false) {
 					session.setAttribute("successMsg", res.getMsg());

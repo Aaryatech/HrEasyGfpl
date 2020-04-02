@@ -14,6 +14,18 @@ public class Setting {
 
 	private int editable;
 
+	private String labels;
+	
+	
+	private String defaultValue;
+	
+	
+	private String explaination;
+	
+	
+	private int exInt1;	
+	
+	private String exVar1;	
 	
 	public int getSettingId() {
 		return settingId;
@@ -75,15 +87,61 @@ public class Setting {
 	}
 
 
+	public String getLabels() {
+		return labels;
+	}
+
+
+	public void setLabels(String labels) {
+		this.labels = labels;
+	}
+
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
+
+	public String getExplaination() {
+		return explaination;
+	}
+
+
+	public void setExplaination(String explaination) {
+		this.explaination = explaination;
+	}
+
+
+	public int getExInt1() {
+		return exInt1;
+	}
+
+
+	public void setExInt1(int exInt1) {
+		this.exInt1 = exInt1;
+	}
+
+
+	public String getExVar1() {
+		return exVar1;
+	}
+
+
+	public void setExVar1(String exVar1) {
+		this.exVar1 = exVar1;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Setting [settingId=" + settingId + ", group=" + group + ", key=" + key + ", value=" + value
-				+ ", serialized=" + serialized + ", editable=" + editable + ", getSettingId()=" + getSettingId()
-				+ ", getGroup()=" + getGroup() + ", getKey()=" + getKey() + ", getValue()=" + getValue()
-				+ ", getSerialized()=" + getSerialized() + ", getEditable()=" + getEditable() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", serialized=" + serialized + ", editable=" + editable + ", labels=" + labels + ", defaultValue="
+				+ defaultValue + ", explaination=" + explaination + ", exInt1=" + exInt1 + ", exVar1=" + exVar1 + "]";
 	}
-	
-	
 
 }
