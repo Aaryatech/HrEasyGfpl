@@ -1259,5 +1259,92 @@ public class EmployeeShiftAssignController {
 
 		return "redirect:/showAssignEmpType";
 	}
+	
+	@RequestMapping(value = "/showAssignAccesibleLocation", method = RequestMethod.GET)
+	public String showAssignAccesibleLocation(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+		String ret = new String();
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("showAssignAccesibleLocation", "showAssignAccesibleLocation", 1, 0, 0,
+				0, newModuleList);
+
+		if (view.isError() == true) {
+			ret = "accessDenied";
+
+		} else {
+
+			ret = "master/assignAccessibleLoc";
+
+			try {
+
+				GetEmployeeDetails[] empdetList1 = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeeDetailAccesibleLoc", GetEmployeeDetails[].class);
+
+				List<GetEmployeeDetails> empdetList = new ArrayList<GetEmployeeDetails>(Arrays.asList(empdetList1));
+				model.addAttribute("empdetList", empdetList);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("companyId", 1);
+
+				Location[] location = Constants.getRestTemplate().postForObject(Constants.url + "/getLocationList", map,
+						Location[].class);
+				List<Location> locationList = new ArrayList<Location>(Arrays.asList(location));
+
+				model.addAttribute("locationList", locationList);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+	@RequestMapping(value = "/submitAssignAccLocToEmp", method = RequestMethod.POST)
+	public String submitAssignAccLocToEmp(HttpServletRequest request, HttpServletResponse response) {
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+
+			String[] empId = request.getParameterValues("empId");
+
+			StringBuilder sb1 = new StringBuilder();
+
+			List<Integer> empIdList = new ArrayList<>();
+
+			for (int i = 0; i < empId.length; i++) {
+				sb1 = sb1.append(empId[i] + ",");
+				empIdList.add(Integer.parseInt(empId[i]));
+
+				// System.out.println("empId id are**" + empId[i]);
+
+			}
+
+			String items = sb1.toString();
+
+			items = items.substring(0, items.length() - 1);
+
+			StringBuilder sb = new StringBuilder();
+			String[] locIds = request.getParameterValues("locId_list");
+			for (int i = 0; i < locIds.length; i++) {
+				sb = sb.append(locIds[i] + ",");
+
+			}
+			String locIdList = sb.toString();
+			locIdList = locIdList.substring(0, locIdList.length() - 1);
+
+			map.add("empIdList", items);
+			map.add("upDateId", locIdList);
+			map.add("flag", 9);
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/empParamAssignmentUpdate", map,
+					Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "redirect:/showAssignAccesibleLocation";
+	}
 
 }
