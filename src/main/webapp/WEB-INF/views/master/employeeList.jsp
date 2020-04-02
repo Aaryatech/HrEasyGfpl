@@ -139,7 +139,13 @@
 										<%-- <td>${empList.micrCode}</td>
 										<td>${empList.ifscCode}</td>  --%>
 
-										<td class="text-center"><c:if test="${editAccess == 0}">
+										<td class="text-center">
+										<a
+													href="${pageContext.request.contextPath}/getProfilenormal?empId=${empList.exVar1}"
+													class="list-icons-item text-primary-600"
+													data-popup="tooltip" title="" data-original-title="View Employee"><i
+													class="icon-list"></i></a>
+										<c:if test="${editAccess == 0}">
 												<a
 													href="${pageContext.request.contextPath}/employeeEdit?empId=${empList.exVar1}"
 													class="list-icons-item text-primary-600"
@@ -181,8 +187,7 @@
 		<!-- /main content -->
 
 	</div>
-	<!-- /page content -->
-		<!-- Large modal -->
+	<!-- Large modal -->
 	<div id="modal_large1" class="modal fade" tabindex="-1">
 	 
 		<div class="modal-dialog modal-lg">
@@ -206,6 +211,7 @@
 		</div>
 	</div>
 	<!-- /large modal -->
+	<!-- /page content -->
 	<script>
 		// Custom bootbox dialog
 		$('.bootbox_custom')
