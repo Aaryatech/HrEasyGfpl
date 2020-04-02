@@ -17,13 +17,16 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.hreasy.common.AcessController;
 import com.ats.hreasy.common.Constants;
+import com.ats.hreasy.common.DateConvertor;
 import com.ats.hreasy.common.FormValidation;
 import com.ats.hreasy.model.AccessRightModule;
 import com.ats.hreasy.model.Bank;
+import com.ats.hreasy.model.CalenderYear;
 import com.ats.hreasy.model.Contractor;
 import com.ats.hreasy.model.Department;
 import com.ats.hreasy.model.Designation;
@@ -1328,5 +1331,244 @@ public class HrEasyController {
 
 		return a;
 	}
+	
+	/****************************** Calender Year ********************************/
+	@RequestMapping(value = "/showCalYearList", method = RequestMethod.GET)
+	public ModelAndView showCalYearList(HttpServletRequest request, HttpServletResponse response) {
 
+		HttpSession session = request.getSession();
+		// LoginResponse userObj = (LoginResponse) session.getAttribute("UserDetail");
+
+		ModelAndView model = null;
+
+		try {
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("showCalYearList", "showCalYearList", 1, 0, 0, 0,
+					newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {
+
+				model = new ModelAndView("master/calYearList");
+
+				//MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				//map.add("companyId", 1);
+
+				CalenderYear[] calYear = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getCalculateYearList", CalenderYear[].class);
+
+				List<CalenderYear> calYearList = new ArrayList<CalenderYear>(Arrays.asList(calYear));
+
+				for (int i = 0; i < calYearList.size(); i++) {
+
+					calYearList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(calYearList.get(i).getCalYrId())));
+				}
+
+				model.addObject("calYearList", calYearList);
+
+				Info add = AcessController.checkAccess("showCalYearList", "showCalYearList", 0, 1, 0, 0,
+						newModuleList);
+				Info edit = AcessController.checkAccess("showCalYearList", "showCalYearList", 0, 0, 1, 0,
+						newModuleList);
+				Info delete = AcessController.checkAccess("showCalYearList", "showCalYearList", 0, 0, 0, 1,
+						newModuleList);
+
+				if (add.isError() == false) {
+					System.out.println(" add   Accessable ");
+					model.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					System.out.println(" edit   Accessable ");
+					model.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					System.out.println(" delete   Accessable ");
+					model.addObject("deleteAccess", 0);
+
+				}
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/calYearAdd", method = RequestMethod.GET)
+	public ModelAndView calYearAdd(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		ModelAndView model = null;
+
+		try {
+			CalenderYear calYear = new CalenderYear();
+
+			List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+			Info view = AcessController.checkAccess("calYearAdd", "showCalYearList", 0, 1, 0, 0, newModuleList);
+
+			if (view.isError() == true) {
+
+				model = new ModelAndView("accessDenied");
+
+			} else {
+
+				model = new ModelAndView("master/addCalYear");
+				model.addObject("calYear", calYear);
+				model.addObject("title", "Add Calendar Year");
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/submitInsertCalYear", method = RequestMethod.POST)
+	public String submitInsertCalYear(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		LoginResponse userObj = (LoginResponse) session.getAttribute("userInfo");
+		String a = new String();
+		/*
+		 * List<AccessRightModule> newModuleList = (List<AccessRightModule>)
+		 * session.getAttribute("moduleJsonList"); Info view =
+		 * AcessController.checkAccess("locationAdd", "showLocationList", 0, 1, 0, 0,
+		 * newModuleList); if (view.isError() == true) {
+		 * 
+		 * a = "redirect:/accessDenied";
+		 * 
+		 * } else {
+		 */
+		a = "redirect:/showCalYearList";
+		try {
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			int calYearId = 0;
+			int isCurrYear = 0;
+			try {
+				calYearId = Integer.parseInt(request.getParameter("calYearId"));
+				isCurrYear = Integer.parseInt(request.getParameter("check_year"));
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+				
+			
+
+			String fromDate = request.getParameter("from_date");
+			String toDate = request.getParameter("to_date");
+			String remark = request.getParameter("remark");
+
+				CalenderYear year = new CalenderYear();
+				year.setCalYrId(calYearId);
+				year.setCalYrFromDate(DateConvertor.convertToYMD(fromDate));				
+				year.setCalYrToDate(DateConvertor.convertToYMD(toDate));
+				year.setExInt1(0);
+				year.setExInt2(0);
+				year.setExInt3(0);
+				year.setExVar1(remark);
+				year.setExVar2("1");
+				year.setExVar3("1");
+				year.setIsCurrent(isCurrYear);
+
+				CalenderYear res = Constants.getRestTemplate().postForObject(Constants.url + "/saveCalYear",
+						year, CalenderYear.class);
+
+				if (res != null) {
+					if (calYearId == 0) {
+						session.setAttribute("successMsg", "Calendar Year Inserted Successfully");
+					} else {
+						session.setAttribute("successMsg", "Calendar Year Updated Successfully");
+
+					}
+
+				} else {
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Insert Record");
+		}
+		// }
+
+		return a;
+	}
+	@RequestMapping(value = "/editCalYear", method = RequestMethod.GET)
+	public ModelAndView editCalYear(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		CalenderYear calYear = new CalenderYear();
+		ModelAndView model = null;
+
+		List<AccessRightModule> newModuleList = (List<AccessRightModule>) session.getAttribute("moduleJsonList");
+		Info view = AcessController.checkAccess("editCalYear", "showCalYearList", 0, 1, 0, 0, newModuleList);
+
+		if (view.isError() == true) {
+
+			model = new ModelAndView("accessDenied");
+
+		} else {
+
+			try {
+				model = new ModelAndView("master/addCalYear");
+
+				String base64encodedString = request.getParameter("calYearId");
+				String calYearId = FormValidation.DecodeKey(base64encodedString);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("calYearId", Integer.parseInt(calYearId));
+
+				calYear = Constants.getRestTemplate().postForObject(Constants.url + "/getCalYearById", map, CalenderYear.class);
+				
+				calYear.setCalYrFromDate(DateConvertor.convertToDMY(calYear.getCalYrFromDate()));
+				calYear.setCalYrToDate(DateConvertor.convertToDMY(calYear.getCalYrToDate()));
+				model.addObject("calYear", calYear);
+				model.addObject("title", "Edit Calendar Year");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return model;
+
+	}
+
+	@RequestMapping(value = "/checkUniqueDates", method = RequestMethod.GET)
+	public @ResponseBody Info checkUniqueDates(HttpServletRequest request, HttpServletResponse response) {
+
+		Info info = new Info();
+		HttpSession session = request.getSession();
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			String valueType = request.getParameter("valueType");
+			String inputValue = request.getParameter("inputValue");
+			int primaryKey = Integer.parseInt(request.getParameter("primaryKey"));
+			int isEdit = Integer.parseInt(request.getParameter("isEdit"));
+			/*
+			 * System.err.println("compId:  " + userObj.getCompanyId());
+			 * System.err.println("valueType:  " + valueType);
+			 */
+			map.add("inputValue", DateConvertor.convertToYMD(inputValue));
+			map.add("valueType", valueType);
+			map.add("isEdit", isEdit);
+			map.add("primaryKey", primaryKey);
+
+			info = Constants.getRestTemplate().postForObject(Constants.url + "checkUniqueCalDates", map, Info.class);
+
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMsg("1");
+			e.printStackTrace();
+		}
+
+		return info;
+
+	}
 }
