@@ -6050,7 +6050,7 @@ public class ReportAdminController {
 
 				table.addCell(cell);
 
-				bonusAmt = bonusAmt + Double.parseDouble(prog.getTotalExgretiaWages());
+				bonusAmt = bonusAmt + prog.getTotalExgretiaWages();
 
 			}
 
@@ -6142,7 +6142,7 @@ public class ReportAdminController {
 					rowData.add("" + progList.get(i).getIsExgretiaFinalized());
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
-					bonusAmt = bonusAmt + Double.parseDouble(progList.get(i).getTotalExgretiaWages());
+					bonusAmt = bonusAmt + progList.get(i).getTotalExgretiaWages();
 				}
 
 				XSSFWorkbook wb = null;
